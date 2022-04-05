@@ -1,0 +1,59 @@
+[build-system]
+requires = ["poetry-core>=1.0.7"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "antsibull-docs"
+version = "0.1.0"
+description = "Tools for building Ansible documentation"
+authors = ["Toshio Kuratomi <a.badger@gmail.com>", "Felix Fontein <felix@fontein.de>"]
+license = "GPL-3.0-or-later"
+readme = "README.md"
+repository = "https://github.com/ansible-community/antsibull-docs"
+packages = [
+    { include = "antsibull_docs", from="src" },
+    { include = "sphinx_antsibull_ext", from="src" },
+    { include = "tests", format = "sdist" }
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Framework :: Ansible",
+    "Intended Audience :: Developers"
+]
+
+[tool.poetry.urls]
+"Code of Conduct" = "https://docs.ansible.com/ansible/latest/community/code_of_conduct.html"
+"Bug tracker" = "https://github.com/ansible-community/antsibull-docs/issues"
+
+[tool.poetry.scripts]
+antsibull-docs = "antsibull.cli.antsibull_docs:main"
+
+[tool.poetry.dependencies]
+python = "^3.6.1"
+ansible-pygments = "*"
+antsibull-core = ">= 0.1.0"
+asyncio-pool = "*"
+docutils = "*"
+jinja2 = "*"
+rstcheck = "^3"
+sphinx = "*"
+
+[tool.poetry.dev-dependencies]
+asynctest = "*"
+cryptography = "*"
+codecov = "*"
+flake8 = ">= 3.8.0"
+mypy = "*"
+# https://github.com/facebook/pyre-check/issues/398
+pyre-check = "^0.0.46"
+pylint = "^2.12.0"
+pytest = "*"
+pytest-asyncio = ">= 0.12"
+pytest-cov = "*"
+# For development, we install dependent projects under our control in dev mode:
+antsibull-core = { path = "../antsibull-core/", develop = true }
+
+[tool.isort]
+line_length = 100
+multi_line_output = 0
+balanced_wrapping = true
