@@ -1,2 +1,9 @@
 ancestor: null
-releases: {}
+releases:
+  0.1.0:
+    changes:
+      release_summary: Initial release. The ``antsibull-docs`` tool is compatible
+        to the one from antsibull 0.43.0.
+    fragments:
+    - initial_release.yml
+    release_date: '2022-04-06'
