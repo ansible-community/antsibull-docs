@@ -98,7 +98,7 @@ def generate_plugin_docs(plugin_type: str, plugin_name: str,
     }))
 
     # Setup the jinja environment
-    env = doc_environment(('antsibull.data', 'docsite'))
+    env = doc_environment(('antsibull_docs.data', 'docsite'))
     # Get the templates
     plugin_tmpl = env.get_template('plugin.rst.j2')
     error_tmpl = env.get_template('plugin-error.rst.j2')

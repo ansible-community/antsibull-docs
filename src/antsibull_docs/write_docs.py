@@ -335,7 +335,7 @@ async def output_all_plugin_rst(collection_to_plugin_info: CollectionInfoT,
                          tables instead of using RST tables.
     """
     # Setup the jinja environment
-    env = doc_environment(('antsibull.data', 'docsite'))
+    env = doc_environment(('antsibull_docs.data', 'docsite'))
     # Get the templates
     plugin_tmpl = env.get_template('plugin.rst.j2')
     role_tmpl = env.get_template('role.rst.j2')
@@ -386,7 +386,7 @@ async def output_all_plugin_stub_rst(stubs_info: t.Mapping[
                            created.
     """
     # Setup the jinja environment
-    env = doc_environment(('antsibull.data', 'docsite'))
+    env = doc_environment(('antsibull_docs.data', 'docsite'))
     # Get the templates
     redirect_tmpl = env.get_template('plugin-redirect.rst.j2')
     tombstone_tmpl = env.get_template('plugin-tombstone.rst.j2')
@@ -545,7 +545,7 @@ async def output_collection_index(collection_to_plugin_info: CollectionInfoT,
     flog = mlog.fields(func='output_collection_index')
     flog.debug('Enter')
 
-    env = doc_environment(('antsibull.data', 'docsite'))
+    env = doc_environment(('antsibull_docs.data', 'docsite'))
     # Get the templates
     collection_list_tmpl = env.get_template('list_of_collections.rst.j2')
 
@@ -576,7 +576,7 @@ async def output_collection_namespace_indexes(collection_namespaces: t.Mapping[s
     flog = mlog.fields(func='output_collection_namespace_indexes')
     flog.debug('Enter')
 
-    env = doc_environment(('antsibull.data', 'docsite'))
+    env = doc_environment(('antsibull_docs.data', 'docsite'))
     # Get the templates
     collection_list_tmpl = env.get_template('list_of_collections_by_namespace.rst.j2')
 
@@ -611,7 +611,7 @@ async def output_plugin_indexes(plugin_info: PluginCollectionInfoT,
     flog = mlog.fields(func='output_plugin_indexes')
     flog.debug('Enter')
 
-    env = doc_environment(('antsibull.data', 'docsite'))
+    env = doc_environment(('antsibull_docs.data', 'docsite'))
     # Get the templates
     plugin_list_tmpl = env.get_template('list_of_plugins.rst.j2')
 
@@ -664,7 +664,7 @@ async def output_indexes(collection_to_plugin_info: CollectionInfoT,
     if collection_metadata is None:
         collection_metadata = {}
 
-    env = doc_environment(('antsibull.data', 'docsite'))
+    env = doc_environment(('antsibull_docs.data', 'docsite'))
     # Get the templates
     collection_plugins_tmpl = env.get_template('plugins_by_collection.rst.j2')
 

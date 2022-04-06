@@ -72,7 +72,7 @@ def site_init() -> int:
         sphinx_theme = app_ctx.extra['sphinx_theme']
         sphinx_theme_package = app_ctx.extra['sphinx_theme']
 
-    env = doc_environment(('antsibull.data', 'sphinx_init'))
+    env = doc_environment(('antsibull_docs.data', 'sphinx_init'))
 
     for filename in TEMPLATES:
         source = filename.replace('.', '_').replace('/', '_') + '.j2'
