@@ -20,6 +20,12 @@ General Public License v3 or, at your option, later.
 
 antsibull-docs is covered by the [Ansible Code of Conduct](https://docs.ansible.com/ansible/latest/community/code_of_conduct.html).
 
+## Versioning and compatibility
+
+From version 1.0.0 on, antsibull-docs sticks to semantic versioning and aims at providing no backwards compatibility breaking changes **to the command line API (antsibull-docs)** during a major release cycle. We might make exceptions from this in case of security fixes for vulnerabilities that are severe enough.
+
+We explicitly exclude code compatibility. **antsibull-docs is not supposed to be used as a library.** The only exception are dependencies with other antsibull projects (currently, only [antsibull](https://github.com/ansible-community/antsibull/) itself). If you want to use a certain part of antsibull-docs as a library, please create an issue so we can discuss whether we add a stable interface for **parts** of the Python code. We do not promise that this will actually happen though.
+
 ## Running from source
 
 Please note that to run antsibull-docs from source, you need to install some related projects adjacent to the antsibull-docs checkout.  More precisely, assuming you checked out the antsibull-docs repository in a directory `./antsibull-docs/`, you need to check out the following projects in the following locations:
