@@ -26,7 +26,7 @@ classifiers = [
 "Bug tracker" = "https://github.com/ansible-community/antsibull-docs/issues"
 
 [tool.poetry.scripts]
-antsibull-docs = "antsibull.cli.antsibull_docs:main"
+antsibull-docs = "antsibull_docs.cli.antsibull_docs:main"
 
 [tool.poetry.dependencies]
 python = "^3.6.1"
