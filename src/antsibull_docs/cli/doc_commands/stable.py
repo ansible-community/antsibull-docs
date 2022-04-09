@@ -24,7 +24,6 @@ from antsibull_core.dependency_files import DepsFile
 from antsibull_core.galaxy import CollectionDownloader
 from antsibull_core.logging import log
 from antsibull_core.venv import VenvRunner, FakeVenvRunner
-from antsibull_core.utils.transformations import get_collection_namespaces
 
 from ...augment_docs import augment_docs
 from ...extra_docs import load_collections_extra_docs
@@ -55,6 +54,20 @@ mlog = log.fields(mod=__name__)
 
 #: Mapping of plugins to nonfatal errors.  This is the type to use when returning the mapping.
 PluginErrorsRT = t.DefaultDict[str, t.DefaultDict[str, t.List[str]]]
+
+
+def get_collection_namespaces(collection_names: t.Iterable[str]) -> t.Dict[str, t.List[str]]:
+    """
+    Return the plugins which are in each collection.
+
+    :arg collection_names: An iterable of collection names.
+    :returns: Mapping from collection namespaces to list of collection names.
+    """
+    namespaces = defaultdict(list)
+    for collection_name in collection_names:
+        namespace, name = collection_name.split('.', 1)
+        namespaces[namespace].append(name)
+    return namespaces
 
 
 async def retrieve(ansible_core_version: str,
