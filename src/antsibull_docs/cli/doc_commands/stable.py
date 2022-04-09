@@ -290,7 +290,8 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
                                       squash_hierarchy: bool = False,
                                       breadcrumbs: bool = True,
                                       use_html_blobs: bool = False,
-                                      fail_on_error: bool = False) -> int:
+                                      fail_on_error: bool = False,
+                                      for_official_docsite: bool = False) -> int:
     """
     Create documentation for a set of installed collections.
 
@@ -312,6 +313,8 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
         RST tables for parameter and return value tables.
     :kwarg fail_on_error: Default False.  Set to True to fail on loading or schema validation
         errors, instead of generating error pages.
+    :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
+        official docsite on docs.ansible.com.
     :returns: A return code for the program.  See :func:`antsibull.cli.antsibull_docs.main` for
         details on what each code means.
     """
@@ -371,10 +374,12 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
     # Only build top-level index if requested
     if create_indexes:
         asyncio_run(output_collection_index(
-            collection_to_plugin_info, collection_namespaces, dest_dir, breadcrumbs=breadcrumbs))
+            collection_to_plugin_info, collection_namespaces, dest_dir, breadcrumbs=breadcrumbs,
+            for_official_docsite=for_official_docsite))
         flog.notice('Finished writing collection index')
         asyncio_run(output_collection_namespace_indexes(collection_namespaces, dest_dir,
-                                                        breadcrumbs=breadcrumbs))
+                                                        breadcrumbs=breadcrumbs,
+                                                        for_official_docsite=for_official_docsite))
         flog.notice('Finished writing collection namespace index')
         asyncio_run(output_plugin_indexes(plugin_contents, dest_dir))
         flog.notice('Finished writing plugin indexes')
@@ -471,4 +476,5 @@ def generate_docs() -> int:
             venv, collection_dir, app_ctx.extra['dest_dir'],
             breadcrumbs=app_ctx.breadcrumbs,
             use_html_blobs=app_ctx.use_html_blobs,
-            fail_on_error=app_ctx.extra['fail_on_error'])
+            fail_on_error=app_ctx.extra['fail_on_error'],
+            for_official_docsite=True)

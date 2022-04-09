@@ -411,7 +411,8 @@ async def output_all_plugin_stub_rst(stubs_info: t.Mapping[
 
 async def write_collection_list(collections: t.Iterable[str], namespaces: t.Iterable[str],
                                 template: Template, dest_dir: str,
-                                breadcrumbs: bool = True) -> None:
+                                breadcrumbs: bool = True,
+                                for_official_docsite: bool = False) -> None:
     """
     Write an index page listing all of the collections.
 
@@ -423,13 +424,16 @@ async def write_collection_list(collections: t.Iterable[str], namespaces: t.Iter
     :arg dest_dir: The destination directory to output the index into.
     :kwarg breadcrumbs: Default True.  Set to False if breadcrumbs for collections should be
         disabled.  This will disable breadcrumbs but save on memory usage.
+    :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
+        official docsite on docs.ansible.com.
     """
     index_contents = _render_template(
         template,
         dest_dir,
         collections=collections,
         namespaces=namespaces,
-        breadcrumbs=breadcrumbs)
+        breadcrumbs=breadcrumbs,
+        for_official_docsite=for_official_docsite)
     index_file = os.path.join(dest_dir, 'index.rst')
 
     await write_file(index_file, index_contents)
@@ -437,7 +441,8 @@ async def write_collection_list(collections: t.Iterable[str], namespaces: t.Iter
 
 async def write_collection_namespace_index(namespace: str, collections: t.Iterable[str],
                                            template: Template, dest_dir: str,
-                                           breadcrumbs: bool = True) -> None:
+                                           breadcrumbs: bool = True,
+                                           for_official_docsite: bool = False) -> None:
     """
     Write an index page listing all of the collections for this namespace.
 
@@ -449,13 +454,16 @@ async def write_collection_namespace_index(namespace: str, collections: t.Iterab
     :arg dest_dir: The destination directory to output the index into.
     :kwarg breadcrumbs: Default True.  Set to False if breadcrumbs for collections should
         be disabled.  This will disable breadcrumbs but save on memory usage.
+    :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
+        official docsite on docs.ansible.com.
     """
     index_contents = _render_template(
         template,
         dest_dir,
         namespace=namespace,
         collections=collections,
-        breadcrumbs=breadcrumbs)
+        breadcrumbs=breadcrumbs,
+        for_official_docsite=for_official_docsite)
     index_file = os.path.join(dest_dir, 'index.rst')
 
     await write_file(index_file, index_contents)
@@ -531,7 +539,8 @@ async def write_plugin_lists(collection_name: str,
 async def output_collection_index(collection_to_plugin_info: CollectionInfoT,
                                   collection_namespaces: t.Mapping[str, t.List[str]],
                                   dest_dir: str,
-                                  breadcrumbs: bool = True) -> None:
+                                  breadcrumbs: bool = True,
+                                  for_official_docsite: bool = False) -> None:
     """
     Generate top-level collection index page for the collections.
 
@@ -541,6 +550,8 @@ async def output_collection_index(collection_to_plugin_info: CollectionInfoT,
     :arg dest_dir: The directory to place the documentation in.
     :kwarg breadcrumbs: Default True.  Set to False if breadcrumbs for collections should be
         disabled.  This will disable breadcrumbs but save on memory usage.
+    :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
+        official docsite on docs.ansible.com.
     """
     flog = mlog.fields(func='output_collection_index')
     flog.debug('Enter')
@@ -557,14 +568,16 @@ async def output_collection_index(collection_to_plugin_info: CollectionInfoT,
     os.makedirs(collection_toplevel, mode=0o755, exist_ok=True)
 
     await write_collection_list(collection_to_plugin_info.keys(), collection_namespaces.keys(),
-                                collection_list_tmpl, collection_toplevel, breadcrumbs=breadcrumbs)
+                                collection_list_tmpl, collection_toplevel, breadcrumbs=breadcrumbs,
+                                for_official_docsite=for_official_docsite)
 
     flog.debug('Leave')
 
 
 async def output_collection_namespace_indexes(collection_namespaces: t.Mapping[str, t.List[str]],
                                               dest_dir: str,
-                                              breadcrumbs: bool = True) -> None:
+                                              breadcrumbs: bool = True,
+                                              for_official_docsite: bool = False) -> None:
     """
     Generate collection namespace index pages for the collections.
 
@@ -572,6 +585,8 @@ async def output_collection_namespace_indexes(collection_namespaces: t.Mapping[s
     :arg dest_dir: The directory to place the documentation in.
     :kwarg breadcrumbs: Default True.  Set to False if breadcrumbs for collections should be
         disabled.  This will disable breadcrumbs but save on memory usage.
+    :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
+        official docsite on docs.ansible.com.
     """
     flog = mlog.fields(func='output_collection_namespace_indexes')
     flog.debug('Enter')
@@ -592,7 +607,7 @@ async def output_collection_namespace_indexes(collection_namespaces: t.Mapping[s
             writers.append(await pool.spawn(
                 write_collection_namespace_index(
                     namespace, collection_names, collection_list_tmpl, namespace_dir,
-                    breadcrumbs=breadcrumbs)))
+                    breadcrumbs=breadcrumbs, for_official_docsite=for_official_docsite)))
 
         await asyncio.gather(*writers)
 
