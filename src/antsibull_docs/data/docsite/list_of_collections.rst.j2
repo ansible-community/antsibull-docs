@@ -5,7 +5,11 @@
 Collection Index
 ================
 
+{% for_official_docsite %}
 These are the collections with docs hosted on `docs.ansible.com <https://docs.ansible.com/>`_.
+{% else %}
+These are the collections documented here.
+{% endif %}
 
 {% for name in collections | sort %}
 * :ref:`@{ name }@ <plugins_in_@{ name }@>`

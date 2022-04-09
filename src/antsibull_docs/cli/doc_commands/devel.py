@@ -142,4 +142,5 @@ def generate_docs() -> int:
             venv, collection_dir, app_ctx.extra['dest_dir'],
             breadcrumbs=app_ctx.breadcrumbs,
             use_html_blobs=app_ctx.use_html_blobs,
-            fail_on_error=app_ctx.extra['fail_on_error'])
+            fail_on_error=app_ctx.extra['fail_on_error'],
+            for_official_docsite=True)
