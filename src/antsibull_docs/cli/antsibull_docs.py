@@ -230,6 +230,7 @@ def parse_args(program_name: str, args: List[str]) -> argparse.Namespace:
                                    ' This option is deprecated in favor of --no-indexes')
 
     parser = get_toplevel_parser(prog=program_name,
+                                 package='antsibull_docs',
                                  description='Script to manage generated documentation for'
                                  ' ansible')
     subparsers = parser.add_subparsers(title='Subcommands', dest='command',
