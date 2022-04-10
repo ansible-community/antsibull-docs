@@ -74,9 +74,9 @@ jobs:
 
       - name: Lint collection docs
         run: |
-          poetry run coverage run -p --source antsibull_docs -m antsibull_docs.cli.antsibull_docs lint-collection-docs ~/.ansible/collections/ansible_collections/community/docker
-          poetry run coverage run -p --source antsibull_docs -m antsibull_docs.cli.antsibull_docs lint-collection-docs ~/.ansible/collections/ansible_collections/community/crypto
-          poetry run coverage run -p --source antsibull_docs -m antsibull_docs.cli.antsibull_docs lint-collection-docs ~/.ansible/collections/ansible_collections/sensu/sensu_go
+          poetry run coverage run -p --source antsibull_docs --source sphinx_antsibull_ext -m antsibull_docs.cli.antsibull_docs lint-collection-docs ~/.ansible/collections/ansible_collections/community/docker
+          poetry run coverage run -p --source antsibull_docs --source sphinx_antsibull_ext -m antsibull_docs.cli.antsibull_docs lint-collection-docs ~/.ansible/collections/ansible_collections/community/crypto
+          poetry run coverage run -p --source antsibull_docs --source sphinx_antsibull_ext -m antsibull_docs.cli.antsibull_docs lint-collection-docs ~/.ansible/collections/ansible_collections/sensu/sensu_go
         working-directory: antsibull-docs
         if: contains(matrix.options, '--use-current')
 
