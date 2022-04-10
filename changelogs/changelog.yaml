@@ -7,3 +7,21 @@ releases:
     fragments:
     - initial_release.yml
     release_date: '2022-04-06'
+  1.0.0:
+    changes:
+      major_changes:
+      - From version 1.0.0 on, antsibull-docs is sticking to semantic versioning and
+        aims at providing no backwards compatibility breaking changes **to the command
+        line API (antsibull-docs)** during a major release cycle. We explicitly exclude
+        code compatibility. **antsibull-docs is not supposed to be used as a library,**
+        and when used as a library it might not conform to semantic versioning (https://github.com/ansible-community/antsibull-docs/pull/2).
+      minor_changes:
+      - Only mention 'These are the collections with docs hosted on docs.ansible.com'
+        for ``stable`` and ``devel`` subcommands (https://github.com/ansible-community/antsibull-docs/pull/3).
+      - Stop using some API from antsibull-core that is being removed (https://github.com/ansible-community/antsibull-docs/pull/1).
+      release_summary: First stable release.
+    fragments:
+    - 1.0.0.yml
+    - 1.yml
+    - 3-official-docs.yml
+    release_date: '2022-04-10'

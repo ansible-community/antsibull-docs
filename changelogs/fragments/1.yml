@@ -1,2 +1,0 @@
-minor_changes:
-  - "Stop using some API from antsibull-core that is being removed (https://github.com/ansible-community/antsibull-docs/pull/1)."

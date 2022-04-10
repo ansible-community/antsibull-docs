@@ -1,2 +1,0 @@
-minor_changes:
-  - "Only mention 'These are the collections with docs hosted on docs.ansible.com' for ``stable`` and ``devel`` subcommands (https://github.com/ansible-community/antsibull-docs/pull/3)."
