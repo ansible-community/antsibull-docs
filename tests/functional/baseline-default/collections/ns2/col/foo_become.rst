@@ -136,9 +136,9 @@ Parameters
 
       Bar. \ :strong:`BAR!`\ 
 
-      Totally unrelated to \ :emphasis:`become\_user`\ . Even with \ :emphasis:`become\_user=foo`\ .
+      Totally unrelated to \ :ansopt:`ns2.col.foo#become:become\_user`\ . Even with \ :ansopt:`ns2.col.foo#become:become\_user=foo`\ .
 
-      Might not be compatible when \ :emphasis:`become\_user`\  is \ :literal:`bar`\ , though.
+      Might not be compatible when \ :ansopt:`ns2.col.foo#become:become\_user`\  is \ :ansval:`bar`\ , though.
 
 
       .. raw:: html
