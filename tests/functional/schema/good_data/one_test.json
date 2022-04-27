@@ -1,0 +1,32 @@
+{
+    "changed": {
+        "doc": {
+            "author": "Ansible Core",
+            "collection": "ansible.builtin",
+            "description": [
+                "Tests if task required changes to complete",
+                "This test checks for the existance of a C(changed) key in the input dictionary and that it is C(True) if present"
+            ],
+            "filename": "/home/felix/projects/code/github-cloned/ansible/lib/ansible/plugins/test/changed.yml",
+            "name": "changed",
+            "options": {
+                "_input": {
+                    "description": "registered result from an Ansible task",
+                    "required": true,
+                    "type": "dictionary"
+                }
+            },
+            "short_description": "check if task required changes",
+            "version_added": "1.9",
+            "version_added_collection": "ansible.builtin"
+        },
+        "examples": "# test 'status' to know how to respond\n{{ (taskresults is changed }}\n",
+        "metadata": null,
+        "return": {
+            "_value": {
+                "description": "Returns C(True) if the task was required changes, C(False) otherwise.",
+                "type": "boolean"
+            }
+        }
+    }
+}

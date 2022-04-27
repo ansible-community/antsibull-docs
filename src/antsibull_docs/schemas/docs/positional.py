@@ -18,7 +18,7 @@ class InnerPositionalDocSchema(InnerDocSchema):
     Schema describing the structure of documentation for plugins with positional parameters.
     """
 
-    positional: t.List[str]
+    positional: t.List[str] = []
 
     @p.root_validator(pre=True)
     # pylint:disable=no-self-argument,no-self-use
