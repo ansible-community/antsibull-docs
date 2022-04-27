@@ -136,6 +136,9 @@ def normalize_plugin_info(plugin_type: str,
     # If you wonder why this code isn't showing up in code coverage: that's because it's executed
     # in a subprocess. See normalize_all_plugin_info below.
 
+    if 'error' in plugin_info:
+        return ({}, [plugin_info['error']])
+
     errors = []
     if plugin_type == 'role':
         try:
