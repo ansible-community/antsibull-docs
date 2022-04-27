@@ -139,7 +139,7 @@ REQUIRED_CLI_F = p.Field(..., regex='^[a-z0-9]+(_[a-z0-9]+)*$')
 REQUIRED_ENV_VAR_F = p.Field(..., regex='[A-Z_]+')
 
 #: option types are a set of strings that represent the types handled by argspec.
-OPTION_TYPE_F = p.Field('str', regex='^(bits|bool|bytes|dict|float|int|json|jsonarg|list'
+OPTION_TYPE_F = p.Field('str', regex='^(any|bits|bool|bytes|dict|float|int|json|jsonarg|list'
                         '|path|raw|sid|str|tmppath|pathspec|pathlist)$')
 
 #: Constrained string type for version numbers
@@ -257,15 +257,15 @@ def normalize_option_type_names(obj):
     if obj in ('tmp', 'temppath'):
         return 'tmppath'
 
+    if obj == 'raw':
+        return 'any'
+
     return obj
 
 
 def normalize_return_type_names(obj):
     """Normalize common mispellings of return type names."""
     obj = normalize_option_type_names(obj)
-
-    if obj == 'raw':
-        return 'any'
 
     return obj
 
