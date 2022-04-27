@@ -10,6 +10,7 @@ antsibull.schemas.docs.ansible_doc to handle all of their validation needs.
 """
 
 from .callback import CallbackDocSchema, CallbackSchema
+from .positional import PositionalDocSchema, PositionalSchema
 from .module import ModuleDocSchema, ModuleSchema
 from .plugin import (PluginDocSchema, PluginExamplesSchema,
                      PluginMetadataSchema, PluginReturnSchema, PluginSchema)
@@ -37,6 +38,14 @@ _PLUGIN_SCHEMA_RECORD = {
     'return': PluginReturnSchema,
 }
 
+_POSITIONAL_PLUGIN_SCHEMA_RECORD = {
+    'top': PositionalSchema,
+    'doc': PositionalDocSchema,
+    'examples': PluginExamplesSchema,
+    'metadata': PluginMetadataSchema,
+    'return': PluginReturnSchema,
+}
+
 
 #: Mapping of plugin_types to the schemas which validate and normalize their documentation.
 #: The structure of this mapping is a two level nested dict.  The outer key is the plugin_type.
@@ -54,9 +63,10 @@ DOCS_SCHEMAS = {
     },
     'cliconf': _PLUGIN_SCHEMA_RECORD,
     'connection': _PLUGIN_SCHEMA_RECORD,
+    'filter': _POSITIONAL_PLUGIN_SCHEMA_RECORD,
     'httpapi': _PLUGIN_SCHEMA_RECORD,
     'inventory': _PLUGIN_SCHEMA_RECORD,
-    'lookup': _PLUGIN_SCHEMA_RECORD,
+    'lookup': _POSITIONAL_PLUGIN_SCHEMA_RECORD,
     'module': {
         'top': ModuleSchema,
         'doc': ModuleDocSchema,
@@ -67,6 +77,7 @@ DOCS_SCHEMAS = {
     'netconf': _PLUGIN_SCHEMA_RECORD,
     'shell': _PLUGIN_SCHEMA_RECORD,
     'strategy': _PLUGIN_SCHEMA_RECORD,
+    'test': _POSITIONAL_PLUGIN_SCHEMA_RECORD,
     'vars': _PLUGIN_SCHEMA_RECORD,
     'role': RoleSchema,
 }

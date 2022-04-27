@@ -194,3 +194,18 @@ def massage_author_name(value):
     value = _EMAIL_ADDRESS.sub('', value)
     value = value.replace('(!UNKNOWN)', '')
     return value
+
+
+def extract_options_from_list(options: t.Dict[str, t.Any],
+                              options_to_extract: t.List[str]) -> t.List[t.Tuple[str, t.Any]]:
+    ''' return list of tuples (option, option_data) with option from options_to_extract '''
+    return [(option, options[option]) for option in options_to_extract if option in options]
+
+
+def remove_options_from_list(options: t.Dict[str, t.Any],
+                             options_to_remove: t.List[str]) -> t.Dict[str, t.Any]:
+    ''' return copy of dictionary with the options from options_to_remove removed '''
+    result = options.copy()
+    for option in options_to_remove:
+        result.pop(option, None)
+    return result

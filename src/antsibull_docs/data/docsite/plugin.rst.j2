@@ -162,17 +162,72 @@ The below requirements are needed on the local controller node that executes thi
 
 {% endif %}
 
-.. Options
+{% set options_to_skip = [] %}
 
-{% if doc['options'] -%}
+{% if doc['options']['_terms'] and plugin_type in ['lookup'] %}
+{%   set options_to_skip = options_to_skip + ['_terms'] %}
 
-Parameters
-----------
+.. Terms
+
+Terms
+-----
 
 {%   if use_html_blobs %}
-@{     parameters_html(doc['options'], suboption_key='suboptions') }@
+@{     parameters_html([['Terms', doc['options']['_terms']]], suboption_key='suboptions') }@
 {%   else %}
-@{     parameters_rst(doc['options'], suboption_key='suboptions') }@
+@{     parameters_rst([['Terms', doc['options']['_terms']]], suboption_key='suboptions') }@
+{%   endif %}
+
+{% endif %}
+
+{% if doc['options']['_input'] and plugin_type in ['filter', 'test'] %}
+{%   set options_to_skip = options_to_skip + ['_input'] %}
+
+.. Input
+
+Input
+-----
+
+{%   if use_html_blobs %}
+@{     parameters_html([['Input', doc['options']['_input']]], suboption_key='suboptions') }@
+{%   else %}
+@{     parameters_rst([['Input', doc['options']['_input']]], suboption_key='suboptions') }@
+{%   endif %}
+
+{% endif %}
+
+{% if doc['positional'] and plugin_type in ['lookup', 'filter', 'test'] %}
+{%   set options_to_skip = options_to_skip + doc['positional'] %}
+
+.. Positional
+
+Positional parameters
+---------------------
+
+{%   if use_html_blobs %}
+@{     parameters_html(doc['options'] | extract_options_from_list(doc['positional']), suboption_key='suboptions') }@
+{%   else %}
+@{     parameters_rst(doc['options'] | extract_options_from_list(doc['positional']), suboption_key='suboptions') }@
+{%   endif %}
+
+{% endif %}
+
+.. Options
+
+{% if doc['options'] | remove_options_from_list(options_to_skip) -%}
+
+{%   if plugin_type in ['filter', 'test'] %}
+Keyword parameters
+------------------
+{%   else %}
+Parameters
+----------
+{%   endif %}
+
+{%   if use_html_blobs %}
+@{     parameters_html(doc['options'] | remove_options_from_list(options_to_skip) | dictsort, suboption_key='suboptions') }@
+{%   else %}
+@{     parameters_rst(doc['options'] | remove_options_from_list(options_to_skip) | dictsort, suboption_key='suboptions') }@
 {%   endif %}
 {% endif %}
 
