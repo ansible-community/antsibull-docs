@@ -18,7 +18,7 @@
 
         {% for i in range(1, loop.depth) %}<div class="ansible-option-indent"></div>{% endfor %}<div class="ansible-option-cell">
 {% for full_key in value['full_keys'] %}
-        <div class="ansibleOptionAnchor" id="parameter-@{ parameter_html_prefix }@{% for part in full_key %}@{ part }@{% if not loop.last %}/{% endif %}{% endfor %}"></div>
+        <div class="ansibleOptionAnchor" id="parameter-@{ parameter_html_prefix }@{% for part in full_key %}@{ part | urlencode }@{% if not loop.last %}/{% endif %}{% endfor %}"></div>
 {% endfor %}
 
 {% for full_key in value['full_keys'] %}
@@ -31,7 +31,7 @@
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-@{ parameter_html_prefix }@{% for part in value['full_key'] %}@{ part }@{% if not loop.last %}/{% endif %}{% endfor %}" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-@{ parameter_html_prefix }@{% for part in value['full_key'] %}@{ part | urlencode }@{% if not loop.last %}/{% endif %}{% endfor %}" title="Permalink to this option"></a>
 {%   if value['aliases'] %}
 
       .. rst-class:: ansible-option-type-line
@@ -191,10 +191,10 @@
   <tr class="row-@{ row_class.next() }@">
     <td>{% for i in range(1, loop.depth) %}<div class="ansible-option-indent"></div>{% endfor %}<div class="ansible-option-cell">
 {%   for full_key in value['full_keys'] %}
-      <div class="ansibleOptionAnchor" id="parameter-@{ parameter_html_prefix }@{% for part in full_key %}@{ part }@{% if not loop.last %}/{% endif %}{% endfor %}"></div>
+      <div class="ansibleOptionAnchor" id="parameter-@{ parameter_html_prefix }@{% for part in full_key %}@{ part | urlencode }@{% if not loop.last %}/{% endif %}{% endfor %}"></div>
 {%   endfor %}
       <p class="ansible-option-title"><strong>@{ key | escape }@</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-@{ parameter_html_prefix }@{% for part in value['full_key'] %}@{ part }@{% if not loop.last %}/{% endif %}{% endfor %}" title="Permalink to this option"></a>
+      <a class="ansibleOptionLink" href="#parameter-@{ parameter_html_prefix }@{% for part in value['full_key'] %}@{ part | urlencode }@{% if not loop.last %}/{% endif %}{% endfor %}" title="Permalink to this option"></a>
 {%   if value['aliases'] %}
       <p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: @{ value['aliases']|join(', ') }@</span></p>
 {%   endif %}
