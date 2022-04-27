@@ -251,7 +251,7 @@ def normalize_option_type_names(obj):
     if obj == 'dictionary':
         return 'dict'
 
-    if obj == 'lists':
+    if obj in ('lists', 'tuple'):
         return 'list'
 
     if obj in ('tmp', 'temppath'):
