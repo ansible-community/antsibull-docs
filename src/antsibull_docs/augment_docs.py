@@ -44,6 +44,9 @@ def add_full_key(options_data: t.Mapping[str, t.Any], suboption_entry: str,
                 full_keys_k.extend([fk + [alias] for fk in _full_keys])
         entry['full_key'] = full_key_k
         entry['full_keys'] = full_keys_k
+        entry['full_keys_rst'] = sorted({
+            tuple(' '.join(p.lower().split()) for p in fk) for fk in full_keys_k
+        })
 
         # Process suboptions
         suboptions = entry.get(suboption_entry)

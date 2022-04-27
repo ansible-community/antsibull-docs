@@ -18,7 +18,7 @@
         <div class="ansibleOptionAnchor" id="return-{% for part in full_key %}@{ part | urlencode }@{% if not loop.last %}/{% endif %}{% endfor %}"></div>
 {% endfor %}
 
-{% for full_key in value['full_keys'] %}
+{% for full_key in value['full_keys_rst'] %}
       .. _ansible_collections.@{plugin_name}@_@{plugin_type}@__return-{% for part in full_key %}@{ part }@{% if not loop.last %}/{% endif %}{% endfor %}:
 {% endfor %}
 
