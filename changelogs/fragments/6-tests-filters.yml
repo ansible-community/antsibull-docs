@@ -1,0 +1,6 @@
+minor_changes:
+  - "Support test and filter plugins when ansible-core 2.14+ is used. This works with the current ``devel`` branch of ansible-core (https://github.com/ansible-community/antsibull-docs/pull/6)."
+  - "Support parameter type ``any``, and show ``raw`` as ``any`` (https://github.com/ansible-community/antsibull-docs/pull/6)."
+  - "More robust handling of parsing errors when ansible-doc was unable to extract documentation (https://github.com/ansible-community/antsibull-docs/pull/6)."
+  - "If lookup plugins have an option called ``_terms``, it is now shown in its own section ``Terms``, and not in the regular ``Parameters`` section (https://github.com/ansible-community/antsibull-docs/pull/6)."
+  - "If lookup plugins have a single return value starting with ``_``, that return value is now labelled ``Return value`` (https://github.com/ansible-community/antsibull-docs/pull/6)."
