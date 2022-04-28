@@ -25,3 +25,16 @@ releases:
     - 1.yml
     - 3-official-docs.yml
     release_date: '2022-04-10'
+  1.0.1:
+    changes:
+      bugfixes:
+      - Make sure that aliases of module/plugin options and return values that result
+        in identical RST labels under docutil's normalization are only emitted once
+        (https://github.com/ansible-community/antsibull-docs/pull/7).
+      - Properly escape module/plugin option and return value slugs in generated HTML
+        (https://github.com/ansible-community/antsibull-docs/pull/7).
+      release_summary: Bugfix release.
+    fragments:
+    - 1.0.1.yml
+    - 7-label-normalization.yml
+    release_date: '2022-04-28'
