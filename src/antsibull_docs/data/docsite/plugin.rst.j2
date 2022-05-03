@@ -211,9 +211,9 @@ Positional parameters
 ---------------------
 
 {%   if plugin_type == 'filter' %}
-This describes positional parameters of the filter. This are the values ``positional1``, ``positional2`` and so on in the following example: ``input | @{plugin_name}@(positional1, positional2, ...)``.
+This describes positional parameters of the filter. These are the values ``positional1``, ``positional2`` and so on in the following example: ``input | @{plugin_name}@(positional1, positional2, ...)``.
 {%   elif plugin_type == 'test' %}
-This describes positional parameters of the test. This are the values ``positional1``, ``positional2`` and so on in the following examples: ``input is @{plugin_name}@(positional1, positional2, ...)`` and ``input is not @{plugin_name}@(positional1, positional2, ...)``.
+This describes positional parameters of the test. These are the values ``positional1``, ``positional2`` and so on in the following examples: ``input is @{plugin_name}@(positional1, positional2, ...)`` and ``input is not @{plugin_name}@(positional1, positional2, ...)``.
 {%   endif %}
 
 {%   if use_html_blobs %}
@@ -237,9 +237,9 @@ Parameters
 {%   endif %}
 
 {%   if plugin_type == 'filter' %}
-This describes keyword parameters of the filter. This are the values ``key1=value1``, ``key2=value2`` and so on in the following example: ``input | @{plugin_name}@(key1=value1, key2=value2, ...)``.
+This describes keyword parameters of the filter. These are the values ``key1=value1``, ``key2=value2`` and so on in the following example: ``input | @{plugin_name}@(key1=value1, key2=value2, ...)``.
 {%   elif plugin_type == 'test' %}
-This describes keyword parameters of the test. This are the values ``key1=value1``, ``key2=value2`` and so on in the following examples: ``input is @{plugin_name}@(key1=value1, key2=value2, ...)`` and ``input is not @{plugin_name}@(key1=value1, key2=value2, ...)``.
+This describes keyword parameters of the test. These are the values ``key1=value1``, ``key2=value2`` and so on in the following examples: ``input is @{plugin_name}@(key1=value1, key2=value2, ...)`` and ``input is not @{plugin_name}@(key1=value1, key2=value2, ...)``.
 {%   endif %}
 
 {%   if use_html_blobs %}
