@@ -1,0 +1,69 @@
+{
+    "__root__": {
+        "changed": {
+            "doc": {
+                "aliases": [],
+                "attributes": {},
+                "author": [
+                    "Ansible Core"
+                ],
+                "collection": "ansible.builtin",
+                "deprecated": {},
+                "description": [
+                    "Tests if task required changes to complete",
+                    "This test checks for the existance of a C(changed) key in the input dictionary and that it is C(True) if present"
+                ],
+                "extends_documentation_fragment": [],
+                "filename": "/home/felix/projects/code/github-cloned/ansible/lib/ansible/plugins/test/changed.yml",
+                "name": "changed",
+                "notes": [],
+                "options": {
+                    "_input": {
+                        "aliases": [],
+                        "choices": [],
+                        "cli": [],
+                        "default": null,
+                        "deprecated": {},
+                        "description": [
+                            "registered result from an Ansible task"
+                        ],
+                        "elements": "str",
+                        "env": [],
+                        "ini": [],
+                        "keyword": [],
+                        "required": true,
+                        "suboptions": {},
+                        "type": "dict",
+                        "vars": [],
+                        "version_added": "historical",
+                        "version_added_collection": ""
+                    }
+                },
+                "positional": [],
+                "requirements": [],
+                "seealso": [],
+                "short_description": "check if task required changes",
+                "todo": [],
+                "version_added": "1.9",
+                "version_added_collection": "ansible.builtin"
+            },
+            "examples": "# test 'status' to know how to respond\n{{ (taskresults is changed }}\n",
+            "metadata": null,
+            "return_": {
+                "_value": {
+                    "choices": [],
+                    "contains": {},
+                    "description": [
+                        "Returns C(True) if the task was required changes, C(False) otherwise."
+                    ],
+                    "elements": "str",
+                    "returned": "success",
+                    "sample": null,
+                    "type": "bool",
+                    "version_added": "historical",
+                    "version_added_collection": ""
+                }
+            }
+        }
+    }
+}

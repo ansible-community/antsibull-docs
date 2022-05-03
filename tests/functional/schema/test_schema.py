@@ -21,7 +21,7 @@ from antsibull_docs.schemas.docs import ansible_doc as ad
 # dumping the file::
 #
 #   import json
-#   from antsibull.schemas.docs.ansible_doc import ConnectionPluginSchema
+#   from antsibull_docs.schemas.docs.ansible_doc import ConnectionPluginSchema
 #   raw = open('one_connection.json').read()
 #   normalized = ConnectionPluginSchema.parse_raw(raw)
 #   out = json.dumps(normalized.dict(), indent=4, sort_keys=True)
@@ -32,6 +32,7 @@ SINGLE_TESTS = {
     'one_callback.json': ad.CallbackPluginSchema,
     'one_cliconf.json': ad.CliConfPluginSchema,
     'one_connection.json': ad.ConnectionPluginSchema,
+    'one_filter.json': ad.FilterPluginSchema,
     'one_httpapi.json': ad.HttpApiPluginSchema,
     'one_inventory.json': ad.InventoryPluginSchema,
     'one_lookup.json': ad.LookupPluginSchema,
@@ -39,6 +40,7 @@ SINGLE_TESTS = {
     'one_netconf.json': ad.NetConfPluginSchema,
     'one_shell.json': ad.ShellPluginSchema,
     'one_strategy.json': ad.StrategyPluginSchema,
+    'one_test.json': ad.TestPluginSchema,
     'one_vars.json': ad.VarsPluginSchema,
 }
 

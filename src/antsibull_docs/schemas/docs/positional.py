@@ -1,0 +1,50 @@
+# coding: utf-8
+# Author: Toshio Kuratomi <tkuratom@redhat.com>
+# Author: Felix Fontein <felix@fontein.de>
+# License: GPLv3+
+# Copyright: Ansible Project, 2022
+"""Schemas for the plugin DOCUMENTATION data."""
+
+import typing as t
+
+import pydantic as p
+
+from .base import BaseModel
+from .plugin import InnerDocSchema, PluginExamplesSchema, PluginMetadataSchema, PluginReturnSchema
+
+
+class InnerPositionalDocSchema(InnerDocSchema):
+    """
+    Schema describing the structure of documentation for plugins with positional parameters.
+    """
+
+    positional: t.List[str] = []
+
+    @p.root_validator(pre=True)
+    # pylint:disable=no-self-argument,no-self-use
+    def add_default_positional(cls, values):
+        """
+        Remove example in favor of sample.
+
+        Having both sample and example is redundant.  Many more plugins are using sample so
+        standardize on that.
+        """
+        positional = values.get('positional', [])
+
+        if isinstance(positional, str):
+            positional = [part.strip() for part in positional.split(',')] if positional else []
+
+        values['positional'] = positional
+        return values
+
+
+# Ignore Uninitialized attribute error as BaseModel works some magic to initialize the
+# attributes when data is loaded into them.
+# pyre-ignore[13]
+class PositionalDocSchema(BaseModel):
+    doc: InnerPositionalDocSchema
+
+
+class PositionalSchema(PositionalDocSchema, PluginExamplesSchema, PluginMetadataSchema,
+                       PluginReturnSchema, BaseModel):
+    """Documentation of plugins with positional parameters."""

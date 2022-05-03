@@ -136,6 +136,9 @@ def normalize_plugin_info(plugin_type: str,
     # If you wonder why this code isn't showing up in code coverage: that's because it's executed
     # in a subprocess. See normalize_all_plugin_info below.
 
+    if 'error' in plugin_info:
+        return ({}, [plugin_info['error']])
+
     errors = []
     if plugin_type == 'role':
         try:
@@ -251,10 +254,12 @@ def get_plugin_contents(plugin_info: t.Mapping[str, t.Mapping[str, t.Any]],
             namespace, collection, short_name = get_fqcn_parts(plugin_name)
             if plugin_type == 'role':
                 desc = ''
-                if 'main' in plugin_desc['entry_points']:
-                    desc = plugin_desc['entry_points']['main']['short_description']
+                if 'entry_points' in plugin_desc and 'main' in plugin_desc['entry_points']:
+                    desc = plugin_desc['entry_points']['main'].get('short_description') or ''
+            elif 'doc' in plugin_desc:
+                desc = plugin_desc['doc'].get('short_description') or ''
             else:
-                desc = plugin_desc['doc']['short_description']
+                desc = ''
             plugin_contents[plugin_type]['.'.join((namespace, collection))][short_name] = desc
 
     return plugin_contents

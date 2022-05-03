@@ -1,0 +1,133 @@
+{
+    "__root__": {
+        "ternary": {
+            "doc": {
+                "aliases": [],
+                "attributes": {},
+                "author": [
+                    "Brian Coca (@bcoca)"
+                ],
+                "collection": "ansible.builtin",
+                "deprecated": {},
+                "description": [
+                    "Return the first value if the input is C(True), the second if C(False)."
+                ],
+                "extends_documentation_fragment": [],
+                "filename": "/home/felix/projects/code/github-cloned/ansible/lib/ansible/plugins/filter/ternary.yml",
+                "name": "ternary",
+                "notes": [
+                    "vars as values are evaluated even if not returned. This is due to them being evaluated before being passed into the filter."
+                ],
+                "options": {
+                    "_input": {
+                        "aliases": [],
+                        "choices": [],
+                        "cli": [],
+                        "default": null,
+                        "deprecated": {},
+                        "description": [
+                            "A boolean expression, must evaluate to C(True) or C(False)."
+                        ],
+                        "elements": "str",
+                        "env": [],
+                        "ini": [],
+                        "keyword": [],
+                        "required": true,
+                        "suboptions": {},
+                        "type": "bool",
+                        "vars": [],
+                        "version_added": "historical",
+                        "version_added_collection": ""
+                    },
+                    "false_val": {
+                        "aliases": [],
+                        "choices": [],
+                        "cli": [],
+                        "default": null,
+                        "deprecated": {},
+                        "description": [
+                            "Value to return if the input is C(False)."
+                        ],
+                        "elements": "str",
+                        "env": [],
+                        "ini": [],
+                        "keyword": [],
+                        "required": false,
+                        "suboptions": {},
+                        "type": "any",
+                        "vars": [],
+                        "version_added": "historical",
+                        "version_added_collection": ""
+                    },
+                    "none_val": {
+                        "aliases": [],
+                        "choices": [],
+                        "cli": [],
+                        "default": null,
+                        "deprecated": {},
+                        "description": [
+                            "Value to return if the input is C(None). If not set, C(None) will be treated as C(False)."
+                        ],
+                        "elements": "str",
+                        "env": [],
+                        "ini": [],
+                        "keyword": [],
+                        "required": false,
+                        "suboptions": {},
+                        "type": "any",
+                        "vars": [],
+                        "version_added": "2.8",
+                        "version_added_collection": "ansible.builtin"
+                    },
+                    "true_val": {
+                        "aliases": [],
+                        "choices": [],
+                        "cli": [],
+                        "default": null,
+                        "deprecated": {},
+                        "description": [
+                            "Value to return if the input is C(True)."
+                        ],
+                        "elements": "str",
+                        "env": [],
+                        "ini": [],
+                        "keyword": [],
+                        "required": true,
+                        "suboptions": {},
+                        "type": "any",
+                        "vars": [],
+                        "version_added": "historical",
+                        "version_added_collection": ""
+                    }
+                },
+                "positional": [
+                    "true_val",
+                    "false_val"
+                ],
+                "requirements": [],
+                "seealso": [],
+                "short_description": "Ternary operation filter",
+                "todo": [],
+                "version_added": "1.9",
+                "version_added_collection": "ansible.builtin"
+            },
+            "examples": "# set first 10 volumes rw, rest as dp\nvolume_mode: \"{{ (item|int < 11)|ternary('rw', 'dp') }}\"\n\n# choose correct vpc subnet id, note that vars as values are evaluated even if not returned\nvpc_subnet_id: \"{{ (ec2_subnet_type == 'public') | ternary(ec2_vpc_public_subnet_id, ec2_vpc_private_subnet_id) }}\"\n\n- name: service-foo, use systemd module unless upstart is present, then use old service module\n  service:\n    state: restarted\n    enabled: yes\n    use: \"{{ (ansible_service_mgr == 'upstart') | ternary('service', 'systemd') }}\"\n",
+            "metadata": null,
+            "return_": {
+                "_value": {
+                    "choices": [],
+                    "contains": {},
+                    "description": [
+                        "The value indicated by the input."
+                    ],
+                    "elements": "str",
+                    "returned": "success",
+                    "sample": null,
+                    "type": "any",
+                    "version_added": "historical",
+                    "version_added_collection": ""
+                }
+            }
+        }
+    }
+}

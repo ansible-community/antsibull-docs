@@ -142,7 +142,7 @@ async def write_plugin_rst(collection_name: str,
         # Guess path inside collection tree
         gh_path = f"{gh_plugin_dir}/{plugin_short_name}.py"
         # If we have more precise information, use that!
-        if 'doc' in plugin_record and 'filename' in plugin_record['doc']:
+        if plugin_record and 'doc' in plugin_record and 'filename' in plugin_record['doc']:
             filename = follow_relative_links(plugin_record['doc']['filename'])
             gh_path = os.path.relpath(filename, collection_meta.path)
         # Compose path

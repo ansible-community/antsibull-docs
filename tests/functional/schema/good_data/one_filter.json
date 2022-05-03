@@ -1,0 +1,50 @@
+{
+    "ternary": {
+        "doc": {
+            "author": "Brian Coca (@bcoca)",
+            "collection": "ansible.builtin",
+            "description": [
+                "Return the first value if the input is C(True), the second if C(False)."
+            ],
+            "filename": "/home/felix/projects/code/github-cloned/ansible/lib/ansible/plugins/filter/ternary.yml",
+            "name": "ternary",
+            "notes": [
+                "vars as values are evaluated even if not returned. This is due to them being evaluated before being passed into the filter."
+            ],
+            "options": {
+                "_input": {
+                    "description": "A boolean expression, must evaluate to C(True) or C(False).",
+                    "required": true,
+                    "type": "bool"
+                },
+                "false_val": {
+                    "description": "Value to return if the input is C(False).",
+                    "type": "any"
+                },
+                "none_val": {
+                    "description": "Value to return if the input is C(None). If not set, C(None) will be treated as C(False).",
+                    "type": "any",
+                    "version_added": "2.8",
+                    "version_added_collection": "ansible.builtin"
+                },
+                "true_val": {
+                    "description": "Value to return if the input is C(True).",
+                    "required": true,
+                    "type": "any"
+                }
+            },
+            "positional": "true_val, false_val",
+            "short_description": "Ternary operation filter",
+            "version_added": "1.9",
+            "version_added_collection": "ansible.builtin"
+        },
+        "examples": "# set first 10 volumes rw, rest as dp\nvolume_mode: \"{{ (item|int < 11)|ternary('rw', 'dp') }}\"\n\n# choose correct vpc subnet id, note that vars as values are evaluated even if not returned\nvpc_subnet_id: \"{{ (ec2_subnet_type == 'public') | ternary(ec2_vpc_public_subnet_id, ec2_vpc_private_subnet_id) }}\"\n\n- name: service-foo, use systemd module unless upstart is present, then use old service module\n  service:\n    state: restarted\n    enabled: yes\n    use: \"{{ (ansible_service_mgr == 'upstart') | ternary('service', 'systemd') }}\"\n",
+        "metadata": null,
+        "return": {
+            "_value": {
+                "description": "The value indicated by the input.",
+                "type": "any"
+            }
+        }
+    }
+}

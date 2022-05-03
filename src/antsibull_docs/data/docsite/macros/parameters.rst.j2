@@ -11,7 +11,7 @@
 
   * - Parameter
     - Comments
-{% for key, value in elements | dictsort recursive %}
+{% for key, value in elements recursive %}
 {#   parameter name with required and/or introduced label #}
 
   * - .. raw:: html
@@ -186,7 +186,7 @@
   </thead>
   <tbody>
 {% set row_class = cycler('even', 'odd') %}
-{% for key, value in elements | dictsort recursive %}
+{% for key, value in elements recursive %}
 {#   parameter name with required and/or introduced label #}
   <tr class="row-@{ row_class.next() }@">
     <td>{% for i in range(1, loop.depth) %}<div class="ansible-option-indent"></div>{% endfor %}<div class="ansible-option-cell">

@@ -162,17 +162,90 @@ The below requirements are needed on the local controller node that executes thi
 
 {% endif %}
 
-.. Options
+{% set options_to_skip = [] %}
 
-{% if doc['options'] -%}
+{% if doc['options']['_terms'] and plugin_type in ['lookup'] %}
+{%   set options_to_skip = options_to_skip + ['_terms'] %}
 
-Parameters
-----------
+.. Terms
+
+Terms
+-----
 
 {%   if use_html_blobs %}
-@{     parameters_html(doc['options'], suboption_key='suboptions') }@
+@{     parameters_html([['Terms', doc['options']['_terms']]], suboption_key='suboptions') }@
 {%   else %}
-@{     parameters_rst(doc['options'], suboption_key='suboptions') }@
+@{     parameters_rst([['Terms', doc['options']['_terms']]], suboption_key='suboptions') }@
+{%   endif %}
+
+{% endif %}
+
+{% if doc['options']['_input'] and plugin_type in ['filter', 'test'] %}
+{%   set options_to_skip = options_to_skip + ['_input'] %}
+
+.. Input
+
+Input
+-----
+
+{%   if plugin_type == 'filter' %}
+This describes the input of the filter, the value before ``| @{plugin_name}@``.
+{%   else %}
+This describes the input of the test, the value before ``is @{plugin_name}@`` or ``is not @{plugin_name}@``.
+{%   endif %}
+
+{%   if use_html_blobs %}
+@{     parameters_html([['Input', doc['options']['_input']]], suboption_key='suboptions') }@
+{%   else %}
+@{     parameters_rst([['Input', doc['options']['_input']]], suboption_key='suboptions') }@
+{%   endif %}
+
+{% endif %}
+
+{% if doc['positional'] and plugin_type in ['lookup', 'filter', 'test'] %}
+{%   set options_to_skip = options_to_skip + doc['positional'] %}
+
+.. Positional
+
+Positional parameters
+---------------------
+
+{%   if plugin_type == 'filter' %}
+This describes positional parameters of the filter. These are the values ``positional1``, ``positional2`` and so on in the following example: ``input | @{plugin_name}@(positional1, positional2, ...)``.
+{%   elif plugin_type == 'test' %}
+This describes positional parameters of the test. These are the values ``positional1``, ``positional2`` and so on in the following examples: ``input is @{plugin_name}@(positional1, positional2, ...)`` and ``input is not @{plugin_name}@(positional1, positional2, ...)``.
+{%   endif %}
+
+{%   if use_html_blobs %}
+@{     parameters_html(doc['options'] | extract_options_from_list(doc['positional']), suboption_key='suboptions') }@
+{%   else %}
+@{     parameters_rst(doc['options'] | extract_options_from_list(doc['positional']), suboption_key='suboptions') }@
+{%   endif %}
+
+{% endif %}
+
+.. Options
+
+{% if doc['options'] | remove_options_from_list(options_to_skip) -%}
+
+{%   if plugin_type in ['filter', 'test'] %}
+Keyword parameters
+------------------
+{%   else %}
+Parameters
+----------
+{%   endif %}
+
+{%   if plugin_type == 'filter' %}
+This describes keyword parameters of the filter. These are the values ``key1=value1``, ``key2=value2`` and so on in the following example: ``input | @{plugin_name}@(key1=value1, key2=value2, ...)``.
+{%   elif plugin_type == 'test' %}
+This describes keyword parameters of the test. These are the values ``key1=value1``, ``key2=value2`` and so on in the following examples: ``input is @{plugin_name}@(key1=value1, key2=value2, ...)`` and ``input is not @{plugin_name}@(key1=value1, key2=value2, ...)``.
+{%   endif %}
+
+{%   if use_html_blobs %}
+@{     parameters_html(doc['options'] | remove_options_from_list(options_to_skip) | dictsort, suboption_key='suboptions') }@
+{%   else %}
+@{     parameters_rst(doc['options'] | remove_options_from_list(options_to_skip) | dictsort, suboption_key='suboptions') }@
 {%   endif %}
 {% endif %}
 
@@ -235,7 +308,7 @@ Examples
 
 {% endif %}
 
-{% if 'ansible_facts' in returndocs %}
+{% if 'ansible_facts' in returndocs and plugin_type == 'module' %}
 {%   set returnfacts = returndocs['ansible_facts']['contains'] %}
 {%   set _x = returndocs.pop('ansible_facts', None) %}
 {% endif %}
@@ -248,23 +321,37 @@ Returned Facts
 Facts returned by this module are added/updated in the ``hostvars`` host facts and can be referenced by name just like any other host fact. They do not need to be registered in order to use them.
 
 {%   if use_html_blobs %}
-@{     return_docs_html(returnfacts) }@
+@{     return_docs_html(returnfacts | dictsort) }@
 {%   else %}
-@{     return_docs_rst(returnfacts) }@
+@{     return_docs_rst(returnfacts | dictsort) }@
 {%   endif %}
 {% endif %}
 
 .. Return values
 
 {% if returndocs -%}
+{%   if plugin_type not in ['lookup', 'filter', 'test'] %}
+{#     This only makes sense for plugins which can return more than one value. #}
 Return Values
 -------------
 Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this @{ plugin_type }@:
-
-{%   if use_html_blobs %}
-@{     return_docs_html(returndocs) }@
 {%   else %}
-@{     return_docs_rst(returndocs) }@
+Return Value
+------------
+{%   endif %}
+
+{%   if plugin_type in ['lookup', 'filter', 'test'] and returndocs | length == 1 and (returndocs | first).startswith('_') %}
+{%     if use_html_blobs %}
+@{       return_docs_html([['Return value', returndocs.values() | first]]) }@
+{%     else %}
+@{       return_docs_rst([['Return value', returndocs.values() | first]]) }@
+{%     endif %}
+{%   else %}
+{%     if use_html_blobs %}
+@{       return_docs_html(returndocs | dictsort) }@
+{%     else %}
+@{       return_docs_rst(returndocs | dictsort) }@
+{%     endif %}
 {%   endif %}
 {% endif %}
 

@@ -17,6 +17,7 @@ import typing as t
 
 from .base import BaseModel
 from .callback import CallbackSchema
+from .positional import PositionalSchema
 from .module import ModuleSchema
 from .plugin import PluginSchema
 from .role import RoleSchema
@@ -26,7 +27,7 @@ __all__ = ('ANSIBLE_DOC_SCHEMAS', 'AnsibleDocSchema', 'BecomePluginSchema', 'Cac
            'CallbackPluginSchema', 'CliConfPluginSchema', 'ConnectionPluginSchema',
            'HttpApiPluginSchema', 'InventoryPluginSchema', 'LookupPluginSchema',
            'ModulePluginSchema', 'NetConfPluginSchema', 'ShellPluginSchema', 'StrategyPluginSchema',
-           'VarsPluginSchema',)
+           'VarsPluginSchema', 'TestPluginSchema', 'FilterPluginSchema',)
 
 
 class AnsibleDocSchema(BaseModel):
@@ -54,13 +55,15 @@ class AnsibleDocSchema(BaseModel):
     callback: t.Dict[str, CallbackSchema]
     cliconf: t.Dict[str, PluginSchema]
     connection: t.Dict[str, PluginSchema]
+    filter: t.Dict[str, PositionalSchema]
     httpapi: t.Dict[str, PluginSchema]
     inventory: t.Dict[str, PluginSchema]
-    lookup: t.Dict[str, PluginSchema]
+    lookup: t.Dict[str, PositionalSchema]
     module: t.Dict[str, ModuleSchema]
     netconf: t.Dict[str, PluginSchema]
     shell: t.Dict[str, PluginSchema]
     strategy: t.Dict[str, PluginSchema]
+    test: t.Dict[str, PositionalSchema]
     vars: t.Dict[str, PluginSchema]
     role: t.Dict[str, RoleSchema]
 
@@ -87,6 +90,18 @@ class CallbackPluginSchema(BaseModel):
     """
 
     __root__: t.Dict[str, CallbackSchema]
+
+
+class PositionalPluginSchema(BaseModel):
+    """
+    Document the output of ``ansible-doc -t lookup CALLBACK_NAME``, or ``-t filter``, ``-t test``.
+
+    .. note:: Both the model and the dict will be wrapped in an outer dict with your data mapped
+        to the ``__root__`` key. This happens because the toplevel key of ansible-doc's output is
+        a dynamic key which we can't automatically map to an attribute name.
+    """
+
+    __root__: t.Dict[str, PositionalSchema]
 
 
 class ModulePluginSchema(BaseModel):
@@ -121,11 +136,13 @@ CliConfPluginSchema = GenericPluginSchema
 ConnectionPluginSchema = GenericPluginSchema
 HttpApiPluginSchema = GenericPluginSchema
 InventoryPluginSchema = GenericPluginSchema
-LookupPluginSchema = GenericPluginSchema
+LookupPluginSchema = PositionalPluginSchema
 NetConfPluginSchema = GenericPluginSchema
 ShellPluginSchema = GenericPluginSchema
 StrategyPluginSchema = GenericPluginSchema
 VarsPluginSchema = GenericPluginSchema
+TestPluginSchema = PositionalPluginSchema
+FilterPluginSchema = PositionalPluginSchema
 
 
 #: A mapping from plugin type to the Schema to use for them.  Use this to more easily get
@@ -136,6 +153,7 @@ ANSIBLE_DOC_SCHEMAS = {
     'callback': CallbackPluginSchema,
     'cliconf': CliConfPluginSchema,
     'connection': ConnectionPluginSchema,
+    'filter': FilterPluginSchema,
     'httpapi': HttpApiPluginSchema,
     'inventory': InventoryPluginSchema,
     'lookup': LookupPluginSchema,
@@ -144,5 +162,6 @@ ANSIBLE_DOC_SCHEMAS = {
     'role': RolePluginSchema,
     'shell': ShellPluginSchema,
     'strategy': StrategyPluginSchema,
+    'test': TestPluginSchema,
     'vars': VarsPluginSchema,
 }
