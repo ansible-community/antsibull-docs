@@ -31,6 +31,11 @@ def from_kludge_ns(key):
     return NS_MAP[key]
 
 
+def reference_plugin_rst(plugin_name: str, plugin_type: str) -> str:
+    fqcn = f'{plugin_name}'
+    return f"\\ :ref:`{rst_escape(fqcn)} <ansible_collections.{fqcn}_{plugin_type}>`\\ "
+
+
 def doc_environment(template_location):
     if isinstance(template_location, str) and os.path.exists(template_location):
         loader = FileSystemLoader(template_location)
@@ -54,6 +59,7 @@ def doc_environment(template_location):
     # with <Jinja-2.10
     env.globals['to_kludge_ns'] = to_kludge_ns
     env.globals['from_kludge_ns'] = from_kludge_ns
+    env.globals['reference_plugin_rst'] = reference_plugin_rst
     if 'max' not in env.filters:
         # Jinja < 2.10
         env.filters['max'] = do_max
