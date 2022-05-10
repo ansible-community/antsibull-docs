@@ -511,10 +511,10 @@ class DocSchema(BaseModel):
     filename: str = ''
     notes: t.List[str] = []
     requirements: t.List[str] = []
-    seealso: t.List[t.Union[SeeAlsoModSchema,
+    seealso: t.List[t.Union[SeeAlsoLinkSchema,
+                            SeeAlsoModSchema,
                             SeeAlsoPluginSchema,
-                            SeeAlsoRefSchema,
-                            SeeAlsoLinkSchema]] = []
+                            SeeAlsoRefSchema]] = []
     todo: t.List[str] = []
     version_added: str = 'historical'
     version_added_collection: str = COLLECTION_NAME_F
