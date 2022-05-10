@@ -1,0 +1,2 @@
+minor_changes:
+  - "Support plugin ``seealso`` from the `semantic markup specification <https://hackmd.io/VjN60QSoRSSeRfvGmOH1lQ?both>`__ (https://github.com/ansible-community/antsibull-docs/pull/8)."
