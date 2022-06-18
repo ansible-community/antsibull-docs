@@ -1,0 +1,2 @@
+bugfixes:
+  - "Make sure that ``_input`` does not show up twice for test or filter arguments when the plugin mentions it in ``positional`` (https://github.com/ansible-community/antsibull-docs/pull/10)."
