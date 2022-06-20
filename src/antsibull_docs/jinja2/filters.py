@@ -197,9 +197,16 @@ def massage_author_name(value):
 
 
 def extract_options_from_list(options: t.Dict[str, t.Any],
-                              options_to_extract: t.List[str]) -> t.List[t.Tuple[str, t.Any]]:
+                              options_to_extract: t.List[str],
+                              options_to_ignore: t.Optional[t.List[str]] = None
+                              ) -> t.List[t.Tuple[str, t.Any]]:
     ''' return list of tuples (option, option_data) with option from options_to_extract '''
-    return [(option, options[option]) for option in options_to_extract if option in options]
+    if options_to_ignore is None:
+        options_to_ignore = []
+    return [
+        (option, options[option]) for option in options_to_extract
+        if option in options and option not in options_to_ignore
+    ]
 
 
 def remove_options_from_list(options: t.Dict[str, t.Any],

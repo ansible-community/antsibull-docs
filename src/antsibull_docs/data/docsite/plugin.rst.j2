@@ -202,7 +202,7 @@ This describes the input of the test, the value before ``is @{plugin_name}@`` or
 
 {% endif %}
 
-{% if doc['positional'] and plugin_type in ['lookup', 'filter', 'test'] %}
+{% if doc['positional'] and plugin_type in ['lookup', 'filter', 'test'] and doc['positional'] != ['_input'] %}
 {%   set options_to_skip = options_to_skip + doc['positional'] %}
 
 .. Positional
@@ -217,9 +217,9 @@ This describes positional parameters of the test. These are the values ``positio
 {%   endif %}
 
 {%   if use_html_blobs %}
-@{     parameters_html(doc['options'] | extract_options_from_list(doc['positional']), suboption_key='suboptions') }@
+@{     parameters_html(doc['options'] | extract_options_from_list(doc['positional'], options_to_ignore=['_input']), suboption_key='suboptions') }@
 {%   else %}
-@{     parameters_rst(doc['options'] | extract_options_from_list(doc['positional']), suboption_key='suboptions') }@
+@{     parameters_rst(doc['options'] | extract_options_from_list(doc['positional'], options_to_ignore=['_input']), suboption_key='suboptions') }@
 {%   endif %}
 
 {% endif %}
