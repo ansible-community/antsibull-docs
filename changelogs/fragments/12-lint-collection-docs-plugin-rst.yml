@@ -1,0 +1,4 @@
+minor_changes:
+  - "The ``lint-collection-docs`` subcommand has a new boolean flag ``--plugin-docs`` which renders the plugin docs
+     to RST and validates them with rstcheck. This can be used as a lighter version of rendering the docsite in CI
+     (https://github.com/ansible-community/antsibull-docs/pull/12)."

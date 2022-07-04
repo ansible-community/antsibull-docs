@@ -51,7 +51,7 @@ def follow_relative_links(path: str) -> str:
 
     :arg path: Path to a file.
     """
-    flog = mlog.fields(func='write_plugin_rst')
+    flog = mlog.fields(func='follow_relative_links')
     flog.fields(path=path).debug('Enter')
 
     original_path = path
@@ -90,17 +90,15 @@ def follow_relative_links(path: str) -> str:
         path = os.path.join(os.path.dirname(path), link)
 
 
-async def write_plugin_rst(collection_name: str,
-                           collection_meta: AnsibleCollectionMetadata,
-                           collection_links: CollectionLinks,
-                           plugin_short_name: str, plugin_type: str,
-                           plugin_record: t.Dict[str, t.Any], nonfatal_errors: t.Sequence[str],
-                           plugin_tmpl: Template, error_tmpl: Template, dest_dir: str,
-                           path_override: t.Optional[str] = None,
-                           squash_hierarchy: bool = False,
-                           use_html_blobs: bool = False) -> None:
+def create_plugin_rst(collection_name: str,
+                      collection_meta: AnsibleCollectionMetadata,
+                      collection_links: CollectionLinks,
+                      plugin_short_name: str, plugin_type: str,
+                      plugin_record: t.Dict[str, t.Any], nonfatal_errors: t.Sequence[str],
+                      plugin_tmpl: Template, error_tmpl: Template,
+                      use_html_blobs: bool = False) -> str:
     """
-    Write the rst page for one plugin.
+    Create the rst page for one plugin.
 
     :arg collection_name: Dotted colection name.
     :arg collection_meta: Collection metadata object.
@@ -113,19 +111,12 @@ async def write_plugin_rst(collection_name: str,
         of some or all of the docs
     :arg plugin_tmpl: Template for the plugin.
     :arg error_tmpl: Template to use when there wasn't enough documentation for the plugin.
-    :arg dest_dir: Destination directory for the plugin data.  For instance,
-        :file:`ansible-checkout/docs/docsite/rst/`.  The directory structure underneath this
-        directory will be created if needed.
-    :arg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
-                           Undefined behavior if documentation for multiple collections are
-                           created.
     :arg use_html_blobs: If set to ``True``, will use HTML blobs for parameter and return value
                          tables instead of using RST tables.
     """
-    flog = mlog.fields(func='write_plugin_rst')
+    flog = mlog.fields(func='create_plugin_rst')
     flog.debug('Enter')
 
-    namespace, collection = collection_name.split('.')
     plugin_name = '.'.join((collection_name, plugin_short_name))
 
     edit_on_github_url = None
@@ -211,6 +202,60 @@ async def write_plugin_rst(collection_name: str,
                 collection_links=collection_links.links,
                 collection_communication=collection_links.communication,
             )
+
+    flog.debug('Leave')
+    return plugin_contents
+
+
+async def write_plugin_rst(collection_name: str,
+                           collection_meta: AnsibleCollectionMetadata,
+                           collection_links: CollectionLinks,
+                           plugin_short_name: str, plugin_type: str,
+                           plugin_record: t.Dict[str, t.Any], nonfatal_errors: t.Sequence[str],
+                           plugin_tmpl: Template, error_tmpl: Template, dest_dir: str,
+                           path_override: t.Optional[str] = None,
+                           squash_hierarchy: bool = False,
+                           use_html_blobs: bool = False) -> None:
+    """
+    Write the rst page for one plugin.
+
+    :arg collection_name: Dotted colection name.
+    :arg collection_meta: Collection metadata object.
+    :arg collection_links: Collection links object.
+    :arg plugin_short_name: short name for the plugin.
+    :arg plugin_type: The type of the plugin.  (module, inventory, etc)
+    :arg plugin_record: The record for the plugin.  doc, examples, and return are the
+        toplevel fields.
+    :arg nonfatal_errors: Mapping of plugin to any nonfatal errors that will be displayed in place
+        of some or all of the docs
+    :arg plugin_tmpl: Template for the plugin.
+    :arg error_tmpl: Template to use when there wasn't enough documentation for the plugin.
+    :arg dest_dir: Destination directory for the plugin data.  For instance,
+        :file:`ansible-checkout/docs/docsite/rst/`.  The directory structure underneath this
+        directory will be created if needed.
+    :arg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
+                           Undefined behavior if documentation for multiple collections are
+                           created.
+    :arg use_html_blobs: If set to ``True``, will use HTML blobs for parameter and return value
+                         tables instead of using RST tables.
+    """
+    flog = mlog.fields(func='write_plugin_rst')
+    flog.debug('Enter')
+
+    namespace, collection = collection_name.split('.')
+
+    plugin_contents = create_plugin_rst(
+        collection_name=collection_name,
+        collection_meta=collection_meta,
+        collection_links=collection_links,
+        plugin_short_name=plugin_short_name,
+        plugin_type=plugin_type,
+        plugin_record=plugin_record,
+        nonfatal_errors=nonfatal_errors,
+        plugin_tmpl=plugin_tmpl,
+        error_tmpl=error_tmpl,
+        use_html_blobs=use_html_blobs,
+    )
 
     if path_override is not None:
         plugin_file = path_override
