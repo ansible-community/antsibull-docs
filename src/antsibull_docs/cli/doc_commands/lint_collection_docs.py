@@ -27,6 +27,7 @@ def lint_collection_docs() -> int:
     app_ctx = app_context.app_ctx.get()
 
     collection_root = app_ctx.extra['collection_root_path']
+    plugin_docs = app_ctx.extra['plugin_docs']
 
     flog.notice('Linting extra docs files')
     errors = lint_collection_extra_docs_files(collection_root)
@@ -34,8 +35,9 @@ def lint_collection_docs() -> int:
     flog.notice('Linting collection links')
     errors.extend(lint_collection_links(collection_root))
 
-    flog.notice('Linting plugin docs')
-    errors.extend(lint_collection_plugin_docs(collection_root))
+    if plugin_docs:
+        flog.notice('Linting plugin docs')
+        errors.extend(lint_collection_plugin_docs(collection_root))
 
     messages = sorted(set(f'{error[0]}:{error[1]}:{error[2]}: {error[3]}' for error in errors))
 
