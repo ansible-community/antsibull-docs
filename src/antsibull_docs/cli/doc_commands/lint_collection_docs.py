@@ -8,6 +8,7 @@ from antsibull_core.logging import log
 
 from ...collection_links import lint_collection_links
 from ...lint_extra_docs import lint_collection_extra_docs_files
+from ...lint_plugin_docs import lint_collection_plugin_docs
 
 
 mlog = log.fields(mod=__name__)
@@ -32,6 +33,9 @@ def lint_collection_docs() -> int:
 
     flog.notice('Linting collection links')
     errors.extend(lint_collection_links(collection_root))
+
+    flog.notice('Linting plugin docs')
+    errors.extend(lint_collection_plugin_docs(collection_root))
 
     messages = sorted(set(f'{error[0]}:{error[1]}:{error[2]}: {error[3]}' for error in errors))
 
