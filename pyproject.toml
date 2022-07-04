@@ -35,7 +35,7 @@ antsibull-core = ">= 1.0.0, < 2.0.0"
 asyncio-pool = "*"
 docutils = "*"
 jinja2 = "*"
-rstcheck = "^3"
+rstcheck = ">= 3.0.0, < 6.0.0"
 sphinx = "*"
 
 [tool.poetry.dev-dependencies]
