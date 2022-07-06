@@ -10,9 +10,6 @@ import os.path
 import re
 import typing as t
 
-import docutils.utils
-import rstcheck
-
 from antsibull_core.yaml import load_yaml_file
 
 from .extra_docs import (
@@ -21,6 +18,7 @@ from .extra_docs import (
     load_extra_docs_index,
     ExtraDocsIndexError,
 )
+from .rstcheck import check_rst_content
 
 
 _RST_LABEL_DEFINITION = re.compile(r'''^\.\. _([^:]+):''')
@@ -53,10 +51,7 @@ def lint_optional_conditions(content: str, path: str, collection_name: str
 
     Return a list of errors.
     '''
-    results = rstcheck.check(
-        content, filename=path,
-        report_level=docutils.utils.Reporter.WARNING_LEVEL)
-    return [(result[0], 0, result[1]) for result in results]
+    return check_rst_content(content, filename=path)
 
 
 def lint_collection_extra_docs_files(path_to_collection: str
