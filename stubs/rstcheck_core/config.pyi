@@ -12,4 +12,11 @@ class ReportLevel(enum.Enum):
 
 
 class RstcheckConfig:
-    def __init__(self, report_level: Optional[ReportLevel] = ...): ...
+    def __init__(
+        self,
+        report_level: Optional[ReportLevel] = ...,
+        ignore_directives: Optional[List[str]] = ...,
+        ignore_roles: Optional[List[str]] = ...,
+        ignore_substitutions: Optional[List[str]] = ...,
+        ignore_languages: Optional[List[str]] = ...,
+    ): ...

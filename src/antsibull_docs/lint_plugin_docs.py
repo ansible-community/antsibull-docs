@@ -10,7 +10,6 @@ import tempfile
 import typing as t
 
 import docutils.utils
-import rstcheck
 import sh
 
 from antsibull_core.compat import asyncio_run
@@ -38,6 +37,7 @@ from .docs_parsing.routing import (
 )
 from .jinja2.environment import doc_environment
 from .write_docs import create_plugin_rst
+from .rstcheck import check_rst_content
 
 
 class CollectionCopier:
@@ -84,7 +84,6 @@ class CollectionFinder:
 def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
                                  original_path_to_collection: str,
                                  ) -> t.List[t.Tuple[str, int, int, str]]:
-    rstcheck.ignore_directives_and_roles(['rst-class'], [])
     # Load collection docs
     venv = FakeVenvRunner()
     plugin_info, collection_metadata = asyncio_run(get_ansible_plugin_info(
@@ -141,10 +140,11 @@ def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
                 path = os.path.join(
                     original_path_to_collection, 'plugins', plugin_type,
                     f'{plugin_short_name}.rst')
-                rst_results = rstcheck.check(
+                rst_results = check_rst_content(
                     rst_content, filename=path,
-                    report_level=docutils.utils.Reporter.WARNING_LEVEL)
-                result.extend([(path, result[0], 0, result[1]) for result in rst_results])
+                    ignore_directives=['rst-class'],
+                )
+                result.extend([(path, result[0], result[1], result[2]) for result in rst_results])
     return result
 
 
