@@ -9,7 +9,6 @@ import shutil
 import tempfile
 import typing as t
 
-import docutils.utils
 import sh
 
 from antsibull_core.compat import asyncio_run
@@ -41,6 +40,8 @@ from .rstcheck import check_rst_content
 
 
 class CollectionCopier:
+    dir: t.Optional[str]
+
     def __init__(self):
         self.dir = None
 
@@ -51,21 +52,21 @@ class CollectionCopier:
         return self
 
     def add_collection(self, collecion_source_path: str, namespace: str, name: str) -> None:
-        if self.dir is None:
+        self_dir = self.dir
+        if self_dir is None:
             raise AssertionError('Collection copier not initialized')
         collection_container_dir = os.path.join(
-            self.dir, 'ansible_collections', namespace)
+            self_dir, 'ansible_collections', namespace)
         os.makedirs(collection_container_dir, exist_ok=True)
 
         collection_dir = os.path.join(collection_container_dir, name)
         shutil.copytree(collecion_source_path, collection_dir, symlinks=True)
 
-        return self.dir
-
     def __exit__(self, type_, value, traceback_):
-        if self.dir is None:
+        self_dir = self.dir
+        if self_dir is None:
             raise AssertionError('Collection copier not initialized')
-        shutil.rmtree(self.dir, ignore_errors=True)
+        shutil.rmtree(self_dir, ignore_errors=True)
         self.dir = None
 
 
