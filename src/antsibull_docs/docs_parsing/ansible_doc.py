@@ -184,6 +184,31 @@ def _extract_ansible_builtin_metadata(stdout: str) -> AnsibleCollectionMetadata:
     return AnsibleCollectionMetadata(path=path, version=version)
 
 
+def parse_ansible_galaxy_collection_list(raw_output: str,
+                                         collection_names: t.Optional[t.List[str]] = None,
+                                         ) -> t.List[t.Tuple[str, str, str, t.Optional[str]]]:
+    result = []
+    current_base_path = None
+    for line in raw_output.splitlines():
+        parts = line.split()
+        if len(parts) >= 2:
+            if parts[0] == '#':
+                current_base_path = parts[1]
+            elif current_base_path is not None:
+                collection_name = parts[0]
+                version = parts[1]
+                if '.' in collection_name:
+                    if collection_names is None or collection_name in collection_names:
+                        namespace, name = collection_name.split('.', 2)
+                        result.append((
+                            namespace,
+                            name,
+                            os.path.join(current_base_path, namespace, name),
+                            None if version == '*' else version
+                        ))
+    return result
+
+
 def get_collection_metadata(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
                             env: t.Dict[str, str],
                             collection_names: t.Optional[t.List[str]] = None,
@@ -201,21 +226,9 @@ def get_collection_metadata(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
     venv_ansible_galaxy = venv.get_command('ansible-galaxy')
     ansible_collection_list_cmd = venv_ansible_galaxy('collection', 'list', _env=env)
     raw_result = ansible_collection_list_cmd.stdout.decode('utf-8', errors='surrogateescape')
-    current_base_path = None
-    for line in raw_result.splitlines():
-        parts = line.split()
-        if len(parts) >= 2:
-            if parts[0] == '#':
-                current_base_path = parts[1]
-            else:
-                collection_name = parts[0]
-                version = parts[1]
-                if '.' in collection_name:
-                    if collection_names is None or collection_name in collection_names:
-                        namespace, name = collection_name.split('.', 2)
-                        collection_metadata[collection_name] = AnsibleCollectionMetadata(
-                            path=os.path.join(current_base_path, namespace, name),
-                            version=None if version == '*' else version)
+    for namespace, name, path, version in parse_ansible_galaxy_collection_list(raw_result):
+        collection_metadata[f'{namespace}.{name}'] = AnsibleCollectionMetadata(
+            path=path, version=version)
 
     return collection_metadata
 

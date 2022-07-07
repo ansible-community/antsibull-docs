@@ -20,7 +20,9 @@ except ImportError:
     import rstcheck
 
 
-def check_rst_content(content: str, filename: t.Optional[str] = None
+def check_rst_content(content: str, filename: t.Optional[str] = None,
+                      ignore_directives: t.Optional[t.List[str]] = None,
+                      ignore_roles: t.Optional[t.List[str]] = None,
                       ) -> t.List[t.Tuple[int, int, str]]:
     '''
     Check the content with rstcheck. Return list of errors and warnings.
@@ -36,10 +38,14 @@ def check_rst_content(content: str, filename: t.Optional[str] = None
                 f.write(content)
             config = rstcheck_core.config.RstcheckConfig(
                 report_level=rstcheck_core.config.ReportLevel.WARNING,
+                ignore_directives=ignore_directives,
+                ignore_roles=ignore_roles,
             )
             core_results = rstcheck_core.checker.check_file(pathlib.Path(rst_path), config)
             return [(result.line_number, 0, result.message) for result in core_results]
     else:
+        if ignore_directives or ignore_roles:
+            rstcheck.ignore_directives_and_roles(ignore_directives or [], ignore_roles or [])
         results = rstcheck.check(
             content,
             filename=filename,
