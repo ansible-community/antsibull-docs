@@ -9,6 +9,10 @@ import os.path
 import re
 import typing as t
 
+from docutils.parsers.rst import roles as docutils_roles
+
+from sphinx_antsibull_ext import roles as antsibull_roles
+
 from .extra_docs import (
     find_extra_docs,
     lint_required_conditions,
@@ -35,6 +39,12 @@ def lint_optional_conditions(content: str, path: str, collection_name: str
     return check_rst_content(content, filename=path)
 
 
+def _setup_antsibull_roles():
+    '''Make sure that rstcheck knows about our roles.'''
+    for name, role in antsibull_roles.ROLES.items():
+        docutils_roles.register_local_role(name, role)
+
+
 def lint_collection_extra_docs_files(path_to_collection: str
                                      ) -> t.List[t.Tuple[str, int, int, str]]:
     try:
@@ -46,6 +56,7 @@ def lint_collection_extra_docs_files(path_to_collection: str
     result = []
     all_labels = set()
     docs = find_extra_docs(path_to_collection)
+    _setup_antsibull_roles()
     for doc in docs:
         try:
             # Load content
