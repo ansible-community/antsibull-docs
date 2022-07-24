@@ -1,7 +1,8 @@
 # coding: utf-8
 # Author: Felix Fontein <felix@fontein.de>
 # License: GPLv3+
-# Copyright: Ansible Project, 2021
+# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: 2021, Ansible Project
 """Schemas for collection links files."""
 
 # Ignore Unitialized attribute errors because BaseModel works some magic

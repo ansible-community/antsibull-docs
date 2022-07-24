@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: 2020, Ansible Project
+
 import pytest
 
 from antsibull_docs.jinja2.filters import rst_ify, rst_escape, move_first, massage_author_name

@@ -1,7 +1,8 @@
-# Copyright: (c) 2014, James Tanner <tanner.jc@gmail.com>
-# Copyright: (c) 2018, Ansible Project
-# Copyright: (c) 2020, Felix Fontein
+# Copyright (c) 2014, James Tanner <tanner.jc@gmail.com>
+# Copyright (c) 2018, Ansible Project
+# Copyright (c) 2020, Felix Fontein
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Enumerate collections and all their plugin's docs."""
 
 # pylint:disable=protected-access

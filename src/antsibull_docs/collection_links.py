@@ -1,7 +1,8 @@
 # coding: utf-8
 # Author: Felix Fontein <felix@fontein.de>
 # License: GPLv3+
-# Copyright: Ansible Project, 2021
+# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: 2021, Ansible Project
 """Handle collection-specific links from galaxy.yml and docs/docsite/links.yml."""
 
 import asyncio

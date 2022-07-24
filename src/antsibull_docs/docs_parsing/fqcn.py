@@ -1,7 +1,8 @@
 # coding: utf-8
 # Author: Toshio Kuratomi <tkuratom@redhat.com>
 # License: GPLv3+
-# Copyright: Ansible Project, 2020
+# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: 2020, Ansible Project
 """
 Functions for parsing fully qualified collection names.
 
