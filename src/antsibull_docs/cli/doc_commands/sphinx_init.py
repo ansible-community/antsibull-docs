@@ -1,5 +1,4 @@
 # Author: Felix Fontein <felix@fontein.de>
-# License: GPLv3+
 # SPDX-License-Identifier: GPL-3.0-or-later
 # SPDX-FileCopyrightText: 2021, Ansible Project
 """Entrypoint to the antsibull-docs script."""

@@ -1,7 +1,6 @@
 # coding: utf-8
 # Author: Toshio Kuratomi <tkuratom@redhat.com>
 # Author: Felix Fontein <felix@fontein.de>
-# License: GPLv3+
 # SPDX-License-Identifier: GPL-3.0-or-later
 # SPDX-FileCopyrightText: 2021, Ansible Project
 """Schemas for the role documentation data."""

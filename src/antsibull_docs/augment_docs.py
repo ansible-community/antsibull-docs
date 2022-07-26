@@ -1,5 +1,4 @@
 # Author: Toshio Kuratomi <tkuratom@redhat.com>
-# License: GPLv3+
 # SPDX-License-Identifier: GPL-3.0-or-later
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Augment data from plugin documenation with additional values."""

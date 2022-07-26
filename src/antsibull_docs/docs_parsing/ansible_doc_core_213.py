@@ -1,5 +1,4 @@
 # Author: Felix Fontein <felix@fontein.de>
-# License: GPLv3+
 # SPDX-License-Identifier: GPL-3.0-or-later
 # SPDX-FileCopyrightText: 2022, Ansible Project
 """Parse documentation from ansible plugins using anible-doc from ansible-core 2.13+."""
