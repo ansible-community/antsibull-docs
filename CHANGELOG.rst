@@ -5,6 +5,27 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v1.2.0
+======
+
+Release Summary
+---------------
+
+Feature and bugfix release.
+
+Minor Changes
+-------------
+
+- Support plugin ``seealso`` from the `semantic markup specification <https://hackmd.io/VjN60QSoRSSeRfvGmOH1lQ?both>`__ (https://github.com/ansible-community/antsibull-docs/pull/8).
+- The ``lint-collection-docs`` subcommand has a new boolean flag ``--plugin-docs`` which renders the plugin docs to RST and validates them with rstcheck. This can be used as a lighter version of rendering the docsite in CI (https://github.com/ansible-community/antsibull-docs/pull/12).
+- The files in the source repository now follow the `REUSE Specification <https://reuse.software/spec/>`_. The only exceptions are changelog fragments in ``changelogs/fragments/`` (https://github.com/ansible-community/antsibull-docs/pull/14).
+
+Bugfixes
+--------
+
+- Make sure that ``_input`` does not show up twice for test or filter arguments when the plugin mentions it in ``positional`` (https://github.com/ansible-community/antsibull-docs/pull/10).
+- Mark rstcheck 4.x and 5.x as compatible. Support rstcheck 6.x as well (https://github.com/ansible-community/antsibull-docs/pull/13).
+
 v1.1.0
 ======
 
