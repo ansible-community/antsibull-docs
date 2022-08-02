@@ -1,3 +1,9 @@
+<!--
+Copyright (c) Ansible Project
+GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 # antsibull-docs -- Ansible Documentation Build Scripts
 [![Python linting badge](https://github.com/ansible-community/antsibull-docs/workflows/Python%20linting/badge.svg?event=push&branch=main)](https://github.com/ansible-community/antsibull-docs/actions?query=workflow%3A%22Python+linting%22+branch%3Amain)
 [![Python testing badge](https://github.com/ansible-community/antsibull-docs/workflows/Python%20testing/badge.svg?event=push&branch=main)](https://github.com/ansible-community/antsibull-docs/actions?query=workflow%3A%22Python+testing%22+branch%3Amain)
