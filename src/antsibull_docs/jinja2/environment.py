@@ -11,7 +11,7 @@ from jinja2 import Environment, FileSystemLoader, PackageLoader
 
 from .filters import (
     do_max, documented_type, html_ify, rst_ify, rst_escape, rst_fmt, rst_xline, move_first,
-    massage_author_name, extract_options_from_list, remove_options_from_list,
+    massage_author_name, extract_options_from_list, remove_options_from_list, to_json,
 )
 from .tests import still_relevant, test_list
 
@@ -80,6 +80,7 @@ def doc_environment(template_location):
     env.filters['massage_author_name'] = massage_author_name
     env.filters['extract_options_from_list'] = extract_options_from_list
     env.filters['remove_options_from_list'] = remove_options_from_list
+    env.filters['antsibull_to_json'] = to_json
     env.tests['list'] = test_list
     env.tests['still_relevant'] = still_relevant
 
