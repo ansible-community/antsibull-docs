@@ -1,0 +1,2 @@
+bugfixes:
+  - "The collection filter was ignored when parsing the ``ansible-galaxy collection list`` output for the docs build (https://github.com/ansible-community/antsibull-docs/issues/16, https://github.com/ansible-community/antsibull-docs/pull/17)."

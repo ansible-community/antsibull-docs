@@ -228,7 +228,8 @@ def get_collection_metadata(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
     venv_ansible_galaxy = venv.get_command('ansible-galaxy')
     ansible_collection_list_cmd = venv_ansible_galaxy('collection', 'list', _env=env)
     raw_result = ansible_collection_list_cmd.stdout.decode('utf-8', errors='surrogateescape')
-    for namespace, name, path, version in parse_ansible_galaxy_collection_list(raw_result):
+    collection_list = parse_ansible_galaxy_collection_list(raw_result, collection_names)
+    for namespace, name, path, version in collection_list:
         collection_metadata[f'{namespace}.{name}'] = AnsibleCollectionMetadata(
             path=path, version=version)
 
