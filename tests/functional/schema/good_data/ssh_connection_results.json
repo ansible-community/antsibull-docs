@@ -263,7 +263,7 @@
                         "aliases": [],
                         "choices": [],
                         "cli": [],
-                        "default": "ANSIBLE_PIPELINING",
+                        "default": false,
                         "deprecated": {},
                         "description": [
                             "Pipelining reduces the number of connection operations required to execute a module on the remote server, by executing many Ansible modules without actual file transfers.",
@@ -686,7 +686,7 @@
                         "aliases": [],
                         "choices": [],
                         "cli": [],
-                        "default": "yes",
+                        "default": true,
                         "deprecated": {},
                         "description": [
                             "TODO: write it"
@@ -1161,7 +1161,7 @@
                         "aliases": [],
                         "choices": [],
                         "cli": [],
-                        "default": "yes",
+                        "default": true,
                         "deprecated": {},
                         "description": [
                             "add -tt to ssh commands to force tty allocation"

@@ -137,7 +137,7 @@
                     ]
                 },
                 "pipelining": {
-                    "default": "ANSIBLE_PIPELINING",
+                    "default": "false",
                     "description": [
                         "Pipelining reduces the number of connection operations required to execute a module on the remote server, by executing many Ansible modules without actual file transfers.",
                         "This can result in a very significant performance improvement when enabled.",
