@@ -76,14 +76,14 @@
 
 {%   endfor %}
 {#   default / choices #}
-{#   Turn boolean values in 'yes' and 'no' values #}
+{#   Turn boolean values in 'true' and 'false' values #}
 {%   if value['default'] is sameas true %}
-{%     set _x = value.update({'default': 'yes'}) %}
+{%     set _x = value.update({'default': 'true'}) %}
 {%   elif value['default'] is not none and value['default'] is sameas false %}
-{%     set _x = value.update({'default': 'no'}) %}
+{%     set _x = value.update({'default': 'false'}) %}
 {%   endif %}
 {%   if value['type'] == 'bool' %}
-{%     set _x = value.update({'choices': ['no', 'yes']}) %}
+{%     set _x = value.update({'choices': ['false', 'true']}) %}
 {%   endif %}
 {#   Show possible choices and highlight details #}
 {%   if value['choices'] %}
@@ -93,11 +93,11 @@
       :ansible-option-choices:`Choices:`
 
 {%     for choice in value['choices'] %}
-{#       Turn boolean values in 'yes' and 'no' values #}
+{#       Turn boolean values in 'true' and 'false' values #}
 {%       if choice is sameas true %}
-{%         set choice = 'yes' %}
+{%         set choice = 'true' %}
 {%       elif choice is sameas false %}
-{%         set choice = 'no' %}
+{%         set choice = 'false' %}
 {%       endif %}
 {%       if (value['default'] is not list and value['default'] == choice) or (value['default'] is list and choice in value['default']) %}
       - :ansible-option-default-bold:`@{ choice | rst_escape(escape_ending_whitespace=true) }@` :ansible-option-default:`← (default)`
@@ -226,25 +226,25 @@
       <p>@{ desc | html_ify | indent(6) }@</p>
 {%   endfor %}
 {#   default / choices #}
-{#   Turn boolean values in 'yes' and 'no' values #}
+{#   Turn boolean values in 'true' and 'false' values #}
 {%   if value['default'] is sameas true %}
-{%     set _x = value.update({'default': 'yes'}) %}
+{%     set _x = value.update({'default': 'true'}) %}
 {%   elif value['default'] is not none and value['default'] is sameas false %}
-{%     set _x = value.update({'default': 'no'}) %}
+{%     set _x = value.update({'default': 'false'}) %}
 {%   endif %}
 {%   if value['type'] == 'bool' %}
-{%     set _x = value.update({'choices': ['no', 'yes']}) %}
+{%     set _x = value.update({'choices': ['false', 'true']}) %}
 {%   endif %}
 {#   Show possible choices and highlight details #}
 {%   if value['choices'] %}
       <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
       <ul class="simple">
 {%     for choice in value['choices'] %}
-{#       Turn boolean values in 'yes' and 'no' values #}
+{#       Turn boolean values in 'true' and 'false' values #}
 {%       if choice is sameas true %}
-{%         set choice = 'yes' %}
+{%         set choice = 'true' %}
 {%       elif choice is sameas false %}
-{%         set choice = 'no' %}
+{%         set choice = 'false' %}
 {%       endif %}
 {%       if (value['default'] is not list and value['default'] == choice) or (value['default'] is list and choice in value['default']) %}
         <li><p><span class="ansible-option-default-bold">@{ choice | escape }@</span> <span class="ansible-option-default">← (default)</span></p></li>

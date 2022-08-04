@@ -74,11 +74,11 @@
       :ansible-option-choices:`Can only return:`
 
 {%     for choice in value['choices'] %}
-{#       Turn boolean values in 'yes' and 'no' values #}
+{#       Turn boolean values in 'true' and 'false' values #}
 {%       if choice is sameas true %}
-{%         set choice = 'yes' %}
+{%         set choice = 'true' %}
 {%       elif choice is sameas false %}
-{%         set choice = 'no' %}
+{%         set choice = 'false' %}
 {%       endif %}
 {%       if (value['default'] is not list and value['default'] == choice) or (value['default'] is list and choice in value['default']) %}
       - :ansible-option-default-bold:`@{ choice | rst_escape }@` :ansible-option-default:`← (default)`
@@ -152,11 +152,11 @@
       <p class="ansible-option-line"><span class="ansible-option-choices">Can only return:</span></p>
       <ul class="simple">
 {%     for choice in value['choices'] %}
-{#       Turn boolean values in 'yes' and 'no' values #}
+{#       Turn boolean values in 'true' and 'false' values #}
 {%       if choice is sameas true %}
-{%         set choice = 'yes' %}
+{%         set choice = 'true' %}
 {%       elif choice is sameas false %}
-{%         set choice = 'no' %}
+{%         set choice = 'false' %}
 {%       endif %}
 {%       if (value['default'] is not list and value['default'] == choice) or (value['default'] is list and choice in value['default']) %}
         <li><p><span class="ansible-option-default-bold">@{ choice | escape }@</span> <span class="ansible-option-default">← (default)</span></p></li>
