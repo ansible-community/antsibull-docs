@@ -92,7 +92,7 @@
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` @{ value['sample'] | tojson | rst_escape | indent(6) }@
+      :ansible-option-sample-bold:`Sample:` @{ value['sample'] | antsibull_to_json | rst_escape | indent(6) }@
 {%   endif %}
 
 
@@ -167,7 +167,7 @@
       </ul>
 {%   endif %}
 {%   if value['sample'] is not none %}
-      <p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> @{ value['sample'] | tojson | escape | indent(6) }@</p>
+      <p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> @{ value['sample'] | antsibull_to_json | escape | indent(6) }@</p>
 {%   endif %}
     </div></td>
   </tr>

@@ -6,6 +6,7 @@
 Jinja2 filters for use in Ansible documentation.
 """
 
+import json
 import re
 from html import escape as html_escape
 from urllib.parse import quote
@@ -218,3 +219,7 @@ def remove_options_from_list(options: t.Dict[str, t.Any],
     for option in options_to_remove:
         result.pop(option, None)
     return result
+
+
+def to_json(data: t.Any) -> str:
+    return json.dumps(data, sort_keys=True, separators=(', ', ': '))
