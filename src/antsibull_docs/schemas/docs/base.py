@@ -128,6 +128,20 @@ from collections.abc import Mapping
 import pydantic as p
 import yaml
 
+from antsibull_docs.vendored.ansible import (
+    check_type_bits,
+    check_type_bool,
+    check_type_bytes,
+    check_type_dict,
+    check_type_float,
+    check_type_int,
+    check_type_jsonarg,
+    check_type_list,
+    check_type_raw,
+    check_type_str,
+)
+
+
 _SENTINEL = object()
 
 
@@ -271,20 +285,6 @@ def normalize_return_type_names(obj):
     return obj
 
 
-from ansible.module_utils.common.validation import (
-    check_type_bits,
-    check_type_bool,
-    check_type_bytes,
-    check_type_dict,
-    check_type_float,
-    check_type_int,
-    check_type_jsonarg,
-    check_type_list,
-    check_type_raw,
-    check_type_str,
-)
-
-
 TYPE_CHECKERS = {
     'str': check_type_str,
     'list': check_type_list,
@@ -302,15 +302,12 @@ TYPE_CHECKERS = {
 }
 
 
-def normalize_value(values: t.Mapping[str, t.Any], field: str,
-                    is_list_of_values: bool = False, ignore_errors: bool = False) -> None:
-    if 'type' not in values or field not in values:
+def normalize_value(values: t.Dict[str, t.Any], field: str,  # noqa: C901
+                    is_list_of_values: bool = False) -> None:
+    if 'type' not in values or values.get(field) is None:
         return
 
     value = values[field]
-    if value is None:
-        return
-
     type_name = normalize_option_type_names(values['type'])
     type_checker = TYPE_CHECKERS.get(type_name)
     if type_checker is None:
@@ -328,16 +325,14 @@ def normalize_value(values: t.Mapping[str, t.Any], field: str,
         try:
             v = type_checker(v)
         except Exception as exc:
-            if ignore_errors:
-                return
+            # pylint:disable-next=raise-missing-from
             raise ValueError(f'Invalid value {v!r} for "{field}": {exc}')
         if type_name == 'list' and elements_checker is not None:
             for j, vv in enumerate(v):
                 try:
                     v[j] = elements_checker(vv)
                 except Exception as exc:
-                    if ignore_errors:
-                        return
+                    # pylint:disable-next=raise-missing-from
                     raise ValueError(f'Invalid value {vv!r} for "{field}[{i}]": {exc}')
         value[i] = v
 

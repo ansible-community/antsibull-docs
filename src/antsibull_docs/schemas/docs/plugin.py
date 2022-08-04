@@ -127,7 +127,10 @@ class ReturnSchema(BaseModel):
     @p.root_validator(pre=True)
     # pylint:disable=no-self-argument,no-self-use
     def normalize_sample(cls, values):
-        normalize_value(values, 'sample', ignore_errors=True)
+        try:
+            normalize_value(values, 'sample')
+        except ValueError:
+            pass
         return values
 
 
