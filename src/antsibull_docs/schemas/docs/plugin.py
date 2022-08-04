@@ -16,7 +16,8 @@ import pydantic as p
 from .base import (REQUIRED_CLI_F, REQUIRED_ENV_VAR_F, RETURN_TYPE_F,
                    COLLECTION_NAME_F, BaseModel, DeprecationSchema, DocSchema,
                    LocalConfig, OptionsSchema, list_from_scalars, is_json_value,
-                   normalize_return_type_names, transform_return_docs)
+                   normalize_return_type_names, transform_return_docs,
+                   normalize_value)
 
 _SENTINEL = object()
 
@@ -121,6 +122,12 @@ class ReturnSchema(BaseModel):
             values['sample'] = example
             del values['example']
 
+        return values
+
+    @p.root_validator(pre=True)
+    # pylint:disable=no-self-argument,no-self-use
+    def normalize_sample(cls, values):
+        normalize_value(values, 'sample', ignore_errors=True)
         return values
 
 
