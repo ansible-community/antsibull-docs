@@ -5,6 +5,20 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v1.2.1
+======
+
+Release Summary
+---------------
+
+Bugfix release.
+
+Bugfixes
+--------
+
+- Do not escape ``<``, ``>``, ``&``, and ``'`` in JSONified defaults and examples as the `Jinja2 tojson filter <https://jinja.palletsprojects.com/en/2.11.x/templates/#tojson>`_ does. Also improve formatting by making sure ``,`` is followed by a space (https://github.com/ansible-community/antsibull-docs/pull/18).
+- The collection filter was ignored when parsing the ``ansible-galaxy collection list`` output for the docs build (https://github.com/ansible-community/antsibull-docs/issues/16, https://github.com/ansible-community/antsibull-docs/pull/17).
+
 v1.2.0
 ======
 

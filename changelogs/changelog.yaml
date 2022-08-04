@@ -79,3 +79,19 @@ releases:
     - 14-licenses.yml
     - 8-seealso-plugin.yml
     release_date: '2022-08-02'
+  1.2.1:
+    changes:
+      bugfixes:
+      - Do not escape ``<``, ``>``, ``&``, and ``'`` in JSONified defaults and examples
+        as the `Jinja2 tojson filter <https://jinja.palletsprojects.com/en/2.11.x/templates/#tojson>`_
+        does. Also improve formatting by making sure ``,`` is followed by a space
+        (https://github.com/ansible-community/antsibull-docs/pull/18).
+      - The collection filter was ignored when parsing the ``ansible-galaxy collection
+        list`` output for the docs build (https://github.com/ansible-community/antsibull-docs/issues/16,
+        https://github.com/ansible-community/antsibull-docs/pull/17).
+      release_summary: Bugfix release.
+    fragments:
+    - 1.2.1.yml
+    - 17-docs-parsing.yml
+    - 18-json.yml
+    release_date: '2022-08-04'

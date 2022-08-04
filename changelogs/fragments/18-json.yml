@@ -1,2 +1,0 @@
-bugfixes:
-- "Do not escape ``<``, ``>``, ``&``, and ``'`` in JSONified defaults and examples as the `Jinja2 tojson filter <https://jinja.palletsprojects.com/en/2.11.x/templates/#tojson>`_ does. Also improve formatting by making sure ``,`` is followed by a space (https://github.com/ansible-community/antsibull-docs/pull/18)."
