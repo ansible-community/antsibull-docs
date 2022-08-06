@@ -46,7 +46,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install poetry
-          sed -i -e 's/^python = .*/python = "^${{ matrix.python-version }}"/' pyproject.toml
+          if [ "${{ matrix.python-version }}" != "3.6" ]; then
+            # ^3.6 collides with 3.6.1 lower bound in antsibull-core
+            sed -i -e 's/^python = .*/python = "^${{ matrix.python-version }}"/' pyproject.toml
+          fi
           poetry install
           poetry update
         working-directory: antsibull-docs
