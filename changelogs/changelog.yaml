@@ -95,3 +95,12 @@ releases:
     - 17-docs-parsing.yml
     - 18-json.yml
     release_date: '2022-08-04'
+  1.2.2:
+    changes:
+      bugfixes:
+      - Fix rstcheck-core support (https://github.com/ansible-community/antsibull-docs/pull/20).
+      release_summary: Bugfix release.
+    fragments:
+    - 1.2.2.yml
+    - 20-rstcheck-core.yml
+    release_date: '2022-08-08'

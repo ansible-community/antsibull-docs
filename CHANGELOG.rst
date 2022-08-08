@@ -5,6 +5,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v1.2.2
+======
+
+Release Summary
+---------------
+
+Bugfix release.
+
+Bugfixes
+--------
+
+- Fix rstcheck-core support (https://github.com/ansible-community/antsibull-docs/pull/20).
+
 v1.2.1
 ======
 
