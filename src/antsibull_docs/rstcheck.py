@@ -43,11 +43,12 @@ def check_rst_content(content: str, filename: t.Optional[str] = None,
                 ignore_roles=ignore_roles,
             )
             core_results = rstcheck_core.checker.check_file(pathlib.Path(rst_path), config)
-            return [(result.line_number, 0, result.message) for result in core_results]
+            return [(result['line_number'], 0, result['message']) for result in core_results]
     else:
         if ignore_directives or ignore_roles:
-            rstcheck.ignore_directives_and_roles(ignore_directives or [], ignore_roles or [])
-        results = rstcheck.check(
+            rstcheck.ignore_directives_and_roles(  # pylint: disable=no-member
+                ignore_directives or [], ignore_roles or [])
+        results = rstcheck.check(  # pylint: disable=no-member
             content,
             filename=filename,
             report_level=docutils.utils.Reporter.WARNING_LEVEL,
