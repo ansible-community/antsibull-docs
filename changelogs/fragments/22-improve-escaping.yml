@@ -1,0 +1,2 @@
+minor_changes:
+  - "When processing formatting directives, make sure to properly escape all other text for RST respectively HTML instead of including it verbatim (https://github.com/ansible-community/antsibull-docs/issues/21, https://github.com/ansible-community/antsibull-docs/pull/22)."
