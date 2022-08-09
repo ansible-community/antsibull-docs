@@ -49,6 +49,12 @@ def _escape_url(url: str) -> str:
     return quote(url, safe=':/#?%<>[]{}')
 
 
+def _create_error(text: str, error: str) -> str:
+    text = f':literal:`{rst_escape(text, escape_ending_whitespace=True)}`'
+    error_msg = f':strong:`{rst_escape(error, escape_ending_whitespace=True)}`'
+    return f"\\ :strong:`ERROR while parsing` {text}\\ : {error_msg}\\ "
+
+
 class _Context:
     counts: t.Dict[str, int]
 
@@ -105,7 +111,8 @@ class _Module(Command):
         context.counts['module'] += 1
         m = _MODULE.match(parameters[0])
         if m is None:
-            raise Exception(f'M() parameter {parameters[0]!r} is not a FQCN')
+            return _create_error(
+                f'M({parameters[0]!r})', f'parameter {parameters[0]!r} is not a FQCN')
         fqcn = f'{m.group(1)}.{m.group(2)}.{m.group(3)}'
         return f"\\ :ref:`{rst_escape(fqcn)} <ansible_collections.{fqcn}_module>`\\ "
 
@@ -119,7 +126,9 @@ class _Plugin(Command):
         context.counts['plugin'] += 1
         m = _PLUGIN.match(parameters[0])
         if m is None:
-            raise Exception(f'P() parameter {parameters[0]!r} is not of the form FQCN#type')
+            return _create_error(
+                f'P({parameters[0]!r})',
+                f'parameter {parameters[0]!r} is not of the form FQCN#type')
         fqcn = f'{m.group(1)}.{m.group(2)}.{m.group(3)}'
         plugin_type = m.group(4)
         return f"\\ :ref:`{rst_escape(fqcn)} <ansible_collections.{fqcn}_{plugin_type}>`\\ "
@@ -196,7 +205,10 @@ def rst_ify(text: str) -> str:
 
     our_context = _Context()
 
-    text = convert_text(text, _COMMAND_SET, rst_escape, our_context)
+    try:
+        text = convert_text(text, _COMMAND_SET, rst_escape, our_context)
+    except Exception as exc:
+        return _create_error(text, str(exc))
 
     flog.fields(counts=our_context.counts).info('Number of macros converted to rst equivalents')
     flog.debug('Leave')

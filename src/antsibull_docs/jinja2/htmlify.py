@@ -90,7 +90,8 @@ class _Module(Command):
         context.counts['module'] += 1
         m = _MODULE.match(parameters[0])
         if m is None:
-            raise Exception(f'M() parameter {parameters[0]!r} is not a FQCN')
+            return _create_error(
+                f'M({parameters[0]!r})', f'parameter {parameters[0]!r} is not a FQCN')
         fqcn = f'{m.group(1)}.{m.group(2)}.{m.group(3)}'
         url = html_escape(f'../../{m.group(1)}/{m.group(2)}/{m.group(3)}_module.html')
         return f"<a href='{url}' class='module'>{html_escape(fqcn)}</a>"
@@ -105,7 +106,9 @@ class _Plugin(Command):
         context.counts['plugin'] += 1
         m = _PLUGIN.match(parameters[0])
         if m is None:
-            raise Exception(f'P() parameter {parameters[0]!r} is not of the form FQCN#type')
+            return _create_error(
+                f'P({parameters[0]!r})',
+                f'parameter {parameters[0]!r} is not of the form FQCN#type')
         fqcn = f'{m.group(1)}.{m.group(2)}.{m.group(3)}'
         plugin_type = m.group(4)
         url = html_escape(f'../../{m.group(1)}/{m.group(2)}/{m.group(3)}_{plugin_type}.html')
@@ -186,7 +189,10 @@ def html_ify(text: str) -> str:
 
     our_context = _Context()
 
-    text = convert_text(text, _COMMAND_SET, html_escape, our_context)
+    try:
+        text = convert_text(text, _COMMAND_SET, html_escape, our_context)
+    except Exception as exc:
+        return _create_error(text, str(exc))
 
     flog.fields(counts=our_context.counts).info('Number of macros converted to html equivalents')
     flog.debug('Leave')
