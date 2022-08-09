@@ -207,7 +207,7 @@ def rst_ify(text: str) -> str:
 
     try:
         text = convert_text(text, _COMMAND_SET, rst_escape, our_context)
-    except Exception as exc:
+    except Exception as exc:  # pylint:disable=broad-except
         return _create_error(text, str(exc))
 
     flog.fields(counts=our_context.counts).info('Number of macros converted to rst equivalents')
