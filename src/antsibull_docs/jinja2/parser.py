@@ -34,7 +34,7 @@ class Command(abc.ABC):
 class CommandSet:
     _command_map: t.Mapping[str, Command]
     _group_map: t.Mapping[str, Command]
-    _re: re.Pattern
+    _re: 're.Pattern'  # on Python 3.6 the type is called differently
 
     def __init__(self, commands: t.List[Command]):
         group_map = {}
