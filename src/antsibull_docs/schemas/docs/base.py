@@ -128,6 +128,20 @@ from collections.abc import Mapping
 import pydantic as p
 import yaml
 
+from antsibull_docs.vendored.ansible import (
+    check_type_bits,
+    check_type_bool,
+    check_type_bytes,
+    check_type_dict,
+    check_type_float,
+    check_type_int,
+    check_type_jsonarg,
+    check_type_list,
+    check_type_raw,
+    check_type_str,
+)
+
+
 _SENTINEL = object()
 
 
@@ -271,6 +285,62 @@ def normalize_return_type_names(obj):
     return obj
 
 
+TYPE_CHECKERS = {
+    'str': check_type_str,
+    'list': check_type_list,
+    'dict': check_type_dict,
+    'bool': check_type_bool,
+    'int': check_type_int,
+    'float': check_type_float,
+    'path': check_type_str,  # we intentionally use check_type_str here
+    'tmppath': check_type_str,  # we intentionally use check_type_str here
+    'raw': check_type_raw,
+    'jsonarg': check_type_jsonarg,
+    'json': check_type_jsonarg,
+    'bytes': check_type_bytes,
+    'bits': check_type_bits,
+}
+
+
+def normalize_value(values: t.Dict[str, t.Any], field: str,  # noqa: C901
+                    is_list_of_values: bool = False) -> None:
+    if 'type' not in values or values.get(field) is None:
+        return
+
+    value = values[field]
+    type_name = normalize_option_type_names(values['type'])
+    type_checker = TYPE_CHECKERS.get(type_name)
+    if type_checker is None:
+        return
+
+    elements_name = normalize_option_type_names(values.get('elements'))
+    elements_checker = TYPE_CHECKERS.get(elements_name)
+
+    if not is_list_of_values:
+        value = [value]
+    elif not isinstance(value, list):
+        return
+
+    for i, v in enumerate(value):
+        try:
+            v = type_checker(v)
+        except Exception as exc:
+            # pylint:disable-next=raise-missing-from
+            raise ValueError(f'Invalid value {v!r} for "{field}": {exc}')
+        if type_name == 'list' and elements_checker is not None:
+            for j, vv in enumerate(v):
+                try:
+                    v[j] = elements_checker(vv)
+                except Exception as exc:
+                    # pylint:disable-next=raise-missing-from
+                    raise ValueError(f'Invalid value {vv!r} for "{field}[{i}]": {exc}')
+        value[i] = v
+
+    if not is_list_of_values:
+        value = value[0]
+    values[field] = value
+
+
 class LocalConfig:
     """Settings we want on all of our models."""
 
@@ -394,11 +464,6 @@ class OptionsSchema(BaseModel):
             raise ValueError('`default` must be a JSON value')
         return obj
 
-    @p.validator('type', 'elements', pre=True)
-    # pylint:disable=no-self-argument,no-self-use
-    def normalize_option_type(cls, obj):
-        return normalize_option_type_names(obj)
-
     @p.root_validator(pre=True)
     # pylint:disable=no-self-argument,no-self-use
     def get_rid_of_name(cls, values):
@@ -433,6 +498,18 @@ class OptionsSchema(BaseModel):
             values['elements'] = element
             del values['element']
 
+        return values
+
+    @p.validator('type', 'elements', pre=True)
+    # pylint:disable=no-self-argument,no-self-use
+    def normalize_option_type(cls, obj):
+        return normalize_option_type_names(obj)
+
+    @p.root_validator(pre=True)
+    # pylint:disable=no-self-argument,no-self-use
+    def normalize_default_choices(cls, values):
+        normalize_value(values, 'default')
+        normalize_value(values, 'choices', is_list_of_values=values.get('type') != 'list')
         return values
 
 
