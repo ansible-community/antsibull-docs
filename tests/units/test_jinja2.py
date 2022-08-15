@@ -4,7 +4,8 @@
 
 import pytest
 
-from antsibull_docs.jinja2.filters import rst_ify, rst_escape, move_first, massage_author_name, to_json
+from antsibull_docs.jinja2.filters import move_first, massage_author_name, to_json
+from antsibull_docs.jinja2.rstify import rst_ify, rst_escape
 
 
 RST_IFY_DATA = {

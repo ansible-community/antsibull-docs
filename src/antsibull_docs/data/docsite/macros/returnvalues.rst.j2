@@ -142,10 +142,10 @@
 {#   description #}
     <td>{% for i in range(1, loop.depth) %}<div class="ansible-option-indent-desc"></div>{% endfor %}<div class="ansible-option-cell">
 {%   for desc in value['description'] %}
-      <p>@{ desc | html_ify | indent(6) }@</p>
+      <p>@{ desc | html_ify | indent(6, blank=true) }@</p>
 {%   endfor %}
 {%   if value['returned'] %}
-      <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> @{ value['returned'] | html_ify | indent(6) }@</p>
+      <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> @{ value['returned'] | html_ify | indent(6, blank=true) }@</p>
 {%   endif %}
 {#   Show possible choices and highlight details #}
 {%   if value['choices'] %}
@@ -167,7 +167,7 @@
       </ul>
 {%   endif %}
 {%   if value['sample'] is not none %}
-      <p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> @{ value['sample'] | antsibull_to_json | escape | indent(6) }@</p>
+      <p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> @{ value['sample'] | antsibull_to_json | escape | indent(6, blank=true) }@</p>
 {%   endif %}
     </div></td>
   </tr>

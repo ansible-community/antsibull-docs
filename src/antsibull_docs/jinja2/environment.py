@@ -10,9 +10,11 @@ import os.path
 from jinja2 import Environment, FileSystemLoader, PackageLoader
 
 from .filters import (
-    do_max, documented_type, html_ify, rst_ify, rst_escape, rst_fmt, rst_xline, move_first,
-    massage_author_name, extract_options_from_list, remove_options_from_list, to_json,
+    do_max, documented_type, rst_fmt, rst_xline, move_first, massage_author_name,
+    extract_options_from_list, remove_options_from_list, to_json,
 )
+from .htmlify import html_ify
+from .rstify import rst_ify, rst_escape
 from .tests import still_relevant, test_list
 
 

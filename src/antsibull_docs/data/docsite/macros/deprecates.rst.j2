@@ -42,7 +42,7 @@ Removed in: a future release
  of @{ data['removed_from_collection'] | html_ify }@
 {%-    endif -%}
   </p>
-  <p>@{ 'Why: ' ~ data['why'] | html_ify | indent(2) }@</p>
-  <p>@{ 'Alternative: ' ~ data['alternative'] | html_ify | indent(2) }@</p>
+  <p>@{ 'Why: ' ~ data['why'] | html_ify | indent(2, blank=true) }@</p>
+  <p>@{ 'Alternative: ' ~ data['alternative'] | html_ify | indent(2, blank=true) }@</p>
 {%   endif %}
 {% endmacro %}

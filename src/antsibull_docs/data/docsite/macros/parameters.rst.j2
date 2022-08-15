@@ -111,7 +111,7 @@
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`@{ value['default'] | antsibull_to_json | rst_escape(escape_ending_whitespace=true) | indent(6) }@`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`@{ value['default'] | antsibull_to_json | rst_escape(escape_ending_whitespace=true) | indent(6, blank=true) }@`
 {%   endif %}
 {#   Configuration #}
 {%   if plugin_type != 'module' and plugin_type != 'role' and (value['ini'] or value['env'] or value['vars'] or value['cli']) %}
@@ -223,7 +223,7 @@
 {#   description #}
     <td>{% for i in range(1, loop.depth) %}<div class="ansible-option-indent-desc"></div>{% endfor %}<div class="ansible-option-cell">
 {%   for desc in value['description'] %}
-      <p>@{ desc | html_ify | indent(6) }@</p>
+      <p>@{ desc | html_ify | indent(6, blank=true) }@</p>
 {%   endfor %}
 {#   default / choices #}
 {#   Turn boolean values in 'yes' and 'no' values #}
@@ -256,7 +256,7 @@
 {%   endif %}
 {#   Show default value, when multiple choice or no choices #}
 {%   if value['default'] is not none and value['default'] not in value['choices'] %}
-      <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">@{ value['default'] | antsibull_to_json | escape | indent(6) }@</span></p>
+      <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">@{ value['default'] | antsibull_to_json | escape | indent(6, blank=true) }@</span></p>
 {%   endif %}
 {#   Configuration #}
 {%   if plugin_type != 'module' and plugin_type != 'role' and (value['ini'] or value['env'] or value['vars'] or value['cli']) %}
