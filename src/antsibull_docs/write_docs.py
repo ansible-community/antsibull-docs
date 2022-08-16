@@ -97,7 +97,8 @@ def create_plugin_rst(collection_name: str,
                       plugin_short_name: str, plugin_type: str,
                       plugin_record: t.Dict[str, t.Any], nonfatal_errors: t.Sequence[str],
                       plugin_tmpl: Template, error_tmpl: Template,
-                      use_html_blobs: bool = False) -> str:
+                      use_html_blobs: bool = False,
+                      for_official_docsite: bool = False) -> str:
     """
     Create the rst page for one plugin.
 
@@ -114,6 +115,8 @@ def create_plugin_rst(collection_name: str,
     :arg error_tmpl: Template to use when there wasn't enough documentation for the plugin.
     :arg use_html_blobs: If set to ``True``, will use HTML blobs for parameter and return value
                          tables instead of using RST tables.
+    :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
+        official docsite on docs.ansible.com.
     """
     flog = mlog.fields(func='create_plugin_rst')
     flog.debug('Enter')
@@ -163,6 +166,7 @@ def create_plugin_rst(collection_name: str,
             edit_on_github_url=edit_on_github_url,
             collection_links=collection_links.links,
             collection_communication=collection_links.communication,
+            for_official_docsite=for_official_docsite,
         )
     else:
         if nonfatal_errors:
@@ -185,6 +189,7 @@ def create_plugin_rst(collection_name: str,
                 edit_on_github_url=edit_on_github_url,
                 collection_links=collection_links.links,
                 collection_communication=collection_links.communication,
+                for_official_docsite=for_official_docsite,
             )
         else:
             plugin_contents = _render_template(
@@ -202,6 +207,7 @@ def create_plugin_rst(collection_name: str,
                 edit_on_github_url=edit_on_github_url,
                 collection_links=collection_links.links,
                 collection_communication=collection_links.communication,
+                for_official_docsite=for_official_docsite,
             )
 
     flog.debug('Leave')
@@ -216,7 +222,8 @@ async def write_plugin_rst(collection_name: str,
                            plugin_tmpl: Template, error_tmpl: Template, dest_dir: str,
                            path_override: t.Optional[str] = None,
                            squash_hierarchy: bool = False,
-                           use_html_blobs: bool = False) -> None:
+                           use_html_blobs: bool = False,
+                           for_official_docsite: bool = False) -> None:
     """
     Write the rst page for one plugin.
 
@@ -239,6 +246,8 @@ async def write_plugin_rst(collection_name: str,
                            created.
     :arg use_html_blobs: If set to ``True``, will use HTML blobs for parameter and return value
                          tables instead of using RST tables.
+    :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
+        official docsite on docs.ansible.com.
     """
     flog = mlog.fields(func='write_plugin_rst')
     flog.debug('Enter')
@@ -256,6 +265,7 @@ async def write_plugin_rst(collection_name: str,
         plugin_tmpl=plugin_tmpl,
         error_tmpl=error_tmpl,
         use_html_blobs=use_html_blobs,
+        for_official_docsite=for_official_docsite,
     )
 
     if path_override is not None:
@@ -284,7 +294,8 @@ async def write_stub_rst(collection_name: str, collection_meta: AnsibleCollectio
                          tombstone_tmpl: Template,
                          dest_dir: str,
                          path_override: t.Optional[str] = None,
-                         squash_hierarchy: bool = False) -> None:
+                         squash_hierarchy: bool = False,
+                         for_official_docsite: bool = False) -> None:
     """
     Write the rst page for one plugin stub.
 
@@ -303,6 +314,8 @@ async def write_stub_rst(collection_name: str, collection_meta: AnsibleCollectio
     :arg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
                            Undefined behavior if documentation for multiple collections are
                            created.
+    :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
+        official docsite on docs.ansible.com.
     """
     flog = mlog.fields(func='write_stub_rst')
     flog.debug('Enter')
@@ -321,6 +334,7 @@ async def write_stub_rst(collection_name: str, collection_meta: AnsibleCollectio
             collection_links=collection_links.links,
             collection_communication=collection_links.communication,
             tombstone=routing_data['tombstone'],
+            for_official_docsite=for_official_docsite,
         )
     else:  # 'redirect' in routing_data
         plugin_contents = _render_template(
@@ -335,6 +349,7 @@ async def write_stub_rst(collection_name: str, collection_meta: AnsibleCollectio
             redirect=routing_data['redirect'],
             redirect_is_symlink=routing_data.get('redirect_is_symlink') or False,
             deprecation=routing_data.get('deprecation'),
+            for_official_docsite=for_official_docsite,
         )
 
     if path_override is not None:
@@ -362,7 +377,8 @@ async def output_all_plugin_rst(collection_to_plugin_info: CollectionInfoT,
                                 collection_metadata: t.Mapping[str, AnsibleCollectionMetadata],
                                 link_data: t.Mapping[str, CollectionLinks],
                                 squash_hierarchy: bool = False,
-                                use_html_blobs: bool = False) -> None:
+                                use_html_blobs: bool = False,
+                                for_official_docsite: bool = False) -> None:
     """
     Output rst files for each plugin.
 
@@ -379,6 +395,8 @@ async def output_all_plugin_rst(collection_to_plugin_info: CollectionInfoT,
                            created.
     :arg use_html_blobs: If set to ``True``, will use HTML blobs for parameter and return value
                          tables instead of using RST tables.
+    :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
+        official docsite on docs.ansible.com.
     """
     # Setup the jinja environment
     env = doc_environment(('antsibull_docs.data', 'docsite'))
@@ -406,7 +424,8 @@ async def output_all_plugin_rst(collection_to_plugin_info: CollectionInfoT,
                                          nonfatal_errors[plugin_type][plugin_name],
                                          plugin_type_tmpl, error_tmpl,
                                          dest_dir, squash_hierarchy=squash_hierarchy,
-                                         use_html_blobs=use_html_blobs)))
+                                         use_html_blobs=use_html_blobs,
+                                         for_official_docsite=for_official_docsite)))
 
         # Write docs for each plugin
         await asyncio.gather(*writers)
@@ -418,7 +437,8 @@ async def output_all_plugin_stub_rst(stubs_info: t.Mapping[
                                      collection_metadata: t.Mapping[
                                          str, AnsibleCollectionMetadata],
                                      link_data: t.Mapping[str, CollectionLinks],
-                                     squash_hierarchy: bool = False) -> None:
+                                     squash_hierarchy: bool = False,
+                                     for_official_docsite: bool = False) -> None:
     """
     Output rst files for each plugin stub.
 
@@ -430,6 +450,8 @@ async def output_all_plugin_stub_rst(stubs_info: t.Mapping[
     :arg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
                            Undefined behavior if documentation for multiple collections are
                            created.
+    :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
+        official docsite on docs.ansible.com.
     """
     # Setup the jinja environment
     env = doc_environment(('antsibull_docs.data', 'docsite'))
@@ -449,7 +471,8 @@ async def output_all_plugin_stub_rst(stubs_info: t.Mapping[
                                        link_data[collection_name],
                                        plugin_short_name, plugin_type,
                                        routing_data, redirect_tmpl, tombstone_tmpl,
-                                       dest_dir, squash_hierarchy=squash_hierarchy)))
+                                       dest_dir, squash_hierarchy=squash_hierarchy,
+                                       for_official_docsite=for_official_docsite)))
 
         # Write docs for each plugin
         await asyncio.gather(*writers)
@@ -479,7 +502,8 @@ async def write_collection_list(collections: t.Iterable[str], namespaces: t.Iter
         collections=collections,
         namespaces=namespaces,
         breadcrumbs=breadcrumbs,
-        for_official_docsite=for_official_docsite)
+        for_official_docsite=for_official_docsite,
+    )
     index_file = os.path.join(dest_dir, 'index.rst')
 
     await write_file(index_file, index_contents)
@@ -509,7 +533,8 @@ async def write_collection_namespace_index(namespace: str, collections: t.Iterab
         namespace=namespace,
         collections=collections,
         breadcrumbs=breadcrumbs,
-        for_official_docsite=for_official_docsite)
+        for_official_docsite=for_official_docsite,
+    )
     index_file = os.path.join(dest_dir, 'index.rst')
 
     await write_file(index_file, index_contents)
@@ -518,7 +543,8 @@ async def write_collection_namespace_index(namespace: str, collections: t.Iterab
 async def write_plugin_type_index(plugin_type: str,
                                   per_collection_plugins: t.Mapping[str, t.Mapping[str, str]],
                                   template: Template,
-                                  dest_filename: str) -> None:
+                                  dest_filename: str,
+                                  for_official_docsite: bool = False) -> None:
     """
     Write an index page for each plugin type.
 
@@ -527,12 +553,16 @@ async def write_plugin_type_index(plugin_type: str,
         short_description.
     :arg template: A template to render the plugin index.
     :arg dest_filename: The destination filename.
+    :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
+        official docsite on docs.ansible.com.
     """
     index_contents = _render_template(
         template,
         dest_filename,
         plugin_type=plugin_type,
-        per_collection_plugins=per_collection_plugins)
+        per_collection_plugins=per_collection_plugins,
+        for_official_docsite=for_official_docsite,
+    )
 
     await write_file(dest_filename, index_contents)
 
@@ -544,7 +574,8 @@ async def write_plugin_lists(collection_name: str,
                              collection_meta: AnsibleCollectionMetadata,
                              extra_docs_data: CollectionExtraDocsInfoT,
                              link_data: CollectionLinks,
-                             breadcrumbs: bool = True) -> None:
+                             breadcrumbs: bool = True,
+                             for_official_docsite: bool = False) -> None:
     """
     Write an index page for each collection.
 
@@ -558,6 +589,8 @@ async def write_plugin_lists(collection_name: str,
     :arg link_data: Links for the collection.
     :kwarg breadcrumbs: Default True.  Set to False if breadcrumbs for collections should be
         disabled.  This will disable breadcrumbs but save on memory usage.
+    :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
+        official docsite on docs.ansible.com.
     """
     index_contents = _render_template(
         template,
@@ -572,6 +605,7 @@ async def write_plugin_lists(collection_name: str,
         collection_description=link_data.description,
         collection_links=link_data.links,
         collection_communication=link_data.communication,
+        for_official_docsite=for_official_docsite,
     )
 
     # This is only safe because we made sure that the top of the directory tree we're writing to
@@ -661,13 +695,16 @@ async def output_collection_namespace_indexes(collection_namespaces: t.Mapping[s
 
 
 async def output_plugin_indexes(plugin_info: PluginCollectionInfoT,
-                                dest_dir: str) -> None:
+                                dest_dir: str,
+                                for_official_docsite: bool = False) -> None:
     """
     Generate top-level plugin index pages for all plugins of a type in all collections.
 
     :arg plugin_info: Mapping of plugin_type to Mapping of collection_name to Mapping of
         plugin_name to short_description.
     :arg dest_dir: The directory to place the documentation in.
+    :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
+        official docsite on docs.ansible.com.
     """
     flog = mlog.fields(func='output_plugin_indexes')
     flog.debug('Enter')
@@ -690,7 +727,8 @@ async def output_plugin_indexes(plugin_info: PluginCollectionInfoT,
             filename = os.path.join(collection_toplevel, f'index_{plugin_type}.rst')
             writers.append(await pool.spawn(
                 write_plugin_type_index(
-                    plugin_type, per_collection_data, plugin_list_tmpl, filename)))
+                    plugin_type, per_collection_data, plugin_list_tmpl, filename,
+                    for_official_docsite=for_official_docsite)))
 
         await asyncio.gather(*writers)
 
@@ -703,8 +741,8 @@ async def output_indexes(collection_to_plugin_info: CollectionInfoT,
                          extra_docs_data: t.Mapping[str, CollectionExtraDocsInfoT],
                          link_data: t.Mapping[str, CollectionLinks],
                          squash_hierarchy: bool = False,
-                         breadcrumbs: bool = True
-                         ) -> None:
+                         breadcrumbs: bool = True,
+                         for_official_docsite: bool = False) -> None:
     """
     Generate collection-level index pages for the collections.
 
@@ -718,6 +756,8 @@ async def output_indexes(collection_to_plugin_info: CollectionInfoT,
         Undefined behavior if documentation for multiple collections are created.
     :kwarg breadcrumbs: Default True.  Set to False if breadcrumbs for collections should be
         disabled.  This will disable breadcrumbs but save on memory usage.
+    :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
+        official docsite on docs.ansible.com.
     """
     flog = mlog.fields(func='output_indexes')
     flog.debug('Enter')
@@ -753,7 +793,8 @@ async def output_indexes(collection_to_plugin_info: CollectionInfoT,
                                    collection_dir, collection_metadata[collection_name],
                                    extra_docs_data[collection_name],
                                    link_data[collection_name],
-                                   breadcrumbs=breadcrumbs)))
+                                   breadcrumbs=breadcrumbs,
+                                   for_official_docsite=for_official_docsite)))
 
         await asyncio.gather(*writers)
 
