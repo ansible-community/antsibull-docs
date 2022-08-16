@@ -92,10 +92,12 @@
 {% else %}
 .. note::
     This {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %} is part of the `@{collection}@ collection <https://galaxy.ansible.com/@{collection | replace('.', '/', 1)}@>`_{% if collection_version %} (version @{ collection_version }@){% endif %}.
+{%   if for_official_docsite %}
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
+{%   endif %}
 
     To install it, use: :code:`ansible-galaxy collection install @{collection}@`.
 {%   if doc['requirements'] %}
