@@ -104,3 +104,31 @@ releases:
     - 1.2.2.yml
     - 20-rstcheck-core.yml
     release_date: '2022-08-08'
+  1.3.0:
+    changes:
+      bugfixes:
+      - Improve indentation of HTML blocks for tables to avoid edge cases which generate
+        invalid RST (https://github.com/ansible-community/antsibull-docs/pull/22).
+      minor_changes:
+      - Ensure that values for ``default``, ``choices``, and ``sample`` use the types
+        specified for the option / return value (https://github.com/ansible-community/antsibull-docs/pull/19).
+      - If a plugin or module has requirements listed, add a disclaimer next to the
+        installation line at the top that further requirements are needed (https://github.com/ansible-community/antsibull-docs/issues/23,
+        https://github.com/ansible-community/antsibull-docs/pull/24).
+      - Show the 'you might already have this collection installed if you are using
+        the ``ansible`` package' disclaimer for plugins only for official docsite
+        builds (subcommands ``devel`` and ``stable``). Also include this disclaimer
+        for roles on official docsite builds (https://github.com/ansible-community/antsibull-docs/pull/25).
+      - Use ``true`` and ``false`` for booleans instead of ``yes`` and ``no`` (https://github.com/ansible-community/community-topics/issues/116,
+        https://github.com/ansible-community/antsibull-docs/pull/19).
+      - When processing formatting directives, make sure to properly escape all other
+        text for RST respectively HTML instead of including it verbatim (https://github.com/ansible-community/antsibull-docs/issues/21,
+        https://github.com/ansible-community/antsibull-docs/pull/22).
+      release_summary: Feature and bugfix release.
+    fragments:
+    - 1.3.0.yml
+    - 19-type-conversion-booleans.yml
+    - 22-improve-escaping.yml
+    - 24-further-requirements.yml
+    - 25-disclaimer.yml
+    release_date: '2022-08-16'

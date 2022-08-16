@@ -5,6 +5,28 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v1.3.0
+======
+
+Release Summary
+---------------
+
+Feature and bugfix release.
+
+Minor Changes
+-------------
+
+- Ensure that values for ``default``, ``choices``, and ``sample`` use the types specified for the option / return value (https://github.com/ansible-community/antsibull-docs/pull/19).
+- If a plugin or module has requirements listed, add a disclaimer next to the installation line at the top that further requirements are needed (https://github.com/ansible-community/antsibull-docs/issues/23, https://github.com/ansible-community/antsibull-docs/pull/24).
+- Show the 'you might already have this collection installed if you are using the ``ansible`` package' disclaimer for plugins only for official docsite builds (subcommands ``devel`` and ``stable``). Also include this disclaimer for roles on official docsite builds (https://github.com/ansible-community/antsibull-docs/pull/25).
+- Use ``true`` and ``false`` for booleans instead of ``yes`` and ``no`` (https://github.com/ansible-community/community-topics/issues/116, https://github.com/ansible-community/antsibull-docs/pull/19).
+- When processing formatting directives, make sure to properly escape all other text for RST respectively HTML instead of including it verbatim (https://github.com/ansible-community/antsibull-docs/issues/21, https://github.com/ansible-community/antsibull-docs/pull/22).
+
+Bugfixes
+--------
+
+- Improve indentation of HTML blocks for tables to avoid edge cases which generate invalid RST (https://github.com/ansible-community/antsibull-docs/pull/22).
+
 v1.2.2
 ======
 

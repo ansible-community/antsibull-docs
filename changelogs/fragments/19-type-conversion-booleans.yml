@@ -1,3 +1,0 @@
-minor_changes:
-  - "Ensure that values for ``default``, ``choices``, and ``sample`` use the types specified for the option / return value (https://github.com/ansible-community/antsibull-docs/pull/19)."
-  - "Use ``true`` and ``false`` for booleans instead of ``yes`` and ``no`` (https://github.com/ansible-community/community-topics/issues/116, https://github.com/ansible-community/antsibull-docs/pull/19)."
