@@ -1,0 +1,2 @@
+minor_changes:
+  - "If a plugin or module has requirements listed, add a disclaimer next to the installation line at the top that further requirements are needed (https://github.com/ansible-community/antsibull-docs/issues/23, https://github.com/ansible-community/antsibull-docs/pull/24)."

@@ -98,6 +98,10 @@
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
     To install it, use: :code:`ansible-galaxy collection install @{collection}@`.
+{%   if doc['requirements'] %}
+    You need further requirements to be able to use this {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %},
+    see :ref:`the Requirements <ansible_collections.@{plugin_name}@_@{plugin_type}@_requirements>` for details.
+{%   endif %}
 
     To use it in a playbook, specify: :code:`@{plugin_name}@`.
 {% endif %}
@@ -154,6 +158,8 @@ Aliases: @{ ','.join(aliases) }@
 .. Requirements
 
 {% if doc['requirements'] -%}
+.. _ansible_collections.@{plugin_name}@_@{plugin_type}@_requirements:
+
 Requirements
 ------------
 {%   if plugin_type in ('module', 'module_util') %}
