@@ -1,0 +1,2 @@
+minor_changes:
+  - "Show the 'you might already have this collection installed if you are using the ``ansible`` package' disclaimer for plugins only for official docsite builds (subcommands ``devel`` and ``stable``). Also include this disclaimer for roles on official docsite builds (https://github.com/ansible-community/antsibull-docs/pull/25)."

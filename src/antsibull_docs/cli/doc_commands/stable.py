@@ -388,7 +388,8 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
                                                         breadcrumbs=breadcrumbs,
                                                         for_official_docsite=for_official_docsite))
         flog.notice('Finished writing collection namespace index')
-        asyncio_run(output_plugin_indexes(plugin_contents, dest_dir))
+        asyncio_run(output_plugin_indexes(plugin_contents, dest_dir,
+                                          for_official_docsite=for_official_docsite))
         flog.notice('Finished writing plugin indexes')
 
     asyncio_run(output_indexes(collection_to_plugin_info, dest_dir,
@@ -396,13 +397,15 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
                                squash_hierarchy=squash_hierarchy,
                                extra_docs_data=extra_docs_data,
                                link_data=link_data,
-                               breadcrumbs=breadcrumbs))
+                               breadcrumbs=breadcrumbs,
+                               for_official_docsite=for_official_docsite))
     flog.notice('Finished writing indexes')
 
     asyncio_run(output_all_plugin_stub_rst(stubs_info, dest_dir,
                                            collection_metadata=collection_metadata,
                                            link_data=link_data,
-                                           squash_hierarchy=squash_hierarchy))
+                                           squash_hierarchy=squash_hierarchy,
+                                           for_official_docsite=for_official_docsite))
     flog.debug('Finished writing plugin stubs')
 
     asyncio_run(output_all_plugin_rst(collection_to_plugin_info, plugin_info,
@@ -410,7 +413,8 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
                                       collection_metadata=collection_metadata,
                                       link_data=link_data,
                                       squash_hierarchy=squash_hierarchy,
-                                      use_html_blobs=use_html_blobs))
+                                      use_html_blobs=use_html_blobs,
+                                      for_official_docsite=for_official_docsite))
     flog.debug('Finished writing plugin docs')
 
     asyncio_run(output_extra_docs(dest_dir, extra_docs_data,
