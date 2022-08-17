@@ -19,6 +19,7 @@ mlog = log.fields(mod=__name__)
 
 TEMPLATES = [
     '.gitignore',
+    'antsibull-docs.cfg',
     'build.sh',
     'conf.py',
     'requirements.txt',

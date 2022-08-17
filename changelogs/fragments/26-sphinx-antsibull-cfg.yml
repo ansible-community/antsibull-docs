@@ -1,0 +1,2 @@
+minor_changes:
+  - "The ``sphinx-init`` subcommand now also creates an ``antsibull-docs.cfg`` file and moves configuration settings from CLI flags in ``build.sh`` to this configuration file (https://github.com/ansible-community/antsibull-docs/pull/26)."
