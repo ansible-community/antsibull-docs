@@ -126,9 +126,10 @@ import typing as t
 from collections.abc import Mapping
 
 import pydantic as p
-import yaml
 
-from antsibull_docs.vendored.ansible import (
+from antsibull_core.yaml import load_yaml_bytes
+
+from antsibull_docs.vendored.ansible import (  # type: ignore[import]
     check_type_bits,
     check_type_bool,
     check_type_bytes,
@@ -241,7 +242,7 @@ def transform_return_docs(obj):
 
     if isinstance(obj, str):
         try:
-            new_obj = yaml.safe_load(obj)
+            new_obj = load_yaml_bytes(obj.encode('utf-8'))
         except Exception:  # pylint:disable=broad-except
             obj = {"": obj}
         else:
@@ -351,8 +352,7 @@ class BaseModel(p.BaseModel):
     """BaseModel that has our preferred default config."""
 
     # pydantic Config classes are pure datastructures with no builtin special data
-    # pyre-ignore[15]
-    Config = LocalConfig
+    Config = LocalConfig  # type: ignore[assignment]  # pyre-ignore[15]
 
 
 class DeprecationSchema(BaseModel):

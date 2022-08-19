@@ -250,7 +250,7 @@ async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
                                   collection_dir: t.Optional[str],
                                   collection_names: t.Optional[t.List[str]] = None
                                   ) -> t.Tuple[
-                                      t.Mapping[str, t.Mapping[str, t.Any]],
+                                      t.MutableMapping[str, t.MutableMapping[str, t.Any]],
                                       t.Mapping[str, AnsibleCollectionMetadata]]:
     """
     Retrieve information about all of the Ansible Plugins.
@@ -297,7 +297,7 @@ async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
     other_workers = int((lib_ctx.thread_max - module_workers) / (len(DOCUMENTABLE_PLUGINS) - 1))
     other_workers = max(other_workers, 1)
 
-    plugin_map = {}
+    plugin_map: t.Dict[str, t.MutableMapping[str, t.Any]] = {}
     extractors = {}
     for plugin_type in DOCUMENTABLE_PLUGINS:
         min_ver = DOCUMENTABLE_PLUGINS_MIN_VERSION.get(plugin_type)

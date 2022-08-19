@@ -14,7 +14,7 @@ import os
 import typing as t
 
 import asyncio
-import asyncio_pool
+import asyncio_pool  # type: ignore[import]
 
 from antsibull_core import app_context
 from antsibull_core import yaml

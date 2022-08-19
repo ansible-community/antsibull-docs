@@ -10,7 +10,7 @@ import os
 import os.path
 import typing as t
 
-import asyncio_pool
+import asyncio_pool  # type: ignore[import]
 
 from jinja2 import Template
 
@@ -56,7 +56,7 @@ def follow_relative_links(path: str) -> str:
     flog.fields(path=path).debug('Enter')
 
     original_path = path
-    loop_detection = set()
+    loop_detection: t.Set[str] = set()
     while True:
         if path in loop_detection:
             flog.fields(

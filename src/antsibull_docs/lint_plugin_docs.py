@@ -94,13 +94,13 @@ def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
     collection_routing = asyncio_run(load_all_collection_routing(collection_metadata))
     # Process data
     remove_redirect_duplicates(plugin_info, collection_routing)
-    plugin_info, nonfatal_errors = asyncio_run(normalize_all_plugin_info(plugin_info))
-    augment_docs(plugin_info)
+    new_plugin_info, nonfatal_errors = asyncio_run(normalize_all_plugin_info(plugin_info))
+    augment_docs(new_plugin_info)
     # Load link data
     link_data = asyncio_run(load_collections_links(
         {name: data.path for name, data in collection_metadata.items()}))
     # More processing
-    plugin_contents = get_plugin_contents(plugin_info, nonfatal_errors)
+    plugin_contents = get_plugin_contents(new_plugin_info, nonfatal_errors)
     collection_to_plugin_info = get_collection_contents(plugin_contents)
     for collection in collection_metadata:
         collection_to_plugin_info[collection]  # pylint:disable=pointless-statement
@@ -124,17 +124,17 @@ def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
     error_tmpl = env.get_template('plugin-error.rst.j2')
 
     for collection_name_, plugins_by_type in collection_to_plugin_info.items():
-        for plugin_type, plugins in plugins_by_type.items():
+        for plugin_type, plugins_dict in plugins_by_type.items():
             plugin_type_tmpl = plugin_tmpl
             if plugin_type == 'role':
                 plugin_type_tmpl = role_tmpl
-            for plugin_short_name, dummy_ in plugins.items():
+            for plugin_short_name, dummy_ in plugins_dict.items():
                 plugin_name = '.'.join((collection_name_, plugin_short_name))
                 rst_content = create_plugin_rst(
                     collection_name_, collection_metadata[collection_name_],
                     link_data[collection_name_],
                     plugin_short_name, plugin_type,
-                    plugin_info[plugin_type].get(plugin_name),
+                    new_plugin_info[plugin_type].get(plugin_name) or {},
                     nonfatal_errors[plugin_type][plugin_name],
                     plugin_type_tmpl, error_tmpl,
                     use_html_blobs=False,
