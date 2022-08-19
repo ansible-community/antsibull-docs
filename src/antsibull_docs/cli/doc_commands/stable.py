@@ -15,7 +15,7 @@ from collections import defaultdict
 from concurrent.futures import ProcessPoolExecutor
 
 import aiohttp
-import asyncio_pool
+import asyncio_pool  # type: ignore[import]
 from pydantic import ValidationError
 
 from antsibull_core import app_context
@@ -141,18 +141,20 @@ def normalize_plugin_info(plugin_type: str,
     if 'error' in plugin_info:
         return ({}, [plugin_info['error']])
 
-    errors = []
+    errors: t.List[str] = []
     if plugin_type == 'role':
         try:
-            return DOCS_SCHEMAS[plugin_type].parse_obj(plugin_info).dict(by_alias=True), errors
+            parsed = DOCS_SCHEMAS[plugin_type].parse_obj(plugin_info)  # type: ignore[attr-defined]
+            return parsed.dict(by_alias=True), errors
         except ValidationError as e:
             raise ValueError(str(e))  # pylint:disable=raise-missing-from
 
-    new_info = {}
+    new_info: t.Dict[str, t.Any] = {}
     # Note: loop through "doc" before any other keys.
     for field in ('doc', 'examples', 'return'):
         try:
-            field_model = DOCS_SCHEMAS[plugin_type][field].parse_obj({field: plugin_info[field]})
+            schema = DOCS_SCHEMAS[plugin_type][field]  # type: ignore[index]
+            field_model = schema.parse_obj({field: plugin_info[field]})
         except ValidationError as e:
             if field == 'doc':
                 # We can't recover if there's not a doc field
@@ -166,7 +168,7 @@ def normalize_plugin_info(plugin_type: str,
             errors.append(f'Unable to normalize {new_info["doc"]["name"]}: {field}'
                           f' due to: {str(e)}')
 
-            field_model = DOCS_SCHEMAS[plugin_type][field].parse_obj({})
+            field_model = DOCS_SCHEMAS[plugin_type][field].parse_obj({})  # type: ignore[index]
 
         new_info.update(field_model.dict(by_alias=True))
 
@@ -174,7 +176,8 @@ def normalize_plugin_info(plugin_type: str,
 
 
 async def normalize_all_plugin_info(plugin_info: t.Mapping[str, t.Mapping[str, t.Any]]
-                                    ) -> t.Tuple[t.Dict[str, t.Dict[str, t.Any]], PluginErrorsRT]:
+                                    ) -> t.Tuple[t.Dict[str, t.MutableMapping[str, t.Any]],
+                                                 PluginErrorsRT]:
     """
     Normalize the data in plugin_info so that it is ready to be passed to the templates.
 
@@ -206,8 +209,9 @@ async def normalize_all_plugin_info(plugin_info: t.Mapping[str, t.Mapping[str, t
 
     results = await asyncio.gather(*normalizers.values(), return_exceptions=True)
 
-    new_plugin_info = defaultdict(dict)
-    nonfatal_errors = defaultdict(lambda: defaultdict(list))
+    new_plugin_info: t.DefaultDict[str, t.MutableMapping[str, t.Any]]
+    new_plugin_info = defaultdict(dict)  # pyre-ignore[9]
+    nonfatal_errors: PluginErrorsRT = defaultdict(lambda: defaultdict(list))
     for (plugin_type, plugin_name), plugin_record in zip(normalizers, results):
         # Errors which broke doc parsing (and therefore we won't have enough info to
         # build a docs page)
@@ -243,6 +247,7 @@ def get_plugin_contents(plugin_info: t.Mapping[str, t.Mapping[str, t.Any]],
         collection:
             - plugin_short_name: short_description
     """
+    plugin_contents: t.DefaultDict[str, t.DefaultDict[str, t.Dict[str, str]]]
     plugin_contents = defaultdict(lambda: defaultdict(dict))
     # Some plugins won't have an entry in the plugin_info because documentation failed to parse.
     # Those should be documented in the nonfatal_errors information.
@@ -251,8 +256,8 @@ def get_plugin_contents(plugin_info: t.Mapping[str, t.Mapping[str, t.Any]],
             namespace, collection, short_name = get_fqcn_parts(plugin_name)
             plugin_contents[plugin_type]['.'.join((namespace, collection))][short_name] = ''
 
-    for plugin_type, plugin_list in plugin_info.items():
-        for plugin_name, plugin_desc in plugin_list.items():
+    for plugin_type, plugin_dict in plugin_info.items():
+        for plugin_name, plugin_desc in plugin_dict.items():
             namespace, collection, short_name = get_fqcn_parts(plugin_name)
             if plugin_type == 'role':
                 desc = ''
@@ -280,7 +285,7 @@ def get_collection_contents(plugin_content: t.Mapping[str, t.Mapping[str, t.Mapp
         plugin_type:
             - plugin_short_name: short_description
     """
-    collection_plugins = defaultdict(dict)
+    collection_plugins: t.DefaultDict[str, t.Dict[str, t.Mapping[str, str]]] = defaultdict(dict)
 
     for plugin_type, collection_data in plugin_content.items():
         for collection_name, plugin_data in collection_data.items():
@@ -345,9 +350,9 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
     stubs_info = find_stubs(plugin_info, collection_routing)
     # flog.fields(stubs_info=stubs_info).debug('Stubs info')
 
-    plugin_info, nonfatal_errors = asyncio_run(normalize_all_plugin_info(plugin_info))
+    new_plugin_info, nonfatal_errors = asyncio_run(normalize_all_plugin_info(plugin_info))
     flog.fields(errors=len(nonfatal_errors)).notice('Finished data validation')
-    augment_docs(plugin_info)
+    augment_docs(new_plugin_info)
     flog.notice('Finished calculating new data')
 
     # Load collection extra docs data
@@ -360,7 +365,7 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
         {name: data.path for name, data in collection_metadata.items()}))
     flog.debug('Finished getting collection link data')
 
-    plugin_contents = get_plugin_contents(plugin_info, nonfatal_errors)
+    plugin_contents = get_plugin_contents(new_plugin_info, nonfatal_errors)
     collection_to_plugin_info = get_collection_contents(plugin_contents)
     # Make sure collections without documentable plugins are mentioned
     for collection in collection_metadata:
@@ -408,7 +413,7 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
                                            for_official_docsite=for_official_docsite))
     flog.debug('Finished writing plugin stubs')
 
-    asyncio_run(output_all_plugin_rst(collection_to_plugin_info, plugin_info,
+    asyncio_run(output_all_plugin_rst(collection_to_plugin_info, new_plugin_info,
                                       nonfatal_errors, dest_dir,
                                       collection_metadata=collection_metadata,
                                       link_data=link_data,
@@ -475,7 +480,7 @@ def generate_docs() -> int:
         flog.fields(collection_install_dir=collection_install_dir).debug('collection install dir')
 
         # Install the collections
-        asyncio_run(install_together(collection_tarballs.values(), collection_install_dir))
+        asyncio_run(install_together(list(collection_tarballs.values()), collection_install_dir))
         flog.notice('Finished installing collections')
 
         # Create venv for ansible-core

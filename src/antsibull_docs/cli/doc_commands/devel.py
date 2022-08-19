@@ -12,7 +12,7 @@ import tempfile
 import typing as t
 
 import aiohttp
-import asyncio_pool
+import asyncio_pool  # type: ignore[import]
 
 from antsibull_core import app_context
 from antsibull_core.ansible_core import get_ansible_core
@@ -132,7 +132,7 @@ def generate_docs() -> int:
         flog.fields(collection_install_dir=collection_install_dir).debug('collection install dir')
 
         # Install the collections
-        asyncio_run(install_together(collection_tarballs.values(), collection_install_dir))
+        asyncio_run(install_together(list(collection_tarballs.values()), collection_install_dir))
         flog.notice('Finished installing collections')
 
         # Create venv for ansible-core

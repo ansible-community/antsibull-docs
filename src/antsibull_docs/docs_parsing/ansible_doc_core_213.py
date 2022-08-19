@@ -27,7 +27,7 @@ async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
                                   collection_dir: t.Optional[str],
                                   collection_names: t.Optional[t.List[str]] = None
                                   ) -> t.Tuple[
-                                      t.Mapping[str, t.Mapping[str, t.Any]],
+                                      t.MutableMapping[str, t.MutableMapping[str, t.Any]],
                                       t.Mapping[str, AnsibleCollectionMetadata]]:
     """
     Retrieve information about all of the Ansible Plugins. Requires ansible-core 2.13+.
@@ -71,9 +71,9 @@ async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
     ansible_doc_output = json.loads(_filter_non_json_lines(stdout)[0])
 
     flog.debug('Processing plugin documentation')
-    plugin_map = {}
+    plugin_map: t.MutableMapping[str, t.MutableMapping[str, t.Any]] = {}
     for plugin_type in DOCUMENTABLE_PLUGINS:
-        plugin_type_data = {}
+        plugin_type_data: t.Dict[str, t.Any] = {}
         plugin_map[plugin_type] = plugin_type_data
         plugins_of_type = ansible_doc_output['all'].get(plugin_type, {})
         for plugin_name, plugin_data in plugins_of_type.items():

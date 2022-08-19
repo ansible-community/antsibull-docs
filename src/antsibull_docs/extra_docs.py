@@ -11,7 +11,7 @@ import os.path
 import re
 import typing as t
 
-import asyncio_pool
+import asyncio_pool  # type: ignore[import]
 
 from antsibull_core import app_context
 from antsibull_core.logging import log

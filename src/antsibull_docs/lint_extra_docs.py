@@ -44,7 +44,7 @@ def lint_collection_extra_docs_files(path_to_collection: str
         return [(
             path_to_collection, 0, 0,
             'Cannot identify collection with galaxy.yml or MANIFEST.json at this path')]
-    result = []
+    result: t.List[t.Tuple[str, int, int, str]] = []
     all_labels = set()
     docs = find_extra_docs(path_to_collection)
     for doc in docs:
@@ -63,8 +63,8 @@ def lint_collection_extra_docs_files(path_to_collection: str
             result.append((doc[0], 0, 0, str(e)))
     index_path = os.path.join(path_to_collection, 'docs', 'docsite', 'extra-docs.yml')
     try:
-        _, errors = load_extra_docs_index(index_path)
-        result.extend((index_path, 0, 0, error) for error in errors)
+        _, index_errors = load_extra_docs_index(index_path)
+        result.extend((index_path, 0, 0, error) for error in index_errors)
     except ExtraDocsIndexError as exc:
         if len(docs) > 0:
             # Only report the missing index_path as an error if we found documents

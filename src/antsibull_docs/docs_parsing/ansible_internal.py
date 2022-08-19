@@ -28,7 +28,7 @@ async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
                                   collection_dir: t.Optional[str],
                                   collection_names: t.Optional[t.List[str]] = None
                                   ) -> t.Tuple[
-                                      t.Mapping[str, t.Mapping[str, t.Any]],
+                                      t.MutableMapping[str, t.MutableMapping[str, t.Any]],
                                       t.Mapping[str, AnsibleCollectionMetadata]]:
     """
     Retrieve information about all of the Ansible Plugins.
@@ -68,6 +68,7 @@ async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
         del raw_result
         del collection_enum_cmd
 
+    plugin_map: t.Dict[str, t.MutableMapping[str, t.Any]]
     plugin_map = {plugin_type: {} for plugin_type in DOCUMENTABLE_PLUGINS}
     for plugin_type, plugins in result['plugins'].items():
         if plugin_type not in plugin_map:
@@ -82,7 +83,7 @@ async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
                 plugin_log.fields(error=plugin_data['error']).error(
                     'Error while extracting documentation. Will not document this plugin.')
 
-    collection_metadata = {}
+    collection_metadata: t.Dict[str, AnsibleCollectionMetadata] = {}
     for collection_name, collection_data in result['collections'].items():
         collection_metadata[collection_name] = AnsibleCollectionMetadata(
             path=collection_data['path'],

@@ -59,7 +59,7 @@ def get_fqcn_parts(fqcn: str) -> t.Tuple[str, str, str]:
     match = FQCN_RE.match(fqcn)
     if not match:
         raise ValueError(f'{fqcn} could not be parsed into fqcn parts')
-    return match.groups()
+    return match.group(1), match.group(2), match.group(3)
 
 
 def is_fqcn(value: str) -> bool:

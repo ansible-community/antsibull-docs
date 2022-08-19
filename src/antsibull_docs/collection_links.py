@@ -11,7 +11,7 @@ import os
 import os.path
 import typing as t
 
-import asyncio_pool
+import asyncio_pool  # type: ignore[import]
 
 from pydantic import Extra
 from pydantic.error_wrappers import ValidationError, display_errors
@@ -207,7 +207,7 @@ def lint_collection_links(collection_path: str) -> t.List[t.Tuple[str, int, int,
     flog = mlog.fields(func='lint_collection_links')
     flog.debug('Enter')
 
-    result = []
+    result: t.List[t.Tuple[str, int, int, str]] = []
 
     for cls in (
             CollectionEditOnGitHub, Link, IRCChannel, MatrixRoom, MailingList, Communication,

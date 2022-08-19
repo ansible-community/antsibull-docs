@@ -152,7 +152,7 @@ def parse_parameters_unescaped(text: str, index: int, command: Command,
 
 
 def parse_text(text: str, commands: CommandSet) -> t.List[Part]:
-    result = []
+    result: t.List[Part] = []
     index = 0
     length = len(text)
     while index < length:
