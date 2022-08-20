@@ -6,6 +6,7 @@
 
 import warnings
 from functools import partial
+import typing as t
 
 from packaging.version import Version as PypiVer
 from semantic_version import Version as SemVer
@@ -18,7 +19,7 @@ from antsibull_core.vendored.collections import is_sequence
 # than this already.
 TOO_OLD_TO_BE_NOTABLE = '0.0.0'
 
-test_list = partial(is_sequence, include_strings=False)
+test_list: t.Callable[[t.Any], bool] = partial(is_sequence, include_strings=False)
 
 
 def still_relevant(version, cutoff=TOO_OLD_TO_BE_NOTABLE, collection=None):

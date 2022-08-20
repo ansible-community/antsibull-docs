@@ -43,6 +43,13 @@ def rst_escape(value: t.Any, escape_ending_whitespace=False) -> str:
     return value
 
 
+def rst_code(value: str) -> str:
+    ''' Write value as :code:`...` RST construct. '''
+    if not isinstance(value, str):
+        value = str(value)
+    return f':code:`{rst_escape(value, escape_ending_whitespace=True)}`'
+
+
 def _escape_url(url: str) -> str:
     # We include '<>[]{}' in safe to allow urls such as 'https://<HOST>:[PORT]/v{version}/' to
     # remain unmangled by percent encoding

@@ -22,6 +22,7 @@ from .jinja2.environment import doc_environment
 from .collection_links import CollectionLinks
 from .extra_docs import CollectionExtraDocsInfoT
 from .docs_parsing import AnsibleCollectionMetadata
+from .utils.collection_name_transformer import CollectionNameTransformer
 
 
 mlog = log.fields(mod=__name__)
@@ -374,6 +375,8 @@ async def output_all_plugin_rst(collection_to_plugin_info: CollectionInfoT,
                                 plugin_info: t.Dict[str, t.Any],
                                 nonfatal_errors: PluginErrorsT,
                                 dest_dir: str,
+                                collection_url: CollectionNameTransformer,
+                                collection_install: CollectionNameTransformer,
                                 collection_metadata: t.Mapping[str, AnsibleCollectionMetadata],
                                 link_data: t.Mapping[str, CollectionLinks],
                                 squash_hierarchy: bool = False,
@@ -399,7 +402,10 @@ async def output_all_plugin_rst(collection_to_plugin_info: CollectionInfoT,
         official docsite on docs.ansible.com.
     """
     # Setup the jinja environment
-    env = doc_environment(('antsibull_docs.data', 'docsite'))
+    env = doc_environment(
+        ('antsibull_docs.data', 'docsite'),
+        collection_url=collection_url,
+        collection_install=collection_install)
     # Get the templates
     plugin_tmpl = env.get_template('plugin.rst.j2')
     role_tmpl = env.get_template('role.rst.j2')
@@ -434,6 +440,8 @@ async def output_all_plugin_rst(collection_to_plugin_info: CollectionInfoT,
 async def output_all_plugin_stub_rst(stubs_info: t.Mapping[
                                          str, t.Mapping[str, t.Mapping[str, t.Any]]],
                                      dest_dir: str,
+                                     collection_url: CollectionNameTransformer,
+                                     collection_install: CollectionNameTransformer,
                                      collection_metadata: t.Mapping[
                                          str, AnsibleCollectionMetadata],
                                      link_data: t.Mapping[str, CollectionLinks],
@@ -454,7 +462,10 @@ async def output_all_plugin_stub_rst(stubs_info: t.Mapping[
         official docsite on docs.ansible.com.
     """
     # Setup the jinja environment
-    env = doc_environment(('antsibull_docs.data', 'docsite'))
+    env = doc_environment(
+        ('antsibull_docs.data', 'docsite'),
+        collection_url=collection_url,
+        collection_install=collection_install)
     # Get the templates
     redirect_tmpl = env.get_template('plugin-redirect.rst.j2')
     tombstone_tmpl = env.get_template('plugin-tombstone.rst.j2')
@@ -619,6 +630,8 @@ async def write_plugin_lists(collection_name: str,
 async def output_collection_index(collection_to_plugin_info: CollectionInfoT,
                                   collection_namespaces: t.Mapping[str, t.List[str]],
                                   dest_dir: str,
+                                  collection_url: CollectionNameTransformer,
+                                  collection_install: CollectionNameTransformer,
                                   breadcrumbs: bool = True,
                                   for_official_docsite: bool = False) -> None:
     """
@@ -636,7 +649,10 @@ async def output_collection_index(collection_to_plugin_info: CollectionInfoT,
     flog = mlog.fields(func='output_collection_index')
     flog.debug('Enter')
 
-    env = doc_environment(('antsibull_docs.data', 'docsite'))
+    env = doc_environment(
+        ('antsibull_docs.data', 'docsite'),
+        collection_url=collection_url,
+        collection_install=collection_install)
     # Get the templates
     collection_list_tmpl = env.get_template('list_of_collections.rst.j2')
 
@@ -656,6 +672,8 @@ async def output_collection_index(collection_to_plugin_info: CollectionInfoT,
 
 async def output_collection_namespace_indexes(collection_namespaces: t.Mapping[str, t.List[str]],
                                               dest_dir: str,
+                                              collection_url: CollectionNameTransformer,
+                                              collection_install: CollectionNameTransformer,
                                               breadcrumbs: bool = True,
                                               for_official_docsite: bool = False) -> None:
     """
@@ -671,7 +689,10 @@ async def output_collection_namespace_indexes(collection_namespaces: t.Mapping[s
     flog = mlog.fields(func='output_collection_namespace_indexes')
     flog.debug('Enter')
 
-    env = doc_environment(('antsibull_docs.data', 'docsite'))
+    env = doc_environment(
+        ('antsibull_docs.data', 'docsite'),
+        collection_url=collection_url,
+        collection_install=collection_install)
     # Get the templates
     collection_list_tmpl = env.get_template('list_of_collections_by_namespace.rst.j2')
 
@@ -696,6 +717,8 @@ async def output_collection_namespace_indexes(collection_namespaces: t.Mapping[s
 
 async def output_plugin_indexes(plugin_info: PluginCollectionInfoT,
                                 dest_dir: str,
+                                collection_url: CollectionNameTransformer,
+                                collection_install: CollectionNameTransformer,
                                 for_official_docsite: bool = False) -> None:
     """
     Generate top-level plugin index pages for all plugins of a type in all collections.
@@ -709,7 +732,10 @@ async def output_plugin_indexes(plugin_info: PluginCollectionInfoT,
     flog = mlog.fields(func='output_plugin_indexes')
     flog.debug('Enter')
 
-    env = doc_environment(('antsibull_docs.data', 'docsite'))
+    env = doc_environment(
+        ('antsibull_docs.data', 'docsite'),
+        collection_url=collection_url,
+        collection_install=collection_install)
     # Get the templates
     plugin_list_tmpl = env.get_template('list_of_plugins.rst.j2')
 
@@ -740,6 +766,8 @@ async def output_indexes(collection_to_plugin_info: CollectionInfoT,
                          collection_metadata: t.Mapping[str, AnsibleCollectionMetadata],
                          extra_docs_data: t.Mapping[str, CollectionExtraDocsInfoT],
                          link_data: t.Mapping[str, CollectionLinks],
+                         collection_url: CollectionNameTransformer,
+                         collection_install: CollectionNameTransformer,
                          squash_hierarchy: bool = False,
                          breadcrumbs: bool = True,
                          for_official_docsite: bool = False) -> None:
@@ -765,7 +793,10 @@ async def output_indexes(collection_to_plugin_info: CollectionInfoT,
     if collection_metadata is None:
         collection_metadata = {}
 
-    env = doc_environment(('antsibull_docs.data', 'docsite'))
+    env = doc_environment(
+        ('antsibull_docs.data', 'docsite'),
+        collection_url=collection_url,
+        collection_install=collection_install)
     # Get the templates
     collection_plugins_tmpl = env.get_template('plugins_by_collection.rst.j2')
 

@@ -31,7 +31,7 @@
     the same module name.
 {% else %}
 .. note::
-    This redirect is part of the `@{collection}@ collection <https://galaxy.ansible.com/@{collection | replace('.', '/', 1)}@>`_{% if collection_version %} (version @{ collection_version }@){% endif %}.
+    This redirect is part of the `@{collection}@ collection <@{ collection | collection_url }@>`_{% if collection_version %} (version @{ collection_version }@){% endif %}.
 
 {%   if not deprecation %}
     To use it in a playbook, specify: :code:`@{plugin_name}@`.

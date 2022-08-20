@@ -9,6 +9,8 @@
 # to initialize the attributes when data is loaded into them.
 # pyre-ignore-all-errors[13]
 
+import typing as t
+
 import pydantic as p
 
 from antsibull_core.schemas.validators import convert_bool
@@ -26,6 +28,14 @@ class DocsAppContext(CoreAppContext):
     doc_parsing_backend: str = DOC_PARSING_BACKEND_CHOICES_F
     indexes: p.StrictBool = True
     use_html_blobs: p.StrictBool = False
+
+    # These are antsibull-docs specific
+    collection_url: t.Dict[str, str] = {
+        '*': 'https://galaxy.ansible.com/{namespace}/{name}',
+    }
+    collection_install: t.Dict[str, str] = {
+        '*': 'ansible-galaxy collection install {namespace}.{name}',
+    }
 
     # pylint: disable-next=unused-private-member
     __convert_docs_bools = p.validator('breadcrumbs', 'indexes', 'use_html_blobs',

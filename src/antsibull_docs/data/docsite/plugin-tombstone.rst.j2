@@ -24,7 +24,7 @@
     This module was part of ``ansible-core`` and was included in all Ansible installations.
 {% else %}
 .. note::
-    This plugin was part of the `@{collection}@ collection <https://galaxy.ansible.com/@{collection | replace('.', '/', 1)}@>`_{% if collection_version %} (version @{ collection_version }@){% endif %}.
+    This plugin was part of the `@{collection}@ collection <@{ collection | collection_url }@>`_{% if collection_version %} (version @{ collection_version }@){% endif %}.
 {% endif %}
 
 This {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %} has been removed
