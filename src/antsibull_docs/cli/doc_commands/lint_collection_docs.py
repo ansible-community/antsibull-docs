@@ -5,9 +5,9 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Entrypoint to the antsibull-docs script."""
 
-from antsibull_core import app_context
 from antsibull_core.logging import log
 
+from ... import app_context
 from ...collection_links import lint_collection_links
 from ...lint_extra_docs import lint_collection_extra_docs_files
 from ...lint_plugin_docs import lint_collection_plugin_docs

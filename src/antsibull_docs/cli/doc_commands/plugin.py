@@ -14,13 +14,13 @@ import typing as t
 
 import sh
 
-from antsibull_core import app_context
 from antsibull_core.compat import asyncio_run
 from antsibull_core.logging import log
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
 from antsibull_core.venv import FakeVenvRunner
 
 from .stable import normalize_plugin_info
+from ... import app_context
 from ...augment_docs import augment_docs
 from ...collection_links import CollectionLinks
 from ...docs_parsing import AnsibleCollectionMetadata

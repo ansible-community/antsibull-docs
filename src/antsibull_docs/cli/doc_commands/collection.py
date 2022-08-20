@@ -15,7 +15,6 @@ import typing as t
 import aiohttp
 import asyncio_pool  # type: ignore[import]
 
-from antsibull_core import app_context
 from antsibull_core.collections import install_together
 from antsibull_core.compat import asyncio_run
 from antsibull_core.galaxy import CollectionDownloader
@@ -23,6 +22,7 @@ from antsibull_core.logging import log
 from antsibull_core.venv import FakeVenvRunner
 
 from .stable import generate_docs_for_all_collections
+from ... import app_context
 
 if t.TYPE_CHECKING:
     import semantic_version as semver  # pylint:disable=unused-import

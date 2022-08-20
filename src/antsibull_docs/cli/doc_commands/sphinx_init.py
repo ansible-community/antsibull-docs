@@ -8,9 +8,9 @@
 import os
 import os.path
 
-from antsibull_core import app_context
 from antsibull_core.logging import log
 
+from ... import app_context
 from ...jinja2.environment import doc_environment
 
 

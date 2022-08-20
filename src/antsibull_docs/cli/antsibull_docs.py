@@ -30,7 +30,7 @@ from antsibull_core.filesystem import UnableToCheck, writable_via_acls  # noqa: 
 
 from ..constants import DOCUMENTABLE_PLUGINS  # noqa: E402
 from ..docs_parsing.fqcn import is_fqcn  # noqa: E402
-from ..schemas.config import DocsConfigModel
+from ..schemas.app_context import DocsAppContext  # noqa: E402
 from .doc_commands import (  # noqa: E402
     collection, current, devel, plugin, stable, sphinx_init, lint_collection_docs
 )
@@ -427,13 +427,14 @@ def run(args: List[str]) -> int:
     flog.fields(args=parsed_args).info('Arguments parsed')
 
     try:
-        cfg = load_config(parsed_args.config_file, config_model=DocsConfigModel)
+        cfg = load_config(parsed_args.config_file, app_context_model=DocsAppContext)
         flog.fields(config=cfg).info('Config loaded')
     except ConfigError as e:
         print(e)
         return 2
 
-    context_data = app_context.create_contexts(args=parsed_args, cfg=cfg)
+    context_data = app_context.create_contexts(
+        args=parsed_args, cfg=cfg, app_context_model=DocsAppContext)
     with app_context.app_and_lib_context(context_data) as (app_ctx, dummy_):
         twiggy.dict_config(app_ctx.logging_cfg.dict())
         flog.debug('Set logging config')

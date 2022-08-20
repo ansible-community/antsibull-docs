@@ -18,7 +18,6 @@ import aiohttp
 import asyncio_pool  # type: ignore[import]
 from pydantic import ValidationError
 
-from antsibull_core import app_context
 from antsibull_core.ansible_core import get_ansible_core
 from antsibull_core.collections import install_together
 from antsibull_core.compat import asyncio_run, best_get_loop
@@ -27,6 +26,7 @@ from antsibull_core.galaxy import CollectionDownloader
 from antsibull_core.logging import log
 from antsibull_core.venv import VenvRunner, FakeVenvRunner
 
+from ... import app_context
 from ...augment_docs import augment_docs
 from ...extra_docs import load_collections_extra_docs
 from ...collection_links import load_collections_links
