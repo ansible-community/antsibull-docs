@@ -25,11 +25,12 @@ from antsibull_core.args import (  # noqa: E402
     InvalidArgumentError, get_toplevel_parser, normalize_toplevel_options
 )
 from antsibull_core.compat import BooleanOptionalAction  # noqa: E402
-from antsibull_core.config import load_config  # noqa: E402
+from antsibull_core.config import ConfigError, load_config  # noqa: E402
 from antsibull_core.filesystem import UnableToCheck, writable_via_acls  # noqa: E402
 
 from ..constants import DOCUMENTABLE_PLUGINS  # noqa: E402
 from ..docs_parsing.fqcn import is_fqcn  # noqa: E402
+from ..schemas.app_context import DocsAppContext  # noqa: E402
 from .doc_commands import (  # noqa: E402
     collection, current, devel, plugin, stable, sphinx_init, lint_collection_docs
 )
@@ -421,15 +422,19 @@ def run(args: List[str]) -> int:
     try:
         parsed_args: argparse.Namespace = parse_args(program_name, args[1:])
     except InvalidArgumentError as e:
-        flog.error(e)
         print(e)
         return 2
     flog.fields(args=parsed_args).info('Arguments parsed')
 
-    cfg = load_config(parsed_args.config_file)
-    flog.fields(config=cfg).info('Config loaded')
+    try:
+        cfg = load_config(parsed_args.config_file, app_context_model=DocsAppContext)
+        flog.fields(config=cfg).info('Config loaded')
+    except ConfigError as e:
+        print(e)
+        return 2
 
-    context_data = app_context.create_contexts(args=parsed_args, cfg=cfg)
+    context_data = app_context.create_contexts(
+        args=parsed_args, cfg=cfg, app_context_model=DocsAppContext)
     with app_context.app_and_lib_context(context_data) as (app_ctx, dummy_):
         twiggy.dict_config(app_ctx.logging_cfg.dict())
         flog.debug('Set logging config')

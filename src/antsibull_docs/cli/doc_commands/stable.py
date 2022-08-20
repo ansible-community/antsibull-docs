@@ -18,7 +18,6 @@ import aiohttp
 import asyncio_pool  # type: ignore[import]
 from pydantic import ValidationError
 
-from antsibull_core import app_context
 from antsibull_core.ansible_core import get_ansible_core
 from antsibull_core.collections import install_together
 from antsibull_core.compat import asyncio_run, best_get_loop
@@ -27,6 +26,7 @@ from antsibull_core.galaxy import CollectionDownloader
 from antsibull_core.logging import log
 from antsibull_core.venv import VenvRunner, FakeVenvRunner
 
+from ... import app_context
 from ...augment_docs import augment_docs
 from ...extra_docs import load_collections_extra_docs
 from ...collection_links import load_collections_links
@@ -38,6 +38,7 @@ from ...docs_parsing.routing import (
     remove_redirect_duplicates,
 )
 from ...schemas.docs import DOCS_SCHEMAS
+from ...utils.collection_name_transformer import CollectionNameTransformer
 from ...write_docs import (
     output_all_plugin_rst,
     output_all_plugin_stub_rst,
@@ -333,6 +334,8 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
     flog = mlog.fields(func='generate_docs_for_all_collections')
     flog.notice('Begin')
 
+    app_ctx = app_context.app_ctx.get()
+
     # Get the info from the plugins
     plugin_info, collection_metadata = asyncio_run(get_ansible_plugin_info(
         venv, collection_dir, collection_names=collection_names))
@@ -383,21 +386,34 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
 
     collection_namespaces = get_collection_namespaces(collection_to_plugin_info.keys())
 
+    collection_url = CollectionNameTransformer(
+        app_ctx.collection_url, 'https://galaxy.ansible.com/{namespace}/{name}')
+    collection_install = CollectionNameTransformer(
+        app_ctx.collection_install, 'ansible-galaxy collection install {namespace}.{name}')
+
     # Only build top-level index if requested
     if create_indexes:
-        asyncio_run(output_collection_index(
-            collection_to_plugin_info, collection_namespaces, dest_dir, breadcrumbs=breadcrumbs,
-            for_official_docsite=for_official_docsite))
+        asyncio_run(output_collection_index(collection_to_plugin_info, collection_namespaces,
+                                            dest_dir, collection_url=collection_url,
+                                            collection_install=collection_install,
+                                            breadcrumbs=breadcrumbs,
+                                            for_official_docsite=for_official_docsite))
         flog.notice('Finished writing collection index')
         asyncio_run(output_collection_namespace_indexes(collection_namespaces, dest_dir,
+                                                        collection_url=collection_url,
+                                                        collection_install=collection_install,
                                                         breadcrumbs=breadcrumbs,
                                                         for_official_docsite=for_official_docsite))
         flog.notice('Finished writing collection namespace index')
         asyncio_run(output_plugin_indexes(plugin_contents, dest_dir,
+                                          collection_url=collection_url,
+                                          collection_install=collection_install,
                                           for_official_docsite=for_official_docsite))
         flog.notice('Finished writing plugin indexes')
 
     asyncio_run(output_indexes(collection_to_plugin_info, dest_dir,
+                               collection_url=collection_url,
+                               collection_install=collection_install,
                                collection_metadata=collection_metadata,
                                squash_hierarchy=squash_hierarchy,
                                extra_docs_data=extra_docs_data,
@@ -407,6 +423,8 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
     flog.notice('Finished writing indexes')
 
     asyncio_run(output_all_plugin_stub_rst(stubs_info, dest_dir,
+                                           collection_url=collection_url,
+                                           collection_install=collection_install,
                                            collection_metadata=collection_metadata,
                                            link_data=link_data,
                                            squash_hierarchy=squash_hierarchy,
@@ -415,6 +433,8 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
 
     asyncio_run(output_all_plugin_rst(collection_to_plugin_info, new_plugin_info,
                                       nonfatal_errors, dest_dir,
+                                      collection_url=collection_url,
+                                      collection_install=collection_install,
                                       collection_metadata=collection_metadata,
                                       link_data=link_data,
                                       squash_hierarchy=squash_hierarchy,

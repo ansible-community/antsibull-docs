@@ -58,7 +58,7 @@
     installations.
 {% else %}
 .. note::
-    This role is part of the `@{collection}@ collection <https://galaxy.ansible.com/@{collection | replace('.', '/', 1)}@>`_{% if collection_version %} (version @{ collection_version }@){% endif %}.
+    This role is part of the `@{collection}@ collection <@{ collection | collection_url }@>`_{% if collection_version %} (version @{ collection_version }@){% endif %}.
 {%   if for_official_docsite %}
 
     You might already have this collection installed if you are using the ``ansible`` package.
@@ -66,7 +66,7 @@
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 {%   endif %}
 
-    To install it use: :code:`ansible-galaxy collection install @{collection}@`.
+    To install it use: @{ collection | collection_install | rst_code }@.
 
     To use it in a playbook, specify: :code:`@{plugin_name}@`.
 {% endif %}

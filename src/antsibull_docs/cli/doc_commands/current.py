@@ -5,11 +5,11 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Entrypoint to the antsibull-docs script."""
 
-from antsibull_core import app_context
 from antsibull_core.logging import log
 from antsibull_core.venv import FakeVenvRunner
 
 from .stable import generate_docs_for_all_collections
+from ... import app_context
 
 
 mlog = log.fields(mod=__name__)

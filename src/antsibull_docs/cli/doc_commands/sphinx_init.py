@@ -7,10 +7,11 @@
 
 import os
 import os.path
+import typing as t
 
-from antsibull_core import app_context
 from antsibull_core.logging import log
 
+from ... import app_context
 from ...jinja2.environment import doc_environment
 
 
@@ -19,6 +20,7 @@ mlog = log.fields(mod=__name__)
 
 TEMPLATES = [
     '.gitignore',
+    'antsibull-docs.cfg',
     'build.sh',
     'conf.py',
     'requirements.txt',
@@ -40,6 +42,18 @@ def write_file(filename: str, content: str) -> None:
     print(f'Writing {filename}...')
     with open(filename, 'w', encoding='utf-8') as f:
         f.write(content)
+
+
+def toperky(value: t.Any) -> str:
+    if isinstance(value, str):
+        value = value.replace('\\', '\\\\')
+        value = value.replace('\n', '\\n')
+        value = value.replace('\r', '\\r')
+        value = value.replace('"', '\\"')
+        if all(ch not in value for ch in '\\={}[]') and value.strip() == value:
+            return value
+        return f'"{value}"'
+    raise Exception(f'toperky filter cannot handle type {type(value)}')
 
 
 def site_init() -> int:
@@ -67,6 +81,8 @@ def site_init() -> int:
     use_html_blobs = app_ctx.use_html_blobs
     breadcrumbs = app_ctx.breadcrumbs
     indexes = app_ctx.indexes
+    collection_url = app_ctx.collection_url
+    collection_install = app_ctx.collection_install
 
     sphinx_theme = 'sphinx_ansible_theme'
     sphinx_theme_package = 'sphinx-ansible-theme >= 0.9.0'
@@ -74,7 +90,10 @@ def site_init() -> int:
         sphinx_theme = app_ctx.extra['sphinx_theme']
         sphinx_theme_package = app_ctx.extra['sphinx_theme']
 
-    env = doc_environment(('antsibull_docs.data', 'sphinx_init'))
+    env = doc_environment(
+        ('antsibull_docs.data', 'sphinx_init'),
+        extra_filters={'toperky': toperky},
+    )
 
     for filename in TEMPLATES:
         source = filename.replace('.', '_').replace('/', '_') + '.j2'
@@ -93,6 +112,8 @@ def site_init() -> int:
             indexes=indexes,
             sphinx_theme=sphinx_theme,
             sphinx_theme_package=sphinx_theme_package,
+            collection_url=collection_url,
+            collection_install=collection_install,
         ) + '\n'
 
         destination = os.path.join(dest_dir, filename)

@@ -14,18 +14,19 @@ import typing as t
 
 import sh
 
-from antsibull_core import app_context
 from antsibull_core.compat import asyncio_run
 from antsibull_core.logging import log
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
 from antsibull_core.venv import FakeVenvRunner
 
 from .stable import normalize_plugin_info
+from ... import app_context
 from ...augment_docs import augment_docs
 from ...collection_links import CollectionLinks
 from ...docs_parsing import AnsibleCollectionMetadata
 from ...docs_parsing.fqcn import get_fqcn_parts, is_fqcn
 from ...jinja2.environment import doc_environment
+from ...utils.collection_name_transformer import CollectionNameTransformer
 from ...write_docs import write_plugin_rst
 
 
@@ -100,7 +101,14 @@ def generate_plugin_docs(plugin_type: str, plugin_name: str,
     }))
 
     # Setup the jinja environment
-    env = doc_environment(('antsibull_docs.data', 'docsite'))
+    collection_url = CollectionNameTransformer(
+        app_ctx.collection_url, 'https://galaxy.ansible.com/{namespace}/{name}')
+    collection_install = CollectionNameTransformer(
+        app_ctx.collection_install, 'ansible-galaxy collection install {namespace}.{name}')
+    env = doc_environment(
+        ('antsibull_docs.data', 'docsite'),
+        collection_url=collection_url,
+        collection_install=collection_install)
     # Get the templates
     plugin_tmpl = env.get_template('plugin.rst.j2')
     error_tmpl = env.get_template('plugin-error.rst.j2')

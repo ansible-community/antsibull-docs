@@ -9,9 +9,11 @@ cd @{ dest_dir }@
 # Create collection documentation into temporary directory
 rm -rf temp-rst
 mkdir -p temp-rst
+antsibull-docs \
+    --config-file antsibull-docs.cfg \
 {% if use_current %}
 {%   if collections | length > 0 %}
-antsibull-docs collection \
+    collection \
 {%     if fail_on_error %}
     --fail-on-error \
 {%     endif %}
@@ -19,23 +21,17 @@ antsibull-docs collection \
 {%     if squash_hierarchy %}
     --squash-hierarchy \
 {%     endif %}
-    --{% if not use_html_blobs %}no-{% endif %}use-html-blobs \
-    --{% if not breadcrumbs %}no-{% endif %}breadcrumbs \
-    --{% if not indexes %}no-{% endif %}indexes \
     --dest-dir temp-rst \
     @{ ' '.join(collections) }@
 {%   else %}
-antsibull-docs current \
+    current \
 {%     if fail_on_error %}
     --fail-on-error \
 {%     endif %}
-    --{% if not use_html_blobs %}no-{% endif %}use-html-blobs \
-    --{% if not breadcrumbs %}no-{% endif %}breadcrumbs \
-    --{% if not indexes %}no-{% endif %}indexes \
     --dest-dir temp-rst
 {%   endif %}
 {% else %}
-antsibull-docs collection \
+    collection \
 {%     if fail_on_error %}
     --fail-on-error \
 {%     endif %}
@@ -45,9 +41,6 @@ antsibull-docs collection \
 {%     if squash_hierarchy %}
     --squash-hierarchy \
 {%     endif %}
-    --{% if not use_html_blobs %}no-{% endif %}use-html-blobs \
-    --{% if not breadcrumbs %}no-{% endif %}breadcrumbs \
-    --{% if not indexes %}no-{% endif %}indexes \
     --dest-dir temp-rst \
     @{ ' '.join(collections) }@
 {% endif %}

@@ -36,6 +36,7 @@ from .docs_parsing.routing import (
     remove_redirect_duplicates,
 )
 from .jinja2.environment import doc_environment
+from .utils.collection_name_transformer import CollectionNameTransformer
 from .write_docs import create_plugin_rst
 from .rstcheck import check_rst_content
 
@@ -85,6 +86,8 @@ class CollectionFinder:
 
 def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
                                  original_path_to_collection: str,
+                                 collection_url: CollectionNameTransformer,
+                                 collection_install: CollectionNameTransformer,
                                  ) -> t.List[t.Tuple[str, int, int, str]]:
     # Load collection docs
     venv = FakeVenvRunner()
@@ -117,7 +120,10 @@ def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
                 ))
     # Compose RST files and check for errors
     # Setup the jinja environment
-    env = doc_environment(('antsibull_docs.data', 'docsite'))
+    env = doc_environment(
+        ('antsibull_docs.data', 'docsite'),
+        collection_url=collection_url,
+        collection_install=collection_install)
     # Get the templates
     plugin_tmpl = env.get_template('plugin.rst.j2')
     role_tmpl = env.get_template('role.rst.j2')
@@ -150,7 +156,10 @@ def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
     return result
 
 
-def lint_collection_plugin_docs(path_to_collection: str) -> t.List[t.Tuple[str, int, int, str]]:
+def lint_collection_plugin_docs(path_to_collection: str,
+                                collection_url: CollectionNameTransformer,
+                                collection_install: CollectionNameTransformer,
+                                ) -> t.List[t.Tuple[str, int, int, str]]:
     try:
         info = load_collection_info(path_to_collection)
         namespace = info['namespace']
@@ -188,5 +197,7 @@ def lint_collection_plugin_docs(path_to_collection: str) -> t.List[t.Tuple[str, 
                             ' at this path'))
         # Load docs
         result.extend(_lint_collection_plugin_docs(
-            copier.dir, collection_name, path_to_collection))
+            copier.dir, collection_name, path_to_collection,
+            collection_url=collection_url,
+            collection_install=collection_install))
     return result
