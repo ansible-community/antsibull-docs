@@ -1,0 +1,2 @@
+minor_changes:
+  - "When generating plugin error pages, or showing non-fatal errors in plugins or roles, link to the collection's issue tracker instead of the collection's URL if available (https://github.com/ansible-community/antsibull-docs/pull/29)."
