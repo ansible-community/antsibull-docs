@@ -97,6 +97,11 @@ def _extract_galaxy_links(data: t.Dict) -> t.List[Link]:
     return result
 
 
+def _extract_issue_tracker(data: t.Dict) -> t.Optional[str]:
+    url = data.get('issues')
+    return url if url and isinstance(url, str) else None
+
+
 def load(links_data: t.Optional[t.Dict], galaxy_data: t.Optional[t.Dict],
          manifest_data: t.Optional[t.Dict]) -> CollectionLinks:
     if links_data:
@@ -114,16 +119,21 @@ def load(links_data: t.Optional[t.Dict], galaxy_data: t.Optional[t.Dict],
         result = CollectionLinks.parse_obj({})
 
     # Parse MANIFEST or galaxy data
+    issue_tracker = None
     if isinstance(manifest_data, dict):
         collection_info = manifest_data.get('collection_info')
         if isinstance(collection_info, dict):
             result.authors = _extract_authors(collection_info)
             result.description = _extract_description(collection_info)
             result.links.extend(_extract_galaxy_links(collection_info))
+            issue_tracker = _extract_issue_tracker(collection_info)
     elif isinstance(galaxy_data, dict):
         result.authors = _extract_authors(galaxy_data)
         result.description = _extract_description(galaxy_data)
         result.links.extend(_extract_galaxy_links(galaxy_data))
+        issue_tracker = _extract_issue_tracker(galaxy_data)
+    if issue_tracker and not result.issue_tracker:
+        result.issue_tracker = issue_tracker
 
     result.links.extend(result.extra_links)
 

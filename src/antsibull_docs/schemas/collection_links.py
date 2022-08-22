@@ -90,6 +90,7 @@ class CollectionLinks(p.BaseModel):
     edit_on_github: t.Optional[CollectionEditOnGitHub] = None
     authors: t.List[str] = []
     description: t.Optional[str]
+    issue_tracker: t.Optional[str] = None
     links: t.List[Link] = []
     extra_links: t.List[Link] = []
     communication: Communication = Communication()
