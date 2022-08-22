@@ -167,6 +167,7 @@ def create_plugin_rst(collection_name: str,
             edit_on_github_url=edit_on_github_url,
             collection_links=collection_links.links,
             collection_communication=collection_links.communication,
+            collection_issue_tracker=collection_links.issue_tracker,
             for_official_docsite=for_official_docsite,
         )
     else:
@@ -190,6 +191,7 @@ def create_plugin_rst(collection_name: str,
                 edit_on_github_url=edit_on_github_url,
                 collection_links=collection_links.links,
                 collection_communication=collection_links.communication,
+                collection_issue_tracker=collection_links.issue_tracker,
                 for_official_docsite=for_official_docsite,
             )
         else:
@@ -208,6 +210,7 @@ def create_plugin_rst(collection_name: str,
                 edit_on_github_url=edit_on_github_url,
                 collection_links=collection_links.links,
                 collection_communication=collection_links.communication,
+                collection_issue_tracker=collection_links.issue_tracker,
                 for_official_docsite=for_official_docsite,
             )
 
