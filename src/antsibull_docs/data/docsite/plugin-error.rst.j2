@@ -32,8 +32,8 @@ The errors were:
 {% for error in nonfatal_errors %}
 * ::
 
-@{ error | indent(width=8, first=True) }@
+@{   error | indent(width=8, first=True) }@
 
 {% endfor %}
 
-File a bug with the `@{ collection }@ collection <@{ collection | collection_url }@>`_ in order to have it corrected.
+File a bug with the `@{ collection }@ collection <@{ collection_issue_tracker or (collection | collection_url) }@>`_ in order to have it corrected.
