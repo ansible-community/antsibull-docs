@@ -138,7 +138,7 @@ def create_plugin_rst(collection_name: str,
         # Guess path inside collection tree
         gh_path = f"{gh_plugin_dir}/{plugin_short_name}.py"
         # If we have more precise information, use that!
-        if plugin_record and 'doc' in plugin_record and 'filename' in plugin_record['doc']:
+        if plugin_record and plugin_record.get('doc') and plugin_record['doc'].get('filename'):
             filename = follow_relative_links(plugin_record['doc']['filename'])
             gh_path = os.path.relpath(filename, collection_meta.path)
         # Compose path
@@ -151,7 +151,8 @@ def create_plugin_rst(collection_name: str,
             f"roles/{plugin_short_name}/meta/argument_specs.yml"
         )
 
-    if not plugin_record:
+    expected_fields = ('entry_points',) if plugin_type == 'role' else ('doc', 'examples', 'return')
+    if not plugin_record or not all(plugin_record.get(field) for field in expected_fields):
         flog.fields(plugin_type=plugin_type,
                     plugin_name=plugin_name,
                     nonfatal_errors=nonfatal_errors

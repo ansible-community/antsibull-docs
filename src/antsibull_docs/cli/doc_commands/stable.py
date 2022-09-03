@@ -153,6 +153,9 @@ def normalize_plugin_info(plugin_type: str,
     new_info: t.Dict[str, t.Any] = {}
     # Note: loop through "doc" before any other keys.
     for field in ('doc', 'examples', 'return'):
+        if isinstance(plugin_info.get(field), dict):
+            errors.append(f'Missing required plugin information "{field}"')
+            plugin_info[field] = {}
         try:
             schema = DOCS_SCHEMAS[plugin_type][field]  # type: ignore[index]
             field_model = schema.parse_obj({field: plugin_info[field]})
@@ -166,7 +169,7 @@ def normalize_plugin_info(plugin_type: str,
             # But we can use the default value (some variant of "empty") for everything else
             # Note: We looped through doc first and returned an exception if doc did not normalize
             # so we're able to use it in the error message here.
-            errors.append(f'Unable to normalize {new_info["doc"]["name"]}: {field}'
+            errors.append(f'Unable to normalize {new_info["doc"].get("name", "???")}: {field}'
                           f' due to: {str(e)}')
 
             field_model = DOCS_SCHEMAS[plugin_type][field].parse_obj({})  # type: ignore[index]
