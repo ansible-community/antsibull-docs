@@ -152,7 +152,7 @@ def create_plugin_rst(collection_name: str,
         )
 
     expected_fields = ('entry_points',) if plugin_type == 'role' else ('doc', 'examples', 'return')
-    if not plugin_record or not all(plugin_record.get(field) for field in expected_fields):
+    if not plugin_record or not all(field in plugin_record for field in expected_fields):
         flog.fields(plugin_type=plugin_type,
                     plugin_name=plugin_name,
                     nonfatal_errors=nonfatal_errors

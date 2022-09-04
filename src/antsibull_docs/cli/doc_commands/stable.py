@@ -155,8 +155,7 @@ def normalize_plugin_info(plugin_type: str,
     for field in ('doc', 'examples', 'return'):
         try:
             schema = DOCS_SCHEMAS[plugin_type][field]  # type: ignore[index]
-            default_value: t.Any = None if field == 'examples' else {}
-            field_model = schema.parse_obj({field: plugin_info.get(field) or default_value})
+            field_model = schema.parse_obj({field: plugin_info.get(field)})
         except ValidationError as e:
             if field == 'doc':
                 # We can't recover if there's not a doc field
@@ -167,11 +166,7 @@ def normalize_plugin_info(plugin_type: str,
             # But we can use the default value (some variant of "empty") for everything else
             # Note: We looped through doc first and returned an exception if doc did not normalize
             # so we're able to use it in the error message here.
-            # Usually new_info["doc"]["name"] should work fine to retrieve the plugin's name,
-            # but since it happened once that some new_info["doc"] suddenly was `None` instead
-            # of a dictionary, the following code tries to be extra careful.
-            plugin_name = (plugin_info.get("doc") or {}).get("name") or "???"
-            errors.append(f'Unable to normalize {plugin_name}: {field}'
+            errors.append(f'Unable to normalize {new_info["doc"]["name"]}: {field}'
                           f' due to: {str(e)}')
 
             field_model = DOCS_SCHEMAS[plugin_type][field].parse_obj({})  # type: ignore[index]
