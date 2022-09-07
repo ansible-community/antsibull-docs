@@ -155,7 +155,7 @@ def normalize_plugin_info(plugin_type: str,
     for field in ('doc', 'examples', 'return'):
         try:
             schema = DOCS_SCHEMAS[plugin_type][field]  # type: ignore[index]
-            field_model = schema.parse_obj({field: plugin_info[field]})
+            field_model = schema.parse_obj({field: plugin_info.get(field)})
         except ValidationError as e:
             if field == 'doc':
                 # We can't recover if there's not a doc field

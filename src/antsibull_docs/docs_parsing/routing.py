@@ -283,8 +283,9 @@ def remove_redirect_duplicates(plugin_info: t.MutableMapping[str, t.MutableMappi
                     # Heuristic: if we have a redirect, and docs for both this plugin and the
                     # redirected one are generated from the same plugin filename, then we can
                     # remove this plugin's docs and generate a redirect stub instead.
-                    if compare_all_but(plugin_record['doc'], plugin_map[destination]['doc'],
-                                       ['filename']):
+                    a = plugin_record.get('doc')
+                    b = plugin_map[destination].get('doc')
+                    if a and b and compare_all_but(a, b, ['filename']):
                         del plugin_map[plugin_name]
 
 
