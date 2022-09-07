@@ -1,2 +1,0 @@
-bugfixes:
-  - "Make handling of bad documentation more robust when certain values are ``None`` while the keys are present (https://github.com/ansible-community/antsibull-docs/pull/32)."

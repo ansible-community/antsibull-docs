@@ -132,3 +132,30 @@ releases:
     - 24-further-requirements.yml
     - 25-disclaimer.yml
     release_date: '2022-08-16'
+  1.4.0:
+    changes:
+      bugfixes:
+      - Make handling of bad documentation more robust when certain values are ``None``
+        while the keys are present (https://github.com/ansible-community/antsibull-docs/pull/32).
+      minor_changes:
+      - The ``sphinx-init`` subcommand now also creates an ``antsibull-docs.cfg``
+        file and moves configuration settings from CLI flags in ``build.sh`` to this
+        configuration file (https://github.com/ansible-community/antsibull-docs/pull/26).
+      - There are two new options for explicitly specified configuration files named
+        ``collection_url`` and ``collection_install``. These allow to override the
+        URLs pointing to collections (default link to galaxy.ansible.com), and the
+        commands to install collections (use ``ansible-galaxy collection install``
+        by default). This can be useful when documenting (internal) collections that
+        are not available on Ansible Galaxy. The default ``antsibull-docs.cfg`` generated
+        by the ``sphinx-init`` subcommand shows how this can be configured (https://github.com/ansible-community/antsibull-docs/issues/15,
+        https://github.com/ansible-community/antsibull-docs/pull/26).
+      - When generating plugin error pages, or showing non-fatal errors in plugins
+        or roles, link to the collection's issue tracker instead of the collection's
+        URL if available (https://github.com/ansible-community/antsibull-docs/pull/29).
+      release_summary: Feature and bugfix release.
+    fragments:
+    - 1.4.0.yml
+    - 26-sphinx-antsibull-cfg.yml
+    - 29-issue-tracker.yml
+    - 32-robust.yml
+    release_date: '2022-09-07'
