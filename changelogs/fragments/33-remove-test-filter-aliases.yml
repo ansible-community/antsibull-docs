@@ -1,0 +1,2 @@
+minor_changes:
+  - "Detect filter and test plugin aliases and avoid them being emitted multiple times. Instead insert redirects so that stub pages will be created (https://github.com/ansible-community/antsibull-docs/pull/33)."
