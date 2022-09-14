@@ -34,6 +34,8 @@ from .fqcn import get_fqcn_parts
 #               redirect: t.Optional[str]
 #               redirect_is_symlink: t.Optional[bool]
 CollectionRoutingT = t.Mapping[str, t.Mapping[str, t.Mapping[str, t.Any]]]
+MutableCollectionRoutingT = t.MutableMapping[str,
+                                             t.MutableMapping[str, t.MutableMapping[str, t.Any]]]
 
 
 COLLECTIONS_WITH_FLATMAPPING = (
@@ -246,7 +248,7 @@ async def load_collection_routing(collection_name: str,
 
 async def load_all_collection_routing(collection_metadata: t.Mapping[str,
                                                                      AnsibleCollectionMetadata]
-                                      ) -> t.Dict[str, t.Dict[str, t.Dict[str, t.Any]]]:
+                                      ) -> MutableCollectionRoutingT:
     # Collection
     lib_ctx = app_context.lib_ctx.get()
     async with asyncio_pool.AioPool(size=lib_ctx.thread_max) as pool:
@@ -258,7 +260,7 @@ async def load_all_collection_routing(collection_metadata: t.Mapping[str,
         responses = await asyncio.gather(*requestors)
 
     # Merge per-collection routing into one big routing table
-    global_plugin_routing: t.Dict[str, t.Dict[str, t.Dict[str, t.Any]]] = {}
+    global_plugin_routing: MutableCollectionRoutingT = {}
     for plugin_type in DOCUMENTABLE_PLUGINS:
         global_plugin_routing[plugin_type] = {}
         for collection_plugin_routing in responses:
@@ -268,7 +270,7 @@ async def load_all_collection_routing(collection_metadata: t.Mapping[str,
 
 
 def remove_redirect_duplicates(plugin_info: t.MutableMapping[str, t.MutableMapping[str, t.Any]],
-                               collection_routing: CollectionRoutingT) -> None:
+                               collection_routing: MutableCollectionRoutingT) -> None:
     """
     Remove duplicate plugin docs that come from symlinks (or once ansible-docs supports them,
     other plugin routing redirects).
@@ -287,6 +289,22 @@ def remove_redirect_duplicates(plugin_info: t.MutableMapping[str, t.MutableMappi
                     b = plugin_map[destination].get('doc')
                     if a and b and compare_all_but(a, b, ['filename']):
                         del plugin_map[plugin_name]
+
+        # For filters and tests, both the plugin and its aliases will be listed. Basically
+        # look for plugins whose name is wrong, a plugin with that name exists, and whose
+        # docs are identical
+        for plugin_name, plugin_record in list(plugin_map.items()):
+            name = (plugin_record.get('doc') or {}).get('name')
+            collection_name = '.'.join(plugin_name.split('.')[:2])
+            full_name = f'{collection_name}.{name}'
+            if full_name and full_name != plugin_name and full_name in plugin_map:
+                a = plugin_record.get('doc')
+                b = plugin_map[full_name].get('doc')
+                if a and b and compare_all_but(a, b, ['name', 'filename']):
+                    del plugin_map[plugin_name]
+                    if plugin_name not in plugin_routing:
+                        plugin_routing[plugin_name] = {}
+                    plugin_routing[plugin_name]['redirect'] = full_name
 
 
 def find_stubs(plugin_info: t.MutableMapping[str, t.MutableMapping[str, t.Any]],
