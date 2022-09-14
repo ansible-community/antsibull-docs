@@ -16,21 +16,21 @@ ansible-core
 {%-  endif -%}
 {%- endmacro %}
 
-{% macro version_added_rst(version_added, version_added_collection) -%}
+{% macro version_added_rst(version_added, version_added_collection=None) -%}
 {%-   if version_added_collection == 'ansible.builtin' -%}
 @{ ansible_name(version_added) }@ @{ version_added | rst_escape }@
 {%-   elif version_added_collection -%}
-@{ version_added | rst_escape }@ of @{ version_added_collection | rst_escape }@
+@{ version_added_collection | rst_escape }@ @{ version_added | rst_escape }@
 {%-   else -%}
 @{ version_added | rst_escape }@
 {%-   endif -%}
 {%- endmacro %}
 
-{% macro version_added_html(version_added, version_added_collection) -%}
+{% macro version_added_html(version_added, version_added_collection=None) -%}
 {%-   if version_added_collection == 'ansible.builtin' -%}
 @{ ansible_name(version_added) }@ @{ version_added | escape }@
 {%-   elif version_added_collection -%}
-@{ version_added | escape }@ of @{ version_added_collection | escape }@
+@{ version_added_collection | escape }@ @{ version_added | escape }@
 {%-   else -%}
 @{ version_added | escape }@
 {%-   endif -%}
