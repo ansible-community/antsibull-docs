@@ -4,6 +4,8 @@
   SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
+{% from 'macros/version_added.rst.j2' import version_added_rst, version_added_html %}
+
 {% macro in_rst(elements) %}
 .. rst-class:: ansible-option-table
 
@@ -40,10 +42,10 @@
 
       :ansible-option-type:`@{ value['type'] | documented_type }@`
       {%- if value['type'] == 'list' and value['elements'] is not none %} / :ansible-option-elements:`elements=@{ value['elements'] | documented_type }@`{% endif %}
-{%-   if value['version_added'] is still_relevant(collection=value['version_added_collection']) %}
+{%-   if value['version_added'] is still_relevant(collection=value['version_added_collection'] or collection) %}
 
 
-      :ansible-option-versionadded:`added in @{value['version_added']}@ of @{ value['version_added_collection'] | rst_escape }@`
+      :ansible-option-versionadded:`added in @{ version_added_rst(value['version_added'], value['version_added_collection'] or collection) }@`
 {%   endif %}
 {#   description #}
 
@@ -135,8 +137,8 @@
         / <span class="ansible-option-elements">elements=@{ value['elements'] | documented_type }@</span>
 {%   endif %}
       </p>
-{%   if value['version_added'] is still_relevant(collection=value['version_added_collection']) %}
-      <p><span class="ansible-option-versionadded">added in @{value['version_added']}@ of @{ value['version_added_collection'] | escape }@</span></p>
+{%   if value['version_added'] is still_relevant(collection=value['version_added_collection'] or collection) %}
+      <p><span class="ansible-option-versionadded">added in @{ version_added_html(value['version_added'], value['version_added_collection'] or collection) }@</span></p>
 {%   endif %}
     </div></td>
 {#   description #}

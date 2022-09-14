@@ -4,6 +4,8 @@
   SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
+{% from 'macros/version_added.rst.j2' import version_added_rst %}
+
 {% macro in_rst(attributes) %}
 .. rst-class:: ansible-option-table
 
@@ -70,9 +72,9 @@
 {%-    endif %}
 {%   endif %}
 
-{%   if data['version_added'] is still_relevant(collection=data['version_added_collection']) %}
+{%   if data['version_added'] is still_relevant(collection=data['version_added_collection'] or collection) %}
 
-      :ansible-option-versionadded:`added in @{data['version_added']}@ of @{ data['version_added_collection'] | rst_escape }@`
+      :ansible-option-versionadded:`added in @{ version_added_rst(data['version_added'], data['version_added_collection'] or collection) }@`
 {%   endif %}
 
 {%   for desc in data['details'] %}

@@ -1,0 +1,4 @@
+bugfixes:
+  - "Fix escaping of collection names in version added statements (https://github.com/ansible-community/antsibull-docs/pull/34)."
+minor_changes:
+  - "Replace ``ansible.builtin`` with ``ansible-core`` in version added collection names (https://github.com/ansible-community/antsibull-docs/pull/34)."
