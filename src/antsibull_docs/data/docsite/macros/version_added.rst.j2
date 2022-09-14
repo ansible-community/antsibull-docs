@@ -4,20 +4,34 @@
   SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
+{% macro ansible_name(version) -%}
+{%-  if version.startswith('2.10.') -%}
+ansible-base
+{%-  elif version.startswith('1.') or (version.startswith('2.') and (version | length == 3 or version[3] == '.')) -%}
+Ansible
+{%-  elif version.startswith('2.10.') or version == '2.10' -%}
+ansible-base
+{%-  else -%}
+ansible-core
+{%-  endif -%}
+{%- endmacro %}
+
 {% macro version_added_rst(version_added, version_added_collection) -%}
+{%-   if version_added_collection == 'ansible.builtin' -%}
+@{ ansible_name(version_added) }@ @{ version_added | rst_escape }@
+{%-   elif version_added_collection -%}
+@{ version_added | rst_escape }@ of @{ version_added_collection | rst_escape }@
+{%-   else -%}
 @{ version_added | rst_escape }@
-{%-   if version_added_collection == 'ansible.builtin' %}
- of ansible-core
-{%-   elif version_added_collection %}
- of @{ version_added_collection | rst_escape }@
 {%-   endif -%}
 {%- endmacro %}
 
 {% macro version_added_html(version_added, version_added_collection) -%}
+{%-   if version_added_collection == 'ansible.builtin' -%}
+@{ ansible_name(version_added) }@ @{ version_added | escape }@
+{%-   elif version_added_collection -%}
+@{ version_added | escape }@ of @{ version_added_collection | escape }@
+{%-   else -%}
 @{ version_added | escape }@
-{%-   if version_added_collection == 'ansible.builtin' %}
- of ansible-core
-{%-   elif version_added_collection %}
- of @{ version_added_collection | escape }@
 {%-   endif -%}
 {%- endmacro %}
