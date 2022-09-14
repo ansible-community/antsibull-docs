@@ -5,6 +5,25 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v1.5.0
+======
+
+Release Summary
+---------------
+
+Feature and bugfix release.
+
+Minor Changes
+-------------
+
+- Detect filter and test plugin aliases and avoid them being emitted multiple times. Instead insert redirects so that stub pages will be created (https://github.com/ansible-community/antsibull-docs/pull/33).
+- Replace ``ansible.builtin`` with ``ansible-core``, ``ansible-base``, or ``Ansible`` in version added collection names. Also write ``<collection_name> <version>`` instead of ``<version> of <collection_name>`` (https://github.com/ansible-community/antsibull-docs/pull/34).
+
+Bugfixes
+--------
+
+- Fix escaping of collection names in version added statements, and fix collection names for roles options (https://github.com/ansible-community/antsibull-docs/pull/34).
+
 v1.4.0
 ======
 
