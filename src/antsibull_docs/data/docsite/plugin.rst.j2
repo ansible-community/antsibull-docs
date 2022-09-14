@@ -9,6 +9,7 @@
 {% from 'macros/parameters.rst.j2' import in_html as parameters_html with context %}
 {% from 'macros/returnvalues.rst.j2' import in_rst as return_docs_rst with context %}
 {% from 'macros/returnvalues.rst.j2' import in_html as return_docs_html with context %}
+{% from 'macros/version_added.rst.j2' import version_added_rst %}
 .. Document meta
 
 :orphan:
@@ -110,8 +111,8 @@
 
 .. version_added
 
-{% if doc['version_added'] is still_relevant(collection=doc['version_added_collection']) -%}
-.. versionadded:: @{ doc['version_added'] }@ of @{ doc['version_added_collection'] | rst_ify }@
+{% if doc['version_added'] is still_relevant(collection=doc['version_added_collection'] or collection) -%}
+.. versionadded:: @{ version_added_rst(doc['version_added'], doc['version_added_collection'] or collection) }@
 {% endif %}
 
 .. contents::

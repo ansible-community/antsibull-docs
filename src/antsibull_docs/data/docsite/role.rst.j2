@@ -6,6 +6,7 @@
 
 {% from 'macros/parameters.rst.j2' import in_rst as parameters_rst with context %}
 {% from 'macros/parameters.rst.j2' import in_html as parameters_html with context %}
+{% from 'macros/version_added.rst.j2' import version_added_rst %}
 .. Document meta
 
 :orphan:
@@ -91,7 +92,7 @@
 .. version_added
 
 {%   if ep_doc['version_added'] is still_relevant(collection=collection) -%}
-.. versionadded:: @{ ep_doc['version_added'] }@ of @{ collection | rst_ify }@
+.. versionadded:: @{ version_added_rst(ep_doc['version_added'], collection) }@
 {%   endif %}
 
 .. Deprecated
