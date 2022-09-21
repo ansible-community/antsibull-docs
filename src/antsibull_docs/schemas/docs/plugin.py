@@ -76,7 +76,7 @@ class ReturnSchema(BaseModel):
     """Schema of plugin return data docs."""
 
     description: t.List[str]
-    choices: t.List[str] = []
+    choices: t.Union[t.List[t.Any], t.Dict[t.Any, t.List[str]]] = []
     elements: str = RETURN_TYPE_F
     returned: str = 'success'
     sample: t.Any = None  # JSON value
@@ -131,6 +131,16 @@ class ReturnSchema(BaseModel):
             normalize_value(values, 'sample')
         except ValueError:
             pass
+        return values
+
+    @p.root_validator(pre=True)
+    # pylint:disable=no-self-argument,no-self-use
+    def normalize_choices(cls, values):
+        if isinstance(values.get('choices'), dict):
+            for k, v in values['choices'].items():
+                values['choices'][k] = list_from_scalars(v)
+        normalize_value(
+            values, 'choices', is_list_of_values=values.get('type') != 'list', accept_dict=True)
         return values
 
 

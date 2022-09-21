@@ -304,7 +304,7 @@ TYPE_CHECKERS = {
 
 
 def normalize_value(values: t.Dict[str, t.Any], field: str,  # noqa: C901
-                    is_list_of_values: bool = False) -> None:
+                    is_list_of_values: bool = False, accept_dict: bool = False) -> None:
     if 'type' not in values or values.get(field) is None:
         return
 
@@ -317,8 +317,12 @@ def normalize_value(values: t.Dict[str, t.Any], field: str,  # noqa: C901
     elements_name = normalize_option_type_names(values.get('elements'))
     elements_checker = TYPE_CHECKERS.get(elements_name)
 
+    descs = None
     if not is_list_of_values:
         value = [value]
+    elif accept_dict and isinstance(value, dict):
+        descs = list(value.values())
+        value = list(value)
     elif not isinstance(value, list):
         return
 
@@ -339,6 +343,9 @@ def normalize_value(values: t.Dict[str, t.Any], field: str,  # noqa: C901
 
     if not is_list_of_values:
         value = value[0]
+    elif descs is not None:
+        value = dict(zip(value, descs))
+
     values[field] = value
 
 
@@ -444,7 +451,7 @@ class DeprecationSchema(BaseModel):
 class OptionsSchema(BaseModel):
     description: t.List[str]
     aliases: t.List[str] = []
-    choices: t.List[t.Union[str, None]] = []
+    choices: t.Union[t.List[t.Any], t.Dict[t.Any, t.List[str]]] = []
     default: t.Any = None  # JSON value
     elements: str = OPTION_TYPE_F
     required: bool = False
@@ -508,8 +515,12 @@ class OptionsSchema(BaseModel):
     @p.root_validator(pre=True)
     # pylint:disable=no-self-argument,no-self-use
     def normalize_default_choices(cls, values):
+        if isinstance(values.get('choices'), dict):
+            for k, v in values['choices'].items():
+                values['choices'][k] = list_from_scalars(v)
         normalize_value(values, 'default')
-        normalize_value(values, 'choices', is_list_of_values=values.get('type') != 'list')
+        normalize_value(
+            values, 'choices', is_list_of_values=values.get('type') != 'list', accept_dict=True)
         return values
 
 
