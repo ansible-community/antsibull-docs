@@ -4,6 +4,8 @@
   SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
+{% from 'macros/choiceslist.rst.j2' import in_rst as choices_rst %}
+{% from 'macros/choiceslist.rst.j2' import in_html as choices_html %}
 {% from 'macros/version_added.rst.j2' import version_added_rst, version_added_html %}
 
 {% macro in_rst(elements) %}
@@ -58,16 +60,16 @@
 
         {% for i in range(1, loop.depth) %}<div class="ansible-option-indent-desc"></div>{% endfor %}<div class="ansible-option-cell">
 
-{% for desc in value['description'] %}
+{%   for desc in value['description'] %}
       @{ desc | rst_ify | indent(6) }@
 
 {%   endfor %}
-{% if value['returned'] %}
+{%   if value['returned'] %}
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-returned-bold:`Returned:` @{ value['returned'] | rst_ify | indent(6) }@
-{% endif %}
+{%   endif %}
 {#   Show possible choices and highlight details #}
 {%   if value['choices'] %}
 
@@ -75,19 +77,7 @@
 
       :ansible-option-choices:`Can only return:`
 
-{%     for choice in value['choices'] %}
-{#       Turn boolean values in 'true' and 'false' values #}
-{%       if choice is sameas true %}
-{%         set choice = 'true' %}
-{%       elif choice is sameas false %}
-{%         set choice = 'false' %}
-{%       endif %}
-{%       if (value['default'] is not list and value['default'] == choice) or (value['default'] is list and choice in value['default']) %}
-      - :ansible-option-default-bold:`@{ choice | rst_escape }@` :ansible-option-default:`← (default)`
-{%       else %}
-      - :ansible-option-choices-entry:`@{ choice | rst_escape }@`
-{%       endif %}
-{%     endfor %}
+@{     choices_rst(value['choices'], has_no_default=True) }@
 {%   endif %}
 {%   if value['sample'] is not none %}
 
@@ -152,21 +142,7 @@
 {#   Show possible choices and highlight details #}
 {%   if value['choices'] %}
       <p class="ansible-option-line"><span class="ansible-option-choices">Can only return:</span></p>
-      <ul class="simple">
-{%     for choice in value['choices'] %}
-{#       Turn boolean values in 'true' and 'false' values #}
-{%       if choice is sameas true %}
-{%         set choice = 'true' %}
-{%       elif choice is sameas false %}
-{%         set choice = 'false' %}
-{%       endif %}
-{%       if (value['default'] is not list and value['default'] == choice) or (value['default'] is list and choice in value['default']) %}
-        <li><p><span class="ansible-option-default-bold">@{ choice | escape }@</span> <span class="ansible-option-default">← (default)</span></p></li>
-{%       else %}
-        <li><p><span class="ansible-option-choices-entry">@{ choice | escape }@</span></p></li>
-{%       endif %}
-{%     endfor %}
-      </ul>
+@{     choices_html(value['choices'], has_no_default=True) }@
 {%   endif %}
 {%   if value['sample'] is not none %}
       <p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> @{ value['sample'] | antsibull_to_json | escape | indent(6, blank=true) }@</p>
