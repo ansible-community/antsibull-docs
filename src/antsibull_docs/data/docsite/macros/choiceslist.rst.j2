@@ -1,0 +1,82 @@
+{#
+  Copyright (c) Ansible Project
+  GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+  SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+{% macro in_rst(choices, default_value=None, has_no_default=False) %}
+{%   if choices is mapping %}
+{%     for choice, desc in choices | dictsort %}
+{#       Turn boolean values in 'true' and 'false' values #}
+{%       if choice is sameas true %}
+{%         set choice = 'true' %}
+{%       elif choice is sameas false %}
+{%         set choice = 'false' %}
+{%       endif %}
+{%       if not has_no_default and ((default_value is not list and default_value == choice) or (default_value is list and choice in default_value)) %}
+      - :ansible-option-default-bold:`@{ choice | rst_escape(escape_ending_whitespace=true) }@` :ansible-option-default:`(default)`\ :
+{%       else %}
+      - :ansible-option-choices-entry:`@{ choice | rst_escape(escape_ending_whitespace=true) }@`\ :
+{%       endif %}
+{%       for par in desc %}
+        @{ par | rst_ify | indent(8) }@
+
+{%       endfor %}
+{%     endfor %}
+{%   else %}
+{%     for choice in choices %}
+{#       Turn boolean values in 'true' and 'false' values #}
+{%       if choice is sameas true %}
+{%         set choice = 'true' %}
+{%       elif choice is sameas false %}
+{%         set choice = 'false' %}
+{%       endif %}
+{%       if not has_no_default and ((default_value is not list and default_value == choice) or (default_value is list and choice in default_value)) %}
+      - :ansible-option-default-bold:`@{ choice | rst_escape(escape_ending_whitespace=true) }@` :ansible-option-default:`← (default)`
+{%       else %}
+      - :ansible-option-choices-entry:`@{ choice | rst_escape(escape_ending_whitespace=true) }@`
+{%       endif %}
+{%     endfor %}
+{%   endif %}
+{% endmacro %}
+
+
+{% macro in_html(choices, default_value=None, has_no_default=False) %}
+      <ul class="simple">
+{%   if choices is mapping %}
+{%     for choice, desc in choices | dictsort %}
+{#       Turn boolean values in 'true' and 'false' values #}
+{%       if choice is sameas true %}
+{%         set choice = 'true' %}
+{%       elif choice is sameas false %}
+{%         set choice = 'false' %}
+{%       endif %}
+        <li>
+{%       if not has_no_default and ((default_value is not list and default_value == choice) or (default_value is list and choice in default_value)) %}
+          <p><span class="ansible-option-default-bold">@{ choice | escape }@</span> <span class="ansible-option-default">(default)</span>:
+{%       else %}
+          <p><span class="ansible-option-choices-entry">@{ choice | escape }@</span>:
+{%       endif %}
+          @{ desc | first | default('') | html_ify | indent(10, blank=true) }@</p>
+{%       for line in desc[1:] %}
+          <p>@{ line | html_ify | indent(10, blank=true) }@</p>
+{%       endfor %}
+        </li>
+{%     endfor %}
+{%   else %}
+{%     for choice in choices %}
+{#       Turn boolean values in 'true' and 'false' values #}
+{%       if choice is sameas true %}
+{%         set choice = 'true' %}
+{%       elif choice is sameas false %}
+{%         set choice = 'false' %}
+{%       endif %}
+{%       if not has_no_default and ((default_value is not list and default_value == choice) or (default_value is list and choice in default_value)) %}
+        <li><p><span class="ansible-option-default-bold">@{ choice | escape }@</span> <span class="ansible-option-default">← (default)</span></p></li>
+{%       else %}
+        <li><p><span class="ansible-option-choices-entry">@{ choice | escape }@</span></p></li>
+{%       endif %}
+{%     endfor %}
+{%   endif %}
+      </ul>
+{% endmacro %}

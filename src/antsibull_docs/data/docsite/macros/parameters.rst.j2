@@ -4,6 +4,8 @@
   SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
+{% from 'macros/choiceslist.rst.j2' import in_rst as choices_rst %}
+{% from 'macros/choiceslist.rst.j2' import in_html as choices_html %}
 {% from 'macros/deprecates.rst.j2' import in_rst as deprecates_rst with context %}
 {% from 'macros/deprecates.rst.j2' import in_html as deprecates_html with context %}
 {% from 'macros/version_added.rst.j2' import version_added_rst, version_added_html %}
@@ -93,39 +95,7 @@
 
       :ansible-option-choices:`Choices:`
 
-{%     if value['choices'] is mapping %}
-{%       for choice, desc in value['choices'] | dictsort %}
-{#         Turn boolean values in 'true' and 'false' values #}
-{%         if choice is sameas true %}
-{%           set choice = 'true' %}
-{%         elif choice is sameas false %}
-{%           set choice = 'false' %}
-{%         endif %}
-{%         if (value['default'] is not list and value['default'] == choice) or (value['default'] is list and choice in value['default']) %}
-      - :ansible-option-default-bold:`@{ choice | rst_escape(escape_ending_whitespace=true) }@` :ansible-option-default:`(default)`\ :
-{%         else %}
-      - :ansible-option-choices-entry:`@{ choice | rst_escape(escape_ending_whitespace=true) }@`\ :
-{%         endif %}
-{%         for par in desc %}
-        @{ par | rst_ify | indent(8) }@
-
-{%         endfor %}
-{%       endfor %}
-{%     else %}
-{%       for choice in value['choices'] %}
-{#         Turn boolean values in 'true' and 'false' values #}
-{%         if choice is sameas true %}
-{%           set choice = 'true' %}
-{%         elif choice is sameas false %}
-{%           set choice = 'false' %}
-{%         endif %}
-{%         if (value['default'] is not list and value['default'] == choice) or (value['default'] is list and choice in value['default']) %}
-      - :ansible-option-default-bold:`@{ choice | rst_escape(escape_ending_whitespace=true) }@` :ansible-option-default:`← (default)`
-{%         else %}
-      - :ansible-option-choices-entry:`@{ choice | rst_escape(escape_ending_whitespace=true) }@`
-{%         endif %}
-{%       endfor %}
-{%     endif %}
+@{     choices_rst(value['choices'], value['default']) }@
 {%   endif %}
 {# Show default value, when multiple choice or no choices #}
 {%   if value['default'] is not none and value['default'] not in value['choices'] %}
@@ -259,43 +229,7 @@
 {#   Show possible choices and highlight details #}
 {%   if value['choices'] %}
       <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-      <ul class="simple">
-{%     if value['choices'] is mapping %}
-{%       for choice, desc in value['choices'] | dictsort %}
-{#         Turn boolean values in 'true' and 'false' values #}
-{%         if choice is sameas true %}
-{%           set choice = 'true' %}
-{%         elif choice is sameas false %}
-{%           set choice = 'false' %}
-{%         endif %}
-        <li>
-{%         if (value['default'] is not list and value['default'] == choice) or (value['default'] is list and choice in value['default']) %}
-          <p><span class="ansible-option-default-bold">@{ choice | escape }@</span> <span class="ansible-option-default">(default)</span>:
-{%         else %}
-          <p><span class="ansible-option-choices-entry">@{ choice | escape }@</span>:
-{%         endif %}
-          @{ desc | first | default('') | html_ify | indent(10, blank=true) }@</p>
-{%         for line in desc[1:] %}
-          <p>@{ line | html_ify | indent(10, blank=true) }@</p>
-{%         endfor %}
-        </li>
-{%       endfor %}
-{%     else %}
-{%       for choice in value['choices'] %}
-{#         Turn boolean values in 'true' and 'false' values #}
-{%         if choice is sameas true %}
-{%           set choice = 'true' %}
-{%         elif choice is sameas false %}
-{%           set choice = 'false' %}
-{%         endif %}
-{%         if (value['default'] is not list and value['default'] == choice) or (value['default'] is list and choice in value['default']) %}
-        <li><p><span class="ansible-option-default-bold">@{ choice | escape }@</span> <span class="ansible-option-default">← (default)</span></p></li>
-{%         else %}
-        <li><p><span class="ansible-option-choices-entry">@{ choice | escape }@</span></p></li>
-{%         endif %}
-{%       endfor %}
-{%     endif %}
-      </ul>
+@{     choices_html(value['choices'], value['default']) }@
 {%   endif %}
 {#   Show default value, when multiple choice or no choices #}
 {%   if value['default'] is not none and value['default'] not in value['choices'] %}
