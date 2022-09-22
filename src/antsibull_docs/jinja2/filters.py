@@ -11,6 +11,8 @@ import re
 
 import typing as t
 
+from collections.abc import Mapping, Sequence
+
 from jinja2.runtime import Undefined
 
 from antsibull_core.logging import log
@@ -102,3 +104,16 @@ def remove_options_from_list(options: t.Dict[str, t.Any],
 
 def to_json(data: t.Any) -> str:
     return json.dumps(data, sort_keys=True, separators=(', ', ': '))
+
+
+def to_ini_value(data: t.Any) -> str:
+    if isinstance(data, (str, bytes)):
+        if not data:
+            return '""'
+        return str(data)
+    if isinstance(data, Sequence):
+        return ', '.join(to_ini_value(v) for v in data)
+    if isinstance(data, Mapping):
+        return 'MAPPINGS ARE NOT SUPPORTED'
+    # Handle other values (booleans, integers, floats) as JSON
+    return json.dumps(data)
