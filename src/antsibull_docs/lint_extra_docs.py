@@ -10,6 +10,8 @@ import os.path
 import re
 import typing as t
 
+from sphinx_antsibull_ext import roles as antsibull_roles
+
 from .extra_docs import (
     find_extra_docs,
     lint_required_conditions,
@@ -33,7 +35,7 @@ def lint_optional_conditions(content: str, path: str, collection_name: str
 
     Return a list of errors.
     '''
-    return check_rst_content(content, filename=path)
+    return check_rst_content(content, filename=path, ignore_roles=list(antsibull_roles.ROLES))
 
 
 def lint_collection_extra_docs_files(path_to_collection: str

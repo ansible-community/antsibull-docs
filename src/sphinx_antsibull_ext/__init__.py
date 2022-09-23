@@ -14,6 +14,7 @@ __author_email__ = "felix@fontein.de"
 
 
 from .assets import setup_assets
+from .roles import setup_roles
 
 
 def setup(app):
@@ -24,6 +25,9 @@ def setup(app):
 
     # Add assets
     setup_assets(app)
+
+    # Add roles
+    setup_roles(app)
 
     return dict(
         parallel_read_safe=True,

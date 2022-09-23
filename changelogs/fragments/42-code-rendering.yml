@@ -1,0 +1,2 @@
+minor_changes:
+  - "Use code formatting for all values, such as choice entries, defaults, and samples (https://github.com/ansible-community/antsibull-docs/issues/38, https://github.com/ansible-community/antsibull-docs/pull/42)."
