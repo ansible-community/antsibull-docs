@@ -4,7 +4,7 @@
 
 import pytest
 
-from antsibull_docs.jinja2.filters import move_first, massage_author_name, to_json
+from antsibull_docs.jinja2.filters import move_first, massage_author_name, to_json, to_ini_value
 from antsibull_docs.jinja2.rstify import rst_ify, rst_escape
 
 
@@ -100,3 +100,17 @@ TO_JSON = [
 @pytest.mark.parametrize('input, expected', TO_JSON)
 def test_to_json(input, expected):
     assert to_json(input) == expected
+
+
+TO_INI_VALUE = [
+    ('', '""'),
+    ('<foo>', '<foo>'),
+    (1, '1'),
+    (True, 'true'),
+    (['a', 'b', 'c', 2, False], 'a, b, c, 2, false'),
+]
+
+
+@pytest.mark.parametrize('input, expected', TO_INI_VALUE)
+def test_to_ini_value(input, expected):
+    assert to_ini_value(input) == expected

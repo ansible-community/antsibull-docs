@@ -14,7 +14,7 @@ from ..utils.collection_name_transformer import CollectionNameTransformer
 
 from .filters import (
     do_max, documented_type, rst_fmt, rst_xline, move_first, massage_author_name,
-    extract_options_from_list, remove_options_from_list, to_json,
+    extract_options_from_list, remove_options_from_list, to_json, to_ini_value,
 )
 from .htmlify import html_ify
 from .rstify import rst_ify, rst_code, rst_escape
@@ -94,6 +94,7 @@ def doc_environment(template_location: t.Union[str, t.Tuple[str, str]],
     env.filters['extract_options_from_list'] = extract_options_from_list
     env.filters['remove_options_from_list'] = remove_options_from_list
     env.filters['antsibull_to_json'] = to_json
+    env.filters['antsibull_to_ini_value'] = to_ini_value
     if collection_url is not None:
         env.filters['collection_url'] = collection_url
     if collection_install is not None:

@@ -79,14 +79,8 @@
 
 {%   endfor %}
 {#   default / choices #}
-{#   Turn boolean values in 'true' and 'false' values #}
-{%   if value['default'] is sameas true %}
-{%     set _x = value.update({'default': 'true'}) %}
-{%   elif value['default'] is not none and value['default'] is sameas false %}
-{%     set _x = value.update({'default': 'false'}) %}
-{%   endif %}
 {%   if value['type'] == 'bool' %}
-{%     set _x = value.update({'choices': ['false', 'true']}) %}
+{%     set _x = value.update({'choices': [false, true]}) %}
 {%   endif %}
 {#   Show possible choices and highlight details #}
 {%   if value['choices'] %}
@@ -118,7 +112,11 @@
         .. code-block::
 
           [@{ ini['section'] }@]
-          @{ ini['key'] }@ = @{ value['default'] | default('VALUE') }@
+{%        if value['default'] is none %}
+          @{ ini['key'] }@ = VALUE
+{%        else %}
+          @{ ini['key'] }@ = @{ value['default'] | antsibull_to_ini_value | indent(10, blank=true) }@
+{%        endif %}
 
 {%         if ini['version_added'] is still_relevant(collection=ini['version_added_collection'] or collection) %}
         :ansible-option-versionadded:`added in @{ version_added_rst(ini['version_added'], ini['version_added_collection'] or collection) }@`
@@ -217,14 +215,8 @@
       <p>@{ desc | html_ify | indent(6, blank=true) }@</p>
 {%   endfor %}
 {#   default / choices #}
-{#   Turn boolean values in 'true' and 'false' values #}
-{%   if value['default'] is sameas true %}
-{%     set _x = value.update({'default': 'true'}) %}
-{%   elif value['default'] is not none and value['default'] is sameas false %}
-{%     set _x = value.update({'default': 'false'}) %}
-{%   endif %}
 {%   if value['type'] == 'bool' %}
-{%     set _x = value.update({'choices': ['false', 'true']}) %}
+{%     set _x = value.update({'choices': [false, true]}) %}
 {%   endif %}
 {#   Show possible choices and highlight details #}
 {%   if value['choices'] %}
@@ -244,7 +236,11 @@
         <p>INI {% if value['ini'] | length == 1 %}entry{% else %}entries{% endif %}</p>
 {%       for ini in value['ini'] %}
         <div class="highlight-YAML+Jinja notranslate"><div class="highlight"><pre><span class="p p-Indicator">[</span><span class="nv">@{ ini['section'] | escape }@</span><span class="p p-Indicator">]</span>
-  <span class="l l-Scalar l-Scalar-Plain">@{ ini['key'] | escape }@ = @{ value['default'] | default('VALUE') | escape }@</span></pre></div></div>
+{%         if value['default'] is none %}
+  <span class="l l-Scalar l-Scalar-Plain">@{ ini['key'] | escape }@ = VALUE</span></pre></div></div>
+{%         else %}
+  <span class="l l-Scalar l-Scalar-Plain">@{ ini['key'] | escape }@ = @{ value['default'] | antsibull_to_ini_value | escape }@</span></pre></div></div>
+{%         endif %}
 {%         if ini['version_added'] is still_relevant(collection=ini['version_added_collection'] or collection) %}
         <p><span class="ansible-option-versionadded">added in @{ version_added_html(ini['version_added'], ini['version_added_collection'] or collection) }@</span></p>
 {%         endif %}
