@@ -176,3 +176,27 @@ releases:
     - 33-remove-test-filter-aliases.yml
     - 34-version_added.yml
     release_date: '2022-09-14'
+  1.6.0:
+    changes:
+      bugfixes:
+      - Avoid collection names with ``_`` in them appear wrongly escaped in the HTML
+        output (https://github.com/ansible-community/antsibull-docs/pull/41).
+      - For INI examples which have no default, write ``VALUE`` as intended instead
+        of ``None`` (https://github.com/ansible-community/antsibull-docs/pull/37).
+      - Format lists correctly for INI examples (https://github.com/ansible-community/antsibull-docs/pull/37).
+      - The ``sphinx-init`` subcommand's ``requirement.txt`` file avoids Sphinx 5.2.0.post0,
+        which triggers a bug in sphinx-rtd-theme which happens to be the parent theme
+        of the default theme sphinx_ansible_theme used by ``sphinx-init`` (https://github.com/ansible-community/antsibull-docs/issues/39,
+        https://github.com/ansible-community/antsibull-docs/pull/40).
+      minor_changes:
+      - Allow to specify choices as dictionary instead of list (https://github.com/ansible-community/antsibull-docs/pull/36).
+      - Use JSON serializer to format choices (https://github.com/ansible-community/antsibull-docs/pull/37).
+      - Use special serializer to format INI values in examples (https://github.com/ansible-community/antsibull-docs/pull/37).
+      release_summary: Bugfix and feature release.
+    fragments:
+    - 1.6.0.yml
+    - 36-choices-dict.yml
+    - 37-choices-ini-json.yml
+    - 40-sphinx-init-restriction.yml
+    - 41-version_added.yml
+    release_date: '2022-09-25'

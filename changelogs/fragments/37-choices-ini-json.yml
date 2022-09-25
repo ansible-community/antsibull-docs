@@ -1,6 +1,0 @@
-minor_changes:
-  - "Use JSON serializer to format choices (https://github.com/ansible-community/antsibull-docs/pull/37)."
-  - "Use special serializer to format INI values in examples (https://github.com/ansible-community/antsibull-docs/pull/37)."
-bugfixes:
-  - "For INI examples which have no default, write ``VALUE`` as intended instead of ``None`` (https://github.com/ansible-community/antsibull-docs/pull/37)."
-  - "Format lists correctly for INI examples (https://github.com/ansible-community/antsibull-docs/pull/37)."

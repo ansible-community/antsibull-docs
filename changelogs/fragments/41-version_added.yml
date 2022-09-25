@@ -1,2 +1,0 @@
-bugfixes:
-  - "Avoid collection names with ``_`` in them appear wrongly escaped in the HTML output (https://github.com/ansible-community/antsibull-docs/pull/41)."

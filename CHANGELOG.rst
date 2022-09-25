@@ -5,6 +5,29 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v1.6.0
+======
+
+Release Summary
+---------------
+
+Bugfix and feature release.
+
+Minor Changes
+-------------
+
+- Allow to specify choices as dictionary instead of list (https://github.com/ansible-community/antsibull-docs/pull/36).
+- Use JSON serializer to format choices (https://github.com/ansible-community/antsibull-docs/pull/37).
+- Use special serializer to format INI values in examples (https://github.com/ansible-community/antsibull-docs/pull/37).
+
+Bugfixes
+--------
+
+- Avoid collection names with ``_`` in them appear wrongly escaped in the HTML output (https://github.com/ansible-community/antsibull-docs/pull/41).
+- For INI examples which have no default, write ``VALUE`` as intended instead of ``None`` (https://github.com/ansible-community/antsibull-docs/pull/37).
+- Format lists correctly for INI examples (https://github.com/ansible-community/antsibull-docs/pull/37).
+- The ``sphinx-init`` subcommand's ``requirement.txt`` file avoids Sphinx 5.2.0.post0, which triggers a bug in sphinx-rtd-theme which happens to be the parent theme of the default theme sphinx_ansible_theme used by ``sphinx-init`` (https://github.com/ansible-community/antsibull-docs/issues/39, https://github.com/ansible-community/antsibull-docs/pull/40).
+
 v1.5.0
 ======
 

@@ -1,2 +1,0 @@
-minor_changes:
-  - "Allow to specify choices as dictionary instead of list (https://github.com/ansible-community/antsibull-docs/pull/36)."

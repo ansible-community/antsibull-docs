@@ -1,4 +1,0 @@
-bugfixes:
-  - "The ``sphinx-init`` subcommand's ``requirement.txt`` file avoids Sphinx 5.2.0.post0, which triggers a bug in sphinx-rtd-theme
-     which happens to be the parent theme of the default theme sphinx_ansible_theme used by ``sphinx-init``
-     (https://github.com/ansible-community/antsibull-docs/issues/39, https://github.com/ansible-community/antsibull-docs/pull/40)."
