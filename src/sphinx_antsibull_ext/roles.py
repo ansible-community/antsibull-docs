@@ -67,10 +67,30 @@ def option_default(name, rawtext, text, lineno, inliner, options={}, content=[])
     return [nodes.literal(rawtext, text, classes=['ansible-option-default'])], []
 
 
+# pylint:disable-next=unused-argument,dangerous-default-value
+def return_value_sample(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    """Format Ansible return value sample value.
+
+    Returns 2 part tuple containing list of nodes to insert into the
+    document and a list of system messages.  Both are allowed to be
+    empty.
+
+    :param name: The role name used in the document.
+    :param rawtext: The entire markup snippet, with role.
+    :param text: The text marked with the role.
+    :param lineno: The line number where rawtext appears in the input.
+    :param inliner: The inliner instance that called us.
+    :param options: Directive options for customization.
+    :param content: The directive content for customization.
+    """
+    return [nodes.literal(rawtext, text, classes=['ansible-option-sample'])], []
+
+
 ROLES = {
     'ansible-option-choices-entry': option_choice,
     'ansible-option-choices-entry-default': option_choice_default,
     'ansible-option-default': option_default,
+    'ansible-rv-sample-value': return_value_sample,
 }
 
 
