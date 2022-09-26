@@ -112,7 +112,9 @@
 .. version_added
 
 {% if doc['version_added'] is still_relevant(collection=doc['version_added_collection'] or collection) -%}
-.. versionadded:: @{ version_added_rst(doc['version_added'], doc['version_added_collection'] or collection, do_not_escape_first_word=true) }@
+.. rst-class:: ansible-version-added
+
+New in @{ version_added_rst(doc['version_added'], doc['version_added_collection'] or collection) }@
 {% endif %}
 
 .. contents::
