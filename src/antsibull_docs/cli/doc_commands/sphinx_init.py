@@ -56,6 +56,10 @@ def toperky(value: t.Any) -> str:
     raise Exception(f'toperky filter cannot handle type {type(value)}')
 
 
+def python_repr(value: t.Any) -> str:
+    return repr(value)
+
+
 def site_init() -> int:
     """
     Initialize a Sphinx site template for a collection docsite.
@@ -83,6 +87,10 @@ def site_init() -> int:
     indexes = app_ctx.indexes
     collection_url = app_ctx.collection_url
     collection_install = app_ctx.collection_install
+    intersphinx_parts = []
+    for intersphinx in app_ctx.extra['intersphinx'] or []:
+        inventory, url = intersphinx.split(':', 1)
+        intersphinx_parts.append((inventory.rstrip(' '), url.lstrip(' ')))
 
     sphinx_theme = 'sphinx_ansible_theme'
     sphinx_theme_package = 'sphinx-ansible-theme >= 0.9.0'
@@ -92,7 +100,10 @@ def site_init() -> int:
 
     env = doc_environment(
         ('antsibull_docs.data', 'sphinx_init'),
-        extra_filters={'toperky': toperky},
+        extra_filters={
+            'toperky': toperky,
+            'python_repr': python_repr,
+        },
     )
 
     for filename in TEMPLATES:
@@ -114,6 +125,7 @@ def site_init() -> int:
             sphinx_theme_package=sphinx_theme_package,
             collection_url=collection_url,
             collection_install=collection_install,
+            intersphinx=intersphinx_parts,
         ) + '\n'
 
         destination = os.path.join(dest_dir, filename)

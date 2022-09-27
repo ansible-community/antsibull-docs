@@ -155,6 +155,11 @@ def _normalize_sphinx_init_options(args: argparse.Namespace) -> None:
         raise InvalidArgumentError('If no collection is provided, --use-current must be'
                                    ' specified')
 
+    for index, intersphinx in enumerate(args.intersphinx or []):
+        if ':' not in intersphinx:
+            raise InvalidArgumentError(
+                'Every `--intersphinx` value must have at least one colon (:).')
+
 
 def parse_args(program_name: str, args: List[str]) -> argparse.Namespace:
     """
@@ -350,6 +355,11 @@ def parse_args(program_name: str, args: List[str]) -> argparse.Namespace:
                                     ' names, they will be downloaded from galaxy.  If no names are'
                                     ' provided, --use-current must be supplied and docs are built'
                                     ' for all collections found.')
+    sphinx_init_parser.add_argument('--intersphinx', action='append',
+                                    help='Add entries to intersphinx_mapping in the generated'
+                                    ' conf.py. Use the syntax `identifier:https://server/path` to'
+                                    ' add the identifier `identifier` with URL'
+                                    ' `https://server/path`. The inventory is always `None`.')
 
     #
     # Lint collection docs

@@ -25,7 +25,7 @@ jobs:
         options:
           - '--use-current --sphinx-theme sphinx_rtd_theme'
           - '--use-current --use-html-blobs --no-breadcrumbs community.crypto community.docker'
-          - '--no-indexes --squash-hierarchy community.crypto --collection-version 2.0.0'
+          - '--no-indexes --squash-hierarchy --intersphinx ansible6:https://docs.ansible.com/ansible/6/ community.crypto --collection-version 2.0.0'
 
     steps:
       - name: Check out antsibull-docs
