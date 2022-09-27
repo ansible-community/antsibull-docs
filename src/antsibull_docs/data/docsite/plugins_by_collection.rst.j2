@@ -94,7 +94,11 @@ Communication
     :maxdepth: 1
 
 {%     for toctree_entry in section.toctree %}
-    @{toctree_entry}@
+{%       if toctree_entry.title %}
+    @{ toctree_entry.title | rst_escape }@ <@{ toctree_entry.ref }@>
+{%       else %}
+    @{ toctree_entry.ref }@
+{%       endif %}
 {%     endfor %}
 {%   endif %}
 
