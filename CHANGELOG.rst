@@ -5,6 +5,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v1.6.1
+======
+
+Release Summary
+---------------
+
+Bugfix release for ansible-core 2.14.
+
+Bugfixes
+--------
+
+- Fix formulation of top-level ``version_added`` (https://github.com/ansible-community/antsibull-docs/pull/43).
+
 v1.6.0
 ======
 

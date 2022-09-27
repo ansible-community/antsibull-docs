@@ -200,3 +200,12 @@ releases:
     - 40-sphinx-init-restriction.yml
     - 41-version_added.yml
     release_date: '2022-09-25'
+  1.6.1:
+    changes:
+      bugfixes:
+      - Fix formulation of top-level ``version_added`` (https://github.com/ansible-community/antsibull-docs/pull/43).
+      release_summary: Bugfix release for ansible-core 2.14.
+    fragments:
+    - 1.6.1.yml
+    - 43-version-added.yml
+    release_date: '2022-09-27'
