@@ -1,0 +1,2 @@
+bugfixes:
+  - "Fix formulation of top-level ``version_added`` (https://github.com/ansible-community/antsibull-docs/pull/43)."

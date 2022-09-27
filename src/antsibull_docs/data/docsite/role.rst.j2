@@ -92,7 +92,9 @@
 .. version_added
 
 {%   if ep_doc['version_added'] is still_relevant(collection=collection) -%}
-.. versionadded:: @{ version_added_rst(ep_doc['version_added'], collection, do_not_escape_first_word=true) }@
+.. rst-class:: ansible-version-added
+
+New in @{ version_added_rst(ep_doc['version_added'], collection) }@
 {%   endif %}
 
 .. Deprecated
