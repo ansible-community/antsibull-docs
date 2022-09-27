@@ -155,7 +155,7 @@ def _normalize_sphinx_init_options(args: argparse.Namespace) -> None:
         raise InvalidArgumentError('If no collection is provided, --use-current must be'
                                    ' specified')
 
-    for index, intersphinx in enumerate(args.intersphinx or []):
+    for intersphinx in args.intersphinx or []:
         if ':' not in intersphinx:
             raise InvalidArgumentError(
                 'Every `--intersphinx` value must have at least one colon (:).')
