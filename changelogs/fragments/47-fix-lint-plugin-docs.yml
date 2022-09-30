@@ -1,0 +1,2 @@
+bugfixes:
+  - "Make ``lint-collection-docs --plugin-docs`` subcommand actually work (https://github.com/ansible-community/antsibull-docs/pull/47)."
