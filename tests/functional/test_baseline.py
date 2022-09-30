@@ -12,6 +12,8 @@ from contextlib import redirect_stdout
 
 from antsibull_docs.cli.antsibull_docs import run
 
+pytest.importorskip('ansible')
+
 
 TEST_CASES = [
     (

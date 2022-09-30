@@ -43,7 +43,7 @@ rstcheck = ">= 3.0.0, < 7.0.0"
 sphinx = "*"
 
 [tool.poetry.dev-dependencies]
-ansible-core = ">= 2.14.0b1"
+ansible-core = {version = ">= 2.14.0b1", python = ">=3.9"}
 asynctest = "*"
 cryptography = "*"
 codecov = "*"
