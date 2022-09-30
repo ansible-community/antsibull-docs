@@ -144,6 +144,7 @@ def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
                     nonfatal_errors[plugin_type][plugin_name],
                     plugin_type_tmpl, error_tmpl,
                     use_html_blobs=False,
+                    log_errors=False,
                 )
                 path = os.path.join(
                     original_path_to_collection, 'plugins', plugin_type,

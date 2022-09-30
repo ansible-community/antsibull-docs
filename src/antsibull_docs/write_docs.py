@@ -96,10 +96,12 @@ def create_plugin_rst(collection_name: str,
                       collection_meta: AnsibleCollectionMetadata,
                       collection_links: CollectionLinks,
                       plugin_short_name: str, plugin_type: str,
-                      plugin_record: t.Dict[str, t.Any], nonfatal_errors: t.Sequence[str],
+                      plugin_record: t.Dict[str, t.Any],
+                      nonfatal_errors: t.Sequence[str],
                       plugin_tmpl: Template, error_tmpl: Template,
                       use_html_blobs: bool = False,
-                      for_official_docsite: bool = False) -> str:
+                      for_official_docsite: bool = False,
+                      log_errors: bool = True) -> str:
     """
     Create the rst page for one plugin.
 
@@ -118,6 +120,7 @@ def create_plugin_rst(collection_name: str,
                          tables instead of using RST tables.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
+    :kwarg log_errors: Default True.  Set to False to avoid errors to be logged.
     """
     flog = mlog.fields(func='create_plugin_rst')
     flog.debug('Enter')
@@ -153,11 +156,12 @@ def create_plugin_rst(collection_name: str,
 
     expected_fields = ('entry_points',) if plugin_type == 'role' else ('doc', 'examples', 'return')
     if not plugin_record or not all(field in plugin_record for field in expected_fields):
-        flog.fields(plugin_type=plugin_type,
-                    plugin_name=plugin_name,
-                    nonfatal_errors=nonfatal_errors
-                    ).error('{plugin_name} did not return correct DOCUMENTATION.  An error page'
-                            ' will be generated.', plugin_name=plugin_name)
+        if log_errors:
+            flog.fields(plugin_type=plugin_type,
+                        plugin_name=plugin_name,
+                        nonfatal_errors=nonfatal_errors
+                        ).error('{plugin_name} did not return correct DOCUMENTATION.  An error'
+                                ' page will be generated.', plugin_name=plugin_name)
         plugin_contents = _render_template(
             error_tmpl,
             plugin_name + '_' + plugin_type,
@@ -172,7 +176,7 @@ def create_plugin_rst(collection_name: str,
             for_official_docsite=for_official_docsite,
         )
     else:
-        if nonfatal_errors:
+        if log_errors and nonfatal_errors:
             flog.fields(plugin_type=plugin_type,
                         plugin_name=plugin_name,
                         nonfatal_errors=nonfatal_errors
