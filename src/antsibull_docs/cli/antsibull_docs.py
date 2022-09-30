@@ -367,7 +367,7 @@ def parse_args(program_name: str, args: List[str]) -> argparse.Namespace:
                                              default=False,
                                              help='Determine whether to also check RST file'
                                              ' generation and validation for plugins and roles'
-                                             ' in this collection. (default: True)')
+                                             ' in this collection.')
 
     flog.debug('Argument parser setup')
 
