@@ -24,6 +24,12 @@ With multiple paragraphs.
 
 * Ansible (https://github.com/ansible)
 
+**Supported ansible-core versions:**
+
+* version 2.12.2 is specifically not supported
+* older than 2.99.0
+* 2.11.0 or newer
+
 .. raw:: html
 
   <p class="ansible-links">

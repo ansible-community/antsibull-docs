@@ -13,6 +13,7 @@ import typing as t
 import asyncio_pool  # type: ignore[import]
 
 from jinja2 import Template
+from packaging.specifiers import SpecifierSet
 
 from antsibull_core import app_context
 from antsibull_core.logging import log
@@ -602,6 +603,26 @@ async def write_plugin_type_index(plugin_type: str,
     await write_file(dest_filename, index_contents)
 
 
+def _parse_required_ansible(requires_ansible: str) -> t.List[str]:
+    result = []
+    for specifier in SpecifierSet(requires_ansible):
+        if specifier.operator == '>=':
+            result.append(f'{specifier.version} or newer')
+        elif specifier.operator == '>':
+            result.append(f'newer than {specifier.version}')
+        elif specifier.operator == '<=':
+            result.append(f'{specifier.version} or older')
+        elif specifier.operator == '<':
+            result.append(f'older than {specifier.version}')
+        elif specifier.operator == '!=':
+            result.append(f'version {specifier.version} is specifically not supported')
+        elif specifier.operator == '==':
+            result.append(f'version {specifier.version} is specifically supported')
+        else:
+            result.append(f'{specifier.operator} {specifier.version}')
+    return result
+
+
 async def write_plugin_lists(collection_name: str,
                              plugin_maps: t.Mapping[str, t.Mapping[str, str]],
                              template: Template,
@@ -627,12 +648,28 @@ async def write_plugin_lists(collection_name: str,
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
     """
+    flog = mlog.fields(func='write_plugin_lists')
+    flog.debug('Enter')
+
+    requires_ansible = []
+    if collection_name != 'ansible.builtin' and collection_meta.requires_ansible:
+        try:
+            requires_ansible = _parse_required_ansible(collection_meta.requires_ansible)
+        except Exception as exc:  # pylint:disable=broad-except
+            flog.fields(
+                collection_name=collection_name,
+                exception=exc,
+            ).error(
+                'Cannot parse required_ansible specifier set for {collection_name}',
+                collection_name=collection_name,
+            )
     index_contents = _render_template(
         template,
         dest_dir,
         collection_name=collection_name,
         plugin_maps=plugin_maps,
         collection_version=collection_meta.version,
+        requires_ansible=requires_ansible,
         link_data=link_data,
         breadcrumbs=breadcrumbs,
         extra_docs_sections=extra_docs_data[0],
@@ -649,6 +686,8 @@ async def write_plugin_lists(collection_name: str,
     index_file = os.path.join(dest_dir, 'index.rst')
 
     await write_file(index_file, index_contents)
+
+    flog.debug('Leave')
 
 
 async def output_collection_index(collection_to_plugin_info: CollectionInfoT,

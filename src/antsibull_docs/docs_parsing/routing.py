@@ -189,7 +189,14 @@ def remove_flatmapping_artifacts(plugin_routing: t.Dict[str, t.Dict[str, t.Dict[
                         plugin_routing_type.pop(plugin_name, None)
 
 
-def calculate_meta_runtime(collection_name, collection_metadata):
+def load_meta_runtime(collection_name: str,
+                      collection_metadata: AnsibleCollectionMetadata) -> t.Mapping[str, t.Any]:
+    '''
+    Load meta/runtime.yml for collections, and ansible_builtin_runtime.yml for ansible-core.
+
+    Also extracts additional metadata stored in meta/runtime.yml, like requires_ansible,
+    and stores it in collection_metadata
+    '''
     if collection_name == 'ansible.builtin':
         meta_runtime_path = os.path.join(
             collection_metadata.path, 'config', 'ansible_builtin_runtime.yml')
@@ -201,6 +208,11 @@ def calculate_meta_runtime(collection_name, collection_metadata):
     else:
         meta_runtime = {}
 
+    if collection_name != 'ansible.builtin':
+        requires_ansible = meta_runtime.get('requires_ansible')
+        if isinstance(requires_ansible, str):
+            collection_metadata.requires_ansible = requires_ansible
+
     return meta_runtime
 
 
@@ -210,7 +222,7 @@ async def load_collection_routing(collection_name: str,
     """
     Load plugin routing for a collection.
     """
-    meta_runtime = calculate_meta_runtime(collection_name, collection_metadata)
+    meta_runtime = load_meta_runtime(collection_name, collection_metadata)
     plugin_routing_out: t.Dict[str, t.Dict[str, t.Dict[str, t.Any]]] = {}
     plugin_routing_in = meta_runtime.get('plugin_routing') or {}
     for plugin_type in DOCUMENTABLE_PLUGINS:

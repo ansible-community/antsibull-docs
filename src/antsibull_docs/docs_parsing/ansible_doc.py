@@ -230,7 +230,8 @@ def get_collection_metadata(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
     raw_result = ansible_collection_list_cmd.stdout.decode('utf-8', errors='surrogateescape')
     collection_list = parse_ansible_galaxy_collection_list(raw_result, collection_names)
     for namespace, name, path, version in collection_list:
-        collection_metadata[f'{namespace}.{name}'] = AnsibleCollectionMetadata(
+        collection_name = f'{namespace}.{name}'
+        collection_metadata[collection_name] = AnsibleCollectionMetadata(
             path=path, version=version)
 
     return collection_metadata

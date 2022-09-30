@@ -39,6 +39,7 @@ antsibull-core = ">= 1.2.0, < 2.0.0"
 asyncio-pool = "*"
 docutils = "*"
 jinja2 = "*"
+packaging = "*"
 rstcheck = ">= 3.0.0, < 7.0.0"
 sphinx = "*"
 
