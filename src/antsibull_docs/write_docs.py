@@ -92,10 +92,44 @@ def follow_relative_links(path: str) -> str:
         path = os.path.join(os.path.dirname(path), link)
 
 
+def has_broken_docs(plugin_record: t.Mapping[str, t.Any], plugin_type: str) -> bool:
+    """
+    Determine whether the plugin record is completely broken or not.
+    """
+    expected_fields = ('entry_points',) if plugin_type == 'role' else ('doc', 'examples', 'return')
+    return not plugin_record or not all(field in plugin_record for field in expected_fields)
+
+
+def guess_relative_filename(plugin_record: t.Mapping[str, t.Any],
+                            plugin_short_name: str,
+                            plugin_type: str,
+                            collection_name: str,
+                            collection_meta: AnsibleCollectionMetadata) -> str:
+    """
+    Make an educated guess on the documentation source file.
+    """
+    if plugin_record and plugin_record.get('doc') and plugin_record['doc'].get('filename'):
+        filename = follow_relative_links(plugin_record['doc']['filename'])
+        return os.path.relpath(filename, collection_meta.path)
+    if plugin_type == 'role':
+        return f"roles/{plugin_short_name}/meta/argument_specs.yml"
+    plugin_dir = (
+        # Modules in ansible-core:
+        'modules' if plugin_type == 'module' and collection_name == 'ansible.builtin' else
+        # Modules in collections:
+        'plugins/modules' if plugin_type == 'module' else
+        # Plugins in ansible-core or collections:
+        'plugins/' + plugin_type
+    )
+    # Guess path inside collection tree
+    return f"{plugin_dir}/{plugin_short_name}.py"
+
+
 def create_plugin_rst(collection_name: str,
                       collection_meta: AnsibleCollectionMetadata,
                       collection_links: CollectionLinks,
-                      plugin_short_name: str, plugin_type: str,
+                      plugin_short_name: str,
+                      plugin_type: str,
                       plugin_record: t.Dict[str, t.Any],
                       nonfatal_errors: t.Sequence[str],
                       plugin_tmpl: Template, error_tmpl: Template,
@@ -129,33 +163,15 @@ def create_plugin_rst(collection_name: str,
 
     edit_on_github_url = None
     eog = collection_links.edit_on_github
-    if eog and plugin_type != 'role':
-        gh_plugin_dir = (
-            # Modules in ansible-core:
-            'modules' if plugin_type == 'module' and collection_name == 'ansible.builtin' else
-            # Modules in collections:
-            'plugins/modules' if plugin_type == 'module' else
-            # Plugins in ansible-core or collections:
-            'plugins/' + plugin_type
-        )
-        # Guess path inside collection tree
-        gh_path = f"{gh_plugin_dir}/{plugin_short_name}.py"
-        # If we have more precise information, use that!
-        if plugin_record and plugin_record.get('doc') and plugin_record['doc'].get('filename'):
-            filename = follow_relative_links(plugin_record['doc']['filename'])
-            gh_path = os.path.relpath(filename, collection_meta.path)
-        # Compose path
+    if eog:
+        # Compose Edit on GitHub URL
+        gh_path = guess_relative_filename(
+            plugin_record, plugin_short_name, plugin_type, collection_name, collection_meta)
         edit_on_github_url = (
             f"https://github.com/{eog.repository}/edit/{eog.branch}/{eog.path_prefix}{gh_path}"
         )
-    if eog and plugin_type == 'role':
-        edit_on_github_url = (
-            f"https://github.com/{eog.repository}/edit/{eog.branch}/{eog.path_prefix}"
-            f"roles/{plugin_short_name}/meta/argument_specs.yml"
-        )
 
-    expected_fields = ('entry_points',) if plugin_type == 'role' else ('doc', 'examples', 'return')
-    if not plugin_record or not all(field in plugin_record for field in expected_fields):
+    if has_broken_docs(plugin_record, plugin_type):
         if log_errors:
             flog.fields(plugin_type=plugin_type,
                         plugin_name=plugin_name,
