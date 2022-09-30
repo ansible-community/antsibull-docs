@@ -48,7 +48,7 @@ class CollectionCopier:
         self.dir = None
 
     def __enter__(self):
-        if self.dir is None:
+        if self.dir is not None:
             raise AssertionError('Collection copier already initialized')
         self.dir = os.path.realpath(tempfile.mkdtemp(prefix='antsibull-docs-'))
         return self
