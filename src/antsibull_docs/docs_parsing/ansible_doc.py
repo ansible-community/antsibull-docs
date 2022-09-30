@@ -239,11 +239,20 @@ def get_collection_metadata(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
 def get_ansible_core_version(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
                              env: t.Optional[t.Dict[str, str]] = None,
                              ) -> PypiVer:
-    venv_python = venv.get_command('python')
-    ansible_version_cmd = venv_python(
-        '-c', 'import ansible.release; print(ansible.release.__version__)', _env=env)
-    output = ansible_version_cmd.stdout.decode('utf-8', errors='surrogateescape').strip()
-    return PypiVer(output)
+    try:
+        venv_python = venv.get_command('python')
+        ansible_version_cmd = venv_python(
+            '-c', 'import ansible.release; print(ansible.release.__version__)', _env=env)
+        output = ansible_version_cmd.stdout.decode('utf-8', errors='surrogateescape').strip()
+        return PypiVer(output)
+    except sh.ErrorReturnCode:
+        pass
+
+    # Fallback: use `ansible --version`
+    venv_ansible = venv.get_command('ansible')
+    ansible_version_cmd = venv_ansible('--version', _env=env)
+    raw_result = ansible_version_cmd.stdout.decode('utf-8', errors='surrogateescape')
+    return PypiVer(_extract_ansible_builtin_metadata(raw_result).version)
 
 
 async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
