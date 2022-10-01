@@ -7,7 +7,6 @@
 Ns.Col1
 =======
 
-Collection version 5.2022.17
 
 .. contents::
    :local:

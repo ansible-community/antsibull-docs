@@ -7,7 +7,7 @@
 Ns.Col2
 =======
 
-Collection version 1.2.3
+Collection version 0.0.1
 
 .. contents::
    :local:

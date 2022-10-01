@@ -7,8 +7,8 @@ set -e
 rm -rf baseline-default baseline-no-breadcrumbs baseline-no-indexes baseline-use-html-blobs baseline-squash-hierarchy
 mkdir -p baseline-default baseline-no-breadcrumbs baseline-no-indexes baseline-use-html-blobs baseline-squash-hierarchy
 
-ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --use-current ns.col1 ns.col2 ns2.col --dest-dir baseline-default
-ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --use-current ns.col1 ns.col2 ns2.col --dest-dir baseline-no-breadcrumbs --no-breadcrumbs
-ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --use-current ns.col1 ns.col2 ns2.col --dest-dir baseline-no-indexes --no-indexes
-ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --use-current ns2.col --dest-dir baseline-use-html-blobs --use-html-blobs
-ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --use-current ns2.col --dest-dir baseline-squash-hierarchy --squash-hierarchy
+ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --fail-on-error --use-current ns.col1 ns.col2 ns2.col --dest-dir baseline-default
+ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --fail-on-error --use-current ns.col1 ns.col2 ns2.col --dest-dir baseline-no-breadcrumbs --no-breadcrumbs
+ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --fail-on-error --use-current ns.col1 ns.col2 ns2.col --dest-dir baseline-no-indexes --no-indexes
+ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --fail-on-error --use-current ns2.col --dest-dir baseline-use-html-blobs --use-html-blobs
+ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --fail-on-error --use-current ns2.col --dest-dir baseline-squash-hierarchy --squash-hierarchy
