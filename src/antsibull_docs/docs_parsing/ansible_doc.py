@@ -248,11 +248,19 @@ def get_ansible_core_version(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
     except sh.ErrorReturnCode:
         pass
 
-    # Fallback: use `ansible --version`
-    venv_ansible = venv.get_command('ansible')
-    ansible_version_cmd = venv_ansible('--version', _env=env)
-    raw_result = ansible_version_cmd.stdout.decode('utf-8', errors='surrogateescape')
-    return PypiVer(_extract_ansible_builtin_metadata(raw_result).version)
+    try:
+        # Fallback: use `ansible --version`
+        venv_ansible = venv.get_command('ansible')
+        ansible_version_cmd = venv_ansible('--version', _env=env)
+        raw_result = ansible_version_cmd.stdout.decode('utf-8', errors='surrogateescape')
+        metadata = _extract_ansible_builtin_metadata(raw_result)
+        if metadata.version is None:
+            raise ValueError('Cannot retrieve ansible-core version from `ansible --version`')
+        return PypiVer(metadata.version)
+    except sh.ErrorReturnCode as exc:
+        raise ValueError(
+            f'Cannot retrieve ansible-core version from `ansible --version`: {exc}'
+        ) from exc
 
 
 async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
