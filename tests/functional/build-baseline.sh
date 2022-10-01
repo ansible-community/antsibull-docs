@@ -1,14 +1,24 @@
-#!/bin/sh
+#!/bin/bash
 # Copyright (c) Ansible Project
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 set -e
-rm -rf baseline-default baseline-no-breadcrumbs baseline-no-indexes baseline-use-html-blobs baseline-squash-hierarchy
-mkdir -p baseline-default baseline-no-breadcrumbs baseline-no-indexes baseline-use-html-blobs baseline-squash-hierarchy
 
-ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --fail-on-error --use-current ns.col1 ns.col2 ns2.col --dest-dir baseline-default
-ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --fail-on-error --use-current ns.col1 ns.col2 ns2.col --dest-dir baseline-no-breadcrumbs --no-breadcrumbs
-ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --fail-on-error --use-current ns.col1 ns.col2 ns2.col --dest-dir baseline-no-indexes --no-indexes
-ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --fail-on-error --use-current ns2.col --dest-dir baseline-use-html-blobs --use-html-blobs
-ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --fail-on-error --use-current ns2.col --dest-dir baseline-squash-hierarchy --squash-hierarchy
+
+make_baseline() {
+    DEST="$1"
+    shift
+
+    echo "Building baseline ${DEST}..."
+    rm -rf "${DEST}"
+    mkdir -p "${DEST}"
+    ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --dest-dir "${DEST}" --fail-on-error --use-current $@
+}
+
+
+make_baseline baseline-default ns.col1 ns.col2 ns2.col
+make_baseline baseline-no-breadcrumbs ns.col1 ns.col2 ns2.col --no-breadcrumbs
+make_baseline baseline-no-indexes ns.col1 ns.col2 ns2.col --no-indexes
+make_baseline baseline-use-html-blobs ns2.col --use-html-blobs
+make_baseline baseline-squash-hierarchy ns2.col --squash-hierarchy
