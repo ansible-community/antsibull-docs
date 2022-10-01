@@ -23,7 +23,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9, '3.10']
+        python-version: [3.6, 3.7, 3.8, 3.9]
+        skip-is-error: [false]
+        include:
+          - python-version: '3.10'
+            skip-is-error: true
 
     steps:
       - name: Check out antsibull-docs
@@ -56,7 +60,7 @@ jobs:
 
       - name: Test with pytest and upload coverage stats
         run: |
-          ./test-pytest.sh
+          ./test-pytest.sh ${{ matrix.skip-is-error && '--error-for-skips' || '' }}
           poetry run coverage xml -i
           poetry run codecov
         working-directory: antsibull-docs
