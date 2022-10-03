@@ -37,7 +37,11 @@ from .docs_parsing.routing import (
 )
 from .jinja2.environment import doc_environment
 from .utils.collection_name_transformer import CollectionNameTransformer
-from .write_docs import create_plugin_rst
+from .write_docs import (
+    create_plugin_rst,
+    guess_relative_filename,
+    has_broken_docs,
+)
 from .rstcheck import check_rst_content
 
 
@@ -48,7 +52,7 @@ class CollectionCopier:
         self.dir = None
 
     def __enter__(self):
-        if self.dir is None:
+        if self.dir is not None:
             raise AssertionError('Collection copier already initialized')
         self.dir = os.path.realpath(tempfile.mkdtemp(prefix='antsibull-docs-'))
         return self
@@ -107,17 +111,6 @@ def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
     collection_to_plugin_info = get_collection_contents(plugin_contents)
     for collection in collection_metadata:
         collection_to_plugin_info[collection]  # pylint:disable=pointless-statement
-    # Collect non-fatal errors
-    result = []
-    for plugin_type, plugins in sorted(nonfatal_errors.items()):
-        for plugin_name, errors in sorted(plugins.items()):
-            for error in errors:
-                result.append((
-                    os.path.join(original_path_to_collection, 'plugins', plugin_type, plugin_name),
-                    0,
-                    0,
-                    error,
-                ))
     # Compose RST files and check for errors
     # Setup the jinja environment
     env = doc_environment(
@@ -129,6 +122,7 @@ def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
     role_tmpl = env.get_template('role.rst.j2')
     error_tmpl = env.get_template('plugin-error.rst.j2')
 
+    result = []
     for collection_name_, plugins_by_type in collection_to_plugin_info.items():
         for plugin_type, plugins_dict in plugins_by_type.items():
             plugin_type_tmpl = plugin_tmpl
@@ -136,14 +130,30 @@ def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
                 plugin_type_tmpl = role_tmpl
             for plugin_short_name, dummy_ in plugins_dict.items():
                 plugin_name = '.'.join((collection_name_, plugin_short_name))
+                plugin_record = new_plugin_info[plugin_type].get(plugin_name) or {}
+                filename = os.path.join(
+                    original_path_to_collection,
+                    guess_relative_filename(
+                        plugin_record,
+                        plugin_short_name,
+                        plugin_type,
+                        collection_name_,
+                        collection_metadata[collection_name_]))
+                if has_broken_docs(plugin_record, plugin_type):
+                    result.append((filename, 0, 0, 'Did not return correct DOCUMENTATION'))
+                for error in nonfatal_errors[plugin_type][plugin_name]:
+                    result.append((filename, 0, 0, error))
                 rst_content = create_plugin_rst(
-                    collection_name_, collection_metadata[collection_name_],
+                    collection_name_,
+                    collection_metadata[collection_name_],
                     link_data[collection_name_],
-                    plugin_short_name, plugin_type,
-                    new_plugin_info[plugin_type].get(plugin_name) or {},
+                    plugin_short_name,
+                    plugin_type,
+                    plugin_record,
                     nonfatal_errors[plugin_type][plugin_name],
                     plugin_type_tmpl, error_tmpl,
                     use_html_blobs=False,
+                    log_errors=False,
                 )
                 path = os.path.join(
                     original_path_to_collection, 'plugins', plugin_type,
