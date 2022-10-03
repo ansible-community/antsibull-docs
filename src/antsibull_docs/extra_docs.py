@@ -28,11 +28,20 @@ class ExtraDocsIndexError(Exception):
     pass
 
 
+class TocTreeEntry:
+    ref: str
+    title: t.Optional[str]
+
+    def __init__(self, ref: str, title: t.Optional[str] = None):
+        self.ref = ref
+        self.title = title
+
+
 class Section:
     title: str
-    toctree: t.List[str]
+    toctree: t.List[TocTreeEntry]
 
-    def __init__(self, title: str, toctree: t.List[str]):
+    def __init__(self, title: str, toctree: t.List[TocTreeEntry]):
         self.title = title
         self.toctree = toctree
 
@@ -97,23 +106,52 @@ def lint_required_conditions(content: str, collection_name: str
     return sorted(labels), errors
 
 
-def load_toctree(yaml_section: t.Dict[str, t.Any], section_index: int = 0
-                 ) -> t.Tuple[t.List[str], t.List[str]]:
+def _parse_toctree_entry(entry: t.Dict[t.Any, t.Any],
+                         toctree_index: int,
+                         section_index: int
+                         ) -> t.Tuple[t.Optional[TocTreeEntry], t.List[str]]:
     errors: t.List[str] = []
-    toctree: t.List[str] = []
+    toctree_entry: t.Optional[TocTreeEntry] = None
+    for key in ('ref', ):
+        if key not in entry:
+            errors.append(
+                f'Toctree entry #{toctree_index} in section #{section_index}'
+                f' does not have a "{key}" entry')
+    for key, value in entry.items():
+        if not isinstance(key, str) or not isinstance(value, str):
+            errors.append(
+                f'Toctree entry #{toctree_index} in section #{section_index}'
+                f' must have strings for keys and values for all entries')
+    if not errors:
+        toctree_entry = TocTreeEntry(entry['ref'], title=entry.get('title'))
+    return toctree_entry, errors
+
+
+def load_toctree(yaml_section: t.Dict[str, t.Any], section_index: int = 0
+                 ) -> t.Tuple[t.List[TocTreeEntry], t.List[str]]:
+    errors: t.List[str] = []
+    toctree: t.List[TocTreeEntry] = []
     if 'toctree' in yaml_section:
         if not isinstance(yaml_section['toctree'], list):
             errors.append(
                 f'Toctree entry in section #{section_index} is not a list')
             return toctree, errors
 
-        for toctree_index, toctree_name in enumerate(yaml_section['toctree']):
-            if not isinstance(toctree_name, str):
-                errors.append(
-                    f'Toctree entry #{toctree_index} in section #{section_index}'
-                    f' is not a string')
+        for toctree_index, toctree_entry in enumerate(yaml_section['toctree']):
+            if isinstance(toctree_entry, str):
+                toctree.append(TocTreeEntry(toctree_entry))
                 continue
-            toctree.append(toctree_name)
+            if isinstance(toctree_entry, dict):
+                toctree_entry_obj, toctree_entry_errors = _parse_toctree_entry(
+                    toctree_entry, toctree_index, section_index)
+                errors.extend(toctree_entry_errors)
+                if toctree_entry_obj:
+                    toctree.append(toctree_entry_obj)
+                continue
+            errors.append(
+                f'Toctree entry #{toctree_index} in section #{section_index}'
+                f' is neither a string nor a dictionary')
+            continue
     return toctree, errors
 
 
@@ -189,8 +227,8 @@ async def load_collection_extra_docs(collection_name: str,
         sections = []
 
     for section in sections:
-        for i, toctree in enumerate(section.toctree):
-            section.toctree[i] = f"{path_prefix}/{toctree}"
+        for toctree in section.toctree:
+            toctree.ref = f"{path_prefix}/{toctree.ref}"
     documents = []
     for abs_path, rel_path in find_extra_docs(collection_path):
         try:
