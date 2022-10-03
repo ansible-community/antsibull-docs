@@ -163,63 +163,6 @@ Parameters
 
         </div>
 
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-stage"></div>
-
-      .. _ansible_collections.ns2.col.foo_vars__parameter-stage:
-
-      .. rst-class:: ansible-option-title
-
-      **stage**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-stage" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in ansible-base 2.10`
-
-
-
-
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Control when this vars plugin may be executed.
-
-      Setting this option to \ :literal:`all`\  will run the vars plugin after importing inventory and whenever it is demanded by a task.
-
-      Setting this option to \ :literal:`task`\  will only run the vars plugin whenever it is demanded by a task.
-
-      Setting this option to \ :literal:`inventory`\  will only run the vars plugin after parsing inventory.
-
-      If this option is omitted, the global \ :emphasis:`RUN\_VARS\_PLUGINS`\  configuration is used to determine when to execute the vars plugin.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`"all"`
-      - :ansible-option-choices-entry:`"task"`
-      - :ansible-option-choices-entry:`"inventory"`
-
-
-      .. raw:: html
-
-        </div>
-
 
 .. Attributes
 

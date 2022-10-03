@@ -134,7 +134,11 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Bar.
+      Bar. \ :strong:`BAR!`\ 
+
+      Totally unrelated to \ :emphasis:`become\_user`\ . Even with \ :emphasis:`become\_user=foo`\ .
+
+      Might not be compatible when \ :emphasis:`become\_user`\  is \ :literal:`bar`\ , though.
 
 
       .. raw:: html
@@ -266,7 +270,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      User you 'become' to execute the task
+      User you 'become' to execute the task.
 
 
       .. rst-class:: ansible-option-line

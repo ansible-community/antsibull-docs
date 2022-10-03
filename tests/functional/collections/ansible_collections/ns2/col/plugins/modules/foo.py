@@ -18,15 +18,15 @@ short_description: Do some foo
 description:
     - Does some foo on the remote host.
     - Whether foo is magic or not has not yet been determined.
-extends_documentation_fragment:
-    - action_common_attributes
 options:
     foo:
         description: The foo source.
         type: str
         required: true
     bar:
-        description: A bar.
+        description:
+          - A bar.
+          - Independent from I(foo).
         type: list
         elements: int
         aliases:
@@ -40,6 +40,7 @@ options:
                 description:
                     - A sub foo.
                     - Whatever.
+                    - Also required when I(subfoo) is specified when I(foo=bar) or C(baz).
                 type: str
                 required: true
 
@@ -48,10 +49,14 @@ requirements:
 
 attributes:
     check_mode:
+        description: Can run in check_mode and return changed status prediction without modifying target
         support: full
     diff_mode:
+        description: Will return details on what has changed (or possibly needs changing in check_mode), when in diff mode
         support: full
     platform:
+        description: Target OS/families that can be operated against
+        support: N/A
         platforms: posix
 '''
 

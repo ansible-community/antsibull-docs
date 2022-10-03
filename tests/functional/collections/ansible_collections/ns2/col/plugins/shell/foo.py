@@ -11,8 +11,21 @@ short_description: Foo shell
 version_added: 1.0.0
 description:
   - This is for the foo shell.
-extends_documentation_fragment:
-  - shell_common
+options:
+  remote_tmp:
+    description:
+      - Temporary directory to use on targets when executing tasks.
+    default: '~/.ansible/tmp'
+    env:
+      - name: ANSIBLE_REMOTE_TEMP
+      - name: ANSIBLE_REMOTE_TMP
+    ini:
+      - section: defaults
+        key: remote_tmp
+    vars:
+      - name: ansible_remote_tmp
+    version_added: '2.10'
+    version_added_collection: ansible.builtin
 '''
 
 from ansible.plugins.shell import ShellBase

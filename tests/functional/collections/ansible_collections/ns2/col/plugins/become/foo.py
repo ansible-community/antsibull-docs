@@ -15,7 +15,7 @@ DOCUMENTATION = """
     version_added: historical
     options:
         become_user:
-            description: User you 'become' to execute the task
+            description: User you 'become' to execute the task.
             default: root
             ini:
               - section: privilege_escalation
@@ -64,7 +64,10 @@ DOCUMENTATION = """
             keyword:
               - name: become_exe
         bar:
-            description: Bar.
+            description:
+                - Bar. B(BAR!)
+                - Totally unrelated to I(become_user). Even with I(become_user=foo).
+                - Might not be compatible when I(become_user) is C(bar), though.
             type: str
             version_added: 1.2.0
             deprecated:

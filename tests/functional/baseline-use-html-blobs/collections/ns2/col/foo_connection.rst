@@ -51,6 +51,9 @@ ns2.col.foo connection -- Foo connection
 
 .. version_added
 
+.. rst-class:: ansible-version-added
+
+New in ns2.col 1.2.0
 
 .. contents::
    :local:
@@ -126,48 +129,6 @@ Parameters
       </li>
       <li>
         <p>Variable: delegated_vars[&#39;ansible_ssh_host&#39;]</p>
-
-      </li>
-      </ul>
-    </div></td>
-  </tr>
-  <tr class="row-odd">
-    <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-pipelining"></div>
-      <p class="ansible-option-title"><strong>pipelining</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-pipelining" title="Permalink to this option"></a>
-      <p class="ansible-option-type-line">
-        <span class="ansible-option-type">boolean</span>
-      </p>
-
-    </div></td>
-    <td><div class="ansible-option-cell">
-      <p>Pipelining reduces the number of connection operations required to execute a module on the remote server, by executing many Ansible modules without actual file transfers.</p>
-      <p>This can result in a very significant performance improvement when enabled.</p>
-      <p>However this can conflict with privilege escalation (become). For example, when using sudo operations you must first disable &#x27;requiretty&#x27; in the sudoers file for the target hosts, which is why this feature is disabled by default.</p>
-      <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-      <ul class="simple">
-        <li><p><span class="ansible-option-default-bold">false</span> <span class="ansible-option-default">← (default)</span></p></li>
-        <li><p><span class="ansible-option-choices-entry">true</span></p></li>
-      </ul>
-
-      <p class="ansible-option-line"><span class="ansible-option-configuration">Configuration:</span></p>
-      <ul class="simple">
-      <li>
-        <p>INI entries</p>
-        <div class="highlight-YAML+Jinja notranslate"><div class="highlight"><pre><span class="p p-Indicator">[</span><span class="nv">defaults</span><span class="p p-Indicator">]</span>
-  <span class="l l-Scalar l-Scalar-Plain">pipelining = false</span></pre></div></div>
-
-        <div class="highlight-YAML+Jinja notranslate"><div class="highlight"><pre><span class="p p-Indicator">[</span><span class="nv">connection</span><span class="p p-Indicator">]</span>
-  <span class="l l-Scalar l-Scalar-Plain">pipelining = false</span></pre></div></div>
-
-      </li>
-      <li>
-        <p>Environment variable: ANSIBLE_PIPELINING</p>
-
-      </li>
-      <li>
-        <p>Variable: ansible_pipelining</p>
 
       </li>
       </ul>

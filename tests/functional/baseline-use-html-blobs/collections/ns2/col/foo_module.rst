@@ -121,6 +121,7 @@ Parameters
     </div></td>
     <td><div class="ansible-option-cell">
       <p>A bar.</p>
+      <p>Independent from <em>foo</em>.</p>
     </div></td>
   </tr>
   <tr class="row-odd">
@@ -164,6 +165,7 @@ Parameters
     <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
       <p>A sub foo.</p>
       <p>Whatever.</p>
+      <p>Also required when <em>subfoo</em> is specified when <em>foo=bar</em> or <code class='docutils literal notranslate'>baz</code>.</p>
     </div></td>
   </tr>
 
