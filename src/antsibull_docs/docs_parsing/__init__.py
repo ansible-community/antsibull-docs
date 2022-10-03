@@ -69,10 +69,15 @@ def _get_environment(collection_dir: t.Optional[str]) -> t.Dict[str, str]:
 class AnsibleCollectionMetadata:
     path: str
     version: t.Optional[str]
+    requires_ansible: t.Optional[str]
 
-    def __init__(self, path: str, version: t.Optional[str]):
+    def __init__(self,
+                 path: str,
+                 version: t.Optional[str] = None,
+                 requires_ansible: t.Optional[str] = None):
         self.path = path
         self.version = version
+        self.requires_ansible = requires_ansible
 
     def __repr__(self):
         return f'AnsibleCollectionMetadata({repr(self.path)}, {repr(self.version)})'

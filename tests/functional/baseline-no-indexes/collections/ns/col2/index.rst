@@ -20,6 +20,10 @@ Description
 
 * Ansible (https://github.com/ansible)
 
+**Supported ansible-core versions:**
+
+* newer than 2.11.0
+
 
 
 

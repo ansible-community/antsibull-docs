@@ -27,7 +27,7 @@ Collection version @{ collection_version }@
    :local:
    :depth: 1
 
-{% if collection_description or collection_authors or collection_links %}
+{% if collection_description or collection_authors or collection_links or requires_ansible %}
 Description
 -----------
 
@@ -40,6 +40,14 @@ Description
 
 {%     for author in collection_authors %}
 * @{ author | indent(2) }@
+{%     endfor %}
+{%   endif %}
+
+{%   if requires_ansible %}
+**Supported ansible-core versions:**
+
+{%     for part in requires_ansible %}
+* @{     part | rst_escape }@
 {%     endfor %}
 {%   endif %}
 
