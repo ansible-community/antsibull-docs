@@ -26,9 +26,9 @@ With multiple paragraphs.
 
 **Supported ansible-core versions:**
 
-* version 2.12.2 is specifically not supported
 * 2.11.0 or newer
 * older than 2.99.0
+* version 2.12.2 is specifically not supported
 
 .. raw:: html
 

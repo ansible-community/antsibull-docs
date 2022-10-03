@@ -605,7 +605,10 @@ async def write_plugin_type_index(plugin_type: str,
 
 def _parse_required_ansible(requires_ansible: str) -> t.List[str]:
     result = []
-    for specifier in SpecifierSet(requires_ansible):
+    for specifier in reversed(sorted(
+        SpecifierSet(requires_ansible),
+        key=lambda specifier: (specifier.operator, specifier.version)
+    )):
         if specifier.operator == '>=':
             result.append(f'{specifier.version} or newer')
         elif specifier.operator == '>':
