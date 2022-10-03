@@ -51,6 +51,9 @@ ns2.col.foo connection -- Foo connection
 
 .. version_added
 
+.. rst-class:: ansible-version-added
+
+New in ns2.col 1.2.0
 
 .. contents::
    :local:
@@ -143,79 +146,6 @@ Parameters
       - Variable: delegated\_vars['ansible\_host']
 
       - Variable: delegated\_vars['ansible\_ssh\_host']
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-pipelining"></div>
-
-      .. _ansible_collections.ns2.col.foo_connection__parameter-pipelining:
-
-      .. rst-class:: ansible-option-title
-
-      **pipelining**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-pipelining" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-
-
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Pipelining reduces the number of connection operations required to execute a module on the remote server, by executing many Ansible modules without actual file transfers.
-
-      This can result in a very significant performance improvement when enabled.
-
-      However this can conflict with privilege escalation (become). For example, when using sudo operations you must first disable 'requiretty' in the sudoers file for the target hosts, which is why this feature is disabled by default.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-configuration:`Configuration:`
-
-      - INI entries:
-
-        .. code-block::
-
-          [defaults]
-          pipelining = false
-
-
-
-        .. code-block::
-
-          [connection]
-          pipelining = false
-
-
-      - Environment variable: ANSIBLE\_PIPELINING
-
-      - Variable: ansible\_pipelining
 
 
       .. raw:: html

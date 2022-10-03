@@ -109,7 +109,9 @@ Parameters
 
     </div></td>
     <td><div class="ansible-option-cell">
-      <p>Bar.</p>
+      <p>Bar. <b>BAR!</b></p>
+      <p>Totally unrelated to <em>become_user</em>. Even with <em>become_user=foo</em>.</p>
+      <p>Might not be compatible when <em>become_user</em> is <code class='docutils literal notranslate'>bar</code>, though.</p>
     </div></td>
   </tr>
   <tr class="row-odd">
@@ -180,7 +182,7 @@ Parameters
 
     </div></td>
     <td><div class="ansible-option-cell">
-      <p>User you &#x27;become&#x27; to execute the task</p>
+      <p>User you &#x27;become&#x27; to execute the task.</p>
       <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">&#34;root&#34;</span></p>
       <p class="ansible-option-line"><span class="ansible-option-configuration">Configuration:</span></p>
       <ul class="simple">

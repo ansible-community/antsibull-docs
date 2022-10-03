@@ -142,6 +142,8 @@ Parameters
 
       A bar.
 
+      Independent from \ :emphasis:`foo`\ .
+
 
       .. raw:: html
 
@@ -248,6 +250,8 @@ Parameters
       A sub foo.
 
       Whatever.
+
+      Also required when \ :emphasis:`subfoo`\  is specified when \ :emphasis:`foo=bar`\  or \ :literal:`baz`\ .
 
 
       .. raw:: html

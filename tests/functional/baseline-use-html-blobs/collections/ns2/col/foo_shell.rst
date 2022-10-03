@@ -98,127 +98,13 @@ Parameters
   <tbody>
   <tr class="row-even">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-admin_users"></div>
-      <p class="ansible-option-title"><strong>admin_users</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-admin_users" title="Permalink to this option"></a>
-      <p class="ansible-option-type-line">
-        <span class="ansible-option-type">list</span>
-        / <span class="ansible-option-elements">elements=string</span>
-      </p>
-
-    </div></td>
-    <td><div class="ansible-option-cell">
-      <p>list of users to be expected to have admin privileges. This is used by the controller to determine how to share temporary files between the remote user and the become user.</p>
-      <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">[&#34;root&#34;, &#34;toor&#34;]</span></p>
-      <p class="ansible-option-line"><span class="ansible-option-configuration">Configuration:</span></p>
-      <ul class="simple">
-      <li>
-        <p>INI entry</p>
-        <div class="highlight-YAML+Jinja notranslate"><div class="highlight"><pre><span class="p p-Indicator">[</span><span class="nv">defaults</span><span class="p p-Indicator">]</span>
-  <span class="l l-Scalar l-Scalar-Plain">admin_users = root, toor</span></pre></div></div>
-
-      </li>
-      <li>
-        <p>Environment variable: ANSIBLE_ADMIN_USERS</p>
-
-      </li>
-      <li>
-        <p>Variable: ansible_admin_users</p>
-
-      </li>
-      </ul>
-    </div></td>
-  </tr>
-  <tr class="row-odd">
-    <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-async_dir"></div>
-      <p class="ansible-option-title"><strong>async_dir</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-async_dir" title="Permalink to this option"></a>
-      <p class="ansible-option-type-line">
-        <span class="ansible-option-type">string</span>
-      </p>
-
-    </div></td>
-    <td><div class="ansible-option-cell">
-      <p>Directory in which ansible will keep async job information</p>
-      <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">&#34;~/.ansible_async&#34;</span></p>
-      <p class="ansible-option-line"><span class="ansible-option-configuration">Configuration:</span></p>
-      <ul class="simple">
-      <li>
-        <p>INI entry</p>
-        <div class="highlight-YAML+Jinja notranslate"><div class="highlight"><pre><span class="p p-Indicator">[</span><span class="nv">defaults</span><span class="p p-Indicator">]</span>
-  <span class="l l-Scalar l-Scalar-Plain">async_dir = ~/.ansible_async</span></pre></div></div>
-
-      </li>
-      <li>
-        <p>Environment variable: ANSIBLE_ASYNC_DIR</p>
-
-      </li>
-      <li>
-        <p>Variable: ansible_async_dir</p>
-
-      </li>
-      </ul>
-    </div></td>
-  </tr>
-  <tr class="row-even">
-    <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-common_remote_group"></div>
-      <p class="ansible-option-title"><strong>common_remote_group</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-common_remote_group" title="Permalink to this option"></a>
-      <p class="ansible-option-type-line">
-        <span class="ansible-option-type">string</span>
-      </p>
-      <p><span class="ansible-option-versionadded">added in ansible-base 2.10</span></p>
-
-    </div></td>
-    <td><div class="ansible-option-cell">
-      <p>Checked when Ansible needs to execute a module as a different user.</p>
-      <p>If setfacl and chown both fail and do not let the different user access the module&#x27;s files, they will be chgrp&#x27;d to this group.</p>
-      <p>In order for this to work, the remote_user and become_user must share a common group and this setting must be set to that group.</p>
-      <p class="ansible-option-line"><span class="ansible-option-configuration">Configuration:</span></p>
-      <ul class="simple">
-      <li>
-        <p>INI entry</p>
-        <div class="highlight-YAML+Jinja notranslate"><div class="highlight"><pre><span class="p p-Indicator">[</span><span class="nv">defaults</span><span class="p p-Indicator">]</span>
-  <span class="l l-Scalar l-Scalar-Plain">common_remote_group = VALUE</span></pre></div></div>
-
-      </li>
-      <li>
-        <p>Environment variable: ANSIBLE_COMMON_REMOTE_GROUP</p>
-
-      </li>
-      <li>
-        <p>Variable: ansible_common_remote_group</p>
-
-      </li>
-      </ul>
-    </div></td>
-  </tr>
-  <tr class="row-odd">
-    <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-environment"></div>
-      <p class="ansible-option-title"><strong>environment</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-environment" title="Permalink to this option"></a>
-      <p class="ansible-option-type-line">
-        <span class="ansible-option-type">list</span>
-        / <span class="ansible-option-elements">elements=dictionary</span>
-      </p>
-
-    </div></td>
-    <td><div class="ansible-option-cell">
-      <p>List of dictionaries of environment variables and their values to use when executing commands.</p>
-      <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">[{}]</span></p>
-    </div></td>
-  </tr>
-  <tr class="row-even">
-    <td><div class="ansible-option-cell">
       <div class="ansibleOptionAnchor" id="parameter-remote_tmp"></div>
       <p class="ansible-option-title"><strong>remote_tmp</strong></p>
       <a class="ansibleOptionLink" href="#parameter-remote_tmp" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">string</span>
       </p>
+      <p><span class="ansible-option-versionadded">added in ansible-base 2.10</span></p>
 
     </div></td>
     <td><div class="ansible-option-cell">
@@ -242,79 +128,6 @@ Parameters
       </li>
       <li>
         <p>Variable: ansible_remote_tmp</p>
-
-      </li>
-      </ul>
-    </div></td>
-  </tr>
-  <tr class="row-odd">
-    <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-system_tmpdirs"></div>
-      <p class="ansible-option-title"><strong>system_tmpdirs</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-system_tmpdirs" title="Permalink to this option"></a>
-      <p class="ansible-option-type-line">
-        <span class="ansible-option-type">list</span>
-        / <span class="ansible-option-elements">elements=string</span>
-      </p>
-
-    </div></td>
-    <td><div class="ansible-option-cell">
-      <p>List of valid system temporary directories on the managed machine for Ansible to validate <code class='docutils literal notranslate'>remote_tmp</code> against, when specific permissions are needed.  These must be world readable, writable, and executable. This list should only contain directories which the system administrator has pre-created with the proper ownership and permissions otherwise security issues can arise.</p>
-      <p>When <code class='docutils literal notranslate'>remote_tmp</code> is required to be a system temp dir and it does not match any in the list, the first one from the list will be used instead.</p>
-      <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">[&#34;/var/tmp&#34;, &#34;/tmp&#34;]</span></p>
-      <p class="ansible-option-line"><span class="ansible-option-configuration">Configuration:</span></p>
-      <ul class="simple">
-      <li>
-        <p>INI entry</p>
-        <div class="highlight-YAML+Jinja notranslate"><div class="highlight"><pre><span class="p p-Indicator">[</span><span class="nv">defaults</span><span class="p p-Indicator">]</span>
-  <span class="l l-Scalar l-Scalar-Plain">system_tmpdirs = /var/tmp, /tmp</span></pre></div></div>
-
-      </li>
-      <li>
-        <p>Environment variable: ANSIBLE_SYSTEM_TMPDIRS</p>
-
-      </li>
-      <li>
-        <p>Variable: ansible_system_tmpdirs</p>
-
-      </li>
-      </ul>
-    </div></td>
-  </tr>
-  <tr class="row-even">
-    <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-world_readable_temp"></div>
-      <p class="ansible-option-title"><strong>world_readable_temp</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-world_readable_temp" title="Permalink to this option"></a>
-      <p class="ansible-option-type-line">
-        <span class="ansible-option-type">boolean</span>
-      </p>
-      <p><span class="ansible-option-versionadded">added in ansible-base 2.10</span></p>
-
-    </div></td>
-    <td><div class="ansible-option-cell">
-      <p>This makes the temporary files created on the machine world-readable and will issue a warning instead of failing the task.</p>
-      <p>It is useful when becoming an unprivileged user.</p>
-      <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-      <ul class="simple">
-        <li><p><span class="ansible-option-default-bold">false</span> <span class="ansible-option-default">← (default)</span></p></li>
-        <li><p><span class="ansible-option-choices-entry">true</span></p></li>
-      </ul>
-
-      <p class="ansible-option-line"><span class="ansible-option-configuration">Configuration:</span></p>
-      <ul class="simple">
-      <li>
-        <p>INI entry</p>
-        <div class="highlight-YAML+Jinja notranslate"><div class="highlight"><pre><span class="p p-Indicator">[</span><span class="nv">defaults</span><span class="p p-Indicator">]</span>
-  <span class="l l-Scalar l-Scalar-Plain">allow_world_readable_tmpfiles = false</span></pre></div></div>
-
-      </li>
-      <li>
-        <p>Environment variable: ANSIBLE_SHELL_ALLOW_WORLD_READABLE_TEMP</p>
-
-      </li>
-      <li>
-        <p>Variable: ansible_shell_allow_world_readable_temp</p>
 
       </li>
       </ul>

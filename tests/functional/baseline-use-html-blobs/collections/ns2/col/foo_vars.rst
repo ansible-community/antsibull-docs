@@ -136,32 +136,6 @@ Parameters
       </ul>
     </div></td>
   </tr>
-  <tr class="row-odd">
-    <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-stage"></div>
-      <p class="ansible-option-title"><strong>stage</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-stage" title="Permalink to this option"></a>
-      <p class="ansible-option-type-line">
-        <span class="ansible-option-type">string</span>
-      </p>
-      <p><span class="ansible-option-versionadded">added in ansible-base 2.10</span></p>
-
-    </div></td>
-    <td><div class="ansible-option-cell">
-      <p>Control when this vars plugin may be executed.</p>
-      <p>Setting this option to <code class='docutils literal notranslate'>all</code> will run the vars plugin after importing inventory and whenever it is demanded by a task.</p>
-      <p>Setting this option to <code class='docutils literal notranslate'>task</code> will only run the vars plugin whenever it is demanded by a task.</p>
-      <p>Setting this option to <code class='docutils literal notranslate'>inventory</code> will only run the vars plugin after parsing inventory.</p>
-      <p>If this option is omitted, the global <em>RUN_VARS_PLUGINS</em> configuration is used to determine when to execute the vars plugin.</p>
-      <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-      <ul class="simple">
-        <li><p><span class="ansible-option-choices-entry">&#34;all&#34;</span></p></li>
-        <li><p><span class="ansible-option-choices-entry">&#34;task&#34;</span></p></li>
-        <li><p><span class="ansible-option-choices-entry">&#34;inventory&#34;</span></p></li>
-      </ul>
-
-    </div></td>
-  </tr>
   </tbody>
   </table>
 

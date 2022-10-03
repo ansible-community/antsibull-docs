@@ -8,11 +8,10 @@ __metaclass__ = type
 DOCUMENTATION = '''
     name: foo
     short_description: Foo connection
+    version_added: 1.2.0
     description:
         - This is for the C(foo) connection.
     author: ansible (@core)
-    extends_documentation_fragment:
-        - connection_pipelining
     notes:
         - "Some note. B(Something in bold). C(And in code). I(And in italics). An URL: U(https://example.org)."
         - "And another one. L(A link, https://example.com)."
@@ -35,4 +34,4 @@ class Connection(ConnectionBase):
     ''' ssh based connections '''
 
     transport = 'ns2.col.foo'
-    has_pipelining = True
+    has_pipelining = False

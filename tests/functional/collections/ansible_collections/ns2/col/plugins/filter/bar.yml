@@ -29,9 +29,9 @@ DOCUMENTATION:
       type: str
       default: foo
       choices:
-        a: Whatever a is.
-        b: What is b? I don't know.
-        cde: This is some more unknown.
+        a: Whatever C(a) is.
+        b: What is C(b)? I don't know.
+        cde: This is some more unknown. There are rumors this is related to the alphabet.
         foo:
           - Our default value, the glorious C(foo).
           - Even has two paragraphs.
