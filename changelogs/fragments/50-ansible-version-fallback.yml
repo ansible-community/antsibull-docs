@@ -1,0 +1,2 @@
+minor_changes:
+  - "Use ``ansible --version`` to figure out ansible-core version when ansible-core is not installed for the same Python interpreter / venv that is used for antsibull-docs (https://github.com/ansible-community/antsibull-docs/pull/50)."

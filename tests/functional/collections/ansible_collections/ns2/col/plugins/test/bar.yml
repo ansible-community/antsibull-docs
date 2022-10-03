@@ -1,0 +1,25 @@
+---
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: Ansible Project
+
+DOCUMENTATION:
+  name: bar
+  author: Ansible Core
+  short_description: Is something a bar
+  aliases:
+    - is_bar
+  description:
+    - Check whether a path is a bar.
+  options:
+    _input:
+      description: A path.
+      type: path
+
+EXAMPLES: |
+  is_path_bar: "{{ '/etc/hosts' is ns2.col.bar }}}"
+
+RETURN:
+  _value:
+    description: Returns C(true) if the path is a bar, C(false) if it is not a bar.
+    type: boolean

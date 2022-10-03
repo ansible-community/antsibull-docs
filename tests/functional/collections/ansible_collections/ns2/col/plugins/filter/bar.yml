@@ -1,0 +1,46 @@
+---
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: Ansible Project
+
+DOCUMENTATION:
+  name: bar
+  version_added: 2.0.0
+  short_description: The bar filter
+  description:
+    - Do some barring.
+  positional: foo, bar
+  options:
+    _input:
+      description: The main input.
+      type: dict
+      required: true
+    foo:
+      description: Some foo.
+      type: list
+      elements: dictionary
+      required: true
+    bar:
+      description: And some bar.
+      type: bool
+      default: false
+    baz:
+      description: Something else.
+      type: str
+      default: foo
+      choices:
+        a: Whatever a is.
+        b: What is b? I don't know.
+        cde: This is some more unknown.
+        foo:
+          - Our default value, the glorious C(foo).
+          - Even has two paragraphs.
+
+EXAMPLES: |
+
+    {'a': 1} | ns2.col.bar({'b': 2}, baz='cde')
+
+RETURN:
+  _value:
+    description: The result.
+    type: dict
