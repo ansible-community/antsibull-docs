@@ -5,6 +5,9 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Entrypoint to the antsibull-docs script."""
 
+import os
+import textwrap
+
 from antsibull_core.logging import log
 
 from ... import app_context
@@ -47,9 +50,10 @@ def lint_collection_docs() -> int:
         errors.extend(lint_collection_plugin_docs(
             collection_root, collection_url=collection_url, collection_install=collection_install))
 
-    messages = sorted(set(f'{error[0]}:{error[1]}:{error[2]}: {error[3]}' for error in errors))
+    messages = sorted((os.path.normpath(error[0]), error[1], error[2], error[3].lstrip()) for error in errors)
 
-    for message in messages:
-        print(message)
+    for file, row, col, message in messages:
+        prefix = f'{file}:{row}:{col}: '
+        print(prefix + textwrap.indent(message, ' ' * len(prefix), lambda line: True).lstrip())
 
     return 3 if messages else 0

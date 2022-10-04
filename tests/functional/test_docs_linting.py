@@ -145,6 +145,6 @@ Foo ``bar`.
         f'{links}:0:0: edit_on_github -> branch: field required (type=value_error.missing)',
         f'{links}:0:0: extra_links -> 1 -> description: field required (type=value_error.missing)',
         f'{links}:0:0: foo: extra fields not permitted (type=value_error.extra)',
-        f'{foo_rst}:14:0: (WARNING/2) Inline literal start-string without end-string.',
         f'{foo_rst}:9:0: Label "ansible_collections.foo.bar.bad_label" does not start with expected prefix "ansible_collections.foo.bar.docsite."',
+        f'{foo_rst}:14:0: (WARNING/2) Inline literal start-string without end-string.',
     ]
