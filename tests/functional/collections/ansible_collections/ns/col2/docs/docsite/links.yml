@@ -1,0 +1,25 @@
+---
+# Copyright (c) Ansible Project
+# GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+edit_on_github:
+  branch: main
+  path_prefi: tests/functional/collections/ansible_collections/ns/col2
+
+extra_link:
+  - description: Submit a bug report
+    url: https://github.com/ansible-community/antsibull-docs/issues/new?assignees=&labels=&template=bug_report.md
+
+extra_links:
+  foo: bar
+
+communication:
+  matrix_rooms: {}
+  irc_channels:
+    - topic: 42
+      network: true
+  mailing_lists:
+    - Ansible Project List
+
+bla:

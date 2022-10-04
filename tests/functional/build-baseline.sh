@@ -13,12 +13,12 @@ make_baseline() {
     echo "Building baseline ${DEST}..."
     rm -rf "${DEST}"
     mkdir -p "${DEST}"
-    ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --dest-dir "${DEST}" --fail-on-error --use-current $@
+    ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --dest-dir "${DEST}" --use-current $@
 }
 
 
 make_baseline baseline-default ns.col1 ns.col2 ns2.col
 make_baseline baseline-no-breadcrumbs ns.col1 ns.col2 ns2.col --no-breadcrumbs
-make_baseline baseline-no-indexes ns.col1 ns.col2 ns2.col --no-indexes
-make_baseline baseline-use-html-blobs ns2.col --use-html-blobs
-make_baseline baseline-squash-hierarchy ns2.col --squash-hierarchy
+make_baseline baseline-no-indexes ns.col1 ns2.col --fail-on-error --no-indexes
+make_baseline baseline-use-html-blobs ns2.col --fail-on-error --use-html-blobs
+make_baseline baseline-squash-hierarchy ns2.col --fail-on-error --squash-hierarchy

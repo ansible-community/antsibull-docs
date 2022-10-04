@@ -5,7 +5,9 @@
 import io
 import os
 
-from contextlib import redirect_stdout
+from contextlib import contextmanager, redirect_stdout
+
+import pytest
 
 from antsibull_docs.cli.antsibull_docs import run
 
@@ -148,3 +150,67 @@ Foo ``bar`.
         f'{foo_rst}:9:0: Label "ansible_collections.foo.bar.bad_label" does not start with expected prefix "ansible_collections.foo.bar.docsite."',
         f'{foo_rst}:14:0: (WARNING/2) Inline literal start-string without end-string.',
     ]
+
+
+TEST_CASES = [
+    (
+        'ns',
+        'col2',
+        3,
+        [
+            'docs/docsite/extra-docs.yml:0:0: Section #0 has no content',
+            'docs/docsite/extra-docs.yml:0:0: Section #1 has no "title" entry',
+            'docs/docsite/extra-docs.yml:0:0: Toctree entry in section #0 is not a list',
+            'docs/docsite/links.yml:0:0: bla: extra fields not permitted (type=value_error.extra)',
+            'docs/docsite/links.yml:0:0: communication -> irc_channels -> 0 -> channel: field required (type=value_error.missing)',
+            'docs/docsite/links.yml:0:0: communication -> mailing_lists -> 0: value is not a valid dict (type=type_error.dict)',
+            'docs/docsite/links.yml:0:0: communication -> matrix_rooms: value is not a valid list (type=type_error.list)',
+            'docs/docsite/links.yml:0:0: edit_on_github -> path_prefi: extra fields not permitted (type=value_error.extra)',
+            'docs/docsite/links.yml:0:0: edit_on_github -> repository: field required (type=value_error.missing)',
+            'docs/docsite/links.yml:0:0: extra_link: extra fields not permitted (type=value_error.extra)',
+            'docs/docsite/links.yml:0:0: extra_links: value is not a valid list (type=type_error.list)',
+            'docs/docsite/rst/filter_guide.rst:6:0: Label "bad_label" does not start with expected prefix "ansible_collections.ns.col2.docsite."',
+            'plugins/modules/foo.py:0:0: 5 validation errors for ModuleDocSchema',
+            '                            doc -> short_description',
+            '                              field required (type=value_error.missing)',
+            '                            doc -> options -> bar -> description -> 0',
+            '                              str type expected (type=type_error.str)',
+            '                            doc -> options -> bar -> type',
+            '                              string does not match regex "^(any|bits|bool|bytes|dict|float|int|json|jsonarg|list|path|raw|sid|str|tmppath|pathspec|pathlist)$" (type=value_error.str.regex; pattern=^(any|bits|bool|bytes|dict|float|int|json|jsonarg|list|path|raw|sid|str|tmppath|pathspec|pathlist)$)',
+            '                            doc -> options -> foo',
+            '                              value is not a valid dict (type=type_error.dict)',
+            '                            doc -> options -> subfoo -> bam',
+            '                              extra fields not permitted (type=value_error.extra)',
+            'plugins/modules/foo.py:0:0: Did not return correct DOCUMENTATION',
+        ],
+    ),
+    (
+        'ns2',
+        'col',
+        0,
+        [],
+    ),
+]
+
+
+@contextmanager
+def change_cwd(directory):
+    old_dir = os.getcwd()
+    os.chdir(directory)
+    yield
+    os.chdir(old_dir)
+
+
+@pytest.mark.parametrize('namespace, name, rc, errors', TEST_CASES)
+def test_lint_collection_plugin_docs(namespace, name, rc, errors):
+    tests_root = os.path.join('tests', 'functional')
+    collection_root = os.path.join(tests_root, 'collections', 'ansible_collections', namespace, name)
+
+    stdout = io.StringIO()
+    with change_cwd(collection_root):
+        with redirect_stdout(stdout):
+            actual_rc = run(['antsibull-docs', 'lint-collection-docs', '.', '--plugin-docs'])
+    actual_errors = stdout.getvalue().splitlines()
+    print('\n'.join(stdout))
+    assert actual_rc == rc
+    assert actual_errors == errors

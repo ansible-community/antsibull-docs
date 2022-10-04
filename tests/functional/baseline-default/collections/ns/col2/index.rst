@@ -34,7 +34,13 @@ Description
 Plugin Index
 ------------
 
-There are no plugins in the ns.col2 collection with automatically generated documentation.
+These are the plugins in the ns.col2 collection:
+
+
+Modules
+~~~~~~~
+
+* :ref:`foo module <ansible_collections.ns.col2.foo_module>` -- 
 
 
 
@@ -46,3 +52,4 @@ There are no plugins in the ns.col2 collection with automatically generated docu
     :maxdepth: 1
     :hidden:
 
+    foo_module
