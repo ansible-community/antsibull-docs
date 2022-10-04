@@ -50,7 +50,9 @@ def lint_collection_docs() -> int:
         errors.extend(lint_collection_plugin_docs(
             collection_root, collection_url=collection_url, collection_install=collection_install))
 
-    messages = sorted((os.path.normpath(error[0]), error[1], error[2], error[3].lstrip()) for error in errors)
+    messages = sorted(
+        (os.path.normpath(error[0]), error[1], error[2], error[3].lstrip()) for error in errors
+    )
 
     for file, row, col, message in messages:
         prefix = f'{file}:{row}:{col}: '
