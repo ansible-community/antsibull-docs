@@ -37,12 +37,33 @@ With multiple paragraphs.
     <a href="https://github.com/ansible-collections/community.general/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
     <a href="https://github.com/ansible-collections/community.crypto" aria-role="button" target="_blank" rel="noopener external">Homepage</a>
     <a href="https://github.com/ansible-collections/community.internal_test_tools" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+    <a href="https://github.com/ansible-community/antsibull-docs/issues/new?assignees=&amp;labels=&amp;template=bug_report.md" aria-role="button" target="_blank" rel="noopener external">Submit a bug report</a>
   </p>
 
 
+.. Communication
+
+.. _communication_for_ns2.col:
+
+Communication
+-------------
+
+- Matrix room :literal:`#users:ansible.im`: `General usage and support questions <https://matrix.to/#/#users:ansible.im>`__.
+- IRC channel :literal:`#ansible` (Libera network):
+  `General usage and support questions <https://web.libera.chat/?channel=#ansible>`__.
+- Mailing list: `Ansible Project List <https://groups.google.com/g/ansible-project>`__.
+  (`Subscribe <mailto:ansible-project+subscribe@googlegroups.com?subject=subscribe>`__)
 
 .. toctree::
     :maxdepth: 1
+
+Guides
+------
+
+.. toctree::
+    :maxdepth: 1
+
+    docsite/filter_guide
 
 
 Plugin Index

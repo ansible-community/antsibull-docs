@@ -6,6 +6,11 @@
 Index of all Modules
 ====================
 
+ns.col2
+-------
+
+* :ref:`ns.col2.foo <ansible_collections.ns.col2.foo_module>` -- 
+
 ns2.col
 -------
 
