@@ -159,6 +159,7 @@ table.ansible-option-table {
 
   .ansible-option-aliases {
     color: darkgreen;
+    white-space: normal;
   }
 
   .ansible-option-line {
@@ -232,10 +233,11 @@ table.ansible-option-table {
     display: flex;
     flex-direction: row;
 
-    > div.ansible-option-cell  {
+    > div.ansible-option-cell {
       height: inherit;
       flex: 1 0 auto;
       white-space: nowrap;
+      max-width: 100%;
     }
   }
 

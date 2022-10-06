@@ -1,0 +1,2 @@
+bugfixes:
+  - "Avoid long aliases list to make left column too wide (https://github.com/ansible-collections/amazon.aws/issues/1101, https://github.com/ansible-community/antsibull-docs/pull/54)."
