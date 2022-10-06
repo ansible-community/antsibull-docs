@@ -15,6 +15,8 @@ import sh
 from antsibull_core.compat import asyncio_run
 from antsibull_core.venv import FakeVenvRunner
 
+from sphinx_antsibull_ext import roles as antsibull_roles
+
 from .lint_helpers import (
     load_collection_info,
 )
@@ -161,6 +163,7 @@ def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
                 rst_results = check_rst_content(
                     rst_content, filename=path,
                     ignore_directives=['rst-class'],
+                    ignore_roles=list(antsibull_roles.ROLES),
                 )
                 result.extend([(path, result[0], result[1], result[2]) for result in rst_results])
     return result

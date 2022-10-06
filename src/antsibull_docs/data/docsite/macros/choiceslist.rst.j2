@@ -8,7 +8,7 @@
 {%   if choices is mapping %}
 {%     for choice, desc in choices | dictsort %}
 {%       if not has_no_default and ((default_value is not list and default_value == choice) or (default_value is list and choice in default_value)) %}
-      - :ansible-option-default-bold:`@{ choice | antsibull_to_json | rst_escape(escape_ending_whitespace=true) }@` :ansible-option-default:`(default)`\ :
+      - :ansible-option-choices-entry-default:`@{ choice | antsibull_to_json | rst_escape(escape_ending_whitespace=true) }@` :ansible-option-choices-default-mark:`(default)`\ :
 {%       else %}
       - :ansible-option-choices-entry:`@{ choice | antsibull_to_json | rst_escape(escape_ending_whitespace=true) }@`\ :
 {%       endif %}
@@ -20,7 +20,7 @@
 {%   else %}
 {%     for choice in choices %}
 {%       if not has_no_default and ((default_value is not list and default_value == choice) or (default_value is list and choice in default_value)) %}
-      - :ansible-option-default-bold:`@{ choice | antsibull_to_json | rst_escape(escape_ending_whitespace=true) }@` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`@{ choice | antsibull_to_json | rst_escape(escape_ending_whitespace=true) }@` :ansible-option-choices-default-mark:`← (default)`
 {%       else %}
       - :ansible-option-choices-entry:`@{ choice | antsibull_to_json | rst_escape(escape_ending_whitespace=true) }@`
 {%       endif %}
@@ -35,9 +35,9 @@
 {%     for choice, desc in choices | dictsort %}
         <li>
 {%       if not has_no_default and ((default_value is not list and default_value == choice) or (default_value is list and choice in default_value)) %}
-          <p><span class="ansible-option-default-bold">@{ choice | antsibull_to_json | escape }@</span> <span class="ansible-option-default">(default)</span>:
+          <p><code class="ansible-value literal notranslate ansible-option-default-bold">@{ choice | antsibull_to_json | escape }@</code> <span class="ansible-option-choices-default-mark">(default)</span>:
 {%       else %}
-          <p><span class="ansible-option-choices-entry">@{ choice | antsibull_to_json | escape }@</span>:
+          <p><code class="ansible-value literal notranslate ansible-option-choices-entry">@{ choice | antsibull_to_json | escape }@</code>:
 {%       endif %}
           @{ desc | first | default('') | html_ify | indent(10, blank=true) }@</p>
 {%       for line in desc[1:] %}
@@ -48,9 +48,9 @@
 {%   else %}
 {%     for choice in choices %}
 {%       if not has_no_default and ((default_value is not list and default_value == choice) or (default_value is list and choice in default_value)) %}
-        <li><p><span class="ansible-option-default-bold">@{ choice | antsibull_to_json | escape }@</span> <span class="ansible-option-default">← (default)</span></p></li>
+        <li><p><code class="ansible-value literal notranslate ansible-option-default-bold">@{ choice | antsibull_to_json | escape }@</code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 {%       else %}
-        <li><p><span class="ansible-option-choices-entry">@{ choice | antsibull_to_json | escape }@</span></p></li>
+        <li><p><code class="ansible-value literal notranslate ansible-option-choices-entry">@{ choice | antsibull_to_json | escape }@</code></p></li>
 {%       endif %}
 {%     endfor %}
 {%   endif %}

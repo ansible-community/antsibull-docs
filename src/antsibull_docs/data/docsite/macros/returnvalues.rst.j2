@@ -84,7 +84,7 @@
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` @{ value['sample'] | antsibull_to_json | rst_escape | indent(6) }@
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`@{ value['sample'] | antsibull_to_json | rst_escape(escape_ending_whitespace=true) | indent(6, blank=true) }@`
 {%   endif %}
 
 
@@ -145,7 +145,7 @@
 @{     choices_html(value['choices'], has_no_default=True) }@
 {%   endif %}
 {%   if value['sample'] is not none %}
-      <p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> @{ value['sample'] | antsibull_to_json | escape | indent(6, blank=true) }@</p>
+      <p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <code class="ansible-value literal notranslate ansible-option-sample">@{ value['sample'] | antsibull_to_json | escape | indent(6, blank=true) }@</code></p>
 {%   endif %}
     </div></td>
   </tr>

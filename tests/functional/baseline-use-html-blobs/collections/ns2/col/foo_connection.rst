@@ -19,8 +19,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -109,7 +108,7 @@ Parameters
     </div></td>
     <td><div class="ansible-option-cell">
       <p>Hostname to connect to.</p>
-      <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">&#34;inventory_hostname&#34;</span></p>
+      <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <code class="ansible-value literal notranslate ansible-option-default">&#34;inventory_hostname&#34;</code></p>
       <p class="ansible-option-line"><span class="ansible-option-configuration">Configuration:</span></p>
       <ul class="simple">
       <li>
