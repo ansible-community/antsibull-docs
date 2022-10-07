@@ -5,6 +5,31 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v1.7.0
+======
+
+Release Summary
+---------------
+
+Bugfix and feature release.
+
+Minor Changes
+-------------
+
+- Add ``--intersphinx`` option to the ``sphinx-init`` subcommand to allow adding additional ``intersphinx_mapping`` entries to ``conf.py`` (https://github.com/ansible-community/antsibull-docs/issues/35, https://github.com/ansible-community/antsibull-docs/pull/44).
+- Allow the ``toctree`` entries for in a collection's ``docs/docsite/extra-docs.yml`` to be a dictionary with ``ref`` and ``title`` keys instead of just a reference as a string (https://github.com/ansible-community/antsibull-docs/pull/45).
+- Antsibull-docs now depends on `packaging <https://pypi.org/project/packaging/>`__ (https://github.com/ansible-community/antsibull-docs/pull/49).
+- The collection index pages now contain the supported versions of ansible-core of the collection in case collection's ``meta/runtime.yml`` specifies ``requires_ansible`` (https://github.com/ansible-community/antsibull-docs/issues/48, https://github.com/ansible-community/antsibull-docs/pull/49).
+- The output of the ``lint-collection-docs`` command has been improved; in particular multi-line messages are now indented (https://github.com/ansible-community/antsibull-docs/pull/52).
+- Use ``ansible --version`` to figure out ansible-core version when ansible-core is not installed for the same Python interpreter / venv that is used for antsibull-docs (https://github.com/ansible-community/antsibull-docs/pull/50).
+- Use code formatting for all values, such as choice entries, defaults, and samples (https://github.com/ansible-community/antsibull-docs/issues/38, https://github.com/ansible-community/antsibull-docs/pull/42).
+
+Bugfixes
+--------
+
+- Avoid long aliases list to make left column too wide (https://github.com/ansible-collections/amazon.aws/issues/1101, https://github.com/ansible-community/antsibull-docs/pull/54).
+- Make ``lint-collection-docs --plugin-docs`` subcommand actually work (https://github.com/ansible-community/antsibull-docs/pull/47).
+
 v1.6.1
 ======
 

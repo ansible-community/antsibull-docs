@@ -1,2 +1,0 @@
-minor_changes:
-  - "Add ``--intersphinx`` option to the ``sphinx-init`` subcommand to allow adding additional ``intersphinx_mapping`` entries to ``conf.py`` (https://github.com/ansible-community/antsibull-docs/issues/35, https://github.com/ansible-community/antsibull-docs/pull/44)."

@@ -1,2 +1,0 @@
-minor_changes:
-  - "Allow the ``toctree`` entries for in a collection's ``docs/docsite/extra-docs.yml`` to be a dictionary with ``ref`` and ``title`` keys instead of just a reference as a string (https://github.com/ansible-community/antsibull-docs/pull/45)."

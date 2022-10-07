@@ -1,2 +1,0 @@
-minor_changes:
-  - "The output of the ``lint-collection-docs`` command has been improved; in particular multi-line messages are now indented (https://github.com/ansible-community/antsibull-docs/pull/52)."
