@@ -1,2 +1,0 @@
-bugfixes:
-  - "Prevent crash during ``stable`` docsite build when ``_python`` entry is present in deps file (https://github.com/ansible-community/antsibull-docs/pull/57)."

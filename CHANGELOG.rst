@@ -5,6 +5,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v1.7.1
+======
+
+Release Summary
+---------------
+
+Bugfix release.
+
+Bugfixes
+--------
+
+- Prevent crash during ``stable`` docsite build when ``_python`` entry is present in deps file (https://github.com/ansible-community/antsibull-docs/pull/57).
+
 v1.7.0
 ======
 

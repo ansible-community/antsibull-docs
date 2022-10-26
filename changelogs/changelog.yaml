@@ -246,3 +246,13 @@ releases:
     - 52-lint-collection-docs-output.yml
     - 54-css.yml
     release_date: '2022-10-07'
+  1.7.1:
+    changes:
+      bugfixes:
+      - Prevent crash during ``stable`` docsite build when ``_python`` entry is present
+        in deps file (https://github.com/ansible-community/antsibull-docs/pull/57).
+      release_summary: Bugfix release.
+    fragments:
+    - 1.7.1.yml
+    - 57-latest-python-crash.yml
+    release_date: '2022-10-26'
