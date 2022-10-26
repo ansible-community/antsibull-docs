@@ -142,7 +142,7 @@ jobs:
 
       - name: Get hold of deps file
         run: |
-          curl https://raw.githubusercontent.com/ansible-community/ansible-build-data/main/5/ansible-5.0.0.deps --output ansible.deps
+          curl https://raw.githubusercontent.com/ansible-community/ansible-build-data/main/6/ansible-6.5.0.deps --output ansible.deps
         working-directory: antsibull-docs
 
       - name: Build stable docs RST files
@@ -191,7 +191,7 @@ jobs:
 
       - name: Get hold of ansible.in file
         run: |
-          curl https://raw.githubusercontent.com/ansible-community/ansible-build-data/main/6/ansible.in --output ansible.in
+          curl https://raw.githubusercontent.com/ansible-community/ansible-build-data/main/7/ansible.in --output ansible.in
         working-directory: antsibull-docs
 
       - name: Build devel docs RST files

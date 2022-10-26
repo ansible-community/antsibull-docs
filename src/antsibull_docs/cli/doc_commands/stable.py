@@ -468,6 +468,7 @@ def generate_docs() -> int:
     flog.fields(deps_file=app_ctx.extra['deps_file']).info('Parse deps file')
     deps_file = DepsFile(app_ctx.extra['deps_file'])
     dummy_, ansible_core_version, collections = deps_file.parse()
+    collections.pop('_python', None)
     flog.debug('Finished parsing deps file')
 
     with tempfile.TemporaryDirectory() as tmp_dir:
