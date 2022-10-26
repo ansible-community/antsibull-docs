@@ -2,7 +2,7 @@
 .. Document meta
 
 :orphan:
-:github_url: https://github.com/ansible-community/antsibull-docs/edit/main/tests/functional/collections/ansible_collections/ns2/col/plugins/vars/foo.py?description=%23%23%23%23%23%20SUMMARY%0A%3C!---%20Your%20description%20here%20--%3E%0A%0A%0A%23%23%23%23%23%20ISSUE%20TYPE%0A-%20Docs%20Pull%20Request%0A%0A%2Blabel:%20docsite_pr
+:github_url: https://github.com/ansible-community/antsibull-docs/edit/main/tests/functional/collections/ansible_collections/ns2/col/plugins/lookup/_bar.py?description=%23%23%23%23%23%20SUMMARY%0A%3C!---%20Your%20description%20here%20--%3E%0A%0A%0A%23%23%23%23%23%20ISSUE%20TYPE%0A-%20Docs%20Pull%20Request%0A%0A%2Blabel:%20docsite_pr
 
 .. |antsibull-internal-nbsp| unicode:: 0xA0
     :trim:
@@ -27,7 +27,7 @@
 
 .. Anchors
 
-.. _ansible_collections.ns2.col.foo_vars:
+.. _ansible_collections.ns2.col._bar_lookup:
 
 .. Anchors: short name for ansible.builtin
 
@@ -37,25 +37,23 @@
 
 .. Title
 
-ns2.col.foo vars -- Load foo
-++++++++++++++++++++++++++++
+ns2.col._bar lookup -- Look up some bar
++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This vars plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
+    This lookup plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
 
     To install it, use: :code:`ansible-galaxy collection install ns2.col`.
-    You need further requirements to be able to use this vars plugin,
-    see :ref:`Requirements <ansible_collections.ns2.col.foo_vars_requirements>` for details.
 
-    To use it in a playbook, specify: :code:`ns2.col.foo`.
+    To use it in a playbook, specify: :code:`ns2.col._bar`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in ns2.col 0.9.0
+New in ns2.col 1.0.0
 
 .. contents::
    :local:
@@ -64,14 +62,19 @@ New in ns2.col 0.9.0
 .. Deprecated
 
 
+PRIVATE
+-------
+The collection considers this lookup plugin private.
+You can use it with the above FQCN, but be warned that ns2.col might not consider
+this lookup plugin as part of its public API and
+can make breaking changes even in bugfix releases.
 
 Synopsis
 --------
 
 .. Description
 
-- Load some foo.
-- This is so glorious.
+- This one is private.
 
 
 .. Aliases
@@ -79,24 +82,13 @@ Synopsis
 
 .. Requirements
 
-.. _ansible_collections.ns2.col.foo_vars_requirements:
-
-Requirements
-------------
-The below requirements are needed on the local controller node that executes this vars.
-
-- Enabled in Ansible's configuration.
 
 
 
+.. Terms
 
-
-
-.. Options
-
-Parameters
-----------
-
+Terms
+-----
 
 .. rst-class:: ansible-option-table
 
@@ -111,21 +103,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_valid_extensions"></div>
+        <div class="ansibleOptionAnchor" id="parameter-_terms"></div>
 
-      .. _ansible_collections.ns2.col.foo_vars__parameter-_valid_extensions:
+      .. _ansible_collections.ns2.col._bar_lookup__parameter-_terms:
 
       .. rst-class:: ansible-option-title
 
-      **_valid_extensions**
+      **Terms**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-_valid_extensions" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-_terms" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
 
 
 
@@ -138,31 +130,18 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      All extensions to check.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`[".foo", ".foobar"]`
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-configuration:`Configuration:`
-
-      - INI entry:
-
-        .. code-block::
-
-          [defaults]
-          foo_valid_extensions = .foo, .foobar
-
-
-      - Environment variable: :envvar:`ANSIBLE\_FOO\_FILENAME\_EXT`
+      Something
 
 
       .. raw:: html
 
         </div>
+
+
+
+
+
+.. Options
 
 
 .. Attributes
@@ -176,6 +155,17 @@ Parameters
 
 .. Examples
 
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Look up!
+      ansible.builtin.debug:
+        msg: "{{ lookup('ns2.col._bar', {}) }}"
+
+
 
 
 .. Facts
@@ -183,11 +173,69 @@ Parameters
 
 .. Return values
 
+Return Value
+------------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-_raw"></div>
+
+      .. _ansible_collections.ns2.col._bar_lookup__return-_raw:
+
+      .. rst-class:: ansible-option-title
+
+      **Return value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-_raw" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The resulting stuff.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
 
 ..  Status (Presently only deprecated)
 
 
 .. Authors
+
+Authors
+~~~~~~~
+
+- Felix Fontein (@felixfontein)
 
 
 .. hint::

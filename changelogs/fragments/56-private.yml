@@ -1,0 +1,2 @@
+minor_changes:
+  - "From now on plugins outside ``ansible.builtin`` whose last FQCN component starts with ``_`` are treated as private and marked as such in their documentation, and are no longer listed in plugin indexes (https://github.com/ansible-community/antsibull-docs/pull/56)."

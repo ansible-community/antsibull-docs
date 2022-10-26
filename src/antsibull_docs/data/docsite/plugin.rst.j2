@@ -139,6 +139,15 @@ DEPRECATED
 :Alternative: @{ doc['deprecated']['alternative'] | rst_ify }@
 {% endif %}
 
+{% if is_private -%}
+PRIVATE
+-------
+The collection considers this {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %} private.
+You can use it with the above FQCN, but be warned that @{ collection }@ might not consider
+this {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %} as part of its public API and
+can make breaking changes even in bugfix releases.
+{% endif %}
+
 Synopsis
 --------
 

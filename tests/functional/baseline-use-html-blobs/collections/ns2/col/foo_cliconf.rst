@@ -59,6 +59,7 @@ ns2.col.foo cliconf -- Foo router CLI config
 .. Deprecated
 
 
+
 Synopsis
 --------
 

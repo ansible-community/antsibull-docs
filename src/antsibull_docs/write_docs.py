@@ -46,6 +46,19 @@ def _render_template(_template: Template, _name: str, **kwargs) -> str:
         raise Exception(f"Error while rendering {_name}") from exc
 
 
+def is_private_plugin(fqcn: str) -> bool:
+    """
+    Return whether the plugin identified by the given FQCN is private.
+
+    Plugins whose last component of the FQCN starts with '_' and which are not part
+    of ansible.builtin are private.
+    """
+    if fqcn.startswith('ansible.builtin.'):
+        return False
+    parts = fqcn.split('.')
+    return parts[-1].startswith('_')
+
+
 def follow_relative_links(path: str) -> str:
     """
     Resolve relative links for path.
@@ -189,6 +202,7 @@ def create_plugin_rst(collection_name: str,
             collection_communication=collection_links.communication,
             collection_issue_tracker=collection_links.issue_tracker,
             for_official_docsite=for_official_docsite,
+            is_private=is_private_plugin(plugin_name),
         )
     else:
         if log_errors and nonfatal_errors:
@@ -213,6 +227,7 @@ def create_plugin_rst(collection_name: str,
                 collection_communication=collection_links.communication,
                 collection_issue_tracker=collection_links.issue_tracker,
                 for_official_docsite=for_official_docsite,
+                is_private=is_private_plugin(plugin_name),
             )
         else:
             plugin_contents = _render_template(
@@ -232,6 +247,7 @@ def create_plugin_rst(collection_name: str,
                 collection_communication=collection_links.communication,
                 collection_issue_tracker=collection_links.issue_tracker,
                 for_official_docsite=for_official_docsite,
+                is_private=is_private_plugin(plugin_name),
             )
 
     flog.debug('Leave')
@@ -624,6 +640,25 @@ def _parse_required_ansible(requires_ansible: str) -> t.List[str]:
     return result
 
 
+def remove_private_plugins(plugin_maps: t.Mapping[str, t.Mapping[str, str]]
+                           ) -> t.Mapping[str, t.Mapping[str, str]]:
+    """
+    Remove all private plugins, and remove all categories with empty plugin list.
+
+    :arg plugin_maps: Mapping of category_type to Mapping of plugin_name to short_description.
+    """
+    result = {}
+    for category_type, category_plugins in plugin_maps.items():
+        result_plugins = {}
+        for plugin, value in category_plugins.items():
+            if is_private_plugin(plugin):
+                continue
+            result_plugins[plugin] = value
+        if result_plugins:
+            result[category_type] = result_plugins
+    return result
+
+
 async def write_plugin_lists(collection_name: str,
                              plugin_maps: t.Mapping[str, t.Mapping[str, str]],
                              template: Template,
@@ -667,6 +702,7 @@ async def write_plugin_lists(collection_name: str,
                 'Cannot parse required_ansible specifier set for {collection_name}',
                 collection_name=collection_name,
             )
+    plugin_maps = remove_private_plugins(plugin_maps)
     index_contents = _render_template(
         template,
         dest_dir,
@@ -818,11 +854,13 @@ async def output_plugin_indexes(plugin_info: PluginCollectionInfoT,
     lib_ctx = app_context.lib_ctx.get()
     async with asyncio_pool.AioPool(size=lib_ctx.thread_max) as pool:
         for plugin_type, per_collection_data in plugin_info.items():
-            filename = os.path.join(collection_toplevel, f'index_{plugin_type}.rst')
-            writers.append(await pool.spawn(
-                write_plugin_type_index(
-                    plugin_type, per_collection_data, plugin_list_tmpl, filename,
-                    for_official_docsite=for_official_docsite)))
+            per_collection_data = remove_private_plugins(per_collection_data)
+            if per_collection_data:
+                filename = os.path.join(collection_toplevel, f'index_{plugin_type}.rst')
+                writers.append(await pool.spawn(
+                    write_plugin_type_index(
+                        plugin_type, per_collection_data, plugin_list_tmpl, filename,
+                        for_official_docsite=for_official_docsite)))
 
         await asyncio.gather(*writers)
 

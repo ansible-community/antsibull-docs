@@ -62,6 +62,7 @@ New in ns2.col 1.2.0
 .. Deprecated
 
 
+
 Synopsis
 --------
 

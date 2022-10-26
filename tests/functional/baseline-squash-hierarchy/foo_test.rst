@@ -59,6 +59,7 @@ ns2.col.foo test -- Is something a foo
 .. Deprecated
 
 
+
 Synopsis
 --------
 

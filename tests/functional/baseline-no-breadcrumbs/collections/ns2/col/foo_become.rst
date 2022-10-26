@@ -59,6 +59,7 @@ ns2.col.foo become -- Use foo
 .. Deprecated
 
 
+
 Synopsis
 --------
 

@@ -2,7 +2,7 @@
 .. Document meta
 
 :orphan:
-:github_url: https://github.com/ansible-community/antsibull-docs/edit/main/tests/functional/collections/ansible_collections/ns2/col/plugins/test/foo.py?description=%23%23%23%23%23%20SUMMARY%0A%3C!---%20Your%20description%20here%20--%3E%0A%0A%0A%23%23%23%23%23%20ISSUE%20TYPE%0A-%20Docs%20Pull%20Request%0A%0A%2Blabel:%20docsite_pr
+:github_url: https://github.com/ansible-community/antsibull-docs/edit/main/tests/functional/collections/ansible_collections/ns2/col/plugins/lookup/_bar.py?description=%23%23%23%23%23%20SUMMARY%0A%3C!---%20Your%20description%20here%20--%3E%0A%0A%0A%23%23%23%23%23%20ISSUE%20TYPE%0A-%20Docs%20Pull%20Request%0A%0A%2Blabel:%20docsite_pr
 
 .. |antsibull-internal-nbsp| unicode:: 0xA0
     :trim:
@@ -27,7 +27,7 @@
 
 .. Anchors
 
-.. _ansible_collections.ns2.col.foo_test:
+.. _ansible_collections.ns2.col._bar_lookup:
 
 .. Anchors: short name for ansible.builtin
 
@@ -37,20 +37,23 @@
 
 .. Title
 
-ns2.col.foo test -- Is something a foo
-++++++++++++++++++++++++++++++++++++++
+ns2.col._bar lookup -- Look up some bar
++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This test plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
+    This lookup plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
 
     To install it, use: :code:`ansible-galaxy collection install ns2.col`.
 
-    To use it in a playbook, specify: :code:`ns2.col.foo`.
+    To use it in a playbook, specify: :code:`ns2.col._bar`.
 
 .. version_added
 
+.. rst-class:: ansible-version-added
+
+New in ns2.col 1.0.0
 
 .. contents::
    :local:
@@ -59,13 +62,19 @@ ns2.col.foo test -- Is something a foo
 .. Deprecated
 
 
+PRIVATE
+-------
+The collection considers this lookup plugin private.
+You can use it with the above FQCN, but be warned that ns2.col might not consider
+this lookup plugin as part of its public API and
+can make breaking changes even in bugfix releases.
 
 Synopsis
 --------
 
 .. Description
 
-- Check whether the input dictionary is a foo.
+- This one is private.
 
 
 .. Aliases
@@ -76,13 +85,10 @@ Synopsis
 
 
 
+.. Terms
 
-.. Input
-
-Input
+Terms
 -----
-
-This describes the input of the test, the value before ``is ns2.col.foo`` or ``is not ns2.col.foo``.
 
 .. raw:: html
 
@@ -96,21 +102,23 @@ This describes the input of the test, the value before ``is ns2.col.foo`` or ``i
   <tbody>
   <tr class="row-even">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-_input"></div>
-      <p class="ansible-option-title"><strong>Input</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-_input" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter-_terms"></div>
+      <p class="ansible-option-title"><strong>Terms</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-_terms" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
-        <span class="ansible-option-type">dictionary</span>
+        <span class="ansible-option-type">list</span>
+        / <span class="ansible-option-elements">elements=dictionary</span>
         / <span class="ansible-option-required">required</span>
       </p>
 
     </div></td>
     <td><div class="ansible-option-cell">
-      <p>Something to test.</p>
+      <p>Something</p>
     </div></td>
   </tr>
   </tbody>
   </table>
+
 
 
 
@@ -136,7 +144,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    some_var: "{{ {'a': 1} is ns2.col.foo }}"
+    - name: Look up!
+      ansible.builtin.debug:
+        msg: "{{ lookup('ns2.col._bar', {}) }}"
 
 
 
@@ -161,15 +171,16 @@ Return Value
   <tbody>
   <tr class="row-even">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="return-_value"></div>
+      <div class="ansibleOptionAnchor" id="return-_raw"></div>
       <p class="ansible-option-title"><strong>Return value</strong></p>
-      <a class="ansibleOptionLink" href="#return-_value" title="Permalink to this return value"></a>
+      <a class="ansibleOptionLink" href="#return-_raw" title="Permalink to this return value"></a>
       <p class="ansible-option-type-line">
-        <span class="ansible-option-type">boolean</span>
+        <span class="ansible-option-type">list</span>
+        / <span class="ansible-option-elements">elements=dictionary</span>
       </p>
     </div></td>
     <td><div class="ansible-option-cell">
-      <p>Whether the input is a foo.</p>
+      <p>The resulting stuff.</p>
       <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> success</p>
     </div></td>
   </tr>
@@ -186,7 +197,7 @@ Return Value
 Authors
 ~~~~~~~
 
-- Nobody
+- Felix Fontein (@felixfontein)
 
 
 .. hint::

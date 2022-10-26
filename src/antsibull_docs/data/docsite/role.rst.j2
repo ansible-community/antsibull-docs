@@ -112,6 +112,13 @@ DEPRECATED
 :Alternative: @{ ep_doc['deprecated']['alternative'] | rst_ify }@
 {%   endif %}
 
+{% if is_private -%}
+PRIVATE
+-------
+The collection considers this role private. You can use it with the above FQCN, but be warned that @{ collection }@ might
+not consider this role as part of its public API and can make breaking changes even in bugfix releases.
+{% endif %}
+
 Synopsis
 ^^^^^^^^
 
