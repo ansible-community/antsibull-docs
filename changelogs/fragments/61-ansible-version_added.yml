@@ -1,0 +1,2 @@
+bugfixes:
+  - "Fix ``version_added`` processing for ansible.builtin 0.x to represent this as ``Ansible 0.x`` instead of ``ansible-core 0.x`` (https://github.com/ansible-community/antsibull-docs/pull/61)."

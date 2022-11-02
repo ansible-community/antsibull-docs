@@ -7,7 +7,7 @@
 {% macro ansible_name(version) -%}
 {%-  if version.startswith('2.10.') -%}
 ansible-base
-{%-  elif version.startswith('1.') or (version.startswith('2.') and (version | length == 3 or version[3] == '.')) -%}
+{%-  elif version.startswith('0.') or version.startswith('1.') or (version.startswith('2.') and (version | length == 3 or version[3] == '.')) -%}
 Ansible
 {%-  elif version.startswith('2.10.') or version == '2.10' -%}
 ansible-base
