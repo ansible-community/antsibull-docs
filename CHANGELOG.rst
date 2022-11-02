@@ -5,6 +5,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v1.7.2
+======
+
+Release Summary
+---------------
+
+Bugfix release.
+
+Bugfixes
+--------
+
+- Fix ``version_added`` processing for ansible.builtin 0.x to represent this as ``Ansible 0.x`` instead of ``ansible-core 0.x`` (https://github.com/ansible-community/antsibull-docs/pull/61).
+
 v1.7.1
 ======
 
