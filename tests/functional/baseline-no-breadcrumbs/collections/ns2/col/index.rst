@@ -76,6 +76,7 @@ Modules
 ~~~~~~~
 
 * :ref:`foo module <ansible_collections.ns2.col.foo_module>` -- Do some foo
+* :ref:`foo2 module <ansible_collections.ns2.col.foo2_module>` -- Another foo
 
 
 Become Plugins
