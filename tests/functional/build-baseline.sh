@@ -13,7 +13,17 @@ make_baseline() {
     echo "Building baseline ${DEST}..."
     rm -rf "${DEST}"
     mkdir -p "${DEST}"
-    ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --dest-dir "${DEST}" --use-current $@
+    ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --dest-dir "${DEST}" --use-current $@ 2>&1 | (
+        set +e
+        grep -v "An error page will be generated."
+        set -e
+    )
+
+    rstcheck --report-level warning --ignore-roles ansible-option-default,ansible-rv-sample-value -r "${DEST}" 2>&1 | (
+        set +e
+        grep -v "CRITICAL:rstcheck_core.checker:An \`AttributeError\` error occured."
+        set -e
+    )
 }
 
 
