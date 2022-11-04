@@ -266,3 +266,12 @@ releases:
     - 1.7.2.yml
     - 61-ansible-version_added.yml
     release_date: '2022-11-02'
+  1.7.3:
+    changes:
+      bugfixes:
+      - Fix rendering of the ``action_group`` attribute (https://github.com/ansible-community/antsibull-docs/pull/62).
+      release_summary: Bugfix release.
+    fragments:
+    - 1.7.3.yml
+    - 62-attribute-action_group.yml
+    release_date: '2022-11-04'

@@ -5,6 +5,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v1.7.3
+======
+
+Release Summary
+---------------
+
+Bugfix release.
+
+Bugfixes
+--------
+
+- Fix rendering of the ``action_group`` attribute (https://github.com/ansible-community/antsibull-docs/pull/62).
+
 v1.7.2
 ======
 
