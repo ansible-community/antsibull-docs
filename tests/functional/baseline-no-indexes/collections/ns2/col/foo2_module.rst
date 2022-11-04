@@ -384,9 +384,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       Some bar.
 
-      Referencing myself as RV(bar).
+      Referencing myself as \ :literal:`bar`\ .
 
-      Do not confuse with O(bar).
+      Do not confuse with \ :emphasis:`bar`\ .
 
 
       .. rst-class:: ansible-option-line

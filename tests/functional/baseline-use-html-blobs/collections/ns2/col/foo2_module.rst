@@ -366,8 +366,8 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
     </div></td>
     <td><div class="ansible-option-cell">
       <p>Some bar.</p>
-      <p>Referencing myself as RV(bar).</p>
-      <p>Do not confuse with O(bar).</p>
+      <p>Referencing myself as <code class='docutils literal notranslate'>bar</code>.</p>
+      <p>Do not confuse with <em>bar</em>.</p>
       <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> success</p>
       <p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <code class="ansible-value literal notranslate ansible-option-sample">&#34;baz&#34;</code></p>
     </div></td>
