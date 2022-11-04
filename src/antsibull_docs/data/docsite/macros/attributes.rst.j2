@@ -45,8 +45,8 @@
         <div class="ansible-option-cell">
 
 {%   if attribute == 'action_group' %}
-      :ansible-attribute-support-property:`Action group@{ 's' if data.memberships | length != 1 else '' }@: |antsibull-internal-nbsp|`
-{%-    for member in data.memberships -%}
+      :ansible-attribute-support-property:`Action group@{ 's' if data.membership | length != 1 else '' }@:` |antsibull-internal-nbsp|
+{%-    for member in data.membership -%}
            :ansible-attribute-support-full:`@{- member | rst_ify -}@`
 {%-        if not loop.last %}, {% endif -%}
 {%-    endfor %}

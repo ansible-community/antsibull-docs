@@ -58,6 +58,11 @@ attributes:
         description: Target OS/families that can be operated against
         support: N/A
         platforms: posix
+    action_group:
+        description: Use C(group/ns2.col.foo_group) in C(module_defaults) to set defaults for this module.
+        support: full
+        membership:
+          - ns2.col.foo_group
 '''
 
 EXAMPLES = '''
