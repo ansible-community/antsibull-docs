@@ -2,7 +2,7 @@
 .. Document meta
 
 :orphan:
-:github_url: https://github.com/ansible-community/antsibull-docs/edit/main/tests/functional/collections/ansible_collections/ns2/col/plugins/modules/foo.py?description=%23%23%23%23%23%20SUMMARY%0A%3C!---%20Your%20description%20here%20--%3E%0A%0A%0A%23%23%23%23%23%20ISSUE%20TYPE%0A-%20Docs%20Pull%20Request%0A%0A%2Blabel:%20docsite_pr
+:github_url: https://github.com/ansible-community/antsibull-docs/edit/main/tests/functional/collections/ansible_collections/ns2/col/plugins/modules/foo2.py?description=%23%23%23%23%23%20SUMMARY%0A%3C!---%20Your%20description%20here%20--%3E%0A%0A%0A%23%23%23%23%23%20ISSUE%20TYPE%0A-%20Docs%20Pull%20Request%0A%0A%2Blabel:%20docsite_pr
 
 .. |antsibull-internal-nbsp| unicode:: 0xA0
     :trim:
@@ -27,7 +27,7 @@
 
 .. Anchors
 
-.. _ansible_collections.ns2.col.foo_module:
+.. _ansible_collections.ns2.col.foo2_module:
 
 .. Anchors: short name for ansible.builtin
 
@@ -37,8 +37,8 @@
 
 .. Title
 
-ns2.col.foo module -- Do some foo
-+++++++++++++++++++++++++++++++++
+ns2.col.foo2 module -- Another foo
+++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -46,16 +46,11 @@ ns2.col.foo module -- Do some foo
     This module is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
 
     To install it, use: :code:`ansible-galaxy collection install ns2.col`.
-    You need further requirements to be able to use this module,
-    see :ref:`Requirements <ansible_collections.ns2.col.foo_module_requirements>` for details.
 
-    To use it in a playbook, specify: :code:`ns2.col.foo`.
+    To use it in a playbook, specify: :code:`ns2.col.foo2`.
 
 .. version_added
 
-.. rst-class:: ansible-version-added
-
-New in ns2.col 2.0.0
 
 .. contents::
    :local:
@@ -69,8 +64,7 @@ Synopsis
 
 .. Description
 
-- Does some foo on the remote host.
-- Whether foo is magic or not has not yet been determined.
+- Foo bar.
 
 
 .. Aliases
@@ -78,100 +72,12 @@ Synopsis
 
 .. Requirements
 
-.. _ansible_collections.ns2.col.foo_module_requirements:
-
-Requirements
-------------
-The below requirements are needed on the host that executes this module.
-
-- Foo on remote.
-
 
 
 
 
 
 .. Options
-
-Parameters
-----------
-
-
-.. raw:: html
-
-  <table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
-  <thead>
-  <tr class="row-odd">
-    <th class="head"><p>Parameter</p></th>
-    <th class="head"><p>Comments</p></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr class="row-even">
-    <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
-      <div class="ansibleOptionAnchor" id="parameter-baz"></div>
-      <p class="ansible-option-title"><strong>bar</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
-      <p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: baz</span></p>
-      <p class="ansible-option-type-line">
-        <span class="ansible-option-type">list</span>
-        / <span class="ansible-option-elements">elements=integer</span>
-      </p>
-    </div></td>
-    <td><div class="ansible-option-cell">
-      <p>A bar.</p>
-      <p>Independent from <em>foo</em>.</p>
-    </div></td>
-  </tr>
-  <tr class="row-odd">
-    <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-foo"></div>
-      <p class="ansible-option-title"><strong>foo</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-foo" title="Permalink to this option"></a>
-      <p class="ansible-option-type-line">
-        <span class="ansible-option-type">string</span>
-        / <span class="ansible-option-required">required</span>
-      </p>
-    </div></td>
-    <td><div class="ansible-option-cell">
-      <p>The foo source.</p>
-    </div></td>
-  </tr>
-  <tr class="row-even">
-    <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-subfoo"></div>
-      <p class="ansible-option-title"><strong>subfoo</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-subfoo" title="Permalink to this option"></a>
-      <p class="ansible-option-type-line">
-        <span class="ansible-option-type">dictionary</span>
-      </p>
-      <p><span class="ansible-option-versionadded">added in ns2.col 2.0.0</span></p>
-    </div></td>
-    <td><div class="ansible-option-cell">
-      <p>Some recursive foo.</p>
-    </div></td>
-  </tr>
-  <tr class="row-odd">
-    <td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-subfoo/foo"></div>
-      <p class="ansible-option-title"><strong>foo</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-subfoo/foo" title="Permalink to this option"></a>
-      <p class="ansible-option-type-line">
-        <span class="ansible-option-type">string</span>
-        / <span class="ansible-option-required">required</span>
-      </p>
-    </div></td>
-    <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-      <p>A sub foo.</p>
-      <p>Whatever.</p>
-      <p>Also required when <em>subfoo</em> is specified when <em>foo=bar</em> or <code class='docutils literal notranslate'>baz</code>.</p>
-    </div></td>
-  </tr>
-
-  </tbody>
-  </table>
-
 
 
 .. Attributes
@@ -196,7 +102,7 @@ Attributes
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="attribute-action_group"></div>
 
-      .. _ansible_collections.ns2.col.foo_module__attribute-action_group:
+      .. _ansible_collections.ns2.col.foo2_module__attribute-action_group:
 
       .. rst-class:: ansible-option-title
 
@@ -214,7 +120,7 @@ Attributes
 
         <div class="ansible-option-cell">
 
-      :ansible-attribute-support-property:`Action group:` |antsibull-internal-nbsp|:ansible-attribute-support-full:`ns2.col.foo\_group`
+      :ansible-attribute-support-property:`Action groups:` |antsibull-internal-nbsp|:ansible-attribute-support-full:`ns2.col.bar\_group`, :ansible-attribute-support-full:`ns2.col.foo\_group`
 
 
       .. raw:: html
@@ -225,7 +131,7 @@ Attributes
 
         <div class="ansible-option-cell">
 
-      Use \ :literal:`group/ns2.col.foo\_group`\  in \ :literal:`module\_defaults`\  to set defaults for this module.
+      Use \ :literal:`group/ns2.col.foo\_group`\  or \ :literal:`group/ns2.col.bar\_group`\  in \ :literal:`module\_defaults`\  to set defaults for this module.
 
 
       .. raw:: html
@@ -238,7 +144,7 @@ Attributes
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="attribute-check_mode"></div>
 
-      .. _ansible_collections.ns2.col.foo_module__attribute-check_mode:
+      .. _ansible_collections.ns2.col.foo2_module__attribute-check_mode:
 
       .. rst-class:: ansible-option-title
 
@@ -280,7 +186,7 @@ Attributes
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="attribute-diff_mode"></div>
 
-      .. _ansible_collections.ns2.col.foo_module__attribute-diff_mode:
+      .. _ansible_collections.ns2.col.foo2_module__attribute-diff_mode:
 
       .. rst-class:: ansible-option-title
 
@@ -298,7 +204,7 @@ Attributes
 
         <div class="ansible-option-cell">
 
-      :ansible-attribute-support-label:`Support: \ `\ :ansible-attribute-support-full:`full`
+      :ansible-attribute-support-label:`Support: \ `      \ :ansible-attribute-support-na:`N/A`
 
 
       .. raw:: html
@@ -320,9 +226,52 @@ Attributes
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="attribute-forced_action_plugin"></div>
+
+      .. _ansible_collections.ns2.col.foo2_module__attribute-forced_action_plugin:
+
+      .. rst-class:: ansible-option-title
+
+      **forced_action_plugin**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#attribute-forced_action_plugin" title="Permalink to this attribute"></a>
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :ansible-attribute-support-property:`Action plugin:` :ansible-attribute-support-full:`ns2.col.foo2`
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A forced action plugin.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="attribute-platform"></div>
 
-      .. _ansible_collections.ns2.col.foo_module__attribute-platform:
+      .. _ansible_collections.ns2.col.foo2_module__attribute-platform:
 
       .. rst-class:: ansible-option-title
 
@@ -417,6 +366,8 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
     </div></td>
     <td><div class="ansible-option-cell">
       <p>Some bar.</p>
+      <p>Referencing myself as RV(bar).</p>
+      <p>Do not confuse with O(bar).</p>
       <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> success</p>
       <p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <code class="ansible-value literal notranslate ansible-option-sample">&#34;baz&#34;</code></p>
     </div></td>
@@ -434,8 +385,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Ansible Core Team
-- Someone else (@ansible)
+- Another one (@ansible-community)
 
 
 

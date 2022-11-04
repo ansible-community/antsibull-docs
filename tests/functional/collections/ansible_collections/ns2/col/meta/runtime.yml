@@ -4,3 +4,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 requires_ansible: '>=2.11.0,!=2.12.2,<2.99.0'
+
+action_groups:
+  foo_group:
+    - foo
+    - foo2
+  bar_group:
+    - foo2

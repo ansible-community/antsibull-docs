@@ -9,43 +9,13 @@ __metaclass__ = type
 
 DOCUMENTATION = '''
 ---
-module: foo
+module: foo2
 author:
-    - "Ansible Core Team"
-    - "Someone else (@ansible)"
-version_added: "2.0.0"
-short_description: Do some foo
+    - "Another one (@ansible-community)"
+short_description: Another foo
 description:
-    - Does some foo on the remote host.
-    - Whether foo is magic or not has not yet been determined.
-options:
-    foo:
-        description: The foo source.
-        type: str
-        required: true
-    bar:
-        description:
-          - A bar.
-          - Independent from I(foo).
-        type: list
-        elements: int
-        aliases:
-          - baz
-    subfoo:
-        description: Some recursive foo.
-        version_added: 2.0.0
-        type: dict
-        suboptions:
-            foo:
-                description:
-                    - A sub foo.
-                    - Whatever.
-                    - Also required when I(subfoo) is specified when I(foo=bar) or C(baz).
-                type: str
-                required: true
-
-requirements:
-    - Foo on remote.
+    - Foo bar.
+options: {}
 
 attributes:
     check_mode:
@@ -53,15 +23,20 @@ attributes:
         support: full
     diff_mode:
         description: Will return details on what has changed (or possibly needs changing in check_mode), when in diff mode
-        support: full
+        support: N/A
     platform:
         description: Target OS/families that can be operated against
-        support: N/A
+        support: partial
         platforms: posix
+    forced_action_plugin:
+        description: A forced action plugin.
+        support: full
+        action_plugin: ns2.col.foo2
     action_group:
-        description: Use C(group/ns2.col.foo_group) in C(module_defaults) to set defaults for this module.
+        description: Use C(group/ns2.col.foo_group) or C(group/ns2.col.bar_group) in C(module_defaults) to set defaults for this module.
         support: full
         membership:
+          - ns2.col.bar_group
           - ns2.col.foo_group
 '''
 
@@ -79,7 +54,10 @@ EXAMPLES = '''
 
 RETURN = '''
 bar:
-    description: Some bar.
+    description:
+      - Some bar.
+      - Referencing myself as RV(bar).
+      - Do not confuse with O(bar).
     returned: success
     type: str
     sample: baz
