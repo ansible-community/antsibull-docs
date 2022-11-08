@@ -575,10 +575,6 @@ class AttributeSchemaActionGroup(AttributeSchemaBase):  # for 'action_group'
         return list_from_scalars_comma_separated(obj)
 
 
-class AttributeSchemaForcedActionPlugin(AttributeSchemaBase):  # for 'forced_action_plugin'
-    action_plugin: str
-
-
 class AttributeSchemaPlatform(AttributeSchemaBase):  # for 'platform'
     platforms: t.List[str]
 
@@ -609,7 +605,6 @@ class DocSchema(BaseModel):
     version_added_collection: str = COLLECTION_NAME_F
     attributes: t.Dict[str, t.Union[AttributeSchema,
                                     AttributeSchemaActionGroup,
-                                    AttributeSchemaForcedActionPlugin,
                                     AttributeSchemaPlatform]] = {}
 
     @p.validator('author', 'description', 'extends_documentation_fragment', 'notes',
