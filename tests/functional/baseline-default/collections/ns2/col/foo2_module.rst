@@ -226,49 +226,6 @@ Attributes
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="attribute-forced_action_plugin"></div>
-
-      .. _ansible_collections.ns2.col.foo2_module__attribute-forced_action_plugin:
-
-      .. rst-class:: ansible-option-title
-
-      **forced_action_plugin**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#attribute-forced_action_plugin" title="Permalink to this attribute"></a>
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      :ansible-attribute-support-property:`Action plugin:` :ansible-attribute-support-full:`ns2.col.foo2`
-
-
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      A forced action plugin.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="attribute-platform"></div>
 
       .. _ansible_collections.ns2.col.foo2_module__attribute-platform:

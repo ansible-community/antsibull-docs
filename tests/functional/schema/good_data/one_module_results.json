@@ -99,14 +99,6 @@
                         "version_added": "historical",
                         "version_added_collection": ""
                     },
-                    "forced_action_plugin": {
-                        "action_plugin": "none",
-                        "details": [],
-                        "description": ["This action uses a specific action plugin instead of 'normal' or matching by name"],
-                        "support": "none",
-                        "version_added": "historical",
-                        "version_added_collection": ""
-                    },
                     "forced_local": {
                         "description": ["The connection itself is passed to the action while the code is still executed on the controller"],
                         "details": [],

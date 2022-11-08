@@ -28,10 +28,6 @@ attributes:
         description: Target OS/families that can be operated against
         support: partial
         platforms: posix
-    forced_action_plugin:
-        description: A forced action plugin.
-        support: full
-        action_plugin: ns2.col.foo2
     action_group:
         description: Use C(group/ns2.col.foo_group) or C(group/ns2.col.bar_group) in C(module_defaults) to set defaults for this module.
         support: full
