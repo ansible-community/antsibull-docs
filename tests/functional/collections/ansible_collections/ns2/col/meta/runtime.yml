@@ -11,3 +11,8 @@ action_groups:
     - foo2
   bar_group:
     - foo2
+
+plugin_routing:
+  lookup:
+    bar:
+      private: true
