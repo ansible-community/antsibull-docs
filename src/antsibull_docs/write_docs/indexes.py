@@ -60,7 +60,6 @@ async def write_callback_type_index(
 async def write_plugin_type_index(
     plugin_type: str,
     per_collection_plugins: Mapping[str, Mapping[str, str]],
-    # pylint:disable-next=unused-argument
     collection_metadata: Mapping[str, AnsibleCollectionMetadata],
     template: Template,
     dest_filename: str,
@@ -78,11 +77,22 @@ async def write_plugin_type_index(
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
     """
+    public_per_collection_plugins = {}
+    for collection_name, plugins in per_collection_plugins.items():
+        public_plugins = {}
+        collection_meta = collection_metadata[collection_name]
+        private_plugins = collection_meta.private_plugins.get(plugin_type) or []
+        for plugin_name, plugin_data in plugins.items():
+            if plugin_name not in private_plugins:
+                public_plugins[plugin_name] = plugin_data
+        if public_plugins:
+            public_per_collection_plugins[collection_name] = public_plugins
+
     index_contents = _render_template(
         template,
         dest_filename,
         plugin_type=plugin_type,
-        per_collection_plugins=per_collection_plugins,
+        per_collection_plugins=public_per_collection_plugins,
         for_official_docsite=for_official_docsite,
     )
 
