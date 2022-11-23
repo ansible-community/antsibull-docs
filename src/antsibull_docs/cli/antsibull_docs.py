@@ -160,6 +160,10 @@ def _normalize_sphinx_init_options(args: argparse.Namespace) -> None:
             raise InvalidArgumentError(
                 'Every `--intersphinx` value must have at least one colon (:).')
 
+    if args.index_rst_source is not None and not os.path.isfile(args.index_rst_source):
+        raise InvalidArgumentError('The rst/index.rst replacement file,'
+                                   f' {args.index_rst_source}, is not a file')
+
 
 def parse_args(program_name: str, args: List[str]) -> argparse.Namespace:
     """
@@ -360,6 +364,9 @@ def parse_args(program_name: str, args: List[str]) -> argparse.Namespace:
                                     ' conf.py. Use the syntax `identifier:https://server/path` to'
                                     ' add the identifier `identifier` with URL'
                                     ' `https://server/path`. The inventory is always `None`.')
+    sphinx_init_parser.add_argument('--index-rst-source',
+                                    help='Copy the provided file to rst/index.rst intead of'
+                                    ' templating a default one.')
 
     #
     # Lint collection docs
