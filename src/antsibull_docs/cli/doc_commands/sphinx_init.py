@@ -30,19 +30,35 @@ TEMPLATES = [
 ]
 
 
-def write_file(filename: str, content: str, encoding: t.Optional[str] = 'utf-8') -> None:
+def write_file(filename: str, content: str) -> None:
     """
     Write content into a file.
     """
     if os.path.exists(filename):
-        with open(filename, 'rb' if encoding is None else 'r', encoding=encoding) as f:
+        with open(filename, 'r', encoding='utf-8') as f:
             existing_content = f.read()
         if existing_content == content:
             print(f'Skipping {filename}')
             return
 
     print(f'Writing {filename}...')
-    with open(filename, 'wb' if encoding is None else 'w', encoding=encoding) as f:
+    with open(filename, 'w', encoding='utf-8') as f:
+        f.write(content)
+
+
+def write_binary_file(filename: str, content: bytes) -> None:
+    """
+    Write binary content into a file.
+    """
+    if os.path.exists(filename):
+        with open(filename, 'rb') as f:
+            existing_content = f.read()
+        if existing_content == content:
+            print(f'Skipping {filename}')
+            return
+
+    print(f'Writing {filename}...')
+    with open(filename, 'wb') as f:
         f.write(content)
 
 
@@ -144,11 +160,11 @@ def site_init() -> int:
 
     if index_rst_source is not None:
         with open(index_rst_source, 'rb') as f:
-            content = f.read()
+            binary_content = f.read()
 
         destination = os.path.join(dest_dir, RST_INDEX_RST)
         os.makedirs(os.path.dirname(destination), exist_ok=True)
-        write_file(destination, content, encoding=None)
+        write_binary_file(destination, binary_content)
 
     print(f'To build the docsite, go into {dest_dir} and run:')
     print('    pip install -r requirements.txt  # possibly use a venv')
