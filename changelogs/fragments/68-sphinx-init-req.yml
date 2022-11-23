@@ -1,0 +1,2 @@
+bugfixes:
+  - "Removed ``sphinx`` restriction in ``requirements.txt`` file created by ``antsibull-docs sphinx-init`` since the bug in ``sphinx-rtd-theme`` has been fixed (https://github.com/ansible-community/antsibull-docs/pull/68)."
