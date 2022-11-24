@@ -10,7 +10,6 @@ import typing as t
 from collections import defaultdict
 from concurrent.futures import ProcessPoolExecutor
 
-from antsibull_core.compat import best_get_loop
 from antsibull_core.logging import log
 from pydantic import ValidationError
 
@@ -115,7 +114,7 @@ async def normalize_all_plugin_info(plugin_info: t.Mapping[str, t.Mapping[str, t
                     - error string
                     - error string
     """
-    loop = best_get_loop()
+    loop = asyncio.get_running_loop()
     lib_ctx = app_context.lib_ctx.get()
     executor = ProcessPoolExecutor(max_workers=lib_ctx.process_max)
 

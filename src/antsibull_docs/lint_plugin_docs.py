@@ -5,6 +5,7 @@
 # SPDX-FileCopyrightText: 2022, Ansible Project
 """Lint plugin docs."""
 
+import asyncio
 import json
 import os
 import shutil
@@ -12,7 +13,6 @@ import tempfile
 import typing as t
 from collections.abc import Sequence
 
-from antsibull_core.compat import asyncio_run
 from antsibull_core.subprocess_util import log_run
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
 from antsibull_core.venv import FakeVenvRunner
@@ -354,16 +354,16 @@ def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
                                  ) -> t.List[t.Tuple[str, int, int, str]]:
     # Load collection docs
     venv = FakeVenvRunner()
-    plugin_info, collection_metadata = asyncio_run(get_ansible_plugin_info(
+    plugin_info, collection_metadata = asyncio.run(get_ansible_plugin_info(
         venv, collections_dir, collection_names=[collection_name]))
     # Load routing information
-    collection_routing = asyncio_run(load_all_collection_routing(collection_metadata))
+    collection_routing = asyncio.run(load_all_collection_routing(collection_metadata))
     # Process data
     remove_redirect_duplicates(plugin_info, collection_routing)
-    new_plugin_info, nonfatal_errors = asyncio_run(normalize_all_plugin_info(plugin_info))
+    new_plugin_info, nonfatal_errors = asyncio.run(normalize_all_plugin_info(plugin_info))
     augment_docs(new_plugin_info)
     # Load link data
-    link_data = asyncio_run(load_collections_links(
+    link_data = asyncio.run(load_collections_links(
         {name: data.path for name, data in collection_metadata.items()}))
     # More processing
     plugin_contents = get_plugin_contents(new_plugin_info, nonfatal_errors)

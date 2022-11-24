@@ -6,13 +6,13 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Render documentation for a single plugin."""
 
+import asyncio
 import json
 import os
 import sys
 import traceback
 import typing as t
 
-from antsibull_core.compat import asyncio_run
 from antsibull_core.logging import log
 from antsibull_core.subprocess_util import CalledProcessError
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
@@ -108,7 +108,7 @@ def generate_plugin_docs(plugin_type: str, plugin_name: str,
     plugin_tmpl = env.get_template('plugin.rst.j2')
     error_tmpl = env.get_template('plugin-error.rst.j2')
 
-    asyncio_run(write_plugin_rst(
+    asyncio.run(write_plugin_rst(
         collection_name,
         AnsibleCollectionMetadata.empty(),
         CollectionLinks(), plugin, plugin_type,
