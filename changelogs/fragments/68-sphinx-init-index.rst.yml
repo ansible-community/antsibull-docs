@@ -1,0 +1,2 @@
+minor_changes:
+  - "It is now possible to provide a path to an existing file to be used as ``rst/index.rst`` for ``antsibull-docs sphinx-init`` (https://github.com/ansible-community/antsibull-docs/pull/68)."
