@@ -1,2 +1,0 @@
-bugfixes:
-  - "The license header for the template for the ``rst/index.rst`` file created by ``antsibull-docs sphinx-init`` was commented incorrectly and thus showed up in the templated file (https://github.com/ansible-community/antsibull-docs/pull/66)."
