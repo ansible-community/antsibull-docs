@@ -151,10 +151,6 @@ Vars Plugins
 
 
 
-.. seealso::
-
-    List of :ref:`collections <list_of_collections>` with docs hosted here.
-
 .. toctree::
     :maxdepth: 1
     :hidden:
