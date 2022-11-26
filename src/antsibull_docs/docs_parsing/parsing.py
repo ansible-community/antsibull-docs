@@ -53,8 +53,9 @@ async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
                     {information from ansible-doc --json.  See the ansible-doc documentation
                      for more info.}
 
-        The second component is a Mapping of collection names to metadata.
-
+        The second component is a Mapping of collection names to metadata. The second mapping
+        always includes the metadata for ansible.builtin, even if it was not explicitly
+        mentioned in ``collection_names``.
     """
     flog = mlog.fields(func='get_ansible_plugin_info')
 

@@ -249,11 +249,10 @@ def main(args):
         collection_name = f'{meta["namespace"]}.{meta["name"]}'
         if match_filter(collection_name, coll_filter):
             result['collections'][collection_name] = meta
-    if match_filter('ansible.builtin', coll_filter):
-        result['collections']['ansible.builtin'] = {
-            'path': os.path.dirname(ansible_release.__file__),
-            'version': ansible_release.__version__,
-        }
+    result['collections']['ansible.builtin'] = {
+        'path': os.path.dirname(ansible_release.__file__),
+        'version': ansible_release.__version__,
+    }
 
     print(json.dumps(
         result, cls=AnsibleJSONEncoder, sort_keys=True, indent=4 if arguments.pretty else None))
