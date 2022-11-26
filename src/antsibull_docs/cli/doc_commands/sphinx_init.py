@@ -18,13 +18,15 @@ from ...jinja2.environment import doc_environment
 mlog = log.fields(mod=__name__)
 
 
+RST_INDEX_RST = 'rst/index.rst'
+
 TEMPLATES = [
     '.gitignore',
     'antsibull-docs.cfg',
     'build.sh',
     'conf.py',
     'requirements.txt',
-    'rst/index.rst',
+    RST_INDEX_RST,
 ]
 
 
@@ -41,6 +43,22 @@ def write_file(filename: str, content: str) -> None:
 
     print(f'Writing {filename}...')
     with open(filename, 'w', encoding='utf-8') as f:
+        f.write(content)
+
+
+def write_binary_file(filename: str, content: bytes) -> None:
+    """
+    Write binary content into a file.
+    """
+    if os.path.exists(filename):
+        with open(filename, 'rb') as f:
+            existing_content = f.read()
+        if existing_content == content:
+            print(f'Skipping {filename}')
+            return
+
+    print(f'Writing {filename}...')
+    with open(filename, 'wb') as f:
         f.write(content)
 
 
@@ -91,6 +109,7 @@ def site_init() -> int:
     for intersphinx in app_ctx.extra['intersphinx'] or []:
         inventory, url = intersphinx.split(':', 1)
         intersphinx_parts.append((inventory.rstrip(' '), url.lstrip(' ')))
+    index_rst_source = app_ctx.extra['index_rst_source']
 
     sphinx_theme = 'sphinx_ansible_theme'
     sphinx_theme_package = 'sphinx-ansible-theme >= 0.9.0'
@@ -107,6 +126,9 @@ def site_init() -> int:
     )
 
     for filename in TEMPLATES:
+        if filename == RST_INDEX_RST and index_rst_source is not None:
+            continue
+
         source = filename.replace('.', '_').replace('/', '_') + '.j2'
         template = env.get_template(source)
 
@@ -135,6 +157,14 @@ def site_init() -> int:
         # Make scripts executable
         if filename.endswith('.sh'):
             os.chmod(destination, 0o755)
+
+    if index_rst_source is not None:
+        with open(index_rst_source, 'rb') as f:
+            binary_content = f.read()
+
+        destination = os.path.join(dest_dir, RST_INDEX_RST)
+        os.makedirs(os.path.dirname(destination), exist_ok=True)
+        write_binary_file(destination, binary_content)
 
     print(f'To build the docsite, go into {dest_dir} and run:')
     print('    pip install -r requirements.txt  # possibly use a venv')
