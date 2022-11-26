@@ -48,4 +48,3 @@ Modules
 .. seealso::
 
     List of :ref:`collections <list_of_collections>` with docs hosted here.
-

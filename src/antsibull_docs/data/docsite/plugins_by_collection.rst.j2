@@ -142,12 +142,14 @@ These are the roles in the @{collection_name}@ collection:
 
 @{   list_plugins('role') }@
 {% endif %}
+{% if not squash_hierarchy %}
 
 .. seealso::
 
     List of :ref:`collections <list_of_collections>` with docs hosted here.
-
+{% endif %}
 {% if breadcrumbs %}
+
 .. toctree::
     :maxdepth: 1
     :hidden:

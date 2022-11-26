@@ -634,7 +634,8 @@ async def write_plugin_lists(collection_name: str,
                              extra_docs_data: CollectionExtraDocsInfoT,
                              link_data: CollectionLinks,
                              breadcrumbs: bool = True,
-                             for_official_docsite: bool = False) -> None:
+                             for_official_docsite: bool = False,
+                             squash_hierarchy: bool = False) -> None:
     """
     Write an index page for each collection.
 
@@ -650,6 +651,8 @@ async def write_plugin_lists(collection_name: str,
         disabled.  This will disable breadcrumbs but save on memory usage.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
+    :kwarg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
+        Undefined behavior if documentation for multiple collections are created.
     """
     flog = mlog.fields(func='write_plugin_lists')
     flog.debug('Enter')
@@ -681,6 +684,7 @@ async def write_plugin_lists(collection_name: str,
         collection_links=link_data.links,
         collection_communication=link_data.communication,
         for_official_docsite=for_official_docsite,
+        squash_hierarchy=squash_hierarchy,
     )
 
     # This is only safe because we made sure that the top of the directory tree we're writing to
@@ -891,7 +895,8 @@ async def output_indexes(collection_to_plugin_info: CollectionInfoT,
                                    extra_docs_data[collection_name],
                                    link_data[collection_name],
                                    breadcrumbs=breadcrumbs,
-                                   for_official_docsite=for_official_docsite)))
+                                   for_official_docsite=for_official_docsite,
+                                   squash_hierarchy=squash_hierarchy)))
 
         await asyncio.gather(*writers)
 
