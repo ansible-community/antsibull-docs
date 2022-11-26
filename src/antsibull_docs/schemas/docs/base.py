@@ -588,6 +588,9 @@ class AttributeSchemaPlatform(AttributeSchemaBase):  # for 'platform'
         return list_from_scalars_comma_separated(obj)
 
 
+SeeAlsoSchemaT = t.Union[SeeAlsoLinkSchema, SeeAlsoModSchema, SeeAlsoPluginSchema, SeeAlsoRefSchema]
+
+
 class DocSchema(BaseModel):
     collection: str = REQUIRED_COLLECTION_NAME_OR_EMPTY_STR_F
     description: t.List[str]
@@ -600,10 +603,7 @@ class DocSchema(BaseModel):
     filename: str = ''
     notes: t.List[str] = []
     requirements: t.List[str] = []
-    seealso: t.List[t.Union[SeeAlsoLinkSchema,
-                            SeeAlsoModSchema,
-                            SeeAlsoPluginSchema,
-                            SeeAlsoRefSchema]] = []
+    seealso: t.List[SeeAlsoSchemaT] = []
     todo: t.List[str] = []
     version_added: str = 'historical'
     version_added_collection: str = COLLECTION_NAME_F
