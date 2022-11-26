@@ -5,6 +5,21 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v1.7.4
+======
+
+Release Summary
+---------------
+
+Bugfix release.
+
+Bugfixes
+--------
+
+- Removed ``sphinx`` restriction in ``requirements.txt`` file created by ``antsibull-docs sphinx-init`` since the bug in ``sphinx-rtd-theme`` has been fixed (https://github.com/ansible-community/antsibull-docs/pull/69).
+- The license header for the template for the ``rst/index.rst`` file created by ``antsibull-docs sphinx-init`` was commented incorrectly and thus showed up in the templated file (https://github.com/ansible-community/antsibull-docs/pull/67).
+- When using ``--squash-hierarchy``, do not mention the list of collections on the collection's index page (https://github.com/ansible-community/antsibull-docs/pull/72).
+
 v1.7.3
 ======
 

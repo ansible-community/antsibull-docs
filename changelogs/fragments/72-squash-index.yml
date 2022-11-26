@@ -1,2 +1,0 @@
-bugfixes:
-  - "When using ``--squash-hierarchy``, do not mention the list of collections on the collection's index page (https://github.com/ansible-community/antsibull-docs/pull/72)."
