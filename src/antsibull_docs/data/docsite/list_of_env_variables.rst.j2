@@ -1,0 +1,39 @@
+{#
+  Copyright (c) Ansible Project
+  GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+  SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+:orphan:
+
+.. _list_of_collection_env_vars:
+
+Index of all Collection Environment Variables
+=============================================
+
+The following index documents all environment variables declared by plugins in collections.
+Environment variables used by the ansible-core configuation are documented in :ref:`ansible_configuration_settings`.
+{# TODO: use label `ansible_configuration_env_vars` once the ansible-core PR is merged #}
+
+{% for _, env_var in env_variables | dictsort %}
+.. envvar:: @{ env_var.name }@
+
+{%   for paragraph in env_var.description or [] %}
+    @{ paragraph | replace('\n', '\n    ') | rst_ify | indent(4) }@
+
+{%   endfor %}
+    *Used by:*
+{% set plugins_ = [] %}
+{%   for plugin_type, plugins in env_var.plugins.items() %}
+{%     for plugin_name in plugins %}
+{%       set _ = plugins_.append((plugin_name, plugin_type)) %}
+{%     endfor %}
+{%   endfor %}
+{%   for plugin_name, plugin_type in plugins_ | unique | sort %}
+    :ref:`@{ plugin_name | rst_escape }@ {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %} <ansible_collections.@{ plugin_name }@_@{ plugin_type }@>`
+{%-    if not loop.last -%}
+,
+{%     endif -%}
+{%-  endfor %}
+
+{% endfor %}

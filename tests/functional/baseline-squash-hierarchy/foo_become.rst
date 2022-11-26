@@ -211,9 +211,9 @@ Parameters
         Alternative: nothing
 
 
-      - Environment variable: ANSIBLE\_BECOME\_EXE
+      - Environment variable: :envvar:`ANSIBLE\_BECOME\_EXE`
 
-      - Environment variable: ANSIBLE\_FOO\_EXE
+      - Environment variable: :envvar:`ANSIBLE\_FOO\_EXE`
 
         Removed in: version 3.0.0
 
@@ -297,11 +297,11 @@ Parameters
           user = root
 
 
-      - Environment variable: ANSIBLE\_BECOME\_USER
+      - Environment variable: :envvar:`ANSIBLE\_BECOME\_USER`
 
         :ansible-option-versionadded:`added in ns2.col 0.1.0`
 
-      - Environment variable: ANSIBLE\_FOO\_USER
+      - Environment variable: :envvar:`ANSIBLE\_FOO\_USER`
 
       - Variable: ansible\_become\_user
 

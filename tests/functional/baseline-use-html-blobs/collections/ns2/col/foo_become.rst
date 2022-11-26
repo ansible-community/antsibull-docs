@@ -143,11 +143,11 @@ Parameters
 
       </li>
       <li>
-        <p>Environment variable: ANSIBLE_BECOME_EXE</p>
+        <p>Environment variable: <code class="xref std std-envvar literal notranslate">ANSIBLE_BECOME_EXE</code></p>
 
       </li>
       <li>
-        <p>Environment variable: ANSIBLE_FOO_EXE</p>
+        <p>Environment variable: <code class="xref std std-envvar literal notranslate">ANSIBLE_FOO_EXE</code></p>
   <p>Removed in: version 3.0.0</p>
   <p>Why: Just some text.</p>
   <p>Alternative: nothing</p>
@@ -197,12 +197,12 @@ Parameters
 
       </li>
       <li>
-        <p>Environment variable: ANSIBLE_BECOME_USER</p>
+        <p>Environment variable: <code class="xref std std-envvar literal notranslate">ANSIBLE_BECOME_USER</code></p>
         <p><span class="ansible-option-versionadded">added in ns2.col 0.1.0</span></p>
 
       </li>
       <li>
-        <p>Environment variable: ANSIBLE_FOO_USER</p>
+        <p>Environment variable: <code class="xref std std-envvar literal notranslate">ANSIBLE_FOO_USER</code></p>
 
       </li>
       <li>

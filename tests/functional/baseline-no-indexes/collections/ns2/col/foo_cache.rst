@@ -141,7 +141,7 @@ Parameters
           fact_caching_connection = VALUE
 
 
-      - Environment variable: ANSIBLE\_CACHE\_PLUGIN\_CONNECTION
+      - Environment variable: :envvar:`ANSIBLE\_CACHE\_PLUGIN\_CONNECTION`
 
 
       .. raw:: html

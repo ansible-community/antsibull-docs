@@ -125,7 +125,7 @@
 {%       endfor %}
 {%     endif %}
 {%     for env in value['env'] %}
-      - Environment variable: @{ env['name'] | rst_escape }@
+      - Environment variable: :envvar:`@{ env['name'] | rst_escape(escape_ending_whitespace=true) }@`
 {%       if env['version_added'] is still_relevant(collection=env['version_added_collection'] or collection) %}
 
         :ansible-option-versionadded:`added in @{ version_added_rst(env['version_added'], env['version_added_collection'] or collection) }@`
@@ -250,7 +250,7 @@
 {%     endif %}
 {%     for env in value['env'] %}
       <li>
-        <p>Environment variable: @{ env['name'] | escape }@</p>
+        <p>Environment variable: <code class="xref std std-envvar literal notranslate">@{ env['name'] | escape }@</code></p>
 {%       if env['version_added'] is still_relevant(collection=env['version_added_collection'] or collection) %}
         <p><span class="ansible-option-versionadded">added in @{ version_added_html(env['version_added'], env['version_added_collection'] or collection) }@</span></p>
 {%       endif %}

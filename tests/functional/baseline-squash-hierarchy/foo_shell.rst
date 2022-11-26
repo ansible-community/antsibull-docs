@@ -148,9 +148,9 @@ Parameters
           remote_tmp = ~/.ansible/tmp
 
 
-      - Environment variable: ANSIBLE\_REMOTE\_TEMP
+      - Environment variable: :envvar:`ANSIBLE\_REMOTE\_TEMP`
 
-      - Environment variable: ANSIBLE\_REMOTE\_TMP
+      - Environment variable: :envvar:`ANSIBLE\_REMOTE\_TMP`
 
       - Variable: ansible\_remote\_tmp
 
