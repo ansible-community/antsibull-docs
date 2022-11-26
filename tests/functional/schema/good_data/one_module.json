@@ -63,11 +63,6 @@
                     "description": "Action returns an ``ansible_facts`` dictionary that will update existing host facts",
                     "support": "none"
                 },
-                "forced_action_plugin": {
-                    "action_plugin": "none",
-                    "description": "This action uses a specific action plugin instead of 'normal' or matching by name",
-                    "support": "none"
-                },
                 "forced_local": {
                     "description": "The connection itself is passed to the action while the code is still executed on the controller",
                     "support": "none"

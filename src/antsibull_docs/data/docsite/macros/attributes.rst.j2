@@ -50,9 +50,7 @@
            :ansible-attribute-support-full:`@{- member | rst_ify -}@`
 {%-        if not loop.last %}, {% endif -%}
 {%-    endfor %}
-{%   elif attribute == 'forced_action_plugin' %}
-      :ansible-attribute-support-property:`Action plugin:` :ansible-attribute-support-full:`@{- data.action_plugin | rst_ify -}@`
-{%     elif attribute == 'platform' %}
+{%   elif attribute == 'platform' %}
       :ansible-attribute-support-property:`Platform@{ 's' if data.platforms | length != 1 or data.platforms == ['all'] else '' }@:` |antsibull-internal-nbsp|
 {%-    for platform in data.platforms -%}
            :ansible-attribute-support-full:`@{- platform | rst_ify -}@`

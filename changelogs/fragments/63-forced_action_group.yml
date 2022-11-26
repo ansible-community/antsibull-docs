@@ -1,0 +1,2 @@
+minor_changes:
+  - "Remove support for ``forced_action_plugin``, a module attribute that was removed during the development phase of attributes (https://github.com/ansible-community/antsibull-docs/pull/63)."
