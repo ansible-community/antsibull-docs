@@ -73,12 +73,13 @@ def _add_seealso(seealso: t.List[t.MutableMapping[str, t.Any]],
         elif entry.get('plugin') and entry.get('plugin_type'):
             plugin = entry['plugin']
             plugin_type = entry['plugin_type']
-        if (
-            plugin and plugin_type in plugin_info and plugin in plugin_info[plugin_type]
-            and isinstance(plugin_info[plugin_type][plugin].get('doc'), dict)
-            and plugin_info[plugin_type][plugin]['doc'].get('short_description')
-        ):
+        else:
+            continue
+        try:
             desc = plugin_info[plugin_type][plugin]['doc']['short_description']
+        except (KeyError, TypeError):
+            desc = None
+        if desc:
             if not desc.endswith(('.', '!', '?')):
                 desc += '.'
             entry['description'] = desc
