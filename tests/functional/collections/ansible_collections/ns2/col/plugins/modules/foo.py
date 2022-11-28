@@ -63,6 +63,12 @@ attributes:
         support: full
         membership:
           - ns2.col.foo_group
+
+seealso:
+    - module: ns2.col.foo2
+    - module: ns2.col.foo3  # does not exist
+    - plugin: ns2.col.foo
+      plugin_type: lookup
 '''
 
 EXAMPLES = '''

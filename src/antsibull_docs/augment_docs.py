@@ -60,6 +60,31 @@ def add_full_key(options_data: t.Mapping[str, t.Any], suboption_entry: str,
                 _full_keys=full_keys_k)
 
 
+def _add_seealso(seealso: t.List[t.MutableMapping[str, t.Any]],
+                 plugin_info: t.Mapping[str, t.Mapping[str, t.Any]],
+                 ) -> None:
+    for entry in seealso:
+        if entry.get('description'):
+            continue
+        plugin = ''
+        plugin_type = 'module'
+        if entry.get('module'):
+            plugin = entry['module']
+        elif entry.get('plugin') and entry.get('plugin_type'):
+            plugin = entry['plugin']
+            plugin_type = entry['plugin_type']
+        else:
+            continue
+        try:
+            desc = plugin_info[plugin_type][plugin]['doc']['short_description']
+        except (KeyError, TypeError):
+            desc = None
+        if desc:
+            if not desc.endswith(('.', '!', '?')):
+                desc += '.'
+            entry['description'] = desc
+
+
 def augment_docs(plugin_info: t.MutableMapping[str, t.MutableMapping[str, t.Any]]) -> None:
     """
     Add additional data to the data extracted from the plugins.
@@ -68,6 +93,8 @@ def augment_docs(plugin_info: t.MutableMapping[str, t.MutableMapping[str, t.Any]
     Current Augmentations:
 
     * ``full_key`` allows displaying nested suboptions and return dicts.
+    * In see-alsos that reference to modules or plugins but that have no description,
+      automatically insert the destination's short_description (if available)
 
     :arg plugin_info: The plugin_info that will be analyzed and augmented.
 
@@ -80,6 +107,8 @@ def augment_docs(plugin_info: t.MutableMapping[str, t.MutableMapping[str, t.Any]
                 add_full_key(plugin_record['return'], 'contains')
             if plugin_record.get('doc'):
                 add_full_key(plugin_record['doc']['options'], 'suboptions')
+                if plugin_record['doc'].get('seealso'):
+                    _add_seealso(plugin_record['doc']['seealso'], plugin_info)
             if plugin_record.get('entry_points'):
                 for entry_point in plugin_record['entry_points'].values():
                     add_full_key(entry_point['options'], 'options')
