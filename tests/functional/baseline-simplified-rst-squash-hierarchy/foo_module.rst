@@ -95,7 +95,7 @@ Parameters
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">dictionary</span>
       </p>
-      <p><i style="font-size: small; color: darkgreen;">added in ns2.col 2.0.0</i></p>
+      <p><i style="font-size: small; color: darkgreen;">added in ns2.col 2.1.0</i></p>
     </td>
     <td valign="top">
       <p>Some recursive foo.</p>

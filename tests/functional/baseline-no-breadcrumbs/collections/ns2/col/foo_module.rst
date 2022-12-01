@@ -162,6 +162,15 @@ Parameters
       The foo source.
 
 
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-configuration:`Configuration:`
+
+      The below environment variable will be used on the host that executes this module.
+
+      - Environment variable: :envvar:`ANSIBLE\_FOO`
+
+
       .. raw:: html
 
         </div>
@@ -185,7 +194,7 @@ Parameters
 
         :ansible-option-type:`dictionary`
 
-      :ansible-option-versionadded:`added in ns2.col 2.0.0`
+      :ansible-option-versionadded:`added in ns2.col 2.1.0`
 
 
       .. raw:: html
@@ -243,6 +252,28 @@ Parameters
       Whatever.
 
       Also required when \ :ansopt:`ns2.col.foo#module:subfoo`\  is specified when \ :ansopt:`ns2.col.foo#module:foo=bar`\  or \ :ansval:`baz`\ .
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-configuration:`Configuration:`
+
+      The below environment variables will be used on the host that executes this module.
+
+      - Environment variable: :envvar:`ANSIBLE\_FOO`
+
+      - Environment variable: :envvar:`ANSIBLE\_BAR`
+
+        :ansible-option-versionadded:`added in ns2.col 2.2.0`
+
+      - Environment variable: :envvar:`ANSIBLE\_BAZ`
+
+        Removed in: version 4.0.0
+
+        Why: Will be gone.
+
+        Alternative: use \ :literal:`ANSIBLE\_BAR`\ 
+
 
 
       .. raw:: html

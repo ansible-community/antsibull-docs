@@ -25,6 +25,8 @@ options:
         description: The foo source.
         type: str
         required: true
+        env:
+          - name: ANSIBLE_FOO
     bar:
         description:
           - A bar.
@@ -36,7 +38,7 @@ options:
           - baz
     subfoo:
         description: Some recursive foo.
-        version_added: 2.0.0
+        version_added: 2.1.0
         type: dict
         suboptions:
             foo:
@@ -46,6 +48,17 @@ options:
                     - Also required when O(subfoo) is specified when O(foo=bar) or V(baz).
                 type: str
                 required: true
+                env:
+                  - name: ANSIBLE_FOO
+                  - name: ANSIBLE_BAR
+                    version_added: 2.2.0
+                  - name: ANSIBLE_BAZ
+                    deprecated:
+                        why: Will be gone.
+                        version: 4.0.0
+                        alternatives: use C(ANSIBLE_BAR)
+                        # TODO: remove once ansible-core supports env variable docs for modules
+                        removed_from_collection: ns2.col
 
 requirements:
     - Foo on remote.
