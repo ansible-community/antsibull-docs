@@ -1,0 +1,2 @@
+minor_changes:
+  - "Stop mentioning the version features were added for Ansible if the Ansible version is before 2.7 (https://github.com/ansible-community/antsibull-docs/pull/76)."

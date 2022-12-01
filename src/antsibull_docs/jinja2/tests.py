@@ -14,15 +14,17 @@ from semantic_version import Version as SemVer
 from antsibull_core.vendored.collections import is_sequence
 
 
-# if a module is added in a version of Ansible older than this, don't print the version added
-# information in the module documentation because everyone is assumed to be running something newer
-# than this already.
-TOO_OLD_TO_BE_NOTABLE = '0.0.0'
+# The following dictionary maps collection names to cut-off versions. If a version of such a
+# collection is mentioned as when a feature was added that is older than the cut-off version,
+# we do not print the version.
+TOO_OLD_TO_BE_NOTABLE = {
+    'ansible.builtin': '2.7',
+}
 
 test_list: t.Callable[[t.Any], bool] = partial(is_sequence, include_strings=False)
 
 
-def still_relevant(version, cutoff=TOO_OLD_TO_BE_NOTABLE, collection=None):
+def still_relevant(version, cutoff=None, collection=None):
     """
     Calculates whether the given version is older than a cutoff value
 
@@ -48,6 +50,11 @@ def still_relevant(version, cutoff=TOO_OLD_TO_BE_NOTABLE, collection=None):
     else:
         # This used to be distutils.version.LooseVersion
         Version = PypiVer
+
+    if cutoff is None:
+        cutoff = TOO_OLD_TO_BE_NOTABLE.get(collection)
+    if cutoff is None:
+        return True
 
     try:
         version = Version(version)
