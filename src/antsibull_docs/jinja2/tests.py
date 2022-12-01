@@ -29,7 +29,7 @@ def still_relevant(version, collection=None):
     Calculates whether the given version is older than a cutoff value
 
     :arg version: Version to check
-    :returns: True if the `version` is older than the cutoff version, otherwise True.
+    :returns: False if the `version` is older than the cutoff version, otherwise True.
 
     .. note:: This is similar to the ansible `version_compare` test but needs to handle the
         `historical` version and empty version.
