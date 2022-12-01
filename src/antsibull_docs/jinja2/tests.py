@@ -24,13 +24,12 @@ TOO_OLD_TO_BE_NOTABLE = {
 test_list: t.Callable[[t.Any], bool] = partial(is_sequence, include_strings=False)
 
 
-def still_relevant(version, cutoff=None, collection=None):
+def still_relevant(version, collection=None):
     """
     Calculates whether the given version is older than a cutoff value
 
     :arg version: Version to check
-    :arg cutoff: Calculate whether `version` is older than this
-    :returns: True if the `version` is older than `cutoff` otherwise True.
+    :returns: True if the `version` is older than the cutoff version, otherwise True.
 
     .. note:: This is similar to the ansible `version_compare` test but needs to handle the
         `historical` version and empty version.
@@ -43,18 +42,16 @@ def still_relevant(version, cutoff=None, collection=None):
     if version == 'historical':
         return False
 
+    cutoff = TOO_OLD_TO_BE_NOTABLE.get(collection)
+    if cutoff is None:
+        # If we do not have a cut-off version for the collection, we simply declare it to be
+        # still relevant
+        return True
+
     if collection == 'ansible.builtin':
         Version = PypiVer
-    elif collection is not None:
-        Version = SemVer
     else:
-        # This used to be distutils.version.LooseVersion
-        Version = PypiVer
-
-    if cutoff is None:
-        cutoff = TOO_OLD_TO_BE_NOTABLE.get(collection)
-    if cutoff is None:
-        return True
+        Version = SemVer
 
     try:
         version = Version(version)
