@@ -6,11 +6,11 @@
 # documentation:
 # http://www.sphinx-doc.org/en/master/config
 
-project = {{ project | python_repr }}
-copyright = {{ copyright | python_repr }}
+project = @{ project | python_repr }@
+copyright = @{ copyright | python_repr }@
 
-title = {{ title | python_repr }}
-html_short_title = {{ html_short_title | python_repr }}
+title = @{ title | python_repr }@
+html_short_title = @{ html_short_title | python_repr }@
 
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'sphinx_antsibull_ext']
 
@@ -18,7 +18,7 @@ pygments_style = 'ansible'
 
 highlight_language = 'YAML+Jinja'
 
-html_theme = '@{ sphinx_theme }@'
+html_theme = @{ sphinx_theme | python_repr }@
 html_show_sphinx = False
 
 display_version = False
@@ -52,6 +52,6 @@ nitpicky = True
 {% if extra_conf %}
 
 {%   for key, value in extra_conf %}
-{{ key }} = {{ value | python_repr }}
+@{ key }@ = @{ value | python_repr }@
 {%   endfor %}
 {% endif %}
