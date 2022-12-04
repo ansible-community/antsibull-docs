@@ -55,3 +55,19 @@ nitpicky = True
 @{ key }@ = @{ value | python_repr }@
 {%   endfor %}
 {% endif %}
+{% if extra_html_context %}
+
+html_context = {
+{%   for key, value in extra_conf %}
+    @{ key | python_repr }@: @{ value | python_repr }@,
+{%   endfor %}
+}
+{% endif %}
+{% if extra_html_theme_options %}
+
+html_theme_options = {
+{%   for key, value in extra_conf %}
+    @{ key | python_repr }@: @{ value | python_repr }@,
+{%   endfor %}
+}
+{% endif %}

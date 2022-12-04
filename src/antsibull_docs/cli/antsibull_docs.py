@@ -164,10 +164,15 @@ def _normalize_sphinx_init_options(args: argparse.Namespace) -> None:
         raise InvalidArgumentError('The rst/index.rst replacement file,'
                                    f' {args.index_rst_source}, is not a file')
 
-    for extra_conf in args.extra_conf or []:
-        if '=' not in extra_conf:
-            raise InvalidArgumentError(
-                'Every `--extra-conf` value must have at least one equal sign (=).')
+    for key, option in [
+        ('extra_conf', '--extra-conf'),
+        ('extra_html_context', '--extra-html-context'),
+        ('extra_html_theme_options', '--extra-html-theme-options'),
+    ]:
+        for entry in getattr(args, key) or []:
+            if '=' not in entry:
+                raise InvalidArgumentError(
+                    f'Every `{option}` value must have at least one equal sign (=).')
 
 
 def parse_args(program_name: str, args: List[str]) -> argparse.Namespace:
@@ -389,6 +394,14 @@ def parse_args(program_name: str, args: List[str]) -> argparse.Namespace:
                                     help='Add additional configuration entries to the generated'
                                     ' conf.py. Use the syntax `key=value` to add an entry'
                                     ' `key = "value"`.')
+    sphinx_init_parser.add_argument('--extra-html-context', action='append',
+                                    help='Add additional configuration entries to the generated'
+                                    ' conf.py in `html_context`. Use the syntax `key=value` to add'
+                                    ' an entry `"key": "value",`.')
+    sphinx_init_parser.add_argument('--extra-html-theme-options', action='append',
+                                    help='Add additional configuration entries to the generated'
+                                    ' conf.py in `html_theme_options`. Use the syntax `key=value`'
+                                    ' to add an entry `"key": "value",`.')
 
     #
     # Lint collection docs
