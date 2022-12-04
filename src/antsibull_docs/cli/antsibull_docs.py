@@ -164,6 +164,11 @@ def _normalize_sphinx_init_options(args: argparse.Namespace) -> None:
         raise InvalidArgumentError('The rst/index.rst replacement file,'
                                    f' {args.index_rst_source}, is not a file')
 
+    for extra_conf in args.extra_conf or []:
+        if '=' not in extra_conf:
+            raise InvalidArgumentError(
+                'Every `--extra-conf` value must have at least one equal sign (=).')
+
 
 def parse_args(program_name: str, args: List[str]) -> argparse.Namespace:
     """
@@ -367,6 +372,23 @@ def parse_args(program_name: str, args: List[str]) -> argparse.Namespace:
     sphinx_init_parser.add_argument('--index-rst-source',
                                     help='Copy the provided file to rst/index.rst intead of'
                                     ' templating a default one.')
+    sphinx_init_parser.add_argument('--project', default='Ansible collections',
+                                    help='Sets the "project" value in the Sphinx configuration.')
+    sphinx_init_parser.add_argument('--copyright', default='Ansible contributors',
+                                    help='Sets the "copyright" value in the Sphinx configuration.')
+    sphinx_init_parser.add_argument('--title', default='Ansible Collections Documentation',
+                                    help='Sets the "title" and "html_short_title" values in the'
+                                    ' Sphinx configuration. If --html-short-title is also'
+                                    ' specified, only "title" will be set to the value specified'
+                                    ' here.')
+    sphinx_init_parser.add_argument('--html-short-title',
+                                    help='Sets the "html_short_title" value in the Sphinx'
+                                    ' configuration. If not specified, the value of --title will'
+                                    ' be used.')
+    sphinx_init_parser.add_argument('--extra-conf', action='append',
+                                    help='Add additional configuration entries to the generated'
+                                    ' conf.py. Use the syntax `key=value` to add an entry'
+                                    ' `key = "value"`.')
 
     #
     # Lint collection docs

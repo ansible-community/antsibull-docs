@@ -6,11 +6,11 @@
 # documentation:
 # http://www.sphinx-doc.org/en/master/config
 
-project = 'Ansible collections'
-copyright = 'Ansible contributors'
+project = {{ project | python_repr }}
+copyright = {{ copyright | python_repr }}
 
-title = 'Ansible Collections Documentation'
-html_short_title = 'Ansible Collections Documentation'
+title = {{ title | python_repr }}
+html_short_title = {{ html_short_title | python_repr }}
 
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'sphinx_antsibull_ext']
 
@@ -48,4 +48,10 @@ default_role = 'any'
 
 {% if not lenient %}
 nitpicky = True
+{% endif %}
+{% if extra_conf %}
+
+{%   for key, value in extra_conf %}
+{{ key }} = {{ value | python_repr }}
+{%   endfor %}
 {% endif %}

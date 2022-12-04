@@ -109,7 +109,17 @@ def site_init() -> int:
     for intersphinx in app_ctx.extra['intersphinx'] or []:
         inventory, url = intersphinx.split(':', 1)
         intersphinx_parts.append((inventory.rstrip(' '), url.lstrip(' ')))
-    index_rst_source = app_ctx.extra['index_rst_source']
+    index_rst_source: t.Optional[str] = app_ctx.extra['index_rst_source']
+    project: str = app_ctx.extra['project']
+    copyright: str = app_ctx.extra['copyright']
+    title: str = app_ctx.extra['title']
+    html_short_title: t.Optional[str] = app_ctx.extra['html_short_title']
+    if html_short_title is None:
+        html_short_title = title
+    extra_conf: t.List[t.Tuple[str, str]] = []
+    for extra_conf_entry in app_ctx.extra['extra_conf'] or []:
+        key, value = extra_conf_entry.split('=', 1)
+        extra_conf.append((key, value))
 
     sphinx_theme = 'sphinx_ansible_theme'
     sphinx_theme_package = 'sphinx-ansible-theme >= 0.9.0'
@@ -148,6 +158,11 @@ def site_init() -> int:
             collection_url=collection_url,
             collection_install=collection_install,
             intersphinx=intersphinx_parts,
+            project=project,
+            copyright=copyright,
+            title=title,
+            html_short_title=html_short_title,
+            extra_conf=extra_conf,
         ) + '\n'
 
         destination = os.path.join(dest_dir, filename)
