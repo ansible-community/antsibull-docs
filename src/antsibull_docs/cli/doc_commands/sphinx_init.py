@@ -111,7 +111,7 @@ def site_init() -> int:
         intersphinx_parts.append((inventory.rstrip(' '), url.lstrip(' ')))
     index_rst_source: t.Optional[str] = app_ctx.extra['index_rst_source']
     project: str = app_ctx.extra['project']
-    copyright: str = app_ctx.extra['copyright']
+    conf_copyright: str = app_ctx.extra['copyright']
     title: str = app_ctx.extra['title']
     html_short_title: t.Optional[str] = app_ctx.extra['html_short_title']
     if html_short_title is None:
@@ -159,7 +159,7 @@ def site_init() -> int:
             collection_install=collection_install,
             intersphinx=intersphinx_parts,
             project=project,
-            copyright=copyright,
+            conf_copyright=conf_copyright,
             title=title,
             html_short_title=html_short_title,
             extra_conf=extra_conf,
