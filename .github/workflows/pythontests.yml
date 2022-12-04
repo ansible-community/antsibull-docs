@@ -28,6 +28,8 @@ jobs:
         include:
           - python-version: '3.10'
             skip-is-error: true
+          - python-version: '3.11'
+            skip-is-error: true
 
     steps:
       - name: Check out antsibull-docs
@@ -40,6 +42,9 @@ jobs:
         with:
           repository: ansible-community/antsibull-core
           path: antsibull-core
+          # TODO: As long as we still support Python 3.6, 3.7, and 3.8, use stable-1 instead of main!
+          ref: >-
+            ${{ contains(fromJson('["3.6", "3.7", "3.8"]'), matrix.python-version) && 'stable-1' || 'main' }}
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4

@@ -35,7 +35,7 @@ antsibull-docs = "antsibull_docs.cli.antsibull_docs:main"
 [tool.poetry.dependencies]
 python = "^3.6.1"
 ansible-pygments = "*"
-antsibull-core = ">= 1.2.0, < 2.0.0"
+antsibull-core = ">= 1.2.0, < 3.0.0"
 asyncio-pool = "*"
 docutils = "*"
 jinja2 = "*"

@@ -24,8 +24,15 @@ jobs:
       matrix:
         options:
           - '--use-current --sphinx-theme sphinx_rtd_theme'
-          - '--use-current --use-html-blobs --no-breadcrumbs community.crypto community.docker'
-          - '--no-indexes --squash-hierarchy --intersphinx ansible6:https://docs.ansible.com/ansible/6/ community.crypto --collection-version 2.0.0'
+          - '--no-indexes --squash-hierarchy --intersphinx ansible7:https://docs.ansible.com/ansible/6/ community.crypto --collection-version 2.0.0'
+        python:
+          - '3.11'
+        antsibull_core_ref:
+          - main
+        include:
+          - options: '--use-current --use-html-blobs --no-breadcrumbs community.crypto community.docker'
+            python: '3.9'
+            antsibull_core_ref: stable-1
 
     steps:
       - name: Check out antsibull-docs
@@ -38,17 +45,18 @@ jobs:
         with:
           repository: ansible-community/antsibull-core
           path: antsibull-core
+          ref: ${{ matrix.antsibull_core_ref }}
 
-      - name: Set up Python 3.10
+      - name: Set up Python ${{ matrix.python }}
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: ${{ matrix.python }}
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install poetry
-          sed -i -e 's/^python = .*/python = "^3.10"/' pyproject.toml
+          sed -i -e 's/^python = .*/python = "^${{ matrix.python }}"/' pyproject.toml
           poetry install
           poetry update
         working-directory: antsibull-docs
@@ -126,23 +134,23 @@ jobs:
           repository: ansible-community/antsibull-core
           path: antsibull-core
 
-      - name: Set up Python 3.10
+      - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.11'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install poetry
-          sed -i -e 's/^python = .*/python = "^3.10"/' pyproject.toml
+          sed -i -e 's/^python = .*/python = "^3.11"/' pyproject.toml
           poetry install
           poetry update
         working-directory: antsibull-docs
 
       - name: Get hold of deps file
         run: |
-          curl https://raw.githubusercontent.com/ansible-community/ansible-build-data/main/6/ansible-6.5.0.deps --output ansible.deps
+          curl https://raw.githubusercontent.com/ansible-community/ansible-build-data/main/7/ansible-7.0.0.deps --output ansible.deps
         working-directory: antsibull-docs
 
       - name: Build stable docs RST files
@@ -175,23 +183,23 @@ jobs:
           repository: ansible-community/antsibull-core
           path: antsibull-core
 
-      - name: Set up Python 3.10
+      - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.11'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install poetry
-          sed -i -e 's/^python = .*/python = "^3.10"/' pyproject.toml
+          sed -i -e 's/^python = .*/python = "^3.11"/' pyproject.toml
           poetry install
           poetry update
         working-directory: antsibull-docs
 
       - name: Get hold of ansible.in file
         run: |
-          curl https://raw.githubusercontent.com/ansible-community/ansible-build-data/main/7/ansible.in --output ansible.in
+          curl https://raw.githubusercontent.com/ansible-community/ansible-build-data/main/8/ansible.in --output ansible.in
         working-directory: antsibull-docs
 
       - name: Build devel docs RST files
