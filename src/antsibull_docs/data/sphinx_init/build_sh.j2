@@ -9,6 +9,7 @@ cd @{ dest_dir }@
 # Create collection documentation into temporary directory
 rm -rf temp-rst
 mkdir -p temp-rst
+chmod og-w temp-rst  # antsibull-docs wants that directory only readable by itself
 antsibull-docs \
     --config-file antsibull-docs.cfg \
 {% if use_current %}
