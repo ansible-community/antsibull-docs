@@ -23,13 +23,20 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9]
-        skip-is-error: [false]
+        python-version:
+          - '3.10'
+          - '3.11'
+        skip-is-error:
+          - true
         include:
-          - python-version: '3.10'
-            skip-is-error: true
-          - python-version: '3.11'
-            skip-is-error: true
+          - python-version: 3.6
+            skip-is-error: false
+          - python-version: 3.7
+            skip-is-error: false
+          - python-version: 3.8
+            skip-is-error: false
+          - python-version: 3.9
+            skip-is-error: false
 
     steps:
       - name: Check out antsibull-docs
@@ -42,7 +49,6 @@ jobs:
         with:
           repository: ansible-community/antsibull-core
           path: antsibull-core
-          # TODO: As long as we still support Python 3.6, 3.7, and 3.8, use stable-1 instead of main!
           ref: >-
             ${{ contains(fromJson('["3.6", "3.7", "3.8"]'), matrix.python-version) && 'stable-1' || 'main' }}
 
