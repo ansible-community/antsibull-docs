@@ -1,0 +1,2 @@
+minor_changes:
+  - "Use correct markup (``envvar`` role) for environment variables. Compile an index of all environment variables used by plugins (https://github.com/ansible-community/antsibull-docs/pull/73)."

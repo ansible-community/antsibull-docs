@@ -119,11 +119,11 @@ Parameters
 
       </li>
       <li>
-        <p>Environment variable: ANSIBLE_REMOTE_TEMP</p>
+        <p>Environment variable: <code class="xref std std-envvar literal notranslate">ANSIBLE_REMOTE_TEMP</code></p>
 
       </li>
       <li>
-        <p>Environment variable: ANSIBLE_REMOTE_TMP</p>
+        <p>Environment variable: <code class="xref std std-envvar literal notranslate">ANSIBLE_REMOTE_TMP</code></p>
 
       </li>
       <li>

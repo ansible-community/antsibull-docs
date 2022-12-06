@@ -118,7 +118,7 @@ Parameters
 
       </li>
       <li>
-        <p>Environment variable: ANSIBLE_CACHE_PLUGIN_CONNECTION</p>
+        <p>Environment variable: <code class="xref std std-envvar literal notranslate">ANSIBLE_CACHE_PLUGIN_CONNECTION</code></p>
 
       </li>
       </ul>

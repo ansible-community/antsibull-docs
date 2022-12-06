@@ -130,7 +130,7 @@ Parameters
 
       </li>
       <li>
-        <p>Environment variable: ANSIBLE_FOO_FILENAME_EXT</p>
+        <p>Environment variable: <code class="xref std std-envvar literal notranslate">ANSIBLE_FOO_FILENAME_EXT</code></p>
 
       </li>
       </ul>

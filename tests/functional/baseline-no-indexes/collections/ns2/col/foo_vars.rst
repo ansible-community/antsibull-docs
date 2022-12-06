@@ -156,7 +156,7 @@ Parameters
           foo_valid_extensions = .foo, .foobar
 
 
-      - Environment variable: ANSIBLE\_FOO\_FILENAME\_EXT
+      - Environment variable: :envvar:`ANSIBLE\_FOO\_FILENAME\_EXT`
 
 
       .. raw:: html

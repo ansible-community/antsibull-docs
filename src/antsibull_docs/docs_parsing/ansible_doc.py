@@ -217,12 +217,11 @@ def get_collection_metadata(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
                             ) -> t.Dict[str, AnsibleCollectionMetadata]:
     collection_metadata = {}
 
-    # Obtain ansible.builtin version
-    if collection_names is None or 'ansible.builtin' in collection_names:
-        venv_ansible = venv.get_command('ansible')
-        ansible_version_cmd = venv_ansible('--version', _env=env)
-        raw_result = ansible_version_cmd.stdout.decode('utf-8', errors='surrogateescape')
-        collection_metadata['ansible.builtin'] = _extract_ansible_builtin_metadata(raw_result)
+    # Obtain ansible.builtin version and path
+    venv_ansible = venv.get_command('ansible')
+    ansible_version_cmd = venv_ansible('--version', _env=env)
+    raw_result = ansible_version_cmd.stdout.decode('utf-8', errors='surrogateescape')
+    collection_metadata['ansible.builtin'] = _extract_ansible_builtin_metadata(raw_result)
 
     # Obtain collection versions
     venv_ansible_galaxy = venv.get_command('ansible-galaxy')

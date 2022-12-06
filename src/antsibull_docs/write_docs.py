@@ -21,8 +21,9 @@ from antsibull_core.utils.io import copy_file, write_file
 
 from .jinja2.environment import doc_environment
 from .collection_links import CollectionLinks
-from .extra_docs import CollectionExtraDocsInfoT
 from .docs_parsing import AnsibleCollectionMetadata
+from .env_variables import EnvironmentVariableInfo
+from .extra_docs import CollectionExtraDocsInfoT
 from .utils.collection_name_transformer import CollectionNameTransformer
 
 
@@ -907,7 +908,7 @@ async def output_extra_docs(dest_dir: str,
                             extra_docs_data: t.Mapping[str, CollectionExtraDocsInfoT],
                             squash_hierarchy: bool = False) -> None:
     """
-    Generate collection-level index pages for the collections.
+    Write extra docs pages for the collections.
 
     :arg dest_dir: The directory to place the documentation in.
     :arg extra_docs_data: Dictionary mapping collection names to CollectionExtraDocsInfoT.
@@ -938,5 +939,48 @@ async def output_extra_docs(dest_dir: str,
                 writers.append(await pool.spawn(copy_file(source_path, full_path)))
 
         await asyncio.gather(*writers)
+
+    flog.debug('Leave')
+
+
+async def output_environment_variables(dest_dir: str,
+                                       env_variables: t.Mapping[str, EnvironmentVariableInfo],
+                                       squash_hierarchy: bool = False
+                                       ) -> None:
+    """
+    Write environment variable Generate collection-level index pages for the collections.
+
+    :arg dest_dir: The directory to place the documentation in.
+    :arg env_variables: Mapping of environment variable names to environment variable information.
+    :arg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
+                           Undefined behavior if documentation for multiple collections are
+                           created.
+    """
+    flog = mlog.fields(func='write_environment_variables')
+    flog.debug('Enter')
+
+    if not squash_hierarchy:
+        collection_toplevel = os.path.join(dest_dir, 'collections')
+    else:
+        collection_toplevel = dest_dir
+
+    env = doc_environment(('antsibull_docs.data', 'docsite'))
+    # Get the templates
+    env_var_list_tmpl = env.get_template('list_of_env_variables.rst.j2')
+
+    flog.fields(toplevel=collection_toplevel, exists=os.path.isdir(collection_toplevel)).debug(
+        'collection_toplevel exists?')
+    # This is only safe because we made sure that the top of the directory tree we're writing to
+    # (docs/docsite/rst) is only writable by us.
+    os.makedirs(collection_toplevel, mode=0o755, exist_ok=True)
+
+    index_file = os.path.join(collection_toplevel, 'environment_variables.rst')
+    index_contents = _render_template(
+        env_var_list_tmpl,
+        index_file,
+        env_variables=env_variables,
+    )
+
+    await write_file(index_file, index_contents)
 
     flog.debug('Leave')

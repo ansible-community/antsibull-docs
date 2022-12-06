@@ -37,6 +37,7 @@ from ...docs_parsing.routing import (
     load_all_collection_routing,
     remove_redirect_duplicates,
 )
+from ...env_variables import load_ansible_config, collect_referenced_environment_variables
 from ...schemas.docs import DOCS_SCHEMAS
 from ...utils.collection_name_transformer import CollectionNameTransformer
 from ...write_docs import (
@@ -47,6 +48,7 @@ from ...write_docs import (
     output_indexes,
     output_plugin_indexes,
     output_extra_docs,
+    output_environment_variables,
 )
 
 if t.TYPE_CHECKING:
@@ -337,12 +339,16 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
     app_ctx = app_context.app_ctx.get()
 
     # Get the info from the plugins
-    plugin_info, collection_metadata = asyncio_run(get_ansible_plugin_info(
+    plugin_info, full_collection_metadata = asyncio_run(get_ansible_plugin_info(
         venv, collection_dir, collection_names=collection_names))
     flog.notice('Finished parsing info from plugins and collections')
     # flog.fields(plugin_info=plugin_info).debug('Plugin data')
     # flog.fields(
-    #     collection_metadata=collection_metadata).debug('Collection metadata')
+    #     collection_metadata=full_collection_metadata).debug('Collection metadata')
+
+    collection_metadata = dict(full_collection_metadata)
+    if collection_names is not None and 'ansible.builtin' not in collection_names:
+        del collection_metadata['ansible.builtin']
 
     # Load collection routing information
     collection_routing = asyncio_run(load_all_collection_routing(collection_metadata))
@@ -363,7 +369,7 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
         {name: data.path for name, data in collection_metadata.items()}))
     flog.debug('Finished getting collection extra docs data')
 
-    # Load collection extra docs data
+    # Load collection links data
     link_data = asyncio_run(load_collections_links(
         {name: data.path for name, data in collection_metadata.items()}))
     flog.debug('Finished getting collection link data')
@@ -383,6 +389,10 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
                 for error in errors:
                     print(f"{plugin_name} {plugin_type}: {textwrap.indent(error, '    ').lstrip()}")
         return 1
+
+    # Handle environment variables
+    ansible_config = load_ansible_config(full_collection_metadata['ansible.builtin'])
+    referenced_env_vars = collect_referenced_environment_variables(new_plugin_info, ansible_config)
 
     collection_namespaces = get_collection_namespaces(collection_to_plugin_info.keys())
 
@@ -444,7 +454,14 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
 
     asyncio_run(output_extra_docs(dest_dir, extra_docs_data,
                                   squash_hierarchy=squash_hierarchy))
-    flog.debug('Finished writing extra extra docs docs')
+    flog.debug('Finished writing extra docs')
+
+    if referenced_env_vars:
+        asyncio_run(output_environment_variables(dest_dir, referenced_env_vars,
+                                                 squash_hierarchy=squash_hierarchy))
+        flog.debug('Finished writing environment variables')
+    else:
+        flog.debug('Skipping environment variables (as there are none)')
     return 0
 
 
