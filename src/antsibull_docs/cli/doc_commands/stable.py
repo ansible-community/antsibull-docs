@@ -456,12 +456,9 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
                                   squash_hierarchy=squash_hierarchy))
     flog.debug('Finished writing extra docs')
 
-    if referenced_env_vars:
-        asyncio_run(output_environment_variables(dest_dir, referenced_env_vars,
-                                                 squash_hierarchy=squash_hierarchy))
-        flog.debug('Finished writing environment variables')
-    else:
-        flog.debug('Skipping environment variables (as there are none)')
+    asyncio_run(output_environment_variables(dest_dir, referenced_env_vars,
+                                             squash_hierarchy=squash_hierarchy))
+    flog.debug('Finished writing environment variables')
     return 0
 
 
