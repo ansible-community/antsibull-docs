@@ -1,2 +1,3 @@
 minor_changes:
-  - "Automatically use a module's or plugin's short description as the "See also" description if no description is provided (https://github.com/ansible-community/antsibull-docs/issues/64, https://github.com/ansible-community/antsibull-docs/pull/74)."
+  - >-
+    Automatically use a module's or plugin's short description as the "See also" description if no description is provided (https://github.com/ansible-community/antsibull-docs/issues/64, https://github.com/ansible-community/antsibull-docs/pull/74).
