@@ -1,2 +1,0 @@
-minor_changes:
-  - "Add new options ``--project``, ``--copyright``, ``--title``, ``--html-short-title``, ``--extra-conf``, ``--extra-html-context``, and ``--extra-html-theme-options`` to the ``sphinx-init`` subcommand to allow to customize the generated ``conf.py`` Sphinx configuration (https://github.com/ansible-community/antsibull-docs/pull/77)."

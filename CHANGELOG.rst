@@ -5,6 +5,31 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v1.8.0
+======
+
+Release Summary
+---------------
+
+Feature and bugfix release.
+
+Minor Changes
+-------------
+
+- Add new options ``--project``, ``--copyright``, ``--title``, ``--html-short-title``, ``--extra-conf``, ``--extra-html-context``, and ``--extra-html-theme-options`` to the ``sphinx-init`` subcommand to allow to customize the generated ``conf.py`` Sphinx configuration (https://github.com/ansible-community/antsibull-docs/pull/77).
+- Automatically use a module's or plugin's short description as the "See also" description if no description is provided (https://github.com/ansible-community/antsibull-docs/issues/64, https://github.com/ansible-community/antsibull-docs/pull/74).
+- It is now possible to provide a path to an existing file to be used as ``rst/index.rst`` for ``antsibull-docs sphinx-init`` (https://github.com/ansible-community/antsibull-docs/pull/68).
+- Make compatible with antsibull-core 2.x.y (https://github.com/ansible-community/antsibull-docs/pull/78).
+- Remove support for ``forced_action_plugin``, a module attribute that was removed during the development phase of attributes (https://github.com/ansible-community/antsibull-docs/pull/63).
+- Stop mentioning the version features were added for Ansible if the Ansible version is before 2.7 (https://github.com/ansible-community/antsibull-docs/pull/76).
+- The default ``index.rst`` created by ``antsibull-docs sphinx-init`` includes the new environment variable index (https://github.com/ansible-community/antsibull-docs/pull/80).
+- Use correct markup (``envvar`` role) for environment variables. Compile an index of all environment variables used by plugins (https://github.com/ansible-community/antsibull-docs/pull/73).
+
+Bugfixes
+--------
+
+- Make sure that ``build.sh`` created by the ``sphinx-init`` subcommand sets proper permissions for antsibull-docs on the ``temp-rst`` directory it creates (https://github.com/ansible-community/antsibull-docs/pull/79).
+
 v1.7.4
 ======
 

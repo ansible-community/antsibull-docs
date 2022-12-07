@@ -1,2 +1,0 @@
-minor_changes:
-  - "The default ``index.rst`` created by ``antsibull-docs sphinx-init`` includes the new environment variable index (https://github.com/ansible-community/antsibull-docs/pull/80)."

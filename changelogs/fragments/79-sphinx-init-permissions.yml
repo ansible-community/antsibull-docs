@@ -1,2 +1,0 @@
-bugfixes:
-  - "Make sure that ``build.sh`` created by the ``sphinx-init`` subcommand sets proper permissions for antsibull-docs on the ``temp-rst`` directory it creates (https://github.com/ansible-community/antsibull-docs/pull/79)."
