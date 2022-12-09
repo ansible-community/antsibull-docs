@@ -20,7 +20,10 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: >-
+      ${{ contains(fromJson(
+          '["3.6"]'
+      ), matrix.python-version) && 'ubuntu-20.04' || 'ubuntu-latest' }}
     strategy:
       matrix:
         python-version:
