@@ -24,7 +24,8 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - '3.11'
+          # frozenlist 1.2.0 doesn't like Python 3.11; bump this once we drop support for older Python versions
+          - '3.10'
 
     steps:
       - name: Check out antsibull-docs
