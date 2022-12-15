@@ -42,14 +42,14 @@ Modules
 
 * :ref:`foo module <ansible_collections.ns.col2.foo_module>` -- 
 
-
-
-.. seealso::
-
-    List of :ref:`collections <list_of_collections>` with docs hosted here.
-
 .. toctree::
     :maxdepth: 1
     :hidden:
 
     foo_module
+
+
+
+.. seealso::
+
+    List of :ref:`collections <list_of_collections>` with docs hosted here.
