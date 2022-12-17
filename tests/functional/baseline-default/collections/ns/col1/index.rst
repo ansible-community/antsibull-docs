@@ -40,8 +40,3 @@ There are no plugins in the ns.col1 collection with automatically generated docu
 .. seealso::
 
     List of :ref:`collections <list_of_collections>` with docs hosted here.
-
-.. toctree::
-    :maxdepth: 1
-    :hidden:
-
