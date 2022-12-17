@@ -18,25 +18,18 @@ import sys
 import ansible.plugins.loader as plugin_loader  # type: ignore[import] # pylint:disable=import-error # noqa
 import yaml
 from ansible import constants as C  # type: ignore[import] # pylint:disable=import-error
-from ansible import \
-    release as ansible_release  # type: ignore[import] # pylint:disable=import-error # noqa
+from ansible import release as ansible_release  # type: ignore[import] # pylint:disable=import-error # noqa
 from ansible.cli import doc  # type: ignore[attr-defined] # pylint:disable=import-error
-from ansible.cli.arguments import \
-    option_helpers as opt_help  # type: ignore[attr-defined] # pylint:disable=import-error # noqa
-from ansible.collections.list import \
-    list_collection_dirs  # type: ignore[import] # pylint:disable=import-error # noqa
-from ansible.module_utils._text import \
-    to_native  # type: ignore[import] # pylint:disable=import-error # noqa
-from ansible.module_utils.common.json import \
-    AnsibleJSONEncoder  # type: ignore[import] # pylint:disable=import-error # noqa
-from ansible.plugins.loader import (  # type: ignore[import] # pylint:disable=import-error # noqa
+from ansible.cli.arguments import option_helpers as opt_help  # type: ignore[import,attr-defined] # pylint:disable=import-error # noqa
+from ansible.collections.list import list_collection_dirs  # type: ignore[import,attr-defined] # pylint:disable=import-error # noqa
+from ansible.module_utils._text import to_native  # type: ignore[import,attr-defined] # pylint:disable=import-error # noqa
+from ansible.module_utils.common.json import AnsibleJSONEncoder  # type: ignore[import,attr-defined] # pylint:disable=import-error # noqa
+from ansible.plugins.loader import (  # type: ignore[import,attr-defined] # pylint:disable=import-error # noqa
     action_loader,
     fragment_loader,
 )
-from ansible.utils.collection_loader import \
-    AnsibleCollectionConfig  # type: ignore[import] # pylint:disable=import-error # noqa
-from ansible.utils.plugin_docs import \
-    get_docstring  # type: ignore[import] # pylint:disable=import-error # noqa
+from ansible.utils.collection_loader import AnsibleCollectionConfig  # type: ignore[import,attr-defined] # pylint:disable=import-error # noqa
+from ansible.utils.plugin_docs import get_docstring  # type: ignore[import,attr-defined] # pylint:disable=import-error # noqa
 
 
 def load_plugin(loader, plugin_type, plugin):
