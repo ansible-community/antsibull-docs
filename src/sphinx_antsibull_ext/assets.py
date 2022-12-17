@@ -12,7 +12,6 @@ import pkgutil
 
 from sphinx.util.osutil import ensuredir
 
-
 CSS_FILES = [
     'antsibull-minimal.css',
 ]

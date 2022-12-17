@@ -15,10 +15,10 @@ from antsibull_core.vendored.json_utils import _filter_non_json_lines
 
 from ..constants import DOCUMENTABLE_PLUGINS
 from ..utils.get_pkg_data import get_antsibull_data
-from . import _get_environment, AnsibleCollectionMetadata
+from . import AnsibleCollectionMetadata, _get_environment
 
 if t.TYPE_CHECKING:
-    from antsibull_core.venv import VenvRunner, FakeVenvRunner  # pylint:disable=unused-import
+    from antsibull_core.venv import FakeVenvRunner, VenvRunner  # pylint:disable=unused-import
 
 
 mlog = log.fields(mod=__name__)

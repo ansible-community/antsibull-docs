@@ -7,25 +7,19 @@
 
 import typing as t
 
-from packaging.version import Version as PypiVer
-
 from antsibull_core import app_context
 from antsibull_core.logging import log
+from packaging.version import Version as PypiVer
 
-from .ansible_doc import (
-    get_ansible_plugin_info as ansible_doc_get_ansible_plugin_info,
-    get_ansible_core_version,
-)
-from .ansible_internal import (
-    get_ansible_plugin_info as ansible_internal_get_ansible_plugin_info,
-)
-from .ansible_doc_core_213 import (
-    get_ansible_plugin_info as ansible_doc_core_213_get_ansible_plugin_info,
-)
 from . import AnsibleCollectionMetadata
+from .ansible_doc import get_ansible_core_version
+from .ansible_doc import get_ansible_plugin_info as ansible_doc_get_ansible_plugin_info
+from .ansible_doc_core_213 import \
+    get_ansible_plugin_info as ansible_doc_core_213_get_ansible_plugin_info
+from .ansible_internal import get_ansible_plugin_info as ansible_internal_get_ansible_plugin_info
 
 if t.TYPE_CHECKING:
-    from antsibull_core.venv import VenvRunner, FakeVenvRunner  # pylint:disable=unused-import
+    from antsibull_core.venv import FakeVenvRunner, VenvRunner  # pylint:disable=unused-import
 
 
 mlog = log.fields(mod=__name__)

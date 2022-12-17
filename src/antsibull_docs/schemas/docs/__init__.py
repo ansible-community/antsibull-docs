@@ -11,10 +11,15 @@ antsibull.schemas.docs.ansible_doc to handle all of their validation needs.
 """
 
 from .callback import CallbackDocSchema, CallbackSchema
-from .positional import PositionalDocSchema, PositionalSchema
 from .module import ModuleDocSchema, ModuleSchema
-from .plugin import (PluginDocSchema, PluginExamplesSchema,
-                     PluginMetadataSchema, PluginReturnSchema, PluginSchema)
+from .plugin import (
+    PluginDocSchema,
+    PluginExamplesSchema,
+    PluginMetadataSchema,
+    PluginReturnSchema,
+    PluginSchema,
+)
+from .positional import PositionalDocSchema, PositionalSchema
 from .role import RoleSchema
 
 BecomeSchema = PluginSchema

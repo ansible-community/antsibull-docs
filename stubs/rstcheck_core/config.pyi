@@ -3,9 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import enum
-
 from typing import List, Optional, Tuple, Union
-
 
 class ReportLevel(enum.Enum):
     INFO = 1

@@ -11,40 +11,26 @@ import tempfile
 import typing as t
 
 import sh
-
 from antsibull_core.compat import asyncio_run
 from antsibull_core.venv import FakeVenvRunner
 
 from sphinx_antsibull_ext import roles as antsibull_roles
 
-from .lint_helpers import (
-    load_collection_info,
-)
-
-from .docs_parsing.ansible_doc import (
-    parse_ansible_galaxy_collection_list,
-)
-
 from .augment_docs import augment_docs
 from .cli.doc_commands.stable import (
-    normalize_all_plugin_info,
-    get_plugin_contents,
     get_collection_contents,
+    get_plugin_contents,
+    normalize_all_plugin_info,
 )
 from .collection_links import load_collections_links
+from .docs_parsing.ansible_doc import parse_ansible_galaxy_collection_list
 from .docs_parsing.parsing import get_ansible_plugin_info
-from .docs_parsing.routing import (
-    load_all_collection_routing,
-    remove_redirect_duplicates,
-)
+from .docs_parsing.routing import load_all_collection_routing, remove_redirect_duplicates
 from .jinja2.environment import doc_environment
-from .utils.collection_name_transformer import CollectionNameTransformer
-from .write_docs import (
-    create_plugin_rst,
-    guess_relative_filename,
-    has_broken_docs,
-)
+from .lint_helpers import load_collection_info
 from .rstcheck import check_rst_content
+from .utils.collection_name_transformer import CollectionNameTransformer
+from .write_docs import create_plugin_rst, guess_relative_filename, has_broken_docs
 
 
 class CollectionCopier:

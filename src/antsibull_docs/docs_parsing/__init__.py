@@ -8,7 +8,6 @@
 import os
 import typing as t
 
-
 #: Clear Ansible environment variables that set paths where plugins could be found.
 ANSIBLE_PATH_ENVIRON: t.Dict[str, str] = os.environ.copy()
 ANSIBLE_PATH_ENVIRON.update({'ANSIBLE_COLLECTIONS_PATH': '/dev/null',

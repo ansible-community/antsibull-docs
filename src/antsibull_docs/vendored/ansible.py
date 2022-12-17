@@ -13,10 +13,8 @@ import datetime
 import json
 import os
 import re
-
 from ast import literal_eval
 from collections.abc import Set
-
 
 try:
     codecs.lookup_error('surrogateescape')

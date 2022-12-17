@@ -14,7 +14,6 @@ from antsibull_core.logging import log
 from ... import app_context
 from ...jinja2.environment import doc_environment
 
-
 mlog = log.fields(mod=__name__)
 
 

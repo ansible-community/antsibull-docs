@@ -4,15 +4,13 @@
 # SPDX-FileCopyrightText: 2019, Ansible Project
 """Jinja2 tests for use in Ansible documentation."""
 
+import typing as t
 import warnings
 from functools import partial
-import typing as t
-
-from packaging.version import Version as PypiVer
-from semantic_version import Version as SemVer
 
 from antsibull_core.vendored.collections import is_sequence
-
+from packaging.version import Version as PypiVer
+from semantic_version import Version as SemVer
 
 # The following dictionary maps collection names to cut-off versions. If a version of such a
 # collection is mentioned as when a feature was added that is older than the cut-off version,

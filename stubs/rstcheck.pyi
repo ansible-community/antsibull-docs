@@ -2,10 +2,9 @@
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import docutils.utils
-
 from typing import List, Optional, Tuple, Union
 
+import docutils.utils
 
 def check(source: str,
           filename: Optional[str] = ...,

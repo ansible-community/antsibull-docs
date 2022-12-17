@@ -13,7 +13,6 @@ import pytest
 
 from antsibull_docs.schemas.docs import ansible_doc as ad
 
-
 # To generate the data in the one_*.json files, run::
 #   ansible-doc --json -t $PLUGIN_TYPE $PLUGIN_NAME > \
 #       tests/functional/schema/good_data/one_$PLUGINTYPE.json

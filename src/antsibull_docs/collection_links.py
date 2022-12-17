@@ -12,24 +12,21 @@ import os.path
 import typing as t
 
 import asyncio_pool  # type: ignore[import]
-
+from antsibull_core import app_context
+from antsibull_core.logging import log
+from antsibull_core.yaml import load_yaml_file
 from pydantic import Extra
 from pydantic.error_wrappers import ValidationError, display_errors
 
-from antsibull_core import app_context
-from antsibull_core.yaml import load_yaml_file
-from antsibull_core.logging import log
-
 from .schemas.collection_links import (
     CollectionEditOnGitHub,
-    Link,
-    IRCChannel,
-    MatrixRoom,
-    MailingList,
-    Communication,
     CollectionLinks,
+    Communication,
+    IRCChannel,
+    Link,
+    MailingList,
+    MatrixRoom,
 )
-
 
 mlog = log.fields(mod=__name__)
 

@@ -8,7 +8,6 @@ import sys
 
 import html5lib
 
-
 errors = 0
 for path in sys.argv[1:]:
     for dirname, _, files in os.walk(path):

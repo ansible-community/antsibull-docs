@@ -8,7 +8,7 @@
 # pylint: disable-next=unused-import
 from antsibull_core.app_context import lib_ctx  # noqa
 from antsibull_core.app_context import AppContextWrapper
-from antsibull_docs.schemas.app_context import DocsAppContext
 
+from antsibull_docs.schemas.app_context import DocsAppContext
 
 app_ctx: AppContextWrapper[DocsAppContext] = AppContextWrapper()

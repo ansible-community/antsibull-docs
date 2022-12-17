@@ -5,10 +5,9 @@
 import difflib
 import io
 import os
+from contextlib import redirect_stdout
 
 import pytest
-
-from contextlib import redirect_stdout
 
 from antsibull_docs.cli.antsibull_docs import run
 

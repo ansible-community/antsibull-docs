@@ -7,24 +7,20 @@
 Functions for parsing and interpreting collection metadata.
 """
 
-from collections import defaultdict
-
+import asyncio
 import datetime
 import os
 import typing as t
+from collections import defaultdict
 
-import asyncio
 import asyncio_pool  # type: ignore[import]
-
-from antsibull_core import app_context
-from antsibull_core import yaml
+from antsibull_core import app_context, yaml
 from antsibull_core.utils.collections import compare_all_but
 
 from ..constants import DOCUMENTABLE_PLUGINS
 from ..utils.get_pkg_data import get_antsibull_data
 from . import AnsibleCollectionMetadata
 from .fqcn import get_fqcn_parts
-
 
 # A nested structure as follows:
 #       plugin_type:

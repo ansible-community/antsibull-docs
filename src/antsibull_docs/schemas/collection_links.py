@@ -13,7 +13,6 @@ import typing as t
 
 import pydantic as p
 
-
 _SENTINEL = object()
 
 GOOGLE_GROUPS_PREFIX = 'https://groups.google.com/g/'

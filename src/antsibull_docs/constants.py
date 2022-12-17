@@ -7,7 +7,6 @@
 
 from typing import Dict, FrozenSet
 
-
 #: All the types of ansible plugins
 PLUGIN_TYPES: FrozenSet[str] = frozenset(('become', 'cache', 'callback', 'cliconf', 'connection',
                                           'httpapi', 'inventory', 'lookup', 'shell', 'strategy',

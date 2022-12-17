@@ -3,9 +3,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # SPDX-FileCopyrightText: 2022, Ansible Project
 
-import pytest
-
 import typing as t
+
+import pytest
 
 from antsibull_docs.jinja2.parser import Command, CommandSet, ParsingException, convert_text
 
