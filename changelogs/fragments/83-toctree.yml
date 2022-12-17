@@ -1,2 +1,0 @@
-bugfixes:
-  - "When creating toctrees for breadcrumbs, place subtree for a plugin type in the plugin type's section (https://github.com/ansible-community/antsibull-docs/pull/83)."

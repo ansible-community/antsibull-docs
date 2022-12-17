@@ -5,6 +5,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v1.8.1
+======
+
+Release Summary
+---------------
+
+Bugfix release.
+
+Bugfixes
+--------
+
+- When creating toctrees for breadcrumbs, place subtree for a plugin type in the plugin type's section (https://github.com/ansible-community/antsibull-docs/pull/83).
+
 v1.8.0
 ======
 

@@ -330,3 +330,13 @@ releases:
     - 79-sphinx-init-permissions.yml
     - 80-sphinx-init-env-index.yml
     release_date: '2022-12-07'
+  1.8.1:
+    changes:
+      bugfixes:
+      - When creating toctrees for breadcrumbs, place subtree for a plugin type in
+        the plugin type's section (https://github.com/ansible-community/antsibull-docs/pull/83).
+      release_summary: Bugfix release.
+    fragments:
+    - 1.8.1.yml
+    - 83-toctree.yml
+    release_date: '2022-12-17'
