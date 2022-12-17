@@ -4,11 +4,9 @@
 
 import enum
 import pathlib
-
 from typing import List, Optional, Tuple, Union
 
 from . import config, types
-
 
 def check_file(
     source_file: pathlib.Path,

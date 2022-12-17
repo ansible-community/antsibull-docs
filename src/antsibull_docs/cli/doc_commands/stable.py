@@ -16,28 +16,27 @@ from concurrent.futures import ProcessPoolExecutor
 
 import aiohttp
 import asyncio_pool  # type: ignore[import]
-from pydantic import ValidationError
-
 from antsibull_core.ansible_core import get_ansible_core
 from antsibull_core.collections import install_together
 from antsibull_core.compat import asyncio_run, best_get_loop
 from antsibull_core.dependency_files import DepsFile
 from antsibull_core.galaxy import CollectionDownloader
 from antsibull_core.logging import log
-from antsibull_core.venv import VenvRunner, FakeVenvRunner
+from antsibull_core.venv import FakeVenvRunner, VenvRunner
+from pydantic import ValidationError
 
 from ... import app_context
 from ...augment_docs import augment_docs
-from ...extra_docs import load_collections_extra_docs
 from ...collection_links import load_collections_links
-from ...docs_parsing.parsing import get_ansible_plugin_info
 from ...docs_parsing.fqcn import get_fqcn_parts
+from ...docs_parsing.parsing import get_ansible_plugin_info
 from ...docs_parsing.routing import (
     find_stubs,
     load_all_collection_routing,
     remove_redirect_duplicates,
 )
-from ...env_variables import load_ansible_config, collect_referenced_environment_variables
+from ...env_variables import collect_referenced_environment_variables, load_ansible_config
+from ...extra_docs import load_collections_extra_docs
 from ...schemas.docs import DOCS_SCHEMAS
 from ...utils.collection_name_transformer import CollectionNameTransformer
 from ...write_docs import (
@@ -45,10 +44,10 @@ from ...write_docs import (
     output_all_plugin_stub_rst,
     output_collection_index,
     output_collection_namespace_indexes,
+    output_environment_variables,
+    output_extra_docs,
     output_indexes,
     output_plugin_indexes,
-    output_extra_docs,
-    output_environment_variables,
 )
 
 if t.TYPE_CHECKING:

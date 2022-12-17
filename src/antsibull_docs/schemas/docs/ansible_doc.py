@@ -18,11 +18,10 @@ import typing as t
 
 from .base import BaseModel
 from .callback import CallbackSchema
-from .positional import PositionalSchema
 from .module import ModuleSchema
 from .plugin import PluginSchema
+from .positional import PositionalSchema
 from .role import RoleSchema
-
 
 __all__ = ('ANSIBLE_DOC_SCHEMAS', 'AnsibleDocSchema', 'BecomePluginSchema', 'CachePluginSchema',
            'CallbackPluginSchema', 'CliConfPluginSchema', 'ConnectionPluginSchema',

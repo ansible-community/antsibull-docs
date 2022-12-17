@@ -8,18 +8,16 @@
 
 import json
 import os
-import traceback
 import sys
+import traceback
 import typing as t
 
 import sh
-
 from antsibull_core.compat import asyncio_run
 from antsibull_core.logging import log
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
 from antsibull_core.venv import FakeVenvRunner
 
-from .stable import normalize_plugin_info
 from ... import app_context
 from ...augment_docs import augment_docs
 from ...collection_links import CollectionLinks
@@ -28,7 +26,7 @@ from ...docs_parsing.fqcn import get_fqcn_parts, is_fqcn
 from ...jinja2.environment import doc_environment
 from ...utils.collection_name_transformer import CollectionNameTransformer
 from ...write_docs import write_plugin_rst
-
+from .stable import normalize_plugin_info
 
 mlog = log.fields(mod=__name__)
 

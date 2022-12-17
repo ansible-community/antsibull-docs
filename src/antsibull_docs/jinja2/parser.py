@@ -9,9 +9,7 @@ Parser for formatted texts.
 
 import abc
 import re
-
 import typing as t
-
 
 _ESCAPE_OR_COMMA = re.compile(r'\\(.)| *(,) *')
 _ESCAPE_OR_CLOSING = re.compile(r'\\(.)|([)])')

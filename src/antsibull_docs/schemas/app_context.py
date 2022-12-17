@@ -12,10 +12,8 @@
 import typing as t
 
 import pydantic as p
-
-from antsibull_core.schemas.validators import convert_bool
 from antsibull_core.schemas.context import AppContext as CoreAppContext
-
+from antsibull_core.schemas.validators import convert_bool
 
 #: Valid choices for a logging level field
 DOC_PARSING_BACKEND_CHOICES_F = p.Field(

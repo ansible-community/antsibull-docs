@@ -12,12 +12,12 @@ from antsibull_core.logging import log
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
 
 from ..constants import DOCUMENTABLE_PLUGINS
+from . import AnsibleCollectionMetadata, _get_environment
 from .ansible_doc import get_collection_metadata
 from .fqcn import get_fqcn_parts
-from . import _get_environment, AnsibleCollectionMetadata
 
 if t.TYPE_CHECKING:
-    from antsibull_core.venv import VenvRunner, FakeVenvRunner  # pylint:disable=unused-import
+    from antsibull_core.venv import FakeVenvRunner, VenvRunner  # pylint:disable=unused-import
 
 
 mlog = log.fields(mod=__name__)

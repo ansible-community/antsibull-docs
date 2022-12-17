@@ -13,11 +13,22 @@ import typing as t
 
 import pydantic as p
 
-from .base import (REQUIRED_CLI_F, REQUIRED_ENV_VAR_F, RETURN_TYPE_F,
-                   COLLECTION_NAME_F, BaseModel, DeprecationSchema, DocSchema,
-                   LocalConfig, OptionsSchema, list_from_scalars, is_json_value,
-                   normalize_return_type_names, transform_return_docs,
-                   normalize_value)
+from .base import (
+    COLLECTION_NAME_F,
+    REQUIRED_CLI_F,
+    REQUIRED_ENV_VAR_F,
+    RETURN_TYPE_F,
+    BaseModel,
+    DeprecationSchema,
+    DocSchema,
+    LocalConfig,
+    OptionsSchema,
+    is_json_value,
+    list_from_scalars,
+    normalize_return_type_names,
+    normalize_value,
+    transform_return_docs,
+)
 
 _SENTINEL = object()
 

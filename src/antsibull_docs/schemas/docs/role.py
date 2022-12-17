@@ -15,9 +15,13 @@ import typing as t
 import pydantic as p
 
 from .base import (
-    BaseModel, DeprecationSchema, OptionsSchema,
-    SeeAlsoModSchema, SeeAlsoRefSchema, SeeAlsoLinkSchema,
     COLLECTION_NAME_F,
+    BaseModel,
+    DeprecationSchema,
+    OptionsSchema,
+    SeeAlsoLinkSchema,
+    SeeAlsoModSchema,
+    SeeAlsoRefSchema,
 )
 
 

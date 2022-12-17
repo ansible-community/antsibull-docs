@@ -4,7 +4,6 @@
 
 import enum
 import pathlib
-
 from typing import Literal, Union
 
 try:

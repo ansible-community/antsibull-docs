@@ -11,21 +11,18 @@ import os.path
 import typing as t
 
 import asyncio_pool  # type: ignore[import]
-
-from jinja2 import Template
-from packaging.specifiers import SpecifierSet
-
 from antsibull_core import app_context
 from antsibull_core.logging import log
 from antsibull_core.utils.io import copy_file, write_file
+from jinja2 import Template
+from packaging.specifiers import SpecifierSet
 
-from .jinja2.environment import doc_environment
 from .collection_links import CollectionLinks
 from .docs_parsing import AnsibleCollectionMetadata
 from .env_variables import EnvironmentVariableInfo
 from .extra_docs import CollectionExtraDocsInfoT
+from .jinja2.environment import doc_environment
 from .utils.collection_name_transformer import CollectionNameTransformer
-
 
 mlog = log.fields(mod=__name__)
 

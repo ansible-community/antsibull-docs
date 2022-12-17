@@ -16,7 +16,6 @@ from ...lint_extra_docs import lint_collection_extra_docs_files
 from ...lint_plugin_docs import lint_collection_plugin_docs
 from ...utils.collection_name_transformer import CollectionNameTransformer
 
-
 mlog = log.fields(mod=__name__)
 
 

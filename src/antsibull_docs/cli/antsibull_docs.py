@@ -14,7 +14,7 @@ from typing import Callable, Dict, List
 
 import twiggy  # type: ignore[import]
 
-from antsibull_core.logging import log, initialize_app_logging
+from antsibull_core.logging import initialize_app_logging, log
 initialize_app_logging()
 
 # We have to call initialize_app_logging() before these imports so that the log object is configured
@@ -22,7 +22,9 @@ initialize_app_logging()
 # pylint: disable=wrong-import-position
 from antsibull_core import app_context  # noqa: E402
 from antsibull_core.args import (  # noqa: E402
-    InvalidArgumentError, get_toplevel_parser, normalize_toplevel_options
+    InvalidArgumentError,
+    get_toplevel_parser,
+    normalize_toplevel_options,
 )
 from antsibull_core.compat import BooleanOptionalAction  # noqa: E402
 from antsibull_core.config import ConfigError, load_config  # noqa: E402
@@ -32,8 +34,15 @@ from ..constants import DOCUMENTABLE_PLUGINS  # noqa: E402
 from ..docs_parsing.fqcn import is_fqcn  # noqa: E402
 from ..schemas.app_context import DocsAppContext  # noqa: E402
 from .doc_commands import (  # noqa: E402
-    collection, current, devel, plugin, stable, sphinx_init, lint_collection_docs
+    collection,
+    current,
+    devel,
+    lint_collection_docs,
+    plugin,
+    sphinx_init,
+    stable,
 )
+
 # pylint: enable=wrong-import-position
 
 

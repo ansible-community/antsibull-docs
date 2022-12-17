@@ -8,15 +8,11 @@ Jinja2 filters for use in Ansible documentation.
 
 import json
 import re
-
 import typing as t
-
 from collections.abc import Mapping, Sequence
 
-from jinja2.runtime import Undefined
-
 from antsibull_core.logging import log
-
+from jinja2.runtime import Undefined
 
 mlog = log.fields(mod=__name__)
 

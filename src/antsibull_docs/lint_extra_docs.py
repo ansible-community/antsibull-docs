@@ -13,17 +13,13 @@ import typing as t
 from sphinx_antsibull_ext import roles as antsibull_roles
 
 from .extra_docs import (
+    ExtraDocsIndexError,
     find_extra_docs,
     lint_required_conditions,
     load_extra_docs_index,
-    ExtraDocsIndexError,
 )
+from .lint_helpers import load_collection_name
 from .rstcheck import check_rst_content
-
-from .lint_helpers import (
-    load_collection_name,
-)
-
 
 _RST_LABEL_DEFINITION = re.compile(r'''^\.\. _([^:]+):''')
 

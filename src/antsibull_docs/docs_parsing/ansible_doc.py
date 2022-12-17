@@ -7,27 +7,26 @@
 
 import asyncio
 import json
-import sys
 import os
 import re
+import sys
 import traceback
 import typing as t
 from concurrent.futures import ThreadPoolExecutor
 
 import sh
-from packaging.version import Version as PypiVer
-
 from antsibull_core import app_context
 from antsibull_core.compat import best_get_loop, create_task
 from antsibull_core.logging import log
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
+from packaging.version import Version as PypiVer
 
 from ..constants import DOCUMENTABLE_PLUGINS, DOCUMENTABLE_PLUGINS_MIN_VERSION
+from . import AnsibleCollectionMetadata, ParsingError, _get_environment
 from .fqcn import get_fqcn_parts
-from . import _get_environment, ParsingError, AnsibleCollectionMetadata
 
 if t.TYPE_CHECKING:
-    from antsibull_core.venv import VenvRunner, FakeVenvRunner  # pylint:disable=unused-import
+    from antsibull_core.venv import FakeVenvRunner, VenvRunner  # pylint:disable=unused-import
 
 
 mlog = log.fields(mod=__name__)

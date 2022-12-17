@@ -8,18 +8,24 @@ import json
 import os.path
 import typing as t
 
-from jinja2 import Environment, FileSystemLoader, PackageLoader, BaseLoader
+from jinja2 import BaseLoader, Environment, FileSystemLoader, PackageLoader
 
 from ..utils.collection_name_transformer import CollectionNameTransformer
-
 from .filters import (
-    do_max, documented_type, rst_fmt, rst_xline, move_first, massage_author_name,
-    extract_options_from_list, remove_options_from_list, to_json, to_ini_value,
+    do_max,
+    documented_type,
+    extract_options_from_list,
+    massage_author_name,
+    move_first,
+    remove_options_from_list,
+    rst_fmt,
+    rst_xline,
+    to_ini_value,
+    to_json,
 )
 from .htmlify import html_ify
-from .rstify import rst_ify, rst_code, rst_escape
+from .rstify import rst_code, rst_escape, rst_ify
 from .tests import still_relevant, test_list
-
 
 # kludge_ns gives us a kludgey way to set variables inside of loops that need to be visible outside
 # the loop.  We can get rid of this when we no longer need to build docs with less than Jinja-2.10

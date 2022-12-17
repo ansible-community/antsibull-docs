@@ -126,7 +126,6 @@ import typing as t
 from collections.abc import Mapping
 
 import pydantic as p
-
 from antsibull_core.yaml import load_yaml_bytes
 
 from antsibull_docs.vendored.ansible import (  # type: ignore[import]
@@ -141,7 +140,6 @@ from antsibull_docs.vendored.ansible import (  # type: ignore[import]
     check_type_raw,
     check_type_str,
 )
-
 
 _SENTINEL = object()
 

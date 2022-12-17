@@ -19,7 +19,6 @@ Some definitions:
 import re
 import typing as t
 
-
 #: Format that a collection namespace and collection name must follow
 NAMESPACE_RE_STR = '[a-z0-9][a-z0-9_]+'
 #: Format of a FQCN

@@ -7,15 +7,13 @@ htmlify Jinja2 filter for use in Ansible documentation.
 """
 
 import re
+import typing as t
 from html import escape as html_escape
 from urllib.parse import quote
-
-import typing as t
 
 from antsibull_core.logging import log
 
 from .parser import Command, CommandSet, convert_text
-
 
 mlog = log.fields(mod=__name__)
 

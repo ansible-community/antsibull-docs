@@ -4,7 +4,6 @@
 
 import io
 import os
-
 from contextlib import contextmanager, redirect_stdout
 
 import pytest
