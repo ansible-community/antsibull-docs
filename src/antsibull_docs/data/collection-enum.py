@@ -4,6 +4,9 @@
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+# type: ignore
+# pyre-ignore-all-errors
 """Enumerate collections and all their plugin's docs."""
 
 # pylint:disable=protected-access
@@ -15,21 +18,23 @@ import json
 import os
 import sys
 
-import ansible.plugins.loader as plugin_loader  # type: ignore[import] # pylint:disable=import-error # noqa
+import ansible.plugins.loader as plugin_loader  # pylint:disable=import-error # noqa
 import yaml
-from ansible import constants as C  # type: ignore[import] # pylint:disable=import-error
-from ansible import release as ansible_release  # type: ignore[import] # pylint:disable=import-error # noqa
-from ansible.cli import doc  # type: ignore[attr-defined] # pylint:disable=import-error
-from ansible.cli.arguments import option_helpers as opt_help  # type: ignore[import,attr-defined] # pylint:disable=import-error # noqa
-from ansible.collections.list import list_collection_dirs  # type: ignore[import,attr-defined] # pylint:disable=import-error # noqa
-from ansible.module_utils._text import to_native  # type: ignore[import,attr-defined] # pylint:disable=import-error # noqa
-from ansible.module_utils.common.json import AnsibleJSONEncoder  # type: ignore[import,attr-defined] # pylint:disable=import-error # noqa
-from ansible.plugins.loader import (  # type: ignore[import,attr-defined] # pylint:disable=import-error # noqa
+from ansible import constants as C  # pylint:disable=import-error
+from ansible import release as ansible_release  # pylint:disable=import-error # noqa
+from ansible.cli import doc  # pylint:disable=import-error
+from ansible.cli.arguments import option_helpers as opt_help  # pylint:disable=import-error # noqa
+from ansible.collections.list import list_collection_dirs  # pylint:disable=import-error # noqa
+from ansible.module_utils._text import to_native  # pylint:disable=import-error # noqa
+from ansible.module_utils.common.json import \
+    AnsibleJSONEncoder  # pylint:disable=import-error # noqa
+from ansible.plugins.loader import (  # pylint:disable=import-error # noqa
     action_loader,
     fragment_loader,
 )
-from ansible.utils.collection_loader import AnsibleCollectionConfig  # type: ignore[import,attr-defined] # pylint:disable=import-error # noqa
-from ansible.utils.plugin_docs import get_docstring  # type: ignore[import,attr-defined] # pylint:disable=import-error # noqa
+from ansible.utils.collection_loader import \
+    AnsibleCollectionConfig  # pylint:disable=import-error # noqa
+from ansible.utils.plugin_docs import get_docstring  # pylint:disable=import-error # noqa
 
 
 def load_plugin(loader, plugin_type, plugin):
