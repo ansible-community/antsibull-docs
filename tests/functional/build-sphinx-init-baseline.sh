@@ -14,6 +14,7 @@ make_baseline() {
     rm -rf "${DEST}"
     mkdir -p "${DEST}"
     antsibull-docs sphinx-init --dest-dir "${DEST}" "$@" > /dev/null
+    sed -i -e 's/^cd .*$/cd DESTINATION/g' "${DEST}/build.sh"
 }
 
 

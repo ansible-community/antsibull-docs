@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 set -e
-cd /home/felix/projects/code/github-cloned/antsibull-docs/tests/functional/baseline-sphinx-init-config
+cd DESTINATION
 
 # Create collection documentation into temporary directory
 rm -rf temp-rst

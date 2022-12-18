@@ -124,6 +124,16 @@ def test_baseline(arguments, directory, tmp_path):
         rc = run(command)
     stdout = stdout.getvalue().splitlines()
 
+    # Adjust 'cd' in build.sh
+    filename = os.path.join(tmp_path, 'build.sh')
+    with open(filename, 'r', encoding='utf-8') as f:
+        lines = list(f)
+    for index, line in enumerate(lines):
+        if line.startswith('cd '):
+            lines[index] = 'cd DESTINATION'
+    with open(filename, 'w', encoding='utf-8') as f:
+        f.writelines(lines)
+
     # Compare baseline to expected result
     source = _scan_directories(os.path.join(tests_root, directory))
     dest = _scan_directories(str(tmp_path))
