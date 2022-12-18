@@ -30,7 +30,7 @@ from .jinja2.environment import doc_environment
 from .lint_helpers import load_collection_info
 from .rstcheck import check_rst_content
 from .utils.collection_name_transformer import CollectionNameTransformer
-from .write_docs import create_plugin_rst, guess_relative_filename, has_broken_docs
+from .write_docs.plugins import create_plugin_rst, guess_relative_filename, has_broken_docs
 
 
 class CollectionCopier:

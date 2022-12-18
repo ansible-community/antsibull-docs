@@ -11,7 +11,6 @@ import pytest
 
 from antsibull_docs.cli.antsibull_docs import run
 
-
 TEST_CASES = [
     (
         ['--use-current'],
