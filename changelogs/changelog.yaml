@@ -340,3 +340,13 @@ releases:
     - 1.8.1.yml
     - 83-toctree.yml
     release_date: '2022-12-17'
+  1.8.2:
+    changes:
+      bugfixes:
+      - Fix the new options ``--extra-html-context`` and ``--extra-html-theme-options``
+        of the ``sphinx-init`` subcommand (https://github.com/ansible-community/antsibull-docs/pull/86).
+      release_summary: Bugfix release.
+    fragments:
+    - 1.8.2.yml
+    - 86-sphinx-init-html.yml
+    release_date: '2022-12-18'

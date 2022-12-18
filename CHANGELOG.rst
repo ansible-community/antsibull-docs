@@ -5,6 +5,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v1.8.2
+======
+
+Release Summary
+---------------
+
+Bugfix release.
+
+Bugfixes
+--------
+
+- Fix the new options ``--extra-html-context`` and ``--extra-html-theme-options`` of the ``sphinx-init`` subcommand (https://github.com/ansible-community/antsibull-docs/pull/86).
+
 v1.8.1
 ======
 
