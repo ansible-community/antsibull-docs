@@ -118,7 +118,7 @@ def test_baseline(arguments, directory, tmp_path):
     tests_root = os.path.join('tests', 'functional')
 
     # Re-build baseline
-    command = ['antsibull-docs', 'sphinx-init'] + arguments + ['--dest-dir', str(tmp_path)]
+    command = ['antsibull-docs', 'sphinx-init', '--dest-dir', str(tmp_path)] + arguments
     stdout = io.StringIO()
     with redirect_stdout(stdout):
         rc = run(command)
@@ -130,7 +130,7 @@ def test_baseline(arguments, directory, tmp_path):
         lines = list(f)
     for index, line in enumerate(lines):
         if line.startswith('cd '):
-            lines[index] = 'cd DESTINATION'
+            lines[index] = 'cd DESTINATION\n'
     with open(filename, 'w', encoding='utf-8') as f:
         f.writelines(lines)
 
