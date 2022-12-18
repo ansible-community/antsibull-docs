@@ -6,11 +6,11 @@
 # documentation:
 # http://www.sphinx-doc.org/en/master/config
 
-project = @{ project | python_repr }@
-copyright = @{ conf_copyright | python_repr }@
+project = 'Ansible collections'
+copyright = 'Ansible contributors'
 
-title = @{ title | python_repr }@
-html_short_title = @{ html_short_title | python_repr }@
+title = 'Ansible Collections Documentation'
+html_short_title = 'Ansible Collections Documentation'
 
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'sphinx_antsibull_ext']
 
@@ -18,7 +18,7 @@ pygments_style = 'ansible'
 
 highlight_language = 'YAML+Jinja'
 
-html_theme = @{ sphinx_theme | python_repr }@
+html_theme = 'another-theme'
 html_show_sphinx = False
 
 display_version = False
@@ -34,40 +34,13 @@ intersphinx_mapping = {
     'python3': ('https://docs.python.org/3/', (None, '../python3.inv')),
     'jinja2': ('http://jinja.palletsprojects.com/', (None, '../jinja2.inv')),
     'ansible_devel': ('https://docs.ansible.com/ansible/devel/', (None, '../ansible_devel.inv')),
-{% if intersphinx %}
-    # The following @{ 'entry was' if intersphinx | length == 1 else 'entries were' }@ passed to `antsibull-docs sphinx-init`:
-{%   for inventory, url in intersphinx %}
-    @{ inventory | python_repr }@: (@{ url | python_repr }@, None),
-{%   endfor %}
-{% endif %}
+    # The following entries were passed to `antsibull-docs sphinx-init`:
+    'identifier': ('https://server/path', None),
+    'foo': ('https://bar/baz', None),
     # If you want references to resolve to a released Ansible version (say, `5`), uncomment and replace X by this version:
     # 'ansibleX': ('https://docs.ansible.com/ansible/X/', (None, '../ansibleX.inv')),
 }
 
 default_role = 'any'
 
-{% if not lenient %}
-nitpicky = True
-{% endif %}
-{% if extra_conf %}
 
-{%   for key, value in extra_conf %}
-@{ key }@ = @{ value | python_repr }@
-{%   endfor %}
-{% endif %}
-{% if extra_html_context %}
-
-html_context = {
-{%   for key, value in extra_html_context %}
-    @{ key | python_repr }@: @{ value | python_repr }@,
-{%   endfor %}
-}
-{% endif %}
-{% if extra_html_theme_options %}
-
-html_theme_options = {
-{%   for key, value in extra_html_theme_options %}
-    @{ key | python_repr }@: @{ value | python_repr }@,
-{%   endfor %}
-}
-{% endif %}
