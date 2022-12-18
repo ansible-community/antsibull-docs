@@ -30,7 +30,7 @@ TEST_CASES = [
             '--squash-hierarchy',
             '--lenient',
             '--fail-on-error',
-            '--index-rst-source', 'test.rst',
+            '--index-rst-source', 'tests/functional/test.rst',
             '--intersphinx', 'identifier:https://server/path',
             '--intersphinx', 'foo:https://bar/baz',
             '--sphinx-theme', 'another-theme',
@@ -141,5 +141,5 @@ def test_baseline(arguments, directory, tmp_path):
         _compare_directories(source, dest)
 
     except:
-        print(f'STDOUT:\n{stdout.join('\n')}')
+        print('STDOUT:\n' + '\n'.join(stdout))
         raise
