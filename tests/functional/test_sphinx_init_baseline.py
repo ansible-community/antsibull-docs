@@ -22,7 +22,19 @@ TEST_CASES = [
         'baseline-sphinx-init-collections',
     ),
     (
-        ['ns.col1', '--no-indexes', '--no-breadcrumbs', '--use-html-blobs', '--squash-hierarchy'],
+        [
+            'ns.col1',
+            '--no-indexes',
+            '--no-breadcrumbs',
+            '--use-html-blobs',
+            '--squash-hierarchy',
+            '--lenient',
+            '--fail-on-error',
+            '--index-rst-source', 'test.rst',
+            '--intersphinx', 'identifier:https://server/path',
+            '--intersphinx', 'foo:https://bar/baz',
+            '--sphinx-theme', 'another-theme',
+        ],
         'baseline-sphinx-init-config',
     ),
     (

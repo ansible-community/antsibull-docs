@@ -13,6 +13,7 @@ chmod og-w temp-rst  # antsibull-docs wants that directory only readable by itse
 antsibull-docs \
     --config-file antsibull-docs.cfg \
     collection \
+    --fail-on-error \
     --squash-hierarchy \
     --dest-dir temp-rst \
     ns.col1
@@ -21,5 +22,5 @@ antsibull-docs \
 rsync -cprv --delete-after temp-rst/ rst/
 
 # Build Sphinx site
-sphinx-build -M html rst build -c . -W --keep-going
+sphinx-build -M html rst build -c .
 

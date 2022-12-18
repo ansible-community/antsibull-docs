@@ -18,7 +18,7 @@ pygments_style = 'ansible'
 
 highlight_language = 'YAML+Jinja'
 
-html_theme = 'sphinx_ansible_theme'
+html_theme = 'another-theme'
 html_show_sphinx = False
 
 display_version = False
@@ -34,11 +34,13 @@ intersphinx_mapping = {
     'python3': ('https://docs.python.org/3/', (None, '../python3.inv')),
     'jinja2': ('http://jinja.palletsprojects.com/', (None, '../jinja2.inv')),
     'ansible_devel': ('https://docs.ansible.com/ansible/devel/', (None, '../ansible_devel.inv')),
+    # The following entries were passed to `antsibull-docs sphinx-init`:
+    'identifier': ('https://server/path', None),
+    'foo': ('https://bar/baz', None),
     # If you want references to resolve to a released Ansible version (say, `5`), uncomment and replace X by this version:
     # 'ansibleX': ('https://docs.ansible.com/ansible/X/', (None, '../ansibleX.inv')),
 }
 
 default_role = 'any'
 
-nitpicky = True
 
