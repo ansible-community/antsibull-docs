@@ -58,7 +58,7 @@ nitpicky = True
 {% if extra_html_context %}
 
 html_context = {
-{%   for key, value in extra_conf %}
+{%   for key, value in extra_html_context %}
     @{ key | python_repr }@: @{ value | python_repr }@,
 {%   endfor %}
 }
@@ -66,7 +66,7 @@ html_context = {
 {% if extra_html_theme_options %}
 
 html_theme_options = {
-{%   for key, value in extra_conf %}
+{%   for key, value in extra_html_theme_options %}
     @{ key | python_repr }@: @{ value | python_repr }@,
 {%   endfor %}
 }
