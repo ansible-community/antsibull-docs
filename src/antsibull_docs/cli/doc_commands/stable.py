@@ -39,16 +39,11 @@ from ...env_variables import collect_referenced_environment_variables, load_ansi
 from ...extra_docs import load_collections_extra_docs
 from ...schemas.docs import DOCS_SCHEMAS
 from ...utils.collection_name_transformer import CollectionNameTransformer
-from ...write_docs import (
-    output_all_plugin_rst,
-    output_all_plugin_stub_rst,
-    output_collection_index,
-    output_collection_namespace_indexes,
-    output_environment_variables,
-    output_extra_docs,
-    output_indexes,
-    output_plugin_indexes,
-)
+from ...write_docs.collections import output_extra_docs, output_indexes
+from ...write_docs.hierarchy import output_collection_index, output_collection_namespace_indexes
+from ...write_docs.indexes import output_environment_variables, output_plugin_indexes
+from ...write_docs.plugin_stubs import output_all_plugin_stub_rst
+from ...write_docs.plugins import output_all_plugin_rst
 
 if t.TYPE_CHECKING:
     import semantic_version as semver  # pylint:disable=unused-import
