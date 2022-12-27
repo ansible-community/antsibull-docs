@@ -448,7 +448,7 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
                                           collection_install=collection_install,
                                           for_official_docsite=for_official_docsite))
         flog.notice('Finished writing plugin indexes')
-        asyncio_run(output_callback_indexes(callback_plugin_contents, collection_metadata,
+        asyncio_run(output_callback_indexes(callback_plugin_contents,
                                             dest_dir, collection_url=collection_url,
                                             collection_install=collection_install,
                                             for_official_docsite=for_official_docsite))
