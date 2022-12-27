@@ -62,6 +62,12 @@ New in ns2.col 0.0.1
 .. Deprecated
 
 
+Callback plugin
+---------------
+
+This plugin is a **stdout callback**. You can use only use one stdout callback at a time. Additional aggregate or notification callbacks be enabled though.
+See :ref:`callback_plugins` for more information on callback plugins.
+
 Synopsis
 --------
 
