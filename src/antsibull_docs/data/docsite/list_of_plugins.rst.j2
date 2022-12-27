@@ -18,6 +18,16 @@ Index of all Roles
 Index of all @{ plugin_type | capitalize }@ Plugins
 =============@{ '=' * (plugin_type | length) }@========
 {% endif %}
+{% if plugin_type == 'callback' %}
+
+.. toctree::
+   :maxdepth: 1
+   :caption: List of callback plugin by callback type
+   :glob:
+
+   callback_index_*
+
+{% endif %}
 
 {% for collection_name, plugins in per_collection_plugins.items() | sort %}
 @{ collection_name }@
