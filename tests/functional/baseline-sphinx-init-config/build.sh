@@ -4,7 +4,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 set -e
-cd DESTINATION
+
+pushd "$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+trap "{ popd; }" EXIT
 
 # Create collection documentation into temporary directory
 rm -rf temp-rst
