@@ -8,7 +8,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "antsibull-docs"
-version = "1.8.2.post0"
+version = "1.9.0"
 description = "Tools for building Ansible documentation"
 authors = ["Toshio Kuratomi <a.badger@gmail.com>", "Felix Fontein <felix@fontein.de>"]
 license = "GPL-3.0-or-later"
