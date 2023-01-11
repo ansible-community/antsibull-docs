@@ -5,6 +5,7 @@
 
 namespace: ns
 name: col1
+version: null
 readme: README.md
 authors:
   - Ansible (https://github.com/ansible)
