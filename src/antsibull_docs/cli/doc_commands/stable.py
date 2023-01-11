@@ -41,7 +41,11 @@ from ...schemas.docs import DOCS_SCHEMAS
 from ...utils.collection_name_transformer import CollectionNameTransformer
 from ...write_docs.collections import output_extra_docs, output_indexes
 from ...write_docs.hierarchy import output_collection_index, output_collection_namespace_indexes
-from ...write_docs.indexes import output_environment_variables, output_plugin_indexes
+from ...write_docs.indexes import (
+    output_callback_indexes,
+    output_environment_variables,
+    output_plugin_indexes,
+)
 from ...write_docs.plugin_stubs import output_all_plugin_stub_rst
 from ...write_docs.plugins import output_all_plugin_rst
 
@@ -269,6 +273,35 @@ def get_plugin_contents(plugin_info: t.Mapping[str, t.Mapping[str, t.Any]],
     return plugin_contents
 
 
+def get_callback_plugin_contents(plugin_info: t.Mapping[str, t.Mapping[str, t.Any]],
+                                 ) -> t.DefaultDict[str, t.DefaultDict[str, t.Dict[str, str]]]:
+    """
+    Return the collections with their plugins for every callback plugin type.
+
+    :arg plugin_info: Mapping of plugin type to a mapping of plugin name to plugin record.
+        The plugin_type, plugin_name, and short_description from plugin_records are used.
+    :returns: A Mapping of callback plugin type to a mapping of collection name to a mapping of
+        plugin names to short_descriptions.
+    callback_type:
+        collection:
+            - plugin_short_name: short_description
+    """
+    callback_plugin_contents: t.DefaultDict[str, t.DefaultDict[str, t.Dict[str, str]]]
+    callback_plugin_contents = defaultdict(lambda: defaultdict(dict))
+
+    if plugin_info.get('callback'):
+        for plugin_name, plugin_desc in plugin_info['callback'].items():
+            if 'doc' in plugin_desc:
+                desc = plugin_desc['doc'].get('short_description') or ''
+                callback_type = plugin_desc['doc'].get('type') or ''
+                if callback_type:
+                    namespace, collection, short_name = get_fqcn_parts(plugin_name)
+                    collection_name = '.'.join((namespace, collection))
+                    callback_plugin_contents[callback_type][collection_name][short_name] = desc
+
+    return callback_plugin_contents
+
+
 def get_collection_contents(plugin_content: t.Mapping[str, t.Mapping[str, t.Mapping[str, str]]],
                             ) -> t.DefaultDict[str, t.Dict[str, t.Mapping[str, str]]]:
     """
@@ -369,6 +402,7 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
     flog.debug('Finished getting collection link data')
 
     plugin_contents = get_plugin_contents(new_plugin_info, nonfatal_errors)
+    callback_plugin_contents = get_callback_plugin_contents(new_plugin_info)
     collection_to_plugin_info = get_collection_contents(plugin_contents)
     # Make sure collections without documentable plugins are mentioned
     for collection in collection_metadata:
@@ -414,6 +448,11 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
                                           collection_install=collection_install,
                                           for_official_docsite=for_official_docsite))
         flog.notice('Finished writing plugin indexes')
+        asyncio_run(output_callback_indexes(callback_plugin_contents,
+                                            dest_dir, collection_url=collection_url,
+                                            collection_install=collection_install,
+                                            for_official_docsite=for_official_docsite))
+        flog.notice('Finished writing callback plugin indexes')
 
     asyncio_run(output_indexes(collection_to_plugin_info, dest_dir,
                                collection_url=collection_url,

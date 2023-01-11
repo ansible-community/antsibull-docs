@@ -139,6 +139,20 @@ DEPRECATED
 :Alternative: @{ doc['deprecated']['alternative'] | rst_ify }@
 {% endif %}
 
+{% if plugin_type == 'callback' %}
+Callback plugin
+---------------
+
+{%   if doc['type'] == 'stdout' %}
+This plugin is a **stdout callback**. You can use only use one stdout callback at a time. Additional aggregate or notification callbacks can be enabled though.
+{%   elif doc['type'] == 'aggregate' %}
+This plugin is an **aggregate callback**. It adds additional console output next to the configured stdout callback.
+{%   elif doc['type'] == 'notification' %}
+This plugin is a **notification callback**. It sends information for a playbook run to other applications, services, or systems.
+{%   endif %}
+See :ref:`callback_plugins` for more information on callback plugins.
+
+{% endif %}
 Synopsis
 --------
 

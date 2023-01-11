@@ -6,6 +6,14 @@
 Index of all Callback Plugins
 =============================
 
+.. toctree::
+   :maxdepth: 1
+   :caption: List of callback plugins by callback type
+   :glob:
+
+   callback_index_*
+
+
 ns2.col
 -------
 

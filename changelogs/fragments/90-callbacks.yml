@@ -1,0 +1,2 @@
+minor_changes:
+  - "Show callback plugin type on callback plugin pages. Also write callback indexes by callback plugin type (https://github.com/ansible-community/antsibull-docs/issues/89, https://github.com/ansible-community/antsibull-docs/pull/90)."
