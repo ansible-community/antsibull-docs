@@ -110,7 +110,7 @@ jobs:
           pip install -e .
           cd ../antsibull-docs
           pip install -e .
-          pip install ansible-core asynctest cryptography pytest "pytest-asyncio>=0.12"
+          pip install asynctest cryptography pytest "pytest-asyncio>=0.12"
         working-directory: antsibull-docs
 
       - name: Test with pytest
