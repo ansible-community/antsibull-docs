@@ -53,8 +53,8 @@ RETURN = '''
 bar:
     description:
       - Some bar.
-      - Referencing myself as RV(bar).
-      - Do not confuse with O(bar).
+      - Referencing myself as C(bar).
+      - Do not confuse with I(bar).
     returned: success
     type: str
     sample: baz

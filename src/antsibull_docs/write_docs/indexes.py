@@ -16,7 +16,6 @@ from antsibull_core.logging import log
 from antsibull_core.utils.io import write_file
 from jinja2 import Template
 
-from ..docs_parsing import AnsibleCollectionMetadata
 from ..env_variables import EnvironmentVariableInfo
 from ..jinja2.environment import doc_environment
 from ..utils.collection_name_transformer import CollectionNameTransformer
@@ -54,7 +53,6 @@ async def write_callback_type_index(callback_type: str,
 
 async def write_plugin_type_index(plugin_type: str,
                                   per_collection_plugins: t.Mapping[str, t.Mapping[str, str]],
-                                  collection_metadata: t.Mapping[str, AnsibleCollectionMetadata],
                                   template: Template,
                                   dest_filename: str,
                                   for_official_docsite: bool = False) -> None:
@@ -64,28 +62,16 @@ async def write_plugin_type_index(plugin_type: str,
     :arg plugin_type: The plugin type to write the index for.
     :arg per_collection_plugins: Mapping of collection_name to Mapping of plugin_name to
         short_description.
-    :arg collection_metadata: Dictionary mapping collection names to collection metadata objects.
     :arg template: A template to render the plugin index.
     :arg dest_filename: The destination filename.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
     """
-    public_per_collection_plugins = {}
-    for collection_name, plugins in per_collection_plugins.items():
-        public_plugins = {}
-        collection_meta = collection_metadata[collection_name]
-        private_plugins = collection_meta.private_plugins.get(plugin_type) or []
-        for plugin_name, plugin_data in plugins.items():
-            if plugin_name not in private_plugins:
-                public_plugins[plugin_name] = plugin_data
-        if public_plugins:
-            public_per_collection_plugins[collection_name] = public_plugins
-
     index_contents = _render_template(
         template,
         dest_filename,
         plugin_type=plugin_type,
-        per_collection_plugins=public_per_collection_plugins,
+        per_collection_plugins=per_collection_plugins,
         for_official_docsite=for_official_docsite,
     )
 
@@ -140,7 +126,6 @@ async def output_callback_indexes(plugin_info: PluginCollectionInfoT,
 
 
 async def output_plugin_indexes(plugin_info: PluginCollectionInfoT,
-                                collection_metadata: t.Mapping[str, AnsibleCollectionMetadata],
                                 dest_dir: str,
                                 collection_url: CollectionNameTransformer,
                                 collection_install: CollectionNameTransformer,
@@ -150,7 +135,6 @@ async def output_plugin_indexes(plugin_info: PluginCollectionInfoT,
 
     :arg plugin_info: Mapping of plugin_type to Mapping of collection_name to Mapping of
         plugin_name to short_description.
-    :arg collection_metadata: Dictionary mapping collection names to collection metadata objects.
     :arg dest_dir: The directory to place the documentation in.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
@@ -179,8 +163,8 @@ async def output_plugin_indexes(plugin_info: PluginCollectionInfoT,
             filename = os.path.join(collection_toplevel, f'index_{plugin_type}.rst')
             writers.append(await pool.spawn(
                 write_plugin_type_index(
-                    plugin_type, per_collection_data, collection_metadata, plugin_list_tmpl,
-                    filename, for_official_docsite=for_official_docsite)))
+                    plugin_type, per_collection_data, plugin_list_tmpl, filename,
+                    for_official_docsite=for_official_docsite)))
 
         await asyncio.gather(*writers)
 

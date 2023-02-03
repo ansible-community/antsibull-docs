@@ -142,9 +142,7 @@ Parameters
 
       A bar.
 
-      Independent from \ :ansopt:`ns2.col.foo#module:foo`\ .
-
-      Do not confuse with \ :ansretval:`ns2.col.foo#module:bar`\ .
+      Independent from \ :emphasis:`foo`\ .
 
 
       .. raw:: html
@@ -253,7 +251,7 @@ Parameters
 
       Whatever.
 
-      Also required when \ :ansopt:`ns2.col.foo#module:subfoo`\  is specified when \ :ansopt:`ns2.col.foo#module:foo=bar`\  or \ :ansval:`baz`\ .
+      Also required when \ :emphasis:`subfoo`\  is specified when \ :emphasis:`foo=bar`\  or \ :literal:`baz`\ .
 
 
       .. raw:: html
@@ -533,10 +531,6 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         <div class="ansible-option-cell">
 
       Some bar.
-
-      Referencing myself as \ :ansretval:`ns2.col.foo#module:bar`\ .
-
-      Do not confuse with \ :ansopt:`ns2.col.foo#module:bar`\ .
 
 
       .. rst-class:: ansible-option-line

@@ -212,10 +212,28 @@ def load_meta_runtime(collection_name: str,
     return meta_runtime
 
 
-def _add_symlink_redirects(collection_name: str,
-                           collection_metadata: AnsibleCollectionMetadata,
-                           plugin_routing_out: t.Dict[str, t.Dict[str, t.Dict[str, t.Any]]]
-                           ) -> None:
+async def load_collection_routing(collection_name: str,
+                                  collection_metadata: AnsibleCollectionMetadata
+                                  ) -> t.Dict[str, t.Dict[str, t.Dict[str, t.Any]]]:
+    """
+    Load plugin routing for a collection.
+    """
+    meta_runtime = load_meta_runtime(collection_name, collection_metadata)
+    plugin_routing_out: t.Dict[str, t.Dict[str, t.Dict[str, t.Any]]] = {}
+    plugin_routing_in = meta_runtime.get('plugin_routing') or {}
+    for plugin_type in DOCUMENTABLE_PLUGINS:
+        plugin_type_id = 'modules' if plugin_type == 'module' else plugin_type
+        plugin_type_routing = plugin_routing_in.get(plugin_type_id) or {}
+        plugin_routing_out[plugin_type] = {
+            f'{collection_name}.{plugin_name}': process_dates(plugin_record)
+            for plugin_name, plugin_record in plugin_type_routing.items()
+        }
+
+    if collection_name == 'ansible.builtin':
+        # ansible-core has a special directory structure we currently do not want
+        # (or need) to handle
+        return plugin_routing_out
+
     for plugin_type in DOCUMENTABLE_PLUGINS:
         directory_name = 'modules' if plugin_type == 'module' else plugin_type
         directory_path = os.path.join(collection_metadata.path, 'plugins', directory_name)
@@ -229,37 +247,6 @@ def _add_symlink_redirects(collection_name: str,
                 plugin_type_routing[redirect_name]['redirect'] = redirect_dst
             if plugin_type_routing[redirect_name]['redirect'] == redirect_dst:
                 plugin_type_routing[redirect_name]['redirect_is_symlink'] = True
-
-
-async def load_collection_routing(collection_name: str,
-                                  collection_metadata: AnsibleCollectionMetadata
-                                  ) -> t.Dict[str, t.Dict[str, t.Dict[str, t.Any]]]:
-    """
-    Load plugin routing for a collection, and populate the private plugins lists
-    in collection metadata.
-    """
-    meta_runtime = load_meta_runtime(collection_name, collection_metadata)
-    plugin_routing_out: t.Dict[str, t.Dict[str, t.Dict[str, t.Any]]] = {}
-    plugin_routing_in = meta_runtime.get('plugin_routing') or {}
-    private_plugins: t.Dict[str, t.List[str]] = {}
-    collection_metadata.private_plugins = private_plugins
-    for plugin_type in DOCUMENTABLE_PLUGINS:
-        plugin_type_id = 'modules' if plugin_type == 'module' else plugin_type
-        plugin_type_routing = plugin_routing_in.get(plugin_type_id) or {}
-        plugin_routing_out[plugin_type] = {}
-        private_plugins[plugin_type] = []
-        for plugin_name, plugin_record in plugin_type_routing.items():
-            fqcn = f'{collection_name}.{plugin_name}'
-            plugin_routing_out[plugin_type][fqcn] = process_dates(plugin_record)
-            if plugin_record.get('private', False):
-                private_plugins[plugin_type].append(plugin_name)
-
-    if collection_name == 'ansible.builtin':
-        # ansible-core has a special directory structure we currently do not want
-        # (or need) to handle
-        return plugin_routing_out
-
-    _add_symlink_redirects(collection_name, collection_metadata, plugin_routing_out)
 
     if collection_name in COLLECTIONS_WITH_FLATMAPPING:
         remove_flatmapping_artifacts(plugin_routing_out)

@@ -69,17 +69,14 @@ class AnsibleCollectionMetadata:
     path: str
     version: t.Optional[str]
     requires_ansible: t.Optional[str]
-    private_plugins: t.Mapping[str, t.List[str]]  # mapping plugin_type to FQCNs
 
     def __init__(self,
                  path: str,
                  version: t.Optional[str] = None,
-                 requires_ansible: t.Optional[str] = None,
-                 private_plugins: t.Optional[t.Mapping[str, t.List[str]]] = None):
+                 requires_ansible: t.Optional[str] = None):
         self.path = path
         self.version = version
         self.requires_ansible = requires_ansible
-        self.private_plugins = private_plugins or {}
 
     def __repr__(self):
         return f'AnsibleCollectionMetadata({repr(self.path)}, {repr(self.version)})'

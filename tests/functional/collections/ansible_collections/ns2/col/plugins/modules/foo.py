@@ -27,8 +27,7 @@ options:
     bar:
         description:
           - A bar.
-          - Independent from O(foo).
-          - Do not confuse with RV(bar).
+          - Independent from I(foo).
         type: list
         elements: int
         aliases:
@@ -42,7 +41,7 @@ options:
                 description:
                     - A sub foo.
                     - Whatever.
-                    - Also required when O(subfoo) is specified when O(foo=bar) or V(baz).
+                    - Also required when I(subfoo) is specified when I(foo=bar) or C(baz).
                 type: str
                 required: true
 
@@ -87,10 +86,7 @@ EXAMPLES = '''
 
 RETURN = '''
 bar:
-    description:
-      - Some bar.
-      - Referencing myself as RV(bar).
-      - Do not confuse with O(bar).
+    description: Some bar.
     returned: success
     type: str
     sample: baz

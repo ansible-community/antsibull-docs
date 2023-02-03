@@ -443,7 +443,7 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
                                                         breadcrumbs=breadcrumbs,
                                                         for_official_docsite=for_official_docsite))
         flog.notice('Finished writing collection namespace index')
-        asyncio_run(output_plugin_indexes(plugin_contents, collection_metadata, dest_dir,
+        asyncio_run(output_plugin_indexes(plugin_contents, dest_dir,
                                           collection_url=collection_url,
                                           collection_install=collection_install,
                                           for_official_docsite=for_official_docsite))

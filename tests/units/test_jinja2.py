@@ -34,11 +34,7 @@ RST_IFY_DATA = {
 
 @pytest.mark.parametrize('text, expected', RST_IFY_DATA.items())
 def test_rst_ify(text, expected):
-    context = {
-        'plugin_name': 'foo.bar.baz',
-        'plugin_type': 'module',
-    }
-    assert rst_ify(context, text) == expected
+    assert rst_ify(text) == expected
 
 
 RST_ESCAPE_DATA = {

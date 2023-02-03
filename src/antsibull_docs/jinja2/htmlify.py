@@ -12,11 +12,7 @@ from html import escape as html_escape
 from urllib.parse import quote
 
 from antsibull_core.logging import log
-from jinja2.runtime import Context
-from jinja2.utils import pass_context
 
-from ..semantic_helper import parse_option, parse_return_value
-from .filters import extract_plugin_data
 from .parser import Command, CommandSet, convert_text
 
 mlog = log.fields(mod=__name__)
@@ -37,13 +33,9 @@ def _create_error(text: str, error: str) -> str:
 
 
 class _Context:
-    j2_context: Context
     counts: t.Dict[str, int]
-    plugin_fqcn: t.Optional[str]
-    plugin_type: t.Optional[str]
 
-    def __init__(self, j2_context: Context):
-        self.j2_context = j2_context
+    def __init__(self):
         self.counts = {
             'italic': 0,
             'bold': 0,
@@ -59,7 +51,6 @@ class _Context:
             'return-value': 0,
             'ruler': 0,
         }
-        self.plugin_fqcn, self.plugin_type = extract_plugin_data(j2_context)
 
 
 # In the following, we make heavy use of escaped whitespace ("\ ") being removed from the output.
@@ -166,107 +157,6 @@ class _Const(Command):
         return f"<code class='docutils literal notranslate'>{html_escape(parameters[0])}</code>"
 
 
-class _OptionName(Command):
-    command = 'O'
-    parameter_count = 1
-    escaped_content = True
-
-    def handle(self, parameters: t.List[str], context: t.Any) -> str:
-        context.counts['option-name'] += 1
-        if context.plugin_fqcn is None or context.plugin_type is None:
-            raise Exception('The markup O(...) cannot be used outside a plugin or role')
-        text = parameters[0]
-        try:
-            plugin_fqcn, plugin_type, option_link, option, value = parse_option(
-                text, context.plugin_fqcn, context.plugin_type, require_plugin=False)
-        except ValueError as exc:
-            return _create_error(f'O({text})', str(exc))
-        if value is None:
-            cls = 'ansible-option'
-            text = f'{option}'
-            strong_start = '<strong>'
-            strong_end = '</strong>'
-        else:
-            cls = 'ansible-option-value'
-            text = f'{option}={value}'
-            strong_start = ''
-            strong_end = ''
-        if plugin_fqcn and plugin_type and plugin_fqcn.count('.') >= 2:
-            # TODO: handle role arguments (entrypoint!)
-            namespace, name, plugin = plugin_fqcn.split('.', 2)
-            url = f'../../{namespace}/{name}/{plugin}_{plugin_type}.html'
-            fragment = f'parameter-{quote(option_link.replace(".", "/"))}'
-            link_start = (
-                f'<a class="reference internal" href="{url}#{fragment}">'
-                '<span class="std std-ref"><span class="pre">'
-            )
-            link_end = '</span></span></a>'
-        else:
-            link_start = ''
-            link_end = ''
-        return (
-            f'<code class="{cls} literal notranslate">'
-            f'{strong_start}{link_start}{text}{link_end}{strong_end}</code>'
-        )
-
-
-class _OptionValue(Command):
-    command = 'V'
-    parameter_count = 1
-    escaped_content = True
-
-    def handle(self, parameters: t.List[str], context: t.Any) -> str:
-        context.counts['option-value'] += 1
-        text = parameters[0]
-        return f'<code class="ansible-value literal notranslate">{html_escape(text)}</code>'
-
-
-class _EnvVariable(Command):
-    command = 'E'
-    parameter_count = 1
-    escaped_content = True
-
-    def handle(self, parameters: t.List[str], context: t.Any) -> str:
-        context.counts['environment-var'] += 1
-        text = parameters[0]
-        return f'<code class="xref std std-envvar literal notranslate">{html_escape(text)}</code>'
-
-
-class _RetValue(Command):
-    command = 'RV'
-    parameter_count = 1
-    escaped_content = True
-
-    def handle(self, parameters: t.List[str], context: t.Any) -> str:
-        context.counts['return-value'] += 1
-        if context.plugin_fqcn is None or context.plugin_type is None:
-            raise Exception('The markup RV(...) cannot be used outside a plugin or role')
-        text = parameters[0]
-        try:
-            plugin_fqcn, plugin_type, rv_link, rv, value = parse_return_value(
-                text, context.plugin_fqcn, context.plugin_type, require_plugin=False)
-        except ValueError as exc:
-            return _create_error(f'RV({text})', str(exc))
-        cls = 'ansible-return-value'
-        if value is None:
-            text = f'{rv}'
-        else:
-            text = f'{rv}={value}'
-        if plugin_fqcn and plugin_type and plugin_fqcn.count('.') >= 2:
-            namespace, name, plugin = plugin_fqcn.split('.', 2)
-            url = f'../../{namespace}/{name}/{plugin}_{plugin_type}.html'
-            fragment = f'return-{quote(rv_link.replace(".", "/"))}'
-            link_start = (
-                f'<a class="reference internal" href="{url}#{fragment}">'
-                '<span class="std std-ref"><span class="pre">'
-            )
-            link_end = '</span></span></a>'
-        else:
-            link_start = ''
-            link_end = ''
-        return f'<code class="{cls} literal notranslate">{link_start}{text}{link_end}</code>'
-
-
 class _HorizontalLine(Command):
     command = 'HORIZONTALLINE'
     parameter_count = 0
@@ -286,21 +176,16 @@ _COMMAND_SET = CommandSet([
     _Link(),
     _Ref(),
     _Const(),
-    _OptionName(),
-    _OptionValue(),
-    _EnvVariable(),
-    _RetValue(),
     _HorizontalLine(),
 ])
 
 
-@pass_context
-def html_ify(context: Context, text: str) -> str:
+def html_ify(text: str) -> str:
     ''' convert symbols like I(this is in italics) to valid HTML '''
     flog = mlog.fields(func='html_ify')
     flog.fields(text=text).debug('Enter')
 
-    our_context = _Context(context)
+    our_context = _Context()
 
     try:
         text = convert_text(text, _COMMAND_SET, html_escape, our_context)

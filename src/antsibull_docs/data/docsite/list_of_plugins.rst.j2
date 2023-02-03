@@ -37,6 +37,4 @@ Index of all @{ plugin_type | capitalize }@ Plugins
 * :ref:`@{ collection_name }@.@{ plugin_name }@ <ansible_collections.@{ collection_name }@.@{ plugin_name }@_@{ plugin_type }@>` -- @{ plugin_desc | rst_ify }@
 {%   endfor %}
 
-{% else %}
-No public {% if plugin_type == 'module' %}module{% elif plugin_type == 'role' %}role{% else %}@{ plugin_type }@ plugin{% endif %} found.
 {% endfor %}

@@ -67,8 +67,8 @@ DOCUMENTATION = """
         bar:
             description:
                 - Bar. B(BAR!)
-                - Totally unrelated to O(become_user). Even with O(become_user=foo).
-                - Might not be compatible when O(become_user) is V(bar), though.
+                - Totally unrelated to I(become_user). Even with I(become_user=foo).
+                - Might not be compatible when I(become_user) is C(bar), though.
             type: str
             version_added: 1.2.0
             deprecated:

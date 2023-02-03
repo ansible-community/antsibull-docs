@@ -92,22 +92,11 @@ async def write_plugin_lists(collection_name: str,
                 'Cannot parse required_ansible specifier set for {collection_name}',
                 collection_name=collection_name,
             )
-
-    public_plugin_maps: t.Dict[str, t.Mapping[str, str]] = {}
-    for plugin_type, plugin_data in plugin_maps.items():
-        private_plugins = collection_meta.private_plugins.get(plugin_type) or []
-        public_plugin_data = {}
-        for plugin_name, plugin_info in plugin_data.items():
-            if plugin_name not in private_plugins:
-                public_plugin_data[plugin_name] = plugin_info
-        if public_plugin_data:
-            public_plugin_maps[plugin_type] = public_plugin_data
-
     index_contents = _render_template(
         template,
         dest_dir,
         collection_name=collection_name,
-        plugin_maps=public_plugin_maps,
+        plugin_maps=plugin_maps,
         collection_version=collection_meta.version,
         requires_ansible=requires_ansible,
         link_data=link_data,
