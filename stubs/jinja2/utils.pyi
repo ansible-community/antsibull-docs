@@ -1,18 +1,11 @@
----
 # Copyright (c) Ansible Project
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-requires_ansible: '>=2.11.0,!=2.12.2,<2.99.0'
+import typing as t
 
-action_groups:
-  foo_group:
-    - foo
-    - foo2
-  bar_group:
-    - foo2
+F = t.TypeVar("F", bound=t.Callable[..., t.Any])
 
-plugin_routing:
-  lookup:
-    bar:
-      private: true
+def pass_context(f: F) -> F: ...
+def pass_eval_context(f: F) -> F: ...
+def pass_environment(f: F) -> F: ...

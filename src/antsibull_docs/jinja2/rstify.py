@@ -11,7 +11,11 @@ import typing as t
 from urllib.parse import quote
 
 from antsibull_core.logging import log
+from jinja2.runtime import Context
+from jinja2.utils import pass_context
 
+from ..semantic_helper import augment_plugin_name_type
+from .filters import extract_plugin_data
 from .parser import Command, CommandSet, convert_text
 
 mlog = log.fields(mod=__name__)
@@ -61,9 +65,13 @@ def _create_error(text: str, error: str) -> str:
 
 
 class _Context:
+    j2_context: Context
     counts: t.Dict[str, int]
+    plugin_fqcn: t.Optional[str]
+    plugin_type: t.Optional[str]
 
-    def __init__(self):
+    def __init__(self, j2_context: Context):
+        self.j2_context = j2_context
         self.counts = {
             'italic': 0,
             'bold': 0,
@@ -79,6 +87,7 @@ class _Context:
             'return-value': 0,
             'ruler': 0,
         }
+        self.plugin_fqcn, self.plugin_type = extract_plugin_data(j2_context)
 
 
 # In the following, we make heavy use of escaped whitespace ("\ ") being removed from the output.
@@ -180,6 +189,52 @@ class _Const(Command):
         return f"\\ :literal:`{rst_escape(parameters[0], escape_ending_whitespace=True)}`\\ "
 
 
+class _OptionName(Command):
+    command = 'O'
+    parameter_count = 1
+    escaped_content = True
+
+    def handle(self, parameters: t.List[str], context: t.Any) -> str:
+        context.counts['option-name'] += 1
+        if context.plugin_fqcn is None or context.plugin_type is None:
+            raise Exception('The markup O(...) cannot be used outside a plugin or role')
+        text = augment_plugin_name_type(parameters[0], context.plugin_fqcn, context.plugin_type)
+        return f"\\ :ansopt:`{rst_escape(text, escape_ending_whitespace=True)}`\\ "
+
+
+class _OptionValue(Command):
+    command = 'V'
+    parameter_count = 1
+    escaped_content = True
+
+    def handle(self, parameters: t.List[str], context: t.Any) -> str:
+        context.counts['option-value'] += 1
+        return f"\\ :ansval:`{rst_escape(parameters[0], escape_ending_whitespace=True)}`\\ "
+
+
+class _EnvVariable(Command):
+    command = 'E'
+    parameter_count = 1
+    escaped_content = True
+
+    def handle(self, parameters: t.List[str], context: t.Any) -> str:
+        context.counts['environment-var'] += 1
+        return f"\\ :envvar:`{rst_escape(parameters[0], escape_ending_whitespace=True)}`\\ "
+
+
+class _RetValue(Command):
+    command = 'RV'
+    parameter_count = 1
+    escaped_content = True
+
+    def handle(self, parameters: t.List[str], context: t.Any) -> str:
+        context.counts['return-value'] += 1
+        if context.plugin_fqcn is None or context.plugin_type is None:
+            raise Exception('The markup RV(...) cannot be used outside a plugin or role')
+        text = augment_plugin_name_type(parameters[0], context.plugin_fqcn, context.plugin_type)
+        return f"\\ :ansretval:`{rst_escape(text, escape_ending_whitespace=True)}`\\ "
+
+
 class _HorizontalLine(Command):
     command = 'HORIZONTALLINE'
     parameter_count = 0
@@ -199,16 +254,21 @@ _COMMAND_SET = CommandSet([
     _Link(),
     _Ref(),
     _Const(),
+    _OptionName(),
+    _OptionValue(),
+    _EnvVariable(),
+    _RetValue(),
     _HorizontalLine(),
 ])
 
 
-def rst_ify(text: str) -> str:
+@pass_context
+def rst_ify(context: Context, text: str) -> str:
     ''' convert symbols like I(this is in italics) to valid restructured text '''
     flog = mlog.fields(func='rst_ify')
     flog.fields(text=text).debug('Enter')
 
-    our_context = _Context()
+    our_context = _Context(context)
 
     try:
         text = convert_text(text, _COMMAND_SET, rst_escape, our_context)

@@ -323,8 +323,8 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
     </div></td>
     <td><div class="ansible-option-cell">
       <p>Some bar.</p>
-      <p>Referencing myself as <code class='docutils literal notranslate'>bar</code>.</p>
-      <p>Do not confuse with <em>bar</em>.</p>
+      <p>Referencing myself as <code class="ansible-return-value literal notranslate"><a class="reference internal" href="../../ns2/col/foo2_module.html#return-bar"><span class="std std-ref"><span class="pre">bar</span></span></a></code>.</p>
+      <p>Do not confuse with <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="../../ns2/col/foo2_module.html#parameter-bar"><span class="std std-ref"><span class="pre">bar</span></span></a></strong></code>.</p>
       <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> success</p>
       <p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <code class="ansible-value literal notranslate ansible-option-sample">&#34;baz&#34;</code></p>
     </div></td>

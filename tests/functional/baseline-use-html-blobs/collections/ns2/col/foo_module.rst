@@ -121,7 +121,8 @@ Parameters
     </div></td>
     <td><div class="ansible-option-cell">
       <p>A bar.</p>
-      <p>Independent from <em>foo</em>.</p>
+      <p>Independent from <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="../../ns2/col/foo_module.html#parameter-foo"><span class="std std-ref"><span class="pre">foo</span></span></a></strong></code>.</p>
+      <p>Do not confuse with <code class="ansible-return-value literal notranslate"><a class="reference internal" href="../../ns2/col/foo_module.html#return-bar"><span class="std std-ref"><span class="pre">bar</span></span></a></code>.</p>
     </div></td>
   </tr>
   <tr class="row-odd">
@@ -165,7 +166,7 @@ Parameters
     <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
       <p>A sub foo.</p>
       <p>Whatever.</p>
-      <p>Also required when <em>subfoo</em> is specified when <em>foo=bar</em> or <code class='docutils literal notranslate'>baz</code>.</p>
+      <p>Also required when <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="../../ns2/col/foo_module.html#parameter-subfoo"><span class="std std-ref"><span class="pre">subfoo</span></span></a></strong></code> is specified when <code class="ansible-option-value literal notranslate"><a class="reference internal" href="../../ns2/col/foo_module.html#parameter-foo"><span class="std std-ref"><span class="pre">foo=bar</span></span></a></code> or <code class="ansible-value literal notranslate">baz</code>.</p>
     </div></td>
   </tr>
 
@@ -428,6 +429,8 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
     </div></td>
     <td><div class="ansible-option-cell">
       <p>Some bar.</p>
+      <p>Referencing myself as <code class="ansible-return-value literal notranslate"><a class="reference internal" href="../../ns2/col/foo_module.html#return-bar"><span class="std std-ref"><span class="pre">bar</span></span></a></code>.</p>
+      <p>Do not confuse with <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="../../ns2/col/foo_module.html#parameter-bar"><span class="std std-ref"><span class="pre">bar</span></span></a></strong></code>.</p>
       <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> success</p>
       <p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <code class="ansible-value literal notranslate ansible-option-sample">&#34;baz&#34;</code></p>
     </div></td>

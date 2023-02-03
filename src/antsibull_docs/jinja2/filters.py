@@ -12,11 +12,22 @@ import typing as t
 from collections.abc import Mapping, Sequence
 
 from antsibull_core.logging import log
-from jinja2.runtime import Undefined
+from jinja2.runtime import Context, Undefined
 
 mlog = log.fields(mod=__name__)
 
 _EMAIL_ADDRESS = re.compile(r"(?:<{mail}>|\({mail}\)|{mail})".format(mail=r"[\w.+-]+@[\w.-]+\.\w+"))
+
+
+def extract_plugin_data(context: Context) -> t.Tuple[t.Optional[str], t.Optional[str]]:
+    plugin_fqcn = context.get('plugin_name')
+    plugin_type = context.get('plugin_type')
+    if plugin_fqcn is None or plugin_type is None:
+        return None, None
+    # if plugin_type == 'role':
+    #     entry_point = context.get('entry_point', 'main')
+    #     # FIXME: use entry_point
+    return plugin_fqcn, plugin_type
 
 
 def documented_type(text) -> str:
