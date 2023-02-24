@@ -42,6 +42,14 @@ jinja2 = "*"
 packaging = "*"
 rstcheck = ">= 3.0.0, < 7.0.0"
 sphinx = "*"
+# sh v2 has breaking changes.
+# https://github.com/ansible-community/antsibull-core/issues/34
+sh = ">= 1.0.0 < 2.0.0"
+pydantic = "*"
+semantic_version = "*"
+aiohttp = ">= 3.0.0"
+twiggy = "*"
+PyYAML = "*"
 
 [tool.poetry.dev-dependencies]
 ansible-core = {version = ">= 2.14.0b1", python = ">=3.9"}

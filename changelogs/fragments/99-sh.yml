@@ -1,0 +1,2 @@
+bugfixes:
+  - "Explicitly declare the ``sh`` dependency and limit it to before 2.0.0. Also explicitly declare the dependencies on ``pydantic``, ``semantic_version``, ``aiohttp``, ``twiggy``, and ``PyYAML`` (https://github.com/ansible-community/antsibull-docs/pull/99)."
