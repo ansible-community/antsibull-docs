@@ -233,6 +233,7 @@ This describes the input of the test, the value before ``is @{plugin_name}@`` or
 {% endif %}
 
 {% if doc['positional'] and plugin_type in ['lookup', 'filter', 'test'] and doc['positional'] != ['_input'] %}
+{%   set has_positional_parameters = true %}
 {%   set options_to_skip = options_to_skip + doc['positional'] %}
 
 .. Positional
@@ -257,8 +258,9 @@ This describes positional parameters of the test. These are the values ``positio
 .. Options
 
 {% if doc['options'] | remove_options_from_list(options_to_skip) -%}
+{%   set has_keyword_parameters = true -%}
 
-{%   if plugin_type in ['filter', 'test'] %}
+{%   if plugin_type in ['lookup', 'filter', 'test'] %}
 Keyword parameters
 ------------------
 {%   else %}
@@ -291,14 +293,19 @@ Attributes
 
 .. Notes
 
-{% if doc['notes'] -%}
+{% if doc['notes'] or (has_positional_parameters and has_keyword_parameters) -%}
 Notes
 -----
 
 .. note::
-{%   for note in doc['notes'] %}
+{%   if has_positional_parameters and has_keyword_parameters %}
+   - When keyword and positional parameters are used together, positional parameters must be listed before keyword parameters: ``input | @{plugin_name}@(positional1, positional2, key1=value1, key2=value2)``.
+{%   endif %}
+{%   if doc['notes'] %}
+{%     for note in doc['notes'] %}
    - @{ note | rst_ify | indent(width=5) }@
-{%   endfor %}
+{%     endfor %}
+{%   endif %}
 {% endif %}
 
 .. Seealso
