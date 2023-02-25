@@ -3,6 +3,8 @@
         "collection": "felixfontein.acme",
         "entry_points": {
             "main": {
+                "attributes": {
+                },
                 "author": [
                     "Felix Fontein (@felixfontein)"
                 ],

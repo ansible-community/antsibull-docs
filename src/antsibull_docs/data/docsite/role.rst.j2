@@ -4,6 +4,7 @@
   SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
+{% from 'macros/attributes.rst.j2' import in_rst as attributes_rst with context %}
 {% from 'macros/parameters.rst.j2' import in_rst as parameters_rst with context %}
 {% from 'macros/parameters.rst.j2' import in_html as parameters_html with context %}
 {% from 'macros/version_added.rst.j2' import version_added_rst %}
@@ -14,6 +15,12 @@
 :github_url: @{ edit_on_github_url }@?description=%23%23%23%23%23%20SUMMARY%0A%3C!---%20Your%20description%20here%20--%3E%0A%0A%0A%23%23%23%23%23%20ISSUE%20TYPE%0A-%20Docs%20Pull%20Request%0A%0A%2Blabel:%20docsite_pr
 {% endif %}
 
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
 .. role:: ansible-option-type
 .. role:: ansible-option-elements
 .. role:: ansible-option-required
@@ -146,6 +153,16 @@ Parameters
 {%     else %}
 @{       parameters_rst(ep_doc['options'] | dictsort, suboption_key='options', parameter_html_prefix=entry_point ~ '--', parameter_rst_prefix=entry_point ~ '__') }@
 {%     endif %}
+{%   endif %}
+
+.. Attributes
+
+{%   if ep_doc['attributes'] %}
+
+Attributes
+----------
+
+@{     attributes_rst(ep_doc['attributes']) }@
 {%   endif %}
 
 .. Notes
