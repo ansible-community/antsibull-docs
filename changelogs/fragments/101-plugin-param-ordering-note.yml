@@ -1,0 +1,4 @@
+minor_changes:
+  - Add a note about the ordering of positional and named parameter to the plugin page.
+bugfix:
+  - Make sure the positional and keyword parameter usage notes are also properly generated for lookup plugins.
