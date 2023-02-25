@@ -1,0 +1,28 @@
+---
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: Ansible Project
+
+argument_specs:
+  main:
+    short_description: Foo role
+    version_added: 0.2.0
+    description:
+      - This is the foo role.
+    author:
+      - Felix Fontein (@felixfontein)
+    options:
+      foo_param_1:
+        type: str
+        description:
+          - A string parameter
+      foo_param_2:
+        type: int
+        description: An integer parameter with a default.
+        default: 13
+    attributes:
+      check_mode:
+        description: Can run in check_mode and return changed status prediction without modifying target
+        support: full
+    seealso:
+      - module: ns2.col.foo

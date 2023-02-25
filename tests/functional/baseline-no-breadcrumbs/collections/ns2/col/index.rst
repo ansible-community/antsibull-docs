@@ -151,6 +151,13 @@ Vars Plugins
 * :ref:`foo vars <ansible_collections.ns2.col.foo_vars>` -- Load foo
 
 
+Role Index
+----------
+
+These are the roles in the ns2.col collection:
+
+* :ref:`foo role <ansible_collections.ns2.col.foo_role>` -- Foo role
+
 
 .. seealso::
 
