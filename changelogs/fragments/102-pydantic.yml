@@ -1,0 +1,2 @@
+bugfixes:
+  - "Restrict the ``pydantic`` dependency to major version 1 (https://github.com/ansible-community/antsibull-docs/pull/102)."
