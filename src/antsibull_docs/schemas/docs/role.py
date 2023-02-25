@@ -16,6 +16,9 @@ import pydantic as p
 
 from .base import (
     COLLECTION_NAME_F,
+    AttributeSchema,
+    AttributeSchemaActionGroup,
+    AttributeSchemaPlatform,
     BaseModel,
     DeprecationSchema,
     OptionsSchema,
@@ -55,6 +58,9 @@ class RoleEntrypointSchema(BaseModel):
     seealso: t.List[t.Union[SeeAlsoModSchema, SeeAlsoRefSchema, SeeAlsoLinkSchema]] = []
     todo: t.List[str] = []
     version_added: str = 'historical'
+    attributes: t.Dict[str, t.Union[AttributeSchema,
+                                    AttributeSchemaActionGroup,
+                                    AttributeSchemaPlatform]] = {}
 
     options: t.Dict[str, RoleOptionsSchema] = {}
 

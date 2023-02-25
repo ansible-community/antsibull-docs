@@ -1,0 +1,2 @@
+minor_changes:
+  - "Update schema for roles argument spec to allow specifying attributes on the entrypoint level. These are now also rendered when present (https://github.com/ansible-community/antsibull-docs/pull/103)."
