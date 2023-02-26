@@ -1,4 +1,2 @@
 minor_changes:
-  - Add a note about the ordering of positional and named parameter to the plugin page.
-bugfix:
-  - Make sure the positional and keyword parameter usage notes are also properly generated for lookup plugins.
+  - Add a note about the ordering of positional and named parameter to the plugin page (https://github.com/ansible-community/antsibull-docs/pull/101).
