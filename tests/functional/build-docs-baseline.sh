@@ -19,7 +19,7 @@ make_baseline() {
         set -e
     )
 
-    rstcheck --report-level warning --ignore-roles ansible-option-default,ansible-rv-sample-value -r "${DEST}" 2>&1 | (
+    rstcheck --report-level warning --ignore-roles ansible-option-default,ansible-rv-sample-value,ansopt,ansval,ansretval -r "${DEST}" 2>&1 | (
         set +e
         grep -v "CRITICAL:rstcheck_core.checker:An \`AttributeError\` error occured."
         set -e

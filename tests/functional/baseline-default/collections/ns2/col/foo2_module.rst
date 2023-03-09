@@ -341,9 +341,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       Some bar.
 
-      Referencing myself as \ :literal:`bar`\ .
+      Referencing myself as \ :ansretval:`ns2.col.foo2#module:bar`\ .
 
-      Do not confuse with \ :emphasis:`bar`\ .
+      Do not confuse with \ :ansopt:`ns2.col.foo2#module:bar`\ .
 
 
       .. rst-class:: ansible-option-line
