@@ -299,7 +299,7 @@ _COMMAND_SET = CommandSet([
 
 @pass_context
 def html_ify(context: Context, text: str,
-             /,
+             *,
              plugin_fqcn: t.Optional[str] = None,
              plugin_type: t.Optional[str] = None) -> str:
     ''' convert symbols like I(this is in italics) to valid HTML '''
