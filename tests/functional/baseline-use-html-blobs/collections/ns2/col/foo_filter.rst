@@ -37,8 +37,8 @@
 
 .. Title
 
-ns2.col.foo filter -- The foo filter
-++++++++++++++++++++++++++++++++++++
+ns2.col.foo filter -- The foo filter \ :ansopt:`ns2.col.foo#filter:bar`\ 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -136,6 +136,20 @@ This describes keyword parameters of the filter. These are the values ``key1=val
   </thead>
   <tbody>
   <tr class="row-even">
+    <td><div class="ansible-option-cell">
+      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
+      <p class="ansible-option-title"><strong>bar</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <p class="ansible-option-type-line">
+        <span class="ansible-option-type">string</span>
+      </p>
+
+    </div></td>
+    <td><div class="ansible-option-cell">
+      <p>Some bar.</p>
+    </div></td>
+  </tr>
+  <tr class="row-odd">
     <td><div class="ansible-option-cell">
       <div class="ansibleOptionAnchor" id="parameter-foo"></div>
       <p class="ansible-option-title"><strong>foo</strong></p>

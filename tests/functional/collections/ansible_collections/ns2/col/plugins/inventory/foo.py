@@ -9,9 +9,13 @@ __metaclass__ = type
 DOCUMENTATION = '''
     name: foo
     version_added: 0.5.0
-    short_description: The foo inventory
+    short_description: The foo inventory O(bar)
     description:
         - Loads inventory from foo.
+    options:
+        bar:
+            description: Foo bar.
+            type: string
 '''
 
 EXAMPLES = '''

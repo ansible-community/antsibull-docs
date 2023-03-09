@@ -37,8 +37,8 @@
 
 .. Title
 
-ns2.col.foo module -- Do some foo
-+++++++++++++++++++++++++++++++++
+ns2.col.foo module -- Do some foo \ :ansopt:`ns2.col.foo#module:bar`\ 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -463,7 +463,7 @@ See Also
    \ :ref:`ns2.col.foo3 <ansible_collections.ns2.col.foo3_module>`\ 
        The official documentation on the **ns2.col.foo3** module.
    \ :ref:`ns2.col.foo <ansible_collections.ns2.col.foo_lookup>`\  lookup plugin
-       Look up some foo.
+       Look up some foo \ :ansopt:`ns2.col.foo#module:bar`\ .
 
 .. Examples
 

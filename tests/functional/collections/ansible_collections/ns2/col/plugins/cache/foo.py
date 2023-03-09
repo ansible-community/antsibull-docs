@@ -8,7 +8,7 @@ __metaclass__ = type
 
 DOCUMENTATION = '''
     name: foo
-    short_description: Foo files
+    short_description: Foo files O(bar)
     description:
         - Cache foo files.
     version_added: "1.9.0"
@@ -24,6 +24,9 @@ DOCUMENTATION = '''
           - key: fact_caching_connection
             section: defaults
         type: path
+      bar:
+        description: Nothing.
+        type: str
 '''
 
 from ansible.plugins.cache import BaseFileCacheModule

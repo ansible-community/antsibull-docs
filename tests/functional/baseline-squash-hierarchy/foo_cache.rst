@@ -37,8 +37,8 @@
 
 .. Title
 
-ns2.col.foo cache -- Foo files
-++++++++++++++++++++++++++++++
+ns2.col.foo cache -- Foo files \ :ansopt:`ns2.col.foo#cache:bar`\ 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -142,6 +142,43 @@ Parameters
 
 
       - Environment variable: :envvar:`ANSIBLE\_CACHE\_PLUGIN\_CONNECTION`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bar"></div>
+
+      .. _ansible_collections.ns2.col.foo_cache__parameter-bar:
+
+      .. rst-class:: ansible-option-title
+
+      **bar**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Nothing.
 
 
       .. raw:: html

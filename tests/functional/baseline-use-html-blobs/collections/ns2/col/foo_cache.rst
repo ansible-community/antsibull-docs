@@ -37,8 +37,8 @@
 
 .. Title
 
-ns2.col.foo cache -- Foo files
-++++++++++++++++++++++++++++++
+ns2.col.foo cache -- Foo files \ :ansopt:`ns2.col.foo#cache:bar`\ 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -122,6 +122,20 @@ Parameters
 
       </li>
       </ul>
+    </div></td>
+  </tr>
+  <tr class="row-odd">
+    <td><div class="ansible-option-cell">
+      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
+      <p class="ansible-option-title"><strong>bar</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <p class="ansible-option-type-line">
+        <span class="ansible-option-type">string</span>
+      </p>
+
+    </div></td>
+    <td><div class="ansible-option-cell">
+      <p>Nothing.</p>
     </div></td>
   </tr>
   </tbody>

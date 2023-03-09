@@ -37,8 +37,8 @@
 
 .. Title
 
-ns2.col.foo test -- Is something a foo
-++++++++++++++++++++++++++++++++++++++
+ns2.col.foo test -- Is something a foo \ :ansopt:`ns2.col.foo#test:bar`\ 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -116,6 +116,39 @@ This describes the input of the test, the value before ``is ns2.col.foo`` or ``i
 
 
 .. Options
+
+Keyword parameters
+------------------
+
+This describes keyword parameters of the test. These are the values ``key1=value1``, ``key2=value2`` and so on in the following examples: ``input is ns2.col.foo(key1=value1, key2=value2, ...)`` and ``input is not ns2.col.foo(key1=value1, key2=value2, ...)``.
+
+.. raw:: html
+
+  <table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
+  <thead>
+  <tr class="row-odd">
+    <th class="head"><p>Parameter</p></th>
+    <th class="head"><p>Comments</p></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr class="row-even">
+    <td><div class="ansible-option-cell">
+      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
+      <p class="ansible-option-title"><strong>bar</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <p class="ansible-option-type-line">
+        <span class="ansible-option-type">string</span>
+      </p>
+
+    </div></td>
+    <td><div class="ansible-option-cell">
+      <p>Foo bar.</p>
+    </div></td>
+  </tr>
+  </tbody>
+  </table>
+
 
 
 .. Attributes

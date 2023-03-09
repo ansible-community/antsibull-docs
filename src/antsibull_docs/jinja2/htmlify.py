@@ -42,7 +42,9 @@ class _Context:
     plugin_fqcn: t.Optional[str]
     plugin_type: t.Optional[str]
 
-    def __init__(self, j2_context: Context):
+    def __init__(self, j2_context: Context,
+                 plugin_fqcn: t.Optional[str] = None,
+                 plugin_type: t.Optional[str] = None):
         self.j2_context = j2_context
         self.counts = {
             'italic': 0,
@@ -59,7 +61,8 @@ class _Context:
             'return-value': 0,
             'ruler': 0,
         }
-        self.plugin_fqcn, self.plugin_type = extract_plugin_data(j2_context)
+        self.plugin_fqcn, self.plugin_type = extract_plugin_data(
+            j2_context, plugin_fqcn=plugin_fqcn, plugin_type=plugin_type)
 
 
 # In the following, we make heavy use of escaped whitespace ("\ ") being removed from the output.
@@ -295,12 +298,19 @@ _COMMAND_SET = CommandSet([
 
 
 @pass_context
-def html_ify(context: Context, text: str) -> str:
+def html_ify(context: Context, text: str,
+             *,
+             plugin_fqcn: t.Optional[str] = None,
+             plugin_type: t.Optional[str] = None) -> str:
     ''' convert symbols like I(this is in italics) to valid HTML '''
     flog = mlog.fields(func='html_ify')
     flog.fields(text=text).debug('Enter')
 
-    our_context = _Context(context)
+    our_context = _Context(
+        context,
+        plugin_fqcn=plugin_fqcn,
+        plugin_type=plugin_type,
+    )
 
     try:
         text = convert_text(text, _COMMAND_SET, html_escape, our_context)

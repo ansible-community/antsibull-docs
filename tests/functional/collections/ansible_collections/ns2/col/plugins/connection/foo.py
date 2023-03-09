@@ -8,7 +8,7 @@ __metaclass__ = type
 
 DOCUMENTATION = '''
     name: foo
-    short_description: Foo connection
+    short_description: Foo connection O(bar)
     version_added: 1.2.0
     description:
         - This is for the C(foo) connection.
@@ -26,6 +26,9 @@ DOCUMENTATION = '''
                - name: ansible_ssh_host
                - name: delegated_vars['ansible_host']
                - name: delegated_vars['ansible_ssh_host']
+      bar:
+          description: Foo bar.
+          type: int
 '''
 
 from ansible.plugins.connection import ConnectionBase

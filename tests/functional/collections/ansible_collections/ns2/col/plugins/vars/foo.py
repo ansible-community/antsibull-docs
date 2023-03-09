@@ -9,7 +9,7 @@ __metaclass__ = type
 DOCUMENTATION = '''
     name: foo
     version_added: 0.9.0
-    short_description: Load foo
+    short_description: Load foo O(bar)
     requirements:
         - Enabled in Ansible's configuration.
     description:
@@ -29,6 +29,9 @@ DOCUMENTATION = '''
             section: defaults
         type: list
         elements: string
+      bar:
+        description: Foo bar.
+        type: string
 '''
 
 from ansible.plugins.vars import BaseVarsPlugin

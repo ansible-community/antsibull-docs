@@ -37,8 +37,8 @@
 
 .. Title
 
-ns2.col.foo shell -- Foo shell
-++++++++++++++++++++++++++++++
+ns2.col.foo shell -- Foo shell \ :ansopt:`ns2.col.foo#shell:bar`\ 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -97,6 +97,20 @@ Parameters
   </thead>
   <tbody>
   <tr class="row-even">
+    <td><div class="ansible-option-cell">
+      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
+      <p class="ansible-option-title"><strong>bar</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <p class="ansible-option-type-line">
+        <span class="ansible-option-type">string</span>
+      </p>
+
+    </div></td>
+    <td><div class="ansible-option-cell">
+      <p>Foo bar.</p>
+    </div></td>
+  </tr>
+  <tr class="row-odd">
     <td><div class="ansible-option-cell">
       <div class="ansibleOptionAnchor" id="parameter-remote_tmp"></div>
       <p class="ansible-option-title"><strong>remote_tmp</strong></p>

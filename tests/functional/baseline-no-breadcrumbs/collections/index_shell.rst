@@ -9,5 +9,5 @@ Index of all Shell Plugins
 ns2.col
 -------
 
-* :ref:`ns2.col.foo <ansible_collections.ns2.col.foo_shell>` -- Foo shell
+* :ref:`ns2.col.foo <ansible_collections.ns2.col.foo_shell>` -- Foo shell \ :ansopt:`ns2.col.foo#shell:bar`\ 
 

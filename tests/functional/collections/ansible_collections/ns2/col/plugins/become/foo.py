@@ -8,7 +8,7 @@ __metaclass__ = type
 
 DOCUMENTATION = """
     name: foo
-    short_description: Use foo
+    short_description: Use foo O(bar)
     description:
         - This become plugin uses foo.
         - This is a second paragraph.

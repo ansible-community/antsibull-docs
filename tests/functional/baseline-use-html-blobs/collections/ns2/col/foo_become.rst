@@ -37,8 +37,8 @@
 
 .. Title
 
-ns2.col.foo become -- Use foo
-+++++++++++++++++++++++++++++
+ns2.col.foo become -- Use foo \ :ansopt:`ns2.col.foo#become:bar`\ 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
