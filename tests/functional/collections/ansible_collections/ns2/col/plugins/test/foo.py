@@ -10,7 +10,7 @@ __metaclass__ = type
 DOCUMENTATION = r'''
   name: foo
   author: Nobody
-  short_description: Is something a foo
+  short_description: Is something a foo O(bar)
   description:
     - Check whether the input dictionary is a foo.
   options:
@@ -18,6 +18,9 @@ DOCUMENTATION = r'''
       description: Something to test.
       type: dictionary
       required: true
+    bar:
+      description: Foo bar.
+      type: string
 '''
 
 EXAMPLES = r'''

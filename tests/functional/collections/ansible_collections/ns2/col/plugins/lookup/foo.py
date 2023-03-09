@@ -10,7 +10,7 @@ DOCUMENTATION = """
     name: foo
     author: Felix Fontein (@felixfontein)
     version_added: "1.0.0"
-    short_description: Look up some foo
+    short_description: Look up some foo O(bar)
     description:
       - This looks up some foo.
       - Whatever that is.
@@ -20,6 +20,9 @@ DOCUMENTATION = """
         required: true
         type: list
         elements: str
+      bar:
+        description: Foo bar.
+        type: string
 """
 
 EXAMPLES = """

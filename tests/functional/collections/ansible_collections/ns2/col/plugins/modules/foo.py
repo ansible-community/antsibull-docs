@@ -15,7 +15,7 @@ author:
     - "Ansible Core Team"
     - "Someone else (@ansible)"
 version_added: "2.0.0"
-short_description: Do some foo
+short_description: Do some foo O(bar)
 description:
     - Does some foo on the remote host.
     - Whether foo is magic or not has not yet been determined.

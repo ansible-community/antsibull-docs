@@ -37,8 +37,8 @@
 
 .. Title
 
-ns2.col.foo vars -- Load foo
-++++++++++++++++++++++++++++
+ns2.col.foo vars -- Load foo \ :ansopt:`ns2.col.foo#vars:bar`\ 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -157,6 +157,43 @@ Parameters
 
 
       - Environment variable: :envvar:`ANSIBLE\_FOO\_FILENAME\_EXT`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bar"></div>
+
+      .. _ansible_collections.ns2.col.foo_vars__parameter-bar:
+
+      .. rst-class:: ansible-option-title
+
+      **bar**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Foo bar.
 
 
       .. raw:: html

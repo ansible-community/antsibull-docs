@@ -8,7 +8,7 @@ __metaclass__ = type
 
 DOCUMENTATION = '''
 name: foo
-short_description: Foo shell
+short_description: Foo shell O(bar)
 version_added: 1.0.0
 description:
   - This is for the foo shell.
@@ -27,6 +27,9 @@ options:
       - name: ansible_remote_tmp
     version_added: '2.10'
     version_added_collection: ansible.builtin
+  bar:
+    description: Foo bar.
+    type: string
 '''
 
 from ansible.plugins.shell import ShellBase

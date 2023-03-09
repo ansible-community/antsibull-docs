@@ -17,5 +17,5 @@ Index of all Callback Plugins
 ns2.col
 -------
 
-* :ref:`ns2.col.foo <ansible_collections.ns2.col.foo_callback>` -- Foo output
+* :ref:`ns2.col.foo <ansible_collections.ns2.col.foo_callback>` -- Foo output \ :ansopt:`ns2.col.foo#callback:bar`\ 
 

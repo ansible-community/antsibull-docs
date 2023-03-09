@@ -9,10 +9,14 @@ __metaclass__ = type
 DOCUMENTATION = '''
     name: foo
     type: stdout
-    short_description: Foo output
+    short_description: Foo output O(bar)
     version_added: 0.0.1
     description:
         - Absolut minimal foo output.
+    options:
+        bar:
+            description: Nothing.
+            type: string
 '''
 
 from ansible.plugins.callback import CallbackBase

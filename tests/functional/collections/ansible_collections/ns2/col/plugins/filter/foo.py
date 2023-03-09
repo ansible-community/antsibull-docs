@@ -10,7 +10,7 @@ __metaclass__ = type
 DOCUMENTATION = r'''
   name: foo
   version_added: 1.3.0
-  short_description: The foo filter
+  short_description: The foo filter O(bar)
   description:
     - Do some fooing.
   options:
@@ -23,6 +23,9 @@ DOCUMENTATION = r'''
       type: list
       elements: dictionary
       required: true
+    bar:
+      description: Some bar.
+      type: string
 '''
 
 EXAMPLES = r'''
