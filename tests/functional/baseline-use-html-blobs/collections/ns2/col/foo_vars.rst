@@ -96,7 +96,6 @@ The below requirements are needed on the local controller node that executes thi
 Parameters
 ----------
 
-
 .. raw:: html
 
   <table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">

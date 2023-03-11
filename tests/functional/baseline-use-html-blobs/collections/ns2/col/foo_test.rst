@@ -120,7 +120,8 @@ This describes the input of the test, the value before ``is ns2.col.foo`` or ``i
 Keyword parameters
 ------------------
 
-This describes keyword parameters of the test. These are the values ``key1=value1``, ``key2=value2`` and so on in the following examples: ``input is ns2.col.foo(key1=value1, key2=value2, ...)`` and ``input is not ns2.col.foo(key1=value1, key2=value2, ...)``.
+This describes keyword parameters of the test. These are the values ``key1=value1``, ``key2=value2`` and so on in the following
+examples: ``input is ns2.col.foo(key1=value1, key2=value2, ...)`` and ``input is not ns2.col.foo(key1=value1, key2=value2, ...)``
 
 .. raw:: html
 

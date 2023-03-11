@@ -137,9 +137,11 @@ Terms
 
 .. Options
 
-Parameters
-----------
+Keyword parameters
+------------------
 
+This describes keyword parameters of the lookup. These are the values ``key1=value1``, ``key2=value2`` and so on in the following
+examples: ``lookup('ns2.col.foo', key1=value1, key2=value2, ...)`` and ``query('ns2.col.foo', key1=value1, key2=value2, ...)``
 
 .. rst-class:: ansible-option-table
 
