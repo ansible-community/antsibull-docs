@@ -196,6 +196,12 @@ examples: ``lookup('ns2.col.foo', key1=value1, key2=value2, ...)`` and ``query('
 
 .. Notes
 
+Notes
+-----
+
+.. note::
+   - When keyword and positional parameters are used together, positional parameters must be listed before keyword parameters:
+     ``lookup('ns2.col.foo', term1, term2, key1=value1, key2=value2)`` and ``query('ns2.col.foo', term1, term2, key1=value1, key2=value2)``
 
 .. Seealso
 
