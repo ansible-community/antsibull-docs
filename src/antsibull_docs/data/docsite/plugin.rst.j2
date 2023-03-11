@@ -243,11 +243,13 @@ This describes the input of the test, the value before ``is @{plugin_name}@`` or
 Positional parameters
 ---------------------
 
-This describes positional parameters of the @{plugin_type}@. These are the values ``positional1``, ``positional2`` and so on in the following example:
+This describes positional parameters of the @{plugin_type}@. These are the values ``positional1``, ``positional2`` and so on in the following
 {%   if plugin_type == 'filter' %}
-``input | @{plugin_name}@(positional1, positional2, ...)``
+example: ``input | @{plugin_name}@(positional1, positional2, ...)``
 {%   elif plugin_type == 'test' %}
-``input is @{plugin_name}@(positional1, positional2, ...)`` and ``input is not @{plugin_name}@(positional1, positional2, ...)``
+examples: ``input is @{plugin_name}@(positional1, positional2, ...)`` and ``input is not @{plugin_name}@(positional1, positional2, ...)``
+{%   elif plugin_type == 'lookup' %}
+examples: ``lookup('@{plugin_name}@', positional1, positional2, ...)`` and ``query('@{plugin_name}@', positional1, positional2, ...)``
 {%   endif %}
 
 {%   if use_html_blobs %}
@@ -267,11 +269,13 @@ This describes positional parameters of the @{plugin_type}@. These are the value
 Keyword parameters
 ------------------
 
-This describes keyword parameters of the @{plugin_type}@. These are the values ``key1=value1``, ``key2=value2`` and so on in the following example:
+This describes keyword parameters of the @{plugin_type}@. These are the values ``key1=value1``, ``key2=value2`` and so on in the following
 {%     if plugin_type == 'filter' %}
-``input | @{plugin_name}@(key1=value1, key2=value2, ...)``
+example: ``input | @{plugin_name}@(key1=value1, key2=value2, ...)``
 {%     elif plugin_type == 'test' %}
-``input is @{plugin_name}@(key1=value1, key2=value2, ...)`` and ``input is not @{plugin_name}@(key1=value1, key2=value2, ...)``
+examples: ``input is @{plugin_name}@(key1=value1, key2=value2, ...)`` and ``input is not @{plugin_name}@(key1=value1, key2=value2, ...)``
+{%     elif plugin_type == 'lookup' %}
+examples: ``lookup('@{plugin_name}@', key1=value1, key2=value2, ...)`` and ``query('@{plugin_name}@', key1=value1, key2=value2, ...)``
 {%     endif %}
 {%   else %}
 Parameters
@@ -305,9 +309,11 @@ Notes
 {%   if has_positional_parameters and has_keyword_parameters %}
    - When keyword and positional parameters are used together, positional parameters must be listed before keyword parameters:
 {%     if plugin_type == 'filter' %}
-``input | @{plugin_name}@(positional1, positional2, key1=value1, key2=value2)``
+     ``input | @{plugin_name}@(positional1, positional2, key1=value1, key2=value2)``
 {%     elif plugin_type == 'test' %}
-``input is @{plugin_name}@(positional1, positional2, key1=value1, key2=value2)`` and ``input is not @{plugin_name}@(positional1, positional2, key1=value1, key2=value2)``
+     ``input is @{plugin_name}@(positional1, positional2, key1=value1, key2=value2)`` and ``input is not @{plugin_name}@(positional1, positional2, key1=value1, key2=value2)``
+{%     elif plugin_type == 'lookup' %}
+     ``lookup('@{plugin_name}@', positional1, positional2, key1=value1, key2=value2)`` and ``query('@{plugin_name}@', positional1, positional2, key1=value1, key2=value2)``
 {%     endif %}
 {%   endif %}
 {%   if doc['notes'] %}
