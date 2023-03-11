@@ -209,7 +209,7 @@ class _OptionName(Command):
             link_end = ''
         return (
             f'<code class="{cls} literal notranslate">'
-            f'{strong_start}{link_start}{text}{link_end}{strong_end}</code>'
+            f'{strong_start}{link_start}{html_escape(text)}{link_end}{strong_end}</code>'
         )
 
 
@@ -267,7 +267,10 @@ class _RetValue(Command):
         else:
             link_start = ''
             link_end = ''
-        return f'<code class="{cls} literal notranslate">{link_start}{text}{link_end}</code>'
+        return (
+            f'<code class="{cls} literal notranslate">{link_start}'
+            f'{html_escape(text)}{link_end}</code>'
+        )
 
 
 class _HorizontalLine(Command):
