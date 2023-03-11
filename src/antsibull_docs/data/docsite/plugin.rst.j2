@@ -234,7 +234,7 @@ This describes the input of the test, the value before ``is @{plugin_name}@`` or
 
 {% endif %}
 
-{% if doc['positional'] and plugin_type in ['lookup', 'filter', 'test'] and doc['positional'] != ['_input'] %}
+{% if doc['positional'] and plugin_type in ['filter', 'test'] and doc['positional'] != ['_input'] %}
 {%   set has_positional_parameters = true %}
 {%   set options_to_skip = options_to_skip + doc['positional'] %}
 
@@ -248,8 +248,6 @@ This describes positional parameters of the @{plugin_type}@. These are the value
 example: ``input | @{plugin_name}@(positional1, positional2, ...)``
 {%   elif plugin_type == 'test' %}
 examples: ``input is @{plugin_name}@(positional1, positional2, ...)`` and ``input is not @{plugin_name}@(positional1, positional2, ...)``
-{%   elif plugin_type == 'lookup' %}
-examples: ``lookup('@{plugin_name}@', positional1, positional2, ...)`` and ``query('@{plugin_name}@', positional1, positional2, ...)``
 {%   endif %}
 
 {%   if use_html_blobs %}
