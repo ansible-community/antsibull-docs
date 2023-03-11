@@ -198,6 +198,7 @@ The below requirements are needed on the local controller node that executes thi
 
 {% if doc['options']['_terms'] and plugin_type in ['lookup'] %}
 {%   set options_to_skip = options_to_skip + ['_terms'] %}
+{%   set has_positional_parameters = true %}
 
 .. Terms
 
@@ -311,7 +312,7 @@ Notes
 {%     elif plugin_type == 'test' %}
      ``input is @{plugin_name}@(positional1, positional2, key1=value1, key2=value2)`` and ``input is not @{plugin_name}@(positional1, positional2, key1=value1, key2=value2)``
 {%     elif plugin_type == 'lookup' %}
-     ``lookup('@{plugin_name}@', positional1, positional2, key1=value1, key2=value2)`` and ``query('@{plugin_name}@', positional1, positional2, key1=value1, key2=value2)``
+     ``lookup('@{plugin_name}@', term1, term2, key1=value1, key2=value2)`` and ``query('@{plugin_name}@', term1, term2, key1=value1, key2=value2)``
 {%     endif %}
 {%   endif %}
 {%   if doc['notes'] %}
