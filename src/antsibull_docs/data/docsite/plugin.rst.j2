@@ -223,7 +223,7 @@ Input
 
 {%   if plugin_type == 'filter' %}
 This describes the input of the filter, the value before ``| @{plugin_name}@``.
-{%   else %}
+{%   elif plugin_type == 'test' %}
 This describes the input of the test, the value before ``is @{plugin_name}@`` or ``is not @{plugin_name}@``.
 {%   endif %}
 
