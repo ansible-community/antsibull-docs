@@ -1,2 +1,2 @@
 minor_changes:
-  - Add a note about the ordering of positional and named parameter to the plugin page (https://github.com/ansible-community/antsibull-docs/pull/101).
+  - Add a note about the ordering of positional and named parameter to the plugin page. Also mention positional and keyword parameters for lookups (https://github.com/ansible-community/antsibull-docs/pull/101).
