@@ -267,7 +267,10 @@ class _RetValue(Command):
         else:
             link_start = ''
             link_end = ''
-        return f'<code class="{cls} literal notranslate">{link_start}{html_escape(text)}{link_end}</code>'
+        return (
+            f'<code class="{cls} literal notranslate">{link_start}'
+            f'{html_escape(text)}{link_end}</code>'
+        )
 
 
 class _HorizontalLine(Command):
