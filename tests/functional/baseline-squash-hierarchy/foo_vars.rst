@@ -96,7 +96,6 @@ The below requirements are needed on the local controller node that executes thi
 Parameters
 ----------
 
-
 .. rst-class:: ansible-option-table
 
 .. list-table::

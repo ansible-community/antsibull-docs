@@ -91,7 +91,6 @@ Synopsis
 Parameters
 ----------
 
-
 .. raw:: html
 
   <table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">

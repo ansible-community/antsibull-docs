@@ -91,7 +91,6 @@ Synopsis
 Parameters
 ----------
 
-
 .. rst-class:: ansible-option-table
 
 .. list-table::
