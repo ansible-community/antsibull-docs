@@ -56,6 +56,29 @@ releases:
     - 1.1.0.yml
     - 6-tests-filters.yml
     release_date: '2022-05-03'
+  1.10.0:
+    changes:
+      bugfixes:
+      - Explicitly declare the ``sh`` dependency and limit it to before 2.0.0. Also
+        explicitly declare the dependencies on ``pydantic``, ``semantic_version``,
+        ``aiohttp``, ``twiggy``, and ``PyYAML`` (https://github.com/ansible-community/antsibull-docs/pull/99).
+      - Restrict the ``pydantic`` dependency to major version 1 (https://github.com/ansible-community/antsibull-docs/pull/102).
+      major_changes:
+      - Support new semantic markup in documentation (https://github.com/ansible-community/antsibull-docs/pull/4).
+      minor_changes:
+      - Add a note about the ordering of positional and named parameter to the plugin
+        page. Also mention positional and keyword parameters for lookups (https://github.com/ansible-community/antsibull-docs/pull/101).
+      - Update schema for roles argument spec to allow specifying attributes on the
+        entrypoint level. These are now also rendered when present (https://github.com/ansible-community/antsibull-docs/pull/103).
+      release_summary: Bugfix and feature release.
+    fragments:
+    - 1.10.0.yml
+    - 101-plugin-param-ordering-note.yml
+    - 102-pydantic.yml
+    - 103-roles-schema.yml
+    - 4-semantic-markup.yml
+    - 99-sh.yml
+    release_date: '2023-03-13'
   1.2.0:
     changes:
       bugfixes:

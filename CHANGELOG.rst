@@ -5,6 +5,31 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v1.10.0
+=======
+
+Release Summary
+---------------
+
+Bugfix and feature release.
+
+Major Changes
+-------------
+
+- Support new semantic markup in documentation (https://github.com/ansible-community/antsibull-docs/pull/4).
+
+Minor Changes
+-------------
+
+- Add a note about the ordering of positional and named parameter to the plugin page. Also mention positional and keyword parameters for lookups (https://github.com/ansible-community/antsibull-docs/pull/101).
+- Update schema for roles argument spec to allow specifying attributes on the entrypoint level. These are now also rendered when present (https://github.com/ansible-community/antsibull-docs/pull/103).
+
+Bugfixes
+--------
+
+- Explicitly declare the ``sh`` dependency and limit it to before 2.0.0. Also explicitly declare the dependencies on ``pydantic``, ``semantic_version``, ``aiohttp``, ``twiggy``, and ``PyYAML`` (https://github.com/ansible-community/antsibull-docs/pull/99).
+- Restrict the ``pydantic`` dependency to major version 1 (https://github.com/ansible-community/antsibull-docs/pull/102).
+
 v1.9.0
 ======
 
