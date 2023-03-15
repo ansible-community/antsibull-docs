@@ -7,7 +7,7 @@ import typing as t
 
 import pytest
 
-from antsibull_docs.jinja2.parser import Command, CommandSet, ParsingException, convert_text
+from antsibull_docs.markup.parser import Command, CommandSet, ParsingException, convert_text
 
 
 class TestCommand0(Command):

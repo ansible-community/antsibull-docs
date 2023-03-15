@@ -10,6 +10,8 @@ import typing as t
 
 from jinja2 import BaseLoader, Environment, FileSystemLoader, PackageLoader
 
+from ..markup.htmlify import html_ify
+from ..markup.rstify import rst_code, rst_escape, rst_ify
 from ..utils.collection_name_transformer import CollectionNameTransformer
 from .filters import (
     do_max,
@@ -23,8 +25,6 @@ from .filters import (
     to_ini_value,
     to_json,
 )
-from .htmlify import html_ify
-from .rstify import rst_code, rst_escape, rst_ify
 from .tests import still_relevant, test_list
 
 # kludge_ns gives us a kludgey way to set variables inside of loops that need to be visible outside
