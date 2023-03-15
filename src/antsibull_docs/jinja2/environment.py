@@ -10,8 +10,7 @@ import typing as t
 
 from jinja2 import BaseLoader, Environment, FileSystemLoader, PackageLoader
 
-from ..markup.htmlify import html_ify
-from ..markup.rstify import rst_code, rst_escape, rst_ify
+from ..markup.rstify import rst_code, rst_escape
 from ..utils.collection_name_transformer import CollectionNameTransformer
 from .filters import (
     do_max,
@@ -24,6 +23,8 @@ from .filters import (
     rst_xline,
     to_ini_value,
     to_json,
+    html_ify,
+    rst_ify,
 )
 from .tests import still_relevant, test_list
 
