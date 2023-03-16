@@ -119,11 +119,11 @@ def test_convert_text(text, expected):
 
 
 CONVERT_TEXT_FAIL_DATA = {
-    'command1a(': """Cannot find ")" closing after the last parameter for command "command1a" starting at index 0 in 'command1a('""",
-    'command2a(,': """Cannot find ")" closing after the last parameter for command "command2a" starting at index 0 in 'command2a(,'""",
+    'command1a(': """Cannot find closing ")" after last parameter for command "command1a" starting at index 0 in 'command1a('""",
+    'command2a(,': """Cannot find closing ")" after last parameter for command "command2a" starting at index 0 in 'command2a(,'""",
     'command2a(': """Cannot find comma separating parameter 1 from the next one for command "command2a" starting at index 0 in 'command2a('""",
-    'command1b(': """Cannot find ")" closing after the last parameter for command "command1b" starting at index 0 in 'command1b('""",
-    'command2b(,': """Cannot find ")" closing after the last parameter for command "command2b" starting at index 0 in 'command2b(,'""",
+    'command1b(': """Cannot find closing ")" after last parameter for command "command1b" starting at index 0 in 'command1b('""",
+    'command2b(,': """Cannot find closing ")" after last parameter for command "command2b" starting at index 0 in 'command2b(,'""",
     'command2b(': """Cannot find comma separating parameter 1 from the next one for command "command2b" starting at index 0 in 'command2b('""",
     r'command2b(\,)': r"""Cannot find comma separating parameter 1 from the next one for command "command2b" starting at index 0 in 'command2b(\\,)'""",
 }

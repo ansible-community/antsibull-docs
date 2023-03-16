@@ -11,8 +11,7 @@ import abc
 import re
 import typing as t
 
-_ESCAPE_OR_COMMA = re.compile(r'\\(.)| *(,) *')
-_ESCAPE_OR_CLOSING = re.compile(r'\\(.)|([)])')
+from ._parser_impl import parse_parameters_escaped, parse_parameters_unescaped
 
 
 class ParsingException(Exception):
@@ -72,83 +71,6 @@ class CommandData(t.NamedTuple):
 Part = t.Union[str, CommandData]
 
 
-def parse_parameters_escaped(text: str, index: int, command: Command,
-                             command_start: int) -> t.Tuple[int, t.List[str]]:
-    result = []
-    parameter_count = command.parameter_count
-    while parameter_count > 1:
-        parameter_count -= 1
-        value = []
-        while True:
-            match = _ESCAPE_OR_COMMA.search(text, pos=index)
-            if not match:
-                raise ParsingException(
-                    f'Cannot find comma separating '
-                    f'parameter {command.parameter_count - parameter_count}'
-                    f' from the next one for command "{command.command}"'
-                    f' starting at index {command_start} in {text!r}'
-                )
-            value.append(text[index:match.start(0)])
-            index = match.end(0)
-            if match.group(1):
-                value.append(match.group(1))
-            else:
-                break
-        result.append(''.join(value))
-    value = []
-    while True:
-        match = _ESCAPE_OR_CLOSING.search(text, pos=index)
-        if not match:
-            raise ParsingException(
-                f'Cannot find ")" closing after the last parameter for'
-                f' command "{command.command}" starting at index {command_start} in {text!r}'
-            )
-        value.append(text[index:match.start(0)])
-        index = match.end(0)
-        if match.group(1):
-            value.append(match.group(1))
-        else:
-            break
-    result.append(''.join(value))
-    return index, result
-
-
-def parse_parameters_unescaped(text: str, index: int, command: Command,
-                               command_start: int) -> t.Tuple[int, t.List[str]]:
-    result = []
-    first = True
-    parameter_count = command.parameter_count
-    while parameter_count > 1:
-        parameter_count -= 1
-        next_index = text.find(',', index)
-        if next_index < 0:
-            raise ParsingException(
-                f'Cannot find comma separating '
-                f'parameter {command.parameter_count - parameter_count}'
-                f' from the next one for command "{command.command}"'
-                f' starting at index {command_start} in {text!r}'
-            )
-        parameter = text[index:next_index].rstrip(' ')
-        if not first:
-            parameter = parameter.lstrip(' ')
-        else:
-            first = False
-        result.append(parameter)
-        index = next_index + 1
-    next_index = text.find(')', index)
-    if next_index < 0:
-        raise ParsingException(
-            f'Cannot find ")" closing after the last parameter for'
-            f' command "{command.command}" starting at index {command_start} in {text!r}'
-        )
-    parameter = text[index:next_index]
-    if not first:
-        parameter = parameter.lstrip(' ')
-    result.append(parameter)
-    index = next_index + 1
-    return index, result
-
-
 def parse_text(text: str, commands: CommandSet) -> t.List[Part]:
     result: t.List[Part] = []
     index = 0
@@ -167,9 +89,16 @@ def parse_text(text: str, commands: CommandSet) -> t.List[Part]:
             continue
         index += 1
         if command.escaped_content:
-            index, parameters = parse_parameters_escaped(text, index, command, command_start)
+            parameters, index, error = parse_parameters_escaped(
+                text, index, command.parameter_count)
         else:
-            index, parameters = parse_parameters_unescaped(text, index, command, command_start)
+            parameters, index, error = parse_parameters_unescaped(
+                text, index, command.parameter_count)
+        if error is not None:
+            raise ParsingException(
+                error +
+                f' for command "{command.command}" starting at index {command_start} in {text!r}'
+            )
         result.append(CommandData(command=command, parameters=parameters))
     return result
 
