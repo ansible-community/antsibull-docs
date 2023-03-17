@@ -7,9 +7,11 @@
 DOM classes used by parser.
 """
 
+import abc
+import sys
+
 from enum import Enum
 from typing import NamedTuple
-import sys
 
 import typing as t
 
@@ -146,3 +148,146 @@ AnyPart = t.Union[
 
 
 Paragraph = t.List[AnyPart]
+
+
+class Walker(abc.ABC):
+    @abc.abstractmethod
+    def process_error(self, part: ErrorPart) -> None:
+        pass
+
+    @abc.abstractmethod
+    def process_bold(self, part: BoldPart) -> None:
+        pass
+
+    @abc.abstractmethod
+    def process_code(self, part: CodePart) -> None:
+        pass
+
+    @abc.abstractmethod
+    def process_horizontal_line(self, part: HorizontalLinePart) -> None:
+        pass
+
+    @abc.abstractmethod
+    def process_italic(self, part: ItalicPart) -> None:
+        pass
+
+    @abc.abstractmethod
+    def process_link(self, part: LinkPart) -> None:
+        pass
+
+    @abc.abstractmethod
+    def process_module(self, part: ModulePart) -> None:
+        pass
+
+    @abc.abstractmethod
+    def process_rst_ref(self, part: RSTRefPart) -> None:
+        pass
+
+    @abc.abstractmethod
+    def process_url(self, part: URLPart) -> None:
+        pass
+
+    @abc.abstractmethod
+    def process_text(self, part: TextPart) -> None:
+        pass
+
+    @abc.abstractmethod
+    def process_env_variable(self, part: EnvVariablePart) -> None:
+        pass
+
+    @abc.abstractmethod
+    def process_option_name(self, part: OptionNamePart) -> None:
+        pass
+
+    @abc.abstractmethod
+    def process_option_value(self, part: OptionValuePart) -> None:
+        pass
+
+    @abc.abstractmethod
+    def process_plugin(self, part: PluginPart) -> None:
+        pass
+
+    @abc.abstractmethod
+    def process_return_value(self, part: ReturnValuePart) -> None:
+        pass
+
+
+class NoopWalker(Walker):
+    def process_error(self, part: ErrorPart) -> None:
+        pass
+
+    def process_bold(self, part: BoldPart) -> None:
+        pass
+
+    def process_code(self, part: CodePart) -> None:
+        pass
+
+    def process_horizontal_line(self, part: HorizontalLinePart) -> None:
+        pass
+
+    def process_italic(self, part: ItalicPart) -> None:
+        pass
+
+    def process_link(self, part: LinkPart) -> None:
+        pass
+
+    def process_module(self, part: ModulePart) -> None:
+        pass
+
+    def process_rst_ref(self, part: RSTRefPart) -> None:
+        pass
+
+    def process_url(self, part: URLPart) -> None:
+        pass
+
+    def process_text(self, part: TextPart) -> None:
+        pass
+
+    def process_env_variable(self, part: EnvVariablePart) -> None:
+        pass
+
+    def process_option_name(self, part: OptionNamePart) -> None:
+        pass
+
+    def process_option_value(self, part: OptionValuePart) -> None:
+        pass
+
+    def process_plugin(self, part: PluginPart) -> None:
+        pass
+
+    def process_return_value(self, part: ReturnValuePart) -> None:
+        pass
+
+
+def walk(paragraph: Paragraph, walker: Walker) -> None:  # noqa: C901, pylint:disable=too-many-branches
+    for part in paragraph:
+        if part.type == PartType.ERROR:
+            walker.process_error(t.cast(ErrorPart, part))
+        elif part.type == PartType.BOLD:
+            walker.process_bold(t.cast(BoldPart, part))
+        elif part.type == PartType.CODE:
+            walker.process_code(t.cast(CodePart, part))
+        elif part.type == PartType.HORIZONTAL_LINE:
+            walker.process_horizontal_line(t.cast(HorizontalLinePart, part))
+        elif part.type == PartType.ITALIC:
+            walker.process_italic(t.cast(ItalicPart, part))
+        elif part.type == PartType.LINK:
+            walker.process_link(t.cast(LinkPart, part))
+        elif part.type == PartType.MODULE:
+            walker.process_module(t.cast(ModulePart, part))
+        elif part.type == PartType.RST_REF:
+            walker.process_rst_ref(t.cast(RSTRefPart, part))
+        elif part.type == PartType.URL:
+            walker.process_url(t.cast(URLPart, part))
+        elif part.type == PartType.TEXT:
+            walker.process_text(t.cast(TextPart, part))
+        elif part.type == PartType.ENV_VARIABLE:
+            walker.process_env_variable(t.cast(EnvVariablePart, part))
+        elif part.type == PartType.OPTION_NAME:
+            walker.process_option_name(t.cast(OptionNamePart, part))
+        elif part.type == PartType.OPTION_VALUE:
+            walker.process_option_value(t.cast(OptionValuePart, part))
+        elif part.type == PartType.PLUGIN:
+            walker.process_plugin(t.cast(PluginPart, part))
+        elif part.type == PartType.RETURN_VALUE:
+            walker.process_return_value(t.cast(ReturnValuePart, part))
