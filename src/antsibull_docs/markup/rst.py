@@ -14,12 +14,8 @@ from .format import Formatter, LinkProvider, format_paragraphs as _format_paragr
 from .html import _url_escape
 
 
-def rst_escape(value: t.Any, escape_ending_whitespace=False) -> str:
-    ''' make sure value is converted to a string, and RST special characters are escaped '''
-
-    if not isinstance(value, str):
-        value = str(value)
-
+def rst_escape(value: str, escape_ending_whitespace=False) -> str:
+    '''Escape RST specific constructs.'''
     value = value.replace('\\', '\\\\')
     value = value.replace('<', '\\<')
     value = value.replace('>', '\\>')

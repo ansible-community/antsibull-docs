@@ -109,8 +109,8 @@ Parameters
     </div></td>
     <td><div class="ansible-option-cell">
       <p>Bar. <b>BAR!</b></p>
-      <p>Totally unrelated to <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="../../ns2/col/foo_become.html#parameter-become_user"><span class="std std-ref"><span class="pre">become_user</span></span></a></strong></code>. Even with <code class="ansible-option-value literal notranslate"><a class="reference internal" href="../../ns2/col/foo_become.html#parameter-become_user"><span class="std std-ref"><span class="pre">become_user=foo</span></span></a></code>.</p>
-      <p>Might not be compatible when <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="../../ns2/col/foo_become.html#parameter-become_user"><span class="std std-ref"><span class="pre">become_user</span></span></a></strong></code> is <code class="ansible-value literal notranslate">bar</code>, though.</p>
+      <p>Totally unrelated to <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="#parameter-become_user"><span class="std std-ref"><span class="pre">become_user</span></span></a></strong></code>. Even with <code class="ansible-option-value literal notranslate"><a class="reference internal" href="#parameter-become_user"><span class="std std-ref"><span class="pre">become_user=foo</span></span></a></code>.</p>
+      <p>Might not be compatible when <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="#parameter-become_user"><span class="std std-ref"><span class="pre">become_user</span></span></a></strong></code> is <code class="ansible-value literal notranslate">bar</code>, though.</p>
     </div></td>
   </tr>
   <tr class="row-odd">

@@ -6,289 +6,32 @@
 htmlify Jinja2 filter for use in Ansible documentation.
 """
 
-import re
 import typing as t
-from html import escape as html_escape
+
 from urllib.parse import quote
 
-from .semantic_helper import parse_option, parse_return_value
-from .parser import Command, CommandSet, convert_text
-
-_MODULE = re.compile(r"^([^).]+)\.([^).]+)\.([^)]+)$")
-_PLUGIN = re.compile(r"^([^).]+)\.([^).]+)\.([^)]+)#([a-z]+)$")
-
-
-def _escape_url(url: str) -> str:
-    # We include '<>[]{}' in safe to allow urls such as 'https://<HOST>:[PORT]/v{version}/' to
-    # remain unmangled by percent encoding
-    return quote(url, safe=':/#?%<>[]{}')
+from . import dom
+from .parser import parse, Context
+from .html import to_html
+from .format import LinkProvider
+from .rstify import _count
 
 
-def _create_error(text: str, error: str) -> str:
-    text = f'<code>{html_escape(text)}</code>'
-    return f'<span class="error">ERROR while parsing {text}: {html_escape(error)}</span>'
+class _HTMLLinkProvider(LinkProvider):
+    def plugin_link(self, plugin: dom.PluginIdentifier) -> t.Optional[str]:
+        name = '/'.join(plugin.fqcn.split('.', 2))
+        return f'../../{name}_{plugin.type}.html'
 
-
-class _Context:
-    counts: t.Dict[str, int]
-    plugin_fqcn: t.Optional[str]
-    plugin_type: t.Optional[str]
-
-    def __init__(self,
-                 plugin_fqcn: t.Optional[str] = None,
-                 plugin_type: t.Optional[str] = None):
-        self.counts = {
-            'italic': 0,
-            'bold': 0,
-            'module': 0,
-            'plugin': 0,
-            'link': 0,
-            'url': 0,
-            'ref': 0,
-            'const': 0,
-            'option-name': 0,
-            'option-value': 0,
-            'environment-var': 0,
-            'return-value': 0,
-            'ruler': 0,
-        }
-        self.plugin_fqcn = plugin_fqcn
-        self.plugin_type = plugin_type
-
-
-# In the following, we make heavy use of escaped whitespace ("\ ") being removed from the output.
-# See
-# https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#character-level-inline-markup-1
-# for further information.
-
-
-class _Italic(Command):
-    command = 'I'
-    parameter_count = 1
-    escaped_content = False
-
-    def handle(self, parameters: t.List[str], context: t.Any) -> str:
-        context.counts['italic'] += 1
-        return f"<em>{html_escape(parameters[0])}</em>"
-
-
-class _Bold(Command):
-    command = 'B'
-    parameter_count = 1
-    escaped_content = False
-
-    def handle(self, parameters: t.List[str], context: t.Any) -> str:
-        context.counts['bold'] += 1
-        return f"<b>{html_escape(parameters[0])}</b>"
-
-
-class _Module(Command):
-    command = 'M'
-    parameter_count = 1
-    escaped_content = False
-
-    def handle(self, parameters: t.List[str], context: t.Any) -> str:
-        context.counts['module'] += 1
-        m = _MODULE.match(parameters[0])
-        if m is None:
-            return _create_error(
-                f'M({parameters[0]!r})', f'parameter {parameters[0]!r} is not a FQCN')
-        fqcn = f'{m.group(1)}.{m.group(2)}.{m.group(3)}'
-        url = html_escape(f'../../{m.group(1)}/{m.group(2)}/{m.group(3)}_module.html')
-        return f"<a href='{url}' class='module'>{html_escape(fqcn)}</a>"
-
-
-class _Plugin(Command):
-    command = 'P'
-    parameter_count = 1
-    escaped_content = False
-
-    def handle(self, parameters: t.List[str], context: t.Any) -> str:
-        context.counts['plugin'] += 1
-        m = _PLUGIN.match(parameters[0])
-        if m is None:
-            return _create_error(
-                f'P({parameters[0]!r})',
-                f'parameter {parameters[0]!r} is not of the form FQCN#type')
-        fqcn = f'{m.group(1)}.{m.group(2)}.{m.group(3)}'
-        plugin_type = m.group(4)
-        url = html_escape(f'../../{m.group(1)}/{m.group(2)}/{m.group(3)}_{plugin_type}.html')
-        cssclass = f'plugin-{html_escape(plugin_type)}'
-        return f"<a href='{url}' class='module {cssclass}'>{html_escape(fqcn)}</a>"
-
-
-class _URL(Command):
-    command = 'U'
-    parameter_count = 1
-    escaped_content = False
-
-    def handle(self, parameters: t.List[str], context: t.Any) -> str:
-        context.counts['url'] += 1
-        url = parameters[0]
-        return f"<a href='{html_escape(_escape_url(url))}'>{html_escape(_escape_url(url))}</a>"
-
-
-class _Link(Command):
-    command = 'L'
-    parameter_count = 2
-    escaped_content = False
-
-    def handle(self, parameters: t.List[str], context: t.Any) -> str:
-        context.counts['link'] += 1
-        url = parameters[1]
-        return f"<a href='{html_escape(_escape_url(url))}'>{html_escape(parameters[0])}</a>"
-
-
-class _Ref(Command):
-    command = 'R'
-    parameter_count = 2
-    escaped_content = False
-
-    def handle(self, parameters: t.List[str], context: t.Any) -> str:
-        context.counts['ref'] += 1
-        return f"<span class='module'>{html_escape(parameters[0])}</span>"
-
-
-class _Const(Command):
-    command = 'C'
-    parameter_count = 1
-    escaped_content = False
-
-    def handle(self, parameters: t.List[str], context: t.Any) -> str:
-        context.counts['const'] += 1
-        # Escaping does not work in double backticks, so we use the :literal: role instead
-        return f"<code class='docutils literal notranslate'>{html_escape(parameters[0])}</code>"
-
-
-class _OptionName(Command):
-    command = 'O'
-    parameter_count = 1
-    escaped_content = True
-
-    def handle(self, parameters: t.List[str], context: t.Any) -> str:
-        context.counts['option-name'] += 1
-        if context.plugin_fqcn is None or context.plugin_type is None:
-            raise Exception('The markup O(...) cannot be used outside a plugin or role')
-        text = parameters[0]
-        try:
-            plugin_fqcn, plugin_type, option_link, option, value = parse_option(
-                text, context.plugin_fqcn, context.plugin_type, require_plugin=False)
-        except ValueError as exc:
-            return _create_error(f'O({text})', str(exc))
-        if value is None:
-            cls = 'ansible-option'
-            text = f'{option}'
-            strong_start = '<strong>'
-            strong_end = '</strong>'
-        else:
-            cls = 'ansible-option-value'
-            text = f'{option}={value}'
-            strong_start = ''
-            strong_end = ''
-        if plugin_fqcn and plugin_type and plugin_fqcn.count('.') >= 2:
-            # TODO: handle role arguments (entrypoint!)
-            namespace, name, plugin = plugin_fqcn.split('.', 2)
-            url = f'../../{namespace}/{name}/{plugin}_{plugin_type}.html'
-            fragment = f'parameter-{quote(option_link.replace(".", "/"))}'
-            link_start = (
-                f'<a class="reference internal" href="{url}#{fragment}">'
-                '<span class="std std-ref"><span class="pre">'
-            )
-            link_end = '</span></span></a>'
-        else:
-            link_start = ''
-            link_end = ''
-        return (
-            f'<code class="{cls} literal notranslate">'
-            f'{strong_start}{link_start}{html_escape(text)}{link_end}{strong_end}</code>'
-        )
-
-
-class _OptionValue(Command):
-    command = 'V'
-    parameter_count = 1
-    escaped_content = True
-
-    def handle(self, parameters: t.List[str], context: t.Any) -> str:
-        context.counts['option-value'] += 1
-        text = parameters[0]
-        return f'<code class="ansible-value literal notranslate">{html_escape(text)}</code>'
-
-
-class _EnvVariable(Command):
-    command = 'E'
-    parameter_count = 1
-    escaped_content = True
-
-    def handle(self, parameters: t.List[str], context: t.Any) -> str:
-        context.counts['environment-var'] += 1
-        text = parameters[0]
-        return f'<code class="xref std std-envvar literal notranslate">{html_escape(text)}</code>'
-
-
-class _RetValue(Command):
-    command = 'RV'
-    parameter_count = 1
-    escaped_content = True
-
-    def handle(self, parameters: t.List[str], context: t.Any) -> str:
-        context.counts['return-value'] += 1
-        if context.plugin_fqcn is None or context.plugin_type is None:
-            raise Exception('The markup RV(...) cannot be used outside a plugin or role')
-        text = parameters[0]
-        try:
-            plugin_fqcn, plugin_type, rv_link, rv, value = parse_return_value(
-                text, context.plugin_fqcn, context.plugin_type, require_plugin=False)
-        except ValueError as exc:
-            return _create_error(f'RV({text})', str(exc))
-        cls = 'ansible-return-value'
-        if value is None:
-            text = f'{rv}'
-        else:
-            text = f'{rv}={value}'
-        if plugin_fqcn and plugin_type and plugin_fqcn.count('.') >= 2:
-            namespace, name, plugin = plugin_fqcn.split('.', 2)
-            url = f'../../{namespace}/{name}/{plugin}_{plugin_type}.html'
-            fragment = f'return-{quote(rv_link.replace(".", "/"))}'
-            link_start = (
-                f'<a class="reference internal" href="{url}#{fragment}">'
-                '<span class="std std-ref"><span class="pre">'
-            )
-            link_end = '</span></span></a>'
-        else:
-            link_start = ''
-            link_end = ''
-        return (
-            f'<code class="{cls} literal notranslate">{link_start}'
-            f'{html_escape(text)}{link_end}</code>'
-        )
-
-
-class _HorizontalLine(Command):
-    command = 'HORIZONTALLINE'
-    parameter_count = 0
-    escaped_content = False
-
-    def handle(self, parameters: t.List[str], context: t.Any) -> str:
-        context.counts['ruler'] += 1
-        return '<hr/>'
-
-
-_COMMAND_SET = CommandSet([
-    _Italic(),
-    _Bold(),
-    _Module(),
-    _Plugin(),
-    _URL(),
-    _Link(),
-    _Ref(),
-    _Const(),
-    _OptionName(),
-    _OptionValue(),
-    _EnvVariable(),
-    _RetValue(),
-    _HorizontalLine(),
-])
+    def plugin_option_like_link(self,  # pylint:disable=no-self-use
+                                plugin: dom.PluginIdentifier,  # pylint:disable=unused-argument
+                                # pylint:disable-next=unused-argument
+                                what: "t.Union[t.Literal['option'], t.Literal['retval']]",
+                                # pylint:disable-next=unused-argument
+                                name: t.List[str], current_plugin: bool) -> t.Optional[str]:
+        base = '' if current_plugin else self.plugin_link(plugin)
+        w = 'parameter' if what == 'option' else 'return'
+        slug = quote('/'.join(name))
+        return f'{base}#{w}-{slug}'
 
 
 def html_ify(text: str,
@@ -296,14 +39,17 @@ def html_ify(text: str,
              plugin_fqcn: t.Optional[str] = None,
              plugin_type: t.Optional[str] = None) -> t.Tuple[str, t.Mapping[str, int]]:
     ''' convert symbols like I(this is in italics) to valid HTML '''
-    our_context = _Context(
-        plugin_fqcn=plugin_fqcn,
-        plugin_type=plugin_type,
+    current_plugin: t.Optional[dom.PluginIdentifier] = None
+    if plugin_fqcn and plugin_type:
+        current_plugin = dom.PluginIdentifier(fqcn=plugin_fqcn, type=plugin_type)
+    paragraphs = parse(text, Context(current_plugin=current_plugin), errors='message')
+    link_provider = _HTMLLinkProvider()
+    text = to_html(
+        paragraphs,
+        link_provider=link_provider,
+        current_plugin=current_plugin,
+        par_start='',
+        par_end='',
     )
-
-    try:
-        text = convert_text(text, _COMMAND_SET, html_escape, our_context)
-    except Exception as exc:  # pylint:disable=broad-except
-        text = _create_error(text, str(exc))
-
-    return text, our_context.counts
+    counts = _count(paragraphs)
+    return text, counts
