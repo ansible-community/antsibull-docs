@@ -47,85 +47,85 @@ class PartType(Enum):
 
 
 class TextPart(NamedTuple):
-    type: 't.Literal[PartType.TEXT]'
     text: str
+    type: 't.Literal[PartType.TEXT]' = PartType.TEXT
 
 
 class ItalicPart(NamedTuple):
-    type: 't.Literal[PartType.ITALIC]'
     text: str
+    type: 't.Literal[PartType.ITALIC]' = PartType.ITALIC
 
 
 class BoldPart(NamedTuple):
-    type: 't.Literal[PartType.BOLD]'
     text: str
+    type: 't.Literal[PartType.BOLD]' = PartType.BOLD
 
 
 class ModulePart(NamedTuple):
-    type: 't.Literal[PartType.MODULE]'
     fqcn: str
+    type: 't.Literal[PartType.MODULE]' = PartType.MODULE
 
 
 class PluginPart(NamedTuple):
-    type: 't.Literal[PartType.PLUGIN]'
     plugin: PluginIdentifier
+    type: 't.Literal[PartType.PLUGIN]' = PartType.PLUGIN
 
 
 class URLPart(NamedTuple):
-    type: 't.Literal[PartType.URL]'
     url: str
+    type: 't.Literal[PartType.URL]' = PartType.URL
 
 
 class LinkPart(NamedTuple):
-    type: 't.Literal[PartType.LINK]'
     text: str
     url: str
+    type: 't.Literal[PartType.LINK]' = PartType.LINK
 
 
 class RSTRefPart(NamedTuple):
-    type: 't.Literal[PartType.RST_REF]'
     text: str
     ref: str
+    type: 't.Literal[PartType.RST_REF]' = PartType.RST_REF
 
 
 class CodePart(NamedTuple):
-    type: 't.Literal[PartType.CODE]'
     text: str
+    type: 't.Literal[PartType.CODE]' = PartType.CODE
 
 
 class OptionNamePart(NamedTuple):
-    type: 't.Literal[PartType.OPTION_NAME]'
     plugin: t.Optional[PluginIdentifier]
     link: t.List[str]
     name: str
     value: t.Optional[str]
+    type: 't.Literal[PartType.OPTION_NAME]' = PartType.OPTION_NAME
 
 
 class OptionValuePart(NamedTuple):
-    type: 't.Literal[PartType.OPTION_VALUE]'
     value: str
+    type: 't.Literal[PartType.OPTION_VALUE]' = PartType.OPTION_VALUE
 
 
 class EnvVariablePart(NamedTuple):
-    type: 't.Literal[PartType.ENV_VARIABLE]'
     name: str
+    type: 't.Literal[PartType.ENV_VARIABLE]' = PartType.ENV_VARIABLE
 
 
 class ReturnValuePart(NamedTuple):
-    type: 't.Literal[PartType.RETURN_VALUE]'
     plugin: t.Optional[PluginIdentifier]
     link: t.List[str]
     name: str
     value: t.Optional[str]
+    type: 't.Literal[PartType.RETURN_VALUE]' = PartType.RETURN_VALUE
 
 
 class HorizontalLinePart(NamedTuple):
-    type: 't.Literal[PartType.HORIZONTAL_LINE]'
+    type: 't.Literal[PartType.HORIZONTAL_LINE]' = PartType.HORIZONTAL_LINE
 
 
 class ErrorPart(NamedTuple):
-    type: 't.Literal[PartType.ERROR]'
     message: str
+    type: 't.Literal[PartType.ERROR]' = PartType.ERROR
 
 
 AnyPart = t.Union[
@@ -151,6 +151,10 @@ Paragraph = t.List[AnyPart]
 
 
 class Walker(abc.ABC):
+    '''
+    Abstract base class for walker whose methods will be called for parts of a paragraph.
+    '''
+
     @abc.abstractmethod
     def process_error(self, part: ErrorPart) -> None:
         pass
@@ -213,6 +217,11 @@ class Walker(abc.ABC):
 
 
 class NoopWalker(Walker):
+    '''
+    Concrete base class for walker whose methods will be called for parts of a paragraph.
+    The default implementation for every part will not do anything.
+    '''
+
     def process_error(self, part: ErrorPart) -> None:
         pass
 
@@ -259,7 +268,11 @@ class NoopWalker(Walker):
         pass
 
 
-def walk(paragraph: Paragraph, walker: Walker) -> None:  # noqa: C901, pylint:disable=too-many-branches
+# pylint:disable-next=too-many-branches
+def walk(paragraph: Paragraph, walker: Walker) -> None:  # noqa: C901
+    '''
+    Call the corresponding methods of a walker object for every part of the paragraph.
+    '''
     for part in paragraph:
         if part.type == PartType.ERROR:
             walker.process_error(t.cast(ErrorPart, part))

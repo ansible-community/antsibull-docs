@@ -15,6 +15,10 @@ from . import dom
 
 
 class LinkProvider(abc.ABC):
+    '''
+    Provide URLs for objects, if available.
+    '''
+
     def plugin_link(self,  # pylint:disable=no-self-use
                     plugin: dom.PluginIdentifier,  # pylint:disable=unused-argument
                     ) -> t.Optional[str]:
@@ -36,6 +40,10 @@ class _DefaultLinkProvider(LinkProvider):
 
 
 class Formatter(abc.ABC):
+    '''
+    Abstract base class for a formatter whose functions will be called for parts of a paragraph.
+    '''
+
     @abc.abstractmethod
     def format_error(self, part: dom.ErrorPart) -> str:
         pass
@@ -98,6 +106,10 @@ class Formatter(abc.ABC):
 
 
 class _FormatWalker(dom.Walker):
+    '''
+    Walker which calls a formatter's functions and stores the result in a list.
+    '''
+
     destination: t.List[str]
     formatter: Formatter
     link_provider: LinkProvider
@@ -175,6 +187,13 @@ def format_paragraphs(paragraphs: t.Sequence[dom.Paragraph],
                       par_end: str = '',
                       par_sep: str = '',
                       current_plugin: t.Optional[dom.PluginIdentifier] = None) -> str:
+    '''
+    Apply the formatter to all parts of the given paragraphs, concatenate the results,
+    and insert start and end sequences for paragraphs and sequences between paragraphs.
+
+    ``link_provider`` and ``current_plugin`` will be used to compute optional URLs
+    that will be passed to the formatter.
+    '''
     if link_provider is None:
         link_provider = _DefaultLinkProvider()
     result: t.List[str] = []

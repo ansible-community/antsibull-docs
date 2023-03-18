@@ -139,7 +139,7 @@ def convert_text(text: str, commands: CommandSet, process_other_text: t.Callable
 
 _IGNORE_MARKER = 'ignore:'
 _ARRAY_STUB_RE = re.compile(r'\[([^\]]*)\]')
-_FQCN_TYPE_PREFIX_RE = re.compile(r'^([^.]+\.[^.]+\.[^#]+)#([a-z]+):(.*)$')
+_FQCN_TYPE_PREFIX_RE = re.compile(r'^([^.]+\.[^.]+\.[^#]+)#([^:]+):(.*)$')
 _FQCN = re.compile(r'^[a-z0-9_]+\.[a-z0-9_]+(?:\.[a-z0-9_]+)+$')
 _PLUGIN_TYPE = re.compile(r'^[a-z_]+$')
 
@@ -156,7 +156,7 @@ def _is_plugin_type(text: str) -> bool:
 
 
 class Context(t.NamedTuple):
-    current_plugin: t.Optional[dom.PluginIdentifier]
+    current_plugin: t.Optional[dom.PluginIdentifier] = None
 
 
 class CommandParser(abc.ABC):
@@ -191,7 +191,7 @@ class _Italics(CommandParserEx):
         super().__init__('I', 1, old_markup=True)
 
     def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
-        return dom.ItalicPart(dom.PartType.ITALIC, text=parameters[0])
+        return dom.ItalicPart(text=parameters[0])
 
 
 class _Bold(CommandParserEx):
@@ -199,7 +199,7 @@ class _Bold(CommandParserEx):
         super().__init__('B', 1, old_markup=True)
 
     def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
-        return dom.BoldPart(dom.PartType.BOLD, text=parameters[0])
+        return dom.BoldPart(text=parameters[0])
 
 
 class _Module(CommandParserEx):
@@ -210,7 +210,7 @@ class _Module(CommandParserEx):
         fqcn = parameters[0]
         if not _is_fqcn(fqcn):
             raise ValueError(f'Module name "{fqcn}" is not a FQCN')
-        return dom.ModulePart(dom.PartType.MODULE, fqcn=fqcn)
+        return dom.ModulePart(fqcn=fqcn)
 
 
 class _URL(CommandParserEx):
@@ -218,7 +218,7 @@ class _URL(CommandParserEx):
         super().__init__('U', 1, old_markup=True)
 
     def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
-        return dom.URLPart(dom.PartType.URL, url=parameters[0])
+        return dom.URLPart(url=parameters[0])
 
 
 class _Link(CommandParserEx):
@@ -228,7 +228,7 @@ class _Link(CommandParserEx):
     def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
         text = parameters[0]
         url = parameters[1]
-        return dom.LinkPart(dom.PartType.LINK, text=text, url=url)
+        return dom.LinkPart(text=text, url=url)
 
 
 class _RSTRef(CommandParserEx):
@@ -238,7 +238,7 @@ class _RSTRef(CommandParserEx):
     def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
         text = parameters[0]
         ref = parameters[1]
-        return dom.RSTRefPart(dom.PartType.RST_REF, text=text, ref=ref)
+        return dom.RSTRefPart(text=text, ref=ref)
 
 
 class _Code(CommandParserEx):
@@ -246,7 +246,7 @@ class _Code(CommandParserEx):
         super().__init__('C', 1, old_markup=True)
 
     def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
-        return dom.CodePart(dom.PartType.CODE, text=parameters[0])
+        return dom.CodePart(text=parameters[0])
 
 
 class _HorizontalLine(CommandParserEx):
@@ -254,7 +254,7 @@ class _HorizontalLine(CommandParserEx):
         super().__init__('HORIZONTALLINE', 0, old_markup=True)
 
     def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
-        return dom.HorizontalLinePart(dom.PartType.HORIZONTAL_LINE)
+        return dom.HorizontalLinePart()
 
 
 # Semantic Ansible docs markup:
@@ -304,9 +304,8 @@ class _Plugin(CommandParserEx):
         if not _is_fqcn(fqcn):
             raise ValueError(f'Plugin name "{fqcn}" is not a FQCN')
         if not _is_plugin_type(ptype):
-            raise ValueError(f'Plugin type "{type}" is not valid')
-        return dom.PluginPart(
-            dom.PartType.PLUGIN, plugin=dom.PluginIdentifier(fqcn=fqcn, type=ptype))
+            raise ValueError(f'Plugin type "{ptype}" is not valid')
+        return dom.PluginPart(plugin=dom.PluginIdentifier(fqcn=fqcn, type=ptype))
 
 
 class _EnvVar(CommandParserEx):
@@ -314,7 +313,7 @@ class _EnvVar(CommandParserEx):
         super().__init__('E', 1, escaped_arguments=True)
 
     def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
-        return dom.EnvVariablePart(dom.PartType.ENV_VARIABLE, name=parameters[0])
+        return dom.EnvVariablePart(name=parameters[0])
 
 
 class _OptionValue(CommandParserEx):
@@ -322,7 +321,7 @@ class _OptionValue(CommandParserEx):
         super().__init__('V', 1, escaped_arguments=True)
 
     def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
-        return dom.OptionValuePart(dom.PartType.OPTION_VALUE, value=parameters[0])
+        return dom.OptionValuePart(value=parameters[0])
 
 
 class _OptionName(CommandParserEx):
@@ -331,8 +330,7 @@ class _OptionName(CommandParserEx):
 
     def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
         plugin, link, name, value = _parse_option_like(parameters[0], context)
-        return dom.OptionNamePart(
-            dom.PartType.OPTION_NAME, plugin=plugin, link=link, name=name, value=value)
+        return dom.OptionNamePart(plugin=plugin, link=link, name=name, value=value)
 
 
 class _ReturnValue(CommandParserEx):
@@ -341,8 +339,7 @@ class _ReturnValue(CommandParserEx):
 
     def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
         plugin, link, name, value = _parse_option_like(parameters[0], context)
-        return dom.ReturnValuePart(
-            dom.PartType.RETURN_VALUE, plugin=plugin, link=link, name=name, value=value)
+        return dom.ReturnValuePart(plugin=plugin, link=link, name=name, value=value)
 
 
 _COMMANDS = [
@@ -401,7 +398,7 @@ class Parser:
                 f' at index {index + 1}{where}: {error}'
             )
             if errors == 'message':
-                result.append(dom.ErrorPart(dom.PartType.ERROR, message=error))
+                result.append(dom.ErrorPart(message=error))
             elif errors == 'exception':
                 raise ValueError(error)
         return end_index
@@ -414,10 +411,10 @@ class Parser:
         while index < length:
             m = self._re.search(text, index)
             if m is None:
-                result.append(dom.TextPart(dom.PartType.TEXT, text=text[index:]))
+                result.append(dom.TextPart(text=text[index:]))
                 break
             if m.start(1) > index:
-                result.append(dom.TextPart(dom.PartType.TEXT, text=text[index:m.start(1)]))
+                result.append(dom.TextPart(text=text[index:m.start(1)]))
             index = self._parse_command(
                 result,
                 text,
@@ -443,7 +440,7 @@ def parse(text: t.Union[str, t.Sequence[str]],
     has_paragraphs = True
     if isinstance(text, str):
         has_paragraphs = False
-        text = [text]
+        text = [text] if text else []
     parser = _CLASSIC if only_classic_markup else _SEMANTIC_MARKUP
     return [
         parser.parse_string(
