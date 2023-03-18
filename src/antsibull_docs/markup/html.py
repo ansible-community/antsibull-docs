@@ -129,6 +129,7 @@ def to_html(paragraphs: t.Sequence[dom.Paragraph],
             par_start: str = '<p>',
             par_end: str = '</p>',
             par_sep: str = '',
+            par_empty: str = '',
             current_plugin: t.Optional[dom.PluginIdentifier] = None) -> str:
     return _format_paragraphs(
         paragraphs,
@@ -137,5 +138,6 @@ def to_html(paragraphs: t.Sequence[dom.Paragraph],
         par_start=par_start,
         par_end=par_end,
         par_sep=par_sep,
+        par_empty=par_empty,
         current_plugin=current_plugin,
     )

@@ -186,6 +186,7 @@ def format_paragraphs(paragraphs: t.Sequence[dom.Paragraph],
                       par_start: str = '',
                       par_end: str = '',
                       par_sep: str = '',
+                      par_empty: str = '',
                       current_plugin: t.Optional[dom.PluginIdentifier] = None) -> str:
     '''
     Apply the formatter to all parts of the given paragraphs, concatenate the results,
@@ -202,6 +203,9 @@ def format_paragraphs(paragraphs: t.Sequence[dom.Paragraph],
         if result:
             result.append(par_sep)
         result.append(par_start)
+        before_len = len(result)
         dom.walk(paragraph, walker)
+        if before_len == len(result):
+            result.append(par_empty)
         result.append(par_end)
     return ''.join(result)

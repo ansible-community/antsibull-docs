@@ -22,11 +22,9 @@ class _HTMLLinkProvider(LinkProvider):
         name = '/'.join(plugin.fqcn.split('.', 2))
         return f'../../{name}_{plugin.type}.html'
 
-    def plugin_option_like_link(self,  # pylint:disable=no-self-use
-                                plugin: dom.PluginIdentifier,  # pylint:disable=unused-argument
-                                # pylint:disable-next=unused-argument
+    def plugin_option_like_link(self,
+                                plugin: dom.PluginIdentifier,
                                 what: "t.Union[t.Literal['option'], t.Literal['retval']]",
-                                # pylint:disable-next=unused-argument
                                 name: t.List[str], current_plugin: bool) -> t.Optional[str]:
         base = '' if current_plugin else self.plugin_link(plugin)
         w = 'parameter' if what == 'option' else 'return'

@@ -114,6 +114,7 @@ def to_rst(paragraphs: t.Sequence[dom.Paragraph],
            par_start: str = '',
            par_end: str = '',
            par_sep: str = '\n\n',
+           par_empty: str = r'\ ',
            current_plugin: t.Optional[dom.PluginIdentifier] = None) -> str:
     return _format_paragraphs(
         paragraphs,
@@ -122,5 +123,6 @@ def to_rst(paragraphs: t.Sequence[dom.Paragraph],
         par_start=par_start,
         par_end=par_end,
         par_sep=par_sep,
+        par_empty=par_empty,
         current_plugin=current_plugin,
     )
