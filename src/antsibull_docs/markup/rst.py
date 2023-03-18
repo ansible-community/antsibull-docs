@@ -31,13 +31,6 @@ def rst_escape(value: str, escape_ending_whitespace=False) -> str:
     return value
 
 
-def rst_code(value: str) -> str:
-    ''' Write value as :code:`...` RST construct. '''
-    if not isinstance(value, str):
-        value = str(value)
-    return f':code:`{rst_escape(value, escape_ending_whitespace=True)}`'
-
-
 class RSTFormatter(Formatter):
     @staticmethod
     def _format_option_like(part: t.Union[dom.OptionNamePart, dom.ReturnValuePart],

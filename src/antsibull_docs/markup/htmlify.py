@@ -11,10 +11,10 @@ import typing as t
 from urllib.parse import quote
 
 from . import dom
+from ._counter import count as _count
 from .parser import parse, Context
 from .html import to_html
 from .format import LinkProvider
-from .rstify import _count
 
 
 class _HTMLLinkProvider(LinkProvider):
