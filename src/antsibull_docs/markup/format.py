@@ -46,63 +46,63 @@ class Formatter(abc.ABC):
 
     @abc.abstractmethod
     def format_error(self, part: dom.ErrorPart) -> str:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def format_bold(self, part: dom.BoldPart) -> str:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def format_code(self, part: dom.CodePart) -> str:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def format_horizontal_line(self, part: dom.HorizontalLinePart) -> str:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def format_italic(self, part: dom.ItalicPart) -> str:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def format_link(self, part: dom.LinkPart) -> str:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def format_module(self, part: dom.ModulePart, url: t.Optional[str]) -> str:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def format_rst_ref(self, part: dom.RSTRefPart) -> str:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def format_url(self, part: dom.URLPart) -> str:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def format_text(self, part: dom.TextPart) -> str:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def format_env_variable(self, part: dom.EnvVariablePart) -> str:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def format_option_name(self, part: dom.OptionNamePart, url: t.Optional[str]) -> str:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def format_option_value(self, part: dom.OptionValuePart) -> str:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def format_plugin(self, part: dom.PluginPart, url: t.Optional[str]) -> str:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def format_return_value(self, part: dom.ReturnValuePart, url: t.Optional[str]) -> str:
-        pass
+        pass  # pragma: no cover
 
 
 class _FormatWalker(dom.Walker):

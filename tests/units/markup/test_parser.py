@@ -347,3 +347,18 @@ def test_parse_bad(paragraphs: t.Union[str, t.List[str]], context: Context, kwar
     with pytest.raises(ValueError) as exc:
         parse(paragraphs, context, **kwargs)
     assert str(exc.value) == exc_message
+
+
+TEST_TRIVIAL_PARSER = [
+    '',
+    'foo',
+    'I(foo) B(bar) HORIZONTALLINE C(baz)'
+]
+
+
+@pytest.mark.parametrize('input', TEST_TRIVIAL_PARSER)
+def test_trivial_parser(input: str) -> None:
+    parser = Parser([])
+    result = parser.parse_string(input, Context())
+    expected = [dom.TextPart(text=input)] if input else []
+    assert result == expected

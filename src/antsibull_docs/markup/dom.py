@@ -20,7 +20,7 @@ if sys.version_info >= (3, 8):
     ErrorType = t.Union[t.Literal['ignore'], t.Literal['message'], t.Literal['exception']]
 else:
     # Python 3.6/3.7 do not have t.Literal
-    ErrorType = str
+    ErrorType = str  # pragma: no cover
 
 
 class PluginIdentifier(NamedTuple):
@@ -157,63 +157,63 @@ class Walker(abc.ABC):
 
     @abc.abstractmethod
     def process_error(self, part: ErrorPart) -> None:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def process_bold(self, part: BoldPart) -> None:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def process_code(self, part: CodePart) -> None:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def process_horizontal_line(self, part: HorizontalLinePart) -> None:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def process_italic(self, part: ItalicPart) -> None:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def process_link(self, part: LinkPart) -> None:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def process_module(self, part: ModulePart) -> None:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def process_rst_ref(self, part: RSTRefPart) -> None:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def process_url(self, part: URLPart) -> None:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def process_text(self, part: TextPart) -> None:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def process_env_variable(self, part: EnvVariablePart) -> None:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def process_option_name(self, part: OptionNamePart) -> None:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def process_option_value(self, part: OptionValuePart) -> None:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def process_plugin(self, part: PluginPart) -> None:
-        pass
+        pass  # pragma: no cover
 
     @abc.abstractmethod
     def process_return_value(self, part: ReturnValuePart) -> None:
-        pass
+        pass  # pragma: no cover
 
 
 class NoopWalker(Walker):
@@ -304,3 +304,5 @@ def walk(paragraph: Paragraph, walker: Walker) -> None:  # noqa: C901
             walker.process_plugin(t.cast(PluginPart, part))
         elif part.type == PartType.RETURN_VALUE:
             walker.process_return_value(t.cast(ReturnValuePart, part))
+        else:
+            raise RuntimeError(f'Internal error: unknown type {part.type!r}')

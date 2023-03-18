@@ -49,7 +49,7 @@ class CommandParser(abc.ABC):
 
     @abc.abstractmethod
     def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
-        pass
+        pass  # pragma: no cover
 
 
 class CommandParserEx(CommandParser):

@@ -109,6 +109,7 @@ TEST_WALKER = [
         dom.TextPart(text=' '),
         dom.OptionNamePart(plugin=None, link=['foo'], name='foo', value=None),
         dom.TextPart(text=' '),
+        dom.ReturnValuePart(plugin=None, link=['bar', 'baz'], name='bar.baz[1]', value=None),
     ],
 ]
 
@@ -119,3 +120,15 @@ def test_walk(data: dom.Paragraph) -> None:
     dom.walk(data, walker)
     assert walker.result == data
 
+    # The following has no side-effect (except increasing line coverage)
+    walker = dom.NoopWalker()
+    dom.walk(data, walker)
+
+
+def test_internal_error() -> None:
+    class FakePart(t.NamedTuple):
+        type: int = 23
+
+    with pytest.raises(RuntimeError) as exc:
+        dom.walk([FakePart()], dom.NoopWalker())
+    assert str(exc.value) == 'Internal error: unknown type 23'
