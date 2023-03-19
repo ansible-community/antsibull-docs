@@ -70,6 +70,7 @@ jobs:
         run: |
           sed -i build.sh -e 's!antsibull-docs !poetry run coverage run -p --source antsibull_docs -m antsibull_docs.cli.antsibull_docs !g'
           sed -i build.sh -e 's!sphinx-build !poetry run coverage run -p --source antsibull_docs --source sphinx_antsibull_ext -m sphinx.cmd.build !g'
+          cat build.sh
         working-directory: antsibull-docs
 
       - name: Install dependencies
