@@ -4,8 +4,7 @@
 
 import pytest
 
-from antsibull_docs.jinja2.filters import massage_author_name, move_first, to_ini_value, to_json
-from antsibull_docs.jinja2.rstify import rst_escape, rst_ify
+from antsibull_docs.jinja2.filters import massage_author_name, move_first, to_ini_value, to_json, rst_ify
 
 RST_IFY_DATA = {
     # No substitutions
@@ -39,28 +38,6 @@ def test_rst_ify(text, expected):
         'plugin_type': 'module',
     }
     assert rst_ify(context, text) == expected
-
-
-RST_ESCAPE_DATA = {
-    '': '',
-    'no-op': 'no-op',
-    None: 'None',
-    1: '1',
-    '*': '\\*',
-    '_': '\\_',
-    '<': '\\<',
-    '>': '\\>',
-    '`': '\\`',
-    '\\': '\\\\',
-    '\\*': '\\\\\\*',
-    '*\\': '\\*\\\\',
-    ':role:`test`': ':role:\\`test\\`',
-}
-
-
-@pytest.mark.parametrize('value, expected', RST_ESCAPE_DATA.items())
-def test_escape_ify(value, expected):
-    assert rst_escape(value) == expected
 
 
 MOVE_FIRST_DATA = [

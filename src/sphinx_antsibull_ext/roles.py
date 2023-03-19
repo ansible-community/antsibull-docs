@@ -12,7 +12,7 @@ import typing as t
 from docutils import nodes
 from sphinx import addnodes
 
-from antsibull_docs.semantic_helper import parse_option, parse_return_value
+from antsibull_docs.markup.semantic_helper import parse_option, parse_return_value
 
 
 # pylint:disable-next=unused-argument,dangerous-default-value

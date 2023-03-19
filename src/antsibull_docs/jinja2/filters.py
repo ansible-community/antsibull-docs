@@ -13,6 +13,10 @@ from collections.abc import Mapping, Sequence
 
 from antsibull_core.logging import log
 from jinja2.runtime import Context, Undefined
+from jinja2.utils import pass_context
+
+from ..markup.rstify import rst_ify as rst_ify_impl
+from ..markup.htmlify import html_ify as html_ify_impl
 
 mlog = log.fields(mod=__name__)
 
@@ -127,3 +131,41 @@ def to_ini_value(data: t.Any) -> str:
         return 'MAPPINGS ARE NOT SUPPORTED'
     # Handle other values (booleans, integers, floats) as JSON
     return json.dumps(data)
+
+
+@pass_context
+def rst_ify(context: Context, text: str,
+            *,
+            plugin_fqcn: t.Optional[str] = None,
+            plugin_type: t.Optional[str] = None) -> str:
+    ''' convert symbols like I(this is in italics) to valid restructured text '''
+    flog = mlog.fields(func='rst_ify')
+    flog.fields(text=text).debug('Enter')
+
+    plugin_fqcn, plugin_type = extract_plugin_data(
+            context, plugin_fqcn=plugin_fqcn, plugin_type=plugin_type)
+
+    text, counts = rst_ify_impl(text, plugin_fqcn=plugin_fqcn, plugin_type=plugin_type)
+
+    flog.fields(counts=counts).info('Number of macros converted to rst equivalents')
+    flog.debug('Leave')
+    return text
+
+
+@pass_context
+def html_ify(context: Context, text: str,
+             *,
+             plugin_fqcn: t.Optional[str] = None,
+             plugin_type: t.Optional[str] = None) -> str:
+    ''' convert symbols like I(this is in italics) to valid HTML '''
+    flog = mlog.fields(func='html_ify')
+    flog.fields(text=text).debug('Enter')
+
+    plugin_fqcn, plugin_type = extract_plugin_data(
+            context, plugin_fqcn=plugin_fqcn, plugin_type=plugin_type)
+
+    text, counts = html_ify_impl(text, plugin_fqcn=plugin_fqcn, plugin_type=plugin_type)
+
+    flog.fields(counts=counts).info('Number of macros converted to html equivalents')
+    flog.debug('Leave')
+    return text
