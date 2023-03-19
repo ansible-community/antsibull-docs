@@ -31,7 +31,7 @@ def rst_escape(value: str, escape_ending_whitespace=False) -> str:
     return value
 
 
-class RSTFormatter(Formatter):
+class AntsibullRSTFormatter(Formatter):
     @staticmethod
     def _format_option_like(part: t.Union[dom.OptionNamePart, dom.ReturnValuePart],
                             role: str) -> str:
@@ -98,11 +98,11 @@ class RSTFormatter(Formatter):
         return self._format_option_like(part, 'ansretval')
 
 
-DEFAULT_FORMATTER = RSTFormatter()
+DEFAULT_ANTSIBULL_FORMATTER = AntsibullRSTFormatter()
 
 
 def to_rst(paragraphs: t.Sequence[dom.Paragraph],
-           formatter: Formatter = DEFAULT_FORMATTER,
+           formatter: Formatter = DEFAULT_ANTSIBULL_FORMATTER,
            link_provider: t.Optional[LinkProvider] = None,
            par_start: str = '',
            par_end: str = '',
