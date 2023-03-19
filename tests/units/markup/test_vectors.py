@@ -11,7 +11,7 @@ from antsibull_core.yaml import load_yaml_file
 
 from antsibull_docs.markup import dom
 from antsibull_docs.markup.parser import parse, Context
-from antsibull_docs.markup.html import to_html
+from antsibull_docs.markup.html import to_html, to_html_plain
 from antsibull_docs.markup.md import to_md
 from antsibull_docs.markup.rst import to_rst
 from antsibull_docs.markup.format import LinkProvider
@@ -97,12 +97,10 @@ def test_vectors(test_name: str, test_data: t.Mapping[str, t.Any]) -> None:
         assert result == test_data['html']
 
     if 'html_plain' in test_data:
-        ...
-        # TODO result = to_html(parsed, link_provider=html_link_provider, **html_opts)
-        # TODO assert result == test_data['html_plain']
+        result = to_html_plain(parsed, link_provider=html_link_provider, **html_opts)
+        assert result == test_data['html_plain']
 
     if 'md' in test_data:
-        print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
         result = to_md(parsed, link_provider=md_link_provider, **md_opts)
         assert result == test_data['md']
 

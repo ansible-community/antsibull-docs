@@ -5,7 +5,7 @@
 # SPDX-FileCopyrightText: 2023, Ansible Project
 
 from antsibull_docs.markup import dom
-from antsibull_docs.markup.html import html_escape, to_html
+from antsibull_docs.markup.html import html_escape, to_html, to_html_plain
 
 
 def test_html_escape():
@@ -17,3 +17,10 @@ def test_to_html():
     assert to_html([]) == ''
     assert to_html([[dom.TextPart(text='test')]]) == '<p>test</p>'
     assert to_html([[dom.TextPart(text='test')]], par_start='<div>', par_end='</div>') == '<div>test</div>'
+    assert to_html([[dom.CodePart(text='test')]]) == "<p><code class='docutils literal notranslate'>test</code></p>"
+
+def test_to_html_plain():
+    assert to_html_plain([]) == ''
+    assert to_html_plain([[dom.TextPart(text='test')]]) == '<p>test</p>'
+    assert to_html_plain([[dom.TextPart(text='test')]], par_start='<div>', par_end='</div>') == '<div>test</div>'
+    assert to_html_plain([[dom.CodePart(text='test')]]) == '<p><code>test</code></p>'
