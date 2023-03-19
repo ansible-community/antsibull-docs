@@ -18,23 +18,21 @@ import json
 import os
 import sys
 
-import ansible.plugins.loader as plugin_loader  # pylint:disable=import-error # noqa
+import ansible.plugins.loader as plugin_loader  # noqa
 import yaml
-from ansible import constants as C  # pylint:disable=import-error
-from ansible import release as ansible_release  # pylint:disable=import-error # noqa
-from ansible.cli import doc  # pylint:disable=import-error
-from ansible.cli.arguments import option_helpers as opt_help  # pylint:disable=import-error # noqa
-from ansible.collections.list import list_collection_dirs  # pylint:disable=import-error # noqa
-from ansible.module_utils._text import to_native  # pylint:disable=import-error # noqa
-from ansible.module_utils.common.json import \
-    AnsibleJSONEncoder  # pylint:disable=import-error # noqa
-from ansible.plugins.loader import (  # pylint:disable=import-error # noqa
+from ansible import constants as C
+from ansible import release as ansible_release  # noqa
+from ansible.cli import doc
+from ansible.cli.arguments import option_helpers as opt_help  # noqa
+from ansible.collections.list import list_collection_dirs  # noqa
+from ansible.module_utils._text import to_native  # noqa
+from ansible.module_utils.common.json import AnsibleJSONEncoder  # noqa
+from ansible.plugins.loader import (  # noqa
     action_loader,
     fragment_loader,
 )
-from ansible.utils.collection_loader import \
-    AnsibleCollectionConfig  # pylint:disable=import-error # noqa
-from ansible.utils.plugin_docs import get_docstring  # pylint:disable=import-error # noqa
+from ansible.utils.collection_loader import AnsibleCollectionConfig  # noqa
+from ansible.utils.plugin_docs import get_docstring  # noqa
 
 
 def load_plugin(loader, plugin_type, plugin):
