@@ -68,7 +68,7 @@ def test_vectors(test_name: str, test_data: t.Mapping[str, t.Any]) -> None:
         if 'parEnd' in test_data['html_opts']:
             html_opts['par_end'] = test_data['html_opts']['parEnd']
         if 'current_plugin' in test_data['html_opts']:
-            rst_opts['current_plugin'] = dom.PluginIdentifier(
+            html_opts['current_plugin'] = dom.PluginIdentifier(
                 fqcn=test_data['html_opts']['current_plugin']['fqcn'],
                 type=test_data['html_opts']['current_plugin']['type'],
             )
@@ -78,7 +78,7 @@ def test_vectors(test_name: str, test_data: t.Mapping[str, t.Any]) -> None:
     md_link_provider = _TestLinkProvider()
     if test_data.get('md_opts'):
         if 'current_plugin' in test_data['md_opts']:
-            rst_opts['current_plugin'] = dom.PluginIdentifier(
+            md_opts['current_plugin'] = dom.PluginIdentifier(
                 fqcn=test_data['md_opts']['current_plugin']['fqcn'],
                 type=test_data['md_opts']['current_plugin']['type'],
             )
