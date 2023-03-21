@@ -320,6 +320,8 @@ def parse(text: t.Union[str, t.Sequence[str]],
         has_paragraphs = False
         text = [text] if text else []
     parser = _CLASSIC if only_classic_markup else _SEMANTIC_MARKUP
+    if len(text) == 0:
+        print('foo')
     return [
         parser.parse_string(
             par,
