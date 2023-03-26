@@ -137,7 +137,7 @@ class _MarkupValidator:
         if plugin is None:
             return
         if plugin == self._context.current_plugin:
-            if _NAME_SEPARATOR.join(rv.link) not in self._option_names:
+            if _NAME_SEPARATOR.join(rv.link) not in self._return_value_names:
                 prefix = '' if plugin.type in ('role', 'module') else ' plugin'
                 self.errors.append(
                     f'{key}: return value name reference "{rv.name}" does not reference to an'
@@ -345,14 +345,16 @@ def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
                         plugin_type,
                         collection_name_,
                         collection_metadata[collection_name_]))
-                path = os.path.join(
-                    original_path_to_collection, 'plugins', plugin_type,
-                    f'{plugin_short_name}.rst')
                 if has_broken_docs(plugin_record, plugin_type):
                     result.append((filename, 0, 0, 'Did not return correct DOCUMENTATION'))
                 else:
                     result.extend(_validate_markup(
-                        plugin_record, plugin_name, plugin_type, path, disallow_semantic_markup))
+                        plugin_record,
+                        plugin_name,
+                        plugin_type,
+                        filename,
+                        disallow_semantic_markup,
+                    ))
                 for error in nonfatal_errors[plugin_type][plugin_name]:
                     result.append((filename, 0, 0, error))
                 rst_content = create_plugin_rst(
@@ -368,6 +370,9 @@ def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
                     log_errors=False,
                 )
                 if not skip_rstcheck:
+                    path = os.path.join(
+                        original_path_to_collection, 'plugins', plugin_type,
+                        f'{plugin_short_name}.rst')
                     rst_results = check_rst_content(
                         rst_content, filename=path,
                         ignore_directives=['rst-class'],
