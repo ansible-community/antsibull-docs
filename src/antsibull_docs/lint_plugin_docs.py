@@ -94,11 +94,55 @@ _CLASSICAL_MARKUP = (
 )
 
 
+_NAME_SEPARATOR = '/'
+
+
 class _MarkupValidator:
     errors: t.List[str]
 
     _context: ParserContext
     _disallow_semantic_markup: bool
+    _option_names: t.Dict[str, str]
+    _return_value_names: t.Dict[str, str]
+
+    def _collect_option_names(self, options: t.Dict[str, t.Any], path_prefix: str) -> None:
+        for opt, data in sorted(options.items()):
+            path = f'{path_prefix}{opt}'
+            self._option_names[path] = data['type']
+            if 'suboptions' in data:
+                self._collect_option_names(data['suboptions'], f'{path}{_NAME_SEPARATOR}')
+
+    def _collect_return_value_names(self, return_values: t.Dict[str, t.Any],
+                                    path_prefix: str) -> None:
+        for rv, data in sorted(return_values.items()):
+            path = f'{path_prefix}{rv}'
+            self._return_value_names[path] = data['type']
+            if 'contains' in data:
+                self._collect_return_value_names(data['contains'], f'{path}{_NAME_SEPARATOR}')
+
+    def _validate_option_name(self, opt: dom.OptionNamePart, key: str) -> None:
+        plugin = opt.plugin
+        if plugin is None:
+            return
+        if plugin == self._context.current_plugin:
+            if _NAME_SEPARATOR.join(opt.link) not in self._option_names:
+                prefix = '' if plugin.type in ('role', 'module') else ' plugin'
+                self.errors.append(
+                    f'{key}: option name reference "{opt.name}" does not reference to an existing'
+                    f' option of the {plugin.type}{prefix} {plugin.fqcn}'
+                )
+
+    def _validate_return_value(self, rv: dom.ReturnValuePart, key: str) -> None:
+        plugin = rv.plugin
+        if plugin is None:
+            return
+        if plugin == self._context.current_plugin:
+            if _NAME_SEPARATOR.join(rv.link) not in self._option_names:
+                prefix = '' if plugin.type in ('role', 'module') else ' plugin'
+                self.errors.append(
+                    f'{key}: return value name reference "{rv.name}" does not reference to an'
+                    f' existing return value of the {plugin.type}{prefix} {plugin.fqcn}'
+                )
 
     def _validate_markup_entry(self, entry: t.Union[str, t.Sequence[str]], key: str) -> None:
         parsed_paragraphs = parse_markup(
@@ -115,6 +159,10 @@ class _MarkupValidator:
                 if self._disallow_semantic_markup and par_elem.type not in _CLASSICAL_MARKUP:
                     self.errors.append(
                         f'{key}: Found semantic markup ({par_elem.type.name} element)')
+                if par_elem.type == dom.PartType.OPTION_NAME:
+                    self._validate_option_name(t.cast(dom.OptionNamePart, par_elem), key)
+                if par_elem.type == dom.PartType.RETURN_VALUE:
+                    self._validate_return_value(t.cast(dom.ReturnValuePart, par_elem), key)
 
     def _validate_markup_dict_entry(self, dictionary: t.Dict[str, t.Any],
                                     key: str, key_path: str) -> None:
@@ -208,6 +256,17 @@ class _MarkupValidator:
             current_plugin=dom.PluginIdentifier(fqcn=plugin_fqcn, type=plugin_type),
         )
         self._disallow_semantic_markup = disallow_semantic_markup
+
+        # Collect option and return value names
+        self._option_names = {}
+        self._return_value_names = {}
+        if 'doc' in plugin_record and 'options' in plugin_record['doc']:
+            self._collect_option_names(plugin_record['doc']['options'], '')
+        if 'return' in plugin_record:
+            self._collect_return_value_names(plugin_record['return'], '')
+        # TODO: role options?
+
+        # Validate names
         self.errors = []
         if 'doc' in plugin_record:
             self._validate_main(plugin_record['doc'], 'DOCUMENTATION')
