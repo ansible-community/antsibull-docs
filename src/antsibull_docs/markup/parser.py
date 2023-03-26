@@ -164,10 +164,10 @@ def _parse_option_like(text: str,
         plugin_identifier = context.current_plugin
         entrypoint = context.role_entrypoint
     if plugin_identifier is not None and plugin_identifier.type == "role":
-        idx = text.find(":")
-        if idx >= 0:
-            entrypoint = text[:idx]
-            text = text[idx + 1:]
+        part1, sep, part2 = text.partition(":")
+        if sep:
+            entrypoint = part1
+            text = part2
         if entrypoint is None:
             raise ValueError("Role reference is missing entrypoint")
     if ':' in text or '#' in text:
