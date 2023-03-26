@@ -33,6 +33,7 @@ def lint_collection_docs() -> int:
 
     collection_root = app_ctx.extra['collection_root_path']
     plugin_docs = app_ctx.extra['plugin_docs']
+    skip_rstcheck = app_ctx.extra['skip_rstcheck']
 
     flog.notice('Linting extra docs files')
     errors = lint_collection_extra_docs_files(collection_root)
@@ -47,7 +48,10 @@ def lint_collection_docs() -> int:
         collection_install = CollectionNameTransformer(
             app_ctx.collection_install, 'ansible-galaxy collection install {namespace}.{name}')
         errors.extend(lint_collection_plugin_docs(
-            collection_root, collection_url=collection_url, collection_install=collection_install))
+            collection_root,
+            collection_url=collection_url,
+            collection_install=collection_install,
+            skip_rstcheck=skip_rstcheck))
 
     messages = sorted(
         (os.path.normpath(error[0]), error[1], error[2], error[3].lstrip()) for error in errors

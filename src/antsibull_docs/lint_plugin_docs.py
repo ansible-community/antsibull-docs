@@ -80,6 +80,7 @@ def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
                                  original_path_to_collection: str,
                                  collection_url: CollectionNameTransformer,
                                  collection_install: CollectionNameTransformer,
+                                 skip_rstcheck: bool,
                                  ) -> t.List[t.Tuple[str, int, int, str]]:
     # Load collection docs
     venv = FakeVenvRunner()
@@ -143,21 +144,25 @@ def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
                     use_html_blobs=False,
                     log_errors=False,
                 )
-                path = os.path.join(
-                    original_path_to_collection, 'plugins', plugin_type,
-                    f'{plugin_short_name}.rst')
-                rst_results = check_rst_content(
-                    rst_content, filename=path,
-                    ignore_directives=['rst-class'],
-                    ignore_roles=list(antsibull_roles.ROLES),
-                )
-                result.extend([(path, result[0], result[1], result[2]) for result in rst_results])
+                if not skip_rstcheck:
+                    path = os.path.join(
+                        original_path_to_collection, 'plugins', plugin_type,
+                        f'{plugin_short_name}.rst')
+                    rst_results = check_rst_content(
+                        rst_content, filename=path,
+                        ignore_directives=['rst-class'],
+                        ignore_roles=list(antsibull_roles.ROLES),
+                    )
+                    result.extend([
+                        (path, result[0], result[1], result[2]) for result in rst_results
+                    ])
     return result
 
 
 def lint_collection_plugin_docs(path_to_collection: str,
                                 collection_url: CollectionNameTransformer,
                                 collection_install: CollectionNameTransformer,
+                                skip_rstcheck: bool = False,
                                 ) -> t.List[t.Tuple[str, int, int, str]]:
     try:
         info = load_collection_info(path_to_collection)
@@ -198,5 +203,6 @@ def lint_collection_plugin_docs(path_to_collection: str,
         result.extend(_lint_collection_plugin_docs(
             copier.dir, collection_name, path_to_collection,
             collection_url=collection_url,
-            collection_install=collection_install))
+            collection_install=collection_install,
+            skip_rstcheck=skip_rstcheck))
     return result

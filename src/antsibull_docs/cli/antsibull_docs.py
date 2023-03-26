@@ -429,6 +429,12 @@ def parse_args(program_name: str, args: List[str]) -> argparse.Namespace:
                                              help='Determine whether to also check RST file'
                                              ' generation and validation for plugins and roles'
                                              ' in this collection.')
+    lint_collection_docs_parser.add_argument('--skip-rstcheck',
+                                             dest='skip_rstcheck', action=BooleanOptionalAction,
+                                             default=False,
+                                             help='When --plugin-docs is specified, do not run'
+                                             ' rstcheck on the generated RST files. This speeds'
+                                             ' up testing for large collections.')
 
     flog.debug('Argument parser setup')
 
