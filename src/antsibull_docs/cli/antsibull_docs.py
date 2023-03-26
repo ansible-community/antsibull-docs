@@ -435,6 +435,14 @@ def parse_args(program_name: str, args: List[str]) -> argparse.Namespace:
                                              help='When --plugin-docs is specified, do not run'
                                              ' rstcheck on the generated RST files. This speeds'
                                              ' up testing for large collections.')
+    lint_collection_docs_parser.add_argument('--disallow-semantic-markup',
+                                             dest='disallow_semantic_markup',
+                                             action=BooleanOptionalAction,
+                                             default=False,
+                                             help='When --plugin-docs is specified, check that'
+                                             ' there is no semantic markup used. This can be used'
+                                             ' by collections to ensure that semantic markup is'
+                                             ' not yet used.')
 
     flog.debug('Argument parser setup')
 

@@ -80,14 +80,30 @@ class CollectionFinder:
         return self.collections.get(f'{namespace}.{name}')
 
 
+_CLASSICAL_MARKUP = (
+    dom.PartType.BOLD,
+    dom.PartType.CODE,
+    dom.PartType.ERROR,  # not really markup, but having it here makes code simpler
+    dom.PartType.HORIZONTAL_LINE,
+    dom.PartType.ITALIC,
+    dom.PartType.LINK,
+    dom.PartType.MODULE,
+    dom.PartType.RST_REF,
+    dom.PartType.URL,
+    dom.PartType.TEXT,
+)
+
+
 class _MarkupValidator:
     errors: t.List[str]
-    context: ParserContext
+
+    _context: ParserContext
+    _disallow_semantic_markup: bool
 
     def _validate_markup_entry(self, entry: t.Union[str, t.Sequence[str]], key: str) -> None:
         parsed_paragraphs = parse_markup(
             entry,
-            self.context,
+            self._context,
             errors='message',
             only_classic_markup=False,
         )
@@ -95,7 +111,10 @@ class _MarkupValidator:
             for par_elem in paragraph:
                 if par_elem.type == dom.PartType.ERROR:
                     error_elem = t.cast(dom.ErrorPart, par_elem)
-                    self.errors.append(f'Markup error in {key}: {error_elem.message}')
+                    self.errors.append(f'{key}: Markup error: {error_elem.message}')
+                if self._disallow_semantic_markup and par_elem.type not in _CLASSICAL_MARKUP:
+                    self.errors.append(
+                        f'{key}: Found semantic markup ({par_elem.type.name} element)')
 
     def _validate_markup_dict_entry(self, dictionary: t.Dict[str, t.Any],
                                     key: str, key_path: str) -> None:
@@ -180,10 +199,15 @@ class _MarkupValidator:
         self._validate_seealso(main, key_path)
         self._validate_attributes(main, key_path)
 
-    def __init__(self, plugin_record: t.Dict[str, t.Any], plugin_fqcn: str, plugin_type: str):
-        self.context = ParserContext(
+    def __init__(self,
+                 plugin_record: t.Dict[str, t.Any],
+                 plugin_fqcn: str,
+                 plugin_type: str,
+                 disallow_semantic_markup: bool = False):
+        self._context = ParserContext(
             current_plugin=dom.PluginIdentifier(fqcn=plugin_fqcn, type=plugin_type),
         )
+        self._disallow_semantic_markup = disallow_semantic_markup
         self.errors = []
         if 'doc' in plugin_record:
             self._validate_main(plugin_record['doc'], 'DOCUMENTATION')
@@ -195,9 +219,17 @@ class _MarkupValidator:
 
 
 def _validate_markup(plugin_record: t.Dict[str, t.Any],
-                     plugin_fqcn: str, plugin_type: str, path: str
+                     plugin_fqcn: str,
+                     plugin_type: str,
+                     path: str,
+                     disallow_semantic_markup: bool,
                      ) -> t.List[t.Tuple[str, int, int, str]]:
-    validator = _MarkupValidator(plugin_record, plugin_fqcn, plugin_type)
+    validator = _MarkupValidator(
+        plugin_record,
+        plugin_fqcn,
+        plugin_type,
+        disallow_semantic_markup=disallow_semantic_markup,
+    )
     return [(path, 0, 0, msg) for msg in validator.errors]
 
 
@@ -206,6 +238,7 @@ def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
                                  collection_url: CollectionNameTransformer,
                                  collection_install: CollectionNameTransformer,
                                  skip_rstcheck: bool,
+                                 disallow_semantic_markup: bool,
                                  ) -> t.List[t.Tuple[str, int, int, str]]:
     # Load collection docs
     venv = FakeVenvRunner()
@@ -259,7 +292,8 @@ def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
                 if has_broken_docs(plugin_record, plugin_type):
                     result.append((filename, 0, 0, 'Did not return correct DOCUMENTATION'))
                 else:
-                    result.extend(_validate_markup(plugin_record, plugin_name, plugin_type, path))
+                    result.extend(_validate_markup(
+                        plugin_record, plugin_name, plugin_type, path, disallow_semantic_markup))
                 for error in nonfatal_errors[plugin_type][plugin_name]:
                     result.append((filename, 0, 0, error))
                 rst_content = create_plugin_rst(
@@ -290,6 +324,7 @@ def lint_collection_plugin_docs(path_to_collection: str,
                                 collection_url: CollectionNameTransformer,
                                 collection_install: CollectionNameTransformer,
                                 skip_rstcheck: bool = False,
+                                disallow_semantic_markup: bool = False,
                                 ) -> t.List[t.Tuple[str, int, int, str]]:
     try:
         info = load_collection_info(path_to_collection)
@@ -331,5 +366,7 @@ def lint_collection_plugin_docs(path_to_collection: str,
             copier.dir, collection_name, path_to_collection,
             collection_url=collection_url,
             collection_install=collection_install,
-            skip_rstcheck=skip_rstcheck))
+            skip_rstcheck=skip_rstcheck,
+            disallow_semantic_markup=disallow_semantic_markup,
+        ))
     return result
