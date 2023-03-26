@@ -15,7 +15,7 @@ make_baseline() {
     mkdir -p "${DEST}"
     ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --dest-dir "${DEST}" --use-current "$@" 2>&1 | (
         set +e
-        grep -v "An error page will be generated."
+        grep -v "ERROR:antsibull:func=create_plugin_rst:mod=antsibull_docs.write_docs.plugins:nonfatal_errors="
         set -e
     )
 

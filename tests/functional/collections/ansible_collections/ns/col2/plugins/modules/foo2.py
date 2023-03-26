@@ -10,10 +10,10 @@ __metaclass__ = type
 
 DOCUMENTATION = '''
 ---
-module: foo
+module: foo2
 author:
     - "Someone else (@ansible)"
-version_added: foo
+short_description: Foo two
 description:
     - Does some foo on the remote host.
     - A broken reference R(asdfasdfoobarTHISDOESNOTEXIST,asdfasdfoobarTHISDOESNOTEXIST).
@@ -23,19 +23,15 @@ description:
     - "Again not existing: O(ns.col2.foo#module:foobar=1), RV(ns.col2.foo#module:barbaz=2)"
 options:
     foo:
-        The foo source.
+        description: The foo source.
+        type: str
     bar:
         description:
-          - A bar:
-            - foo
-            - bar
-            - baz
-          - true
-          - 42
-        type: list of ints
+          - Bar.
+        type: list
+        elements: int
     subfoo:
         description: Some recursive foo.
-        bam: baz
         type: dict
         suboptions:
             foo:
@@ -65,17 +61,15 @@ attributes:
 '''
 
 EXAMPLES = '''
-This is not YAML.
+name: This is YAML.
 '''
 
 RETURN = '''
 bar:
     description: Some bar.
     returned: success
-    type: string or so
+    type: string
     sample: baz
-baz:
-    baz!
 '''
 
 from ansible.module_utils.basic import AnsibleModule

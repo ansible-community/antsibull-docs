@@ -10,32 +10,23 @@ __metaclass__ = type
 
 DOCUMENTATION = '''
 ---
-module: foo
+module: foo3
 author:
     - "Someone else (@ansible)"
-version_added: foo
+short_description: Foo III
 description:
     - Does some foo on the remote host.
-    - A broken reference R(asdfasdfoobarTHISDOESNOTEXIST,asdfasdfoobarTHISDOESNOTEXIST).
-    - The option O(foo) exists, but O(foobar) does not.
-    - The return value RV(bar) exists, but RV(barbaz) does not.
-    - "Again existing: O(ns.col2.foo#module:foo=1), RV(ns.col2.foo#module:bar=2)"
-    - "Again not existing: O(ns.col2.foo#module:foobar=1), RV(ns.col2.foo#module:barbaz=2)"
 options:
     foo:
-        The foo source.
+        description: The foo source.
+        type: str
     bar:
         description:
-          - A bar:
-            - foo
-            - bar
-            - baz
-          - true
-          - 42
-        type: list of ints
+          - Bar.
+        type: list
+        elements: int
     subfoo:
         description: Some recursive foo.
-        bam: baz
         type: dict
         suboptions:
             foo:
@@ -57,9 +48,6 @@ attributes:
         support: full
     platform:
         description: Target OS/families that can be operated against
-        details:
-          - The module M(boo) is not using an FQCN.
-          - Sometimes our markup is B(broken.
         support: N/A
         platforms: posix
 '''

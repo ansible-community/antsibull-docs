@@ -10,6 +10,8 @@ ns.col2
 -------
 
 * :ref:`ns.col2.foo <ansible_collections.ns.col2.foo_module>` -- 
+* :ref:`ns.col2.foo2 <ansible_collections.ns.col2.foo2_module>` -- Foo two
+* :ref:`ns.col2.foo3 <ansible_collections.ns.col2.foo3_module>` -- Foo III
 
 ns2.col
 -------
