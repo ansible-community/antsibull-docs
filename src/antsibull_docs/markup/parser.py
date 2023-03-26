@@ -146,6 +146,7 @@ def _parse_option_like(text: str,
     value = None
     if '=' in text:
         text, value = text.split('=', 1)
+    entrypoint: t.Optional[str] = None
     m = _FQCN_TYPE_PREFIX_RE.match(text)
     if m:
         plugin_fqcn = m.group(1)
@@ -161,15 +162,14 @@ def _parse_option_like(text: str,
         text = text[len(_IGNORE_MARKER):]
     else:
         plugin_identifier = context.current_plugin
-    entrypoint: t.Optional[str] = context.role_entrypoint
-    if plugin_identifier is not None and plugin_identifier.type == 'role':
-        idx = text.find(':')
-        if idx < 0:
-            if entrypoint is None:
-                raise ValueError('Role reference is missing entrypoint')
-        else:
+        entrypoint = context.role_entrypoint
+    if plugin_identifier is not None and plugin_identifier.type == "role":
+        idx = text.find(":")
+        if idx >= 0:
             entrypoint = text[:idx]
             text = text[idx + 1:]
+        if entrypoint is None:
+            raise ValueError("Role reference is missing entrypoint")
     if ':' in text or '#' in text:
         raise ValueError(f'Invalid option/return value name "{text}"')
     return (
