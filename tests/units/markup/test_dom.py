@@ -107,9 +107,9 @@ TEST_WALKER = [
         dom.TextPart(text=' baz '),
         dom.OptionValuePart(value=' b,na)\\m, '),
         dom.TextPart(text=' '),
-        dom.OptionNamePart(plugin=None, link=['foo'], name='foo', value=None),
+        dom.OptionNamePart(plugin=None, entrypoint=None, link=['foo'], name='foo', value=None),
         dom.TextPart(text=' '),
-        dom.ReturnValuePart(plugin=None, link=['bar', 'baz'], name='bar.baz[1]', value=None),
+        dom.ReturnValuePart(plugin=None, entrypoint=None, link=['bar', 'baz'], name='bar.baz[1]', value=None),
     ],
 ]
 

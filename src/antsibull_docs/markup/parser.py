@@ -35,6 +35,7 @@ def _is_plugin_type(text: str) -> bool:
 
 class Context(t.NamedTuple):
     current_plugin: t.Optional[dom.PluginIdentifier] = None
+    role_entrypoint: t.Optional[str] = None
 
 
 class CommandParser(abc.ABC):
@@ -141,7 +142,7 @@ class _HorizontalLine(CommandParserEx):
 def _parse_option_like(text: str,
                        context: Context,
                        ) -> t.Tuple[t.Optional[dom.PluginIdentifier],
-                                    t.List[str], str, t.Optional[str]]:
+                                    t.Optional[str], t.List[str], str, t.Optional[str]]:
     value = None
     if '=' in text:
         text, value = text.split('=', 1)
@@ -160,10 +161,20 @@ def _parse_option_like(text: str,
         text = text[len(_IGNORE_MARKER):]
     else:
         plugin_identifier = context.current_plugin
+    entrypoint: t.Optional[str] = context.role_entrypoint
+    if plugin_identifier is not None and plugin_identifier.type == 'role':
+        idx = text.find(':')
+        if idx < 0:
+            if entrypoint is None:
+                raise ValueError('Role reference is missing entrypoint')
+        else:
+            entrypoint = text[:idx]
+            text = text[idx + 1:]
     if ':' in text or '#' in text:
         raise ValueError(f'Invalid option/return value name "{text}"')
     return (
         plugin_identifier,
+        entrypoint,
         _ARRAY_STUB_RE.sub('', text).split('.'),
         text,
         value,
@@ -207,8 +218,9 @@ class _OptionName(CommandParserEx):
         super().__init__('O', 1, escaped_arguments=True)
 
     def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
-        plugin, link, name, value = _parse_option_like(parameters[0], context)
-        return dom.OptionNamePart(plugin=plugin, link=link, name=name, value=value)
+        plugin, entrypoint, link, name, value = _parse_option_like(parameters[0], context)
+        return dom.OptionNamePart(
+            plugin=plugin, entrypoint=entrypoint, link=link, name=name, value=value)
 
 
 class _ReturnValue(CommandParserEx):
@@ -216,8 +228,9 @@ class _ReturnValue(CommandParserEx):
         super().__init__('RV', 1, escaped_arguments=True)
 
     def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
-        plugin, link, name, value = _parse_option_like(parameters[0], context)
-        return dom.ReturnValuePart(plugin=plugin, link=link, name=name, value=value)
+        plugin, entrypoint, link, name, value = _parse_option_like(parameters[0], context)
+        return dom.ReturnValuePart(
+            plugin=plugin, entrypoint=entrypoint, link=link, name=name, value=value)
 
 
 _COMMANDS = [

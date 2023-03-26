@@ -49,7 +49,7 @@
 .. Title
 
 {% if entry_points.main and entry_points.main.short_description -%}
-{%   set title = plugin_name ~ ' ' ~ plugin_type ~ ' -- ' ~ entry_points.main.short_description | rst_ify -%}
+{%   set title = plugin_name ~ ' ' ~ plugin_type ~ ' -- ' ~ entry_points.main.short_description | rst_ify(role_entrypoint='main') -%}
 {% else -%}
 {%   set title = plugin_name ~ ' ' ~ plugin_type -%}
 {% endif -%}
@@ -87,7 +87,7 @@
 .. Entry point title
 
 {%   if ep_doc['short_description'] -%}
-{%     set title = 'Entry point ``' + entry_point + '`` -- ' + ep_doc['short_description'] | rst_ify -%}
+{%     set title = 'Entry point ``' + entry_point + '`` -- ' + ep_doc['short_description'] | rst_ify(role_entrypoint=entry_point) -%}
 {%   else -%}
 {%     set title = 'Entry point ``' + entry_point + '``' -%}
 {%   endif -%}
@@ -109,14 +109,14 @@ New in @{ version_added_rst(ep_doc['version_added'], collection) }@
 DEPRECATED
 ^^^^^^^^^^
 {%     if ep_doc['deprecated']['removed_at_date'] %}
-:Removed in: major release after @{ ep_doc['deprecated']['removed_at_date'] | rst_ify }@
+:Removed in: major release after @{ ep_doc['deprecated']['removed_at_date'] | rst_ify(role_entrypoint=entry_point) }@
 {%     elif ep_doc['deprecated']['removed_in'] %}
-:Removed in: version @{ ep_doc['deprecated']['removed_in'] | rst_ify }@
+:Removed in: version @{ ep_doc['deprecated']['removed_in'] | rst_ify(role_entrypoint=entry_point) }@
 {%     else %}
 :Removed in: a future release
 {%     endif %}
-:Why: @{ ep_doc['deprecated']['why'] | rst_ify }@
-:Alternative: @{ ep_doc['deprecated']['alternative'] | rst_ify }@
+:Why: @{ ep_doc['deprecated']['why'] | rst_ify(role_entrypoint=entry_point) }@
+:Alternative: @{ ep_doc['deprecated']['alternative'] | rst_ify(role_entrypoint=entry_point) }@
 {%   endif %}
 
 Synopsis
@@ -125,7 +125,7 @@ Synopsis
 .. Description
 
 {%   for desc in ep_doc['description'] -%}
-- @{ desc | rst_ify | indent(width=2) }@
+- @{ desc | rst_ify(role_entrypoint=entry_point) | indent(width=2) }@
 {%   endfor %}
 
 .. Requirements
@@ -136,7 +136,7 @@ Requirements
 The below requirements are needed on the remote host and/or the local controller node.
 
 {%     for req in ep_doc['requirements'] %}
-- @{ req | rst_ify | indent(width=2) }@
+- @{ req | rst_ify(role_entrypoint=entry_point) | indent(width=2) }@
 {%     endfor %}
 
 {%   endif %}
@@ -149,9 +149,9 @@ Parameters
 ^^^^^^^^^^
 
 {%     if use_html_blobs %}
-@{       parameters_html(ep_doc['options'] | dictsort, suboption_key='options', parameter_html_prefix=entry_point ~ '--', parameter_rst_prefix=entry_point ~ '__') }@
+@{       parameters_html(ep_doc['options'] | dictsort, suboption_key='options', parameter_html_prefix=entry_point ~ '--', parameter_rst_prefix=entry_point ~ '__', role_entrypoint=entry_point) }@
 {%     else %}
-@{       parameters_rst(ep_doc['options'] | dictsort, suboption_key='options', parameter_html_prefix=entry_point ~ '--', parameter_rst_prefix=entry_point ~ '__') }@
+@{       parameters_rst(ep_doc['options'] | dictsort, suboption_key='options', parameter_html_prefix=entry_point ~ '--', parameter_rst_prefix=entry_point ~ '__', role_entrypoint=entry_point) }@
 {%     endif %}
 {%   endif %}
 
@@ -162,7 +162,7 @@ Parameters
 Attributes
 ----------
 
-@{     attributes_rst(ep_doc['attributes']) }@
+@{     attributes_rst(ep_doc['attributes'], role_entrypoint=entry_point) }@
 {%   endif %}
 
 .. Notes
@@ -173,7 +173,7 @@ Notes
 
 .. note::
 {%     for note in ep_doc['notes'] %}
-   - @{ note | rst_ify | indent(width=5) }@
+   - @{ note | rst_ify(role_entrypoint=entry_point) | indent(width=5) }@
 {%     endfor %}
 {%   endif %}
 
@@ -188,22 +188,22 @@ See Also
 {%     for item in ep_doc['seealso'] %}
 {%       if item.module is defined and item.description %}
    @{ reference_plugin_rst(item['module'], 'module') }@
-       @{ item['description'] | rst_ify }@
+       @{ item['description'] | rst_ify(role_entrypoint=entry_point) }@
 {%       elif item.module is defined %}
    @{ reference_plugin_rst(item['module'], 'module') }@
        The official documentation on the **@{ item['module'] }@** module.
 {%       elif item.plugin is defined and item.plugin_type is defined and item.description %}
    @{ reference_plugin_rst(item['plugin'], item['plugin_type']) }@ @{ item['plugin_type'] }@ plugin
-       @{ item['description'] | rst_ify }@
+       @{ item['description'] | rst_ify(role_entrypoint=entry_point) }@
 {%       elif item.plugin is defined and item.plugin_type is defined %}
    @{ reference_plugin_rst(item['plugin'], item['plugin_type']) }@ @{ item['plugin_type'] }@ plugin
        The official documentation on the **@{ item['plugin'] }@** @{ item['plugin_type'] }@ plugin.
 {%       elif item.name is defined and item.link is defined and item.description %}
    `@{ item['name'] }@ <@{ item['link'] }@>`_
-       @{ item['description'] | rst_ify }@
+       @{ item['description'] | rst_ify(role_entrypoint=entry_point) }@
 {%       elif item.ref is defined and item.description %}
    :ref:`@{ item['ref'] }@`
-       @{ item['description'] | rst_ify }@
+       @{ item['description'] | rst_ify(role_entrypoint=entry_point) }@
 {%       endif %}
 {%     endfor %}
 {%   endif %}

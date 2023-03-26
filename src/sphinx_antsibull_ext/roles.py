@@ -92,28 +92,33 @@ def return_value_sample(name, rawtext, text, lineno, inliner, options={}, conten
 
 
 def _create_option_reference(plugin_fqcn: t.Optional[str], plugin_type: t.Optional[str],
+                             entrypoint: t.Optional[str],
                              option: str) -> t.Optional[str]:
     if not plugin_fqcn or not plugin_type:
         return None
-    # TODO: handle role arguments (entrypoint!)
     ref = option.replace(".", "/")
-    return f'ansible_collections.{plugin_fqcn}_{plugin_type}__parameter-{ref}'
+    ep = f'{entrypoint}__' if entrypoint is not None else ''
+    return f'ansible_collections.{plugin_fqcn}_{plugin_type}__parameter-{ep}{ref}'
 
 
 def _create_return_value_reference(plugin_fqcn: t.Optional[str], plugin_type: t.Optional[str],
+                                   entrypoint: t.Optional[str],
                                    return_value: str) -> t.Optional[str]:
     if not plugin_fqcn or not plugin_type:
         return None
     ref = return_value.replace(".", "/")
-    return f'ansible_collections.{plugin_fqcn}_{plugin_type}__return-{ref}'
+    ep = f'{entrypoint}__' if entrypoint is not None else ''
+    return f'ansible_collections.{plugin_fqcn}_{plugin_type}__return-{ep}{ref}'
 
 
-def _create_ref_or_not(create_ref: t.Callable[[t.Optional[str], t.Optional[str], str],
+def _create_ref_or_not(create_ref: t.Callable[[t.Optional[str], t.Optional[str],
+                                               t.Optional[str], str],
                                               t.Optional[str]],
                        plugin_fqcn: t.Optional[str], plugin_type: t.Optional[str],
+                       entrypoint: t.Optional[str],
                        ref_parameter: str, text: str
                        ) -> t.Tuple[str, t.List[t.Any]]:
-    ref = create_ref(plugin_fqcn, plugin_type, ref_parameter)
+    ref = create_ref(plugin_fqcn, plugin_type, entrypoint, ref_parameter)
     if ref is None:
         return text, []
 
@@ -156,7 +161,7 @@ def option_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
     """
     classes = []
     try:
-        plugin_fqcn, plugin_type, option_link, option, value = parse_option(
+        plugin_fqcn, plugin_type, entrypoint, option_link, option, value = parse_option(
             text.replace('\x00', ''), '', '', require_plugin=False)
     except ValueError as exc:
         return _create_error(rawtext, text, str(exc))
@@ -167,7 +172,7 @@ def option_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
         text = f'{option}={value}'
         classes.append('ansible-option-value')
     text, subnodes = _create_ref_or_not(
-        _create_option_reference, plugin_fqcn, plugin_type, option_link, text)
+        _create_option_reference, plugin_fqcn, plugin_type, entrypoint, option_link, text)
     if value is None:
         content = nodes.strong(rawtext, text, *subnodes)
         content = nodes.literal(rawtext, '', content, classes=classes)
@@ -213,7 +218,7 @@ def return_value_role(name, rawtext, text, lineno, inliner, options={}, content=
     """
     classes = ['ansible-return-value']
     try:
-        plugin_fqcn, plugin_type, rv_link, rv, value = parse_return_value(
+        plugin_fqcn, plugin_type, entrypoint, rv_link, rv, value = parse_return_value(
             text.replace('\x00', ''), '', '', require_plugin=False)
     except ValueError as exc:
         return _create_error(rawtext, text, str(exc))
@@ -222,7 +227,7 @@ def return_value_role(name, rawtext, text, lineno, inliner, options={}, content=
     else:
         text = f'{rv}={value}'
     text, subnodes = _create_ref_or_not(
-        _create_return_value_reference, plugin_fqcn, plugin_type, rv_link, text)
+        _create_return_value_reference, plugin_fqcn, plugin_type, entrypoint, rv_link, text)
     return [nodes.literal(rawtext, text, *subnodes, classes=classes)], []
 
 
