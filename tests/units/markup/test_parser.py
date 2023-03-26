@@ -247,6 +247,11 @@ TEST_PARSE_DATA: t.List[t.Tuple[t.Union[str, t.List[str]], Context, t.Dict[str, 
         dom.ErrorPart(message='While parsing O() at index 1: Invalid option/return value name "foo:bar:baz"'),
       ],
     ]),
+    ('O(foo.bar.baz#role:bam)', Context(), dict(errors='message'), [
+      [
+        dom.ErrorPart(message='While parsing O() at index 1: Role reference is missing entrypoint'),
+      ],
+    ]),
     # bad parameter parsing (no escaping, ignore error):
     ('M(', Context(), dict(errors='ignore'), [[]]),
     ('M(foo', Context(), dict(errors='ignore'), [[]]),
@@ -269,6 +274,7 @@ TEST_PARSE_DATA: t.List[t.Tuple[t.Union[str, t.List[str]], Context, t.Dict[str, 
     ('P(foo#bar)', Context(), dict(errors='ignore'), [[]]),
     ('P(f o.b r.b z#bar)', Context(), dict(errors='ignore'), [[]]),
     ('P(foo.bar.baz#b m)', Context(), dict(errors='ignore'), [[]]),
+    ('O(foo.bar.baz#role:bam)', Context(), dict(errors='ignore'), [[]]),
     # bad option name/return value (ignore error):
     ('O(f o.b r.b z#bam:foobar)', Context(), dict(errors='ignore'), [[]]),
     ('O(foo.bar.baz#b m:foobar)', Context(), dict(errors='ignore'), [[]]),
@@ -338,6 +344,9 @@ TEST_PARSE_THROW_DATA: t.List[t.Tuple[t.Union[str, t.List[str]], Context, t.Dict
     ),
     ('O(foo:bar:baz)', Context(), dict(errors='exception'),
       'While parsing O() at index 1: Invalid option/return value name "foo:bar:baz"',
+    ),
+    ('O(foo.bar.baz#role:bam)', Context(), dict(errors='exception'),
+      'While parsing O() at index 1: Role reference is missing entrypoint',
     ),
 ]
 
