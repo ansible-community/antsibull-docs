@@ -65,6 +65,7 @@ Synopsis
 .. Description
 
 - Foo bar.
+- See \ :ansopt:`ns2.col.foo#role:main:foo\_param\_1`\  for a random role parameter reference. And \ :ansopt:`ns2.col.foo#role:main:foo\_param\_2=42`\  for one with a value.
 
 
 .. Aliases
@@ -120,6 +121,8 @@ Parameters
         <div class="ansible-option-cell">
 
       Some bar.
+
+      See \ :ansopt:`ns2.col.foo#role:main:foo\_param\_1`\  for a random role parameter reference. And \ :ansopt:`ns2.col.foo#role:main:foo\_param\_2=42`\  for one with a value.
 
 
       .. raw:: html

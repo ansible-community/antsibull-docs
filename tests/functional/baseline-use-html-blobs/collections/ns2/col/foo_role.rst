@@ -65,6 +65,7 @@ Synopsis
 .. Description
 
 - This is the foo role.
+- If you set \ :ansopt:`ns2.col.foo#role:main:foo\_param\_1`\  while \ :ansopt:`ns2.col.foo#role:main:foo\_param\_2=3`\ , this might behave funny.
 
 .. Requirements
 
@@ -96,6 +97,7 @@ Parameters
     </div></td>
     <td><div class="ansible-option-cell">
       <p>A string parameter</p>
+      <p>If you set <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="#parameter-main--foo_param_1"><span class="std std-ref"><span class="pre">foo_param_1</span></span></a></strong></code> while <code class="ansible-option-value literal notranslate"><a class="reference internal" href="#parameter-main--foo_param_2"><span class="std std-ref"><span class="pre">foo_param_2=3</span></span></a></code>, this might behave funny.</p>
     </div></td>
   </tr>
   <tr class="row-odd">

@@ -9,6 +9,7 @@ argument_specs:
     version_added: 0.2.0
     description:
       - This is the foo role.
+      - If you set O(foo_param_1) while O(foo_param_2=3), this might behave funny.
     author:
       - Felix Fontein (@felixfontein)
     options:
@@ -16,6 +17,7 @@ argument_specs:
         type: str
         description:
           - A string parameter
+          - If you set O(foo_param_1) while O(foo_param_2=3), this might behave funny.
       foo_param_2:
         type: int
         description: An integer parameter with a default.

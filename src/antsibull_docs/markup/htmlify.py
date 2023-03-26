@@ -24,11 +24,14 @@ class _HTMLLinkProvider(LinkProvider):
 
     def plugin_option_like_link(self,
                                 plugin: dom.PluginIdentifier,
+                                entrypoint: t.Optional[str],
                                 what: "t.Union[t.Literal['option'], t.Literal['retval']]",
                                 name: t.List[str], current_plugin: bool) -> t.Optional[str]:
         base = '' if current_plugin else self.plugin_link(plugin)
         w = 'parameter' if what == 'option' else 'return'
         slug = quote('/'.join(name))
+        if entrypoint is not None:
+            slug = f'{entrypoint}--{slug}'
         return f'{base}#{w}-{slug}'
 
 

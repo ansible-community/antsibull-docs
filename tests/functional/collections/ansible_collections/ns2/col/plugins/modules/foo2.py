@@ -16,9 +16,14 @@ author:
 short_description: Another foo
 description:
     - Foo bar.
+    - See O(ns2.col.foo#role:main:foo_param_1) for a random role parameter reference. And
+      O(ns2.col.foo#role:main:foo_param_2=42) for one with a value.
 options:
     bar:
-        description: Some bar.
+        description:
+          - Some bar.
+          - See O(ns2.col.foo#role:main:foo_param_1) for a random role parameter reference. And
+            O(ns2.col.foo#role:main:foo_param_2=42) for one with a value.
         type: str
 
 attributes:
