@@ -9,6 +9,7 @@ import os
 import shutil
 import tempfile
 import typing as t
+from collections.abc import Sequence
 
 import sh
 from antsibull_core.compat import asyncio_run
@@ -28,6 +29,9 @@ from .docs_parsing.parsing import get_ansible_plugin_info
 from .docs_parsing.routing import load_all_collection_routing, remove_redirect_duplicates
 from .jinja2.environment import doc_environment
 from .lint_helpers import load_collection_info
+from .markup import dom
+from .markup.parser import Context as ParserContext
+from .markup.parser import parse as parse_markup
 from .rstcheck import check_rst_content
 from .utils.collection_name_transformer import CollectionNameTransformer
 from .write_docs.plugins import create_plugin_rst, guess_relative_filename, has_broken_docs
@@ -76,10 +80,224 @@ class CollectionFinder:
         return self.collections.get(f'{namespace}.{name}')
 
 
+_CLASSICAL_MARKUP = (
+    dom.PartType.BOLD,
+    dom.PartType.CODE,
+    dom.PartType.ERROR,  # not really markup, but having it here makes code simpler
+    dom.PartType.HORIZONTAL_LINE,
+    dom.PartType.ITALIC,
+    dom.PartType.LINK,
+    dom.PartType.MODULE,
+    dom.PartType.RST_REF,
+    dom.PartType.URL,
+    dom.PartType.TEXT,
+)
+
+
+_NAME_SEPARATOR = '/'
+
+
+class _MarkupValidator:
+    errors: t.List[str]
+
+    _context: ParserContext
+    _disallow_semantic_markup: bool
+    _option_names: t.Dict[str, str]
+    _return_value_names: t.Dict[str, str]
+
+    def _collect_option_names(self, options: t.Dict[str, t.Any], path_prefix: str) -> None:
+        for opt, data in sorted(options.items()):
+            path = f'{path_prefix}{opt}'
+            self._option_names[path] = data['type']
+            if 'suboptions' in data:
+                self._collect_option_names(data['suboptions'], f'{path}{_NAME_SEPARATOR}')
+
+    def _collect_return_value_names(self, return_values: t.Dict[str, t.Any],
+                                    path_prefix: str) -> None:
+        for rv, data in sorted(return_values.items()):
+            path = f'{path_prefix}{rv}'
+            self._return_value_names[path] = data['type']
+            if 'contains' in data:
+                self._collect_return_value_names(data['contains'], f'{path}{_NAME_SEPARATOR}')
+
+    def _validate_option_name(self, opt: dom.OptionNamePart, key: str) -> None:
+        plugin = opt.plugin
+        if plugin is None:
+            return
+        if plugin == self._context.current_plugin:
+            if _NAME_SEPARATOR.join(opt.link) not in self._option_names:
+                prefix = '' if plugin.type in ('role', 'module') else ' plugin'
+                self.errors.append(
+                    f'{key}: option name reference "{opt.name}" does not reference to an existing'
+                    f' option of the {plugin.type}{prefix} {plugin.fqcn}'
+                )
+
+    def _validate_return_value(self, rv: dom.ReturnValuePart, key: str) -> None:
+        plugin = rv.plugin
+        if plugin is None:
+            return
+        if plugin == self._context.current_plugin:
+            if _NAME_SEPARATOR.join(rv.link) not in self._return_value_names:
+                prefix = '' if plugin.type in ('role', 'module') else ' plugin'
+                self.errors.append(
+                    f'{key}: return value name reference "{rv.name}" does not reference to an'
+                    f' existing return value of the {plugin.type}{prefix} {plugin.fqcn}'
+                )
+
+    def _validate_markup_entry(self, entry: t.Union[str, t.Sequence[str]], key: str) -> None:
+        parsed_paragraphs = parse_markup(
+            entry,
+            self._context,
+            errors='message',
+            only_classic_markup=False,
+        )
+        for paragraph in parsed_paragraphs:
+            for par_elem in paragraph:
+                if par_elem.type == dom.PartType.ERROR:
+                    error_elem = t.cast(dom.ErrorPart, par_elem)
+                    self.errors.append(f'{key}: Markup error: {error_elem.message}')
+                if self._disallow_semantic_markup and par_elem.type not in _CLASSICAL_MARKUP:
+                    self.errors.append(
+                        f'{key}: Found semantic markup ({par_elem.type.name} element)')
+                if par_elem.type == dom.PartType.OPTION_NAME:
+                    self._validate_option_name(t.cast(dom.OptionNamePart, par_elem), key)
+                if par_elem.type == dom.PartType.RETURN_VALUE:
+                    self._validate_return_value(t.cast(dom.ReturnValuePart, par_elem), key)
+
+    def _validate_markup_dict_entry(self, dictionary: t.Dict[str, t.Any],
+                                    key: str, key_path: str) -> None:
+        value = dictionary.get(key)
+        if value is None:
+            return
+        full_key = f'{key_path} -> {key}'
+        if isinstance(value, str):
+            self._validate_markup_entry(value, full_key)
+        elif isinstance(value, Sequence):
+            all_strings = True
+            for index, entry in enumerate(value):
+                if not isinstance(entry, str):
+                    self.errors.append(
+                        f'Expected {full_key} to be a list of strings; the {index + 1}-th'
+                        f' entry is of type {type(value)} instead'
+                    )
+                    all_strings = False
+            if all_strings:
+                self._validate_markup_entry(value, full_key)
+        else:
+            self.errors.append(
+                f'Expected {full_key} to be a string or list of strings, but got {type(value)}')
+
+    def _validate_deprecation(self, owner: t.Dict[str, t.Any], key_path: str) -> None:
+        if 'deprecated' not in owner:
+            return
+        key_path = f'{key_path} -> deprecated'
+        deprecated = owner['deprecated']
+        self._validate_markup_dict_entry(deprecated, 'why', key_path)
+        self._validate_markup_dict_entry(deprecated, 'alternative', key_path)
+
+    def _validate_options(self, options: t.Dict[str, t.Any], key_path: str) -> None:
+        for opt, data in sorted(options.items()):
+            opt_key = f'{key_path} -> {opt}'
+            self._validate_markup_dict_entry(data, 'description', opt_key)
+            self._validate_deprecation(data, opt_key)
+            for sub in ('cli', 'env', 'ini', 'vars', 'keyword'):
+                if sub in data:
+                    for index, sub_data in enumerate(data['sub']):
+                        sub_key = f'{opt_key} -> {sub}[{index + 1}]'
+                        self._validate_deprecation(sub_data, sub_key)
+            if 'suboptions' in data:
+                self._validate_options(data['suboptions'], f'{opt_key} -> suboptions')
+
+    def _validate_return_values(self, return_values: t.Dict[str, t.Any], key_path: str) -> None:
+        for rv, data in sorted(return_values.items()):
+            rv_key = f'{key_path} -> {rv}'
+            self._validate_markup_dict_entry(data, 'description', rv_key)
+            self._validate_markup_dict_entry(data, 'returned', rv_key)
+            if 'contains' in data:
+                self._validate_return_values(data['contains'], f'{rv_key} -> contains')
+
+    def _validate_seealso(self, owner: t.Dict[str, t.Any], key_path: str) -> None:
+        if 'seealso' not in owner:
+            return
+        key_path = f'{key_path} -> seealso'
+        seealso = owner['seealso']
+        for index, entry in enumerate(seealso):
+            entry_path = f'{key_path}[{index + 1}]'
+            self._validate_markup_dict_entry(entry, 'description', entry_path)
+            self._validate_markup_dict_entry(entry, 'name', entry_path)
+
+    def _validate_attributes(self, owner: t.Dict[str, t.Any], key_path: str) -> None:
+        if 'attributes' not in owner:
+            return
+        key_path = f'{key_path} -> attributes'
+        attributes = owner['attributes']
+        for attribute, data in sorted(attributes.items()):
+            attribute_path = f'{key_path} -> {attribute}'
+            self._validate_markup_dict_entry(data, 'description', attribute_path)
+            self._validate_markup_dict_entry(data, 'details', attribute_path)
+
+    def _validate_main(self, main: t.Dict[str, t.Any], key_path: str) -> None:
+        self._validate_deprecation(main, key_path)
+        self._validate_markup_dict_entry(main, 'short_description', key_path)
+        self._validate_markup_dict_entry(main, 'author', key_path)
+        self._validate_markup_dict_entry(main, 'description', key_path)
+        self._validate_markup_dict_entry(main, 'notes', key_path)
+        self._validate_markup_dict_entry(main, 'requirements', key_path)
+        self._validate_markup_dict_entry(main, 'todo', key_path)
+        self._validate_seealso(main, key_path)
+        self._validate_attributes(main, key_path)
+
+    def __init__(self,
+                 plugin_record: t.Dict[str, t.Any],
+                 plugin_fqcn: str,
+                 plugin_type: str,
+                 disallow_semantic_markup: bool = False):
+        self._context = ParserContext(
+            current_plugin=dom.PluginIdentifier(fqcn=plugin_fqcn, type=plugin_type),
+        )
+        self._disallow_semantic_markup = disallow_semantic_markup
+
+        # Collect option and return value names
+        self._option_names = {}
+        self._return_value_names = {}
+        if 'doc' in plugin_record and 'options' in plugin_record['doc']:
+            self._collect_option_names(plugin_record['doc']['options'], '')
+        if 'return' in plugin_record:
+            self._collect_return_value_names(plugin_record['return'], '')
+        # TODO: role options?
+
+        # Validate names
+        self.errors = []
+        if 'doc' in plugin_record:
+            self._validate_main(plugin_record['doc'], 'DOCUMENTATION')
+        if 'return' in plugin_record:
+            self._validate_return_values(plugin_record['return'], 'RETURN')
+        if 'entry_points' in plugin_record:
+            for entry_point, data in sorted(plugin_record['entry_points'].items()):
+                self._validate_main(data, f'argument_specs -> {entry_point}')
+
+
+def _validate_markup(plugin_record: t.Dict[str, t.Any],
+                     plugin_fqcn: str,
+                     plugin_type: str,
+                     path: str,
+                     disallow_semantic_markup: bool,
+                     ) -> t.List[t.Tuple[str, int, int, str]]:
+    validator = _MarkupValidator(
+        plugin_record,
+        plugin_fqcn,
+        plugin_type,
+        disallow_semantic_markup=disallow_semantic_markup,
+    )
+    return [(path, 0, 0, msg) for msg in validator.errors]
+
+
 def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
                                  original_path_to_collection: str,
                                  collection_url: CollectionNameTransformer,
                                  collection_install: CollectionNameTransformer,
+                                 skip_rstcheck: bool,
+                                 disallow_semantic_markup: bool,
                                  ) -> t.List[t.Tuple[str, int, int, str]]:
     # Load collection docs
     venv = FakeVenvRunner()
@@ -129,6 +347,14 @@ def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
                         collection_metadata[collection_name_]))
                 if has_broken_docs(plugin_record, plugin_type):
                     result.append((filename, 0, 0, 'Did not return correct DOCUMENTATION'))
+                else:
+                    result.extend(_validate_markup(
+                        plugin_record,
+                        plugin_name,
+                        plugin_type,
+                        filename,
+                        disallow_semantic_markup,
+                    ))
                 for error in nonfatal_errors[plugin_type][plugin_name]:
                     result.append((filename, 0, 0, error))
                 rst_content = create_plugin_rst(
@@ -143,21 +369,26 @@ def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
                     use_html_blobs=False,
                     log_errors=False,
                 )
-                path = os.path.join(
-                    original_path_to_collection, 'plugins', plugin_type,
-                    f'{plugin_short_name}.rst')
-                rst_results = check_rst_content(
-                    rst_content, filename=path,
-                    ignore_directives=['rst-class'],
-                    ignore_roles=list(antsibull_roles.ROLES),
-                )
-                result.extend([(path, result[0], result[1], result[2]) for result in rst_results])
+                if not skip_rstcheck:
+                    path = os.path.join(
+                        original_path_to_collection, 'plugins', plugin_type,
+                        f'{plugin_short_name}.rst')
+                    rst_results = check_rst_content(
+                        rst_content, filename=path,
+                        ignore_directives=['rst-class'],
+                        ignore_roles=list(antsibull_roles.ROLES),
+                    )
+                    result.extend([
+                        (path, result[0], result[1], result[2]) for result in rst_results
+                    ])
     return result
 
 
 def lint_collection_plugin_docs(path_to_collection: str,
                                 collection_url: CollectionNameTransformer,
                                 collection_install: CollectionNameTransformer,
+                                skip_rstcheck: bool = False,
+                                disallow_semantic_markup: bool = False,
                                 ) -> t.List[t.Tuple[str, int, int, str]]:
     try:
         info = load_collection_info(path_to_collection)
@@ -198,5 +429,8 @@ def lint_collection_plugin_docs(path_to_collection: str,
         result.extend(_lint_collection_plugin_docs(
             copier.dir, collection_name, path_to_collection,
             collection_url=collection_url,
-            collection_install=collection_install))
+            collection_install=collection_install,
+            skip_rstcheck=skip_rstcheck,
+            disallow_semantic_markup=disallow_semantic_markup,
+        ))
     return result

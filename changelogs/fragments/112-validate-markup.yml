@@ -1,0 +1,3 @@
+minor_changes:
+  - "The ``lint-collection-docs`` subcommand can be told not to run rstcheck when ``--plugin-docs`` is used by passing ``--skip-rstcheck``. This speeds up testing for large collections (https://github.com/ansible-community/antsibull-docs/pull/112)."
+  - "The ``lint-collection-docs`` subcommand will now also validate Ansible markup when ``--plugin-docs`` is passed. It can also ensure that no semantic markup is used with the new ``--disallow-semantic-markup`` option. This can for example be used by collections to avoid semantic markup being backported to older stable branches (https://github.com/ansible-community/antsibull-docs/pull/112)."

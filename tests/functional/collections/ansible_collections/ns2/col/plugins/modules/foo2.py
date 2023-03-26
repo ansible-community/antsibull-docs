@@ -16,7 +16,10 @@ author:
 short_description: Another foo
 description:
     - Foo bar.
-options: {}
+options:
+    bar:
+        description: Some bar.
+        type: str
 
 attributes:
     check_mode:

@@ -79,6 +79,53 @@ Synopsis
 
 .. Options
 
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-bar"></div>
+
+      .. _ansible_collections.ns2.col.foo2_module__parameter-bar:
+
+      .. rst-class:: ansible-option-title
+
+      **bar**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Some bar.
+
+
+      .. raw:: html
+
+        </div>
+
 
 .. Attributes
 

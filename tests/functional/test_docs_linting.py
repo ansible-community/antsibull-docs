@@ -181,6 +181,15 @@ TEST_CASES = [
             '                            doc -> options -> subfoo -> bam',
             '                              extra fields not permitted (type=value_error.extra)',
             'plugins/modules/foo.py:0:0: Did not return correct DOCUMENTATION',
+            'plugins/modules/foo2.py:0:0: DOCUMENTATION -> attributes -> platform -> details: Markup error: While parsing B() at index 25 of paragraph 2: Cannot find closing ")" after last parameter',
+            'plugins/modules/foo2.py:0:0: DOCUMENTATION -> attributes -> platform -> details: Markup error: While parsing M() at index 12 of paragraph 1: Module name "boo" is not a FQCN',
+            'plugins/modules/foo2.py:0:0: DOCUMENTATION -> description: option name reference "foobar" does not reference to an existing option of the module ns.col2.foo2',
+            'plugins/modules/foo2.py:0:0: DOCUMENTATION -> description: return value name reference "barbaz" does not reference to an existing return value of the module ns.col2.foo2',
+            'plugins/modules/foo3.py:0:0: Unable to normalize foo3: return due to: 2 validation errors for PluginReturnSchema',
+            '                             return -> bar -> type',
+            '                               string does not match regex "^(any|bits|bool|bytes|complex|dict|float|int|json|jsonarg|list|path|sid|str|pathspec|pathlist)$" (type=value_error.str.regex; pattern=^(any|bits|bool|bytes|complex|dict|float|int|json|jsonarg|list|path|sid|str|pathspec|pathlist)$)',
+            '                             return -> baz',
+            '                               value is not a valid dict (type=type_error.dict)',
         ],
     ),
     (
@@ -210,6 +219,6 @@ def test_lint_collection_plugin_docs(namespace, name, rc, errors):
         with redirect_stdout(stdout):
             actual_rc = run(['antsibull-docs', 'lint-collection-docs', '.', '--plugin-docs'])
     actual_errors = stdout.getvalue().splitlines()
-    print('\n'.join(stdout))
+    print('\n'.join(actual_errors))
     assert actual_rc == rc
     assert actual_errors == errors

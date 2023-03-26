@@ -427,8 +427,22 @@ def parse_args(program_name: str, args: List[str]) -> argparse.Namespace:
                                              dest='plugin_docs', action=BooleanOptionalAction,
                                              default=False,
                                              help='Determine whether to also check RST file'
-                                             ' generation and validation for plugins and roles'
-                                             ' in this collection.')
+                                             ' generation and schema and markup validation for'
+                                             ' plugins and roles in this collection.')
+    lint_collection_docs_parser.add_argument('--skip-rstcheck',
+                                             dest='skip_rstcheck', action=BooleanOptionalAction,
+                                             default=False,
+                                             help='When --plugin-docs is specified, do not run'
+                                             ' rstcheck on the generated RST files. This speeds'
+                                             ' up testing for large collections.')
+    lint_collection_docs_parser.add_argument('--disallow-semantic-markup',
+                                             dest='disallow_semantic_markup',
+                                             action=BooleanOptionalAction,
+                                             default=False,
+                                             help='When --plugin-docs is specified, check that'
+                                             ' there is no semantic markup used. This can be used'
+                                             ' by collections to ensure that semantic markup is'
+                                             ' not yet used.')
 
     flog.debug('Argument parser setup')
 
