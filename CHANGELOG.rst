@@ -5,6 +5,22 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v1.11.0
+=======
+
+Release Summary
+---------------
+
+Feature release.
+
+Minor Changes
+-------------
+
+- Add support for semantic markup in roles (https://github.com/ansible-community/antsibull-docs/pull/113).
+- Internal refactoring of markup code (https://github.com/ansible-community/antsibull-docs/pull/108).
+- The ``lint-collection-docs`` subcommand can be told not to run rstcheck when ``--plugin-docs`` is used by passing ``--skip-rstcheck``. This speeds up testing for large collections (https://github.com/ansible-community/antsibull-docs/pull/112).
+- The ``lint-collection-docs`` subcommand will now also validate Ansible markup when ``--plugin-docs`` is passed. It can also ensure that no semantic markup is used with the new ``--disallow-semantic-markup`` option. This can for example be used by collections to avoid semantic markup being backported to older stable branches (https://github.com/ansible-community/antsibull-docs/pull/112).
+
 v1.10.0
 =======
 

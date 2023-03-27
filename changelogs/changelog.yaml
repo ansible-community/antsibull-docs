@@ -79,6 +79,26 @@ releases:
     - 4-semantic-markup.yml
     - 99-sh.yml
     release_date: '2023-03-13'
+  1.11.0:
+    changes:
+      minor_changes:
+      - Add support for semantic markup in roles (https://github.com/ansible-community/antsibull-docs/pull/113).
+      - Internal refactoring of markup code (https://github.com/ansible-community/antsibull-docs/pull/108).
+      - The ``lint-collection-docs`` subcommand can be told not to run rstcheck when
+        ``--plugin-docs`` is used by passing ``--skip-rstcheck``. This speeds up testing
+        for large collections (https://github.com/ansible-community/antsibull-docs/pull/112).
+      - The ``lint-collection-docs`` subcommand will now also validate Ansible markup
+        when ``--plugin-docs`` is passed. It can also ensure that no semantic markup
+        is used with the new ``--disallow-semantic-markup`` option. This can for example
+        be used by collections to avoid semantic markup being backported to older
+        stable branches (https://github.com/ansible-community/antsibull-docs/pull/112).
+      release_summary: Feature release.
+    fragments:
+    - 1.11.0.yml
+    - 108-markup.yml
+    - 112-validate-markup.yml
+    - 113-semantic-markup-roles.yml
+    release_date: '2023-03-27'
   1.2.0:
     changes:
       bugfixes:
