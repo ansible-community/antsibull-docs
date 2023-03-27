@@ -111,9 +111,9 @@ class _MarkupValidator:
         for opt, data in sorted(options.items()):
             path = f'{path_prefix}{opt}'
             self._option_names[f'{entrypoint}{_ROLE_ENTRYPOINT_SEPARATOR}{path}'] = data['type']
-            if 'suboptions' in data:
+            if 'options' in data:
                 self._collect_role_option_names(
-                    data['suboptions'], entrypoint, f'{path}{_NAME_SEPARATOR}')
+                    data['options'], entrypoint, f'{path}{_NAME_SEPARATOR}')
 
     def _collect_option_names(self, options: t.Dict[str, t.Any], path_prefix: str) -> None:
         for opt, data in sorted(options.items()):
@@ -234,9 +234,10 @@ class _MarkupValidator:
                         sub_key = f'{opt_key} -> {sub}[{index + 1}]'
                         self._validate_deprecation(
                             sub_data, sub_key, role_entrypoint=role_entrypoint)
-            if 'suboptions' in data:
-                self._validate_options(
-                    data['suboptions'], f'{opt_key} -> suboptions', role_entrypoint=role_entrypoint)
+            for sub_key in ('options', 'suboptions'):
+                if sub_key in data:
+                    self._validate_options(
+                        data[sub_key], f'{opt_key} -> {sub_key}', role_entrypoint=role_entrypoint)
 
     def _validate_return_values(self, return_values: t.Dict[str, t.Any], key_path: str,
                                 role_entrypoint: t.Optional[str] = None) -> None:
