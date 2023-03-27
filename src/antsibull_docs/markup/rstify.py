@@ -32,12 +32,15 @@ def rst_code(value: str) -> str:
 def rst_ify(text: str,
             *,
             plugin_fqcn: t.Optional[str] = None,
-            plugin_type: t.Optional[str] = None) -> t.Tuple[str, t.Mapping[str, int]]:
+            plugin_type: t.Optional[str] = None,
+            role_entrypoint: t.Optional[str] = None,
+            ) -> t.Tuple[str, t.Mapping[str, int]]:
     ''' convert symbols like I(this is in italics) to valid restructured text '''
     current_plugin: t.Optional[dom.PluginIdentifier] = None
     if plugin_fqcn and plugin_type:
         current_plugin = dom.PluginIdentifier(fqcn=plugin_fqcn, type=plugin_type)
-    paragraphs = parse(text, Context(current_plugin=current_plugin), errors='message')
+    context = Context(current_plugin=current_plugin, role_entrypoint=role_entrypoint)
+    paragraphs = parse(text, context, errors='message')
     text = to_rst(paragraphs, current_plugin=current_plugin)
     counts = _count(paragraphs)
     return text, counts

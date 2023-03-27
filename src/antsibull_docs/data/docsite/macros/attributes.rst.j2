@@ -6,7 +6,7 @@
 
 {% from 'macros/version_added.rst.j2' import version_added_rst %}
 
-{% macro in_rst(attributes) %}
+{% macro in_rst(attributes, role_entrypoint=None) %}
 .. rst-class:: ansible-option-table
 
 .. list-table::
@@ -47,13 +47,13 @@
 {%   if attribute == 'action_group' %}
       :ansible-attribute-support-property:`Action group@{ 's' if data.membership | length != 1 else '' }@:` |antsibull-internal-nbsp|
 {%-    for member in data.membership -%}
-           :ansible-attribute-support-full:`@{- member | rst_ify -}@`
+           :ansible-attribute-support-full:`@{- member | rst_ify(role_entrypoint=role_entrypoint) -}@`
 {%-        if not loop.last %}, {% endif -%}
 {%-    endfor %}
 {%   elif attribute == 'platform' %}
       :ansible-attribute-support-property:`Platform@{ 's' if data.platforms | length != 1 or data.platforms == ['all'] else '' }@:` |antsibull-internal-nbsp|
 {%-    for platform in data.platforms -%}
-           :ansible-attribute-support-full:`@{- platform | rst_ify -}@`
+           :ansible-attribute-support-full:`@{- platform | rst_ify(role_entrypoint=role_entrypoint) -}@`
 {%-      if not loop.last %}, {% endif -%}
 {%-    endfor %}
 {%   else %}
@@ -76,7 +76,7 @@
 {%   endif %}
 
 {%   for desc in data['details'] %}
-      @{ desc | rst_ify | indent(6) }@
+      @{ desc | rst_ify(role_entrypoint=role_entrypoint) | indent(6) }@
 
 {%   endfor %}
 
@@ -90,7 +90,7 @@
         <div class="ansible-option-cell">
 
 {% for desc in data['description'] %}
-      @{ desc | rst_ify | indent(6) }@
+      @{ desc | rst_ify(role_entrypoint=role_entrypoint) | indent(6) }@
 
 {%   endfor %}
 

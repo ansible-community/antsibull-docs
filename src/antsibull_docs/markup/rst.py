@@ -42,6 +42,10 @@ class AntsibullRSTFormatter(Formatter):
             result.append('#')
             result.append(plugin.type)
             result.append(':')
+        entrypoint = part.entrypoint
+        if entrypoint is not None:
+            result.append(entrypoint)
+            result.append(':')
         result.append(part.name)
         value = part.value
         if value is not None:

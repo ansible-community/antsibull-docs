@@ -81,7 +81,7 @@ TEST_PARSE_DATA: t.List[t.Tuple[t.Union[str, t.List[str]], Context, t.Dict[str, 
                 dom.TextPart(text=' baz '),
                 dom.OptionValuePart(value=' b,na)\\m, '),
                 dom.TextPart(text=' '),
-                dom.OptionNamePart(plugin=None, link=['foo'], name='foo', value=None),
+                dom.OptionNamePart(plugin=None, entrypoint=None, link=['foo'], name='foo', value=None),
                 dom.TextPart(text=' '),
             ],
         ],
@@ -89,83 +89,83 @@ TEST_PARSE_DATA: t.List[t.Tuple[t.Union[str, t.List[str]], Context, t.Dict[str, 
     # semantic markup option name:
     ('O(foo)', Context(), {}, [
       [
-        dom.OptionNamePart(plugin=None, link=['foo'], name='foo', value=None),
+        dom.OptionNamePart(plugin=None, entrypoint=None, link=['foo'], name='foo', value=None),
       ],
     ]),
     ('O(ignore:foo)', Context(current_plugin=dom.PluginIdentifier('foo.bar.baz', type='bam')), {}, [
       [
-        dom.OptionNamePart(plugin=None, link=['foo'], name='foo', value=None),
+        dom.OptionNamePart(plugin=None, entrypoint=None, link=['foo'], name='foo', value=None),
       ],
     ]),
     ('O(foo)', Context(current_plugin=dom.PluginIdentifier('foo.bar.baz', type='bam')), {}, [
       [
-        dom.OptionNamePart(plugin=dom.PluginIdentifier('foo.bar.baz', type='bam'), link=['foo'], name='foo', value=None),
+        dom.OptionNamePart(plugin=dom.PluginIdentifier('foo.bar.baz', type='bam'), entrypoint=None, link=['foo'], name='foo', value=None),
       ],
     ]),
     ('O(foo.bar.baz#bam:foo)', Context(), {}, [
       [
-        dom.OptionNamePart(plugin=dom.PluginIdentifier('foo.bar.baz', type='bam'), link=['foo'], name='foo', value=None),
+        dom.OptionNamePart(plugin=dom.PluginIdentifier('foo.bar.baz', type='bam'), entrypoint=None, link=['foo'], name='foo', value=None),
       ],
     ]),
     ('O(foo=bar)', Context(), {}, [
       [
-        dom.OptionNamePart(plugin=None, link=['foo'], name='foo', value='bar'),
+        dom.OptionNamePart(plugin=None, entrypoint=None, link=['foo'], name='foo', value='bar'),
       ],
     ]),
     ('O(foo.baz=bam)', Context(), {}, [
       [
-        dom.OptionNamePart(plugin=None, link=['foo', 'baz'], name='foo.baz', value='bam'),
+        dom.OptionNamePart(plugin=None, entrypoint=None, link=['foo', 'baz'], name='foo.baz', value='bam'),
       ],
     ]),
     ('O(foo[1].baz[bam.bar.boing].boo)', Context(), {}, [
       [
-        dom.OptionNamePart(plugin=None, link=['foo', 'baz', 'boo'], name='foo[1].baz[bam.bar.boing].boo', value=None),
+        dom.OptionNamePart(plugin=None, entrypoint=None, link=['foo', 'baz', 'boo'], name='foo[1].baz[bam.bar.boing].boo', value=None),
       ],
     ]),
     ('O(bar.baz.bam.boo#lookup:foo[1].baz[bam.bar.boing].boo)', Context(), {}, [
       [
-        dom.OptionNamePart(plugin=dom.PluginIdentifier('bar.baz.bam.boo', type='lookup'), link=['foo', 'baz', 'boo'], name='foo[1].baz[bam.bar.boing].boo', value=None),
+        dom.OptionNamePart(plugin=dom.PluginIdentifier('bar.baz.bam.boo', type='lookup'), entrypoint=None, link=['foo', 'baz', 'boo'], name='foo[1].baz[bam.bar.boing].boo', value=None),
       ],
     ]),
     # semantic markup return value name:
     ('RV(foo)', Context(), {}, [
       [
-        dom.ReturnValuePart(plugin=None, link=['foo'], name='foo', value=None),
+        dom.ReturnValuePart(plugin=None, entrypoint=None, link=['foo'], name='foo', value=None),
       ],
     ]),
     ('RV(ignore:foo)', Context(current_plugin=dom.PluginIdentifier('foo.bar.baz', type='bam')), {}, [
       [
-        dom.ReturnValuePart(plugin=None, link=['foo'], name='foo', value=None),
+        dom.ReturnValuePart(plugin=None, entrypoint=None, link=['foo'], name='foo', value=None),
       ],
     ]),
     ('RV(foo)', Context(current_plugin=dom.PluginIdentifier('foo.bar.baz', type='bam')), {}, [
       [
-        dom.ReturnValuePart(plugin=dom.PluginIdentifier('foo.bar.baz', type='bam'), link=['foo'], name='foo', value=None),
+        dom.ReturnValuePart(plugin=dom.PluginIdentifier('foo.bar.baz', type='bam'), entrypoint=None, link=['foo'], name='foo', value=None),
       ],
     ]),
     ('RV(foo.bar.baz#bam:foo)', Context(), {}, [
       [
-        dom.ReturnValuePart(plugin=dom.PluginIdentifier('foo.bar.baz', type='bam'), link=['foo'], name='foo', value=None),
+        dom.ReturnValuePart(plugin=dom.PluginIdentifier('foo.bar.baz', type='bam'), entrypoint=None, link=['foo'], name='foo', value=None),
       ],
     ]),
     ('RV(foo=bar)', Context(), {}, [
       [
-        dom.ReturnValuePart(plugin=None, link=['foo'], name='foo', value='bar'),
+        dom.ReturnValuePart(plugin=None, entrypoint=None, link=['foo'], name='foo', value='bar'),
       ],
     ]),
     ('RV(foo.baz=bam)', Context(), {}, [
       [
-        dom.ReturnValuePart(plugin=None, link=['foo', 'baz'], name='foo.baz', value='bam'),
+        dom.ReturnValuePart(plugin=None, entrypoint=None, link=['foo', 'baz'], name='foo.baz', value='bam'),
       ],
     ]),
     ('RV(foo[1].baz[bam.bar.boing].boo)', Context(), {}, [
       [
-        dom.ReturnValuePart(plugin=None, link=['foo', 'baz', 'boo'], name='foo[1].baz[bam.bar.boing].boo', value=None),
+        dom.ReturnValuePart(plugin=None, entrypoint=None, link=['foo', 'baz', 'boo'], name='foo[1].baz[bam.bar.boing].boo', value=None),
       ],
     ]),
     ('RV(bar.baz.bam.boo#lookup:foo[1].baz[bam.bar.boing].boo)', Context(), {}, [
       [
-        dom.ReturnValuePart(plugin=dom.PluginIdentifier('bar.baz.bam.boo', type='lookup'), link=['foo', 'baz', 'boo'], name='foo[1].baz[bam.bar.boing].boo', value=None),
+        dom.ReturnValuePart(plugin=dom.PluginIdentifier('bar.baz.bam.boo', type='lookup'), entrypoint=None, link=['foo', 'baz', 'boo'], name='foo[1].baz[bam.bar.boing].boo', value=None),
       ],
     ]),
     # bad parameter parsing (no escaping, error message):
@@ -247,6 +247,11 @@ TEST_PARSE_DATA: t.List[t.Tuple[t.Union[str, t.List[str]], Context, t.Dict[str, 
         dom.ErrorPart(message='While parsing O() at index 1: Invalid option/return value name "foo:bar:baz"'),
       ],
     ]),
+    ('O(foo.bar.baz#role:bam)', Context(), dict(errors='message'), [
+      [
+        dom.ErrorPart(message='While parsing O() at index 1: Role reference is missing entrypoint'),
+      ],
+    ]),
     # bad parameter parsing (no escaping, ignore error):
     ('M(', Context(), dict(errors='ignore'), [[]]),
     ('M(foo', Context(), dict(errors='ignore'), [[]]),
@@ -269,6 +274,7 @@ TEST_PARSE_DATA: t.List[t.Tuple[t.Union[str, t.List[str]], Context, t.Dict[str, 
     ('P(foo#bar)', Context(), dict(errors='ignore'), [[]]),
     ('P(f o.b r.b z#bar)', Context(), dict(errors='ignore'), [[]]),
     ('P(foo.bar.baz#b m)', Context(), dict(errors='ignore'), [[]]),
+    ('O(foo.bar.baz#role:bam)', Context(), dict(errors='ignore'), [[]]),
     # bad option name/return value (ignore error):
     ('O(f o.b r.b z#bam:foobar)', Context(), dict(errors='ignore'), [[]]),
     ('O(foo.bar.baz#b m:foobar)', Context(), dict(errors='ignore'), [[]]),
@@ -338,6 +344,9 @@ TEST_PARSE_THROW_DATA: t.List[t.Tuple[t.Union[str, t.List[str]], Context, t.Dict
     ),
     ('O(foo:bar:baz)', Context(), dict(errors='exception'),
       'While parsing O() at index 1: Invalid option/return value name "foo:bar:baz"',
+    ),
+    ('O(foo.bar.baz#role:bam)', Context(), dict(errors='exception'),
+      'While parsing O() at index 1: Role reference is missing entrypoint',
     ),
 ]
 

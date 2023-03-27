@@ -28,10 +28,11 @@ class _TestLinkProvider(LinkProvider):
 
     def plugin_option_like_link(self,
                                 plugin: dom.PluginIdentifier,
+                                entrypoint: t.Optional[str],
                                 what: "t.Union[t.Literal['option'], t.Literal['retval']]",
                                 name: t.List[str], current_plugin: bool) -> t.Optional[str]:
         if self._plugin_option_like_link is not None:
-            return self._plugin_option_like_link(plugin, what, name, current_plugin)
+            return self._plugin_option_like_link(plugin, entrypoint, what, name, current_plugin)
         return None
 
     def _update(self, config: t.Mapping[str, t.Any]):
@@ -54,6 +55,8 @@ def test_vectors(test_name: str, test_data: t.Mapping[str, t.Any]) -> None:
                 fqcn=test_data['parse_opts']['current_plugin']['fqcn'],
                 type=test_data['parse_opts']['current_plugin']['type'],
             )
+        if 'role_entrypoint' in test_data['parse_opts']:
+            context_opts['role_entrypoint'] = test_data['parse_opts']['role_entrypoint']
         if 'errors' in test_data['parse_opts']:
             context_opts['errors'] = test_data['parse_opts']['errors']
         if 'onlyClassicMarkup' in test_data['parse_opts']:

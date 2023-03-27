@@ -95,15 +95,25 @@ _CLASSICAL_MARKUP = (
 
 
 _NAME_SEPARATOR = '/'
+_ROLE_ENTRYPOINT_SEPARATOR = '###'
 
 
 class _MarkupValidator:
     errors: t.List[str]
 
-    _context: ParserContext
+    _current_plugin: dom.PluginIdentifier
     _disallow_semantic_markup: bool
     _option_names: t.Dict[str, str]
     _return_value_names: t.Dict[str, str]
+
+    def _collect_role_option_names(self, options: t.Dict[str, t.Any],
+                                   entrypoint: str, path_prefix: str) -> None:
+        for opt, data in sorted(options.items()):
+            path = f'{path_prefix}{opt}'
+            self._option_names[f'{entrypoint}{_ROLE_ENTRYPOINT_SEPARATOR}{path}'] = data['type']
+            if 'options' in data:
+                self._collect_role_option_names(
+                    data['options'], entrypoint, f'{path}{_NAME_SEPARATOR}')
 
     def _collect_option_names(self, options: t.Dict[str, t.Any], path_prefix: str) -> None:
         for opt, data in sorted(options.items()):
@@ -124,8 +134,11 @@ class _MarkupValidator:
         plugin = opt.plugin
         if plugin is None:
             return
-        if plugin == self._context.current_plugin:
-            if _NAME_SEPARATOR.join(opt.link) not in self._option_names:
+        if plugin == self._current_plugin:
+            lookup = _NAME_SEPARATOR.join(opt.link)
+            if opt.entrypoint is not None:
+                lookup = f'{opt.entrypoint}{_ROLE_ENTRYPOINT_SEPARATOR}{lookup}'
+            if lookup not in self._option_names:
                 prefix = '' if plugin.type in ('role', 'module') else ' plugin'
                 self.errors.append(
                     f'{key}: option name reference "{opt.name}" does not reference to an existing'
@@ -136,18 +149,26 @@ class _MarkupValidator:
         plugin = rv.plugin
         if plugin is None:
             return
-        if plugin == self._context.current_plugin:
-            if _NAME_SEPARATOR.join(rv.link) not in self._return_value_names:
+        if plugin == self._current_plugin:
+            lookup = _NAME_SEPARATOR.join(rv.link)
+            if rv.entrypoint is not None:
+                lookup = f'{rv.entrypoint}{_ROLE_ENTRYPOINT_SEPARATOR}{lookup}'
+            if lookup not in self._return_value_names:
                 prefix = '' if plugin.type in ('role', 'module') else ' plugin'
                 self.errors.append(
                     f'{key}: return value name reference "{rv.name}" does not reference to an'
                     f' existing return value of the {plugin.type}{prefix} {plugin.fqcn}'
                 )
 
-    def _validate_markup_entry(self, entry: t.Union[str, t.Sequence[str]], key: str) -> None:
+    def _validate_markup_entry(self, entry: t.Union[str, t.Sequence[str]], key: str,
+                               role_entrypoint: t.Optional[str] = None) -> None:
+        context = ParserContext(
+            current_plugin=self._current_plugin,
+            role_entrypoint=role_entrypoint,
+        )
         parsed_paragraphs = parse_markup(
             entry,
-            self._context,
+            context,
             errors='message',
             only_classic_markup=False,
         )
@@ -165,13 +186,14 @@ class _MarkupValidator:
                     self._validate_return_value(t.cast(dom.ReturnValuePart, par_elem), key)
 
     def _validate_markup_dict_entry(self, dictionary: t.Dict[str, t.Any],
-                                    key: str, key_path: str) -> None:
+                                    key: str, key_path: str,
+                                    role_entrypoint: t.Optional[str] = None) -> None:
         value = dictionary.get(key)
         if value is None:
             return
         full_key = f'{key_path} -> {key}'
         if isinstance(value, str):
-            self._validate_markup_entry(value, full_key)
+            self._validate_markup_entry(value, full_key, role_entrypoint=role_entrypoint)
         elif isinstance(value, Sequence):
             all_strings = True
             for index, entry in enumerate(value):
@@ -182,81 +204,103 @@ class _MarkupValidator:
                     )
                     all_strings = False
             if all_strings:
-                self._validate_markup_entry(value, full_key)
+                self._validate_markup_entry(value, full_key, role_entrypoint=role_entrypoint)
         else:
             self.errors.append(
                 f'Expected {full_key} to be a string or list of strings, but got {type(value)}')
 
-    def _validate_deprecation(self, owner: t.Dict[str, t.Any], key_path: str) -> None:
+    def _validate_deprecation(self, owner: t.Dict[str, t.Any], key_path: str,
+                              role_entrypoint: t.Optional[str] = None) -> None:
         if 'deprecated' not in owner:
             return
         key_path = f'{key_path} -> deprecated'
         deprecated = owner['deprecated']
-        self._validate_markup_dict_entry(deprecated, 'why', key_path)
-        self._validate_markup_dict_entry(deprecated, 'alternative', key_path)
+        self._validate_markup_dict_entry(
+            deprecated, 'why', key_path, role_entrypoint=role_entrypoint)
+        self._validate_markup_dict_entry(
+            deprecated, 'alternative', key_path, role_entrypoint=role_entrypoint)
 
-    def _validate_options(self, options: t.Dict[str, t.Any], key_path: str) -> None:
+    def _validate_options(self, options: t.Dict[str, t.Any], key_path: str,
+                          role_entrypoint: t.Optional[str] = None) -> None:
         for opt, data in sorted(options.items()):
             opt_key = f'{key_path} -> {opt}'
-            self._validate_markup_dict_entry(data, 'description', opt_key)
-            self._validate_deprecation(data, opt_key)
+            self._validate_markup_dict_entry(
+                data, 'description', opt_key, role_entrypoint=role_entrypoint)
+            self._validate_deprecation(
+                data, opt_key, role_entrypoint=role_entrypoint)
             for sub in ('cli', 'env', 'ini', 'vars', 'keyword'):
                 if sub in data:
                     for index, sub_data in enumerate(data[sub]):
                         sub_key = f'{opt_key} -> {sub}[{index + 1}]'
-                        self._validate_deprecation(sub_data, sub_key)
-            if 'suboptions' in data:
-                self._validate_options(data['suboptions'], f'{opt_key} -> suboptions')
+                        self._validate_deprecation(
+                            sub_data, sub_key, role_entrypoint=role_entrypoint)
+            for sub_key in ('options', 'suboptions'):
+                if sub_key in data:
+                    self._validate_options(
+                        data[sub_key], f'{opt_key} -> {sub_key}', role_entrypoint=role_entrypoint)
 
-    def _validate_return_values(self, return_values: t.Dict[str, t.Any], key_path: str) -> None:
+    def _validate_return_values(self, return_values: t.Dict[str, t.Any], key_path: str,
+                                role_entrypoint: t.Optional[str] = None) -> None:
         for rv, data in sorted(return_values.items()):
             rv_key = f'{key_path} -> {rv}'
-            self._validate_markup_dict_entry(data, 'description', rv_key)
-            self._validate_markup_dict_entry(data, 'returned', rv_key)
+            self._validate_markup_dict_entry(
+                data, 'description', rv_key, role_entrypoint=role_entrypoint)
+            self._validate_markup_dict_entry(
+                data, 'returned', rv_key, role_entrypoint=role_entrypoint)
             if 'contains' in data:
-                self._validate_return_values(data['contains'], f'{rv_key} -> contains')
+                self._validate_return_values(
+                    data['contains'], f'{rv_key} -> contains', role_entrypoint=role_entrypoint)
 
-    def _validate_seealso(self, owner: t.Dict[str, t.Any], key_path: str) -> None:
+    def _validate_seealso(self, owner: t.Dict[str, t.Any], key_path: str,
+                          role_entrypoint: t.Optional[str] = None) -> None:
         if 'seealso' not in owner:
             return
         key_path = f'{key_path} -> seealso'
         seealso = owner['seealso']
         for index, entry in enumerate(seealso):
             entry_path = f'{key_path}[{index + 1}]'
-            self._validate_markup_dict_entry(entry, 'description', entry_path)
-            self._validate_markup_dict_entry(entry, 'name', entry_path)
+            self._validate_markup_dict_entry(
+                entry, 'description', entry_path, role_entrypoint=role_entrypoint)
+            self._validate_markup_dict_entry(
+                entry, 'name', entry_path, role_entrypoint=role_entrypoint)
 
-    def _validate_attributes(self, owner: t.Dict[str, t.Any], key_path: str) -> None:
+    def _validate_attributes(self, owner: t.Dict[str, t.Any], key_path: str,
+                             role_entrypoint: t.Optional[str] = None) -> None:
         if 'attributes' not in owner:
             return
         key_path = f'{key_path} -> attributes'
         attributes = owner['attributes']
         for attribute, data in sorted(attributes.items()):
             attribute_path = f'{key_path} -> {attribute}'
-            self._validate_markup_dict_entry(data, 'description', attribute_path)
-            self._validate_markup_dict_entry(data, 'details', attribute_path)
+            self._validate_markup_dict_entry(
+                data, 'description', attribute_path, role_entrypoint=role_entrypoint)
+            self._validate_markup_dict_entry(
+                data, 'details', attribute_path, role_entrypoint=role_entrypoint)
 
-    def _validate_main(self, main: t.Dict[str, t.Any], key_path: str) -> None:
-        self._validate_deprecation(main, key_path)
-        self._validate_markup_dict_entry(main, 'short_description', key_path)
-        self._validate_markup_dict_entry(main, 'author', key_path)
-        self._validate_markup_dict_entry(main, 'description', key_path)
-        self._validate_markup_dict_entry(main, 'notes', key_path)
-        self._validate_markup_dict_entry(main, 'requirements', key_path)
-        self._validate_markup_dict_entry(main, 'todo', key_path)
-        self._validate_seealso(main, key_path)
-        self._validate_attributes(main, key_path)
+    def _validate_main(self, main: t.Dict[str, t.Any], key_path: str,
+                       role_entrypoint: t.Optional[str] = None) -> None:
+        self._validate_deprecation(main, key_path, role_entrypoint=role_entrypoint)
+        self._validate_markup_dict_entry(
+            main, 'short_description', key_path, role_entrypoint=role_entrypoint)
+        self._validate_markup_dict_entry(main, 'author', key_path, role_entrypoint=role_entrypoint)
+        self._validate_markup_dict_entry(
+            main, 'description', key_path, role_entrypoint=role_entrypoint)
+        self._validate_markup_dict_entry(main, 'notes', key_path, role_entrypoint=role_entrypoint)
+        self._validate_markup_dict_entry(
+            main, 'requirements', key_path, role_entrypoint=role_entrypoint)
+        self._validate_markup_dict_entry(main, 'todo', key_path, role_entrypoint=role_entrypoint)
+        self._validate_seealso(main, key_path, role_entrypoint=role_entrypoint)
+        self._validate_attributes(main, key_path, role_entrypoint=role_entrypoint)
         if 'options' in main:
-            self._validate_options(main['options'], f'{key_path} -> options')
+            self._validate_options(
+                main['options'], f'{key_path} -> options', role_entrypoint=role_entrypoint)
 
     def __init__(self,
                  plugin_record: t.Dict[str, t.Any],
                  plugin_fqcn: str,
                  plugin_type: str,
                  disallow_semantic_markup: bool = False):
-        self._context = ParserContext(
-            current_plugin=dom.PluginIdentifier(fqcn=plugin_fqcn, type=plugin_type),
-        )
+        self._current_plugin = dom.PluginIdentifier(fqcn=plugin_fqcn, type=plugin_type)
         self._disallow_semantic_markup = disallow_semantic_markup
 
         # Collect option and return value names
@@ -266,7 +310,10 @@ class _MarkupValidator:
             self._collect_option_names(plugin_record['doc']['options'], '')
         if 'return' in plugin_record:
             self._collect_return_value_names(plugin_record['return'], '')
-        # TODO: role options?
+        if 'entry_points' in plugin_record:
+            for entry_point, data in sorted(plugin_record['entry_points'].items()):
+                if 'options' in data:
+                    self._collect_role_option_names(data['options'], entry_point, '')
 
         # Validate names
         self.errors = []
@@ -276,7 +323,8 @@ class _MarkupValidator:
             self._validate_return_values(plugin_record['return'], 'RETURN')
         if 'entry_points' in plugin_record:
             for entry_point, data in sorted(plugin_record['entry_points'].items()):
-                self._validate_main(data, f'argument_specs -> {entry_point}')
+                self._validate_main(
+                    data, f'argument_specs -> {entry_point}', role_entrypoint=entry_point)
 
 
 def _validate_markup(plugin_record: t.Dict[str, t.Any],

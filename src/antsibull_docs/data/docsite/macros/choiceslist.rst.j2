@@ -4,7 +4,7 @@
   SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
-{% macro in_rst(choices, default_value=None, has_no_default=False) %}
+{% macro in_rst(choices, default_value=None, has_no_default=False, role_entrypoint=None) %}
 {%   if choices is mapping %}
 {%     for choice, desc in choices | dictsort %}
 {%       if not has_no_default and ((default_value is not list and default_value == choice) or (default_value is list and choice in default_value)) %}
@@ -13,7 +13,7 @@
       - :ansible-option-choices-entry:`@{ choice | antsibull_to_json | rst_escape(escape_ending_whitespace=true) }@`\ :
 {%       endif %}
 {%       for par in desc %}
-        @{ par | rst_ify | indent(8) }@
+        @{ par | rst_ify(role_entrypoint=role_entrypoint) | indent(8) }@
 
 {%       endfor %}
 {%     endfor %}
@@ -29,7 +29,7 @@
 {% endmacro %}
 
 
-{% macro in_html(choices, default_value=None, has_no_default=False) %}
+{% macro in_html(choices, default_value=None, has_no_default=False, role_entrypoint=None) %}
       <ul class="simple">
 {%   if choices is mapping %}
 {%     for choice, desc in choices | dictsort %}
@@ -39,9 +39,9 @@
 {%       else %}
           <p><code class="ansible-value literal notranslate ansible-option-choices-entry">@{ choice | antsibull_to_json | escape }@</code>:
 {%       endif %}
-          @{ desc | first | default('') | html_ify | indent(10, blank=true) }@</p>
+          @{ desc | first | default('') | html_ify(role_entrypoint=role_entrypoint) | indent(10, blank=true) }@</p>
 {%       for line in desc[1:] %}
-          <p>@{ line | html_ify | indent(10, blank=true) }@</p>
+          <p>@{ line | html_ify(role_entrypoint=role_entrypoint) | indent(10, blank=true) }@</p>
 {%       endfor %}
         </li>
 {%     endfor %}

@@ -137,15 +137,22 @@ def to_ini_value(data: t.Any) -> str:
 def rst_ify(context: Context, text: str,
             *,
             plugin_fqcn: t.Optional[str] = None,
-            plugin_type: t.Optional[str] = None) -> str:
+            plugin_type: t.Optional[str] = None,
+            role_entrypoint: t.Optional[str] = None,
+            ) -> str:
     ''' convert symbols like I(this is in italics) to valid restructured text '''
     flog = mlog.fields(func='rst_ify')
     flog.fields(text=text).debug('Enter')
 
     plugin_fqcn, plugin_type = extract_plugin_data(
-            context, plugin_fqcn=plugin_fqcn, plugin_type=plugin_type)
+        context, plugin_fqcn=plugin_fqcn, plugin_type=plugin_type)
 
-    text, counts = rst_ify_impl(text, plugin_fqcn=plugin_fqcn, plugin_type=plugin_type)
+    text, counts = rst_ify_impl(
+        text,
+        plugin_fqcn=plugin_fqcn,
+        plugin_type=plugin_type,
+        role_entrypoint=role_entrypoint,
+    )
 
     flog.fields(counts=counts).info('Number of macros converted to rst equivalents')
     flog.debug('Leave')
@@ -156,15 +163,22 @@ def rst_ify(context: Context, text: str,
 def html_ify(context: Context, text: str,
              *,
              plugin_fqcn: t.Optional[str] = None,
-             plugin_type: t.Optional[str] = None) -> str:
+             plugin_type: t.Optional[str] = None,
+             role_entrypoint: t.Optional[str] = None,
+             ) -> str:
     ''' convert symbols like I(this is in italics) to valid HTML '''
     flog = mlog.fields(func='html_ify')
     flog.fields(text=text).debug('Enter')
 
     plugin_fqcn, plugin_type = extract_plugin_data(
-            context, plugin_fqcn=plugin_fqcn, plugin_type=plugin_type)
+        context, plugin_fqcn=plugin_fqcn, plugin_type=plugin_type)
 
-    text, counts = html_ify_impl(text, plugin_fqcn=plugin_fqcn, plugin_type=plugin_type)
+    text, counts = html_ify_impl(
+        text,
+        plugin_fqcn=plugin_fqcn,
+        plugin_type=plugin_type,
+        role_entrypoint=role_entrypoint,
+    )
 
     flog.fields(counts=counts).info('Number of macros converted to html equivalents')
     flog.debug('Leave')

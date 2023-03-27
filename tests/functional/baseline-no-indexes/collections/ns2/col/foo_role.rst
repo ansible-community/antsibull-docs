@@ -65,6 +65,7 @@ Synopsis
 .. Description
 
 - This is the foo role.
+- If you set \ :ansopt:`ns2.col.foo#role:main:foo\_param\_1`\  while \ :ansopt:`ns2.col.foo#role:main:foo\_param\_2=3`\ , this might behave funny.
 
 .. Requirements
 
@@ -115,6 +116,8 @@ Parameters
         <div class="ansible-option-cell">
 
       A string parameter
+
+      If you set \ :ansopt:`ns2.col.foo#role:main:foo\_param\_1`\  while \ :ansopt:`ns2.col.foo#role:main:foo\_param\_2=3`\ , this might behave funny.
 
 
       .. raw:: html
