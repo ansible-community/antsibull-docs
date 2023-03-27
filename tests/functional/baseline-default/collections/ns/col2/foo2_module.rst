@@ -135,6 +135,8 @@ Parameters
 
       Bar.
 
+      Some \ :ansopt:`ns.col2.foo2#module:broken markup`\ .
+
 
       .. raw:: html
 
@@ -240,6 +242,8 @@ Parameters
       Whatever.
 
       Also required when \ :emphasis:`subfoo`\  is specified when \ :emphasis:`foo=bar`\  or \ :literal:`baz`\ .
+
+      \ :ansretval:`ns.col2.foo2#module:foobarbaz`\  does not exist.
 
 
       .. raw:: html
