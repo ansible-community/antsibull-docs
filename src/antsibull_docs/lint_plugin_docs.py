@@ -202,7 +202,7 @@ class _MarkupValidator:
             self._validate_deprecation(data, opt_key)
             for sub in ('cli', 'env', 'ini', 'vars', 'keyword'):
                 if sub in data:
-                    for index, sub_data in enumerate(data['sub']):
+                    for index, sub_data in enumerate(data[sub]):
                         sub_key = f'{opt_key} -> {sub}[{index + 1}]'
                         self._validate_deprecation(sub_data, sub_key)
             if 'suboptions' in data:
@@ -246,6 +246,8 @@ class _MarkupValidator:
         self._validate_markup_dict_entry(main, 'todo', key_path)
         self._validate_seealso(main, key_path)
         self._validate_attributes(main, key_path)
+        if 'options' in main:
+            self._validate_options(main['options'], f'{key_path} -> options')
 
     def __init__(self,
                  plugin_record: t.Dict[str, t.Any],
