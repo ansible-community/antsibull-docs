@@ -28,6 +28,7 @@ options:
     bar:
         description:
           - Bar.
+          - Some O(broken markup).
         type: list
         elements: int
     subfoo:
@@ -39,6 +40,7 @@ options:
                     - A sub foo.
                     - Whatever.
                     - Also required when I(subfoo) is specified when I(foo=bar) or C(baz).
+                    - RV(foobarbaz) does not exist.
                 type: str
                 required: true
 
