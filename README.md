@@ -6,8 +6,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 # antsibull-docs -- Ansible Documentation Build Scripts
 [![Discuss on Matrix at #docs:ansible.com](https://img.shields.io/matrix/docs:ansible.com.svg?server_fqdn=ansible-accounts.ems.host&label=Discuss%20on%20Matrix%20at%20%23docs:ansible.com&logo=matrix)](https://matrix.to/#/#docs:ansible.com)
-[![Python linting badge](https://github.com/ansible-community/antsibull-docs/workflows/Python%20linting/badge.svg?event=push&branch=main)](https://github.com/ansible-community/antsibull-docs/actions?query=workflow%3A%22Python+linting%22+branch%3Amain)
-[![Python testing badge](https://github.com/ansible-community/antsibull-docs/workflows/Python%20testing/badge.svg?event=push&branch=main)](https://github.com/ansible-community/antsibull-docs/actions?query=workflow%3A%22Python+testing%22+branch%3Amain)
+[![Nox badge](https://github.com/ansible-community/antsibull-docs/actions/workflows/nox.yml/badge.svg)](https://github.com/ansible-community/antsibull-docs/actions/workflows/nox.yml)
 [![Build docs testing badge](https://github.com/ansible-community/antsibull-docs/workflows/antsibull-docs%20tests/badge.svg?event=push&branch=main)](https://github.com/ansible-community/antsibull-docs/actions?query=workflow%3A%22antsibull-docs+tests%22+branch%3Amain)
 [![Build CSS testing badge](https://github.com/ansible-community/antsibull-docs/workflows/Build%20CSS/badge.svg?event=push&branch=main)](https://github.com/ansible-community/antsibull-docs/actions?query=workflow%3A%22Build+CSS%22+branch%3Amain)
 [![Codecov badge](https://img.shields.io/codecov/c/github/ansible-community/antsibull-docs)](https://codecov.io/gh/ansible-community/antsibull-docs)
@@ -32,26 +31,6 @@ antsibull-docs is covered by the [Ansible Code of Conduct](https://docs.ansible.
 From version 1.0.0 on, antsibull-docs sticks to semantic versioning and aims at providing no backwards compatibility breaking changes **to the command line API (antsibull-docs)** during a major release cycle. We might make exceptions from this in case of security fixes for vulnerabilities that are severe enough.
 
 We explicitly exclude code compatibility. **antsibull-docs is not supposed to be used as a library.** The only exception are dependencies with other antsibull projects (currently, only [antsibull](https://github.com/ansible-community/antsibull/) itself). If you want to use a certain part of antsibull-docs as a library, please create an issue so we can discuss whether we add a stable interface for **parts** of the Python code. We do not promise that this will actually happen though.
-
-## Running from source
-
-Please note that to run antsibull-docs from source, you need to install some related projects adjacent to the antsibull-docs checkout.  More precisely, assuming you checked out the antsibull-docs repository in a directory `./antsibull-docs/`, you need to check out the following projects in the following locations:
-
-- [antsibull-core](https://github.com/ansible-community/antsibull-core/) needs to be checked out in `./antsibull-core/`.
-
-This can be done as follows:
-
-    git clone https://github.com/ansible-community/antsibull-core.git
-    git clone https://github.com/ansible-community/antsibull-docs.git
-    cd antsibull-docs
-
-Scripts are created by poetry at build time.  So if you want to run from a checkout, you'll have to run them under poetry::
-
-    python3 -m pip install poetry
-    poetry install  # Installs dependencies into a virtualenv
-    poetry run antsibull-docs --help
-
-Note: When installing a package published by poetry, it is best to use pip >= 19.0.  Installing with pip-18.1 and below could create scripts which use pkg_resources which can slow down startup time (in some environments by quite a large amount).
 
 ## Using the Sphinx extension
 
@@ -83,20 +62,63 @@ apt-get install sassc
 npm install -g autoprefixer cssnano postcss postcss-cli
 ```
 
+## Development
+
+Install and run `nox` to run all tests. That's it for simple contributions!
+`nox` will create virtual environments in `.nox` inside the checked out project
+and install the requirements needed to run the tests there.
+
+
+---
+
+antsibull-docs depends on the sister antsibull-core project.
+By default, `nox` will install a development version of this project from
+Github.
+If you're hacking on antsibull-core alongside antsibull-docs, nox will automatically
+install the project from `../antsibull-core` when running tests if those paths
+exist.
+You can change this behavior through the `OTHER_ANTSIBULL_MODE` env var:
+
+- `OTHER_ANTSIBULL_MODE=auto` — the default behavior described above
+- `OTHER_ANTSIBULL_MODE=local` — install the project from `../antsibull-core`.
+  Fail if that paths doesn't exist.
+- `OTHER_ANTSIBULL_MODE=git` — install the projects from the Github main branch
+- `OTHER_ANTSIBULL_MODE=pypi` — install the latest version from PyPI
+
+
+To run specific tests:
+
+1. `nox -e test` to only run unit tests;
+2. `nox -e lint` to run all linters;
+3. `nox -e codeqa` to run `flake8`, `pylint`, and `reuse lint`;
+4. `nox -e typing` to run `mypy` and `pyre`.
+5. `nox -e coverage_release` to build a test ansible release.
+   This is expensive, so it's not run by default.
+
+To create a more complete local development env:
+
+``` console
+git clone https://github.com/ansible-community/antsibull-core.git
+git clone https://github.com/ansible-community/antsibull-docs.git
+cd antsibull-docs
+python3 -m venv venv
+. ./venv/bin/activate
+pip install -e '.[dev]' -e ../antsibull-core
+[...]
+nox
+```
+
 ## Creating a new release:
 
-If you want to create a new release::
-
-    vim pyproject.toml  # Make sure version number is correct
-    vim changelogs/fragment/$VERSION_NUMBER.yml  # create 'release_summary:' fragment
-    antsibull-changelog release --version $VERSION_NUMBER
-    git add CHANGELOG.rst changelogs
-    git commit -m "Release $VERSION_NUMBER."
-    poetry build
-    poetry publish  # Uploads to pypi.  Be sure you really want to do this
-
-    git tag $VERSION_NUMBER
-    git push --tags
-    vim pyproject.toml  # Bump the version number to X.Y.Z.post0
-    git commit -m 'Update the version number for the next release' pyproject.toml
-    git push
+1. Run `nox -e bump -- <version> <release_summary_message>`. This:
+   * Bumps the package version in `pyproject.toml`.
+   * Creates `changelogs/fragments/<version>.yml` with a `release_summary` section.
+   * Runs `antsibull-changelog release` and adds the changed files to git.
+   * Commits with message `Release <version>.` and runs `git tag -a -m 'antsibull-docs <version>' <version>`.
+   * Runs `hatch build`.
+2. Run `git push` to the appropriate remotes.
+3. Once CI passes on GitHub, run `nox -e publish`. This:
+   * Runs `hatch publish`;
+   * Bumps the version to `<version>.post0`;
+   * Adds the changed file to git and run `git commit -m 'Post-release version bump.'`;
+4. Run `git push --follow-tags` to the appropriate remotes and create a GitHub release.

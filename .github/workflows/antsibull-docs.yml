@@ -59,28 +59,25 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install poetry
-          sed -i -e 's/^python = .*/python = "^${{ matrix.python }}"/' pyproject.toml
-          poetry install
-          poetry update
+          pip install -e .[coverage] ../antsibull-core
         working-directory: antsibull-docs
 
       - name: Use antsibull-docs sphinx-init
         run: |
-          poetry run coverage run -p --source antsibull_docs -m antsibull_docs.cli.antsibull_docs sphinx-init --lenient --dest-dir . ${{ matrix.options }}
+          coverage run -p --source antsibull_docs -m antsibull_docs.cli.antsibull_docs sphinx-init --lenient --dest-dir . ${{ matrix.options }}
         working-directory: antsibull-docs
 
       - name: Patch build.sh to supply code coverage
         run: |
-          sed -i build.sh -e 's!antsibull-docs !poetry run coverage run -p --source antsibull_docs -m antsibull_docs.cli.antsibull_docs !g'
-          sed -i build.sh -e 's!sphinx-build !poetry run coverage run -p --source antsibull_docs --source sphinx_antsibull_ext -m sphinx.cmd.build !g'
+          sed -i build.sh -e 's!antsibull-docs !coverage run -p --source antsibull_docs -m antsibull_docs.cli.antsibull_docs !g'
+          sed -i build.sh -e 's!sphinx-build !coverage run -p --source antsibull_docs --source sphinx_antsibull_ext -m sphinx.cmd.build !g'
           cat build.sh
         working-directory: antsibull-docs
 
       - name: Install dependencies
         run: |
-          poetry run pip install ansible-core
-          poetry run pip install -r requirements.txt
+          pip install ansible-core
+          pip install -r requirements.txt
         working-directory: antsibull-docs
 
       - name: Install collections
@@ -93,9 +90,9 @@ jobs:
 
       - name: Lint collection docs
         run: |
-          poetry run coverage run -p --source antsibull_docs --source sphinx_antsibull_ext -m antsibull_docs.cli.antsibull_docs lint-collection-docs ~/.ansible/collections/ansible_collections/community/docker --plugin-docs
-          poetry run coverage run -p --source antsibull_docs --source sphinx_antsibull_ext -m antsibull_docs.cli.antsibull_docs lint-collection-docs ~/.ansible/collections/ansible_collections/community/crypto
-          poetry run coverage run -p --source antsibull_docs --source sphinx_antsibull_ext -m antsibull_docs.cli.antsibull_docs lint-collection-docs ~/.ansible/collections/ansible_collections/sensu/sensu_go
+          coverage run -p --source antsibull_docs --source sphinx_antsibull_ext -m antsibull_docs.cli.antsibull_docs lint-collection-docs ~/.ansible/collections/ansible_collections/community/docker --plugin-docs
+          coverage run -p --source antsibull_docs --source sphinx_antsibull_ext -m antsibull_docs.cli.antsibull_docs lint-collection-docs ~/.ansible/collections/ansible_collections/community/crypto
+          coverage run -p --source antsibull_docs --source sphinx_antsibull_ext -m antsibull_docs.cli.antsibull_docs lint-collection-docs ~/.ansible/collections/ansible_collections/sensu/sensu_go
         working-directory: antsibull-docs
         if: contains(matrix.options, '--use-current')
 
@@ -105,23 +102,28 @@ jobs:
         working-directory: antsibull-docs
 
       - name: Validate HTML
-        run:
-          python .github/workflows/validate-html.py build/html/
+        run: |
+          pip install html5lib
+          python tests/validate-html.py build/html/
         working-directory: antsibull-docs
 
       - name: Test plugin rendering
-        run:
-          poetry run coverage run -p --source antsibull_docs -m antsibull_docs.cli.antsibull_docs plugin --plugin-type module --dest-dir . community.crypto.acme_account_info
+        run: |
+          coverage run -p --source antsibull_docs -m antsibull_docs.cli.antsibull_docs plugin --plugin-type module --dest-dir . community.crypto.acme_account_info
         working-directory: antsibull-docs
         if: contains(matrix.options, '--use-current')
 
-      - name: Combine and upload coverage stats
+      - name: Combine coverage stats
         run: |
-          poetry run coverage combine .coverage.*
-          poetry run coverage report
-          poetry run coverage xml -i
-          poetry run codecov
+          coverage combine .coverage.*
+          coverage report
+          coverage xml -i
         working-directory: antsibull-docs
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          working-directory: antsibull-docs
 
   build-stable:
     name: 'Build stable docsite'
@@ -147,10 +149,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install poetry
-          sed -i -e 's/^python = .*/python = "^3.11"/' pyproject.toml
-          poetry install
-          poetry update
+          pip install -e .[coverage] ../antsibull-core
         working-directory: antsibull-docs
 
       - name: Get hold of deps file
@@ -161,16 +160,20 @@ jobs:
       - name: Build stable docs RST files
         run: |
           mkdir stable-docs
-          poetry run coverage run -p --source antsibull_docs -m antsibull_docs.cli.antsibull_docs stable --deps-file ansible.deps --dest-dir stable-docs --no-breadcrumbs --no-indexes
+          coverage run -p --source antsibull_docs -m antsibull_docs.cli.antsibull_docs stable --deps-file ansible.deps --dest-dir stable-docs --no-breadcrumbs --no-indexes
         working-directory: antsibull-docs
 
-      - name: Combine and upload coverage stats
+      - name: Combine coverage stats
         run: |
-          poetry run coverage combine .coverage.*
-          poetry run coverage report
-          poetry run coverage xml -i
-          poetry run codecov
+          coverage combine .coverage.*
+          coverage report
+          coverage xml -i
         working-directory: antsibull-docs
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          working-directory: antsibull-docs
 
   build-devel:
     name: 'Build devel docsite'
@@ -196,10 +199,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install poetry
-          sed -i -e 's/^python = .*/python = "^3.11"/' pyproject.toml
-          poetry install
-          poetry update
+          pip install -e .[coverage] ../antsibull-core
         working-directory: antsibull-docs
 
       - name: Get hold of ansible.in file
@@ -210,13 +210,17 @@ jobs:
       - name: Build devel docs RST files
         run: |
           mkdir devel-docs
-          poetry run coverage run -p --source antsibull_docs -m antsibull_docs.cli.antsibull_docs devel --pieces-file ansible.in --dest-dir devel-docs
+          coverage run -p --source antsibull_docs -m antsibull_docs.cli.antsibull_docs devel --pieces-file ansible.in --dest-dir devel-docs
         working-directory: antsibull-docs
 
-      - name: Combine and upload coverage stats
+      - name: Combine coverage stats
         run: |
-          poetry run coverage combine .coverage.*
-          poetry run coverage report
-          poetry run coverage xml -i
-          poetry run codecov
+          coverage combine .coverage.*
+          coverage report
+          coverage xml -i
         working-directory: antsibull-docs
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          working-directory: antsibull-docs
