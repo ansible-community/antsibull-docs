@@ -6,7 +6,7 @@
 set -e
 
 
-make_baseline() {
+make_docsite_baseline() {
     DEST="$1"
     shift
 
@@ -27,8 +27,22 @@ make_baseline() {
 }
 
 
-make_baseline baseline-default ns.col1 ns.col2 ns2.col
-make_baseline baseline-no-breadcrumbs ns.col1 ns.col2 ns2.col --no-breadcrumbs
-make_baseline baseline-no-indexes ns.col1 ns2.col --fail-on-error --no-indexes
-make_baseline baseline-use-html-blobs ns2.col --fail-on-error --use-html-blobs
-make_baseline baseline-squash-hierarchy ns2.col --fail-on-error --squash-hierarchy
+make_ansible_doc_extract() {
+    DEST="$1"
+    shift
+
+    echo "Build ansible-doc --metadata-dump --no-fail-on-errors $@ output cache"
+    ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ ansible-doc --metadata-dump --no-fail-on-errors "$@" | python sanitize-ansible-doc-dump.py > "${DEST}.json"
+}
+
+
+make_docsite_baseline baseline-default ns.col1 ns.col2 ns2.col
+make_docsite_baseline baseline-no-breadcrumbs ns.col1 ns.col2 ns2.col --no-breadcrumbs
+make_docsite_baseline baseline-no-indexes ns.col1 ns2.col --fail-on-error --no-indexes
+make_docsite_baseline baseline-use-html-blobs ns2.col --fail-on-error --use-html-blobs
+make_docsite_baseline baseline-squash-hierarchy ns2.col --fail-on-error --squash-hierarchy
+
+make_ansible_doc_extract ansible-doc-cache-all
+make_ansible_doc_extract ansible-doc-cache-ns.col1 ns.col1
+make_ansible_doc_extract ansible-doc-cache-ns.col2 ns.col2
+make_ansible_doc_extract ansible-doc-cache-ns2.col ns2.col

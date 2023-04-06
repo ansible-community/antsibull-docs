@@ -10,6 +10,8 @@ import pytest
 
 from antsibull_docs.cli.antsibull_docs import run
 
+from ansible_doc_caching import ansible_doc_cache
+
 
 def write_file(path, content):
     with open(path, 'wb') as f:
@@ -219,7 +221,8 @@ def test_lint_collection_plugin_docs(namespace, name, rc, errors):
     stdout = io.StringIO()
     with change_cwd(collection_root):
         with redirect_stdout(stdout):
-            actual_rc = run(['antsibull-docs', 'lint-collection-docs', '.', '--plugin-docs'])
+            with ansible_doc_cache():
+                actual_rc = run(['antsibull-docs', 'lint-collection-docs', '.', '--plugin-docs'])
     actual_errors = stdout.getvalue().splitlines()
     print('\n'.join(actual_errors))
     assert actual_rc == rc

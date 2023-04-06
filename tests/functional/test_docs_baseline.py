@@ -11,6 +11,8 @@ import pytest
 
 from antsibull_docs.cli.antsibull_docs import run
 
+from ansible_doc_caching import ansible_doc_cache
+
 pytest.importorskip('ansible')
 
 
@@ -105,7 +107,8 @@ def test_baseline(arguments, directory, tmp_path):
     os.environ['ANSIBLE_COLLECTIONS_PATH'] = os.path.join(tests_root, 'collections')
     stdout = io.StringIO()
     with redirect_stdout(stdout):
-        rc = run(command)
+        with ansible_doc_cache():
+            rc = run(command)
     stdout = stdout.getvalue().splitlines()
 
     # Compare baseline to expected result
