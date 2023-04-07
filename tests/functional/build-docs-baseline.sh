@@ -28,11 +28,14 @@ make_docsite_baseline() {
 
 
 make_ansible_doc_extract() {
-    DEST="$1"
+    NAME="$1"
     shift
 
+    echo "Build ansible-galaxy collection list $@ output cache"
+    ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ ansible-galaxy collection list "$@" | sed -e "s|# ${PWD}/collections|# <<<<<COLLECTIONS>>>>>|g" > "ansible-galaxy-cache-${NAME}.output"
+
     echo "Build ansible-doc --metadata-dump --no-fail-on-errors $@ output cache"
-    ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ ansible-doc --metadata-dump --no-fail-on-errors "$@" | python sanitize-ansible-doc-dump.py > "${DEST}.json"
+    ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ ansible-doc --metadata-dump --no-fail-on-errors "$@" | python sanitize-ansible-doc-dump.py > "ansible-doc-cache-${NAME}.json"
 }
 
 
@@ -42,7 +45,10 @@ make_docsite_baseline baseline-no-indexes ns.col1 ns2.col --fail-on-error --no-i
 make_docsite_baseline baseline-use-html-blobs ns2.col --fail-on-error --use-html-blobs
 make_docsite_baseline baseline-squash-hierarchy ns2.col --fail-on-error --squash-hierarchy
 
-make_ansible_doc_extract ansible-doc-cache-all
-make_ansible_doc_extract ansible-doc-cache-ns.col1 ns.col1
-make_ansible_doc_extract ansible-doc-cache-ns.col2 ns.col2
-make_ansible_doc_extract ansible-doc-cache-ns2.col ns2.col
+echo "Build ansible --version output cache"
+ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ ansible --version | sed -e "s|${PWD}/collections|<<<<<COLLECTIONS>>>>>|g" | sed -e "s|${HOME}|<<<<<HOME>>>>>|g" | sed -E "s|(ansible python module location = ).*|\\1<<<<<ANSIBLE>>>>>|g" > ansible-version.output
+
+make_ansible_doc_extract all
+make_ansible_doc_extract ns.col1 ns.col1
+make_ansible_doc_extract ns.col2 ns.col2
+make_ansible_doc_extract ns2.col ns2.col

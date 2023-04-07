@@ -34,4 +34,4 @@ for plugin_type, plugins in data['all'].items():
                     doc[key] = os.path.join('/ansible', rel_ansible)
                 else:
                     raise Exception(f'Cannot sanitize {doc[key]}')
-json.dump(data, sys.stdout, indent=None, sort_keys=True)
+json.dump(data, sys.stdout, indent=1, sort_keys=True)

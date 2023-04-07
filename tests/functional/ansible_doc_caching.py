@@ -9,16 +9,18 @@ import typing as t
 from contextlib import contextmanager
 from unittest import mock
 
+import ansible
+
 
 @contextmanager
 def ansible_doc_cache():
-    def _call_ansible_doc(
+    def call_ansible_doc(
         venv: t.Union['VenvRunner', 'FakeVenvRunner'],
         env: t.Dict[str, str],
         *parameters: str,
     ) -> t.Mapping[str, t.Any]:
         if len(parameters) > 1:
-            raise Exception(f'UNEXPECTED parameters to _call_ansible_doc: {parameters!r}')
+            raise Exception(f'UNEXPECTED parameters to call_ansible_doc: {parameters!r}')
         root = env['ANSIBLE_COLLECTIONS_PATH']
         arg = 'all' if len(parameters) == 0 else parameters[0]
         filename = os.path.join(os.path.dirname(__file__), f'ansible-doc-cache-{arg}.json')
@@ -41,5 +43,30 @@ def ansible_doc_cache():
                         doc[key] = os.path.join(root, doc[key])
         return data
 
-    with mock.patch('antsibull_docs.docs_parsing.ansible_doc_core_213._call_ansible_doc', _call_ansible_doc):
-        yield
+    def call_ansible_version(
+        venv: t.Union['VenvRunner', 'FakeVenvRunner'],
+        env: t.Dict[str, str],
+    ) -> str:
+        filename = os.path.join(os.path.dirname(__file__), 'ansible-version.output')
+        with open(filename, 'rt', encoding='utf-8') as f:
+            content = f.read()
+
+        root = env['ANSIBLE_COLLECTIONS_PATH']
+        return content.replace('<<<<<COLLECTIONS>>>>>', root).replace('<<<<<HOME>>>>>', env['HOME']).replace('<<<<<ANSIBLE>>>>>', os.path.dirname(ansible.__file__))
+
+
+    def call_ansible_galaxy_collection_list(
+        venv: t.Union['VenvRunner', 'FakeVenvRunner'],
+        env: t.Dict[str, str],
+    ) -> str:
+        filename = os.path.join(os.path.dirname(__file__), 'ansible-galaxy-cache-all.output')
+        with open(filename, 'rt', encoding='utf-8') as f:
+            content = f.read()
+
+        root = env['ANSIBLE_COLLECTIONS_PATH']
+        return content.replace('<<<<<COLLECTIONS>>>>>', root)
+
+    with mock.patch('antsibull_docs.docs_parsing.ansible_doc_core_213._call_ansible_doc', call_ansible_doc):
+        with mock.patch('antsibull_docs.docs_parsing.ansible_doc._call_ansible_version', call_ansible_version):
+            with mock.patch('antsibull_docs.docs_parsing.ansible_doc._call_ansible_galaxy_collection_list', call_ansible_galaxy_collection_list):
+                yield
