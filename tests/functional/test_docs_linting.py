@@ -214,15 +214,29 @@ def change_cwd(directory):
 
 
 @pytest.mark.parametrize('namespace, name, rc, errors', TEST_CASES)
-def test_lint_collection_plugin_docs(namespace, name, rc, errors):
+def test_lint_collection_plugin_docs(namespace, name, rc, errors, tmp_path):
     tests_root = os.path.join('tests', 'functional')
     collection_root = os.path.join(tests_root, 'collections', 'ansible_collections', namespace, name)
+
+    config_file = tmp_path / 'antsibull.cfg'
+    print(config_file)
+    with open(config_file, 'wt', encoding='utf-8') as f:
+        f.write('doc_parsing_backend = ansible-core-2.13\n')
+
+    command = [
+        'antsibull-docs',
+        '--config-file',
+        str(config_file),
+        'lint-collection-docs',
+        '.',
+        '--plugin-docs',
+    ]
 
     stdout = io.StringIO()
     with change_cwd(collection_root):
         with redirect_stdout(stdout):
             with ansible_doc_cache():
-                actual_rc = run(['antsibull-docs', 'lint-collection-docs', '.', '--plugin-docs'])
+                actual_rc = run(command)
     actual_errors = stdout.getvalue().splitlines()
     print('\n'.join(actual_errors))
     assert actual_rc == rc

@@ -101,8 +101,22 @@ def _compare_directories(source, dest):
 def test_baseline(arguments, directory, tmp_path):
     tests_root = os.path.join('tests', 'functional')
 
+    config_file = tmp_path / 'antsibull.cfg'
+    with open(config_file, 'wt', encoding='utf-8') as f:
+        f.write('doc_parsing_backend = ansible-core-2.13\n')
+
+    output_dir = tmp_path / 'output'
+    os.mkdir(output_dir, mode=0o700)
+
     # Re-build baseline
-    command = ['antsibull-docs'] + arguments + ['--dest-dir', str(tmp_path)]
+    command = [
+        'antsibull-docs',
+        '--config-file',
+        str(config_file)
+    ] + arguments + [
+        '--dest-dir',
+        str(output_dir),
+    ]
     os.environ.pop('ANSIBLE_COLLECTIONS_PATHS', None)
     os.environ['ANSIBLE_COLLECTIONS_PATH'] = os.path.join(tests_root, 'collections')
     stdout = io.StringIO()
@@ -113,5 +127,5 @@ def test_baseline(arguments, directory, tmp_path):
 
     # Compare baseline to expected result
     source = _scan_directories(os.path.join(tests_root, directory))
-    dest = _scan_directories(str(tmp_path))
+    dest = _scan_directories(str(output_dir))
     _compare_directories(source, dest)
