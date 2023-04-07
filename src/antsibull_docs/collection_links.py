@@ -220,7 +220,7 @@ def lint_collection_links(collection_path: str) -> t.List[t.Tuple[str, int, int,
             CollectionEditOnGitHub, Link, IRCChannel, MatrixRoom, MailingList, Communication,
             CollectionLinks,
     ):
-        cls.__config__.extra = Extra.forbid
+        cls.__config__.extra = Extra.forbid  # type: ignore[attr-defined]
 
     try:
         index_path = os.path.join(collection_path, 'docs', 'docsite', 'links.yml')

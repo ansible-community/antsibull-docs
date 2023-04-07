@@ -284,7 +284,7 @@ def normalize_return_type_names(obj):
     return obj
 
 
-TYPE_CHECKERS = {
+TYPE_CHECKERS: dict[str, t.Callable[[t.Any], t.Any]] = {
     'str': check_type_str,
     'list': check_type_list,
     'dict': check_type_dict,
