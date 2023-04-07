@@ -23,6 +23,20 @@ if t.TYPE_CHECKING:
 mlog = log.fields(mod=__name__)
 
 
+def _call_ansible_doc(
+    venv: t.Union['VenvRunner', 'FakeVenvRunner'],
+    env: t.Dict[str, str],
+    *parameters: str,
+) -> t.Mapping[str, t.Any]:
+    # Setup an sh.Command to run ansible-doc from the venv with only the collections we
+    # found as providers of extra plugins.
+    venv_ansible_doc = venv.get_command('ansible-doc')
+    venv_ansible_doc = venv_ansible_doc.bake('-vvv', _env=env)
+    ansible_doc_call = venv_ansible_doc('--metadata-dump', '--no-fail-on-errors', *parameters)
+    stdout = ansible_doc_call.stdout.decode('utf-8', errors='surrogateescape')
+    return json.loads(_filter_non_json_lines(stdout)[0])
+
+
 async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
                                   collection_dir: t.Optional[str],
                                   collection_names: t.Optional[t.List[str]] = None
@@ -52,23 +66,12 @@ async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
 
     env = _get_environment(collection_dir)
 
-    # Setup an sh.Command to run ansible-doc from the venv with only the collections we
-    # found as providers of extra plugins.
-
-    venv_ansible_doc = venv.get_command('ansible-doc')
-    venv_ansible_doc = venv_ansible_doc.bake('-vvv', _env=env)
-
-    flog.debug('Retrieving plugin documentation')
+    flog.debug('Retrieving and loading plugin documentation')
     if collection_names and len(collection_names) == 1:
         # ansible-doc only allows *one* filter
-        dump_metadata_cmd = venv_ansible_doc(
-            '--metadata-dump', '--no-fail-on-errors', collection_names[0])
+        ansible_doc_output = _call_ansible_doc(venv, env, collection_names[0])
     else:
-        dump_metadata_cmd = venv_ansible_doc('--metadata-dump', '--no-fail-on-errors')
-
-    flog.debug('Loading plugin documentation')
-    stdout = dump_metadata_cmd.stdout.decode('utf-8', errors='surrogateescape')
-    ansible_doc_output = json.loads(_filter_non_json_lines(stdout)[0])
+        ansible_doc_output = _call_ansible_doc(venv, env)
 
     flog.debug('Processing plugin documentation')
     plugin_map: t.MutableMapping[str, t.MutableMapping[str, t.Any]] = {}

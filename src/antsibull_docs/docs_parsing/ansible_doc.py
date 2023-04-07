@@ -210,6 +210,24 @@ def parse_ansible_galaxy_collection_list(raw_output: str,
     return result
 
 
+def _call_ansible_version(
+    venv: t.Union['VenvRunner', 'FakeVenvRunner'],
+    env: t.Dict[str, str],
+) -> str:
+    venv_ansible = venv.get_command('ansible')
+    ansible_version_cmd = venv_ansible('--version', _env=env)
+    return ansible_version_cmd.stdout.decode('utf-8', errors='surrogateescape')
+
+
+def _call_ansible_galaxy_collection_list(
+    venv: t.Union['VenvRunner', 'FakeVenvRunner'],
+    env: t.Dict[str, str],
+) -> str:
+    venv_ansible_galaxy = venv.get_command('ansible-galaxy')
+    ansible_collection_list_cmd = venv_ansible_galaxy('collection', 'list', _env=env)
+    return ansible_collection_list_cmd.stdout.decode('utf-8', errors='surrogateescape')
+
+
 def get_collection_metadata(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
                             env: t.Dict[str, str],
                             collection_names: t.Optional[t.List[str]] = None,
@@ -217,15 +235,11 @@ def get_collection_metadata(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
     collection_metadata = {}
 
     # Obtain ansible.builtin version and path
-    venv_ansible = venv.get_command('ansible')
-    ansible_version_cmd = venv_ansible('--version', _env=env)
-    raw_result = ansible_version_cmd.stdout.decode('utf-8', errors='surrogateescape')
+    raw_result = _call_ansible_version(venv, env)
     collection_metadata['ansible.builtin'] = _extract_ansible_builtin_metadata(raw_result)
 
     # Obtain collection versions
-    venv_ansible_galaxy = venv.get_command('ansible-galaxy')
-    ansible_collection_list_cmd = venv_ansible_galaxy('collection', 'list', _env=env)
-    raw_result = ansible_collection_list_cmd.stdout.decode('utf-8', errors='surrogateescape')
+    raw_result = _call_ansible_galaxy_collection_list(venv, env)
     collection_list = parse_ansible_galaxy_collection_list(raw_result, collection_names)
     for namespace, name, path, version in collection_list:
         collection_name = f'{namespace}.{name}'
