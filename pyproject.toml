@@ -70,7 +70,7 @@ antsibull-docs = "antsibull_docs.cli.antsibull_docs:main"
 [project.optional-dependencies]
 codeqa = [
     "flake8 >= 3.8.0",
-    "pylint ~= 2.12.0",
+    "pylint ~= 2.17.2",
     "reuse",
 ]
 coverage = [

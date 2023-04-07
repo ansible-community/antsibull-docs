@@ -18,7 +18,7 @@ from ..utils.get_pkg_data import get_antsibull_data
 from . import AnsibleCollectionMetadata, _get_environment
 
 if t.TYPE_CHECKING:
-    from antsibull_core.venv import FakeVenvRunner, VenvRunner  # pylint:disable=unused-import
+    from antsibull_core.venv import FakeVenvRunner, VenvRunner
 
 
 mlog = log.fields(mod=__name__)

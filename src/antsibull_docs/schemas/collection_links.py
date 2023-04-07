@@ -31,7 +31,7 @@ class CollectionEditOnGitHub(p.BaseModel):
     path_prefix: str = ''
 
     @p.validator('path_prefix', pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def ensure_trailing_slash(cls, obj):
         if isinstance(obj, str):
             obj = obj.rstrip('/')
@@ -62,7 +62,7 @@ class MailingList(p.BaseModel):
     subscribe: t.Optional[str] = None
 
     @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def add_subscribe(cls, values):
         """If 'subscribe' is not provided, try to deduce it from the URL."""
 

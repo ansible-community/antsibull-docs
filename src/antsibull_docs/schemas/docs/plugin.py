@@ -41,7 +41,7 @@ class OptionCliSchema(BaseModel):
     version_added_collection: str = COLLECTION_NAME_F
 
     @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def add_option(cls, values):
         """
         Add option if not present
@@ -96,24 +96,24 @@ class ReturnSchema(BaseModel):
     version_added_collection: str = COLLECTION_NAME_F
 
     @p.validator('description', pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def list_from_scalars(cls, obj):
         return list_from_scalars(obj)
 
     @p.validator('sample', pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def is_json_value(cls, obj):
         if not is_json_value(obj):
             raise ValueError('`sample` must be a JSON value')
         return obj
 
     @p.validator('type', 'elements', pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def normalize_types(cls, obj):
         return normalize_return_type_names(obj)
 
     @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def remove_example(cls, values):
         """
         Remove example in favor of sample.
@@ -136,7 +136,7 @@ class ReturnSchema(BaseModel):
         return values
 
     @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def normalize_sample(cls, values):
         try:
             normalize_value(values, 'sample')
@@ -145,7 +145,7 @@ class ReturnSchema(BaseModel):
         return values
 
     @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def normalize_choices(cls, values):
         if isinstance(values.get('choices'), dict):
             for k, v in values['choices'].items():
@@ -161,7 +161,7 @@ class InnerReturnSchema(ReturnSchema):
     contains: t.Dict[str, 'InnerReturnSchema'] = {}
 
     @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def allow_description_to_be_optional(cls, values):
         # Doing this in a validator so that the json-schema will still flag it as an error
         if 'description' not in values:
@@ -203,7 +203,7 @@ class PluginExamplesSchema(BaseModel):
     examples: str = ''
 
     @p.validator('examples', pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def normalize_examples(cls, value):
         if value is None:
             value = ''
@@ -222,7 +222,7 @@ class PluginReturnSchema(BaseModel):
     return_: t.Dict[str, OuterReturnSchema] = {}
 
     @p.validator('return_', pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def transform_return(cls, obj):
         return transform_return_docs(obj)
 

@@ -19,7 +19,7 @@ from .ansible_doc_core_213 import \
 from .ansible_internal import get_ansible_plugin_info as ansible_internal_get_ansible_plugin_info
 
 if t.TYPE_CHECKING:
-    from antsibull_core.venv import FakeVenvRunner, VenvRunner  # pylint:disable=unused-import
+    from antsibull_core.venv import FakeVenvRunner, VenvRunner
 
 
 mlog = log.fields(mod=__name__)
@@ -74,4 +74,4 @@ async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
         return await ansible_doc_core_213_get_ansible_plugin_info(
             venv, collection_dir, collection_names=collection_names)
 
-    raise Exception(f'Invalid value for doc_parsing_backend: {doc_parsing_backend}')
+    raise RuntimeError(f'Invalid value for doc_parsing_backend: {doc_parsing_backend}')

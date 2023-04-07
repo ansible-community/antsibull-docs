@@ -26,7 +26,7 @@ def load_collection_info(path_to_collection: str) -> t.Dict[str, t.Any]:
         galaxy_yml = load_yaml_file(galaxy_yml_path)
         return galaxy_yml
 
-    raise Exception(f'Cannot find files {manifest_json_path} and {galaxy_yml_path}')
+    raise RuntimeError(f'Cannot find files {manifest_json_path} and {galaxy_yml_path}')
 
 
 def load_collection_name(path_to_collection: str) -> str:

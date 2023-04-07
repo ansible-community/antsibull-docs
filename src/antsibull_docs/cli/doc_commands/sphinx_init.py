@@ -70,7 +70,7 @@ def toperky(value: t.Any) -> str:
         if all(ch not in value for ch in '\\={}[]') and value.strip() == value:
             return value
         return f'"{value}"'
-    raise Exception(f'toperky filter cannot handle type {type(value)}')
+    raise RuntimeError(f'toperky filter cannot handle type {type(value)}')
 
 
 def python_repr(value: t.Any) -> str:

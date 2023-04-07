@@ -370,7 +370,7 @@ class DeprecationSchema(BaseModel):
     alternative: str = ''
 
     @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def rename_version(cls, values):
         """Make deprecations at this level match the toplevel name."""
         version = values.get('version', _SENTINEL)
@@ -385,7 +385,7 @@ class DeprecationSchema(BaseModel):
         return values
 
     @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def rename_date(cls, values):
         """Make deprecations at this level match the toplevel name."""
         date = values.get('date', _SENTINEL)
@@ -400,7 +400,7 @@ class DeprecationSchema(BaseModel):
         return values
 
     @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def rename_collection_name(cls, values):
         """Make deprecations at this level match the toplevel name."""
         collection_name = values.get('collection_name', _SENTINEL)
@@ -415,7 +415,7 @@ class DeprecationSchema(BaseModel):
         return values
 
     @p.root_validator
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def require_version_xor_date(cls, values):
         """Make sure either removed_in or removed_at_date are specified, but not both."""
         # This should be changed to a way that also works in the JSON schema; see
@@ -431,7 +431,7 @@ class DeprecationSchema(BaseModel):
         return values
 
     @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def merge_typo_names(cls, values):
         alternatives = values.get('alternatives', _SENTINEL)
 
@@ -458,19 +458,19 @@ class OptionsSchema(BaseModel):
     version_added_collection: str = COLLECTION_NAME_F
 
     @p.validator('aliases', 'description', 'choices', pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def list_from_scalars(cls, obj):
         return list_from_scalars(obj)
 
     @p.validator('default', pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def is_json_value(cls, obj):
         if not is_json_value(obj):
             raise ValueError('`default` must be a JSON value')
         return obj
 
     @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def get_rid_of_name(cls, values):
         """
         Remove name from this schema.
@@ -483,7 +483,7 @@ class OptionsSchema(BaseModel):
         return values
 
     @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def merge_typo_names(cls, values):
         element_type = values.get('element_type', _SENTINEL)
 
@@ -506,12 +506,12 @@ class OptionsSchema(BaseModel):
         return values
 
     @p.validator('type', 'elements', pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def normalize_option_type(cls, obj):
         return normalize_option_type_names(obj)
 
     @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def normalize_default_choices(cls, values):
         if isinstance(values.get('choices'), dict):
             for k, v in values['choices'].items():
@@ -555,7 +555,7 @@ class AttributeSchemaBase(BaseModel, metaclass=abc.ABCMeta):
     version_added_collection: str = COLLECTION_NAME_F
 
     @p.validator('description', 'details', pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def list_from_scalars(cls, obj):
         return list_from_scalars(obj)
 
@@ -568,7 +568,7 @@ class AttributeSchemaActionGroup(AttributeSchemaBase):  # for 'action_group'
     membership: t.List[str]
 
     @p.validator('membership', pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def list_from_scalars_sub(cls, obj):
         return list_from_scalars_comma_separated(obj)
 
@@ -577,7 +577,7 @@ class AttributeSchemaPlatform(AttributeSchemaBase):  # for 'platform'
     platforms: t.List[str]
 
     @p.validator('platforms', pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def list_from_scalars_sub(cls, obj):
         return list_from_scalars_comma_separated(obj)
 
@@ -607,12 +607,12 @@ class DocSchema(BaseModel):
 
     @p.validator('author', 'description', 'extends_documentation_fragment', 'notes',
                  'requirements', 'todo', pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def list_from_scalars(cls, obj):
         return list_from_scalars(obj)
 
     @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def remove_plugin_type(cls, values):
         """
         Remove the plugin_type field from the doc.
@@ -627,7 +627,7 @@ class DocSchema(BaseModel):
         return values
 
     @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def merge_plugin_names(cls, values):
         """
         Normalize the field which plugin names are in.
@@ -658,7 +658,7 @@ class DocSchema(BaseModel):
         return values
 
     @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def merge_typo_names(cls, values):
         cb_type = values.get('callback_type', _SENTINEL)
 

@@ -36,7 +36,7 @@ class CollectionNameTransformer:
         """Transform the given collection name."""
         parts = collection_name.split('.', 1)
         if len(parts) < 2:
-            raise Exception(
+            raise RuntimeError(
                 f'Collection name must have at least one period; {collection_name!r} has not')
         namespace, name = parts
         if collection_name in self._data:

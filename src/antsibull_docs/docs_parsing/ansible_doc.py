@@ -26,7 +26,7 @@ from . import AnsibleCollectionMetadata, ParsingError, _get_environment
 from .fqcn import get_fqcn_parts
 
 if t.TYPE_CHECKING:
-    from antsibull_core.venv import FakeVenvRunner, VenvRunner  # pylint:disable=unused-import
+    from antsibull_core.venv import FakeVenvRunner, VenvRunner
 
 
 mlog = log.fields(mod=__name__)
@@ -177,10 +177,10 @@ def _extract_ansible_builtin_metadata(stdout: str) -> AnsibleCollectionMetadata:
                 version = match.group(1)
                 break
     if path is None:
-        raise Exception(
+        raise RuntimeError(
             f'Cannot extract module location path from ansible --version output: {stdout}')
     if version is None:
-        raise Exception(
+        raise RuntimeError(
             f'Cannot extract ansible-core version from ansible --version output: {stdout}')
     return AnsibleCollectionMetadata(path=path, version=version)
 

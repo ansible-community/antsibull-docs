@@ -31,34 +31,34 @@ from .schemas.collection_links import (
 mlog = log.fields(mod=__name__)
 
 
-_ANSIBLE_CORE_METADATA = dict(
-    edit_on_github=dict(
-        repository='ansible/ansible',
-        branch='devel',
-        path_prefix='lib/ansible/',
-    ),
-    authors=['Ansible, Inc.'],
-    description='These are all modules and plugins contained in ansible-core.',
-    links=[
-        dict(description='Issue Tracker', url='https://github.com/ansible/ansible/issues'),
-        dict(description='Repository (Sources)', url='https://github.com/ansible/ansible'),
+_ANSIBLE_CORE_METADATA = {
+    'edit_on_github': {
+        'repository': 'ansible/ansible',
+        'branch': 'devel',
+        'path_prefix': 'lib/ansible/',
+    },
+    'authors': ['Ansible, Inc.'],
+    'description': 'These are all modules and plugins contained in ansible-core.',
+    'links': [
+        {'description': 'Issue Tracker', 'url': 'https://github.com/ansible/ansible/issues'},
+        {'description': 'Repository (Sources)', 'url': 'https://github.com/ansible/ansible'},
     ],
-    communication=dict(
-        irc_channels=[dict(
-            topic='General usage and support questions',
-            network='Libera',
-            channel='#ansible',
-        )],
-        matrix_rooms=[dict(
-            topic='General usage and support questions',
-            room='#users:ansible.im',
-        )],
-        mailing_lists=[dict(
-            topic='Ansible Project List',
-            url='https://groups.google.com/g/ansible-project',
-        )],
-    ),
-)
+    'communication': {
+        'irc_channels': [{
+            'topic': 'General usage and support questions',
+            'network': 'Libera',
+            'channel': '#ansible',
+        }],
+        'matrix_rooms': [{
+            'topic': 'General usage and support questions',
+            'room': '#users:ansible.im',
+        }],
+        'mailing_lists': [{
+            'topic': 'Ansible Project List',
+            'url': 'https://groups.google.com/g/ansible-project',
+        }],
+    },
+}
 
 
 def _extract_authors(data: t.Dict) -> t.List[str]:
@@ -85,7 +85,7 @@ def _extract_galaxy_links(data: t.Dict) -> t.List[Link]:
                 if data.get(other_key) == url:
                     return
         if isinstance(url, str):
-            result.append(Link.parse_obj(dict(description=desc, url=url)))
+            result.append(Link.parse_obj({'description': desc, 'url': url}))
 
     # extract('documentation', 'Documentation')
     extract('issues', 'Issue Tracker')

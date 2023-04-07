@@ -17,7 +17,7 @@ from .ansible_doc import get_collection_metadata
 from .fqcn import get_fqcn_parts
 
 if t.TYPE_CHECKING:
-    from antsibull_core.venv import FakeVenvRunner, VenvRunner  # pylint:disable=unused-import
+    from antsibull_core.venv import FakeVenvRunner, VenvRunner
 
 
 mlog = log.fields(mod=__name__)
