@@ -93,53 +93,6 @@ def test(session: nox.Session):
 
 
 @nox.session
-def coverage_release(session: nox.Session):
-    """
-    Build a test release and report coverage
-    """
-    install(
-        session,
-        ".",
-        *other_antsibull(),
-        "ansible-core",
-        "coverage",
-        editable=True,
-    )
-
-    build_command = (
-        "coverage run -p --source antsibull -m antsibull.cli.antsibull_build"
-    )
-    posargs = session.posargs
-    # Set default settings
-    if not posargs:
-        posargs = (
-            "-e",
-            "antsibull_ansible_version=7.99.0",
-            "-e",
-            "antsibull_ansible_git_version=stable-2.14",
-        )
-    collections = Path(session.create_tmp()).joinpath("collections")
-    os.environ["ANSIBLE_COLLECTIONS_PATH"] = str(collections)
-    session.run(
-        "ansible-galaxy",
-        "collection",
-        "install",
-        "git+https://github.com/ansible-collections/community.general",
-    )
-    session.run(
-        "ansible-playbook",
-        "-vv",
-        "playbooks/build-single-release.yaml",
-        *posargs,
-        "-e",
-        f"antsibull_build_command={build_command!r}",
-    )
-    session.run("coverage", "combine", *Path(".").glob(".coverage.*"))
-    session.run("coverage", "report")
-    session.run("coverage", "xml", "-i")
-
-
-@nox.session
 def coverage(session: nox.Session):
     install(session, "coverage[toml]")
     combined = map(str, Path().glob(".nox/test*/tmp/.coverage"))
