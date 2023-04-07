@@ -7,9 +7,13 @@ name: Verify REUSE
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - stable-*
   pull_request:
-    branches: [main]
+    branches:
+      - main
+      - stable-*
   # Run once per week (Friday at 06:00 UTC)
   schedule:
     - cron: '0 6 * * 5'

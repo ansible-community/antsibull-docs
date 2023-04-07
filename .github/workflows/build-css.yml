@@ -9,9 +9,13 @@ name: Build CSS
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - stable-*
   pull_request:
-    branches: [main]
+    branches:
+      - main
+      - stable-*
   # Run once per week (Monday at 04:00 UTC)
   schedule:
     - cron: '0 4 * * 1'
