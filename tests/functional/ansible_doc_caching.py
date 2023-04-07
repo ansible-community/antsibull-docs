@@ -9,7 +9,9 @@ import typing as t
 from contextlib import contextmanager
 from unittest import mock
 
-import ansible
+import pytest
+
+ansible = pytest.importorskip('ansible')
 
 
 @contextmanager
