@@ -24,9 +24,10 @@ from ...collection_links import CollectionLinks
 from ...docs_parsing import AnsibleCollectionMetadata
 from ...docs_parsing.fqcn import get_fqcn_parts, is_fqcn
 from ...jinja2.environment import doc_environment
+from ...process_docs import normalize_plugin_info
 from ...utils.collection_name_transformer import CollectionNameTransformer
 from ...write_docs.plugins import write_plugin_rst
-from .stable import normalize_plugin_info
+
 
 mlog = log.fields(mod=__name__)
 

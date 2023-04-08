@@ -21,7 +21,7 @@ from antsibull_core.logging import log
 from antsibull_core.venv import FakeVenvRunner
 
 from ... import app_context
-from .stable import generate_docs_for_all_collections
+from ._build import generate_docs_for_all_collections
 
 if t.TYPE_CHECKING:
     import semantic_version as semver

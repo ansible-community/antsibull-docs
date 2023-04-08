@@ -18,7 +18,7 @@ from antsibull_core.venv import FakeVenvRunner
 from sphinx_antsibull_ext import roles as antsibull_roles
 
 from .augment_docs import augment_docs
-from .cli.doc_commands.stable import (
+from .process_docs import (
     get_collection_contents,
     get_plugin_contents,
     normalize_all_plugin_info,
