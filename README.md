@@ -90,7 +90,7 @@ To run specific tests:
 
 1. `nox -e test` to only run unit tests;
 2. `nox -e lint` to run all linters;
-3. `nox -e codeqa` to run `flake8`, `pylint`, and `reuse lint`;
+3. `nox -e codeqa` to run `flake8`, `pylint`, `reuse lint`, and `antsibull-changelog lint`;
 4. `nox -e typing` to run `mypy` and `pyre`.
 
 To create a more complete local development env:
