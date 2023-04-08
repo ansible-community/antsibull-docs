@@ -76,8 +76,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install ansible-core
-          pip install -r requirements.txt
+          pip install ansible-core -r requirements.txt
         working-directory: antsibull-docs
 
       - name: Install collections
