@@ -70,7 +70,7 @@ antsibull-docs = "antsibull_docs.cli.antsibull_docs:main"
 [project.optional-dependencies]
 codeqa = [
     "flake8 >= 3.8.0",
-    "pylint ~= 2.17.2",
+    "pylint >= 2.17.2",
     "reuse",
 ]
 coverage = [
@@ -88,7 +88,7 @@ test = [
 typing = [
     "mypy",
     # https://github.com/facebook/pyre-check/issues/398
-    "pyre-check ~= 0.9.17",
+    "pyre-check >= 0.9.17",
     "types-aiofiles",
     "types-docutils",
     "types-PyYAML",
