@@ -50,7 +50,7 @@ from ...write_docs.plugin_stubs import output_all_plugin_stub_rst
 from ...write_docs.plugins import output_all_plugin_rst
 
 if t.TYPE_CHECKING:
-    import semantic_version as semver  # pylint:disable=unused-import
+    import semantic_version as semver
 
 
 mlog = log.fields(mod=__name__)

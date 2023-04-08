@@ -25,7 +25,7 @@ from ... import app_context
 from .stable import generate_docs_for_all_collections
 
 if t.TYPE_CHECKING:
-    import semantic_version as semver  # pylint:disable=unused-import
+    import semantic_version as semver
 
 
 mlog = log.fields(mod=__name__)

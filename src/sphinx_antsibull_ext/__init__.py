@@ -29,8 +29,8 @@ def setup(app):
     # Add roles
     setup_roles(app)
 
-    return dict(
-        parallel_read_safe=True,
-        parallel_write_safe=True,
-        version=__version__,
-    )
+    return {
+        'parallel_read_safe': True,
+        'parallel_write_safe': True,
+        'version': __version__,
+    }

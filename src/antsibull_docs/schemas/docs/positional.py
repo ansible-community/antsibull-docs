@@ -22,7 +22,7 @@ class InnerPositionalDocSchema(InnerDocSchema):
     positional: t.List[str] = []
 
     @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument,no-self-use
+    # pylint:disable=no-self-argument
     def add_default_positional(cls, values):
         """
         Remove example in favor of sample.

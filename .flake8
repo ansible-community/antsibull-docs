@@ -1,0 +1,12 @@
+# GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: 2023 Maxwell G <maxwell@gtmx.me>
+
+[flake8]
+extend-ignore = E203
+count = true
+max-complexity = 10
+# black's max-line-length is 89, but it doesn't touch long string literals.
+max-line-length = 100
+statistics = true

@@ -29,4 +29,4 @@ def _render_template(_template: Template, _name: str, **kwargs) -> str:
     try:
         return _template.render(**kwargs)
     except Exception as exc:
-        raise Exception(f"Error while rendering {_name}") from exc
+        raise RuntimeError(f"Error while rendering {_name}") from exc

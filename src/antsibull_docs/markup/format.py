@@ -7,6 +7,8 @@
 Flexible formatting of DOM.
 """
 
+# pylint:disable=useless-option-value
+
 import abc
 
 import typing as t

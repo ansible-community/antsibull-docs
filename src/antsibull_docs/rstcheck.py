@@ -46,11 +46,14 @@ def check_rst_content(content: str, filename: t.Optional[str] = None,
             return [(result['line_number'], 0, result['message']) for result in core_results]
     else:
         if ignore_directives or ignore_roles:
+            # pylint: disable-next=no-member,used-before-assignment
             rstcheck.ignore_directives_and_roles(
                 ignore_directives or [], ignore_roles or [])
+        # pylint: disable-next=no-member
         results = rstcheck.check(
             content,
             filename=filename,
+            # pylint: disable-next=used-before-assignment
             report_level=docutils.utils.Reporter.WARNING_LEVEL,
         )
         return [(result[0], 0, result[1]) for result in results]

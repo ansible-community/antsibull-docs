@@ -10,6 +10,7 @@
 """Enumerate collections and all their plugin's docs."""
 
 # pylint:disable=protected-access
+# pylint:disable=import-error
 
 # Parts taken from Ansible's ansible-doc sources
 
@@ -55,7 +56,7 @@ def load_plugin(loader, plugin_type, plugin):
 
         documentation, plainexamples, returndocs, metadata = get_docstring(
             filename, fragment_loader, verbose=False,
-            collection_name=collection_name, is_module=(plugin_type == 'module'))
+            collection_name=collection_name, is_module=plugin_type == 'module')
 
         if documentation is None:
             result['error'] = 'No valid documentation found'
