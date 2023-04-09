@@ -69,6 +69,7 @@ antsibull-docs = "antsibull_docs.cli.antsibull_docs:main"
 
 [project.optional-dependencies]
 codeqa = [
+    "antsibull-changelog",
     "flake8 >= 3.8.0",
     "pylint >= 2.17.2",
     "reuse",
