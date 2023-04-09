@@ -32,7 +32,7 @@ make_ansible_doc_extract() {
     shift
 
     echo "Build ansible-galaxy collection list $@ output cache"
-    ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ ansible-galaxy collection list "$@" | sed -e "s|# ${PWD}/collections|# <<<<<COLLECTIONS>>>>>|g" > "ansible-galaxy-cache-${NAME}.output"
+    ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ ansible-galaxy collection list --format json "$@" | python sanitize-ansible-galaxy-list.py > "ansible-galaxy-cache-${NAME}.json"
 
     echo "Build ansible-doc --metadata-dump --no-fail-on-errors $@ output cache"
     ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ ansible-doc --metadata-dump --no-fail-on-errors "$@" | python sanitize-ansible-doc-dump.py > "ansible-doc-cache-${NAME}.json"

@@ -1,0 +1,7 @@
+{
+ "ansible_collections": {
+  "ns2.col": {
+   "version": "2.1.0"
+  }
+ }
+}

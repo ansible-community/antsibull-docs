@@ -5,12 +5,14 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Parse documentation from ansible plugins using anible-doc."""
 
+import json
 import os
 import re
 import typing as t
 
 import sh
 from antsibull_core.logging import log
+from antsibull_core.vendored.json_utils import _filter_non_json_lines
 from packaging.version import Version as PypiVer
 
 from . import AnsibleCollectionMetadata
@@ -44,28 +46,21 @@ def _extract_ansible_builtin_metadata(stdout: str) -> AnsibleCollectionMetadata:
     return AnsibleCollectionMetadata(path=path, version=version)
 
 
-def parse_ansible_galaxy_collection_list(raw_output: str,
+def parse_ansible_galaxy_collection_list(json_output: t.Mapping[str, t.Any],
                                          collection_names: t.Optional[t.List[str]] = None,
                                          ) -> t.List[t.Tuple[str, str, str, t.Optional[str]]]:
     result = []
-    current_base_path = None
-    for line in raw_output.splitlines():
-        parts = line.split()
-        if len(parts) >= 2:
-            if parts[0] == '#':
-                current_base_path = parts[1]
-            elif current_base_path is not None:
-                collection_name = parts[0]
-                version = parts[1]
-                if '.' in collection_name:
-                    if collection_names is None or collection_name in collection_names:
-                        namespace, name = collection_name.split('.', 2)
-                        result.append((
-                            namespace,
-                            name,
-                            os.path.join(current_base_path, namespace, name),
-                            None if version == '*' else version
-                        ))
+    for path, collections in json_output.items():
+        for collection, data in collections.items():
+            if collection_names is None or collection in collection_names:
+                namespace, name = collection.split('.', 2)
+                version = data.get('version', '*')
+                result.append((
+                    namespace,
+                    name,
+                    os.path.join(path, namespace, name),
+                    None if version == '*' else version
+                ))
     return result
 
 
@@ -81,10 +76,12 @@ def _call_ansible_version(
 def _call_ansible_galaxy_collection_list(
     venv: t.Union['VenvRunner', 'FakeVenvRunner'],
     env: t.Dict[str, str],
-) -> str:
+) -> t.Mapping[str, t.Any]:
     venv_ansible_galaxy = venv.get_command('ansible-galaxy')
-    ansible_collection_list_cmd = venv_ansible_galaxy('collection', 'list', _env=env)
-    return ansible_collection_list_cmd.stdout.decode('utf-8', errors='surrogateescape')
+    ansible_collection_list_cmd = venv_ansible_galaxy(
+        'collection', 'list', '--format', 'json', _env=env)
+    stdout = ansible_collection_list_cmd.stdout.decode('utf-8', errors='surrogateescape')
+    return json.loads(_filter_non_json_lines(stdout)[0])
 
 
 def get_collection_metadata(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
@@ -98,8 +95,8 @@ def get_collection_metadata(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
     collection_metadata['ansible.builtin'] = _extract_ansible_builtin_metadata(raw_result)
 
     # Obtain collection versions
-    raw_result = _call_ansible_galaxy_collection_list(venv, env)
-    collection_list = parse_ansible_galaxy_collection_list(raw_result, collection_names)
+    json_result = _call_ansible_galaxy_collection_list(venv, env)
+    collection_list = parse_ansible_galaxy_collection_list(json_result, collection_names)
     for namespace, name, path, version in collection_list:
         collection_name = f'{namespace}.{name}'
         collection_metadata[collection_name] = AnsibleCollectionMetadata(

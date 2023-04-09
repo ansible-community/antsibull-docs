@@ -122,6 +122,7 @@ def test_baseline(arguments, directory, tmp_path):
     with redirect_stdout(stdout):
         rc = run(command)
     stdout = stdout.getvalue().splitlines()
+    assert rc == 0
 
     try:
         # Adjust 'cd' in build.sh

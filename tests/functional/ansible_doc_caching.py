@@ -60,13 +60,15 @@ def ansible_doc_cache():
     def call_ansible_galaxy_collection_list(
         venv: t.Union['VenvRunner', 'FakeVenvRunner'],
         env: t.Dict[str, str],
-    ) -> str:
-        filename = os.path.join(os.path.dirname(__file__), 'ansible-galaxy-cache-all.output')
+    ) -> t.Mapping[str, t.Any]:
+        filename = os.path.join(os.path.dirname(__file__), 'ansible-galaxy-cache-all.json')
         with open(filename, 'rt', encoding='utf-8') as f:
-            content = f.read()
-
+            data = json.load(f)
         root = env['ANSIBLE_COLLECTIONS_PATH']
-        return content.replace('<<<<<COLLECTIONS>>>>>', root)
+        result = {}
+        for path, collections in data.items():
+            result[os.path.join(root, path)] = collections
+        return result
 
     with mock.patch('antsibull_docs.docs_parsing.ansible_doc_core_213._call_ansible_doc', call_ansible_doc):
         with mock.patch('antsibull_docs.docs_parsing.ansible_doc._call_ansible_version', call_ansible_version):
