@@ -23,18 +23,16 @@ if t.TYPE_CHECKING:
 mlog = log.fields(mod=__name__)
 
 
-def _call_ansible_doc(
+async def _call_ansible_doc(
     venv: t.Union['VenvRunner', 'FakeVenvRunner'],
     env: t.Dict[str, str],
     *parameters: str,
 ) -> t.Mapping[str, t.Any]:
-    # Setup an sh.Command to run ansible-doc from the venv with only the collections we
-    # found as providers of extra plugins.
-    venv_ansible_doc = venv.get_command('ansible-doc')
-    venv_ansible_doc = venv_ansible_doc.bake('-vvv', _env=env)
-    ansible_doc_call = venv_ansible_doc('--metadata-dump', '--no-fail-on-errors', *parameters)
-    stdout = ansible_doc_call.stdout.decode('utf-8', errors='surrogateescape')
-    return json.loads(_filter_non_json_lines(stdout)[0])
+    p = await venv.async_log_run(
+        ['ansible-doc', '-vvv', '--metadata-dump', '--no-fail-on-errors', *parameters],
+        env=env,
+    )
+    return json.loads(_filter_non_json_lines(p.stdout)[0])
 
 
 async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
@@ -69,9 +67,9 @@ async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
     flog.debug('Retrieving and loading plugin documentation')
     if collection_names and len(collection_names) == 1:
         # ansible-doc only allows *one* filter
-        ansible_doc_output = _call_ansible_doc(venv, env, collection_names[0])
+        ansible_doc_output = await _call_ansible_doc(venv, env, collection_names[0])
     else:
-        ansible_doc_output = _call_ansible_doc(venv, env)
+        ansible_doc_output = await _call_ansible_doc(venv, env)
 
     flog.debug('Processing plugin documentation')
     plugin_map: t.MutableMapping[str, t.MutableMapping[str, t.Any]] = {}
@@ -120,7 +118,7 @@ async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
             plugin_type_data[fqcn] = plugin_data
 
     flog.debug('Retrieving collection metadata')
-    collection_metadata = get_collection_metadata(venv, env, collection_names)
+    collection_metadata = await get_collection_metadata(venv, env, collection_names)
 
     flog.debug('Leave')
     return (plugin_map, collection_metadata)

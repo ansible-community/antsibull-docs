@@ -8,11 +8,11 @@
 
 import json
 import os
+import subprocess
 import sys
 import traceback
 import typing as t
 
-import sh
 from antsibull_core.compat import asyncio_run
 from antsibull_core.logging import log
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
@@ -47,26 +47,22 @@ def generate_plugin_docs(plugin_type: str, plugin_name: str,
     venv_ansible_doc = venv.get_command('ansible-doc')
     venv_ansible_doc = venv_ansible_doc.bake('-vvv')
     try:
-        ansible_doc_results = venv_ansible_doc('-t', plugin_type, '--json', plugin_name)
-    except sh.ErrorReturnCode as exc:
+        ansible_doc_results = venv.log_run(
+            ['ansible-doc', '-vvv', '-t', plugin_type, '--json', plugin_name])
+    except subprocess.CalledProcessError as exc:
         err_msg = []
         formatted_exception = traceback.format_exception(None, exc, exc.__traceback__)
         err_msg.append(f'Exception while parsing documentation for {plugin_type} plugin:'
                        f' {plugin_name}.  Will not document this plugin.')
         err_msg.append(f'Exception:\n{"".join(formatted_exception)}')
 
-        stdout = exc.stdout.decode("utf-8", errors="surrogateescape")
-        stderr = exc.stderr.decode("utf-8", errors="surrogateescape")
-
-        err_msg.append(f'Full process stdout:\n{stdout}')
-        err_msg.append(f'Full process stderr:\n{stderr}')
+        err_msg.append(f'Full process stdout:\n{exc.stdout}')
+        err_msg.append(f'Full process stderr:\n{exc.stderr}')
 
         sys.stderr.write('\n'.join(err_msg))
         return 1
 
-    stdout = ansible_doc_results.stdout.decode("utf-8", errors="surrogateescape")
-
-    plugin_data = json.loads(_filter_non_json_lines(stdout)[0])
+    plugin_data = json.loads(_filter_non_json_lines(ansible_doc_results.stdout)[0])
     try:
         plugin_info = plugin_data[plugin_name]
     except KeyError:
