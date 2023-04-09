@@ -1,0 +1,2 @@
+minor_changes:
+  - "Allow to use the currently installed ansible-core version for the ``devel`` and ``stable`` subcommands (https://github.com/ansible-community/antsibull-docs/pull/121)."
