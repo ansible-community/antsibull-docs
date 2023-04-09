@@ -17,7 +17,7 @@ from antsibull_core.schemas.validators import convert_bool
 
 #: Valid choices for a logging level field
 DOC_PARSING_BACKEND_CHOICES_F = p.Field(
-    'ansible-internal', regex='^(auto|ansible-doc|ansible-core-2.13|ansible-internal)$')
+    'auto', regex='^(auto|ansible-core-2\\.13)$')
 
 
 class DocsAppContext(CoreAppContext):

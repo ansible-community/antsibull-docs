@@ -1,0 +1,3 @@
+breaking_changes:
+  - "No longer supports Ansible 2.9, ansible-base 2.10, and ansible-core 2.11 and 2.12. The minimum required ansible-core version is 2.13. This allows for simpler and more efficient docs parsing and information retrieval (https://github.com/ansible-community/antsibull-docs/pull/120)."
+  - "The ``ansible-doc`` and ``ansible-internal`` values for ``doc_parsing_backend`` in the configuration file have been removed. Change the value to ``auto`` for best compatibility (https://github.com/ansible-community/antsibull-docs/pull/120)."
