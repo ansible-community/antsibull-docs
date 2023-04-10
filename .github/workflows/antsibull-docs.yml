@@ -38,7 +38,6 @@ jobs:
         include:
           - options: '--use-current --use-html-blobs --no-breadcrumbs community.crypto community.docker'
             python: '3.9'
-            antsibull_core_ref: stable-1
 
     steps:
       - name: Check out antsibull-docs
