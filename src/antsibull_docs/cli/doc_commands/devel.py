@@ -36,7 +36,7 @@ async def retrieve(collections: t.List[str],
                    galaxy_server: str,
                    ansible_core_source: t.Optional[str] = None,
                    collection_cache: t.Optional[str] = None,
-                   use_current_ansible_core: bool = False,
+                   use_installed_ansible_core: bool = False,
                    ) -> t.Dict[str, 'semver.Version']:
     """
     Download ansible-core and the latest versions of the collections.
@@ -50,7 +50,7 @@ async def retrieve(collections: t.List[str],
     :kwarg collection_cache: If given, a path to a directory containing collection tarballs.
         These tarballs will be used instead of downloading new tarballs provided that the
         versions match the criteria (latest compatible version known to galaxy).
-    :kwarg use_current_ansible_core: If ``True``, do not download ansible-core.
+    :kwarg use_installed_ansible_core: If ``True``, do not download ansible-core.
     :returns: Map of collection name to directory it is in.  ansible-core will
         use the special key, `_ansible_core`.
     """
@@ -62,7 +62,7 @@ async def retrieve(collections: t.List[str],
     lib_ctx = app_context.lib_ctx.get()
     async with aiohttp.ClientSession() as aio_session:
         async with asyncio_pool.AioPool(size=lib_ctx.thread_max) as pool:
-            if not use_current_ansible_core:
+            if not use_installed_ansible_core:
                 requestors['_ansible_core'] = await pool.spawn(
                     get_ansible_core(aio_session, '@devel', tmp_dir,
                                      ansible_core_source=ansible_core_source))
@@ -99,7 +99,7 @@ def generate_docs() -> int:
     flog.notice('Begin generating docs')
 
     app_ctx = app_context.app_ctx.get()
-    use_current_ansible_core: bool = app_ctx.extra['use_current_ansible_core']
+    use_installed_ansible_core: bool = app_ctx.extra['use_installed_ansible_core']
 
     # Parse the pieces file
     flog.fields(deps_file=app_ctx.extra['pieces_file']).info('Parse pieces file')
@@ -114,12 +114,12 @@ def generate_docs() -> int:
                      galaxy_server=app_ctx.galaxy_url,
                      ansible_core_source=app_ctx.extra['ansible_core_source'],
                      collection_cache=app_ctx.collection_cache,
-                     use_current_ansible_core=use_current_ansible_core))
+                     use_installed_ansible_core=use_installed_ansible_core))
         # flog.fields(tarballs=collection_tarballs).debug('Download complete')
         flog.notice('Finished retrieving tarballs')
 
         # Get the ansible-core location
-        if use_current_ansible_core:
+        if use_installed_ansible_core:
             ansible_core_path = None
         else:
             try:
