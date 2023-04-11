@@ -124,6 +124,7 @@ def test_baseline(arguments, directory, tmp_path):
         with ansible_doc_cache():
             rc = run(command)
     stdout = stdout.getvalue().splitlines()
+    assert rc == 0
 
     # Compare baseline to expected result
     source = _scan_directories(os.path.join(tests_root, directory))

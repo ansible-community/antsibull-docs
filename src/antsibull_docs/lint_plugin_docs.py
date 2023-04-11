@@ -5,6 +5,7 @@
 # SPDX-FileCopyrightText: 2022, Ansible Project
 """Lint plugin docs."""
 
+import json
 import os
 import shutil
 import tempfile
@@ -13,6 +14,7 @@ from collections.abc import Sequence
 
 import sh
 from antsibull_core.compat import asyncio_run
+from antsibull_core.vendored.json_utils import _filter_non_json_lines
 from antsibull_core.venv import FakeVenvRunner
 
 from sphinx_antsibull_ext import roles as antsibull_roles
@@ -71,9 +73,10 @@ class CollectionCopier:
 class CollectionFinder:
     def __init__(self):
         self.collections = {}
-        stdout = sh.Command('ansible-galaxy')('collection', 'list').stdout
+        stdout = sh.Command('ansible-galaxy')('collection', 'list', '--format', 'json').stdout
         raw_output = stdout.decode('utf-8', errors='surrogateescape')
-        for namespace, name, path, _ in reversed(parse_ansible_galaxy_collection_list(raw_output)):
+        data = json.loads(_filter_non_json_lines(raw_output)[0])
+        for namespace, name, path, _ in reversed(parse_ansible_galaxy_collection_list(data)):
             self.collections[f'{namespace}.{name}'] = path
 
     def find(self, namespace, name):
