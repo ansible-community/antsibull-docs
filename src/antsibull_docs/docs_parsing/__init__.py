@@ -8,6 +8,8 @@
 import os
 import typing as t
 
+from antsibull_core.venv import FakeVenvRunner, VenvRunner
+
 #: Clear Ansible environment variables that set paths where plugins could be found.
 ANSIBLE_PATH_ENVIRON: t.Dict[str, str] = os.environ.copy()
 ANSIBLE_PATH_ENVIRON.update({'ANSIBLE_COLLECTIONS_PATH': '/dev/null',
@@ -31,12 +33,6 @@ ANSIBLE_PATH_ENVIRON.update({'ANSIBLE_COLLECTIONS_PATH': '/dev/null',
                              'ANSIBLE_DOC_FRAGMENT_PLUGINS': '/dev/null',
                              })
 try:
-    del ANSIBLE_PATH_ENVIRON['PYTHONPATH']
-except KeyError:
-    # We just wanted to make sure there was no PYTHONPATH set...
-    # all python libs will come from the venv
-    pass
-try:
     del ANSIBLE_PATH_ENVIRON['ANSIBLE_COLLECTIONS_PATHS']
 except KeyError:
     # ANSIBLE_COLLECTIONS_PATHS is the deprecated name replaced by
@@ -48,8 +44,17 @@ class ParsingError(Exception):
     """Error raised while parsing plugins for documentation."""
 
 
-def _get_environment(collection_dir: t.Optional[str]) -> t.Dict[str, str]:
+def _get_environment(collection_dir: t.Optional[str],
+                     venv: t.Union[VenvRunner, FakeVenvRunner],
+                     ) -> t.Dict[str, str]:
     env = ANSIBLE_PATH_ENVIRON.copy()
+    if isinstance(venv, VenvRunner):
+        try:
+            del env['PYTHONPATH']
+        except KeyError:
+            # We just wanted to make sure there was no PYTHONPATH set...
+            # all Python libs will come from the venv
+            pass
     if collection_dir is not None:
         env['ANSIBLE_COLLECTIONS_PATH'] = collection_dir
     else:

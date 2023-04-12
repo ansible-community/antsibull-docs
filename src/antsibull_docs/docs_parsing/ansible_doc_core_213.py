@@ -64,7 +64,7 @@ async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
     flog = mlog.fields(func='get_ansible_plugin_info')
     flog.debug('Enter')
 
-    env = _get_environment(collection_dir)
+    env = _get_environment(collection_dir, venv=venv)
 
     flog.debug('Retrieving and loading plugin documentation')
     if collection_names and len(collection_names) == 1:
