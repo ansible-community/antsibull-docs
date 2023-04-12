@@ -280,8 +280,8 @@ def parse_args(program_name: str, args: List[str]) -> argparse.Namespace:
     devel_parser.add_argument('--use-installed-ansible-core', action='store_true',
                               help='Assumes that ansible-core is already installed and can be'
                               ' used by calling `ansible`, `ansible-doc`, and `ansible-galaxy`'
-                              ' from $PATH.'
-                              ' By default, antsibull-docs installs ansible-core into a temporary venv.')
+                              ' from $PATH. By default, antsibull-docs installs ansible-core'
+                              ' into a temporary venv.')
 
     #
     # Document a released version of ansible
@@ -297,7 +297,8 @@ def parse_args(program_name: str, args: List[str]) -> argparse.Namespace:
     stable_parser.add_argument('--use-installed-ansible-core', action='store_true',
                                help='Assumes that ansible-core is already installed and can be'
                                ' used by calling `ansible`, `ansible-doc`, and `ansible-galaxy`'
-                               ' from $PATH.')
+                               ' from $PATH. By default, antsibull-docs installs ansible-core'
+                               ' into a temporary venv.')
 
     #
     # Document the currently installed version of ansible
