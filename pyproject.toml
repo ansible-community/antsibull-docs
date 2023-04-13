@@ -123,9 +123,5 @@ source = [
 mypy_path = "stubs/"
 
 [[tool.mypy.overrides]]
-module = "sh"
-ignore_missing_imports = true
-
-[[tool.mypy.overrides]]
 module = "semantic_version"
 ignore_missing_imports = true

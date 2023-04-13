@@ -9,11 +9,8 @@ import json
 import os
 import re
 import subprocess
-import sys
-import traceback
 import typing as t
 
-import sh
 from antsibull_core.logging import log
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
 from packaging.version import Version as PypiVer
@@ -78,7 +75,7 @@ async def _call_ansible_version(
 async def _call_ansible_galaxy_collection_list(
     venv: t.Union['VenvRunner', 'FakeVenvRunner'],
     env: t.Dict[str, str],
-) -> str:
+) -> t.Mapping[str, t.Any]:
     p = await venv.async_log_run(
         ['ansible-galaxy', 'collection', 'list', '--format', 'json'],
         env=env,
