@@ -3,7 +3,7 @@
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 # SPDX-FileCopyrightText: 2022, Ansible Project
-"""Build devel docs."""
+"""Build devel ansible(-core) docs."""
 
 import asyncio
 import os
@@ -19,7 +19,7 @@ from antsibull_core.compat import asyncio_run
 from antsibull_core.dependency_files import parse_pieces_file
 from antsibull_core.galaxy import CollectionDownloader, DownloadResults
 from antsibull_core.logging import log
-from antsibull_core.venv import VenvRunner
+from antsibull_core.venv import FakeVenvRunner, VenvRunner
 
 from ... import app_context
 from ._build import generate_docs_for_all_collections
@@ -35,7 +35,9 @@ async def retrieve(collections: t.List[str],
                    tmp_dir: str,
                    galaxy_server: str,
                    ansible_core_source: t.Optional[str] = None,
-                   collection_cache: t.Optional[str] = None) -> t.Dict[str, 'semver.Version']:
+                   collection_cache: t.Optional[str] = None,
+                   use_installed_ansible_core: bool = False,
+                   ) -> t.Dict[str, 'semver.Version']:
     """
     Download ansible-core and the latest versions of the collections.
 
@@ -48,6 +50,7 @@ async def retrieve(collections: t.List[str],
     :kwarg collection_cache: If given, a path to a directory containing collection tarballs.
         These tarballs will be used instead of downloading new tarballs provided that the
         versions match the criteria (latest compatible version known to galaxy).
+    :kwarg use_installed_ansible_core: If ``True``, do not download ansible-core.
     :returns: Map of collection name to directory it is in.  ansible-core will
         use the special key, `_ansible_core`.
     """
@@ -59,9 +62,10 @@ async def retrieve(collections: t.List[str],
     lib_ctx = app_context.lib_ctx.get()
     async with aiohttp.ClientSession() as aio_session:
         async with asyncio_pool.AioPool(size=lib_ctx.thread_max) as pool:
-            requestors['_ansible_core'] = await pool.spawn(
-                get_ansible_core(aio_session, '@devel', tmp_dir,
-                                 ansible_core_source=ansible_core_source))
+            if not use_installed_ansible_core:
+                requestors['_ansible_core'] = await pool.spawn(
+                    get_ansible_core(aio_session, '@devel', tmp_dir,
+                                     ansible_core_source=ansible_core_source))
 
             downloader = CollectionDownloader(aio_session, collection_dir,
                                               galaxy_server=galaxy_server,
@@ -95,6 +99,7 @@ def generate_docs() -> int:
     flog.notice('Begin generating docs')
 
     app_ctx = app_context.app_ctx.get()
+    use_installed_ansible_core: bool = app_ctx.extra['use_installed_ansible_core']
 
     # Parse the pieces file
     flog.fields(deps_file=app_ctx.extra['pieces_file']).info('Parse pieces file')
@@ -108,17 +113,21 @@ def generate_docs() -> int:
             retrieve(collections, tmp_dir,
                      galaxy_server=app_ctx.galaxy_url,
                      ansible_core_source=app_ctx.extra['ansible_core_source'],
-                     collection_cache=app_ctx.collection_cache))
+                     collection_cache=app_ctx.collection_cache,
+                     use_installed_ansible_core=use_installed_ansible_core))
         # flog.fields(tarballs=collection_tarballs).debug('Download complete')
         flog.notice('Finished retrieving tarballs')
 
         # Get the ansible-core location
-        try:
-            ansible_core_path = collection_tarballs.pop('_ansible_core')
-        except KeyError:
-            print('ansible-core did not download successfully')
-            return 3
-        flog.fields(ansible_core_path=ansible_core_path).info('ansible-core location')
+        if use_installed_ansible_core:
+            ansible_core_path = None
+        else:
+            try:
+                ansible_core_path = collection_tarballs.pop('_ansible_core')
+            except KeyError:
+                print('ansible-core did not download successfully')
+                return 3
+            flog.fields(ansible_core_path=ansible_core_path).info('ansible-core location')
 
         # Install the collections to a directory
 
@@ -135,9 +144,13 @@ def generate_docs() -> int:
         flog.notice('Finished installing collections')
 
         # Create venv for ansible-core
-        venv = VenvRunner('ansible-core-venv', tmp_dir)
-        venv.install_package(ansible_core_path)
-        flog.fields(venv=venv).notice('Finished installing ansible-core')
+        venv: t.Union[FakeVenvRunner, VenvRunner]
+        if ansible_core_path is None:
+            venv = FakeVenvRunner()
+        else:
+            venv = VenvRunner('ansible-core-venv', tmp_dir)
+            venv.install_package(ansible_core_path)
+            flog.fields(venv=venv).notice('Finished installing ansible-core')
 
         return generate_docs_for_all_collections(
             venv, collection_dir, app_ctx.extra['dest_dir'],

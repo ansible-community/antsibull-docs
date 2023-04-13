@@ -277,6 +277,11 @@ def parse_args(program_name: str, args: List[str]) -> argparse.Namespace:
                                          ' release of Ansible')
     devel_parser.add_argument('--pieces-file', default=DEFAULT_PIECES_FILE,
                               help='File containing a list of collections to include')
+    devel_parser.add_argument('--use-installed-ansible-core', action='store_true',
+                              help='Assumes that ansible-core is already installed and can be'
+                              ' used by calling `ansible`, `ansible-doc`, and `ansible-galaxy`'
+                              ' from $PATH. By default, antsibull-docs installs ansible-core'
+                              ' into a temporary venv.')
 
     #
     # Document a released version of ansible
@@ -289,6 +294,11 @@ def parse_args(program_name: str, args: List[str]) -> argparse.Namespace:
     stable_parser.add_argument('--deps-file', required=True,
                                help='File which contains the list of collections and'
                                ' versions which were included in this version of Ansible')
+    stable_parser.add_argument('--use-installed-ansible-core', action='store_true',
+                               help='Assumes that ansible-core is already installed and can be'
+                               ' used by calling `ansible`, `ansible-doc`, and `ansible-galaxy`'
+                               ' from $PATH. By default, antsibull-docs installs ansible-core'
+                               ' into a temporary venv.')
 
     #
     # Document the currently installed version of ansible
