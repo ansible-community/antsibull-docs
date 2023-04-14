@@ -56,7 +56,6 @@ PyYAML = "*"
 ansible-core = {version = ">= 2.14.0b1", python = ">=3.9"}
 asynctest = "*"
 cryptography = "*"
-codecov = "*"
 flake8 = ">= 3.8.0"
 mypy = "*"
 # https://github.com/facebook/pyre-check/issues/398
