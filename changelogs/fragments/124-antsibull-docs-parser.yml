@@ -1,0 +1,2 @@
+minor_changes:
+  - "The dependency `antsibull-docs-parser <https://github.com/ansible-community/antsibull-docs-parser>`__ has been added and is used for processing Ansible markup (https://github.com/ansible-community/antsibull-docs/pull/124)."

@@ -17,6 +17,10 @@ from antsibull_core.compat import asyncio_run
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
 from antsibull_core.venv import FakeVenvRunner
 
+from antsibull_docs_parser import dom
+from antsibull_docs_parser.parser import Context as ParserContext
+from antsibull_docs_parser.parser import parse as parse_markup
+
 from sphinx_antsibull_ext import roles as antsibull_roles
 
 from .augment_docs import augment_docs
@@ -31,9 +35,6 @@ from .docs_parsing.parsing import get_ansible_plugin_info
 from .docs_parsing.routing import load_all_collection_routing, remove_redirect_duplicates
 from .jinja2.environment import doc_environment
 from .lint_helpers import load_collection_info
-from .markup import dom
-from .markup.parser import Context as ParserContext
-from .markup.parser import parse as parse_markup
 from .rstcheck import check_rst_content
 from .utils.collection_name_transformer import CollectionNameTransformer
 from .write_docs.plugins import create_plugin_rst, guess_relative_filename, has_broken_docs

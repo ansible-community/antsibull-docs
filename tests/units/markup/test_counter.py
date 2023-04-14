@@ -8,7 +8,8 @@ import typing as t
 
 import pytest
 
-from antsibull_docs.markup import dom
+from antsibull_docs_parser import dom
+
 from antsibull_docs.markup._counter import count
 
 

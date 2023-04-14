@@ -8,10 +8,11 @@ rstify Jinja2 filter for use in Ansible documentation.
 
 import typing as t
 
-from . import dom
+from antsibull_docs_parser import dom
+from antsibull_docs_parser.parser import parse, Context
+from antsibull_docs_parser.rst import rst_escape as _rst_escape, to_rst
+
 from ._counter import count as _count
-from .parser import parse, Context
-from .rst import rst_escape as _rst_escape, to_rst
 
 
 def rst_escape(value: t.Any, escape_ending_whitespace=False) -> str:

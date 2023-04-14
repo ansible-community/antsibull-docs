@@ -35,6 +35,11 @@ jobs:
         with:
           repository: ansible-community/antsibull-core
           path: antsibull-core
+      - name: Check out dependent project antsibull-docs-parser
+        uses: actions/checkout@v3
+        with:
+          repository: ansible-community/antsibull-docs-parser
+          path: antsibull-docs-parser
       - name: Setup nox
         uses: wntrblm/nox@2022.11.21
         with:
@@ -56,6 +61,11 @@ jobs:
         with:
           repository: ansible-community/antsibull-core
           path: antsibull-core
+      - name: Check out dependent project antsibull-docs-parser
+        uses: actions/checkout@v3
+        with:
+          repository: ansible-community/antsibull-docs-parser
+          path: antsibull-docs-parser
       - name: Setup nox
         uses: wntrblm/nox@2022.11.21
         with:
