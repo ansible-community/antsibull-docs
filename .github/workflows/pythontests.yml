@@ -78,8 +78,12 @@ jobs:
         run: |
           ./test-pytest.sh ${{ matrix.skip-is-error && '--error-for-skips' || '' }}
           poetry run coverage xml -i
-          poetry run codecov
         working-directory: antsibull-docs
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          working-directory: antsibull-docs
 
   # Poetry won't install dependencies for antsibull-docs anymore on 3.6. So let's do this differently.
   build-3-6:

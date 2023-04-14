@@ -120,8 +120,12 @@ jobs:
           poetry run coverage combine .coverage.*
           poetry run coverage report
           poetry run coverage xml -i
-          poetry run codecov
         working-directory: antsibull-docs
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          working-directory: antsibull-docs
 
   build-stable:
     name: 'Build stable docsite'
@@ -169,8 +173,12 @@ jobs:
           poetry run coverage combine .coverage.*
           poetry run coverage report
           poetry run coverage xml -i
-          poetry run codecov
         working-directory: antsibull-docs
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          working-directory: antsibull-docs
 
   build-devel:
     name: 'Build devel docsite'
@@ -218,5 +226,9 @@ jobs:
           poetry run coverage combine .coverage.*
           poetry run coverage report
           poetry run coverage xml -i
-          poetry run codecov
         working-directory: antsibull-docs
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          working-directory: antsibull-docs
