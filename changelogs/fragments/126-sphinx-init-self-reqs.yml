@@ -1,0 +1,2 @@
+minor_changes:
+  - "The antsibull-docs requirement in the ``requirements.txt`` file created by the sphinx-init subcommand now has version range ``>= 2.0.0, < 3.0.0`` (https://github.com/ansible-community/antsibull-docs/pull/126)."
