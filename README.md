@@ -81,9 +81,9 @@ You can change this behavior through the `OTHER_ANTSIBULL_MODE` env var:
 
 - `OTHER_ANTSIBULL_MODE=auto` — the default behavior described above
 - `OTHER_ANTSIBULL_MODE=local` — install the projects from `../antsibull-core`
-  and `../antsibull-docs-parser`. Fail if that paths doesn't exist.
+  and `../antsibull-docs-parser`. Fail if those paths don't exist.
 - `OTHER_ANTSIBULL_MODE=git` — install the projects from the Github main branch
-- `OTHER_ANTSIBULL_MODE=pypi` — install the latest version from PyPI
+- `OTHER_ANTSIBULL_MODE=pypi` — install the latest versions from PyPI
 
 
 To run specific tests:
