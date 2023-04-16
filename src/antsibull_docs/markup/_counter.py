@@ -9,7 +9,7 @@ Count markup instructions in parsed markup.
 
 import typing as t
 
-from . import dom
+from antsibull_docs_parser import dom
 
 
 class _Counter(dom.Walker):

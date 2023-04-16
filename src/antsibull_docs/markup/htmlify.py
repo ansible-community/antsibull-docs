@@ -10,11 +10,12 @@ import typing as t
 
 from urllib.parse import quote
 
-from . import dom
+from antsibull_docs_parser import dom
+from antsibull_docs_parser.parser import parse, Context
+from antsibull_docs_parser.html import to_html
+from antsibull_docs_parser.format import LinkProvider
+
 from ._counter import count as _count
-from .parser import parse, Context
-from .html import to_html
-from .format import LinkProvider
 
 
 class _HTMLLinkProvider(LinkProvider):

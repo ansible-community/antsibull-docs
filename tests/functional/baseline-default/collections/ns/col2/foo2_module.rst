@@ -378,9 +378,9 @@ Attributes
 
       :ansible-attribute-support-property:`Platform:` |antsibull-internal-nbsp|:ansible-attribute-support-full:`posix`
 
-      The module \ :strong:`ERROR while parsing`\ : While parsing M() at index 12: Module name "boo" is not a FQCN\  is not using an FQCN.
+      The module \ :strong:`ERROR while parsing`\ : While parsing "M(boo)" at index 12: Module name "boo" is not a FQCN\  is not using an FQCN.
 
-      Sometimes our markup is \ :strong:`ERROR while parsing`\ : While parsing B() at index 25: Cannot find closing ")" after last parameter\ 
+      Sometimes our markup is \ :strong:`ERROR while parsing`\ : While parsing "B(broken." at index 25: Cannot find closing ")" after last parameter\ 
 
 
       .. raw:: html
