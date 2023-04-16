@@ -7,10 +7,10 @@
 
 import typing as t
 
-from antsibull_core import app_context
 from antsibull_core.logging import log
 from packaging.version import Version as PypiVer
 
+from .. import app_context
 from . import AnsibleCollectionMetadata
 from .ansible_doc import get_ansible_core_version
 from .ansible_doc_core_213 import \
@@ -51,9 +51,9 @@ async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
     """
     flog = mlog.fields(func='get_ansible_plugin_info')
 
-    lib_ctx = app_context.lib_ctx.get()
+    app_ctx = app_context.app_ctx.get()
 
-    doc_parsing_backend = lib_ctx.doc_parsing_backend
+    doc_parsing_backend = app_ctx.doc_parsing_backend
     if doc_parsing_backend == 'auto':
         version = get_ansible_core_version(venv)
         flog.debug(f'Ansible-core version: {version}')
