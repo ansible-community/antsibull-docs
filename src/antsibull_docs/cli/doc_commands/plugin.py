@@ -8,13 +8,13 @@
 
 import json
 import os
-import subprocess
 import sys
 import traceback
 import typing as t
 
 from antsibull_core.compat import asyncio_run
 from antsibull_core.logging import log
+from antsibull_core.subprocess_util import CalledProcessError
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
 from antsibull_core.venv import FakeVenvRunner
 
@@ -49,7 +49,7 @@ def generate_plugin_docs(plugin_type: str, plugin_name: str,
     try:
         ansible_doc_results = venv.log_run(
             ['ansible-doc', '-vvv', '-t', plugin_type, '--json', plugin_name])
-    except subprocess.CalledProcessError as exc:
+    except CalledProcessError as exc:
         err_msg = []
         formatted_exception = traceback.format_exception(None, exc, exc.__traceback__)
         err_msg.append(f'Exception while parsing documentation for {plugin_type} plugin:'

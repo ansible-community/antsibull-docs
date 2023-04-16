@@ -8,10 +8,10 @@
 import json
 import os
 import re
-import subprocess
 import typing as t
 
 from antsibull_core.logging import log
+from antsibull_core.subprocess_util import CalledProcessError
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
 from packaging.version import Version as PypiVer
 
@@ -123,7 +123,7 @@ async def get_ansible_core_version(venv: t.Union['VenvRunner', 'FakeVenvRunner']
         if metadata.version is None:
             raise ValueError('Cannot retrieve ansible-core version from `ansible --version`')
         return PypiVer(metadata.version)
-    except subprocess.CalledProcessError as exc:
+    except CalledProcessError as exc:
         raise ValueError(
             f'Cannot retrieve ansible-core version from `ansible --version`: {exc}'
         ) from exc
