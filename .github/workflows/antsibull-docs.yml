@@ -76,8 +76,9 @@ jobs:
 
       - name: Patch requirements.txt to remove antsibull-docs requirement
         run: |
-          sed -i requirements.txt -e 's!antsibull-docs[^a-zA-Z0-9_-].*!!g'
+          sed -i requirements.txt -e '/antsibull-docs[^a-zA-Z0-9_-].*/d'
           cat requirements.txt
+          (! grep antsibull-docs requirements.txt)
         working-directory: antsibull-docs
 
       - name: Install dependencies
