@@ -7,10 +7,10 @@
 
 import typing as t
 
-from antsibull_core import app_context
 from antsibull_core.logging import log
 from packaging.version import Version as PypiVer
 
+from .. import app_context
 from . import AnsibleCollectionMetadata
 from .ansible_doc import get_ansible_core_version
 from .ansible_doc_core_213 import \
