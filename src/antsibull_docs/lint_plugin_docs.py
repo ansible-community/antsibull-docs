@@ -75,8 +75,7 @@ class CollectionFinder:
     def __init__(self):
         self.collections = {}
         p = log_run(['ansible-galaxy', 'collection', 'list', '--format', 'json'])
-        raw_output = p.stdout.decode('utf-8', errors='surrogateescape')
-        data = json.loads(_filter_non_json_lines(raw_output)[0])
+        data = json.loads(_filter_non_json_lines(p.stdout)[0])
         for namespace, name, path, _ in reversed(parse_ansible_galaxy_collection_list(data)):
             self.collections[f'{namespace}.{name}'] = path
 
