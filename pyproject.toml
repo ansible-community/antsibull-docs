@@ -25,7 +25,8 @@ classifiers = [
 requires-python = ">=3.9"
 dependencies = [
     "ansible-pygments",
-    "antsibull-core >= 1.2.0, < 3.0.0",
+    # TODO: bump to >= 2.0.0
+    "antsibull-core >= 2.0.0a1, < 3.0.0",
     "antsibull-docs-parser ~= 0.3.0",
     "asyncio-pool",
     "docutils",
@@ -33,9 +34,6 @@ dependencies = [
     "packaging",
     "rstcheck >= 3.0.0, < 7.0.0",
     "sphinx",
-    # sh v2 has breaking changes.
-    # https://github.com/ansible-community/antsibull-core/issues/34
-    "sh >= 1.0.0, < 2.0.0",
     # pydantic v2 is a major rewrite
     "pydantic >= 1.0.0, < 2.0.0",
     "semantic_version",
@@ -123,10 +121,6 @@ source = [
 
 [tool.mypy]
 mypy_path = "stubs/"
-
-[[tool.mypy.overrides]]
-module = "sh"
-ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
 module = "semantic_version"

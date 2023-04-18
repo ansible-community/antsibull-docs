@@ -55,7 +55,7 @@ async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
 
     doc_parsing_backend = app_ctx.doc_parsing_backend
     if doc_parsing_backend == 'auto':
-        version = get_ansible_core_version(venv)
+        version = await get_ansible_core_version(venv)
         flog.debug(f'Ansible-core version: {version}')
         if version < PypiVer('2.13.0.dev0'):
             raise RuntimeError(f'Unsupported ansible-core version {version}. Need 2.13.0 or later.')

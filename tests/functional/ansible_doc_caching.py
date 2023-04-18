@@ -16,7 +16,7 @@ ansible = pytest.importorskip('ansible')
 
 @contextmanager
 def ansible_doc_cache():
-    def call_ansible_doc(
+    async def call_ansible_doc(
         venv: t.Union['VenvRunner', 'FakeVenvRunner'],
         env: t.Dict[str, str],
         *parameters: str,
@@ -45,19 +45,22 @@ def ansible_doc_cache():
                         doc[key] = os.path.join(root, doc[key])
         return data
 
-    def call_ansible_version(
+    async def call_ansible_version(
         venv: t.Union['VenvRunner', 'FakeVenvRunner'],
-        env: t.Dict[str, str],
+        env: t.Optional[t.Dict[str, str]],
     ) -> str:
         filename = os.path.join(os.path.dirname(__file__), 'ansible-version.output')
         with open(filename, 'rt', encoding='utf-8') as f:
             content = f.read()
 
-        root = env['ANSIBLE_COLLECTIONS_PATH']
-        return content.replace('<<<<<COLLECTIONS>>>>>', root).replace('<<<<<HOME>>>>>', env['HOME']).replace('<<<<<ANSIBLE>>>>>', os.path.dirname(ansible.__file__))
+        root = env['ANSIBLE_COLLECTIONS_PATH'] if env and 'ANSIBLE_COLLECTIONS_PATH' in env else '/collections'
+        content = content.replace('<<<<<COLLECTIONS>>>>>', root)
+        content = content.replace('<<<<<HOME>>>>>', (env or os.environ)['HOME'])
+        content = content.replace('<<<<<ANSIBLE>>>>>', os.path.dirname(ansible.__file__))
+        return content
 
 
-    def call_ansible_galaxy_collection_list(
+    async def call_ansible_galaxy_collection_list(
         venv: t.Union['VenvRunner', 'FakeVenvRunner'],
         env: t.Dict[str, str],
     ) -> t.Mapping[str, t.Any]:

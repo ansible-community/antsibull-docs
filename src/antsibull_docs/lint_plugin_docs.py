@@ -12,8 +12,8 @@ import tempfile
 import typing as t
 from collections.abc import Sequence
 
-import sh
 from antsibull_core.compat import asyncio_run
+from antsibull_core.subprocess_util import log_run
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
 from antsibull_core.venv import FakeVenvRunner
 
@@ -74,9 +74,8 @@ class CollectionCopier:
 class CollectionFinder:
     def __init__(self):
         self.collections = {}
-        stdout = sh.Command('ansible-galaxy')('collection', 'list', '--format', 'json').stdout
-        raw_output = stdout.decode('utf-8', errors='surrogateescape')
-        data = json.loads(_filter_non_json_lines(raw_output)[0])
+        p = log_run(['ansible-galaxy', 'collection', 'list', '--format', 'json'])
+        data = json.loads(_filter_non_json_lines(p.stdout)[0])
         for namespace, name, path, _ in reversed(parse_ansible_galaxy_collection_list(data)):
             self.collections[f'{namespace}.{name}'] = path
 

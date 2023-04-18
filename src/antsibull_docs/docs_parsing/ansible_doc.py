@@ -10,8 +10,8 @@ import os
 import re
 import typing as t
 
-import sh
 from antsibull_core.logging import log
+from antsibull_core.subprocess_util import CalledProcessError
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
 from packaging.version import Version as PypiVer
 
@@ -64,38 +64,37 @@ def parse_ansible_galaxy_collection_list(json_output: t.Mapping[str, t.Any],
     return result
 
 
-def _call_ansible_version(
+async def _call_ansible_version(
     venv: t.Union['VenvRunner', 'FakeVenvRunner'],
-    env: t.Dict[str, str],
+    env: t.Optional[t.Dict[str, str]],
 ) -> str:
-    venv_ansible = venv.get_command('ansible')
-    ansible_version_cmd = venv_ansible('--version', _env=env)
-    return ansible_version_cmd.stdout.decode('utf-8', errors='surrogateescape')
+    p = await venv.async_log_run(['ansible', '--version'], env=env)
+    return p.stdout
 
 
-def _call_ansible_galaxy_collection_list(
+async def _call_ansible_galaxy_collection_list(
     venv: t.Union['VenvRunner', 'FakeVenvRunner'],
     env: t.Dict[str, str],
 ) -> t.Mapping[str, t.Any]:
-    venv_ansible_galaxy = venv.get_command('ansible-galaxy')
-    ansible_collection_list_cmd = venv_ansible_galaxy(
-        'collection', 'list', '--format', 'json', _env=env)
-    stdout = ansible_collection_list_cmd.stdout.decode('utf-8', errors='surrogateescape')
-    return json.loads(_filter_non_json_lines(stdout)[0])
+    p = await venv.async_log_run(
+        ['ansible-galaxy', 'collection', 'list', '--format', 'json'],
+        env=env,
+    )
+    return json.loads(_filter_non_json_lines(p.stdout)[0])
 
 
-def get_collection_metadata(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
-                            env: t.Dict[str, str],
-                            collection_names: t.Optional[t.List[str]] = None,
-                            ) -> t.Dict[str, AnsibleCollectionMetadata]:
+async def get_collection_metadata(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
+                                  env: t.Dict[str, str],
+                                  collection_names: t.Optional[t.List[str]] = None,
+                                  ) -> t.Dict[str, AnsibleCollectionMetadata]:
     collection_metadata = {}
 
     # Obtain ansible.builtin version and path
-    raw_result = _call_ansible_version(venv, env)
+    raw_result = await _call_ansible_version(venv, env)
     collection_metadata['ansible.builtin'] = _extract_ansible_builtin_metadata(raw_result)
 
     # Obtain collection versions
-    json_result = _call_ansible_galaxy_collection_list(venv, env)
+    json_result = await _call_ansible_galaxy_collection_list(venv, env)
     collection_list = parse_ansible_galaxy_collection_list(json_result, collection_names)
     for namespace, name, path, version in collection_list:
         collection_name = f'{namespace}.{name}'
@@ -105,28 +104,26 @@ def get_collection_metadata(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
     return collection_metadata
 
 
-def get_ansible_core_version(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
-                             env: t.Optional[t.Dict[str, str]] = None,
-                             ) -> PypiVer:
-    try:
-        venv_python = venv.get_command('python')
-        ansible_version_cmd = venv_python(
-            '-c', 'import ansible.release; print(ansible.release.__version__)', _env=env)
-        output = ansible_version_cmd.stdout.decode('utf-8', errors='surrogateescape').strip()
+async def get_ansible_core_version(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
+                                   env: t.Optional[t.Dict[str, str]] = None,
+                                   ) -> PypiVer:
+    p = await venv.async_log_run(
+        ['python', '-c', 'import ansible.release; print(ansible.release.__version__)'],
+        env=env,
+        check=False,
+    )
+    output = p.stdout.strip()
+    if p.returncode == 0 and output:
         return PypiVer(output)
-    except sh.ErrorReturnCode:
-        pass
 
     try:
         # Fallback: use `ansible --version`
-        venv_ansible = venv.get_command('ansible')
-        ansible_version_cmd = venv_ansible('--version', _env=env)
-        raw_result = ansible_version_cmd.stdout.decode('utf-8', errors='surrogateescape')
+        raw_result = await _call_ansible_version(venv, env)
         metadata = _extract_ansible_builtin_metadata(raw_result)
         if metadata.version is None:
             raise ValueError('Cannot retrieve ansible-core version from `ansible --version`')
         return PypiVer(metadata.version)
-    except sh.ErrorReturnCode as exc:
+    except CalledProcessError as exc:
         raise ValueError(
             f'Cannot retrieve ansible-core version from `ansible --version`: {exc}'
         ) from exc
