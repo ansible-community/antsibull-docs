@@ -26,7 +26,7 @@ requires-python = ">=3.9"
 dependencies = [
     "ansible-pygments",
     # TODO: bump to >= 2.0.0
-    "antsibull-core >= 2.0.0a1, < 3.0.0",
+    "antsibull-core >= 2.0.0a2, < 3.0.0",
     "antsibull-docs-parser ~= 0.3.0",
     "asyncio-pool",
     "docutils",
