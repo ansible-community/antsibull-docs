@@ -6,12 +6,16 @@
 # SPDX-FileCopyrightText: 2022, Ansible Project
 """Schemas for the plugin DOCUMENTATION data."""
 
-import typing as t
 
 import pydantic as p
 
 from .base import BaseModel
-from .plugin import InnerDocSchema, PluginExamplesSchema, PluginMetadataSchema, PluginReturnSchema
+from .plugin import (
+    InnerDocSchema,
+    PluginExamplesSchema,
+    PluginMetadataSchema,
+    PluginReturnSchema,
+)
 
 
 class InnerPositionalDocSchema(InnerDocSchema):
@@ -19,7 +23,7 @@ class InnerPositionalDocSchema(InnerDocSchema):
     Schema describing the structure of documentation for plugins with positional parameters.
     """
 
-    positional: t.List[str] = []
+    positional: list[str] = []
 
     @p.root_validator(pre=True)
     # pylint:disable=no-self-argument

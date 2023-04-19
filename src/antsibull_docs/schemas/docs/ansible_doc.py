@@ -10,11 +10,7 @@ This is a highlevel interface.  The hope is that developers can use either this 
 antsibull.schemas.docs to handle all of their validation needs.
 """
 
-# Ignore Unitialized attribute errors because BaseModel works some magic
-# to initialize the attributes when data is loaded into them.
-# pyre-ignore-all-errors[13]
-
-import typing as t
+from __future__ import annotations
 
 from .base import BaseModel
 from .callback import CallbackSchema
@@ -22,6 +18,11 @@ from .module import ModuleSchema
 from .plugin import PluginSchema
 from .positional import PositionalSchema
 from .role import RoleSchema
+
+# Ignore Unitialized attribute errors because BaseModel works some magic
+# to initialize the attributes when data is loaded into them.
+# pyre-ignore-all-errors[13]
+
 
 __all__ = ('ANSIBLE_DOC_SCHEMAS', 'AnsibleDocSchema', 'BecomePluginSchema', 'CachePluginSchema',
            'CallbackPluginSchema', 'CliConfPluginSchema', 'ConnectionPluginSchema',
@@ -50,22 +51,22 @@ class AnsibleDocSchema(BaseModel):
     a :python:obj:`dict` back out.
     """
 
-    become: t.Dict[str, PluginSchema]
-    cache: t.Dict[str, PluginSchema]
-    callback: t.Dict[str, CallbackSchema]
-    cliconf: t.Dict[str, PluginSchema]
-    connection: t.Dict[str, PluginSchema]
-    filter: t.Dict[str, PositionalSchema]
-    httpapi: t.Dict[str, PluginSchema]
-    inventory: t.Dict[str, PluginSchema]
-    lookup: t.Dict[str, PositionalSchema]
-    module: t.Dict[str, ModuleSchema]
-    netconf: t.Dict[str, PluginSchema]
-    shell: t.Dict[str, PluginSchema]
-    strategy: t.Dict[str, PluginSchema]
-    test: t.Dict[str, PositionalSchema]
-    vars: t.Dict[str, PluginSchema]
-    role: t.Dict[str, RoleSchema]
+    become: dict[str, PluginSchema]
+    cache: dict[str, PluginSchema]
+    callback: dict[str, CallbackSchema]
+    cliconf: dict[str, PluginSchema]
+    connection: dict[str, PluginSchema]
+    filter: dict[str, PositionalSchema]
+    httpapi: dict[str, PluginSchema]
+    inventory: dict[str, PluginSchema]
+    lookup: dict[str, PositionalSchema]
+    module: dict[str, ModuleSchema]
+    netconf: dict[str, PluginSchema]
+    shell: dict[str, PluginSchema]
+    strategy: dict[str, PluginSchema]
+    test: dict[str, PositionalSchema]
+    vars: dict[str, PluginSchema]
+    role: dict[str, RoleSchema]
 
 
 class GenericPluginSchema(BaseModel):
@@ -77,7 +78,7 @@ class GenericPluginSchema(BaseModel):
         a dynamic key which we can't automatically map to an attribute name.
     """
 
-    __root__: t.Dict[str, PluginSchema]
+    __root__: dict[str, PluginSchema]
 
 
 class CallbackPluginSchema(BaseModel):
@@ -89,7 +90,7 @@ class CallbackPluginSchema(BaseModel):
         a dynamic key which we can't automatically map to an attribute name.
     """
 
-    __root__: t.Dict[str, CallbackSchema]
+    __root__: dict[str, CallbackSchema]
 
 
 class PositionalPluginSchema(BaseModel):
@@ -101,7 +102,7 @@ class PositionalPluginSchema(BaseModel):
         a dynamic key which we can't automatically map to an attribute name.
     """
 
-    __root__: t.Dict[str, PositionalSchema]
+    __root__: dict[str, PositionalSchema]
 
 
 class ModulePluginSchema(BaseModel):
@@ -113,7 +114,7 @@ class ModulePluginSchema(BaseModel):
         a dynamic key which we can't automatically map to an attribute name.
     """
 
-    __root__: t.Dict[str, ModuleSchema]
+    __root__: dict[str, ModuleSchema]
 
 
 class RolePluginSchema(BaseModel):
@@ -125,7 +126,7 @@ class RolePluginSchema(BaseModel):
         a dynamic key which we can't automatically map to an attribute name.
     """
 
-    __root__: t.Dict[str, RoleSchema]
+    __root__: dict[str, RoleSchema]
 
 
 #: Make sure users can access plugins using the plugin type rather than having to guess that

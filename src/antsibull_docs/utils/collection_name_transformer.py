@@ -5,13 +5,15 @@
 # SPDX-FileCopyrightText: 2022, Ansible Project
 """Helper to transform collection names based on a dictionary."""
 
-import typing as t
+from __future__ import annotations
+
+from collections.abc import Mapping
 
 
 class CollectionNameTransformer:
     """Helper to transform collection names based on a dictionary."""
 
-    def __init__(self, data: t.Mapping[str, str], default_transform: str):
+    def __init__(self, data: Mapping[str, str], default_transform: str):
         """Create a collection name transformer.
 
         :arg data: Maps collection names (with wildcards) to transformation strings.

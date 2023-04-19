@@ -5,6 +5,8 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Entrypoint to the antsibull-docs script."""
 
+from __future__ import annotations
+
 import os
 import textwrap
 

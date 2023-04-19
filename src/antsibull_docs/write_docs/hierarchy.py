@@ -5,10 +5,12 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Output collection hierarchy."""
 
+from __future__ import annotations
+
 import asyncio
 import os
 import os.path
-import typing as t
+from collections.abc import Iterable, Mapping
 
 import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context
@@ -23,7 +25,7 @@ from . import CollectionInfoT, _render_template
 mlog = log.fields(mod=__name__)
 
 
-async def write_collection_list(collections: t.Iterable[str], namespaces: t.Iterable[str],
+async def write_collection_list(collections: Iterable[str], namespaces: Iterable[str],
                                 template: Template, dest_dir: str,
                                 breadcrumbs: bool = True,
                                 for_official_docsite: bool = False) -> None:
@@ -54,7 +56,7 @@ async def write_collection_list(collections: t.Iterable[str], namespaces: t.Iter
     await write_file(index_file, index_contents)
 
 
-async def write_collection_namespace_index(namespace: str, collections: t.Iterable[str],
+async def write_collection_namespace_index(namespace: str, collections: Iterable[str],
                                            template: Template, dest_dir: str,
                                            breadcrumbs: bool = True,
                                            for_official_docsite: bool = False) -> None:
@@ -86,7 +88,7 @@ async def write_collection_namespace_index(namespace: str, collections: t.Iterab
 
 
 async def output_collection_index(collection_to_plugin_info: CollectionInfoT,
-                                  collection_namespaces: t.Mapping[str, t.List[str]],
+                                  collection_namespaces: Mapping[str, list[str]],
                                   dest_dir: str,
                                   collection_url: CollectionNameTransformer,
                                   collection_install: CollectionNameTransformer,
@@ -128,7 +130,7 @@ async def output_collection_index(collection_to_plugin_info: CollectionInfoT,
     flog.debug('Leave')
 
 
-async def output_collection_namespace_indexes(collection_namespaces: t.Mapping[str, t.List[str]],
+async def output_collection_namespace_indexes(collection_namespaces: Mapping[str, list[str]],
                                               dest_dir: str,
                                               collection_url: CollectionNameTransformer,
                                               collection_install: CollectionNameTransformer,

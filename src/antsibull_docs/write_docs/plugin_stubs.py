@@ -5,10 +5,13 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Output plugin stubs."""
 
+from __future__ import annotations
+
 import asyncio
 import os
 import os.path
 import typing as t
+from collections.abc import Mapping
 
 import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context
@@ -28,11 +31,11 @@ mlog = log.fields(mod=__name__)
 async def write_stub_rst(collection_name: str, collection_meta: AnsibleCollectionMetadata,
                          collection_links: CollectionLinks,
                          plugin_short_name: str, plugin_type: str,
-                         routing_data: t.Mapping[str, t.Any],
+                         routing_data: Mapping[str, t.Any],
                          redirect_tmpl: Template,
                          tombstone_tmpl: Template,
                          dest_dir: str,
-                         path_override: t.Optional[str] = None,
+                         path_override: str | None = None,
                          squash_hierarchy: bool = False,
                          for_official_docsite: bool = False) -> None:
     """
@@ -109,14 +112,14 @@ async def write_stub_rst(collection_name: str, collection_meta: AnsibleCollectio
     flog.debug('Leave')
 
 
-async def output_all_plugin_stub_rst(stubs_info: t.Mapping[
-                                         str, t.Mapping[str, t.Mapping[str, t.Any]]],
+async def output_all_plugin_stub_rst(stubs_info: Mapping[
+                                         str, Mapping[str, Mapping[str, t.Any]]],
                                      dest_dir: str,
                                      collection_url: CollectionNameTransformer,
                                      collection_install: CollectionNameTransformer,
-                                     collection_metadata: t.Mapping[
+                                     collection_metadata: Mapping[
                                          str, AnsibleCollectionMetadata],
-                                     link_data: t.Mapping[str, CollectionLinks],
+                                     link_data: Mapping[str, CollectionLinks],
                                      squash_hierarchy: bool = False,
                                      for_official_docsite: bool = False) -> None:
     """

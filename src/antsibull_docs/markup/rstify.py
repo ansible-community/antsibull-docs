@@ -6,11 +6,15 @@
 rstify Jinja2 filter for use in Ansible documentation.
 """
 
+from __future__ import annotations
+
 import typing as t
+from collections.abc import Mapping
 
 from antsibull_docs_parser import dom
-from antsibull_docs_parser.parser import parse, Context
-from antsibull_docs_parser.rst import rst_escape as _rst_escape, to_rst
+from antsibull_docs_parser.parser import Context, parse
+from antsibull_docs_parser.rst import rst_escape as _rst_escape
+from antsibull_docs_parser.rst import to_rst
 
 from ._counter import count as _count
 
@@ -32,12 +36,12 @@ def rst_code(value: str) -> str:
 
 def rst_ify(text: str,
             *,
-            plugin_fqcn: t.Optional[str] = None,
-            plugin_type: t.Optional[str] = None,
-            role_entrypoint: t.Optional[str] = None,
-            ) -> t.Tuple[str, t.Mapping[str, int]]:
+            plugin_fqcn: str | None = None,
+            plugin_type: str | None = None,
+            role_entrypoint: str | None = None,
+            ) -> tuple[str, Mapping[str, int]]:
     ''' convert symbols like I(this is in italics) to valid restructured text '''
-    current_plugin: t.Optional[dom.PluginIdentifier] = None
+    current_plugin: dom.PluginIdentifier | None = None
     if plugin_fqcn and plugin_type:
         current_plugin = dom.PluginIdentifier(fqcn=plugin_fqcn, type=plugin_type)
     context = Context(current_plugin=current_plugin, role_entrypoint=role_entrypoint)

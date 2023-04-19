@@ -5,9 +5,10 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Utilities for various docs build subcommands."""
 
+from __future__ import annotations
+
 import asyncio
 import textwrap
-import typing as t
 
 from antsibull_core.logging import log
 from antsibull_core.venv import FakeVenvRunner, VenvRunner
@@ -21,11 +22,24 @@ from ...docs_parsing.routing import (
     load_all_collection_routing,
     remove_redirect_duplicates,
 )
-from ...env_variables import collect_referenced_environment_variables, load_ansible_config
+from ...env_variables import (
+    collect_referenced_environment_variables,
+    load_ansible_config,
+)
 from ...extra_docs import load_collections_extra_docs
+from ...process_docs import (
+    get_callback_plugin_contents,
+    get_collection_contents,
+    get_collection_namespaces,
+    get_plugin_contents,
+    normalize_all_plugin_info,
+)
 from ...utils.collection_name_transformer import CollectionNameTransformer
 from ...write_docs.collections import output_extra_docs, output_indexes
-from ...write_docs.hierarchy import output_collection_index, output_collection_namespace_indexes
+from ...write_docs.hierarchy import (
+    output_collection_index,
+    output_collection_namespace_indexes,
+)
 from ...write_docs.indexes import (
     output_callback_indexes,
     output_environment_variables,
@@ -34,22 +48,13 @@ from ...write_docs.indexes import (
 from ...write_docs.plugin_stubs import output_all_plugin_stub_rst
 from ...write_docs.plugins import output_all_plugin_rst
 
-from ...process_docs import (
-    get_collection_namespaces,
-    normalize_all_plugin_info,
-    get_plugin_contents,
-    get_callback_plugin_contents,
-    get_collection_contents,
-)
-
-
 mlog = log.fields(mod=__name__)
 
 
-def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
-                                      collection_dir: t.Optional[str],
+def generate_docs_for_all_collections(venv: VenvRunner | FakeVenvRunner,
+                                      collection_dir: str | None,
                                       dest_dir: str,
-                                      collection_names: t.Optional[t.List[str]] = None,
+                                      collection_names: list[str] | None = None,
                                       create_indexes: bool = True,
                                       squash_hierarchy: bool = False,
                                       breadcrumbs: bool = True,

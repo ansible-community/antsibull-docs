@@ -6,6 +6,8 @@
 Jinja2 filters for use in Ansible documentation.
 """
 
+from __future__ import annotations
+
 import json
 import re
 import typing as t
@@ -15,8 +17,8 @@ from antsibull_core.logging import log
 from jinja2.runtime import Context, Undefined
 from jinja2.utils import pass_context
 
-from ..markup.rstify import rst_ify as rst_ify_impl
 from ..markup.htmlify import html_ify as html_ify_impl
+from ..markup.rstify import rst_ify as rst_ify_impl
 
 mlog = log.fields(mod=__name__)
 
@@ -24,9 +26,9 @@ _EMAIL_ADDRESS = re.compile(r"(?:<{mail}>|\({mail}\)|{mail})".format(mail=r"[\w.
 
 
 def extract_plugin_data(context: Context,
-                        plugin_fqcn: t.Optional[str] = None,
-                        plugin_type: t.Optional[str] = None
-                        ) -> t.Tuple[t.Optional[str], t.Optional[str]]:
+                        plugin_fqcn: str | None = None,
+                        plugin_type: str | None = None
+                        ) -> tuple[str | None, str | None]:
     plugin_fqcn = context.get('plugin_name') if plugin_fqcn is None else plugin_fqcn
     plugin_type = context.get('plugin_type') if plugin_type is None else plugin_type
     if plugin_fqcn is None or plugin_type is None:
@@ -94,10 +96,10 @@ def massage_author_name(value):
     return value
 
 
-def extract_options_from_list(options: t.Dict[str, t.Any],
-                              options_to_extract: t.List[str],
-                              options_to_ignore: t.Optional[t.List[str]] = None
-                              ) -> t.List[t.Tuple[str, t.Any]]:
+def extract_options_from_list(options: dict[str, t.Any],
+                              options_to_extract: list[str],
+                              options_to_ignore: list[str] | None = None
+                              ) -> list[tuple[str, t.Any]]:
     ''' return list of tuples (option, option_data) with option from options_to_extract '''
     if options_to_ignore is None:
         options_to_ignore = []
@@ -107,8 +109,8 @@ def extract_options_from_list(options: t.Dict[str, t.Any],
     ]
 
 
-def remove_options_from_list(options: t.Dict[str, t.Any],
-                             options_to_remove: t.List[str]) -> t.Dict[str, t.Any]:
+def remove_options_from_list(options: dict[str, t.Any],
+                             options_to_remove: list[str]) -> dict[str, t.Any]:
     ''' return copy of dictionary with the options from options_to_remove removed '''
     result = options.copy()
     for option in options_to_remove:
@@ -136,9 +138,9 @@ def to_ini_value(data: t.Any) -> str:
 @pass_context
 def rst_ify(context: Context, text: str,
             *,
-            plugin_fqcn: t.Optional[str] = None,
-            plugin_type: t.Optional[str] = None,
-            role_entrypoint: t.Optional[str] = None,
+            plugin_fqcn: str | None = None,
+            plugin_type: str | None = None,
+            role_entrypoint: str | None = None,
             ) -> str:
     ''' convert symbols like I(this is in italics) to valid restructured text '''
     flog = mlog.fields(func='rst_ify')
@@ -162,9 +164,9 @@ def rst_ify(context: Context, text: str,
 @pass_context
 def html_ify(context: Context, text: str,
              *,
-             plugin_fqcn: t.Optional[str] = None,
-             plugin_type: t.Optional[str] = None,
-             role_entrypoint: t.Optional[str] = None,
+             plugin_fqcn: str | None = None,
+             plugin_type: str | None = None,
+             role_entrypoint: str | None = None,
              ) -> str:
     ''' convert symbols like I(this is in italics) to valid HTML '''
     flog = mlog.fields(func='html_ify')

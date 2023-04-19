@@ -5,6 +5,8 @@
 # SPDX-FileCopyrightText: 2021, Ansible Project
 """Entrypoint to the antsibull-docs script."""
 
+from __future__ import annotations
+
 import os
 import os.path
 import typing as t
@@ -34,7 +36,7 @@ def write_file(filename: str, content: str) -> None:
     Write content into a file.
     """
     if os.path.exists(filename):
-        with open(filename, 'r', encoding='utf-8') as f:
+        with open(filename, encoding='utf-8') as f:
             existing_content = f.read()
         if existing_content == content:
             print(f'Skipping {filename}')
@@ -77,8 +79,8 @@ def python_repr(value: t.Any) -> str:
     return repr(value)
 
 
-def split_kv(entries: t.Optional[t.List[str]]) -> t.List[t.Tuple[str, str]]:
-    result: t.List[t.Tuple[str, str]] = []
+def split_kv(entries: list[str] | None) -> list[tuple[str, str]]:
+    result: list[tuple[str, str]] = []
     for entry in entries or []:
         key, value = entry.split('=', 1)
         result.append((key, value))
@@ -116,11 +118,11 @@ def site_init() -> int:
     for intersphinx in app_ctx.extra['intersphinx'] or []:
         inventory, url = intersphinx.split(':', 1)
         intersphinx_parts.append((inventory.rstrip(' '), url.lstrip(' ')))
-    index_rst_source: t.Optional[str] = app_ctx.extra['index_rst_source']
+    index_rst_source: str | None = app_ctx.extra['index_rst_source']
     project: str = app_ctx.extra['project']
     conf_copyright: str = app_ctx.extra['copyright']
     title: str = app_ctx.extra['title']
-    html_short_title: t.Optional[str] = app_ctx.extra['html_short_title']
+    html_short_title: str | None = app_ctx.extra['html_short_title']
     if html_short_title is None:
         html_short_title = title
     extra_conf = split_kv(app_ctx.extra['extra_conf'])

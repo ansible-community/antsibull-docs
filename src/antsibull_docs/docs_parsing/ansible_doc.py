@@ -5,10 +5,13 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Parse documentation from ansible plugins using anible-doc."""
 
+from __future__ import annotations
+
 import json
 import os
 import re
 import typing as t
+from collections.abc import Mapping
 
 from antsibull_core.logging import log
 from antsibull_core.subprocess_util import CalledProcessError
@@ -25,8 +28,8 @@ mlog = log.fields(mod=__name__)
 
 
 def _extract_ansible_builtin_metadata(stdout: str) -> AnsibleCollectionMetadata:
-    path: t.Optional[str] = None
-    version: t.Optional[str] = None
+    path: str | None = None
+    version: str | None = None
     ansible_version_new = re.compile(r'^ansible \[(?:core|base) ([^\]]+)\]')
     ansible_version_old = re.compile(r'^ansible ([^\s]+)')
     for line in stdout.splitlines():
@@ -46,9 +49,9 @@ def _extract_ansible_builtin_metadata(stdout: str) -> AnsibleCollectionMetadata:
     return AnsibleCollectionMetadata(path=path, version=version)
 
 
-def parse_ansible_galaxy_collection_list(json_output: t.Mapping[str, t.Any],
-                                         collection_names: t.Optional[t.List[str]] = None,
-                                         ) -> t.List[t.Tuple[str, str, str, t.Optional[str]]]:
+def parse_ansible_galaxy_collection_list(json_output: Mapping[str, t.Any],
+                                         collection_names: list[str] | None = None,
+                                         ) -> list[tuple[str, str, str, str | None]]:
     result = []
     for path, collections in json_output.items():
         for collection, data in collections.items():
@@ -65,17 +68,17 @@ def parse_ansible_galaxy_collection_list(json_output: t.Mapping[str, t.Any],
 
 
 async def _call_ansible_version(
-    venv: t.Union['VenvRunner', 'FakeVenvRunner'],
-    env: t.Optional[t.Dict[str, str]],
+    venv: VenvRunner | FakeVenvRunner,
+    env: dict[str, str] | None,
 ) -> str:
     p = await venv.async_log_run(['ansible', '--version'], env=env)
     return p.stdout
 
 
 async def _call_ansible_galaxy_collection_list(
-    venv: t.Union['VenvRunner', 'FakeVenvRunner'],
-    env: t.Dict[str, str],
-) -> t.Mapping[str, t.Any]:
+    venv: VenvRunner | FakeVenvRunner,
+    env: dict[str, str],
+) -> Mapping[str, t.Any]:
     p = await venv.async_log_run(
         ['ansible-galaxy', 'collection', 'list', '--format', 'json'],
         env=env,
@@ -83,10 +86,10 @@ async def _call_ansible_galaxy_collection_list(
     return json.loads(_filter_non_json_lines(p.stdout)[0])
 
 
-async def get_collection_metadata(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
-                                  env: t.Dict[str, str],
-                                  collection_names: t.Optional[t.List[str]] = None,
-                                  ) -> t.Dict[str, AnsibleCollectionMetadata]:
+async def get_collection_metadata(venv: VenvRunner | FakeVenvRunner,
+                                  env: dict[str, str],
+                                  collection_names: list[str] | None = None,
+                                  ) -> dict[str, AnsibleCollectionMetadata]:
     collection_metadata = {}
 
     # Obtain ansible.builtin version and path
@@ -104,8 +107,8 @@ async def get_collection_metadata(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
     return collection_metadata
 
 
-async def get_ansible_core_version(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
-                                   env: t.Optional[t.Dict[str, str]] = None,
+async def get_ansible_core_version(venv: VenvRunner | FakeVenvRunner,
+                                   env: dict[str, str] | None = None,
                                    ) -> PypiVer:
     p = await venv.async_log_run(
         ['python', '-c', 'import ansible.release; print(ansible.release.__version__)'],

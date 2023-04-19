@@ -2,15 +2,16 @@
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import io
 import os
 from contextlib import contextmanager, redirect_stdout
 
 import pytest
+from ansible_doc_caching import ansible_doc_cache
 
 from antsibull_docs.cli.antsibull_docs import run
-
-from ansible_doc_caching import ansible_doc_cache
 
 
 def write_file(path, content):
@@ -220,7 +221,7 @@ def test_lint_collection_plugin_docs(namespace, name, rc, errors, tmp_path):
 
     config_file = tmp_path / 'antsibull.cfg'
     print(config_file)
-    with open(config_file, 'wt', encoding='utf-8') as f:
+    with open(config_file, "w", encoding='utf-8') as f:
         f.write('doc_parsing_backend = ansible-core-2.13\n')
 
     command = [

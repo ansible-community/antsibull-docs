@@ -10,6 +10,7 @@ import json
 import os
 import os.path
 import typing as t
+from collections.abc import Mapping
 
 import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context
@@ -61,7 +62,7 @@ _ANSIBLE_CORE_METADATA = {
 }
 
 
-def _extract_authors(data: t.Dict) -> t.List[str]:
+def _extract_authors(data: dict) -> list[str]:
     authors = data.get('authors')
     if not isinstance(authors, list):
         return []
@@ -69,16 +70,16 @@ def _extract_authors(data: t.Dict) -> t.List[str]:
     return [str(author) for author in authors]
 
 
-def _extract_description(data: t.Dict) -> t.Optional[str]:
+def _extract_description(data: dict) -> t.Optional[str]:
     desc = data.get('description')
     return desc if isinstance(desc, str) else None
 
 
-def _extract_galaxy_links(data: t.Dict) -> t.List[Link]:
+def _extract_galaxy_links(data: dict) -> list[Link]:
     result = []
 
     def extract(key: str, desc: str,
-                not_if_equals_one_of: t.Optional[t.List[str]] = None) -> None:
+                not_if_equals_one_of: t.Optional[list[str]] = None) -> None:
         url = data.get(key)
         if not_if_equals_one_of:
             for other_key in not_if_equals_one_of:
@@ -94,13 +95,13 @@ def _extract_galaxy_links(data: t.Dict) -> t.List[Link]:
     return result
 
 
-def _extract_issue_tracker(data: t.Dict) -> t.Optional[str]:
+def _extract_issue_tracker(data: dict) -> t.Optional[str]:
     url = data.get('issues')
     return url if url and isinstance(url, str) else None
 
 
-def load(links_data: t.Optional[t.Dict], galaxy_data: t.Optional[t.Dict],
-         manifest_data: t.Optional[t.Dict]) -> CollectionLinks:
+def load(links_data: t.Optional[dict], galaxy_data: t.Optional[dict],
+         manifest_data: t.Optional[dict]) -> CollectionLinks:
     if links_data:
         ld = links_data.copy()
         # The authors and description field always comes from collection metadata
@@ -177,8 +178,8 @@ async def load_collection_links(collection_name: str,
         flog.debug('Leave')
 
 
-async def load_collections_links(collection_paths: t.Mapping[str, str]
-                                 ) -> t.Mapping[str, CollectionLinks]:
+async def load_collections_links(collection_paths: Mapping[str, str]
+                                 ) -> Mapping[str, CollectionLinks]:
     '''Load links data.
 
     :arg collection_paths: Mapping of collection_name to the collection's path.
@@ -205,7 +206,7 @@ async def load_collections_links(collection_paths: t.Mapping[str, str]
     return result
 
 
-def lint_collection_links(collection_path: str) -> t.List[t.Tuple[str, int, int, str]]:
+def lint_collection_links(collection_path: str) -> list[tuple[str, int, int, str]]:
     '''Given a path, lint links data.
 
     :arg collection_path: Path to the collection.
@@ -214,7 +215,7 @@ def lint_collection_links(collection_path: str) -> t.List[t.Tuple[str, int, int,
     flog = mlog.fields(func='lint_collection_links')
     flog.debug('Enter')
 
-    result: t.List[t.Tuple[str, int, int, str]] = []
+    result: list[tuple[str, int, int, str]] = []
 
     for cls in (
             CollectionEditOnGitHub, Link, IRCChannel, MatrixRoom, MailingList, Communication,

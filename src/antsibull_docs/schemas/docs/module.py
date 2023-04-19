@@ -5,7 +5,6 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Schemas for the plugin DOCUMENTATION data."""
 
-import typing as t
 
 import pydantic as p
 
@@ -14,7 +13,7 @@ from .plugin import PluginExamplesSchema, PluginMetadataSchema, PluginReturnSche
 
 
 class InnerModuleOptionsSchema(OptionsSchema):
-    suboptions: t.Dict[str, 'InnerModuleOptionsSchema'] = {}
+    suboptions: dict[str, 'InnerModuleOptionsSchema'] = {}
 
     @p.root_validator(pre=True)
     # pylint:disable=no-self-argument
@@ -29,11 +28,11 @@ InnerModuleOptionsSchema.update_forward_refs()
 
 
 class ModuleOptionsSchema(OptionsSchema):
-    suboptions: t.Dict[str, 'InnerModuleOptionsSchema'] = {}
+    suboptions: dict[str, 'InnerModuleOptionsSchema'] = {}
 
 
 class OuterModuleDocSchema(DocSchema):
-    options: t.Dict[str, ModuleOptionsSchema] = {}
+    options: dict[str, ModuleOptionsSchema] = {}
     has_action: bool = False
 
 

@@ -5,6 +5,8 @@
 # SPDX-FileCopyrightText: 2022, Ansible Project
 """Lint plugin docs."""
 
+from __future__ import annotations
+
 import asyncio
 import json
 import os
@@ -16,7 +18,6 @@ from collections.abc import Sequence
 from antsibull_core.subprocess_util import log_run
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
 from antsibull_core.venv import FakeVenvRunner
-
 from antsibull_docs_parser import dom
 from antsibull_docs_parser.parser import Context as ParserContext
 from antsibull_docs_parser.parser import parse as parse_markup
@@ -24,24 +25,28 @@ from antsibull_docs_parser.parser import parse as parse_markup
 from sphinx_antsibull_ext import roles as antsibull_roles
 
 from .augment_docs import augment_docs
-from .process_docs import (
-    get_collection_contents,
-    get_plugin_contents,
-    normalize_all_plugin_info,
-)
 from .collection_links import load_collections_links
 from .docs_parsing.ansible_doc import parse_ansible_galaxy_collection_list
 from .docs_parsing.parsing import get_ansible_plugin_info
 from .docs_parsing.routing import load_all_collection_routing, remove_redirect_duplicates
 from .jinja2.environment import doc_environment
 from .lint_helpers import load_collection_info
+from .process_docs import (
+    get_collection_contents,
+    get_plugin_contents,
+    normalize_all_plugin_info,
+)
 from .rstcheck import check_rst_content
 from .utils.collection_name_transformer import CollectionNameTransformer
-from .write_docs.plugins import create_plugin_rst, guess_relative_filename, has_broken_docs
+from .write_docs.plugins import (
+    create_plugin_rst,
+    guess_relative_filename,
+    has_broken_docs,
+)
 
 
 class CollectionCopier:
-    dir: t.Optional[str]
+    dir: str | None
 
     def __init__(self):
         self.dir = None
@@ -102,14 +107,14 @@ _ROLE_ENTRYPOINT_SEPARATOR = '###'
 
 
 class _MarkupValidator:
-    errors: t.List[str]
+    errors: list[str]
 
     _current_plugin: dom.PluginIdentifier
     _disallow_semantic_markup: bool
-    _option_names: t.Dict[str, str]
-    _return_value_names: t.Dict[str, str]
+    _option_names: dict[str, str]
+    _return_value_names: dict[str, str]
 
-    def _collect_role_option_names(self, options: t.Dict[str, t.Any],
+    def _collect_role_option_names(self, options: dict[str, t.Any],
                                    entrypoint: str, path_prefix: str) -> None:
         for opt, data in sorted(options.items()):
             path = f'{path_prefix}{opt}'
@@ -118,14 +123,14 @@ class _MarkupValidator:
                 self._collect_role_option_names(
                     data['options'], entrypoint, f'{path}{_NAME_SEPARATOR}')
 
-    def _collect_option_names(self, options: t.Dict[str, t.Any], path_prefix: str) -> None:
+    def _collect_option_names(self, options: dict[str, t.Any], path_prefix: str) -> None:
         for opt, data in sorted(options.items()):
             path = f'{path_prefix}{opt}'
             self._option_names[path] = data['type']
             if 'suboptions' in data:
                 self._collect_option_names(data['suboptions'], f'{path}{_NAME_SEPARATOR}')
 
-    def _collect_return_value_names(self, return_values: t.Dict[str, t.Any],
+    def _collect_return_value_names(self, return_values: dict[str, t.Any],
                                     path_prefix: str) -> None:
         for rv, data in sorted(return_values.items()):
             path = f'{path_prefix}{rv}'
@@ -163,8 +168,8 @@ class _MarkupValidator:
                     f' existing return value of the {plugin.type}{prefix} {plugin.fqcn}'
                 )
 
-    def _validate_markup_entry(self, entry: t.Union[str, t.Sequence[str]], key: str,
-                               role_entrypoint: t.Optional[str] = None) -> None:
+    def _validate_markup_entry(self, entry: str | t.Sequence[str], key: str,
+                               role_entrypoint: str | None = None) -> None:
         context = ParserContext(
             current_plugin=self._current_plugin,
             role_entrypoint=role_entrypoint,
@@ -188,9 +193,9 @@ class _MarkupValidator:
                 if par_elem.type == dom.PartType.RETURN_VALUE:
                     self._validate_return_value(t.cast(dom.ReturnValuePart, par_elem), key)
 
-    def _validate_markup_dict_entry(self, dictionary: t.Dict[str, t.Any],
+    def _validate_markup_dict_entry(self, dictionary: dict[str, t.Any],
                                     key: str, key_path: str,
-                                    role_entrypoint: t.Optional[str] = None) -> None:
+                                    role_entrypoint: str | None = None) -> None:
         value = dictionary.get(key)
         if value is None:
             return
@@ -212,8 +217,8 @@ class _MarkupValidator:
             self.errors.append(
                 f'Expected {full_key} to be a string or list of strings, but got {type(value)}')
 
-    def _validate_deprecation(self, owner: t.Dict[str, t.Any], key_path: str,
-                              role_entrypoint: t.Optional[str] = None) -> None:
+    def _validate_deprecation(self, owner: dict[str, t.Any], key_path: str,
+                              role_entrypoint: str | None = None) -> None:
         if 'deprecated' not in owner:
             return
         key_path = f'{key_path} -> deprecated'
@@ -223,8 +228,8 @@ class _MarkupValidator:
         self._validate_markup_dict_entry(
             deprecated, 'alternative', key_path, role_entrypoint=role_entrypoint)
 
-    def _validate_options(self, options: t.Dict[str, t.Any], key_path: str,
-                          role_entrypoint: t.Optional[str] = None) -> None:
+    def _validate_options(self, options: dict[str, t.Any], key_path: str,
+                          role_entrypoint: str | None = None) -> None:
         for opt, data in sorted(options.items()):
             opt_key = f'{key_path} -> {opt}'
             self._validate_markup_dict_entry(
@@ -242,8 +247,8 @@ class _MarkupValidator:
                     self._validate_options(
                         data[sub_key], f'{opt_key} -> {sub_key}', role_entrypoint=role_entrypoint)
 
-    def _validate_return_values(self, return_values: t.Dict[str, t.Any], key_path: str,
-                                role_entrypoint: t.Optional[str] = None) -> None:
+    def _validate_return_values(self, return_values: dict[str, t.Any], key_path: str,
+                                role_entrypoint: str | None = None) -> None:
         for rv, data in sorted(return_values.items()):
             rv_key = f'{key_path} -> {rv}'
             self._validate_markup_dict_entry(
@@ -254,8 +259,8 @@ class _MarkupValidator:
                 self._validate_return_values(
                     data['contains'], f'{rv_key} -> contains', role_entrypoint=role_entrypoint)
 
-    def _validate_seealso(self, owner: t.Dict[str, t.Any], key_path: str,
-                          role_entrypoint: t.Optional[str] = None) -> None:
+    def _validate_seealso(self, owner: dict[str, t.Any], key_path: str,
+                          role_entrypoint: str | None = None) -> None:
         if 'seealso' not in owner:
             return
         key_path = f'{key_path} -> seealso'
@@ -267,8 +272,8 @@ class _MarkupValidator:
             self._validate_markup_dict_entry(
                 entry, 'name', entry_path, role_entrypoint=role_entrypoint)
 
-    def _validate_attributes(self, owner: t.Dict[str, t.Any], key_path: str,
-                             role_entrypoint: t.Optional[str] = None) -> None:
+    def _validate_attributes(self, owner: dict[str, t.Any], key_path: str,
+                             role_entrypoint: str | None = None) -> None:
         if 'attributes' not in owner:
             return
         key_path = f'{key_path} -> attributes'
@@ -280,8 +285,8 @@ class _MarkupValidator:
             self._validate_markup_dict_entry(
                 data, 'details', attribute_path, role_entrypoint=role_entrypoint)
 
-    def _validate_main(self, main: t.Dict[str, t.Any], key_path: str,
-                       role_entrypoint: t.Optional[str] = None) -> None:
+    def _validate_main(self, main: dict[str, t.Any], key_path: str,
+                       role_entrypoint: str | None = None) -> None:
         self._validate_deprecation(main, key_path, role_entrypoint=role_entrypoint)
         self._validate_markup_dict_entry(
             main, 'short_description', key_path, role_entrypoint=role_entrypoint)
@@ -299,7 +304,7 @@ class _MarkupValidator:
                 main['options'], f'{key_path} -> options', role_entrypoint=role_entrypoint)
 
     def __init__(self,
-                 plugin_record: t.Dict[str, t.Any],
+                 plugin_record: dict[str, t.Any],
                  plugin_fqcn: str,
                  plugin_type: str,
                  disallow_semantic_markup: bool = False):
@@ -330,12 +335,12 @@ class _MarkupValidator:
                     data, f'argument_specs -> {entry_point}', role_entrypoint=entry_point)
 
 
-def _validate_markup(plugin_record: t.Dict[str, t.Any],
+def _validate_markup(plugin_record: dict[str, t.Any],
                      plugin_fqcn: str,
                      plugin_type: str,
                      path: str,
                      disallow_semantic_markup: bool,
-                     ) -> t.List[t.Tuple[str, int, int, str]]:
+                     ) -> list[tuple[str, int, int, str]]:
     validator = _MarkupValidator(
         plugin_record,
         plugin_fqcn,
@@ -351,7 +356,7 @@ def _lint_collection_plugin_docs(collections_dir: str, collection_name: str,
                                  collection_install: CollectionNameTransformer,
                                  skip_rstcheck: bool,
                                  disallow_semantic_markup: bool,
-                                 ) -> t.List[t.Tuple[str, int, int, str]]:
+                                 ) -> list[tuple[str, int, int, str]]:
     # Load collection docs
     venv = FakeVenvRunner()
     plugin_info, collection_metadata = asyncio.run(get_ansible_plugin_info(
@@ -442,7 +447,7 @@ def lint_collection_plugin_docs(path_to_collection: str,
                                 collection_install: CollectionNameTransformer,
                                 skip_rstcheck: bool = False,
                                 disallow_semantic_markup: bool = False,
-                                ) -> t.List[t.Tuple[str, int, int, str]]:
+                                ) -> list[tuple[str, int, int, str]]:
     try:
         info = load_collection_info(path_to_collection)
         namespace = info['namespace']

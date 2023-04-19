@@ -5,6 +5,8 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Entrypoint to the antsibull-docs script."""
 
+from __future__ import annotations
+
 from antsibull_core.logging import log
 from antsibull_core.venv import FakeVenvRunner
 

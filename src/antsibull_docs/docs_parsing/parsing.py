@@ -5,7 +5,10 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Parse documentation from ansible plugins using anible-doc."""
 
+from __future__ import annotations
+
 import typing as t
+from collections.abc import Mapping, MutableMapping
 
 from antsibull_core.logging import log
 from packaging.version import Version as PypiVer
@@ -13,8 +16,9 @@ from packaging.version import Version as PypiVer
 from .. import app_context
 from . import AnsibleCollectionMetadata
 from .ansible_doc import get_ansible_core_version
-from .ansible_doc_core_213 import \
-    get_ansible_plugin_info as ansible_doc_core_213_get_ansible_plugin_info
+from .ansible_doc_core_213 import (
+    get_ansible_plugin_info as ansible_doc_core_213_get_ansible_plugin_info,
+)
 
 if t.TYPE_CHECKING:
     from antsibull_core.venv import FakeVenvRunner, VenvRunner
@@ -23,12 +27,12 @@ if t.TYPE_CHECKING:
 mlog = log.fields(mod=__name__)
 
 
-async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
-                                  collection_dir: t.Optional[str],
-                                  collection_names: t.Optional[t.List[str]] = None
-                                  ) -> t.Tuple[
-                                    t.MutableMapping[str, t.MutableMapping[str, t.Any]],
-                                    t.Mapping[str, AnsibleCollectionMetadata]]:
+async def get_ansible_plugin_info(venv: VenvRunner | FakeVenvRunner,
+                                  collection_dir: str | None,
+                                  collection_names: list[str] | None = None
+                                  ) -> tuple[
+                                    MutableMapping[str, MutableMapping[str, t.Any]],
+                                    Mapping[str, AnsibleCollectionMetadata]]:
     """
     Retrieve information about all of the Ansible Plugins.
 

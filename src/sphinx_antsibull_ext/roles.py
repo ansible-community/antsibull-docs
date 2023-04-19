@@ -7,6 +7,8 @@
 Add roles for semantic markup.
 '''
 
+from __future__ import annotations
+
 import typing as t
 
 from docutils import nodes
@@ -91,9 +93,9 @@ def return_value_sample(name, rawtext, text, lineno, inliner, options={}, conten
     return [nodes.literal(rawtext, text, classes=['ansible-option-sample'])], []
 
 
-def _create_option_reference(plugin_fqcn: t.Optional[str], plugin_type: t.Optional[str],
-                             entrypoint: t.Optional[str],
-                             option: str) -> t.Optional[str]:
+def _create_option_reference(plugin_fqcn: str | None, plugin_type: str | None,
+                             entrypoint: str | None,
+                             option: str) -> str | None:
     if not plugin_fqcn or not plugin_type:
         return None
     ref = option.replace(".", "/")
@@ -101,9 +103,9 @@ def _create_option_reference(plugin_fqcn: t.Optional[str], plugin_type: t.Option
     return f'ansible_collections.{plugin_fqcn}_{plugin_type}__parameter-{ep}{ref}'
 
 
-def _create_return_value_reference(plugin_fqcn: t.Optional[str], plugin_type: t.Optional[str],
-                                   entrypoint: t.Optional[str],
-                                   return_value: str) -> t.Optional[str]:
+def _create_return_value_reference(plugin_fqcn: str | None, plugin_type: str | None,
+                                   entrypoint: str | None,
+                                   return_value: str) -> str | None:
     if not plugin_fqcn or not plugin_type:
         return None
     ref = return_value.replace(".", "/")
@@ -111,13 +113,13 @@ def _create_return_value_reference(plugin_fqcn: t.Optional[str], plugin_type: t.
     return f'ansible_collections.{plugin_fqcn}_{plugin_type}__return-{ep}{ref}'
 
 
-def _create_ref_or_not(create_ref: t.Callable[[t.Optional[str], t.Optional[str],
-                                               t.Optional[str], str],
-                                              t.Optional[str]],
-                       plugin_fqcn: t.Optional[str], plugin_type: t.Optional[str],
-                       entrypoint: t.Optional[str],
+def _create_ref_or_not(create_ref: t.Callable[[str | None, str | None,
+                                               str | None, str],
+                                              str | None],
+                       plugin_fqcn: str | None, plugin_type: str | None,
+                       entrypoint: str | None,
                        ref_parameter: str, text: str
-                       ) -> t.Tuple[str, t.List[t.Any]]:
+                       ) -> tuple[str, list[t.Any]]:
     ref = create_ref(plugin_fqcn, plugin_type, entrypoint, ref_parameter)
     if ref is None:
         return text, []
@@ -138,7 +140,7 @@ def _create_ref_or_not(create_ref: t.Callable[[t.Optional[str], t.Optional[str],
 
 
 # pylint:disable-next=unused-argument
-def _create_error(rawtext: str, text: str, error: str) -> t.Tuple[t.List[t.Any], t.List[str]]:
+def _create_error(rawtext: str, text: str, error: str) -> tuple[list[t.Any], list[str]]:
     node = ...  # FIXME
     return [node], []
 

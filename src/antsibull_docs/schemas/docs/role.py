@@ -29,7 +29,7 @@ from .base import (
 
 
 class InnerRoleOptionsSchema(OptionsSchema):
-    options: t.Dict[str, 'InnerRoleOptionsSchema'] = {}
+    options: dict[str, 'InnerRoleOptionsSchema'] = {}
 
     @p.root_validator(pre=True)
     # pylint:disable=no-self-argument
@@ -44,29 +44,29 @@ InnerRoleOptionsSchema.update_forward_refs()
 
 
 class RoleOptionsSchema(OptionsSchema):
-    options: t.Dict[str, 'InnerRoleOptionsSchema'] = {}
+    options: dict[str, 'InnerRoleOptionsSchema'] = {}
 
 
 class RoleEntrypointSchema(BaseModel):
     """Documentation for role entrypoints."""
-    description: t.List[str]
+    description: list[str]
     short_description: str
-    author: t.List[str] = []
+    author: list[str] = []
     deprecated: DeprecationSchema = p.Field({})
-    notes: t.List[str] = []
-    requirements: t.List[str] = []
-    seealso: t.List[t.Union[SeeAlsoModSchema, SeeAlsoRefSchema, SeeAlsoLinkSchema]] = []
-    todo: t.List[str] = []
+    notes: list[str] = []
+    requirements: list[str] = []
+    seealso: list[t.Union[SeeAlsoModSchema, SeeAlsoRefSchema, SeeAlsoLinkSchema]] = []
+    todo: list[str] = []
     version_added: str = 'historical'
-    attributes: t.Dict[str, t.Union[AttributeSchema,
-                                    AttributeSchemaActionGroup,
-                                    AttributeSchemaPlatform]] = {}
+    attributes: dict[str, t.Union[AttributeSchema,
+                                  AttributeSchemaActionGroup,
+                                  AttributeSchemaPlatform]] = {}
 
-    options: t.Dict[str, RoleOptionsSchema] = {}
+    options: dict[str, RoleOptionsSchema] = {}
 
 
 class RoleSchema(BaseModel):
     """Documentation for roles."""
     collection: str = COLLECTION_NAME_F
-    entry_points: t.Dict[str, RoleEntrypointSchema]
+    entry_points: dict[str, RoleEntrypointSchema]
     path: str

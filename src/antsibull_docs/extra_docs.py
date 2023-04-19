@@ -5,11 +5,14 @@
 # SPDX-FileCopyrightText: 2021, Ansible Project
 """Code for handling extra collection documentation in docs/docsite/."""
 
+from __future__ import annotations
+
 import asyncio
 import os
 import os.path
 import re
 import typing as t
+from collections.abc import Mapping
 
 import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context
@@ -28,28 +31,28 @@ class ExtraDocsIndexError(Exception):
 
 class TocTreeEntry:
     ref: str
-    title: t.Optional[str]
+    title: str | None
 
-    def __init__(self, ref: str, title: t.Optional[str] = None):
+    def __init__(self, ref: str, title: str | None = None):
         self.ref = ref
         self.title = title
 
 
 class Section:
     title: str
-    toctree: t.List[TocTreeEntry]
+    toctree: list[TocTreeEntry]
 
-    def __init__(self, title: str, toctree: t.List[TocTreeEntry]):
+    def __init__(self, title: str, toctree: list[TocTreeEntry]):
         self.title = title
         self.toctree = toctree
 
 
 #: A tuple consisting of a list of sections and a list of RST documents as tuples
 #: (absolute path to source file, relative path in collection's docs directory).
-CollectionExtraDocsInfoT = t.Tuple[t.List[Section], t.List[t.Tuple[str, str]]]
+CollectionExtraDocsInfoT = tuple[list[Section], list[tuple[str, str]]]
 
 
-def find_extra_docs(path_to_collection: str) -> t.List[t.Tuple[str, str]]:
+def find_extra_docs(path_to_collection: str) -> list[tuple[str, str]]:
     '''Enumerate all extra docs RST files for a collection path.
 
     :arg path_to_collection: Path to a collection.
@@ -78,7 +81,7 @@ def get_label_prefix(collection_name: str) -> str:
 
 
 def lint_required_conditions(content: str, collection_name: str
-                             ) -> t.Tuple[t.List[str], t.List[t.Tuple[int, int, str]]]:
+                             ) -> tuple[list[str], list[tuple[int, int, str]]]:
     '''Check a extra docs RST file's content for whether it satisfied the required conditions.
 
     :arg content: Content of a RST document.
@@ -86,8 +89,8 @@ def lint_required_conditions(content: str, collection_name: str
     :returns: A tuple consisting of a list of RST labels and a list of error messages
               (with line and column numbers).
     '''
-    labels: t.Set[str] = set()
-    errors: t.List[t.Tuple[int, int, str]] = []
+    labels: set[str] = set()
+    errors: list[tuple[int, int, str]] = []
     label_prefix = get_label_prefix(collection_name)
     # Check label definitions
     for row, line in enumerate(content.splitlines()):
@@ -104,12 +107,12 @@ def lint_required_conditions(content: str, collection_name: str
     return sorted(labels), errors
 
 
-def _parse_toctree_entry(entry: t.Dict[t.Any, t.Any],
+def _parse_toctree_entry(entry: dict[t.Any, t.Any],
                          toctree_index: int,
                          section_index: int
-                         ) -> t.Tuple[t.Optional[TocTreeEntry], t.List[str]]:
-    errors: t.List[str] = []
-    toctree_entry: t.Optional[TocTreeEntry] = None
+                         ) -> tuple[TocTreeEntry | None, list[str]]:
+    errors: list[str] = []
+    toctree_entry: TocTreeEntry | None = None
     for key in ('ref', ):
         if key not in entry:
             errors.append(
@@ -125,10 +128,10 @@ def _parse_toctree_entry(entry: t.Dict[t.Any, t.Any],
     return toctree_entry, errors
 
 
-def load_toctree(yaml_section: t.Dict[str, t.Any], section_index: int = 0
-                 ) -> t.Tuple[t.List[TocTreeEntry], t.List[str]]:
-    errors: t.List[str] = []
-    toctree: t.List[TocTreeEntry] = []
+def load_toctree(yaml_section: dict[str, t.Any], section_index: int = 0
+                 ) -> tuple[list[TocTreeEntry], list[str]]:
+    errors: list[str] = []
+    toctree: list[TocTreeEntry] = []
     if 'toctree' in yaml_section:
         if not isinstance(yaml_section['toctree'], list):
             errors.append(
@@ -153,9 +156,9 @@ def load_toctree(yaml_section: t.Dict[str, t.Any], section_index: int = 0
     return toctree, errors
 
 
-def load_section(yaml_section: t.Dict[str, t.Any], section_index: int = 0
-                 ) -> t.Tuple[t.Optional[Section], t.List[str]]:
-    errors: t.List[str] = []
+def load_section(yaml_section: dict[str, t.Any], section_index: int = 0
+                 ) -> tuple[Section | None, list[str]]:
+    errors: list[str] = []
     missing = False
     for required_key in ('title', ):
         if required_key not in yaml_section:
@@ -173,15 +176,15 @@ def load_section(yaml_section: t.Dict[str, t.Any], section_index: int = 0
     return Section(yaml_section['title'], toctree), errors
 
 
-def load_extra_docs_index(index_path: str) -> t.Tuple[t.List[Section], t.List[str]]:
+def load_extra_docs_index(index_path: str) -> tuple[list[Section], list[str]]:
     '''Load a collection's extra-docs.yml file.
 
     :arg index_path: Path to extra-docs.yml (does not need to exist).
     :returns: A tuple consisting of a list of sections and a list of error messages.
     :raises: ExtraDocsIndexError if extra-docs.yml does not exist
     '''
-    sections: t.List[Section] = []
-    errors: t.List[str] = []
+    sections: list[Section] = []
+    errors: list[str] = []
 
     if not os.path.isfile(index_path):
         raise ExtraDocsIndexError('extra-docs.yml does not exist')
@@ -246,8 +249,8 @@ async def load_collection_extra_docs(collection_name: str,
     return sections, documents
 
 
-async def load_collections_extra_docs(collection_paths: t.Mapping[str, str]
-                                      ) -> t.Mapping[str, CollectionExtraDocsInfoT]:
+async def load_collections_extra_docs(collection_paths: Mapping[str, str]
+                                      ) -> Mapping[str, CollectionExtraDocsInfoT]:
     '''Load extra docs data.
 
     :arg collection_paths: Mapping of collection_name to the collection's path.

@@ -5,6 +5,8 @@
 # SPDX-FileCopyrightText: 2022, Ansible Project
 """Lint plugin docs."""
 
+from __future__ import annotations
+
 import json
 import os
 import os.path
@@ -13,7 +15,7 @@ import typing as t
 from antsibull_core.yaml import load_yaml_file
 
 
-def load_collection_info(path_to_collection: str) -> t.Dict[str, t.Any]:
+def load_collection_info(path_to_collection: str) -> dict[str, t.Any]:
     '''Load collection name (namespace.name) from collection's galaxy.yml.'''
     manifest_json_path = os.path.join(path_to_collection, 'MANIFEST.json')
     if os.path.isfile(manifest_json_path):

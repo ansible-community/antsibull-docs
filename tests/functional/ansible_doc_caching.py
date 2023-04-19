@@ -2,10 +2,12 @@
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import json
 import os
 import typing as t
-
+from collections.abc import Mapping
 from contextlib import contextmanager
 from unittest import mock
 
@@ -13,20 +15,23 @@ import pytest
 
 ansible = pytest.importorskip('ansible')
 
+if t.TYPE_CHECKING:
+    from antsibull_core.venv import FakeVenvRunner, VenvRunner
+
 
 @contextmanager
 def ansible_doc_cache():
     async def call_ansible_doc(
-        venv: t.Union['VenvRunner', 'FakeVenvRunner'],
-        env: t.Dict[str, str],
+        venv: VenvRunner | FakeVenvRunner,
+        env: dict[str, str],
         *parameters: str,
-    ) -> t.Mapping[str, t.Any]:
+    ) -> Mapping[str, t.Any]:
         if len(parameters) > 1:
             raise Exception(f'UNEXPECTED parameters to call_ansible_doc: {parameters!r}')
         root = env['ANSIBLE_COLLECTIONS_PATH']
         arg = 'all' if len(parameters) == 0 else parameters[0]
         filename = os.path.join(os.path.dirname(__file__), f'ansible-doc-cache-{arg}.json')
-        with open(filename, 'rt', encoding='utf-8') as f:
+        with open(filename, encoding='utf-8') as f:
             data = json.load(f)
         for plugin_type, plugins in data['all'].items():
             for plugin_fqcn, plugin_data in list(plugins.items()):
@@ -46,11 +51,11 @@ def ansible_doc_cache():
         return data
 
     async def call_ansible_version(
-        venv: t.Union['VenvRunner', 'FakeVenvRunner'],
+        venv: VenvRunner | FakeVenvRunner,
         env: t.Optional[t.Dict[str, str]],
     ) -> str:
         filename = os.path.join(os.path.dirname(__file__), 'ansible-version.output')
-        with open(filename, 'rt', encoding='utf-8') as f:
+        with open(filename, encoding='utf-8') as f:
             content = f.read()
 
         root = env['ANSIBLE_COLLECTIONS_PATH'] if env and 'ANSIBLE_COLLECTIONS_PATH' in env else '/collections'
@@ -61,11 +66,11 @@ def ansible_doc_cache():
 
 
     async def call_ansible_galaxy_collection_list(
-        venv: t.Union['VenvRunner', 'FakeVenvRunner'],
+        venv: VenvRunner | FakeVenvRunner,
         env: t.Dict[str, str],
     ) -> t.Mapping[str, t.Any]:
         filename = os.path.join(os.path.dirname(__file__), 'ansible-galaxy-cache-all.json')
-        with open(filename, 'rt', encoding='utf-8') as f:
+        with open(filename, encoding='utf-8') as f:
             data = json.load(f)
         root = env['ANSIBLE_COLLECTIONS_PATH']
         result = {}

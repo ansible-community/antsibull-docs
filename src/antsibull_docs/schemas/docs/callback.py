@@ -8,7 +8,12 @@
 import pydantic as p
 
 from .base import BaseModel
-from .plugin import InnerDocSchema, PluginExamplesSchema, PluginMetadataSchema, PluginReturnSchema
+from .plugin import (
+    InnerDocSchema,
+    PluginExamplesSchema,
+    PluginMetadataSchema,
+    PluginReturnSchema,
+)
 
 REQUIRED_CALLBACK_TYPE_F = p.Field(..., regex='^(aggregate|notification|stdout)$')
 

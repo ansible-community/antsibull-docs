@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # SPDX-FileCopyrightText: 2020, Ansible Project
 
+from __future__ import annotations
+
 import pytest
 
 from antsibull_docs.markup.rstify import rst_escape, rst_ify
