@@ -5,10 +5,13 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Output plugin documentation."""
 
+from __future__ import annotations
+
 import asyncio
 import os
 import os.path
 import typing as t
+from collections.abc import Mapping, Sequence
 
 import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context
@@ -35,7 +38,7 @@ def follow_relative_links(path: str) -> str:
     flog.fields(path=path).debug('Enter')
 
     original_path = path
-    loop_detection: t.Set[str] = set()
+    loop_detection: set[str] = set()
     while True:
         if path in loop_detection:
             flog.fields(
@@ -70,7 +73,7 @@ def follow_relative_links(path: str) -> str:
         path = os.path.join(os.path.dirname(path), link)
 
 
-def has_broken_docs(plugin_record: t.Mapping[str, t.Any], plugin_type: str) -> bool:
+def has_broken_docs(plugin_record: Mapping[str, t.Any], plugin_type: str) -> bool:
     """
     Determine whether the plugin record is completely broken or not.
     """
@@ -78,7 +81,7 @@ def has_broken_docs(plugin_record: t.Mapping[str, t.Any], plugin_type: str) -> b
     return not plugin_record or not all(field in plugin_record for field in expected_fields)
 
 
-def guess_relative_filename(plugin_record: t.Mapping[str, t.Any],
+def guess_relative_filename(plugin_record: Mapping[str, t.Any],
                             plugin_short_name: str,
                             plugin_type: str,
                             collection_name: str,
@@ -108,8 +111,8 @@ def create_plugin_rst(collection_name: str,
                       collection_links: CollectionLinks,
                       plugin_short_name: str,
                       plugin_type: str,
-                      plugin_record: t.Dict[str, t.Any],
-                      nonfatal_errors: t.Sequence[str],
+                      plugin_record: dict[str, t.Any],
+                      nonfatal_errors: Sequence[str],
                       plugin_tmpl: Template, error_tmpl: Template,
                       use_html_blobs: bool = False,
                       for_official_docsite: bool = False,
@@ -221,9 +224,9 @@ async def write_plugin_rst(collection_name: str,
                            collection_meta: AnsibleCollectionMetadata,
                            collection_links: CollectionLinks,
                            plugin_short_name: str, plugin_type: str,
-                           plugin_record: t.Dict[str, t.Any], nonfatal_errors: t.Sequence[str],
+                           plugin_record: dict[str, t.Any], nonfatal_errors: Sequence[str],
                            plugin_tmpl: Template, error_tmpl: Template, dest_dir: str,
-                           path_override: t.Optional[str] = None,
+                           path_override: str | None = None,
                            squash_hierarchy: bool = False,
                            use_html_blobs: bool = False,
                            for_official_docsite: bool = False) -> None:
@@ -290,13 +293,13 @@ async def write_plugin_rst(collection_name: str,
 
 
 async def output_all_plugin_rst(collection_to_plugin_info: CollectionInfoT,
-                                plugin_info: t.Dict[str, t.Any],
+                                plugin_info: dict[str, t.Any],
                                 nonfatal_errors: PluginErrorsT,
                                 dest_dir: str,
                                 collection_url: CollectionNameTransformer,
                                 collection_install: CollectionNameTransformer,
-                                collection_metadata: t.Mapping[str, AnsibleCollectionMetadata],
-                                link_data: t.Mapping[str, CollectionLinks],
+                                collection_metadata: Mapping[str, AnsibleCollectionMetadata],
+                                link_data: Mapping[str, CollectionLinks],
                                 squash_hierarchy: bool = False,
                                 use_html_blobs: bool = False,
                                 for_official_docsite: bool = False) -> None:

@@ -5,8 +5,11 @@
 # SPDX-FileCopyrightText: 2022, Ansible Project
 """Parse documentation from ansible plugins using anible-doc from ansible-core 2.13+."""
 
+from __future__ import annotations
+
 import json
 import typing as t
+from collections.abc import Mapping, MutableMapping
 
 from antsibull_core.logging import log
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
@@ -24,10 +27,10 @@ mlog = log.fields(mod=__name__)
 
 
 async def _call_ansible_doc(
-    venv: t.Union['VenvRunner', 'FakeVenvRunner'],
-    env: t.Dict[str, str],
+    venv: VenvRunner | FakeVenvRunner,
+    env: dict[str, str],
     *parameters: str,
-) -> t.Mapping[str, t.Any]:
+) -> Mapping[str, t.Any]:
     p = await venv.async_log_run(
         ['ansible-doc', '-vvv', '--metadata-dump', '--no-fail-on-errors', *parameters],
         env=env,
@@ -35,12 +38,12 @@ async def _call_ansible_doc(
     return json.loads(_filter_non_json_lines(p.stdout)[0])
 
 
-async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
-                                  collection_dir: t.Optional[str],
-                                  collection_names: t.Optional[t.List[str]] = None
-                                  ) -> t.Tuple[
-                                      t.MutableMapping[str, t.MutableMapping[str, t.Any]],
-                                      t.Mapping[str, AnsibleCollectionMetadata]]:
+async def get_ansible_plugin_info(venv: VenvRunner | FakeVenvRunner,
+                                  collection_dir: str | None,
+                                  collection_names: list[str] | None = None
+                                  ) -> tuple[
+                                      MutableMapping[str, MutableMapping[str, t.Any]],
+                                      Mapping[str, AnsibleCollectionMetadata]]:
     """
     Retrieve information about all of the Ansible Plugins. Requires ansible-core 2.13+.
 
@@ -72,9 +75,9 @@ async def get_ansible_plugin_info(venv: t.Union['VenvRunner', 'FakeVenvRunner'],
         ansible_doc_output = await _call_ansible_doc(venv, env)
 
     flog.debug('Processing plugin documentation')
-    plugin_map: t.MutableMapping[str, t.MutableMapping[str, t.Any]] = {}
+    plugin_map: MutableMapping[str, MutableMapping[str, t.Any]] = {}
     for plugin_type in DOCUMENTABLE_PLUGINS:
-        plugin_type_data: t.Dict[str, t.Any] = {}
+        plugin_type_data: dict[str, t.Any] = {}
         plugin_map[plugin_type] = plugin_type_data
         plugins_of_type = ansible_doc_output['all'].get(plugin_type, {})
         for plugin_name, plugin_data in plugins_of_type.items():

@@ -2,9 +2,17 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # SPDX-FileCopyrightText: 2020, Ansible Project
 
+from __future__ import annotations
+
 import pytest
 
-from antsibull_docs.jinja2.filters import massage_author_name, move_first, to_ini_value, to_json, rst_ify
+from antsibull_docs.jinja2.filters import (
+    massage_author_name,
+    move_first,
+    rst_ify,
+    to_ini_value,
+    to_json,
+)
 
 RST_IFY_DATA = {
     # No substitutions

@@ -5,11 +5,14 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Build stable ansible(-core) docs."""
 
+from __future__ import annotations
+
 import asyncio
 import os
 import os.path
 import tempfile
 import typing as t
+from collections.abc import Mapping
 
 import aiohttp
 import asyncio_pool  # type: ignore[import]
@@ -21,7 +24,6 @@ from antsibull_core.logging import log
 from antsibull_core.venv import FakeVenvRunner, VenvRunner
 
 from ... import app_context
-
 from ._build import generate_docs_for_all_collections
 
 if t.TYPE_CHECKING:
@@ -32,13 +34,13 @@ mlog = log.fields(mod=__name__)
 
 
 async def retrieve(ansible_core_version: str,
-                   collections: t.Mapping[str, str],
+                   collections: Mapping[str, str],
                    tmp_dir: str,
                    galaxy_server: str,
-                   ansible_core_source: t.Optional[str] = None,
-                   collection_cache: t.Optional[str] = None,
+                   ansible_core_source: str | None = None,
+                   collection_cache: str | None = None,
                    use_installed_ansible_core: bool = False,
-                   ) -> t.Dict[str, 'semver.Version']:
+                   ) -> dict[str, semver.Version]:
     """
     Download ansible-core and the collections.
 
@@ -145,7 +147,7 @@ def generate_docs() -> int:
         flog.notice('Finished installing collections')
 
         # Create venv for ansible-core
-        venv: t.Union[FakeVenvRunner, VenvRunner]
+        venv: FakeVenvRunner | VenvRunner
         if ansible_core_path is None:
             venv = FakeVenvRunner()
         else:

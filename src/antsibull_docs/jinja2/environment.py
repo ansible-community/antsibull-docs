@@ -4,9 +4,12 @@
 # SPDX-FileCopyrightText: 2019-2020, Ansible Project
 """Create Jinja2 environment for rendering Ansible documentation."""
 
+from __future__ import annotations
+
 import json
 import os.path
 import typing as t
+from collections.abc import Mapping
 
 from jinja2 import BaseLoader, Environment, FileSystemLoader, PackageLoader
 
@@ -16,15 +19,15 @@ from .filters import (
     do_max,
     documented_type,
     extract_options_from_list,
+    html_ify,
     massage_author_name,
     move_first,
     remove_options_from_list,
     rst_fmt,
+    rst_ify,
     rst_xline,
     to_ini_value,
     to_json,
-    html_ify,
-    rst_ify,
 )
 from .tests import still_relevant, test_list
 
@@ -50,12 +53,12 @@ def reference_plugin_rst(plugin_name: str, plugin_type: str) -> str:
     return f"\\ :ref:`{rst_escape(fqcn)} <ansible_collections.{fqcn}_{plugin_type}>`\\ "
 
 
-def doc_environment(template_location: t.Union[str, t.Tuple[str, str]],
+def doc_environment(template_location: str | tuple[str, str],
                     *,
-                    extra_filters: t.Optional[t.Mapping[str, t.Callable]] = None,
-                    extra_tests: t.Optional[t.Mapping[str, t.Callable]] = None,
-                    collection_url: t.Optional[CollectionNameTransformer] = None,
-                    collection_install: t.Optional[CollectionNameTransformer] = None,
+                    extra_filters: Mapping[str, t.Callable] | None = None,
+                    extra_tests: Mapping[str, t.Callable] | None = None,
+                    collection_url: CollectionNameTransformer | None = None,
+                    collection_install: CollectionNameTransformer | None = None,
                     ) -> Environment:
     loader: BaseLoader
     if isinstance(template_location, str) and os.path.exists(template_location):

@@ -2,16 +2,17 @@
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import difflib
 import io
 import os
 from contextlib import redirect_stdout
 
 import pytest
+from ansible_doc_caching import ansible_doc_cache
 
 from antsibull_docs.cli.antsibull_docs import run
-
-from ansible_doc_caching import ansible_doc_cache
 
 pytest.importorskip('ansible')
 
@@ -48,9 +49,9 @@ def _scan_directories(root: str):
 
 
 def _compare_files(source, dest, path):
-    with open(source, 'rt') as f:
+    with open(source) as f:
         src = f.read()
-    with open(dest, 'rt') as f:
+    with open(dest) as f:
         dst = f.read()
     if src == dst:
         return 0
@@ -102,7 +103,7 @@ def test_baseline(arguments, directory, tmp_path):
     tests_root = os.path.join('tests', 'functional')
 
     config_file = tmp_path / 'antsibull.cfg'
-    with open(config_file, 'wt', encoding='utf-8') as f:
+    with open(config_file, "w", encoding='utf-8') as f:
         f.write('doc_parsing_backend = ansible-core-2.13\n')
 
     output_dir = tmp_path / 'output'

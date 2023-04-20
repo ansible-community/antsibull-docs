@@ -5,6 +5,8 @@
 # SPDX-FileCopyrightText: 2022, Ansible Project
 """Build devel ansible(-core) docs."""
 
+from __future__ import annotations
+
 import asyncio
 import os
 import os.path
@@ -30,13 +32,13 @@ if t.TYPE_CHECKING:
 mlog = log.fields(mod=__name__)
 
 
-async def retrieve(collections: t.List[str],
+async def retrieve(collections: list[str],
                    tmp_dir: str,
                    galaxy_server: str,
-                   ansible_core_source: t.Optional[str] = None,
-                   collection_cache: t.Optional[str] = None,
+                   ansible_core_source: str | None = None,
+                   collection_cache: str | None = None,
                    use_installed_ansible_core: bool = False,
-                   ) -> t.Dict[str, 'semver.Version']:
+                   ) -> dict[str, semver.Version]:
     """
     Download ansible-core and the latest versions of the collections.
 
@@ -143,7 +145,7 @@ def generate_docs() -> int:
         flog.notice('Finished installing collections')
 
         # Create venv for ansible-core
-        venv: t.Union[FakeVenvRunner, VenvRunner]
+        venv: FakeVenvRunner | VenvRunner
         if ansible_core_path is None:
             venv = FakeVenvRunner()
         else:

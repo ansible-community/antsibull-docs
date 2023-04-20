@@ -2,9 +2,8 @@
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import enum
 import pathlib
-from typing import Literal, Union
+from typing import Literal
 
 try:
     from typing import TypedDict
@@ -13,6 +12,6 @@ except ImportError:
 
 
 class LintError(TypedDict):
-    source_origin: Union[pathlib.Path, Literal["<string>"], Literal["<stdin>"]]
+    source_origin: pathlib.Path | Literal["<string>"] | Literal["<stdin>"]
     line_number: int
     message: str

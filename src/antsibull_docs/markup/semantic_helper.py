@@ -7,9 +7,9 @@
 Helpers for parsing semantic markup.
 """
 
-import re
-import typing as t
+from __future__ import annotations
 
+import re
 
 _ARRAY_STUB_RE = re.compile(r'\[([^\]]*)\]')
 _FQCN_TYPE_PREFIX_RE = re.compile(r'^([^.]+\.[^.]+\.[^#]+)#([a-z]+):(.*)$')
@@ -20,10 +20,10 @@ def _remove_array_stubs(text: str) -> str:
     return _ARRAY_STUB_RE.sub('', text)
 
 
-def _parse(text: str, plugin_fqcn: t.Optional[str], plugin_type: t.Optional[str], what: str,
+def _parse(text: str, plugin_fqcn: str | None, plugin_type: str | None, what: str,
            require_plugin=False
-           ) -> t.Tuple[t.Optional[str], t.Optional[str],
-                        t.Optional[str], str, str, t.Optional[str]]:
+           ) -> tuple[str | None, str | None,
+                      str | None, str, str, str | None]:
     """
     Given the contents of O(...) / :ansopt:`...` with potential escaping removed,
     split it into plugin FQCN, plugin type, option link name, option name, and option value.
@@ -42,7 +42,7 @@ def _parse(text: str, plugin_fqcn: t.Optional[str], plugin_type: t.Optional[str]
         plugin_fqcn = ''
         plugin_type = ''
         text = text[len(_IGNORE_MARKER):]
-    entrypoint: t.Optional[str] = None
+    entrypoint: str | None = None
     if plugin_type == 'role':
         idx = text.find(':')
         if idx < 0:
@@ -54,10 +54,10 @@ def _parse(text: str, plugin_fqcn: t.Optional[str], plugin_type: t.Optional[str]
     return plugin_fqcn, plugin_type, entrypoint, _remove_array_stubs(text), text, value
 
 
-def parse_option(text: str, plugin_fqcn: t.Optional[str], plugin_type: t.Optional[str],
+def parse_option(text: str, plugin_fqcn: str | None, plugin_type: str | None,
                  require_plugin=False
-                 ) -> t.Tuple[t.Optional[str], t.Optional[str],
-                              t.Optional[str], str, str, t.Optional[str]]:
+                 ) -> tuple[str | None, str | None,
+                            str | None, str, str, str | None]:
     """
     Given the contents of O(...) / :ansopt:`...` with potential escaping removed,
     split it into plugin FQCN, plugin type, entrypoint, option link name, option name, and option
@@ -66,10 +66,10 @@ def parse_option(text: str, plugin_fqcn: t.Optional[str], plugin_type: t.Optiona
     return _parse(text, plugin_fqcn, plugin_type, 'option name', require_plugin=require_plugin)
 
 
-def parse_return_value(text: str, plugin_fqcn: t.Optional[str], plugin_type: t.Optional[str],
+def parse_return_value(text: str, plugin_fqcn: str | None, plugin_type: str | None,
                        require_plugin=False
-                       ) -> t.Tuple[t.Optional[str], t.Optional[str],
-                                    t.Optional[str], str, str, t.Optional[str]]:
+                       ) -> tuple[str | None, str | None,
+                                  str | None, str, str, str | None]:
     """
     Given the contents of RV(...) / :ansretval:`...` with potential escaping removed,
     split it into plugin FQCN, plugin type, entrypoint, return value link name, return value name,

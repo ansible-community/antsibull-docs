@@ -9,7 +9,6 @@
 # to initialize the attributes when data is loaded into them.
 # pyre-ignore-all-errors[13]
 
-import typing as t
 
 import pydantic as p
 from antsibull_core.schemas.context import AppContext as CoreAppContext
@@ -28,10 +27,10 @@ class DocsAppContext(CoreAppContext):
     use_html_blobs: p.StrictBool = False
 
     # These are antsibull-docs specific
-    collection_url: t.Dict[str, str] = {
+    collection_url: dict[str, str] = {
         '*': 'https://galaxy.ansible.com/{namespace}/{name}',
     }
-    collection_install: t.Dict[str, str] = {
+    collection_install: dict[str, str] = {
         '*': 'ansible-galaxy collection install {namespace}.{name}',
     }
 

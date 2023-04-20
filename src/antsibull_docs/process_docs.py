@@ -8,6 +8,7 @@
 import asyncio
 import typing as t
 from collections import defaultdict
+from collections.abc import Iterable, Mapping, MutableMapping
 from concurrent.futures import ProcessPoolExecutor
 
 from antsibull_core.logging import log
@@ -17,14 +18,13 @@ from . import app_context
 from .docs_parsing.fqcn import get_fqcn_parts
 from .schemas.docs import DOCS_SCHEMAS
 
-
 mlog = log.fields(mod=__name__)
 
 #: Mapping of plugins to nonfatal errors.  This is the type to use when returning the mapping.
-PluginErrorsRT = t.DefaultDict[str, t.DefaultDict[str, t.List[str]]]
+PluginErrorsRT = defaultdict[str, defaultdict[str, list[str]]]
 
 
-def get_collection_namespaces(collection_names: t.Iterable[str]) -> t.Dict[str, t.List[str]]:
+def get_collection_namespaces(collection_names: Iterable[str]) -> dict[str, list[str]]:
     """
     Return the plugins which are in each collection.
 
@@ -39,8 +39,8 @@ def get_collection_namespaces(collection_names: t.Iterable[str]) -> t.Dict[str, 
 
 
 def normalize_plugin_info(plugin_type: str,
-                          plugin_info: t.Mapping[str, t.Any]
-                          ) -> t.Tuple[t.Dict[str, t.Any], t.List[str]]:
+                          plugin_info: Mapping[str, t.Any]
+                          ) -> tuple[dict[str, t.Any], list[str]]:
     """
     Normalize and validate all of the plugin docs.
 
@@ -59,7 +59,7 @@ def normalize_plugin_info(plugin_type: str,
     if 'error' in plugin_info:
         return ({}, [plugin_info['error']])
 
-    errors: t.List[str] = []
+    errors: list[str] = []
     if plugin_type == 'role':
         try:
             parsed = DOCS_SCHEMAS[plugin_type].parse_obj(plugin_info)  # type: ignore[attr-defined]
@@ -67,7 +67,7 @@ def normalize_plugin_info(plugin_type: str,
         except ValidationError as e:
             raise ValueError(str(e))  # pylint:disable=raise-missing-from
 
-    new_info: t.Dict[str, t.Any] = {}
+    new_info: dict[str, t.Any] = {}
     # Note: loop through "doc" before any other keys.
     for field in ('doc', 'examples', 'return'):
         try:
@@ -93,9 +93,9 @@ def normalize_plugin_info(plugin_type: str,
     return (new_info, errors)
 
 
-async def normalize_all_plugin_info(plugin_info: t.Mapping[str, t.Mapping[str, t.Any]]
-                                    ) -> t.Tuple[t.Dict[str, t.MutableMapping[str, t.Any]],
-                                                 PluginErrorsRT]:
+async def normalize_all_plugin_info(plugin_info: Mapping[str, Mapping[str, t.Any]]
+                                    ) -> tuple[dict[str, MutableMapping[str, t.Any]],
+                                               PluginErrorsRT]:
     """
     Normalize the data in plugin_info so that it is ready to be passed to the templates.
 
@@ -127,7 +127,7 @@ async def normalize_all_plugin_info(plugin_info: t.Mapping[str, t.Mapping[str, t
 
     results = await asyncio.gather(*normalizers.values(), return_exceptions=True)
 
-    new_plugin_info: t.DefaultDict[str, t.MutableMapping[str, t.Any]]
+    new_plugin_info: defaultdict[str, MutableMapping[str, t.Any]]
     new_plugin_info = defaultdict(dict)  # pyre-ignore[9]
     nonfatal_errors: PluginErrorsRT = defaultdict(lambda: defaultdict(list))
     for (plugin_type, plugin_name), plugin_record in zip(normalizers, results):
@@ -149,9 +149,9 @@ async def normalize_all_plugin_info(plugin_info: t.Mapping[str, t.Mapping[str, t
     return new_plugin_info, nonfatal_errors
 
 
-def get_plugin_contents(plugin_info: t.Mapping[str, t.Mapping[str, t.Any]],
+def get_plugin_contents(plugin_info: Mapping[str, Mapping[str, t.Any]],
                         nonfatal_errors: PluginErrorsRT
-                        ) -> t.DefaultDict[str, t.DefaultDict[str, t.Dict[str, str]]]:
+                        ) -> defaultdict[str, defaultdict[str, dict[str, str]]]:
     """
     Return the collections with their plugins for every plugin type.
 
@@ -165,7 +165,7 @@ def get_plugin_contents(plugin_info: t.Mapping[str, t.Mapping[str, t.Any]],
         collection:
             - plugin_short_name: short_description
     """
-    plugin_contents: t.DefaultDict[str, t.DefaultDict[str, t.Dict[str, str]]]
+    plugin_contents: defaultdict[str, defaultdict[str, dict[str, str]]]
     plugin_contents = defaultdict(lambda: defaultdict(dict))
     # Some plugins won't have an entry in the plugin_info because documentation failed to parse.
     # Those should be documented in the nonfatal_errors information.
@@ -190,8 +190,8 @@ def get_plugin_contents(plugin_info: t.Mapping[str, t.Mapping[str, t.Any]],
     return plugin_contents
 
 
-def get_callback_plugin_contents(plugin_info: t.Mapping[str, t.Mapping[str, t.Any]],
-                                 ) -> t.DefaultDict[str, t.DefaultDict[str, t.Dict[str, str]]]:
+def get_callback_plugin_contents(plugin_info: Mapping[str, Mapping[str, t.Any]],
+                                 ) -> defaultdict[str, defaultdict[str, dict[str, str]]]:
     """
     Return the collections with their plugins for every callback plugin type.
 
@@ -203,7 +203,7 @@ def get_callback_plugin_contents(plugin_info: t.Mapping[str, t.Mapping[str, t.An
         collection:
             - plugin_short_name: short_description
     """
-    callback_plugin_contents: t.DefaultDict[str, t.DefaultDict[str, t.Dict[str, str]]]
+    callback_plugin_contents: defaultdict[str, defaultdict[str, dict[str, str]]]
     callback_plugin_contents = defaultdict(lambda: defaultdict(dict))
 
     if plugin_info.get('callback'):
@@ -219,8 +219,8 @@ def get_callback_plugin_contents(plugin_info: t.Mapping[str, t.Mapping[str, t.An
     return callback_plugin_contents
 
 
-def get_collection_contents(plugin_content: t.Mapping[str, t.Mapping[str, t.Mapping[str, str]]],
-                            ) -> t.DefaultDict[str, t.Dict[str, t.Mapping[str, str]]]:
+def get_collection_contents(plugin_content: Mapping[str, Mapping[str, Mapping[str, str]]],
+                            ) -> defaultdict[str, dict[str, Mapping[str, str]]]:
     """
     Return the plugins which are in each collection.
 
@@ -232,7 +232,7 @@ def get_collection_contents(plugin_content: t.Mapping[str, t.Mapping[str, t.Mapp
         plugin_type:
             - plugin_short_name: short_description
     """
-    collection_plugins: t.DefaultDict[str, t.Dict[str, t.Mapping[str, str]]] = defaultdict(dict)
+    collection_plugins: defaultdict[str, dict[str, Mapping[str, str]]] = defaultdict(dict)
 
     for plugin_type, collection_data in plugin_content.items():
         for collection_name, plugin_data in collection_data.items():

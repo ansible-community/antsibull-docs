@@ -4,6 +4,8 @@
 # SPDX-FileCopyrightText: 2019, Ansible Project
 """Jinja2 tests for use in Ansible documentation."""
 
+from __future__ import annotations
+
 import typing as t
 import warnings
 from functools import partial

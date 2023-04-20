@@ -5,21 +5,22 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Constant values for use throughout the antsibull codebase."""
 
-from typing import Dict, FrozenSet
+
+from __future__ import annotations
 
 #: All the types of ansible plugins
-PLUGIN_TYPES: FrozenSet[str] = frozenset(('become', 'cache', 'callback', 'cliconf', 'connection',
+PLUGIN_TYPES: frozenset[str] = frozenset(('become', 'cache', 'callback', 'cliconf', 'connection',
                                           'httpapi', 'inventory', 'lookup', 'shell', 'strategy',
                                           'vars', 'module', 'module_utils', 'role',))
 
 #: The subset of PLUGINS which we build documentation for
-DOCUMENTABLE_PLUGINS: FrozenSet[str] = frozenset(('become', 'cache', 'callback', 'cliconf',
+DOCUMENTABLE_PLUGINS: frozenset[str] = frozenset(('become', 'cache', 'callback', 'cliconf',
                                                   'connection', 'httpapi', 'inventory', 'lookup',
                                                   'netconf', 'shell', 'vars', 'module',
                                                   'strategy', 'role', 'filter', 'test'))
 
 
-DOCUMENTABLE_PLUGINS_MIN_VERSION: Dict[str, str] = {
+DOCUMENTABLE_PLUGINS_MIN_VERSION: dict[str, str] = {
     'filter': '2.14.0',
     'role': '2.11.0',
     'test': '2.14.0',

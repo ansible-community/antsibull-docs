@@ -7,11 +7,14 @@
 Functions for parsing and interpreting collection metadata.
 """
 
+from __future__ import annotations
+
 import asyncio
 import datetime
 import os
 import typing as t
 from collections import defaultdict
+from collections.abc import Mapping, MutableMapping
 
 import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context, yaml
@@ -29,9 +32,9 @@ from .fqcn import get_fqcn_parts
 #               deprecation: t.Optional[{deprecation record}]
 #               redirect: t.Optional[str]
 #               redirect_is_symlink: t.Optional[bool]
-CollectionRoutingT = t.Mapping[str, t.Mapping[str, t.Mapping[str, t.Any]]]
-MutableCollectionRoutingT = t.MutableMapping[str,
-                                             t.MutableMapping[str, t.MutableMapping[str, t.Any]]]
+CollectionRoutingT = Mapping[str, Mapping[str, Mapping[str, t.Any]]]
+MutableCollectionRoutingT = MutableMapping[str,
+                                           MutableMapping[str, MutableMapping[str, t.Any]]]
 
 
 COLLECTIONS_WITH_FLATMAPPING = (
@@ -41,7 +44,7 @@ COLLECTIONS_WITH_FLATMAPPING = (
 
 
 def calculate_plugin_fqcns(collection_name: str, src_basename: str,
-                           dst_basename: str, rel_path: str) -> t.Tuple[str, str]:
+                           dst_basename: str, rel_path: str) -> tuple[str, str]:
     """
     Calculate source and dest FQCNs for plugins which have been renamed via symlink.
 
@@ -72,7 +75,7 @@ def calculate_plugin_fqcns(collection_name: str, src_basename: str,
 def find_symlink_redirects(collection_name: str,
                            plugin_type: str,
                            directory_path: str
-                           ) -> t.Dict[str, str]:
+                           ) -> dict[str, str]:
     """
     Finds plugin redirects that are defined by symlinks.
 
@@ -104,7 +107,7 @@ def find_symlink_redirects(collection_name: str,
     return plugin_type_routing
 
 
-def process_dates(plugin_record: t.Dict[str, t.Any]) -> t.Dict[str, t.Any]:
+def process_dates(plugin_record: dict[str, t.Any]) -> dict[str, t.Any]:
     for tlkey in ('tombstone', 'deprecation'):
         if tlkey in plugin_record and 'removal_date' in plugin_record[tlkey]:
             date = plugin_record[tlkey]['removal_date']
@@ -116,9 +119,9 @@ def process_dates(plugin_record: t.Dict[str, t.Any]) -> t.Dict[str, t.Any]:
     return plugin_record
 
 
-def find_flatmapping_short_long_maps(plugin_routing_type: t.Dict[str, t.Dict[str, t.Any]],
-                                     ) -> t.Tuple[t.Mapping[str, str],
-                                                  t.Mapping[str, t.Tuple[str, bool]]]:
+def find_flatmapping_short_long_maps(plugin_routing_type: dict[str, dict[str, t.Any]],
+                                     ) -> tuple[Mapping[str, str],
+                                                Mapping[str, tuple[str, bool]]]:
     """
     Collect all short and long names, and mappings between them.
 
@@ -128,8 +131,8 @@ def find_flatmapping_short_long_maps(plugin_routing_type: t.Dict[str, t.Dict[str
     Returns two tuples. The first element maps short names to long names. The second element
     maps long names to pairs (short name, is symbolic link).
     """
-    shortname_to_longname: t.Dict[str, str] = {}
-    longname_to_shortname: t.Dict[str, t.Tuple[str, bool]] = {}
+    shortname_to_longname: dict[str, str] = {}
+    longname_to_shortname: dict[str, tuple[str, bool]] = {}
     for plugin_name, routing_data in plugin_routing_type.items():
         coll_ns, coll_name, plug_name = get_fqcn_parts(plugin_name)
         if 'tombstone' not in routing_data and 'redirect' in routing_data:
@@ -154,7 +157,7 @@ def find_flatmapping_short_long_maps(plugin_routing_type: t.Dict[str, t.Dict[str
     return shortname_to_longname, longname_to_shortname
 
 
-def remove_flatmapping_artifacts(plugin_routing: t.Dict[str, t.Dict[str, t.Dict[str, t.Any]]]
+def remove_flatmapping_artifacts(plugin_routing: dict[str, dict[str, dict[str, t.Any]]]
                                  ) -> None:
     """
     For collections which use flatmapping (like community.general and community.network),
@@ -186,7 +189,7 @@ def remove_flatmapping_artifacts(plugin_routing: t.Dict[str, t.Dict[str, t.Dict[
 
 
 def load_meta_runtime(collection_name: str,
-                      collection_metadata: AnsibleCollectionMetadata) -> t.Mapping[str, t.Any]:
+                      collection_metadata: AnsibleCollectionMetadata) -> Mapping[str, t.Any]:
     '''
     Load meta/runtime.yml for collections, and ansible_builtin_runtime.yml for ansible-core.
 
@@ -214,12 +217,12 @@ def load_meta_runtime(collection_name: str,
 
 async def load_collection_routing(collection_name: str,
                                   collection_metadata: AnsibleCollectionMetadata
-                                  ) -> t.Dict[str, t.Dict[str, t.Dict[str, t.Any]]]:
+                                  ) -> dict[str, dict[str, dict[str, t.Any]]]:
     """
     Load plugin routing for a collection.
     """
     meta_runtime = load_meta_runtime(collection_name, collection_metadata)
-    plugin_routing_out: t.Dict[str, t.Dict[str, t.Dict[str, t.Any]]] = {}
+    plugin_routing_out: dict[str, dict[str, dict[str, t.Any]]] = {}
     plugin_routing_in = meta_runtime.get('plugin_routing') or {}
     for plugin_type in DOCUMENTABLE_PLUGINS:
         plugin_type_id = 'modules' if plugin_type == 'module' else plugin_type
@@ -254,8 +257,8 @@ async def load_collection_routing(collection_name: str,
     return plugin_routing_out
 
 
-async def load_all_collection_routing(collection_metadata: t.Mapping[str,
-                                                                     AnsibleCollectionMetadata]
+async def load_all_collection_routing(collection_metadata: Mapping[str,
+                                                                   AnsibleCollectionMetadata]
                                       ) -> MutableCollectionRoutingT:
     # Collection
     lib_ctx = app_context.lib_ctx.get()
@@ -277,7 +280,7 @@ async def load_all_collection_routing(collection_metadata: t.Mapping[str,
     return global_plugin_routing
 
 
-def remove_redirect_duplicates(plugin_info: t.MutableMapping[str, t.MutableMapping[str, t.Any]],
+def remove_redirect_duplicates(plugin_info: MutableMapping[str, MutableMapping[str, t.Any]],
                                collection_routing: MutableCollectionRoutingT) -> None:
     """
     Remove duplicate plugin docs that come from symlinks (or once ansible-docs supports them,
@@ -315,9 +318,9 @@ def remove_redirect_duplicates(plugin_info: t.MutableMapping[str, t.MutableMappi
                     plugin_routing[plugin_name]['redirect'] = full_name
 
 
-def find_stubs(plugin_info: t.MutableMapping[str, t.MutableMapping[str, t.Any]],
+def find_stubs(plugin_info: MutableMapping[str, MutableMapping[str, t.Any]],
                collection_routing: CollectionRoutingT
-               ) -> t.DefaultDict[str, t.DefaultDict[str, t.Dict[str, t.Any]]]:
+               ) -> defaultdict[str, defaultdict[str, dict[str, t.Any]]]:
     """
     Find plugin stubs to write. Returns a nested structure:
 
@@ -329,7 +332,7 @@ def find_stubs(plugin_info: t.MutableMapping[str, t.MutableMapping[str, t.Any]],
                     redirect: t.Optional[str]
                     redirect_is_symlink: t.Optional[bool]
     """
-    stubs_info: t.DefaultDict[str, t.DefaultDict[str, t.Dict[str, t.Any]]] = (
+    stubs_info: defaultdict[str, defaultdict[str, dict[str, t.Any]]] = (
         defaultdict(lambda: defaultdict(dict))
     )
     for plugin_type, plugin_routing in collection_routing.items():

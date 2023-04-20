@@ -5,13 +5,14 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Parse documentation from ansible plugins using anible-doc."""
 
+from __future__ import annotations
+
 import os
-import typing as t
 
 from antsibull_core.venv import FakeVenvRunner, VenvRunner
 
 #: Clear Ansible environment variables that set paths where plugins could be found.
-ANSIBLE_PATH_ENVIRON: t.Dict[str, str] = os.environ.copy()
+ANSIBLE_PATH_ENVIRON: dict[str, str] = os.environ.copy()
 ANSIBLE_PATH_ENVIRON.update({'ANSIBLE_COLLECTIONS_PATH': '/dev/null',
                              'ANSIBLE_ACTION_PLUGINS': '/dev/null',
                              'ANSIBLE_CACHE_PLUGINS': '/dev/null',
@@ -44,9 +45,9 @@ class ParsingError(Exception):
     """Error raised while parsing plugins for documentation."""
 
 
-def _get_environment(collection_dir: t.Optional[str],
-                     venv: t.Union[VenvRunner, FakeVenvRunner],
-                     ) -> t.Dict[str, str]:
+def _get_environment(collection_dir: str | None,
+                     venv: VenvRunner | FakeVenvRunner,
+                     ) -> dict[str, str]:
     env = ANSIBLE_PATH_ENVIRON.copy()
     if isinstance(venv, VenvRunner):
         try:
@@ -72,13 +73,13 @@ def _get_environment(collection_dir: t.Optional[str],
 
 class AnsibleCollectionMetadata:
     path: str
-    version: t.Optional[str]
-    requires_ansible: t.Optional[str]
+    version: str | None
+    requires_ansible: str | None
 
     def __init__(self,
                  path: str,
-                 version: t.Optional[str] = None,
-                 requires_ansible: t.Optional[str] = None):
+                 version: str | None = None,
+                 requires_ansible: str | None = None):
         self.path = path
         self.version = version
         self.requires_ansible = requires_ansible

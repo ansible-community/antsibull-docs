@@ -5,16 +5,18 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Entrypoint to the antsibull-docs script."""
 
+from __future__ import annotations
+
 import argparse
 import os
 import os.path
 import stat
 import sys
-from typing import Callable, Dict, List
+from collections.abc import Callable
 
 import twiggy  # type: ignore[import]
-
 from antsibull_core.logging import initialize_app_logging, log
+
 initialize_app_logging()
 
 # We have to call initialize_app_logging() before these imports so that the log object is configured
@@ -50,7 +52,7 @@ mlog = log.fields(mod=__name__)
 
 #: Mapping from command line subcommand names to functions which implement those
 #: The functions need to take a single argument, the processed list of args.
-ARGS_MAP: Dict[str, Callable] = {'devel': devel.generate_docs,
+ARGS_MAP: dict[str, Callable] = {'devel': devel.generate_docs,
                                  'stable': stable.generate_docs,
                                  'current': current.generate_docs,
                                  'collection': collection.generate_docs,
@@ -184,7 +186,7 @@ def _normalize_sphinx_init_options(args: argparse.Namespace) -> None:
                     f'Every `{option}` value must have at least one equal sign (=).')
 
 
-def parse_args(program_name: str, args: List[str]) -> argparse.Namespace:
+def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     """
     Parse and coerce the command line arguments.
 
@@ -492,7 +494,7 @@ def parse_args(program_name: str, args: List[str]) -> argparse.Namespace:
     return parsed_args
 
 
-def run(args: List[str]) -> int:
+def run(args: list[str]) -> int:
     """
     Run the program.
 

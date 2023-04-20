@@ -2,6 +2,8 @@
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import difflib
 import io
 import os
@@ -63,9 +65,9 @@ def _scan_directories(root: str):
 
 
 def _compare_files(source, dest, path):
-    with open(source, 'rt') as f:
+    with open(source) as f:
         src = f.read()
-    with open(dest, 'rt') as f:
+    with open(dest) as f:
         dst = f.read()
     if src == dst:
         return 0
@@ -127,7 +129,7 @@ def test_baseline(arguments, directory, tmp_path):
     try:
         # Adjust 'cd' in build.sh
         filename = os.path.join(tmp_path, 'build.sh')
-        with open(filename, 'r', encoding='utf-8') as f:
+        with open(filename, encoding='utf-8') as f:
             lines = list(f)
         for index, line in enumerate(lines):
             if line.startswith('cd '):

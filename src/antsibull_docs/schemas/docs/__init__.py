@@ -10,6 +10,8 @@ This is a highlevel interface.  The hope is that developers can use either this 
 antsibull.schemas.docs.ansible_doc to handle all of their validation needs.
 """
 
+from __future__ import annotations
+
 from .callback import CallbackDocSchema, CallbackSchema
 from .module import ModuleDocSchema, ModuleSchema
 from .plugin import (

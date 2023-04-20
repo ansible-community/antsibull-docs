@@ -6,12 +6,15 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Render documentation for a single plugin."""
 
+from __future__ import annotations
+
 import asyncio
 import json
 import os
 import sys
 import traceback
 import typing as t
+from collections.abc import MutableMapping
 
 from antsibull_core.logging import log
 from antsibull_core.subprocess_util import CalledProcessError
@@ -27,7 +30,6 @@ from ...jinja2.environment import doc_environment
 from ...process_docs import normalize_plugin_info
 from ...utils.collection_name_transformer import CollectionNameTransformer
 from ...write_docs.plugins import write_plugin_rst
-
 
 mlog = log.fields(mod=__name__)
 
@@ -86,10 +88,10 @@ def generate_plugin_docs(plugin_type: str, plugin_name: str,
 
     # The cast is needed to make pyre happy. It seems to not being able to
     # understand that
-    #     t.Dict[str, t.Dict[str, t.Dict[str, typing.Any]]]
+    #     dict[str, dict[str, dict[str, typing.Any]]]
     # is acceptable for
-    #     t.MutableMapping[str, t.MutableMapping[str, typing.Any]].
-    augment_docs(t.cast(t.MutableMapping[str, t.MutableMapping[str, t.Any]], {
+    #     MutableMapping[str, MutableMapping[str, typing.Any]].
+    augment_docs(t.cast(MutableMapping[str, MutableMapping[str, t.Any]], {
         plugin_type: {
             plugin_name: plugin_info
         }

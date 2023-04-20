@@ -5,6 +5,8 @@
 # SPDX-FileCopyrightText: 2022, Ansible Project
 """Local app and lib context provider"""
 
+from __future__ import annotations
+
 # pylint: disable-next=unused-import
 from antsibull_core.app_context import lib_ctx  # noqa
 from antsibull_core.app_context import AppContextWrapper

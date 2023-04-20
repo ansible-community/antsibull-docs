@@ -301,7 +301,7 @@ TYPE_CHECKERS: dict[str, t.Callable[[t.Any], t.Any]] = {
 }
 
 
-def normalize_value(values: t.Dict[str, t.Any], field: str,  # noqa: C901
+def normalize_value(values: dict[str, t.Any], field: str,  # noqa: C901
                     is_list_of_values: bool = False, accept_dict: bool = False) -> None:
     if 'type' not in values or values.get(field) is None:
         return
@@ -447,9 +447,9 @@ class DeprecationSchema(BaseModel):
 
 
 class OptionsSchema(BaseModel):
-    description: t.List[str]
-    aliases: t.List[str] = []
-    choices: t.Union[t.List[t.Any], t.Dict[t.Any, t.List[str]]] = []
+    description: list[str]
+    aliases: list[str] = []
+    choices: t.Union[list[t.Any], dict[t.Any, list[str]]] = []
     default: t.Any = None  # JSON value
     elements: str = OPTION_TYPE_F
     required: bool = False
@@ -548,8 +548,8 @@ class AttributeSchemaBase(BaseModel, metaclass=abc.ABCMeta):
     # We use an abstract base class instead of deriving the other classes directly from
     # AttributeSchema to make Union[AttributeSchema, ...] work with Pydantic and  Python 3.6.
     # Without this base class, we would hit https://github.com/samuelcolvin/pydantic/issues/1259
-    description: t.List[str]
-    details: t.List[str] = []
+    description: list[str]
+    details: list[str] = []
     support: str = p.Field('str', regex='^(full|partial|none|N/A)$')
     version_added: str = 'historical'
     version_added_collection: str = COLLECTION_NAME_F
@@ -565,7 +565,7 @@ class AttributeSchema(AttributeSchemaBase):
 
 
 class AttributeSchemaActionGroup(AttributeSchemaBase):  # for 'action_group'
-    membership: t.List[str]
+    membership: list[str]
 
     @p.validator('membership', pre=True)
     # pylint:disable=no-self-argument
@@ -574,7 +574,7 @@ class AttributeSchemaActionGroup(AttributeSchemaBase):  # for 'action_group'
 
 
 class AttributeSchemaPlatform(AttributeSchemaBase):  # for 'platform'
-    platforms: t.List[str]
+    platforms: list[str]
 
     @p.validator('platforms', pre=True)
     # pylint:disable=no-self-argument
@@ -587,23 +587,23 @@ SeeAlsoSchemaT = t.Union[SeeAlsoLinkSchema, SeeAlsoModSchema, SeeAlsoPluginSchem
 
 class DocSchema(BaseModel):
     collection: str = REQUIRED_COLLECTION_NAME_OR_EMPTY_STR_F
-    description: t.List[str]
+    description: list[str]
     name: str
     short_description: str
-    aliases: t.List[str] = []
-    author: t.List[str] = []
+    aliases: list[str] = []
+    author: list[str] = []
     deprecated: DeprecationSchema = p.Field({})
-    extends_documentation_fragment: t.List[str] = []
+    extends_documentation_fragment: list[str] = []
     filename: str = ''
-    notes: t.List[str] = []
-    requirements: t.List[str] = []
-    seealso: t.List[SeeAlsoSchemaT] = []
-    todo: t.List[str] = []
+    notes: list[str] = []
+    requirements: list[str] = []
+    seealso: list[SeeAlsoSchemaT] = []
+    todo: list[str] = []
     version_added: str = 'historical'
     version_added_collection: str = COLLECTION_NAME_F
-    attributes: t.Dict[str, t.Union[AttributeSchema,
-                                    AttributeSchemaActionGroup,
-                                    AttributeSchemaPlatform]] = {}
+    attributes: dict[str, t.Union[AttributeSchema,
+                                  AttributeSchemaActionGroup,
+                                  AttributeSchemaPlatform]] = {}
 
     @p.validator('author', 'description', 'extends_documentation_fragment', 'notes',
                  'requirements', 'todo', pre=True)

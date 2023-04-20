@@ -5,7 +5,8 @@
 """
 Test the set of Schemas altogether to see that they will parse information correctly.
 """
-import glob
+from __future__ import annotations
+
 import json
 import os.path
 
@@ -57,10 +58,10 @@ def test_one_plugin_of_each_type(test_file, test_schema):
     result_file = os.path.join(test_dir, 'good_data', 'one_%s_results.json' % plugin_type)
     full_path = os.path.join(test_dir, 'good_data', test_file)
 
-    with open(result_file, 'r') as f:
+    with open(result_file) as f:
         results = json.load(f)
 
-    with open(full_path, 'r') as f:
+    with open(full_path) as f:
         ansible_doc_output = f.read()
 
     model = test_schema.parse_raw(ansible_doc_output)
@@ -83,10 +84,10 @@ def test_ssh_connection():
     result_file = os.path.join(test_dir, 'good_data', 'ssh_connection_results.json')
     full_path = os.path.join(test_dir, 'good_data', test_file)
 
-    with open(result_file, 'r') as f:
+    with open(result_file) as f:
         results = json.load(f)
 
-    with open(full_path, 'r') as f:
+    with open(full_path) as f:
         ansible_doc_output = f.read()
 
     model = test_schema.parse_raw(ansible_doc_output)

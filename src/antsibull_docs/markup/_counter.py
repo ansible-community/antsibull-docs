@@ -7,13 +7,15 @@
 Count markup instructions in parsed markup.
 """
 
-import typing as t
+from __future__ import annotations
+
+from collections.abc import Sequence
 
 from antsibull_docs_parser import dom
 
 
 class _Counter(dom.Walker):
-    counts: t.Dict[str, int]
+    counts: dict[str, int]
 
     def __init__(self):
         self.counts = {
@@ -78,7 +80,7 @@ class _Counter(dom.Walker):
         self.counts['return-value'] += 1
 
 
-def count(paragraphs: t.Sequence[dom.Paragraph]) -> t.Dict[str, int]:
+def count(paragraphs: Sequence[dom.Paragraph]) -> dict[str, int]:
     counter = _Counter()
     for paragraph in paragraphs:
         dom.walk(paragraph, counter)

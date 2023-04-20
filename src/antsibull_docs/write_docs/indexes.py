@@ -5,10 +5,12 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Output indexes."""
 
+from __future__ import annotations
+
 import asyncio
 import os
 import os.path
-import typing as t
+from collections.abc import Mapping
 
 import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context
@@ -25,7 +27,7 @@ mlog = log.fields(mod=__name__)
 
 
 async def write_callback_type_index(callback_type: str,
-                                    per_collection_plugins: t.Mapping[str, t.Mapping[str, str]],
+                                    per_collection_plugins: Mapping[str, Mapping[str, str]],
                                     template: Template,
                                     dest_filename: str,
                                     for_official_docsite: bool = False) -> None:
@@ -52,7 +54,7 @@ async def write_callback_type_index(callback_type: str,
 
 
 async def write_plugin_type_index(plugin_type: str,
-                                  per_collection_plugins: t.Mapping[str, t.Mapping[str, str]],
+                                  per_collection_plugins: Mapping[str, Mapping[str, str]],
                                   template: Template,
                                   dest_filename: str,
                                   for_official_docsite: bool = False) -> None:
@@ -172,7 +174,7 @@ async def output_plugin_indexes(plugin_info: PluginCollectionInfoT,
 
 
 async def output_environment_variables(dest_dir: str,
-                                       env_variables: t.Mapping[str, EnvironmentVariableInfo],
+                                       env_variables: Mapping[str, EnvironmentVariableInfo],
                                        squash_hierarchy: bool = False
                                        ) -> None:
     """

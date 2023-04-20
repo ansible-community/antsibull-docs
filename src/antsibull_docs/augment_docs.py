@@ -5,12 +5,15 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Augment data from plugin documenation with additional values."""
 
+from __future__ import annotations
+
 import typing as t
+from collections.abc import Mapping, MutableMapping
 
 
-def add_full_key(options_data: t.Mapping[str, t.Any], suboption_entry: str,
-                 _full_key: t.Optional[t.List[str]] = None,
-                 _full_keys: t.Optional[t.List[t.List[str]]] = None) -> None:
+def add_full_key(options_data: Mapping[str, t.Any], suboption_entry: str,
+                 _full_key: list[str] | None = None,
+                 _full_keys: list[list[str]] | None = None) -> None:
     """
     Add information on the strucfture of a dict value in options or returns.
 
@@ -60,8 +63,8 @@ def add_full_key(options_data: t.Mapping[str, t.Any], suboption_entry: str,
                 _full_keys=full_keys_k)
 
 
-def _add_seealso(seealso: t.List[t.MutableMapping[str, t.Any]],
-                 plugin_info: t.Mapping[str, t.Mapping[str, t.Any]],
+def _add_seealso(seealso: list[MutableMapping[str, t.Any]],
+                 plugin_info: Mapping[str, Mapping[str, t.Any]],
                  ) -> None:
     for entry in seealso:
         if entry.get('description'):
@@ -85,7 +88,7 @@ def _add_seealso(seealso: t.List[t.MutableMapping[str, t.Any]],
             entry['description'] = desc
 
 
-def augment_docs(plugin_info: t.MutableMapping[str, t.MutableMapping[str, t.Any]]) -> None:
+def augment_docs(plugin_info: MutableMapping[str, MutableMapping[str, t.Any]]) -> None:
     """
     Add additional data to the data extracted from the plugins.
 

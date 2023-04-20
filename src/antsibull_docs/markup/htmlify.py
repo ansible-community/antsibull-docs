@@ -6,28 +6,30 @@
 htmlify Jinja2 filter for use in Ansible documentation.
 """
 
-import typing as t
+from __future__ import annotations
 
+import typing as t
+from collections.abc import Mapping
 from urllib.parse import quote
 
 from antsibull_docs_parser import dom
-from antsibull_docs_parser.parser import parse, Context
-from antsibull_docs_parser.html import to_html
 from antsibull_docs_parser.format import LinkProvider
+from antsibull_docs_parser.html import to_html
+from antsibull_docs_parser.parser import Context, parse
 
 from ._counter import count as _count
 
 
 class _HTMLLinkProvider(LinkProvider):
-    def plugin_link(self, plugin: dom.PluginIdentifier) -> t.Optional[str]:
+    def plugin_link(self, plugin: dom.PluginIdentifier) -> str | None:
         name = '/'.join(plugin.fqcn.split('.', 2))
         return f'../../{name}_{plugin.type}.html'
 
     def plugin_option_like_link(self,
                                 plugin: dom.PluginIdentifier,
-                                entrypoint: t.Optional[str],
-                                what: "t.Union[t.Literal['option'], t.Literal['retval']]",
-                                name: t.List[str], current_plugin: bool) -> t.Optional[str]:
+                                entrypoint: str | None,
+                                what: t.Literal['option'] | t.Literal['retval'],
+                                name: list[str], current_plugin: bool) -> str | None:
         base = '' if current_plugin else self.plugin_link(plugin)
         w = 'parameter' if what == 'option' else 'return'
         slug = quote('/'.join(name))
@@ -38,12 +40,12 @@ class _HTMLLinkProvider(LinkProvider):
 
 def html_ify(text: str,
              *,
-             plugin_fqcn: t.Optional[str] = None,
-             plugin_type: t.Optional[str] = None,
-             role_entrypoint: t.Optional[str] = None,
-             ) -> t.Tuple[str, t.Mapping[str, int]]:
+             plugin_fqcn: str | None = None,
+             plugin_type: str | None = None,
+             role_entrypoint: str | None = None,
+             ) -> tuple[str, Mapping[str, int]]:
     ''' convert symbols like I(this is in italics) to valid HTML '''
-    current_plugin: t.Optional[dom.PluginIdentifier] = None
+    current_plugin: dom.PluginIdentifier | None = None
     if plugin_fqcn and plugin_type:
         current_plugin = dom.PluginIdentifier(fqcn=plugin_fqcn, type=plugin_type)
     context = Context(current_plugin=current_plugin, role_entrypoint=role_entrypoint)

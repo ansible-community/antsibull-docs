@@ -6,6 +6,8 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Build documentation for one or more collections."""
 
+from __future__ import annotations
+
 import asyncio
 import os
 import os.path
@@ -29,7 +31,7 @@ if t.TYPE_CHECKING:
 mlog = log.fields(mod=__name__)
 
 
-def generate_collection_docs(collection_dir: t.Optional[str], squash_hierarchy: bool) -> int:
+def generate_collection_docs(collection_dir: str | None, squash_hierarchy: bool) -> int:
     flog = mlog.fields(func='generate_current_docs')
     flog.debug('Begin generating docs')
 
@@ -46,11 +48,11 @@ def generate_collection_docs(collection_dir: t.Optional[str], squash_hierarchy: 
         fail_on_error=app_ctx.extra['fail_on_error'])
 
 
-async def retrieve(collections: t.List[str],
-                   collection_version: t.Optional[str],
+async def retrieve(collections: list[str],
+                   collection_version: str | None,
                    tmp_dir: str,
                    galaxy_server: str,
-                   collection_cache: t.Optional[str] = None) -> t.Dict[str, 'semver.Version']:
+                   collection_cache: str | None = None) -> dict[str, semver.Version]:
     """
     Download collections, with specified version if applicable.
 

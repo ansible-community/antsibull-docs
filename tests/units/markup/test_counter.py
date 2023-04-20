@@ -4,14 +4,13 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # SPDX-FileCopyrightText: 2023, Ansible Project
 
-import typing as t
+
+from __future__ import annotations
 
 import pytest
-
 from antsibull_docs_parser import dom
 
 from antsibull_docs.markup._counter import count
-
 
 TEST_COUNTER = [
     (
@@ -118,6 +117,6 @@ TEST_COUNTER = [
 
 
 @pytest.mark.parametrize('paragraph, counter', TEST_COUNTER)
-def test_count(paragraph: dom.Paragraph, counter: t.Dict[str, int]) -> None:
+def test_count(paragraph: dom.Paragraph, counter: dict[str, int]) -> None:
     result = count([paragraph])
     assert result == counter

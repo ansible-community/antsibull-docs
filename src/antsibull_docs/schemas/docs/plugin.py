@@ -86,8 +86,8 @@ class OptionKeywordSchema(BaseModel):
 class ReturnSchema(BaseModel):
     """Schema of plugin return data docs."""
 
-    description: t.List[str]
-    choices: t.Union[t.List[t.Any], t.Dict[t.Any, t.List[str]]] = []
+    description: list[str]
+    choices: t.Union[list[t.Any], dict[t.Any, list[str]]] = []
     elements: str = RETURN_TYPE_F
     returned: str = 'success'
     sample: t.Any = None  # JSON value
@@ -158,7 +158,7 @@ class ReturnSchema(BaseModel):
 class InnerReturnSchema(ReturnSchema):
     """Nested return schema which allows leaving out description."""
 
-    contains: t.Dict[str, 'InnerReturnSchema'] = {}
+    contains: dict[str, 'InnerReturnSchema'] = {}
 
     @p.root_validator(pre=True)
     # pylint:disable=no-self-argument
@@ -175,16 +175,16 @@ InnerReturnSchema.update_forward_refs()
 class OuterReturnSchema(ReturnSchema):
     """Toplevel return schema."""
 
-    contains: t.Dict[str, InnerReturnSchema] = {}
+    contains: dict[str, InnerReturnSchema] = {}
 
 
 class PluginOptionsSchema(OptionsSchema):
-    cli: t.List[OptionCliSchema] = []
-    env: t.List[OptionEnvSchema] = []
-    ini: t.List[OptionIniSchema] = []
-    suboptions: t.Dict[str, 'PluginOptionsSchema'] = {}
-    vars: t.List[OptionVarsSchema] = []
-    keyword: t.List[OptionKeywordSchema] = []
+    cli: list[OptionCliSchema] = []
+    env: list[OptionEnvSchema] = []
+    ini: list[OptionIniSchema] = []
+    suboptions: dict[str, 'PluginOptionsSchema'] = {}
+    vars: list[OptionVarsSchema] = []
+    keyword: list[OptionKeywordSchema] = []
     deprecated: DeprecationSchema = p.Field({})
 
 
@@ -192,7 +192,7 @@ PluginOptionsSchema.update_forward_refs()
 
 
 class InnerDocSchema(DocSchema):
-    options: t.Dict[str, PluginOptionsSchema] = {}
+    options: dict[str, PluginOptionsSchema] = {}
 
 
 class PluginDocSchema(BaseModel):
@@ -211,7 +211,7 @@ class PluginExamplesSchema(BaseModel):
 
 
 class PluginMetadataSchema(BaseModel):
-    metadata: t.Optional[t.Dict[str, t.Any]] = None
+    metadata: t.Optional[dict[str, t.Any]] = None
 
 
 class PluginReturnSchema(BaseModel):
@@ -219,7 +219,7 @@ class PluginReturnSchema(BaseModel):
         fields = {'return_': 'return',
                   }
 
-    return_: t.Dict[str, OuterReturnSchema] = {}
+    return_: dict[str, OuterReturnSchema] = {}
 
     @p.validator('return_', pre=True)
     # pylint:disable=no-self-argument

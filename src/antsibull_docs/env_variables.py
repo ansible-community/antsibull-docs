@@ -5,9 +5,12 @@
 # SPDX-FileCopyrightText: 2022, Ansible Project
 """Environment variable handling."""
 
+from __future__ import annotations
+
 import os
 import os.path
 import typing as t
+from collections.abc import Generator, Mapping
 
 from antsibull_core import yaml
 
@@ -16,13 +19,13 @@ from .docs_parsing import AnsibleCollectionMetadata
 
 class EnvironmentVariableInfo:
     name: str
-    description: t.Optional[t.List[str]]
-    plugins: t.Dict[str, t.List[str]]  # maps plugin_type to lists of plugin FQCNs
+    description: list[str] | None
+    plugins: dict[str, list[str]]  # maps plugin_type to lists of plugin FQCNs
 
     def __init__(self,
                  name: str,
-                 description: t.Optional[t.List[str]] = None,
-                 plugins: t.Optional[t.Dict[str, t.List[str]]] = None):
+                 description: list[str] | None = None,
+                 plugins: dict[str, list[str]] | None = None):
         self.name = name
         self.description = description
         self.plugins = plugins or {}
@@ -32,7 +35,7 @@ class EnvironmentVariableInfo:
 
 
 def load_ansible_config(ansible_builtin_metadata: AnsibleCollectionMetadata
-                        ) -> t.Mapping[str, t.Mapping[str, t.Any]]:
+                        ) -> Mapping[str, Mapping[str, t.Any]]:
     """
     Load Ansible base configuration (``lib/ansible/config/base.yml``).
 
@@ -42,8 +45,8 @@ def load_ansible_config(ansible_builtin_metadata: AnsibleCollectionMetadata
     return yaml.load_yaml_file(os.path.join(ansible_builtin_metadata.path, 'config', 'base.yml'))
 
 
-def _find_env_vars(options: t.Mapping[str, t.Mapping[str, t.Any]]
-                   ) -> t.Generator[t.Tuple[str, t.Optional[t.List[str]]], None, None]:
+def _find_env_vars(options: Mapping[str, Mapping[str, t.Any]]
+                   ) -> Generator[tuple[str, list[str] | None], None, None]:
     for _, option_data in options.items():
         if isinstance(option_data.get('env'), list):
             description = option_data.get('description')
@@ -60,15 +63,15 @@ def _find_env_vars(options: t.Mapping[str, t.Mapping[str, t.Any]]
             yield from _find_env_vars(option_data['suboptions'])
 
 
-def _collect_env_vars_and_descriptions(plugin_info: t.Mapping[str, t.Mapping[str, t.Any]],
-                                       core_envs: t.Set[str],
-                                       ) -> t.Tuple[t.Mapping[str, EnvironmentVariableInfo],
-                                                    t.Mapping[str, t.List[t.List[str]]]]:
-    other_variables: t.Dict[str, EnvironmentVariableInfo] = {}
-    other_variable_description: t.Dict[str, t.List[t.List[str]]] = {}
+def _collect_env_vars_and_descriptions(plugin_info: Mapping[str, Mapping[str, t.Any]],
+                                       core_envs: set[str],
+                                       ) -> tuple[Mapping[str, EnvironmentVariableInfo],
+                                                  Mapping[str, list[list[str]]]]:
+    other_variables: dict[str, EnvironmentVariableInfo] = {}
+    other_variable_description: dict[str, list[list[str]]] = {}
     for plugin_type, plugins in plugin_info.items():
         for plugin_name, plugin_data in plugins.items():
-            plugin_options: t.Mapping[str, t.Mapping[str, t.Any]] = (
+            plugin_options: Mapping[str, Mapping[str, t.Any]] = (
                 (plugin_data.get('doc') or {}).get('options') or {}
             )
             for env_var, env_var_description in _find_env_vars(plugin_options):
@@ -85,12 +88,12 @@ def _collect_env_vars_and_descriptions(plugin_info: t.Mapping[str, t.Mapping[str
     return other_variables, other_variable_description
 
 
-def _augment_env_var_descriptions(other_variables: t.Mapping[str, EnvironmentVariableInfo],
-                                  other_variable_description: t.Mapping[str, t.List[t.List[str]]],
+def _augment_env_var_descriptions(other_variables: Mapping[str, EnvironmentVariableInfo],
+                                  other_variable_description: Mapping[str, list[list[str]]],
                                   ) -> None:
     for variable, variable_info in other_variables.items():
         if other_variable_description[variable]:
-            value: t.Optional[t.List[str]] = other_variable_description[variable][0]
+            value: list[str] | None = other_variable_description[variable][0]
             for other_value in other_variable_description[variable]:
                 if value != other_value:
                     value = [
@@ -101,9 +104,9 @@ def _augment_env_var_descriptions(other_variables: t.Mapping[str, EnvironmentVar
             variable_info.description = value
 
 
-def collect_referenced_environment_variables(plugin_info: t.Mapping[str, t.Mapping[str, t.Any]],
-                                             ansible_config: t.Mapping[str, t.Mapping[str, t.Any]],
-                                             ) -> t.Mapping[str, EnvironmentVariableInfo]:
+def collect_referenced_environment_variables(plugin_info: Mapping[str, Mapping[str, t.Any]],
+                                             ansible_config: Mapping[str, Mapping[str, t.Any]],
+                                             ) -> Mapping[str, EnvironmentVariableInfo]:
     """
     Collect referenced environment variables that are not defined in the ansible-core
     configuration.

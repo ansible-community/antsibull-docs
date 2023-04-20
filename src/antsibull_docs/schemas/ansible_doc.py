@@ -5,6 +5,8 @@
 # SPDX-FileCopyrightText: 2021, Ansible Project
 """Compatibility package."""
 
+from __future__ import annotations
+
 import warnings
 
 # This module is just a backwards compatible location for ansible_doc so the wildcard

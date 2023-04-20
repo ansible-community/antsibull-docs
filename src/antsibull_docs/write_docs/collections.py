@@ -5,9 +5,11 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Output collection documentation."""
 
+from __future__ import annotations
+
 import asyncio
 import os
-import typing as t
+from collections.abc import Mapping
 
 import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context
@@ -26,7 +28,7 @@ from . import CollectionInfoT, _render_template
 mlog = log.fields(mod=__name__)
 
 
-def _parse_required_ansible(requires_ansible: str) -> t.List[str]:
+def _parse_required_ansible(requires_ansible: str) -> list[str]:
     result = []
     for specifier in reversed(sorted(
         SpecifierSet(requires_ansible),
@@ -50,7 +52,7 @@ def _parse_required_ansible(requires_ansible: str) -> t.List[str]:
 
 
 async def write_plugin_lists(collection_name: str,
-                             plugin_maps: t.Mapping[str, t.Mapping[str, str]],
+                             plugin_maps: Mapping[str, Mapping[str, str]],
                              template: Template,
                              dest_dir: str,
                              collection_meta: AnsibleCollectionMetadata,
@@ -122,9 +124,9 @@ async def write_plugin_lists(collection_name: str,
 
 async def output_indexes(collection_to_plugin_info: CollectionInfoT,
                          dest_dir: str,
-                         collection_metadata: t.Mapping[str, AnsibleCollectionMetadata],
-                         extra_docs_data: t.Mapping[str, CollectionExtraDocsInfoT],
-                         link_data: t.Mapping[str, CollectionLinks],
+                         collection_metadata: Mapping[str, AnsibleCollectionMetadata],
+                         extra_docs_data: Mapping[str, CollectionExtraDocsInfoT],
+                         link_data: Mapping[str, CollectionLinks],
                          collection_url: CollectionNameTransformer,
                          collection_install: CollectionNameTransformer,
                          squash_hierarchy: bool = False,
@@ -193,7 +195,7 @@ async def output_indexes(collection_to_plugin_info: CollectionInfoT,
 
 
 async def output_extra_docs(dest_dir: str,
-                            extra_docs_data: t.Mapping[str, CollectionExtraDocsInfoT],
+                            extra_docs_data: Mapping[str, CollectionExtraDocsInfoT],
                             squash_hierarchy: bool = False) -> None:
     """
     Write extra docs pages for the collections.

@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import enum
-from typing import List, Optional, Tuple, Union
 
 class ReportLevel(enum.Enum):
     INFO = 1
@@ -16,9 +15,9 @@ class ReportLevel(enum.Enum):
 class RstcheckConfig:
     def __init__(
         self,
-        report_level: Optional[ReportLevel] = ...,
-        ignore_directives: Optional[List[str]] = ...,
-        ignore_roles: Optional[List[str]] = ...,
-        ignore_substitutions: Optional[List[str]] = ...,
-        ignore_languages: Optional[List[str]] = ...,
+        report_level: ReportLevel | None = ...,
+        ignore_directives: list[str] | None = ...,
+        ignore_roles: list[str] | None = ...,
+        ignore_substitutions: list[str] | None = ...,
+        ignore_languages: list[str] | None = ...,
     ): ...

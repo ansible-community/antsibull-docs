@@ -16,8 +16,9 @@ Some definitions:
     what users would have to specify.
 """
 
+from __future__ import annotations
+
 import re
-import typing as t
 
 #: Format that a collection namespace and collection name must follow
 NAMESPACE_RE_STR = '[a-z0-9][a-z0-9_]+'
@@ -47,7 +48,7 @@ FQCN_STRICT_RE = re.compile(
 # 'a..c'               no       no              no
 
 
-def get_fqcn_parts(fqcn: str) -> t.Tuple[str, str, str]:
+def get_fqcn_parts(fqcn: str) -> tuple[str, str, str]:
     """
     Parse a fqcn into its three parts.
 

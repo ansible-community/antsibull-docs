@@ -76,9 +76,9 @@ class MailingList(p.BaseModel):
 
 
 class Communication(p.BaseModel):
-    irc_channels: t.List[IRCChannel] = []
-    matrix_rooms: t.List[MatrixRoom] = []
-    mailing_lists: t.List[MailingList] = []
+    irc_channels: list[IRCChannel] = []
+    matrix_rooms: list[MatrixRoom] = []
+    mailing_lists: list[MailingList] = []
 
     @property
     def empty(self):
@@ -87,9 +87,9 @@ class Communication(p.BaseModel):
 
 class CollectionLinks(p.BaseModel):
     edit_on_github: t.Optional[CollectionEditOnGitHub] = None
-    authors: t.List[str] = []
+    authors: list[str] = []
     description: t.Optional[str] = None
     issue_tracker: t.Optional[str] = None
-    links: t.List[Link] = []
-    extra_links: t.List[Link] = []
+    links: list[Link] = []
+    extra_links: list[Link] = []
     communication: Communication = Communication()
