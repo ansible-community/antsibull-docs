@@ -76,6 +76,9 @@ codeqa = [
 coverage = [
     "coverage[toml]",
 ]
+formatters = [
+    "isort",
+]
 test = [
     "ansible-core >= 2.14.0",
     "asynctest",
@@ -96,6 +99,7 @@ typing = [
 dev = [
     # Used by nox sessions
     "antsibull-docs[codeqa]",
+    "antsibull-docs[formatters]",
     "antsibull-docs[test]",
     "antsibull-docs[typing]",
     # misc
