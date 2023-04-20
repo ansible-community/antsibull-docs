@@ -15,7 +15,6 @@ import typing as t
 import aiohttp
 import asyncio_pool  # type: ignore[import]
 from antsibull_core.collections import install_together
-from antsibull_core.compat import asyncio_run
 from antsibull_core.galaxy import CollectionDownloader
 from antsibull_core.logging import log
 from antsibull_core.venv import FakeVenvRunner
@@ -119,7 +118,7 @@ def generate_docs() -> int:
     with tempfile.TemporaryDirectory() as tmp_dir:
         # Retrieve the collections
         flog.fields(tmp_dir=tmp_dir).info('created tmpdir')
-        collection_tarballs = asyncio_run(
+        collection_tarballs = asyncio.run(
             retrieve(app_ctx.extra['collections'], collection_version,
                      tmp_dir, galaxy_server=app_ctx.galaxy_url,
                      collection_cache=app_ctx.collection_cache))
@@ -137,7 +136,7 @@ def generate_docs() -> int:
         flog.fields(collection_install_dir=collection_install_dir).debug('collection install dir')
 
         # Install the collections
-        asyncio_run(install_together(list(collection_tarballs.values()), collection_install_dir))
+        asyncio.run(install_together(list(collection_tarballs.values()), collection_install_dir))
         flog.notice('Finished installing collections')
 
         return generate_collection_docs(collection_dir, squash_hierarchy)

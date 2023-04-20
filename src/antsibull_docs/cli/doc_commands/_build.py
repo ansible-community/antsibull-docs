@@ -5,10 +5,10 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Utilities for various docs build subcommands."""
 
+import asyncio
 import textwrap
 import typing as t
 
-from antsibull_core.compat import asyncio_run
 from antsibull_core.logging import log
 from antsibull_core.venv import FakeVenvRunner, VenvRunner
 
@@ -88,7 +88,7 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
     app_ctx = app_context.app_ctx.get()
 
     # Get the info from the plugins
-    plugin_info, full_collection_metadata = asyncio_run(get_ansible_plugin_info(
+    plugin_info, full_collection_metadata = asyncio.run(get_ansible_plugin_info(
         venv, collection_dir, collection_names=collection_names))
     flog.notice('Finished parsing info from plugins and collections')
     # flog.fields(plugin_info=plugin_info).debug('Plugin data')
@@ -100,7 +100,7 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
         del collection_metadata['ansible.builtin']
 
     # Load collection routing information
-    collection_routing = asyncio_run(load_all_collection_routing(collection_metadata))
+    collection_routing = asyncio.run(load_all_collection_routing(collection_metadata))
     flog.notice('Finished loading collection routing information')
     # flog.fields(collection_routing=collection_routing).debug('Collection routing infos')
 
@@ -108,18 +108,18 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
     stubs_info = find_stubs(plugin_info, collection_routing)
     # flog.fields(stubs_info=stubs_info).debug('Stubs info')
 
-    new_plugin_info, nonfatal_errors = asyncio_run(normalize_all_plugin_info(plugin_info))
+    new_plugin_info, nonfatal_errors = asyncio.run(normalize_all_plugin_info(plugin_info))
     flog.fields(errors=len(nonfatal_errors)).notice('Finished data validation')
     augment_docs(new_plugin_info)
     flog.notice('Finished calculating new data')
 
     # Load collection extra docs data
-    extra_docs_data = asyncio_run(load_collections_extra_docs(
+    extra_docs_data = asyncio.run(load_collections_extra_docs(
         {name: data.path for name, data in collection_metadata.items()}))
     flog.debug('Finished getting collection extra docs data')
 
     # Load collection links data
-    link_data = asyncio_run(load_collections_links(
+    link_data = asyncio.run(load_collections_links(
         {name: data.path for name, data in collection_metadata.items()}))
     flog.debug('Finished getting collection link data')
 
@@ -153,30 +153,30 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
 
     # Only build top-level index if requested
     if create_indexes:
-        asyncio_run(output_collection_index(collection_to_plugin_info, collection_namespaces,
+        asyncio.run(output_collection_index(collection_to_plugin_info, collection_namespaces,
                                             dest_dir, collection_url=collection_url,
                                             collection_install=collection_install,
                                             breadcrumbs=breadcrumbs,
                                             for_official_docsite=for_official_docsite))
         flog.notice('Finished writing collection index')
-        asyncio_run(output_collection_namespace_indexes(collection_namespaces, dest_dir,
+        asyncio.run(output_collection_namespace_indexes(collection_namespaces, dest_dir,
                                                         collection_url=collection_url,
                                                         collection_install=collection_install,
                                                         breadcrumbs=breadcrumbs,
                                                         for_official_docsite=for_official_docsite))
         flog.notice('Finished writing collection namespace index')
-        asyncio_run(output_plugin_indexes(plugin_contents, dest_dir,
+        asyncio.run(output_plugin_indexes(plugin_contents, dest_dir,
                                           collection_url=collection_url,
                                           collection_install=collection_install,
                                           for_official_docsite=for_official_docsite))
         flog.notice('Finished writing plugin indexes')
-        asyncio_run(output_callback_indexes(callback_plugin_contents,
+        asyncio.run(output_callback_indexes(callback_plugin_contents,
                                             dest_dir, collection_url=collection_url,
                                             collection_install=collection_install,
                                             for_official_docsite=for_official_docsite))
         flog.notice('Finished writing callback plugin indexes')
 
-    asyncio_run(output_indexes(collection_to_plugin_info, dest_dir,
+    asyncio.run(output_indexes(collection_to_plugin_info, dest_dir,
                                collection_url=collection_url,
                                collection_install=collection_install,
                                collection_metadata=collection_metadata,
@@ -187,7 +187,7 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
                                for_official_docsite=for_official_docsite))
     flog.notice('Finished writing indexes')
 
-    asyncio_run(output_all_plugin_stub_rst(stubs_info, dest_dir,
+    asyncio.run(output_all_plugin_stub_rst(stubs_info, dest_dir,
                                            collection_url=collection_url,
                                            collection_install=collection_install,
                                            collection_metadata=collection_metadata,
@@ -196,7 +196,7 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
                                            for_official_docsite=for_official_docsite))
     flog.debug('Finished writing plugin stubs')
 
-    asyncio_run(output_all_plugin_rst(collection_to_plugin_info, new_plugin_info,
+    asyncio.run(output_all_plugin_rst(collection_to_plugin_info, new_plugin_info,
                                       nonfatal_errors, dest_dir,
                                       collection_url=collection_url,
                                       collection_install=collection_install,
@@ -207,11 +207,11 @@ def generate_docs_for_all_collections(venv: t.Union[VenvRunner, FakeVenvRunner],
                                       for_official_docsite=for_official_docsite))
     flog.debug('Finished writing plugin docs')
 
-    asyncio_run(output_extra_docs(dest_dir, extra_docs_data,
+    asyncio.run(output_extra_docs(dest_dir, extra_docs_data,
                                   squash_hierarchy=squash_hierarchy))
     flog.debug('Finished writing extra docs')
 
-    asyncio_run(output_environment_variables(dest_dir, referenced_env_vars,
+    asyncio.run(output_environment_variables(dest_dir, referenced_env_vars,
                                              squash_hierarchy=squash_hierarchy))
     flog.debug('Finished writing environment variables')
     return 0

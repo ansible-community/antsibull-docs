@@ -15,7 +15,6 @@ import aiohttp
 import asyncio_pool  # type: ignore[import]
 from antsibull_core.ansible_core import get_ansible_core
 from antsibull_core.collections import install_together
-from antsibull_core.compat import asyncio_run
 from antsibull_core.dependency_files import DepsFile
 from antsibull_core.galaxy import CollectionDownloader
 from antsibull_core.logging import log
@@ -111,7 +110,7 @@ def generate_docs() -> int:
     with tempfile.TemporaryDirectory() as tmp_dir:
         # Retrieve ansible-core and the collections
         flog.fields(tmp_dir=tmp_dir).info('created tmpdir')
-        collection_tarballs = asyncio_run(
+        collection_tarballs = asyncio.run(
             retrieve(ansible_core_version, collections, tmp_dir,
                      galaxy_server=app_ctx.galaxy_url,
                      ansible_core_source=app_ctx.extra['ansible_core_source'],
@@ -142,7 +141,7 @@ def generate_docs() -> int:
         flog.fields(collection_install_dir=collection_install_dir).debug('collection install dir')
 
         # Install the collections
-        asyncio_run(install_together(list(collection_tarballs.values()), collection_install_dir))
+        asyncio.run(install_together(list(collection_tarballs.values()), collection_install_dir))
         flog.notice('Finished installing collections')
 
         # Create venv for ansible-core

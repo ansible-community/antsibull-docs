@@ -1,0 +1,4 @@
+---
+minor_changes:
+  - "Remove residual compatability code for Python 3.6 and 3.7
+    (https://github.com/ansible-community/antsibull-docs/pulls/70)."
