@@ -1,0 +1,2 @@
+breaking_changes:
+  - "Disable flatmapping for all collections except community.general < 6.0.0 and community.network < 5.0.0. If you need flatmapping back for your collection, please create a feature request to allow re-enabling it for specific collections (https://github.com/ansible-community/antsibull-docs/pull/134)."

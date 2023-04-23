@@ -10,12 +10,12 @@ __metaclass__ = type
 
 DOCUMENTATION = '''
 ---
-module: foo2
+module: foo3
 author:
     - "Another one (@ansible-community)"
-short_description: Another foo
+short_description: A sub-foo
 description:
-    - Foo bar.
+    - Foo sub bar.
     - See O(ns2.col.foo#role:main:foo_param_1) for a random role parameter reference. And
       O(ns2.col.foo#role:main:foo_param_2=42) for one with a value.
 options:
@@ -46,9 +46,9 @@ attributes:
 '''
 
 EXAMPLES = '''
-- name: Do some foo
-  ns2.col.foo2:
-    bar: foo
+- name: Do some foobar
+  ns2.col.sub.foo3:
+    bar: baz
 '''
 
 RETURN = '''

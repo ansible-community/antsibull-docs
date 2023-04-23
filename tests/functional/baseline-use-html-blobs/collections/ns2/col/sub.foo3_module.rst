@@ -2,7 +2,7 @@
 .. Document meta
 
 :orphan:
-:github_url: https://github.com/ansible-community/antsibull-docs/edit/main/tests/functional/collections/ansible_collections/ns2/col/plugins/modules/foo2.py?description=%23%23%23%23%23%20SUMMARY%0A%3C!---%20Your%20description%20here%20--%3E%0A%0A%0A%23%23%23%23%23%20ISSUE%20TYPE%0A-%20Docs%20Pull%20Request%0A%0A%2Blabel:%20docsite_pr
+:github_url: https://github.com/ansible-community/antsibull-docs/edit/main/tests/functional/collections/ansible_collections/ns2/col/plugins/modules/sub/foo3.py?description=%23%23%23%23%23%20SUMMARY%0A%3C!---%20Your%20description%20here%20--%3E%0A%0A%0A%23%23%23%23%23%20ISSUE%20TYPE%0A-%20Docs%20Pull%20Request%0A%0A%2Blabel:%20docsite_pr
 
 .. |antsibull-internal-nbsp| unicode:: 0xA0
     :trim:
@@ -27,7 +27,7 @@
 
 .. Anchors
 
-.. _ansible_collections.ns2.col.foo2_module:
+.. _ansible_collections.ns2.col.sub.foo3_module:
 
 .. Anchors: short name for ansible.builtin
 
@@ -37,8 +37,8 @@
 
 .. Title
 
-ns2.col.foo2 module -- Another foo
-++++++++++++++++++++++++++++++++++
+ns2.col.sub.foo3 module -- A sub-foo
+++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -47,7 +47,7 @@ ns2.col.foo2 module -- Another foo
 
     To install it, use: :code:`ansible-galaxy collection install ns2.col`.
 
-    To use it in a playbook, specify: :code:`ns2.col.foo2`.
+    To use it in a playbook, specify: :code:`ns2.col.sub.foo3`.
 
 .. version_added
 
@@ -64,7 +64,7 @@ Synopsis
 
 .. Description
 
-- Foo bar.
+- Foo sub bar.
 - See \ :ansopt:`ns2.col.foo#role:main:foo\_param\_1`\  for a random role parameter reference. And \ :ansopt:`ns2.col.foo#role:main:foo\_param\_2=42`\  for one with a value.
 
 
@@ -83,51 +83,33 @@ Synopsis
 Parameters
 ----------
 
-.. rst-class:: ansible-option-table
+.. raw:: html
 
-.. list-table::
-  :width: 100%
-  :widths: auto
-  :header-rows: 1
+  <table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
+  <thead>
+  <tr class="row-odd">
+    <th class="head"><p>Parameter</p></th>
+    <th class="head"><p>Comments</p></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr class="row-even">
+    <td><div class="ansible-option-cell">
+      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
+      <p class="ansible-option-title"><strong>bar</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <p class="ansible-option-type-line">
+        <span class="ansible-option-type">string</span>
+      </p>
+    </div></td>
+    <td><div class="ansible-option-cell">
+      <p>Some bar.</p>
+      <p>See <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="../../ns2/col/foo_role.html#parameter-main--foo_param_1"><span class="std std-ref"><span class="pre">foo_param_1</span></span></a></strong></code> for a random role parameter reference. And <code class="ansible-option-value literal notranslate"><a class="reference internal" href="../../ns2/col/foo_role.html#parameter-main--foo_param_2"><span class="std std-ref"><span class="pre">foo_param_2=42</span></span></a></code> for one with a value.</p>
+    </div></td>
+  </tr>
+  </tbody>
+  </table>
 
-  * - Parameter
-    - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-bar"></div>
-
-      .. _ansible_collections.ns2.col.foo2_module__parameter-bar:
-
-      .. rst-class:: ansible-option-title
-
-      **bar**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Some bar.
-
-      See \ :ansopt:`ns2.col.foo#role:main:foo\_param\_1`\  for a random role parameter reference. And \ :ansopt:`ns2.col.foo#role:main:foo\_param\_2=42`\  for one with a value.
-
-
-      .. raw:: html
-
-        </div>
 
 
 .. Attributes
@@ -152,7 +134,7 @@ Attributes
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="attribute-action_group"></div>
 
-      .. _ansible_collections.ns2.col.foo2_module__attribute-action_group:
+      .. _ansible_collections.ns2.col.sub.foo3_module__attribute-action_group:
 
       .. rst-class:: ansible-option-title
 
@@ -194,7 +176,7 @@ Attributes
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="attribute-check_mode"></div>
 
-      .. _ansible_collections.ns2.col.foo2_module__attribute-check_mode:
+      .. _ansible_collections.ns2.col.sub.foo3_module__attribute-check_mode:
 
       .. rst-class:: ansible-option-title
 
@@ -236,7 +218,7 @@ Attributes
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="attribute-diff_mode"></div>
 
-      .. _ansible_collections.ns2.col.foo2_module__attribute-diff_mode:
+      .. _ansible_collections.ns2.col.sub.foo3_module__attribute-diff_mode:
 
       .. rst-class:: ansible-option-title
 
@@ -278,7 +260,7 @@ Attributes
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="attribute-platform"></div>
 
-      .. _ansible_collections.ns2.col.foo2_module__attribute-platform:
+      .. _ansible_collections.ns2.col.sub.foo3_module__attribute-platform:
 
       .. rst-class:: ansible-option-title
 
@@ -330,9 +312,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Do some foo
-      ns2.col.foo2:
-        bar: foo
+    - name: Do some foobar
+      ns2.col.sub.foo3:
+        bar: baz
 
 
 
@@ -346,63 +328,35 @@ Return Values
 -------------
 Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
 
-.. rst-class:: ansible-option-table
+.. raw:: html
 
-.. list-table::
-  :width: 100%
-  :widths: auto
-  :header-rows: 1
-
-  * - Key
-    - Description
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-bar"></div>
-
-      .. _ansible_collections.ns2.col.foo2_module__return-bar:
-
-      .. rst-class:: ansible-option-title
-
-      **bar**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#return-bar" title="Permalink to this return value"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Some bar.
-
-      Referencing myself as \ :ansretval:`ns2.col.foo2#module:bar`\ .
-
-      Do not confuse with \ :ansopt:`ns2.col.foo2#module:bar`\ .
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-returned-bold:`Returned:` success
-
-      .. rst-class:: ansible-option-line
-      .. rst-class:: ansible-option-sample
-
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"baz"`
-
-
-      .. raw:: html
-
-        </div>
+  <table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
+  <thead>
+  <tr class="row-odd">
+    <th class="head"><p>Key</p></th>
+    <th class="head"><p>Description</p></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr class="row-even">
+    <td><div class="ansible-option-cell">
+      <div class="ansibleOptionAnchor" id="return-bar"></div>
+      <p class="ansible-option-title"><strong>bar</strong></p>
+      <a class="ansibleOptionLink" href="#return-bar" title="Permalink to this return value"></a>
+      <p class="ansible-option-type-line">
+        <span class="ansible-option-type">string</span>
+      </p>
+    </div></td>
+    <td><div class="ansible-option-cell">
+      <p>Some bar.</p>
+      <p>Referencing myself as <code class="ansible-return-value literal notranslate"><a class="reference internal" href="#return-bar"><span class="std std-ref"><span class="pre">bar</span></span></a></code>.</p>
+      <p>Do not confuse with <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="#parameter-bar"><span class="std std-ref"><span class="pre">bar</span></span></a></strong></code>.</p>
+      <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> success</p>
+      <p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <code class="ansible-value literal notranslate ansible-option-sample">&#34;baz&#34;</code></p>
+    </div></td>
+  </tr>
+  </tbody>
+  </table>
 
 
 

@@ -11,6 +11,7 @@ import json
 import typing as t
 from collections.abc import Mapping, MutableMapping
 
+import semantic_version as semver
 from antsibull_core.logging import log
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
 
@@ -36,6 +37,24 @@ async def _call_ansible_doc(
         env=env,
     )
     return json.loads(_filter_non_json_lines(p.stdout)[0])
+
+
+_MIN_UNFLATMAP_VERSIONS: Mapping[str, semver.Version] = {
+    'community.general': semver.Version('6.0.0'),
+    'community.network': semver.Version('5.0.0'),
+}
+
+
+def should_flatmap(collection: str,
+                   collection_metadata: Mapping[str, AnsibleCollectionMetadata]) -> bool:
+    """
+    Decide whether a collection should use flatmapping or not.
+    """
+    meta = collection_metadata.get(collection)
+    min_version = _MIN_UNFLATMAP_VERSIONS.get(collection)
+    if meta is not None and meta.version is not None and min_version is not None:
+        return semver.Version(meta.version) < min_version
+    return False
 
 
 async def get_ansible_plugin_info(venv: VenvRunner | FakeVenvRunner,
@@ -74,6 +93,9 @@ async def get_ansible_plugin_info(venv: VenvRunner | FakeVenvRunner,
     else:
         ansible_doc_output = await _call_ansible_doc(venv, env)
 
+    flog.debug('Retrieving collection metadata')
+    collection_metadata = await get_collection_metadata(venv, env, collection_names)
+
     flog.debug('Processing plugin documentation')
     plugin_map: MutableMapping[str, MutableMapping[str, t.Any]] = {}
     for plugin_type in DOCUMENTABLE_PLUGINS:
@@ -93,14 +115,16 @@ async def get_ansible_plugin_info(venv: VenvRunner | FakeVenvRunner,
                 namespace, collection, name = get_fqcn_parts(fqcn)
                 collection = f'{namespace}.{collection}'
 
-                # ansible-core devel branch will soon start to emit non-flattened FQCNs. This
-                # needs to be handled better in antsibull-docs, but for now we modify the output
-                # of --metadata-dump to conform to the output we had before (through
-                # `ansible-doc --json` or the ansible-internal backend).
-                # (https://github.com/ansible/ansible/pull/74963#issuecomment-1041580237)
-                dot_position = name.rfind('.')
-                if dot_position >= 0:
-                    name = name[dot_position + 1:]
+                if should_flatmap(collection, collection_metadata):
+                    # ansible-core devel branch will soon start to emit non-flattened FQCNs. This
+                    # needs to be handled better in antsibull-docs, but for now we modify the output
+                    # of --metadata-dump to conform to the output we had before (through
+                    # `ansible-doc --json` or the ansible-internal backend).
+                    # (https://github.com/ansible/ansible/pull/74963#issuecomment-1041580237)
+                    dot_position = name.rfind('.')
+                    if dot_position >= 0:
+                        name = name[dot_position + 1:]
+
                 fqcn = f'{collection}.{name}'
             except ValueError:
                 name = plugin_name
@@ -119,9 +143,6 @@ async def get_ansible_plugin_info(venv: VenvRunner | FakeVenvRunner,
                 continue
 
             plugin_type_data[fqcn] = plugin_data
-
-    flog.debug('Retrieving collection metadata')
-    collection_metadata = await get_collection_metadata(venv, env, collection_names)
 
     flog.debug('Leave')
     return (plugin_map, collection_metadata)
