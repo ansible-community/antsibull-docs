@@ -11,7 +11,6 @@ import asyncio
 import os
 import os.path
 import tempfile
-import typing as t
 
 import aiohttp
 import asyncio_pool  # type: ignore[import]
@@ -25,10 +24,6 @@ from antsibull_core.venv import FakeVenvRunner, VenvRunner
 from ... import app_context
 from ._build import generate_docs_for_all_collections
 
-if t.TYPE_CHECKING:
-    import semantic_version as semver
-
-
 mlog = log.fields(mod=__name__)
 
 
@@ -38,7 +33,7 @@ async def retrieve(collections: list[str],
                    ansible_core_source: str | None = None,
                    collection_cache: str | None = None,
                    use_installed_ansible_core: bool = False,
-                   ) -> dict[str, semver.Version]:
+                   ) -> dict[str, str]:
     """
     Download ansible-core and the latest versions of the collections.
 
