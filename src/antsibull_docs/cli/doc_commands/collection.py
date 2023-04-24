@@ -12,7 +12,6 @@ import asyncio
 import os
 import os.path
 import tempfile
-import typing as t
 
 import aiohttp
 import asyncio_pool  # type: ignore[import]
@@ -23,10 +22,6 @@ from antsibull_core.venv import FakeVenvRunner
 
 from ... import app_context
 from ._build import generate_docs_for_all_collections
-
-if t.TYPE_CHECKING:
-    import semantic_version as semver
-
 
 mlog = log.fields(mod=__name__)
 
@@ -52,7 +47,7 @@ async def retrieve(collections: list[str],
                    collection_version: str | None,
                    tmp_dir: str,
                    galaxy_server: str,
-                   collection_cache: str | None = None) -> dict[str, semver.Version]:
+                   collection_cache: str | None = None) -> dict[str, str]:
     """
     Download collections, with specified version if applicable.
 
