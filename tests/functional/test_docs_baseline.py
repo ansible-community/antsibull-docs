@@ -19,15 +19,15 @@ pytest.importorskip('ansible')
 
 TEST_CASES = [
     (
-        ['collection', '--use-current', 'ns.col1', 'ns.col2', 'ns2.col'],
+        ['collection', '--use-current', 'ns.col1', 'ns.col2', 'ns2.col', 'ns2.flatcol'],
         'baseline-default',
     ),
     (
-        ['collection', '--use-current', 'ns.col1', 'ns.col2', 'ns2.col', '--no-breadcrumbs'],
+        ['collection', '--use-current', 'ns.col1', 'ns.col2', 'ns2.col', 'ns2.flatcol', '--no-breadcrumbs'],
         'baseline-no-breadcrumbs',
     ),
     (
-        ['collection', '--use-current', 'ns.col1', 'ns2.col', '--fail-on-error', '--no-indexes'],
+        ['collection', '--use-current', 'ns.col1', 'ns2.col', 'ns2.flatcol', '--fail-on-error', '--no-indexes'],
         'baseline-no-indexes',
     ),
     (

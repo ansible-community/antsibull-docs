@@ -160,6 +160,8 @@ TEST_CASES = [
         'col2',
         3,
         [
+            'docs/docsite/config.yml:0:0: bla: extra fields not permitted (type=value_error.extra)',
+            'docs/docsite/config.yml:0:0: flatmap: value could not be parsed to a boolean (type=type_error.bool)',
             'docs/docsite/extra-docs.yml:0:0: Section #0 has no content',
             'docs/docsite/extra-docs.yml:0:0: Section #1 has no "title" entry',
             'docs/docsite/extra-docs.yml:0:0: Toctree entry in section #0 is not a list',
@@ -200,6 +202,12 @@ TEST_CASES = [
     (
         'ns2',
         'col',
+        0,
+        [],
+    ),
+    (
+        'ns2',
+        'flatcol',
         0,
         [],
     ),

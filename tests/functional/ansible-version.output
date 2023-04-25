@@ -1,4 +1,4 @@
-ansible [core 2.16.0.dev0] (devel f4615d69ad) last updated 2023/04/23 14:20:53 (GMT +200)
+ansible [core 2.16.0.dev0] (devel abc58c026b) last updated 2023/04/25 07:58:13 (GMT +200)
   config file = None
   configured module search path = ['<<<<<HOME>>>>>/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
   ansible python module location = <<<<<ANSIBLE>>>>>

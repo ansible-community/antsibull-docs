@@ -13,6 +13,7 @@ import textwrap
 from antsibull_core.logging import log
 
 from ... import app_context
+from ...collection_config import lint_collection_config
 from ...collection_links import lint_collection_links
 from ...lint_extra_docs import lint_collection_extra_docs_files
 from ...lint_plugin_docs import lint_collection_plugin_docs
@@ -38,8 +39,11 @@ def lint_collection_docs() -> int:
     skip_rstcheck = app_ctx.extra['skip_rstcheck']
     disallow_semantic_markup = app_ctx.extra['disallow_semantic_markup']
 
+    flog.notice('Linting docs config file')
+    errors = lint_collection_config(collection_root)
+
     flog.notice('Linting extra docs files')
-    errors = lint_collection_extra_docs_files(collection_root)
+    errors.extend(lint_collection_extra_docs_files(collection_root))
 
     flog.notice('Linting collection links')
     errors.extend(lint_collection_links(collection_root))

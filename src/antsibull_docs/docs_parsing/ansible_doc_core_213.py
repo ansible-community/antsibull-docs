@@ -39,6 +39,8 @@ async def _call_ansible_doc(
     return json.loads(_filter_non_json_lines(p.stdout)[0])
 
 
+# Versions when flatmapping was removed from collections, resp. when an explicit
+# docs/docsite/config.yml file was added.
 _MIN_UNFLATMAP_VERSIONS: Mapping[str, semver.Version] = {
     'community.general': semver.Version('6.0.0'),
     'community.network': semver.Version('5.0.0'),
@@ -50,11 +52,20 @@ def should_flatmap(collection: str,
     """
     Decide whether a collection should use flatmapping or not.
     """
+    # We need the collection metadata to do decide this. If we don't have it, assume that
+    # flatmapping is not used.
     meta = collection_metadata.get(collection)
+    if meta is None:
+        return False
+
+    # First see whether we can decide this by collection name and version. This is necessary
+    # for older collections which were using flatmapping but did not have a config file.
     min_version = _MIN_UNFLATMAP_VERSIONS.get(collection)
-    if meta is not None and meta.version is not None and min_version is not None:
+    if meta.version is not None and min_version is not None:
         return semver.Version(meta.version) < min_version
-    return False
+
+    # The main resolution mechanism is asking the config file.
+    return meta.docs_config.flatmap
 
 
 async def get_ansible_plugin_info(venv: VenvRunner | FakeVenvRunner,

@@ -39,9 +39,9 @@ make_ansible_doc_extract() {
 }
 
 
-make_docsite_baseline baseline-default ns.col1 ns.col2 ns2.col
-make_docsite_baseline baseline-no-breadcrumbs ns.col1 ns.col2 ns2.col --no-breadcrumbs
-make_docsite_baseline baseline-no-indexes ns.col1 ns2.col --fail-on-error --no-indexes
+make_docsite_baseline baseline-default ns.col1 ns.col2 ns2.col ns2.flatcol
+make_docsite_baseline baseline-no-breadcrumbs ns.col1 ns.col2 ns2.col ns2.flatcol --no-breadcrumbs
+make_docsite_baseline baseline-no-indexes ns.col1 ns2.col ns2.flatcol --fail-on-error --no-indexes
 make_docsite_baseline baseline-use-html-blobs ns2.col --fail-on-error --use-html-blobs
 make_docsite_baseline baseline-squash-hierarchy ns2.col --fail-on-error --squash-hierarchy
 
@@ -52,3 +52,4 @@ make_ansible_doc_extract all
 make_ansible_doc_extract ns.col1 ns.col1
 make_ansible_doc_extract ns.col2 ns.col2
 make_ansible_doc_extract ns2.col ns2.col
+make_ansible_doc_extract ns2.flatcol ns2.flatcol

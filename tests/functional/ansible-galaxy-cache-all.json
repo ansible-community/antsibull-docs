@@ -8,6 +8,9 @@
   },
   "ns2.col": {
    "version": "2.1.0"
+  },
+  "ns2.flatcol": {
+   "version": "*"
   }
  }
 }
