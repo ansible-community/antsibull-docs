@@ -137,7 +137,7 @@ jobs:
       - name: Upload coverage
         uses: codecov/codecov-action@v3
         with:
-          working-directory: antsibull-docs
+          directory: antsibull-docs
 
   build-stable:
     name: 'Build stable docsite'
@@ -193,7 +193,7 @@ jobs:
       - name: Upload coverage
         uses: codecov/codecov-action@v3
         with:
-          working-directory: antsibull-docs
+          directory: antsibull-docs
 
   build-devel:
     name: 'Build devel docsite'
@@ -249,4 +249,4 @@ jobs:
       - name: Upload coverage
         uses: codecov/codecov-action@v3
         with:
-          working-directory: antsibull-docs
+          directory: antsibull-docs
