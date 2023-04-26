@@ -77,6 +77,7 @@ Modules
 
 * :ref:`foo module <ansible_collections.ns2.col.foo_module>` -- Do some foo \ :ansopt:`ns2.col.foo#module:bar`\ 
 * :ref:`foo2 module <ansible_collections.ns2.col.foo2_module>` -- Another foo
+* :ref:`sub.foo3 module <ansible_collections.ns2.col.sub.foo3_module>` -- A sub-foo
 
 
 Become Plugins

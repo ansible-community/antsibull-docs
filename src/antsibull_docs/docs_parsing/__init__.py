@@ -11,6 +11,8 @@ import os
 
 from antsibull_core.venv import FakeVenvRunner, VenvRunner
 
+from ..schemas.collection_config import CollectionConfig
+
 #: Clear Ansible environment variables that set paths where plugins could be found.
 ANSIBLE_PATH_ENVIRON: dict[str, str] = os.environ.copy()
 ANSIBLE_PATH_ENVIRON.update({'ANSIBLE_COLLECTIONS_PATH': '/dev/null',
@@ -75,18 +77,21 @@ class AnsibleCollectionMetadata:
     path: str
     version: str | None
     requires_ansible: str | None
+    docs_config: CollectionConfig
 
     def __init__(self,
                  path: str,
+                 docs_config: CollectionConfig,
                  version: str | None = None,
                  requires_ansible: str | None = None):
         self.path = path
         self.version = version
         self.requires_ansible = requires_ansible
+        self.docs_config = docs_config
 
     def __repr__(self):
         return f'AnsibleCollectionMetadata({repr(self.path)}, {repr(self.version)})'
 
     @classmethod
     def empty(cls, path='.'):
-        return cls(path=path, version=None)
+        return cls(path=path, docs_config=CollectionConfig.parse_obj({}), version=None)

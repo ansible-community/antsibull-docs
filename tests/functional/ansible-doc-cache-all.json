@@ -1436,7 +1436,177 @@
      },
      "short_description": "Another foo"
     },
-    "examples": "\n- name: Do some foo\n  ns2.col.foo:\n    foo: '{{ foo }}'\n    bar:\n      - 1\n      - 2\n      - 3\n    subfoo:\n      foo: hoo!\n",
+    "examples": "\n- name: Do some foo\n  ns2.col.foo2:\n    bar: foo\n",
+    "metadata": null,
+    "return": {
+     "bar": {
+      "description": [
+       "Some bar.",
+       "Referencing myself as RV(bar).",
+       "Do not confuse with O(bar)."
+      ],
+      "returned": "success",
+      "sample": "baz",
+      "type": "str"
+     }
+    }
+   },
+   "ns2.col.sub.foo3": {
+    "doc": {
+     "attributes": {
+      "action_group": {
+       "description": "Use C(group/ns2.col.foo_group) or C(group/ns2.col.bar_group) in C(module_defaults) to set defaults for this module.",
+       "membership": [
+        "ns2.col.bar_group",
+        "ns2.col.foo_group"
+       ],
+       "support": "full"
+      },
+      "check_mode": {
+       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "support": "full"
+      },
+      "diff_mode": {
+       "description": "Will return details on what has changed (or possibly needs changing in check_mode), when in diff mode",
+       "support": "N/A"
+      },
+      "platform": {
+       "description": "Target OS/families that can be operated against",
+       "platforms": "posix",
+       "support": "partial"
+      }
+     },
+     "author": [
+      "Another one (@ansible-community)"
+     ],
+     "collection": "ns2.col",
+     "description": [
+      "Foo sub bar.",
+      "See O(ns2.col.foo#role:main:foo_param_1) for a random role parameter reference. And O(ns2.col.foo#role:main:foo_param_2=42) for one with a value."
+     ],
+     "filename": "ansible_collections/ns2/col/plugins/modules/sub/foo3.py",
+     "has_action": false,
+     "module": "foo3",
+     "options": {
+      "bar": {
+       "description": [
+        "Some bar.",
+        "See O(ns2.col.foo#role:main:foo_param_1) for a random role parameter reference. And O(ns2.col.foo#role:main:foo_param_2=42) for one with a value."
+       ],
+       "type": "str"
+      }
+     },
+     "short_description": "A sub-foo"
+    },
+    "examples": "\n- name: Do some foobar\n  ns2.col.sub.foo3:\n    bar: baz\n",
+    "metadata": null,
+    "return": {
+     "bar": {
+      "description": [
+       "Some bar.",
+       "Referencing myself as RV(bar).",
+       "Do not confuse with O(bar)."
+      ],
+      "returned": "success",
+      "sample": "baz",
+      "type": "str"
+     }
+    }
+   },
+   "ns2.flatcol.foo": {
+    "doc": {
+     "author": [
+      "Ansible Core Team",
+      "Someone else (@ansible)"
+     ],
+     "collection": "ns2.flatcol",
+     "description": [
+      "Does some foo on the remote host.",
+      "Whether foo is magic or not has not yet been determined."
+     ],
+     "filename": "ansible_collections/ns2/flatcol/plugins/modules/foo.py",
+     "has_action": false,
+     "module": "foo",
+     "options": {
+      "bar": {
+       "aliases": [
+        "baz"
+       ],
+       "description": [
+        "A bar.",
+        "Independent from O(foo).",
+        "Do not confuse with RV(bar)."
+       ],
+       "elements": "int",
+       "type": "list"
+      },
+      "foo": {
+       "description": "The foo source.",
+       "required": true,
+       "type": "str"
+      },
+      "subfoo": {
+       "description": "Some recursive foo.",
+       "suboptions": {
+        "foo": {
+         "description": [
+          "A sub foo.",
+          "Whatever.",
+          "Also required when O(subfoo) is specified when O(foo=bar) or V(baz)."
+         ],
+         "required": true,
+         "type": "str"
+        }
+       },
+       "type": "dict",
+       "version_added": "2.0.0",
+       "version_added_collection": "ns2.flatcol"
+      }
+     },
+     "short_description": "Do some foo O(bar)",
+     "version_added": "2.0.0",
+     "version_added_collection": "ns2.flatcol"
+    },
+    "examples": "\n- name: Do some foo\n  ns2.flatcol.foo:\n    foo: '{{ foo }}'\n    bar:\n      - 1\n      - 2\n      - 3\n    subfoo:\n      foo: hoo!\n",
+    "metadata": null,
+    "return": {
+     "bar": {
+      "description": [
+       "Some bar.",
+       "Referencing myself as RV(bar).",
+       "Do not confuse with O(bar)."
+      ],
+      "returned": "success",
+      "sample": "baz",
+      "type": "str"
+     }
+    }
+   },
+   "ns2.flatcol.sub.foo2": {
+    "doc": {
+     "author": [
+      "Another one (@ansible-community)"
+     ],
+     "collection": "ns2.flatcol",
+     "description": [
+      "Foo bar.",
+      "See O(ns2.flatcol.foo#role:main:foo_param_1) for a random role parameter reference. And O(ns2.flatcol.foo#role:main:foo_param_2=42) for one with a value."
+     ],
+     "filename": "ansible_collections/ns2/flatcol/plugins/modules/sub/foo2.py",
+     "has_action": false,
+     "module": "foo2",
+     "options": {
+      "bar": {
+       "description": [
+        "Some bar.",
+        "See O(ns2.flatcol.foo#role:main:foo_param_1) for a random role parameter reference. And O(ns2.flatcol.foo#role:main:foo_param_2=42) for one with a value."
+       ],
+       "type": "str"
+      }
+     },
+     "short_description": "Another foo"
+    },
+    "examples": "\n- name: Do some foo\n  ns2.flatcol.foo2:\n    bar: foo\n",
     "metadata": null,
     "return": {
      "bar": {

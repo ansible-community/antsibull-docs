@@ -331,14 +331,8 @@ Examples
 
     
     - name: Do some foo
-      ns2.col.foo:
-        foo: '{{ foo }}'
-        bar:
-          - 1
-          - 2
-          - 3
-        subfoo:
-          foo: hoo!
+      ns2.col.foo2:
+        bar: foo
 
 
 

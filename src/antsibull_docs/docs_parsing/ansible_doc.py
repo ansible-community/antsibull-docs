@@ -18,6 +18,7 @@ from antsibull_core.subprocess_util import CalledProcessError
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
 from packaging.version import Version as PypiVer
 
+from ..collection_config import get_ansible_core_config, load_collection_config
 from . import AnsibleCollectionMetadata
 
 if t.TYPE_CHECKING:
@@ -46,7 +47,8 @@ def _extract_ansible_builtin_metadata(stdout: str) -> AnsibleCollectionMetadata:
     if version is None:
         raise RuntimeError(
             f'Cannot extract ansible-core version from ansible --version output: {stdout}')
-    return AnsibleCollectionMetadata(path=path, version=version)
+    return AnsibleCollectionMetadata(
+        path=path, docs_config=get_ansible_core_config(), version=version)
 
 
 def parse_ansible_galaxy_collection_list(json_output: Mapping[str, t.Any],
@@ -101,8 +103,9 @@ async def get_collection_metadata(venv: VenvRunner | FakeVenvRunner,
     collection_list = parse_ansible_galaxy_collection_list(json_result, collection_names)
     for namespace, name, path, version in collection_list:
         collection_name = f'{namespace}.{name}'
+        collection_config = await load_collection_config(collection_name, path)
         collection_metadata[collection_name] = AnsibleCollectionMetadata(
-            path=path, version=version)
+            path=path, docs_config=collection_config, version=version)
 
     return collection_metadata
 
