@@ -215,6 +215,25 @@ def load_meta_runtime(collection_name: str,
     return meta_runtime
 
 
+def _add_symlink_redirects(collection_name: str,
+                           collection_metadata: AnsibleCollectionMetadata,
+                           plugin_routing_out: dict[str, dict[str, dict[str, t.Any]]]
+                           ) -> None:
+    for plugin_type in DOCUMENTABLE_PLUGINS:
+        directory_name = 'modules' if plugin_type == 'module' else plugin_type
+        directory_path = os.path.join(collection_metadata.path, 'plugins', directory_name)
+        plugin_type_routing = plugin_routing_out[plugin_type]
+
+        symlink_redirects = find_symlink_redirects(collection_name, plugin_type, directory_path)
+        for redirect_name, redirect_dst in symlink_redirects.items():
+            if redirect_name not in plugin_type_routing:
+                plugin_type_routing[redirect_name] = {}
+            if 'redirect' not in plugin_type_routing[redirect_name]:
+                plugin_type_routing[redirect_name]['redirect'] = redirect_dst
+            if plugin_type_routing[redirect_name]['redirect'] == redirect_dst:
+                plugin_type_routing[redirect_name]['redirect_is_symlink'] = True
+
+
 async def load_collection_routing(collection_name: str,
                                   collection_metadata: AnsibleCollectionMetadata
                                   ) -> dict[str, dict[str, dict[str, t.Any]]]:
@@ -237,19 +256,7 @@ async def load_collection_routing(collection_name: str,
         # (or need) to handle
         return plugin_routing_out
 
-    for plugin_type in DOCUMENTABLE_PLUGINS:
-        directory_name = 'modules' if plugin_type == 'module' else plugin_type
-        directory_path = os.path.join(collection_metadata.path, 'plugins', directory_name)
-        plugin_type_routing = plugin_routing_out[plugin_type]
-
-        symlink_redirects = find_symlink_redirects(collection_name, plugin_type, directory_path)
-        for redirect_name, redirect_dst in symlink_redirects.items():
-            if redirect_name not in plugin_type_routing:
-                plugin_type_routing[redirect_name] = {}
-            if 'redirect' not in plugin_type_routing[redirect_name]:
-                plugin_type_routing[redirect_name]['redirect'] = redirect_dst
-            if plugin_type_routing[redirect_name]['redirect'] == redirect_dst:
-                plugin_type_routing[redirect_name]['redirect_is_symlink'] = True
+    _add_symlink_redirects(collection_name, collection_metadata, plugin_routing_out)
 
     if collection_name in COLLECTIONS_WITH_FLATMAPPING:
         remove_flatmapping_artifacts(plugin_routing_out)
