@@ -27,27 +27,33 @@ mlog = log.fields(mod=__name__)
 
 
 def generate_collection_docs(collection_dir: str | None, squash_hierarchy: bool) -> int:
-    flog = mlog.fields(func='generate_current_docs')
-    flog.debug('Begin generating docs')
+    flog = mlog.fields(func="generate_current_docs")
+    flog.debug("Begin generating docs")
 
     app_ctx = app_context.app_ctx.get()
 
     venv = FakeVenvRunner()
 
     return generate_docs_for_all_collections(
-        venv, collection_dir, app_ctx.extra['dest_dir'], app_ctx.extra['collections'],
+        venv,
+        collection_dir,
+        app_ctx.extra["dest_dir"],
+        app_ctx.extra["collections"],
         create_indexes=app_ctx.indexes and not squash_hierarchy,
         squash_hierarchy=squash_hierarchy,
         breadcrumbs=app_ctx.breadcrumbs,
         use_html_blobs=app_ctx.use_html_blobs,
-        fail_on_error=app_ctx.extra['fail_on_error'])
+        fail_on_error=app_ctx.extra["fail_on_error"],
+    )
 
 
-async def retrieve(collections: list[str],
-                   collection_version: str | None,
-                   tmp_dir: str,
-                   galaxy_server: str,
-                   collection_cache: str | None = None) -> dict[str, str]:
+async def retrieve(
+    collections: list[str],
+    collection_version: str | None,
+    tmp_dir: str,
+    galaxy_server: str,
+    collection_cache: str | None = None,
+) -> dict[str, str]:
     """
     Download collections, with specified version if applicable.
 
@@ -60,7 +66,7 @@ async def retrieve(collections: list[str],
         versions match the criteria (latest compatible version known to galaxy).
     :returns: Map of collection name to directory it is in.
     """
-    collection_dir = os.path.join(tmp_dir, 'collections')
+    collection_dir = os.path.join(tmp_dir, "collections")
     os.mkdir(collection_dir, mode=0o700)
 
     requestors = {}
@@ -68,16 +74,21 @@ async def retrieve(collections: list[str],
     lib_ctx = app_context.lib_ctx.get()
     async with aiohttp.ClientSession() as aio_session:
         async with asyncio_pool.AioPool(size=lib_ctx.thread_max) as pool:
-            downloader = CollectionDownloader(aio_session, collection_dir,
-                                              galaxy_server=galaxy_server,
-                                              collection_cache=collection_cache)
+            downloader = CollectionDownloader(
+                aio_session,
+                collection_dir,
+                galaxy_server=galaxy_server,
+                collection_cache=collection_cache,
+            )
             for collection in collections:
                 if collection_version is None:
                     requestors[collection] = await pool.spawn(
-                        downloader.download_latest_matching(collection, '*'))
+                        downloader.download_latest_matching(collection, "*")
+                    )
                 else:
                     requestors[collection] = await pool.spawn(
-                        downloader.download(collection, collection_version))
+                        downloader.download(collection, collection_version)
+                    )
 
             responses = await asyncio.gather(*requestors.values())
             if collection_version is None:
@@ -98,42 +109,51 @@ def generate_docs() -> int:
     :returns: A return code for the program.  See :func:`antsibull.cli.antsibull_docs.main` for
         details on what each code means.
     """
-    flog = mlog.fields(func='generate_docs')
-    flog.debug('Begin processing docs')
+    flog = mlog.fields(func="generate_docs")
+    flog.debug("Begin processing docs")
 
     app_ctx = app_context.app_ctx.get()
 
-    squash_hierarchy: bool = app_ctx.extra['squash_hierarchy']
+    squash_hierarchy: bool = app_ctx.extra["squash_hierarchy"]
 
-    if app_ctx.extra['use_current']:
+    if app_ctx.extra["use_current"]:
         return generate_collection_docs(None, squash_hierarchy)
 
-    collection_version = app_ctx.extra['collection_version']
-    if collection_version == '@latest':
+    collection_version = app_ctx.extra["collection_version"]
+    if collection_version == "@latest":
         collection_version = None
 
     with tempfile.TemporaryDirectory() as tmp_dir:
         # Retrieve the collections
-        flog.fields(tmp_dir=tmp_dir).info('created tmpdir')
+        flog.fields(tmp_dir=tmp_dir).info("created tmpdir")
         collection_tarballs = asyncio.run(
-            retrieve(app_ctx.extra['collections'], collection_version,
-                     tmp_dir, galaxy_server=app_ctx.galaxy_url,
-                     collection_cache=app_ctx.collection_cache))
+            retrieve(
+                app_ctx.extra["collections"],
+                collection_version,
+                tmp_dir,
+                galaxy_server=app_ctx.galaxy_url,
+                collection_cache=app_ctx.collection_cache,
+            )
+        )
         # flog.fields(tarballs=collection_tarballs).debug('Download complete')
-        flog.notice('Finished retrieving tarballs')
+        flog.notice("Finished retrieving tarballs")
 
         # Install the collections to a directory
 
         # Directory that ansible needs to see
-        collection_dir = os.path.join(tmp_dir, 'installed')
+        collection_dir = os.path.join(tmp_dir, "installed")
         # Directory that the collections will be untarred inside of
-        collection_install_dir = os.path.join(collection_dir, 'ansible_collections')
+        collection_install_dir = os.path.join(collection_dir, "ansible_collections")
         # Safe to recursively mkdir because we created the tmp_dir
         os.makedirs(collection_install_dir, mode=0o700)
-        flog.fields(collection_install_dir=collection_install_dir).debug('collection install dir')
+        flog.fields(collection_install_dir=collection_install_dir).debug(
+            "collection install dir"
+        )
 
         # Install the collections
-        asyncio.run(install_together(list(collection_tarballs.values()), collection_install_dir))
-        flog.notice('Finished installing collections')
+        asyncio.run(
+            install_together(list(collection_tarballs.values()), collection_install_dir)
+        )
+        flog.notice("Finished installing collections")
 
         return generate_collection_docs(collection_dir, squash_hierarchy)

@@ -30,23 +30,24 @@ def get_ansible_core_config() -> CollectionConfig:
     return CollectionConfig.parse_obj(_ANSIBLE_CORE_CONFIG)
 
 
-async def load_collection_config(collection_name: str,
-                                 collection_path: str,
-                                 ) -> CollectionConfig:
-    '''Given a collection name and path, load config data.
+async def load_collection_config(
+    collection_name: str,
+    collection_path: str,
+) -> CollectionConfig:
+    """Given a collection name and path, load config data.
 
     :arg collection_name: Dotted collection name.
     :arg collection_path: Path to the collection.
     :returns: A CollectionConfig instance.
-    '''
-    flog = mlog.fields(func='load_collection_config')
-    flog.debug('Enter')
+    """
+    flog = mlog.fields(func="load_collection_config")
+    flog.debug("Enter")
 
-    if collection_name == 'ansible.builtin':
+    if collection_name == "ansible.builtin":
         return get_ansible_core_config()
 
     try:
-        config_path = os.path.join(collection_path, 'docs', 'docsite', 'config.yml')
+        config_path = os.path.join(collection_path, "docs", "docsite", "config.yml")
         if os.path.isfile(config_path):
             try:
                 return CollectionConfig.parse_obj(load_yaml_file(config_path))
@@ -54,18 +55,19 @@ async def load_collection_config(collection_name: str,
                 pass
         return CollectionConfig.parse_obj({})
     finally:
-        flog.debug('Leave')
+        flog.debug("Leave")
 
 
-async def load_collections_configs(collection_paths: Mapping[str, str]
-                                   ) -> Mapping[str, CollectionConfig]:
-    '''Load config data.
+async def load_collections_configs(
+    collection_paths: Mapping[str, str]
+) -> Mapping[str, CollectionConfig]:
+    """Load config data.
 
     :arg collection_paths: Mapping of collection_name to the collection's path.
     :returns: A mapping of collection_name to CollectionConfig.
-    '''
-    flog = mlog.fields(func='load_collections_configs')
-    flog.debug('Enter')
+    """
+    flog = mlog.fields(func="load_collections_configs")
+    flog.debug("Enter")
 
     loaders = {}
     lib_ctx = app_context.lib_ctx.get()
@@ -73,7 +75,8 @@ async def load_collections_configs(collection_paths: Mapping[str, str]
     async with asyncio_pool.AioPool(size=lib_ctx.thread_max) as pool:
         for collection_name, collection_path in collection_paths.items():
             loaders[collection_name] = await pool.spawn(
-                load_collection_config(collection_name, collection_path))
+                load_collection_config(collection_name, collection_path)
+            )
 
         responses = await asyncio.gather(*loaders.values())
 
@@ -81,28 +84,26 @@ async def load_collections_configs(collection_paths: Mapping[str, str]
     # So loaders (implicitly, the keys) and responses have a matching order here.
     result = dict(zip(loaders, responses))
 
-    flog.debug('Leave')
+    flog.debug("Leave")
     return result
 
 
 def lint_collection_config(collection_path: str) -> list[tuple[str, int, int, str]]:
-    '''Given a path, lint config.
+    """Given a path, lint config.
 
     :arg collection_path: Path to the collection.
     :returns: List of tuples (filename, row, column, error) indicating linting errors.
-    '''
-    flog = mlog.fields(func='lint_collection_config')
-    flog.debug('Enter')
+    """
+    flog = mlog.fields(func="lint_collection_config")
+    flog.debug("Enter")
 
     result: list[tuple[str, int, int, str]] = []
 
-    for cls in (
-            CollectionConfig,
-    ):
+    for cls in (CollectionConfig,):
         cls.__config__.extra = Extra.forbid  # type: ignore[attr-defined]
 
     try:
-        config_path = os.path.join(collection_path, 'docs', 'docsite', 'config.yml')
+        config_path = os.path.join(collection_path, "docs", "docsite", "config.yml")
         if not os.path.isfile(config_path):
             return result
 
@@ -111,8 +112,10 @@ def lint_collection_config(collection_path: str) -> list[tuple[str, int, int, st
             CollectionConfig.parse_obj(config_data)
         except ValidationError as exc:
             for error in exc.errors():
-                result.append((config_path, 0, 0, display_errors([error]).replace('\n ', ':')))
+                result.append(
+                    (config_path, 0, 0, display_errors([error]).replace("\n ", ":"))
+                )
 
         return result
     finally:
-        flog.debug('Leave')
+        flog.debug("Leave")

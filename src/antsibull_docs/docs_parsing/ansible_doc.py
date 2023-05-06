@@ -31,11 +31,11 @@ mlog = log.fields(mod=__name__)
 def _extract_ansible_builtin_metadata(stdout: str) -> AnsibleCollectionMetadata:
     path: str | None = None
     version: str | None = None
-    ansible_version_new = re.compile(r'^ansible \[(?:core|base) ([^\]]+)\]')
-    ansible_version_old = re.compile(r'^ansible ([^\s]+)')
+    ansible_version_new = re.compile(r"^ansible \[(?:core|base) ([^\]]+)\]")
+    ansible_version_old = re.compile(r"^ansible ([^\s]+)")
     for line in stdout.splitlines():
-        if line.strip().startswith('ansible python module location'):
-            path = line.split('=', 2)[1].strip()
+        if line.strip().startswith("ansible python module location"):
+            path = line.split("=", 2)[1].strip()
         for regex in (ansible_version_new, ansible_version_old):
             match = regex.match(line)
             if match:
@@ -43,29 +43,35 @@ def _extract_ansible_builtin_metadata(stdout: str) -> AnsibleCollectionMetadata:
                 break
     if path is None:
         raise RuntimeError(
-            f'Cannot extract module location path from ansible --version output: {stdout}')
+            f"Cannot extract module location path from ansible --version output: {stdout}"
+        )
     if version is None:
         raise RuntimeError(
-            f'Cannot extract ansible-core version from ansible --version output: {stdout}')
+            f"Cannot extract ansible-core version from ansible --version output: {stdout}"
+        )
     return AnsibleCollectionMetadata(
-        path=path, docs_config=get_ansible_core_config(), version=version)
+        path=path, docs_config=get_ansible_core_config(), version=version
+    )
 
 
-def parse_ansible_galaxy_collection_list(json_output: Mapping[str, t.Any],
-                                         collection_names: list[str] | None = None,
-                                         ) -> list[tuple[str, str, str, str | None]]:
+def parse_ansible_galaxy_collection_list(
+    json_output: Mapping[str, t.Any],
+    collection_names: list[str] | None = None,
+) -> list[tuple[str, str, str, str | None]]:
     result = []
     for path, collections in json_output.items():
         for collection, data in collections.items():
             if collection_names is None or collection in collection_names:
-                namespace, name = collection.split('.', 2)
-                version = data.get('version', '*')
-                result.append((
-                    namespace,
-                    name,
-                    os.path.join(path, namespace, name),
-                    None if version == '*' else version
-                ))
+                namespace, name = collection.split(".", 2)
+                version = data.get("version", "*")
+                result.append(
+                    (
+                        namespace,
+                        name,
+                        os.path.join(path, namespace, name),
+                        None if version == "*" else version,
+                    )
+                )
     return result
 
 
@@ -73,7 +79,7 @@ async def _call_ansible_version(
     venv: VenvRunner | FakeVenvRunner,
     env: dict[str, str] | None,
 ) -> str:
-    p = await venv.async_log_run(['ansible', '--version'], env=env)
+    p = await venv.async_log_run(["ansible", "--version"], env=env)
     return p.stdout
 
 
@@ -82,39 +88,46 @@ async def _call_ansible_galaxy_collection_list(
     env: dict[str, str],
 ) -> Mapping[str, t.Any]:
     p = await venv.async_log_run(
-        ['ansible-galaxy', 'collection', 'list', '--format', 'json'],
+        ["ansible-galaxy", "collection", "list", "--format", "json"],
         env=env,
     )
     return json.loads(_filter_non_json_lines(p.stdout)[0])
 
 
-async def get_collection_metadata(venv: VenvRunner | FakeVenvRunner,
-                                  env: dict[str, str],
-                                  collection_names: list[str] | None = None,
-                                  ) -> dict[str, AnsibleCollectionMetadata]:
+async def get_collection_metadata(
+    venv: VenvRunner | FakeVenvRunner,
+    env: dict[str, str],
+    collection_names: list[str] | None = None,
+) -> dict[str, AnsibleCollectionMetadata]:
     collection_metadata = {}
 
     # Obtain ansible.builtin version and path
     raw_result = await _call_ansible_version(venv, env)
-    collection_metadata['ansible.builtin'] = _extract_ansible_builtin_metadata(raw_result)
+    collection_metadata["ansible.builtin"] = _extract_ansible_builtin_metadata(
+        raw_result
+    )
 
     # Obtain collection versions
     json_result = await _call_ansible_galaxy_collection_list(venv, env)
-    collection_list = parse_ansible_galaxy_collection_list(json_result, collection_names)
+    collection_list = parse_ansible_galaxy_collection_list(
+        json_result, collection_names
+    )
     for namespace, name, path, version in collection_list:
-        collection_name = f'{namespace}.{name}'
+        collection_name = f"{namespace}.{name}"
         collection_config = await load_collection_config(collection_name, path)
         collection_metadata[collection_name] = AnsibleCollectionMetadata(
-            path=path, docs_config=collection_config, version=version)
+            path=path, docs_config=collection_config, version=version
+        )
 
     return collection_metadata
 
 
-async def get_ansible_core_version(venv: VenvRunner | FakeVenvRunner,
-                                   env: dict[str, str] | None = None,
-                                   ) -> PypiVer:
+async def get_ansible_core_version(
+    venv: VenvRunner | FakeVenvRunner,
+    env: dict[str, str] | None = None,
+) -> PypiVer:
     p = await venv.async_log_run(
-        ['python', '-c', 'import ansible.release; print(ansible.release.__version__)'],
+        ["python", "-c", "import ansible.release; print(ansible.release.__version__)"],
         env=env,
         check=False,
     )
@@ -127,9 +140,11 @@ async def get_ansible_core_version(venv: VenvRunner | FakeVenvRunner,
         raw_result = await _call_ansible_version(venv, env)
         metadata = _extract_ansible_builtin_metadata(raw_result)
         if metadata.version is None:
-            raise ValueError('Cannot retrieve ansible-core version from `ansible --version`')
+            raise ValueError(
+                "Cannot retrieve ansible-core version from `ansible --version`"
+            )
         return PypiVer(metadata.version)
     except CalledProcessError as exc:
         raise ValueError(
-            f'Cannot retrieve ansible-core version from `ansible --version`: {exc}'
+            f"Cannot retrieve ansible-core version from `ansible --version`: {exc}"
         ) from exc

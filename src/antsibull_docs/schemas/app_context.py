@@ -15,8 +15,7 @@ from antsibull_core.schemas.context import AppContext as CoreAppContext
 from antsibull_core.schemas.validators import convert_bool
 
 #: Valid choices for the docs parsing backend
-DOC_PARSING_BACKEND_CHOICES_F = p.Field(
-    'auto', regex='^(auto|ansible-core-2\\.13)$')
+DOC_PARSING_BACKEND_CHOICES_F = p.Field("auto", regex="^(auto|ansible-core-2\\.13)$")
 
 
 class DocsAppContext(CoreAppContext):
@@ -28,12 +27,13 @@ class DocsAppContext(CoreAppContext):
 
     # These are antsibull-docs specific
     collection_url: dict[str, str] = {
-        '*': 'https://galaxy.ansible.com/{namespace}/{name}',
+        "*": "https://galaxy.ansible.com/{namespace}/{name}",
     }
     collection_install: dict[str, str] = {
-        '*': 'ansible-galaxy collection install {namespace}.{name}',
+        "*": "ansible-galaxy collection install {namespace}.{name}",
     }
 
     # pylint: disable-next=unused-private-member
-    __convert_docs_bools = p.validator('breadcrumbs', 'indexes', 'use_html_blobs',
-                                       pre=True, allow_reuse=True)(convert_bool)
+    __convert_docs_bools = p.validator(
+        "breadcrumbs", "indexes", "use_html_blobs", pre=True, allow_reuse=True
+    )(convert_bool)

@@ -21,11 +21,12 @@ from __future__ import annotations
 import re
 
 #: Format that a collection namespace and collection name must follow
-NAMESPACE_RE_STR = '[a-z0-9][a-z0-9_]+'
+NAMESPACE_RE_STR = "[a-z0-9][a-z0-9_]+"
 #: Format of a FQCN
-FQCN_RE = re.compile(fr'({NAMESPACE_RE_STR})\.({NAMESPACE_RE_STR})\.(.*)')
+FQCN_RE = re.compile(rf"({NAMESPACE_RE_STR})\.({NAMESPACE_RE_STR})\.(.*)")
 FQCN_STRICT_RE = re.compile(
-    fr'({NAMESPACE_RE_STR})\.({NAMESPACE_RE_STR})\.({NAMESPACE_RE_STR}(?:\.{NAMESPACE_RE_STR})*)')
+    rf"({NAMESPACE_RE_STR})\.({NAMESPACE_RE_STR})\.({NAMESPACE_RE_STR}(?:\.{NAMESPACE_RE_STR})*)"
+)
 
 # FQCN_RE and FQCN_STRICT_RE match certain Fully Qualified Collection Names. FQCN_RE is more liberal
 # than FQCN_STRICT_RE and allows random characters after the namespace and collection name, while
@@ -58,7 +59,7 @@ def get_fqcn_parts(fqcn: str) -> tuple[str, str, str]:
     """
     match = FQCN_RE.match(fqcn)
     if not match:
-        raise ValueError(f'{fqcn} could not be parsed into fqcn parts')
+        raise ValueError(f"{fqcn} could not be parsed into fqcn parts")
     return match.group(1), match.group(2), match.group(3)
 
 

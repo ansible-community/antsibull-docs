@@ -15,44 +15,58 @@ from antsibull_docs.cli.antsibull_docs import run
 
 TEST_CASES = [
     (
-        ['--use-current'],
-        'baseline-sphinx-init-current',
+        ["--use-current"],
+        "baseline-sphinx-init-current",
     ),
     (
-        ['ns.col1', 'ns.col2', 'ns2.col'],
-        'baseline-sphinx-init-collections',
-    ),
-    (
-        [
-            'ns.col1',
-            '--no-indexes',
-            '--no-breadcrumbs',
-            '--use-html-blobs',
-            '--squash-hierarchy',
-            '--lenient',
-            '--fail-on-error',
-            '--index-rst-source', 'tests/functional/test.rst',
-            '--intersphinx', 'identifier:https://server/path',
-            '--intersphinx', 'foo:https://bar/baz',
-            '--sphinx-theme', 'another-theme',
-        ],
-        'baseline-sphinx-init-config',
+        ["ns.col1", "ns.col2", "ns2.col"],
+        "baseline-sphinx-init-collections",
     ),
     (
         [
-            'ns.col1',
-            '--extra-conf', 'key=value',
-            '--extra-conf', 'long key=very "long" \'value\'',
-            '--extra-html-context', 'key=value',
-            '--extra-html-context', 'long key=very "long" \'value\'',
-            '--extra-html-theme-options', 'key=value',
-            '--extra-html-theme-options', 'long key=very "long" \'value\'',
-            '--project', 'Foo \'bar\'',
-            '--copyright', 'Baz "bam\'',
-            '--title', 'A title',
-            '--html-short-title', 'A shorter title - not',
+            "ns.col1",
+            "--no-indexes",
+            "--no-breadcrumbs",
+            "--use-html-blobs",
+            "--squash-hierarchy",
+            "--lenient",
+            "--fail-on-error",
+            "--index-rst-source",
+            "tests/functional/test.rst",
+            "--intersphinx",
+            "identifier:https://server/path",
+            "--intersphinx",
+            "foo:https://bar/baz",
+            "--sphinx-theme",
+            "another-theme",
         ],
-        'baseline-sphinx-init-extra',
+        "baseline-sphinx-init-config",
+    ),
+    (
+        [
+            "ns.col1",
+            "--extra-conf",
+            "key=value",
+            "--extra-conf",
+            "long key=very \"long\" 'value'",
+            "--extra-html-context",
+            "key=value",
+            "--extra-html-context",
+            "long key=very \"long\" 'value'",
+            "--extra-html-theme-options",
+            "key=value",
+            "--extra-html-theme-options",
+            "long key=very \"long\" 'value'",
+            "--project",
+            "Foo 'bar'",
+            "--copyright",
+            "Baz \"bam'",
+            "--title",
+            "A title",
+            "--html-short-title",
+            "A shorter title - not",
+        ],
+        "baseline-sphinx-init-extra",
     ),
 ]
 
@@ -72,12 +86,12 @@ def _compare_files(source, dest, path):
     if src == dst:
         return 0
     for line in difflib.unified_diff(src.splitlines(), dst.splitlines(), path, path):
-        if line[0] == '@':
+        if line[0] == "@":
             print(line)
-        elif line[0] == '-':
-            print(f'\033[41m\033[9m{line}\033[29m\033[49m')
-        elif line[0] == '+':
-            print(f'\033[42m{line}\033[49m')
+        elif line[0] == "-":
+            print(f"\033[41m\033[9m{line}\033[29m\033[49m")
+        elif line[0] == "+":
+            print(f"\033[42m{line}\033[49m")
         else:
             print(line)
     return 1
@@ -87,7 +101,7 @@ def _compare_directories(source, dest):
     differences = 0
     for path in source:
         if path not in dest:
-            print(f'Directory {path} exists only in the baseline!')
+            print(f"Directory {path} exists only in the baseline!")
             differences += 1
             continue
         source_files = set(source[path][1])
@@ -95,31 +109,35 @@ def _compare_directories(source, dest):
         for file in source_files:
             if file not in dest_files:
                 differences += 1
-                print(f'File {os.path.join(path, file)} exists only in the baseline!')
+                print(f"File {os.path.join(path, file)} exists only in the baseline!")
                 continue
             source_path = os.path.join(source[path][0], file)
             dest_path = os.path.join(dest[path][0], file)
-            differences += _compare_files(source_path, dest_path, os.path.join(path, file))
+            differences += _compare_files(
+                source_path, dest_path, os.path.join(path, file)
+            )
         for file in dest_files:
             if file not in source_files:
                 differences += 1
-                print(f'File {os.path.join(path, file)} exists only in the generated result!')
+                print(
+                    f"File {os.path.join(path, file)} exists only in the generated result!"
+                )
     for path in dest:
         if path not in source:
-            print(f'Directory {path} exists only in the generated result!')
+            print(f"Directory {path} exists only in the generated result!")
             differences += 1
             continue
     if differences:
-        print(f'Found {differences} differences.')
+        print(f"Found {differences} differences.")
     assert differences == 0
 
 
-@pytest.mark.parametrize('arguments, directory', TEST_CASES)
+@pytest.mark.parametrize("arguments, directory", TEST_CASES)
 def test_baseline(arguments, directory, tmp_path):
-    tests_root = os.path.join('tests', 'functional')
+    tests_root = os.path.join("tests", "functional")
 
     # Re-build baseline
-    command = ['antsibull-docs', 'sphinx-init', '--dest-dir', str(tmp_path)] + arguments
+    command = ["antsibull-docs", "sphinx-init", "--dest-dir", str(tmp_path)] + arguments
     stdout = io.StringIO()
     with redirect_stdout(stdout):
         rc = run(command)
@@ -128,13 +146,13 @@ def test_baseline(arguments, directory, tmp_path):
 
     try:
         # Adjust 'cd' in build.sh
-        filename = os.path.join(tmp_path, 'build.sh')
-        with open(filename, encoding='utf-8') as f:
+        filename = os.path.join(tmp_path, "build.sh")
+        with open(filename, encoding="utf-8") as f:
             lines = list(f)
         for index, line in enumerate(lines):
-            if line.startswith('cd '):
-                lines[index] = 'cd DESTINATION\n'
-        with open(filename, 'w', encoding='utf-8') as f:
+            if line.startswith("cd "):
+                lines[index] = "cd DESTINATION\n"
+        with open(filename, "w", encoding="utf-8") as f:
             f.writelines(lines)
 
         # Compare baseline to expected result
@@ -143,5 +161,5 @@ def test_baseline(arguments, directory, tmp_path):
         _compare_directories(source, dest)
 
     except:
-        print('STDOUT:\n' + '\n'.join(stdout))
+        print("STDOUT:\n" + "\n".join(stdout))
         raise

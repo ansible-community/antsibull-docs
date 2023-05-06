@@ -17,22 +17,22 @@ from ast import literal_eval
 from collections.abc import Set
 
 try:
-    codecs.lookup_error('surrogateescape')
+    codecs.lookup_error("surrogateescape")
     HAS_SURROGATEESCAPE = True
 except LookupError:
     HAS_SURROGATEESCAPE = False
 
 
 SIZE_RANGES = {
-    'Y': 1 << 80,
-    'Z': 1 << 70,
-    'E': 1 << 60,
-    'P': 1 << 50,
-    'T': 1 << 40,
-    'G': 1 << 30,
-    'M': 1 << 20,
-    'K': 1 << 10,
-    'B': 1,
+    "Y": 1 << 80,
+    "Z": 1 << 70,
+    "E": 1 << 60,
+    "P": 1 << 50,
+    "T": 1 << 40,
+    "G": 1 << 30,
+    "M": 1 << 20,
+    "K": 1 << 10,
+    "B": 1,
 }
 
 
@@ -54,58 +54,63 @@ def human_to_bytes(number, isbits=False):  # noqa: C901
         The function expects 'b' (lowercase) as a bit identifier, e.g. 'Mb'/'Kb'/etc.
         if 'MB'/'KB'/... is passed, the ValueError will be rased.
     """
-    m = re.search(r'^\s*(\d*\.?\d*)\s*([A-Za-z]+)?', str(number), flags=re.IGNORECASE)
+    m = re.search(r"^\s*(\d*\.?\d*)\s*([A-Za-z]+)?", str(number), flags=re.IGNORECASE)
     if m is None:
-        raise ValueError("human_to_bytes() can't interpret following string: %s" % str(number))
+        raise ValueError(
+            "human_to_bytes() can't interpret following string: %s" % str(number)
+        )
     try:
         num = float(m.group(1))
     except Exception:
         raise ValueError(
-            "human_to_bytes() can't interpret following number: %s (original input string: %s)" % (
-                m.group(1), number))
+            "human_to_bytes() can't interpret following number: %s (original input string: %s)"
+            % (m.group(1), number)
+        )
 
     unit = m.group(2)
 
     if unit is None:
-        ''' No unit given, returning raw number '''
+        """No unit given, returning raw number"""
         return int(round(num))
     range_key = unit[0].upper()
     try:
         limit = SIZE_RANGES[range_key]
     except Exception:
         raise ValueError(
-            "human_to_bytes() failed to convert %s (unit = %s). The suffix must be one of %s" % (
-                number, unit, ", ".join(SIZE_RANGES.keys())))
+            "human_to_bytes() failed to convert %s (unit = %s). The suffix must be one of %s"
+            % (number, unit, ", ".join(SIZE_RANGES.keys()))
+        )
 
     # default value
-    unit_class = 'B'
-    unit_class_name = 'byte'
+    unit_class = "B"
+    unit_class_name = "byte"
     # handling bits case
     if isbits:
-        unit_class = 'b'
-        unit_class_name = 'bit'
+        unit_class = "b"
+        unit_class_name = "bit"
     # check unit value if more than one character (KB, MB)
     if len(unit) > 1:
-        expect_message = 'expect %s%s or %s' % (range_key, unit_class, range_key)
-        if range_key == 'B':
-            expect_message = 'expect %s or %s' % (unit_class, unit_class_name)
+        expect_message = "expect %s%s or %s" % (range_key, unit_class, range_key)
+        if range_key == "B":
+            expect_message = "expect %s or %s" % (unit_class, unit_class_name)
 
         if unit_class_name in unit.lower():
             pass
         elif unit[1] != unit_class:
             raise ValueError(
-                "human_to_bytes() failed to convert %s. Value is not a valid string (%s)" % (
-                    number, expect_message))
+                "human_to_bytes() failed to convert %s. Value is not a valid string (%s)"
+                % (number, expect_message)
+            )
 
     return int(round(num * limit))
 
 
-_COMPOSED_ERROR_HANDLERS = frozenset((None, 'surrogate_or_replace',
-                                      'surrogate_or_strict',
-                                      'surrogate_then_replace'))
+_COMPOSED_ERROR_HANDLERS = frozenset(
+    (None, "surrogate_or_replace", "surrogate_or_strict", "surrogate_then_replace")
+)
 
 
-def to_text(obj, encoding='utf-8', errors=None, nonstring='simplerepr'):  # noqa: C901
+def to_text(obj, encoding="utf-8", errors=None, nonstring="simplerepr"):  # noqa: C901
     """Make sure that a string is a text string
 
     :arg obj: An object to make sure is a text string.  In most cases this
@@ -161,11 +166,11 @@ def to_text(obj, encoding='utf-8', errors=None, nonstring='simplerepr'):  # noqa
 
     if errors in _COMPOSED_ERROR_HANDLERS:
         if HAS_SURROGATEESCAPE:
-            errors = 'surrogateescape'
-        elif errors == 'surrogate_or_strict':
-            errors = 'strict'
+            errors = "surrogateescape"
+        elif errors == "surrogate_or_strict":
+            errors = "strict"
         else:
-            errors = 'replace'
+            errors = "replace"
 
     if isinstance(obj, bytes):
         # Note: We don't need special handling for surrogate_then_replace
@@ -175,7 +180,7 @@ def to_text(obj, encoding='utf-8', errors=None, nonstring='simplerepr'):  # noqa
 
     # Note: We do these last even though we have to call to_text again on the
     # value because we're optimizing the common case
-    if nonstring == 'simplerepr':
+    if nonstring == "simplerepr":
         try:
             value = str(obj)
         except UnicodeError:
@@ -183,15 +188,17 @@ def to_text(obj, encoding='utf-8', errors=None, nonstring='simplerepr'):  # noqa
                 value = repr(obj)
             except UnicodeError:
                 # Giving up
-                return u''
-    elif nonstring == 'passthru':
+                return ""
+    elif nonstring == "passthru":
         return obj
-    elif nonstring == 'empty':
-        return u''
-    elif nonstring == 'strict':
-        raise TypeError('obj must be a string type')
+    elif nonstring == "empty":
+        return ""
+    elif nonstring == "strict":
+        raise TypeError("obj must be a string type")
     else:
-        raise TypeError('Invalid value %s for to_text\'s nonstring parameter' % nonstring)
+        raise TypeError(
+            "Invalid value %s for to_text's nonstring parameter" % nonstring
+        )
 
     return to_text(value, encoding, errors)
 
@@ -204,7 +211,7 @@ def _json_encode_fallback(obj):
     raise TypeError("Cannot json serialize %s" % to_text(obj))
 
 
-def container_to_text(d, encoding='utf-8', errors='surrogate_or_strict'):
+def container_to_text(d, encoding="utf-8", errors="surrogate_or_strict"):
     """Recursively convert dict keys and values to text str
 
     Specialized for json return because this only handles, lists, tuples,
@@ -227,7 +234,9 @@ def container_to_text(d, encoding='utf-8', errors='surrogate_or_strict'):
 def jsonify(data, **kwargs):
     for encoding in ("utf-8", "latin-1"):
         try:
-            return json.dumps(data, encoding=encoding, default=_json_encode_fallback, **kwargs)
+            return json.dumps(
+                data, encoding=encoding, default=_json_encode_fallback, **kwargs
+            )
         # Old systems using old simplejson module does not support encoding keyword.
         except TypeError:
             try:
@@ -237,11 +246,11 @@ def jsonify(data, **kwargs):
             return json.dumps(new_data, default=_json_encode_fallback, **kwargs)
         except UnicodeDecodeError:
             continue
-    raise UnicodeError('Invalid unicode encoding encountered')
+    raise UnicodeError("Invalid unicode encoding encountered")
 
 
-BOOLEANS_TRUE = frozenset(('y', 'yes', 'on', '1', 'true', 't', 1, 1.0, True))
-BOOLEANS_FALSE = frozenset(('n', 'no', 'off', '0', 'false', 'f', 0, 0.0, False))
+BOOLEANS_TRUE = frozenset(("y", "yes", "on", "1", "true", "t", 1, 1.0, True))
+BOOLEANS_FALSE = frozenset(("n", "no", "off", "0", "false", "f", 0, 0.0, False))
 BOOLEANS = BOOLEANS_TRUE.union(BOOLEANS_FALSE)
 
 
@@ -251,7 +260,7 @@ def boolean(value, strict=True):
 
     normalized_value = value
     if isinstance(value, (str, bytes)):
-        normalized_value = to_text(value, errors='surrogate_or_strict').lower().strip()
+        normalized_value = to_text(value, errors="surrogate_or_strict").lower().strip()
 
     if normalized_value in BOOLEANS_TRUE:
         return True
@@ -259,8 +268,9 @@ def boolean(value, strict=True):
         return False
 
     raise TypeError(
-        "The value '%s' is not a valid boolean.  Valid booleans include: %s" % (
-            to_text(value), ', '.join(repr(i) for i in BOOLEANS)))
+        "The value '%s' is not a valid boolean.  Valid booleans include: %s"
+        % (to_text(value), ", ".join(repr(i) for i in BOOLEANS))
+    )
 
 
 def safe_eval(value, locals=None):
@@ -268,10 +278,10 @@ def safe_eval(value, locals=None):
     if not isinstance(value, (str, bytes)):
         # already templated to a datavaluestructure, perhaps?
         return (value, None)
-    if re.search(r'\w\.\w+\(', value):
+    if re.search(r"\w\.\w+\(", value):
         return (value, None)
     # do not allow imports
-    if re.search(r'import \w+', value):
+    if re.search(r"import \w+", value):
         return (value, None)
     try:
         result = literal_eval(value)
@@ -283,7 +293,7 @@ def safe_eval(value, locals=None):
 # FIXME: The param and prefix parameters here are coming from AnsibleModule._check_type_string()
 #        which is using those for the warning messaged based on string conversion warning settings.
 #        Not sure how to deal with that here since we don't have config state to query.
-def check_type_str(value, allow_conversion=True, param=None, prefix=''):
+def check_type_str(value, allow_conversion=True, param=None, prefix=""):
     """Verify that the value is a string or convert to a string.
 
     Since unexpected changes can sometimes happen when converting to a string,
@@ -301,7 +311,7 @@ def check_type_str(value, allow_conversion=True, param=None, prefix=''):
         return value
 
     if allow_conversion:
-        return to_text(value, errors='surrogate_or_strict')
+        return to_text(value, errors="surrogate_or_strict")
 
     msg = "'{0!r}' is not a string and conversion is not allowed".format(value)
     raise TypeError(to_text(msg))
@@ -327,7 +337,7 @@ def check_type_list(value):
     elif isinstance(value, int) or isinstance(value, float):
         return [str(value)]
 
-    raise TypeError('%s cannot be converted to a list' % type(value))
+    raise TypeError("%s cannot be converted to a list" % type(value))
 
 
 def _check_type_dict_part(value):
@@ -339,21 +349,21 @@ def _check_type_dict_part(value):
         if in_escape:
             field_buffer.append(c)
             in_escape = False
-        elif c == '\\':
+        elif c == "\\":
             in_escape = True
-        elif not in_quote and c in ('\'', '"'):
+        elif not in_quote and c in ("'", '"'):
             in_quote = c
         elif in_quote and in_quote == c:
             in_quote = False
-        elif not in_quote and c in (',', ' '):
-            field = ''.join(field_buffer)
+        elif not in_quote and c in (",", " "):
+            field = "".join(field_buffer)
             if field:
                 fields.append(field)
             field_buffer = []
         else:
             field_buffer.append(c)
 
-    field = ''.join(field_buffer)
+    field = "".join(field_buffer)
     if field:
         fields.append(field)
     return dict(x.split("=", 1) for x in fields)
@@ -378,14 +388,14 @@ def check_type_dict(value):
             except Exception:
                 (result, exc) = safe_eval(value, dict())
                 if exc is not None:
-                    raise TypeError('unable to evaluate string as dictionary')
+                    raise TypeError("unable to evaluate string as dictionary")
                 return result
-        elif '=' in value:
+        elif "=" in value:
             return _check_type_dict_part(value)
         else:
             raise TypeError("dictionary requested, could not parse JSON or key=value")
 
-    raise TypeError('%s cannot be converted to a dict' % type(value))
+    raise TypeError("%s cannot be converted to a dict" % type(value))
 
 
 def check_type_bool(value):
@@ -404,7 +414,7 @@ def check_type_bool(value):
     if isinstance(value, (str, bytes)) or isinstance(value, (int, float)):
         return boolean(value)
 
-    raise TypeError('%s cannot be converted to a bool' % type(value))
+    raise TypeError("%s cannot be converted to a bool" % type(value))
 
 
 def check_type_int(value):
@@ -426,7 +436,7 @@ def check_type_int(value):
         except ValueError:
             pass
 
-    raise TypeError('%s cannot be converted to an int' % type(value))
+    raise TypeError("%s cannot be converted to an int" % type(value))
 
 
 def check_type_float(value):
@@ -447,10 +457,12 @@ def check_type_float(value):
         except ValueError:
             pass
 
-    raise TypeError('%s cannot be converted to a float' % type(value))
+    raise TypeError("%s cannot be converted to a float" % type(value))
 
 
-def check_type_path(value,):
+def check_type_path(
+    value,
+):
     """Verify the provided value is a string or convert it to a string,
     then return the expanded path
     """
@@ -471,7 +483,7 @@ def check_type_bytes(value):
     try:
         return human_to_bytes(value)
     except ValueError:
-        raise TypeError('%s cannot be converted to a Byte value' % type(value))
+        raise TypeError("%s cannot be converted to a Byte value" % type(value))
 
 
 def check_type_bits(value):
@@ -484,7 +496,7 @@ def check_type_bits(value):
     try:
         return human_to_bytes(value, isbits=True)
     except ValueError:
-        raise TypeError('%s cannot be converted to a Bit value' % type(value))
+        raise TypeError("%s cannot be converted to a Bit value" % type(value))
 
 
 def check_type_jsonarg(value):
@@ -498,4 +510,4 @@ def check_type_jsonarg(value):
         return value.strip()
     elif isinstance(value, (list, tuple, dict)):
         return jsonify(value)
-    raise TypeError('%s cannot be converted to a json string' % type(value))
+    raise TypeError("%s cannot be converted to a json string" % type(value))

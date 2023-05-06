@@ -30,37 +30,41 @@ mlog = log.fields(mod=__name__)
 
 def _parse_required_ansible(requires_ansible: str) -> list[str]:
     result = []
-    for specifier in reversed(sorted(
-        SpecifierSet(requires_ansible),
-        key=lambda specifier: (specifier.operator, specifier.version)
-    )):
-        if specifier.operator == '>=':
-            result.append(f'{specifier.version} or newer')
-        elif specifier.operator == '>':
-            result.append(f'newer than {specifier.version}')
-        elif specifier.operator == '<=':
-            result.append(f'{specifier.version} or older')
-        elif specifier.operator == '<':
-            result.append(f'older than {specifier.version}')
-        elif specifier.operator == '!=':
-            result.append(f'version {specifier.version} is specifically not supported')
-        elif specifier.operator == '==':
-            result.append(f'version {specifier.version} is specifically supported')
+    for specifier in reversed(
+        sorted(
+            SpecifierSet(requires_ansible),
+            key=lambda specifier: (specifier.operator, specifier.version),
+        )
+    ):
+        if specifier.operator == ">=":
+            result.append(f"{specifier.version} or newer")
+        elif specifier.operator == ">":
+            result.append(f"newer than {specifier.version}")
+        elif specifier.operator == "<=":
+            result.append(f"{specifier.version} or older")
+        elif specifier.operator == "<":
+            result.append(f"older than {specifier.version}")
+        elif specifier.operator == "!=":
+            result.append(f"version {specifier.version} is specifically not supported")
+        elif specifier.operator == "==":
+            result.append(f"version {specifier.version} is specifically supported")
         else:
-            result.append(f'{specifier.operator} {specifier.version}')
+            result.append(f"{specifier.operator} {specifier.version}")
     return result
 
 
-async def write_plugin_lists(collection_name: str,
-                             plugin_maps: Mapping[str, Mapping[str, str]],
-                             template: Template,
-                             dest_dir: str,
-                             collection_meta: AnsibleCollectionMetadata,
-                             extra_docs_data: CollectionExtraDocsInfoT,
-                             link_data: CollectionLinks,
-                             breadcrumbs: bool = True,
-                             for_official_docsite: bool = False,
-                             squash_hierarchy: bool = False) -> None:
+async def write_plugin_lists(
+    collection_name: str,
+    plugin_maps: Mapping[str, Mapping[str, str]],
+    template: Template,
+    dest_dir: str,
+    collection_meta: AnsibleCollectionMetadata,
+    extra_docs_data: CollectionExtraDocsInfoT,
+    link_data: CollectionLinks,
+    breadcrumbs: bool = True,
+    for_official_docsite: bool = False,
+    squash_hierarchy: bool = False,
+) -> None:
     """
     Write an index page for each collection.
 
@@ -79,11 +83,11 @@ async def write_plugin_lists(collection_name: str,
     :kwarg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
         Undefined behavior if documentation for multiple collections are created.
     """
-    flog = mlog.fields(func='write_plugin_lists')
-    flog.debug('Enter')
+    flog = mlog.fields(func="write_plugin_lists")
+    flog.debug("Enter")
 
     requires_ansible = []
-    if collection_name != 'ansible.builtin' and collection_meta.requires_ansible:
+    if collection_name != "ansible.builtin" and collection_meta.requires_ansible:
         try:
             requires_ansible = _parse_required_ansible(collection_meta.requires_ansible)
         except Exception as exc:  # pylint:disable=broad-except
@@ -91,7 +95,7 @@ async def write_plugin_lists(collection_name: str,
                 collection_name=collection_name,
                 exception=exc,
             ).error(
-                'Cannot parse required_ansible specifier set for {collection_name}',
+                "Cannot parse required_ansible specifier set for {collection_name}",
                 collection_name=collection_name,
             )
     index_contents = _render_template(
@@ -115,23 +119,25 @@ async def write_plugin_lists(collection_name: str,
     # This is only safe because we made sure that the top of the directory tree we're writing to
     # (docs/docsite/rst) is only writable by us.
     os.makedirs(dest_dir, mode=0o755, exist_ok=True)
-    index_file = os.path.join(dest_dir, 'index.rst')
+    index_file = os.path.join(dest_dir, "index.rst")
 
     await write_file(index_file, index_contents)
 
-    flog.debug('Leave')
+    flog.debug("Leave")
 
 
-async def output_indexes(collection_to_plugin_info: CollectionInfoT,
-                         dest_dir: str,
-                         collection_metadata: Mapping[str, AnsibleCollectionMetadata],
-                         extra_docs_data: Mapping[str, CollectionExtraDocsInfoT],
-                         link_data: Mapping[str, CollectionLinks],
-                         collection_url: CollectionNameTransformer,
-                         collection_install: CollectionNameTransformer,
-                         squash_hierarchy: bool = False,
-                         breadcrumbs: bool = True,
-                         for_official_docsite: bool = False) -> None:
+async def output_indexes(
+    collection_to_plugin_info: CollectionInfoT,
+    dest_dir: str,
+    collection_metadata: Mapping[str, AnsibleCollectionMetadata],
+    extra_docs_data: Mapping[str, CollectionExtraDocsInfoT],
+    link_data: Mapping[str, CollectionLinks],
+    collection_url: CollectionNameTransformer,
+    collection_install: CollectionNameTransformer,
+    squash_hierarchy: bool = False,
+    breadcrumbs: bool = True,
+    for_official_docsite: bool = False,
+) -> None:
     """
     Generate collection-level index pages for the collections.
 
@@ -148,26 +154,28 @@ async def output_indexes(collection_to_plugin_info: CollectionInfoT,
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
     """
-    flog = mlog.fields(func='output_indexes')
-    flog.debug('Enter')
+    flog = mlog.fields(func="output_indexes")
+    flog.debug("Enter")
 
     if collection_metadata is None:
         collection_metadata = {}
 
     env = doc_environment(
-        ('antsibull_docs.data', 'docsite'),
+        ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
-        collection_install=collection_install)
+        collection_install=collection_install,
+    )
     # Get the templates
-    collection_plugins_tmpl = env.get_template('plugins_by_collection.rst.j2')
+    collection_plugins_tmpl = env.get_template("plugins_by_collection.rst.j2")
 
     writers = []
     lib_ctx = app_context.lib_ctx.get()
 
     if not squash_hierarchy:
-        collection_toplevel = os.path.join(dest_dir, 'collections')
-        flog.fields(toplevel=collection_toplevel, exists=os.path.isdir(collection_toplevel)).debug(
-            'collection_toplevel exists?')
+        collection_toplevel = os.path.join(dest_dir, "collections")
+        flog.fields(
+            toplevel=collection_toplevel, exists=os.path.isdir(collection_toplevel)
+        ).debug("collection_toplevel exists?")
         # This is only safe because we made sure that the top of the directory tree we're writing to
         # (docs/docsite/rst) is only writable by us.
         os.makedirs(collection_toplevel, mode=0o755, exist_ok=True)
@@ -177,26 +185,38 @@ async def output_indexes(collection_to_plugin_info: CollectionInfoT,
     async with asyncio_pool.AioPool(size=lib_ctx.thread_max) as pool:
         for collection_name, plugin_maps in collection_to_plugin_info.items():
             if not squash_hierarchy:
-                collection_dir = os.path.join(collection_toplevel, *(collection_name.split('.')))
+                collection_dir = os.path.join(
+                    collection_toplevel, *(collection_name.split("."))
+                )
             else:
                 collection_dir = collection_toplevel
-            writers.append(await pool.spawn(
-                write_plugin_lists(collection_name, plugin_maps, collection_plugins_tmpl,
-                                   collection_dir, collection_metadata[collection_name],
-                                   extra_docs_data[collection_name],
-                                   link_data[collection_name],
-                                   breadcrumbs=breadcrumbs,
-                                   for_official_docsite=for_official_docsite,
-                                   squash_hierarchy=squash_hierarchy)))
+            writers.append(
+                await pool.spawn(
+                    write_plugin_lists(
+                        collection_name,
+                        plugin_maps,
+                        collection_plugins_tmpl,
+                        collection_dir,
+                        collection_metadata[collection_name],
+                        extra_docs_data[collection_name],
+                        link_data[collection_name],
+                        breadcrumbs=breadcrumbs,
+                        for_official_docsite=for_official_docsite,
+                        squash_hierarchy=squash_hierarchy,
+                    )
+                )
+            )
 
         await asyncio.gather(*writers)
 
-    flog.debug('Leave')
+    flog.debug("Leave")
 
 
-async def output_extra_docs(dest_dir: str,
-                            extra_docs_data: Mapping[str, CollectionExtraDocsInfoT],
-                            squash_hierarchy: bool = False) -> None:
+async def output_extra_docs(
+    dest_dir: str,
+    extra_docs_data: Mapping[str, CollectionExtraDocsInfoT],
+    squash_hierarchy: bool = False,
+) -> None:
     """
     Write extra docs pages for the collections.
 
@@ -206,21 +226,23 @@ async def output_extra_docs(dest_dir: str,
                            Undefined behavior if documentation for multiple collections are
                            created.
     """
-    flog = mlog.fields(func='output_extra_docs')
-    flog.debug('Enter')
+    flog = mlog.fields(func="output_extra_docs")
+    flog.debug("Enter")
 
     writers = []
     lib_ctx = app_context.lib_ctx.get()
 
     if not squash_hierarchy:
-        collection_toplevel = os.path.join(dest_dir, 'collections')
+        collection_toplevel = os.path.join(dest_dir, "collections")
     else:
         collection_toplevel = dest_dir
 
     async with asyncio_pool.AioPool(size=lib_ctx.thread_max) as pool:
         for collection_name, (dummy, documents) in extra_docs_data.items():
             if not squash_hierarchy:
-                collection_dir = os.path.join(collection_toplevel, *(collection_name.split('.')))
+                collection_dir = os.path.join(
+                    collection_toplevel, *(collection_name.split("."))
+                )
             else:
                 collection_dir = collection_toplevel
             for source_path, rel_path in documents:
@@ -230,4 +252,4 @@ async def output_extra_docs(dest_dir: str,
 
         await asyncio.gather(*writers)
 
-    flog.debug('Leave')
+    flog.debug("Leave")

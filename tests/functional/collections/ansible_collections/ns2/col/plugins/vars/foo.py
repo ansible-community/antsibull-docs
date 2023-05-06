@@ -6,7 +6,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
     name: foo
     version_added: 0.9.0
     short_description: Load foo O(bar)
@@ -32,7 +32,7 @@ DOCUMENTATION = '''
       bar:
         description: Foo bar.
         type: string
-'''
+"""
 
 from ansible.plugins.vars import BaseVarsPlugin
 

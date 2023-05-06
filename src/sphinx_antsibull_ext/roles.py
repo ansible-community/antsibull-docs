@@ -3,9 +3,9 @@
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 # SPDX-FileCopyrightText: 2021, Ansible Project
-'''
+"""
 Add roles for semantic markup.
-'''
+"""
 
 from __future__ import annotations
 
@@ -33,7 +33,7 @@ def option_choice(name, rawtext, text, lineno, inliner, options={}, content=[]):
     :param options: Directive options for customization.
     :param content: The directive content for customization.
     """
-    return [nodes.literal(rawtext, text, classes=['ansible-option-choices-entry'])], []
+    return [nodes.literal(rawtext, text, classes=["ansible-option-choices-entry"])], []
 
 
 # pylint:disable-next=unused-argument,dangerous-default-value
@@ -52,7 +52,7 @@ def option_choice_default(name, rawtext, text, lineno, inliner, options={}, cont
     :param options: Directive options for customization.
     :param content: The directive content for customization.
     """
-    return [nodes.literal(rawtext, text, classes=['ansible-option-default-bold'])], []
+    return [nodes.literal(rawtext, text, classes=["ansible-option-default-bold"])], []
 
 
 # pylint:disable-next=unused-argument,dangerous-default-value
@@ -71,7 +71,7 @@ def option_default(name, rawtext, text, lineno, inliner, options={}, content=[])
     :param options: Directive options for customization.
     :param content: The directive content for customization.
     """
-    return [nodes.literal(rawtext, text, classes=['ansible-option-default'])], []
+    return [nodes.literal(rawtext, text, classes=["ansible-option-default"])], []
 
 
 # pylint:disable-next=unused-argument,dangerous-default-value
@@ -90,36 +90,43 @@ def return_value_sample(name, rawtext, text, lineno, inliner, options={}, conten
     :param options: Directive options for customization.
     :param content: The directive content for customization.
     """
-    return [nodes.literal(rawtext, text, classes=['ansible-option-sample'])], []
+    return [nodes.literal(rawtext, text, classes=["ansible-option-sample"])], []
 
 
-def _create_option_reference(plugin_fqcn: str | None, plugin_type: str | None,
-                             entrypoint: str | None,
-                             option: str) -> str | None:
+def _create_option_reference(
+    plugin_fqcn: str | None,
+    plugin_type: str | None,
+    entrypoint: str | None,
+    option: str,
+) -> str | None:
     if not plugin_fqcn or not plugin_type:
         return None
     ref = option.replace(".", "/")
-    ep = f'{entrypoint}__' if entrypoint is not None else ''
-    return f'ansible_collections.{plugin_fqcn}_{plugin_type}__parameter-{ep}{ref}'
+    ep = f"{entrypoint}__" if entrypoint is not None else ""
+    return f"ansible_collections.{plugin_fqcn}_{plugin_type}__parameter-{ep}{ref}"
 
 
-def _create_return_value_reference(plugin_fqcn: str | None, plugin_type: str | None,
-                                   entrypoint: str | None,
-                                   return_value: str) -> str | None:
+def _create_return_value_reference(
+    plugin_fqcn: str | None,
+    plugin_type: str | None,
+    entrypoint: str | None,
+    return_value: str,
+) -> str | None:
     if not plugin_fqcn or not plugin_type:
         return None
     ref = return_value.replace(".", "/")
-    ep = f'{entrypoint}__' if entrypoint is not None else ''
-    return f'ansible_collections.{plugin_fqcn}_{plugin_type}__return-{ep}{ref}'
+    ep = f"{entrypoint}__" if entrypoint is not None else ""
+    return f"ansible_collections.{plugin_fqcn}_{plugin_type}__return-{ep}{ref}"
 
 
-def _create_ref_or_not(create_ref: t.Callable[[str | None, str | None,
-                                               str | None, str],
-                                              str | None],
-                       plugin_fqcn: str | None, plugin_type: str | None,
-                       entrypoint: str | None,
-                       ref_parameter: str, text: str
-                       ) -> tuple[str, list[t.Any]]:
+def _create_ref_or_not(
+    create_ref: t.Callable[[str | None, str | None, str | None, str], str | None],
+    plugin_fqcn: str | None,
+    plugin_type: str | None,
+    entrypoint: str | None,
+    ref_parameter: str,
+    text: str,
+) -> tuple[str, list[t.Any]]:
     ref = create_ref(plugin_fqcn, plugin_type, entrypoint, ref_parameter)
     if ref is None:
         return text, []
@@ -129,14 +136,14 @@ def _create_ref_or_not(create_ref: t.Callable[[str | None, str | None,
     content = nodes.literal(text, text)
 
     options = {
-        'reftype': 'ref',
-        'refdomain': 'std',
-        'refexplicit': True,
-        'refwarn': True,
+        "reftype": "ref",
+        "refdomain": "std",
+        "refexplicit": True,
+        "refwarn": True,
     }
     refnode = addnodes.pending_xref(text, content, **options)
-    refnode['reftarget'] = ref
-    return '', [refnode]
+    refnode["reftarget"] = ref
+    return "", [refnode]
 
 
 # pylint:disable-next=unused-argument
@@ -164,20 +171,27 @@ def option_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
     classes = []
     try:
         plugin_fqcn, plugin_type, entrypoint, option_link, option, value = parse_option(
-            text.replace('\x00', ''), '', '', require_plugin=False)
+            text.replace("\x00", ""), "", "", require_plugin=False
+        )
     except ValueError as exc:
         return _create_error(rawtext, text, str(exc))
     if value is None:
-        text = f'{option}'
-        classes.append('ansible-option')
+        text = f"{option}"
+        classes.append("ansible-option")
     else:
-        text = f'{option}={value}'
-        classes.append('ansible-option-value')
+        text = f"{option}={value}"
+        classes.append("ansible-option-value")
     text, subnodes = _create_ref_or_not(
-        _create_option_reference, plugin_fqcn, plugin_type, entrypoint, option_link, text)
+        _create_option_reference,
+        plugin_fqcn,
+        plugin_type,
+        entrypoint,
+        option_link,
+        text,
+    )
     if value is None:
         content = nodes.strong(rawtext, text, *subnodes)
-        content = nodes.literal(rawtext, '', content, classes=classes)
+        content = nodes.literal(rawtext, "", content, classes=classes)
     else:
         content = nodes.literal(rawtext, text, *subnodes, classes=classes)
     return [content], []
@@ -199,7 +213,7 @@ def value_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
     :param options: Directive options for customization.
     :param content: The directive content for customization.
     """
-    return [nodes.literal(rawtext, text, classes=['ansible-value'])], []
+    return [nodes.literal(rawtext, text, classes=["ansible-value"])], []
 
 
 # pylint:disable-next=unused-argument,dangerous-default-value
@@ -218,35 +232,42 @@ def return_value_role(name, rawtext, text, lineno, inliner, options={}, content=
     :param options: Directive options for customization.
     :param content: The directive content for customization.
     """
-    classes = ['ansible-return-value']
+    classes = ["ansible-return-value"]
     try:
         plugin_fqcn, plugin_type, entrypoint, rv_link, rv, value = parse_return_value(
-            text.replace('\x00', ''), '', '', require_plugin=False)
+            text.replace("\x00", ""), "", "", require_plugin=False
+        )
     except ValueError as exc:
         return _create_error(rawtext, text, str(exc))
     if value is None:
-        text = f'{rv}'
+        text = f"{rv}"
     else:
-        text = f'{rv}={value}'
+        text = f"{rv}={value}"
     text, subnodes = _create_ref_or_not(
-        _create_return_value_reference, plugin_fqcn, plugin_type, entrypoint, rv_link, text)
+        _create_return_value_reference,
+        plugin_fqcn,
+        plugin_type,
+        entrypoint,
+        rv_link,
+        text,
+    )
     return [nodes.literal(rawtext, text, *subnodes, classes=classes)], []
 
 
 ROLES = {
-    'ansible-option-choices-entry': option_choice,
-    'ansible-option-choices-entry-default': option_choice_default,
-    'ansible-option-default': option_default,
-    'ansible-rv-sample-value': return_value_sample,
-    'ansopt': option_role,
-    'ansval': value_role,
-    'ansretval': return_value_role,
+    "ansible-option-choices-entry": option_choice,
+    "ansible-option-choices-entry-default": option_choice_default,
+    "ansible-option-default": option_default,
+    "ansible-rv-sample-value": return_value_sample,
+    "ansopt": option_role,
+    "ansval": value_role,
+    "ansretval": return_value_role,
 }
 
 
 def setup_roles(app):
-    '''
+    """
     Setup roles for a Sphinx app object.
-    '''
+    """
     for name, role in ROLES.items():
         app.add_role(name, role)

@@ -34,41 +34,38 @@ def follow_relative_links(path: str) -> str:
 
     :arg path: Path to a file.
     """
-    flog = mlog.fields(func='follow_relative_links')
-    flog.fields(path=path).debug('Enter')
+    flog = mlog.fields(func="follow_relative_links")
+    flog.fields(path=path).debug("Enter")
 
     original_path = path
     loop_detection: set[str] = set()
     while True:
         if path in loop_detection:
-            flog.fields(
-                path=original_path,
-                loop=loop_detection
-            ).error(
-                '{path} resulted in a loop when looking up relative symbolic links.',
+            flog.fields(path=original_path, loop=loop_detection).error(
+                "{path} resulted in a loop when looking up relative symbolic links.",
                 path=path,
             )
-            flog.debug('Leave')
+            flog.debug("Leave")
             return original_path
         loop_detection.add(path)
         if not os.path.islink(path):
-            flog.fields(result=path).debug('Leave')
+            flog.fields(result=path).debug("Leave")
             return path
-        flog.debug('Reading link {path}', path=path)
+        flog.debug("Reading link {path}", path=path)
         link = os.readlink(path)
-        if link.startswith('/'):
+        if link.startswith("/"):
             flog.fields(
                 original_path=original_path,
                 path=path,
                 link=link,
             ).error(
-                'When looking up relative links for {original_path}, an absolute link'
+                "When looking up relative links for {original_path}, an absolute link"
                 ' "{link}" was found for {path}.',
                 original_path=original_path,
                 path=path,
                 link=link,
             )
-            flog.debug('Leave')
+            flog.debug("Leave")
             return original_path
         path = os.path.join(os.path.dirname(path), link)
 
@@ -77,46 +74,63 @@ def has_broken_docs(plugin_record: Mapping[str, t.Any], plugin_type: str) -> boo
     """
     Determine whether the plugin record is completely broken or not.
     """
-    expected_fields = ('entry_points',) if plugin_type == 'role' else ('doc', 'examples', 'return')
-    return not plugin_record or not all(field in plugin_record for field in expected_fields)
+    expected_fields = (
+        ("entry_points",) if plugin_type == "role" else ("doc", "examples", "return")
+    )
+    return not plugin_record or not all(
+        field in plugin_record for field in expected_fields
+    )
 
 
-def guess_relative_filename(plugin_record: Mapping[str, t.Any],
-                            plugin_short_name: str,
-                            plugin_type: str,
-                            collection_name: str,
-                            collection_meta: AnsibleCollectionMetadata) -> str:
+def guess_relative_filename(
+    plugin_record: Mapping[str, t.Any],
+    plugin_short_name: str,
+    plugin_type: str,
+    collection_name: str,
+    collection_meta: AnsibleCollectionMetadata,
+) -> str:
     """
     Make an educated guess on the documentation source file.
     """
-    if plugin_record and plugin_record.get('doc') and plugin_record['doc'].get('filename'):
-        filename = follow_relative_links(plugin_record['doc']['filename'])
+    if (
+        plugin_record
+        and plugin_record.get("doc")
+        and plugin_record["doc"].get("filename")
+    ):
+        filename = follow_relative_links(plugin_record["doc"]["filename"])
         return os.path.relpath(filename, collection_meta.path)
-    if plugin_type == 'role':
+    if plugin_type == "role":
         return f"roles/{plugin_short_name}/meta/argument_specs.yml"
     plugin_dir = (
         # Modules in ansible-core:
-        'modules' if plugin_type == 'module' and collection_name == 'ansible.builtin' else
+        "modules"
+        if plugin_type == "module" and collection_name == "ansible.builtin"
+        else
         # Modules in collections:
-        'plugins/modules' if plugin_type == 'module' else
+        "plugins/modules"
+        if plugin_type == "module"
+        else
         # Plugins in ansible-core or collections:
-        'plugins/' + plugin_type
+        "plugins/" + plugin_type
     )
     # Guess path inside collection tree
     return f"{plugin_dir}/{plugin_short_name}.py"
 
 
-def create_plugin_rst(collection_name: str,
-                      collection_meta: AnsibleCollectionMetadata,
-                      collection_links: CollectionLinks,
-                      plugin_short_name: str,
-                      plugin_type: str,
-                      plugin_record: dict[str, t.Any],
-                      nonfatal_errors: Sequence[str],
-                      plugin_tmpl: Template, error_tmpl: Template,
-                      use_html_blobs: bool = False,
-                      for_official_docsite: bool = False,
-                      log_errors: bool = True) -> str:
+def create_plugin_rst(
+    collection_name: str,
+    collection_meta: AnsibleCollectionMetadata,
+    collection_links: CollectionLinks,
+    plugin_short_name: str,
+    plugin_type: str,
+    plugin_record: dict[str, t.Any],
+    nonfatal_errors: Sequence[str],
+    plugin_tmpl: Template,
+    error_tmpl: Template,
+    use_html_blobs: bool = False,
+    for_official_docsite: bool = False,
+    log_errors: bool = True,
+) -> str:
     """
     Create the rst page for one plugin.
 
@@ -137,32 +151,43 @@ def create_plugin_rst(collection_name: str,
         official docsite on docs.ansible.com.
     :kwarg log_errors: Default True.  Set to False to avoid errors to be logged.
     """
-    flog = mlog.fields(func='create_plugin_rst')
-    flog.debug('Enter')
+    flog = mlog.fields(func="create_plugin_rst")
+    flog.debug("Enter")
 
-    plugin_name = '.'.join((collection_name, plugin_short_name))
+    plugin_name = ".".join((collection_name, plugin_short_name))
 
     edit_on_github_url = None
     eog = collection_links.edit_on_github
     if eog:
         # Compose Edit on GitHub URL
         gh_path = guess_relative_filename(
-            plugin_record, plugin_short_name, plugin_type, collection_name, collection_meta)
+            plugin_record,
+            plugin_short_name,
+            plugin_type,
+            collection_name,
+            collection_meta,
+        )
         edit_on_github_url = (
-            f"https://github.com/{eog.repository}/edit/{eog.branch}/{eog.path_prefix}{gh_path}"
+            f"https://github.com/{eog.repository}/"
+            f"edit/{eog.branch}/{eog.path_prefix}{gh_path}"
         )
 
     if has_broken_docs(plugin_record, plugin_type):
         if log_errors:
-            flog.fields(plugin_type=plugin_type,
-                        plugin_name=plugin_name,
-                        nonfatal_errors=nonfatal_errors
-                        ).error('{plugin_name} did not return correct DOCUMENTATION.  An error'
-                                ' page will be generated.', plugin_name=plugin_name)
+            flog.fields(
+                plugin_type=plugin_type,
+                plugin_name=plugin_name,
+                nonfatal_errors=nonfatal_errors,
+            ).error(
+                "{plugin_name} did not return correct DOCUMENTATION.  An error"
+                " page will be generated.",
+                plugin_name=plugin_name,
+            )
         plugin_contents = _render_template(
             error_tmpl,
-            plugin_name + '_' + plugin_type,
-            plugin_type=plugin_type, plugin_name=plugin_name,
+            plugin_name + "_" + plugin_type,
+            plugin_type=plugin_type,
+            plugin_name=plugin_name,
             collection=collection_name,
             collection_version=collection_meta.version,
             nonfatal_errors=nonfatal_errors,
@@ -174,21 +199,24 @@ def create_plugin_rst(collection_name: str,
         )
     else:
         if log_errors and nonfatal_errors:
-            flog.fields(plugin_type=plugin_type,
-                        plugin_name=plugin_name,
-                        nonfatal_errors=nonfatal_errors
-                        ).error('{plugin_name} did not return correct RETURN or EXAMPLES.',
-                                plugin_name=plugin_name)
-        if plugin_type == 'role':
+            flog.fields(
+                plugin_type=plugin_type,
+                plugin_name=plugin_name,
+                nonfatal_errors=nonfatal_errors,
+            ).error(
+                "{plugin_name} did not return correct RETURN or EXAMPLES.",
+                plugin_name=plugin_name,
+            )
+        if plugin_type == "role":
             plugin_contents = _render_template(
                 plugin_tmpl,
-                plugin_name + '_' + plugin_type,
+                plugin_name + "_" + plugin_type,
                 use_html_blobs=use_html_blobs,
                 collection=collection_name,
                 collection_version=collection_meta.version,
                 plugin_type=plugin_type,
                 plugin_name=plugin_name,
-                entry_points=plugin_record['entry_points'],
+                entry_points=plugin_record["entry_points"],
                 nonfatal_errors=nonfatal_errors,
                 edit_on_github_url=edit_on_github_url,
                 collection_links=collection_links.links,
@@ -199,15 +227,15 @@ def create_plugin_rst(collection_name: str,
         else:
             plugin_contents = _render_template(
                 plugin_tmpl,
-                plugin_name + '_' + plugin_type,
+                plugin_name + "_" + plugin_type,
                 use_html_blobs=use_html_blobs,
                 collection=collection_name,
                 collection_version=collection_meta.version,
                 plugin_type=plugin_type,
                 plugin_name=plugin_name,
-                doc=plugin_record['doc'],
-                examples=plugin_record['examples'],
-                returndocs=plugin_record['return'],
+                doc=plugin_record["doc"],
+                examples=plugin_record["examples"],
+                returndocs=plugin_record["return"],
                 nonfatal_errors=nonfatal_errors,
                 edit_on_github_url=edit_on_github_url,
                 collection_links=collection_links.links,
@@ -216,20 +244,26 @@ def create_plugin_rst(collection_name: str,
                 for_official_docsite=for_official_docsite,
             )
 
-    flog.debug('Leave')
+    flog.debug("Leave")
     return plugin_contents
 
 
-async def write_plugin_rst(collection_name: str,
-                           collection_meta: AnsibleCollectionMetadata,
-                           collection_links: CollectionLinks,
-                           plugin_short_name: str, plugin_type: str,
-                           plugin_record: dict[str, t.Any], nonfatal_errors: Sequence[str],
-                           plugin_tmpl: Template, error_tmpl: Template, dest_dir: str,
-                           path_override: str | None = None,
-                           squash_hierarchy: bool = False,
-                           use_html_blobs: bool = False,
-                           for_official_docsite: bool = False) -> None:
+async def write_plugin_rst(
+    collection_name: str,
+    collection_meta: AnsibleCollectionMetadata,
+    collection_links: CollectionLinks,
+    plugin_short_name: str,
+    plugin_type: str,
+    plugin_record: dict[str, t.Any],
+    nonfatal_errors: Sequence[str],
+    plugin_tmpl: Template,
+    error_tmpl: Template,
+    dest_dir: str,
+    path_override: str | None = None,
+    squash_hierarchy: bool = False,
+    use_html_blobs: bool = False,
+    for_official_docsite: bool = False,
+) -> None:
     """
     Write the rst page for one plugin.
 
@@ -255,10 +289,10 @@ async def write_plugin_rst(collection_name: str,
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
     """
-    flog = mlog.fields(func='write_plugin_rst')
-    flog.debug('Enter')
+    flog = mlog.fields(func="write_plugin_rst")
+    flog.debug("Enter")
 
-    namespace, collection = collection_name.split('.')
+    namespace, collection = collection_name.split(".")
 
     plugin_contents = create_plugin_rst(
         collection_name=collection_name,
@@ -280,29 +314,35 @@ async def write_plugin_rst(collection_name: str,
         if squash_hierarchy:
             collection_dir = dest_dir
         else:
-            collection_dir = os.path.join(dest_dir, 'collections', namespace, collection)
+            collection_dir = os.path.join(
+                dest_dir, "collections", namespace, collection
+            )
             # This is dangerous but the code that takes dest_dir from the user checks
             # permissions on it to make it as safe as possible.
             os.makedirs(collection_dir, mode=0o755, exist_ok=True)
 
-        plugin_file = os.path.join(collection_dir, f'{plugin_short_name}_{plugin_type}.rst')
+        plugin_file = os.path.join(
+            collection_dir, f"{plugin_short_name}_{plugin_type}.rst"
+        )
 
     await write_file(plugin_file, plugin_contents)
 
-    flog.debug('Leave')
+    flog.debug("Leave")
 
 
-async def output_all_plugin_rst(collection_to_plugin_info: CollectionInfoT,
-                                plugin_info: dict[str, t.Any],
-                                nonfatal_errors: PluginErrorsT,
-                                dest_dir: str,
-                                collection_url: CollectionNameTransformer,
-                                collection_install: CollectionNameTransformer,
-                                collection_metadata: Mapping[str, AnsibleCollectionMetadata],
-                                link_data: Mapping[str, CollectionLinks],
-                                squash_hierarchy: bool = False,
-                                use_html_blobs: bool = False,
-                                for_official_docsite: bool = False) -> None:
+async def output_all_plugin_rst(
+    collection_to_plugin_info: CollectionInfoT,
+    plugin_info: dict[str, t.Any],
+    nonfatal_errors: PluginErrorsT,
+    dest_dir: str,
+    collection_url: CollectionNameTransformer,
+    collection_install: CollectionNameTransformer,
+    collection_metadata: Mapping[str, AnsibleCollectionMetadata],
+    link_data: Mapping[str, CollectionLinks],
+    squash_hierarchy: bool = False,
+    use_html_blobs: bool = False,
+    for_official_docsite: bool = False,
+) -> None:
     """
     Output rst files for each plugin.
 
@@ -324,13 +364,14 @@ async def output_all_plugin_rst(collection_to_plugin_info: CollectionInfoT,
     """
     # Setup the jinja environment
     env = doc_environment(
-        ('antsibull_docs.data', 'docsite'),
+        ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
-        collection_install=collection_install)
+        collection_install=collection_install,
+    )
     # Get the templates
-    plugin_tmpl = env.get_template('plugin.rst.j2')
-    role_tmpl = env.get_template('role.rst.j2')
-    error_tmpl = env.get_template('plugin-error.rst.j2')
+    plugin_tmpl = env.get_template("plugin.rst.j2")
+    role_tmpl = env.get_template("role.rst.j2")
+    error_tmpl = env.get_template("plugin-error.rst.j2")
 
     writers = []
     lib_ctx = app_context.lib_ctx.get()
@@ -338,21 +379,29 @@ async def output_all_plugin_rst(collection_to_plugin_info: CollectionInfoT,
         for collection_name, plugins_by_type in collection_to_plugin_info.items():
             for plugin_type, plugins in plugins_by_type.items():
                 plugin_type_tmpl = plugin_tmpl
-                if plugin_type == 'role':
+                if plugin_type == "role":
                     plugin_type_tmpl = role_tmpl
                 for plugin_short_name, dummy_ in plugins.items():
-                    plugin_name = '.'.join((collection_name, plugin_short_name))
-                    writers.append(await pool.spawn(
-                        write_plugin_rst(collection_name,
-                                         collection_metadata[collection_name],
-                                         link_data[collection_name],
-                                         plugin_short_name, plugin_type,
-                                         plugin_info[plugin_type].get(plugin_name),
-                                         nonfatal_errors[plugin_type][plugin_name],
-                                         plugin_type_tmpl, error_tmpl,
-                                         dest_dir, squash_hierarchy=squash_hierarchy,
-                                         use_html_blobs=use_html_blobs,
-                                         for_official_docsite=for_official_docsite)))
+                    plugin_name = ".".join((collection_name, plugin_short_name))
+                    writers.append(
+                        await pool.spawn(
+                            write_plugin_rst(
+                                collection_name,
+                                collection_metadata[collection_name],
+                                link_data[collection_name],
+                                plugin_short_name,
+                                plugin_type,
+                                plugin_info[plugin_type].get(plugin_name),
+                                nonfatal_errors[plugin_type][plugin_name],
+                                plugin_type_tmpl,
+                                error_tmpl,
+                                dest_dir,
+                                squash_hierarchy=squash_hierarchy,
+                                use_html_blobs=use_html_blobs,
+                                for_official_docsite=for_official_docsite,
+                            )
+                        )
+                    )
 
         # Write docs for each plugin
         await asyncio.gather(*writers)

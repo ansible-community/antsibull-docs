@@ -6,14 +6,14 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 author: "Felix Fontein (@felixfontein) <felix@fontein.de>"
 name: foo
 short_description: Foo router CLI config
 description:
   - This is a CLI config for foo routers. Whatever these are.
-'''
+"""
 
 from ansible.plugins.cliconf import CliconfBase
 

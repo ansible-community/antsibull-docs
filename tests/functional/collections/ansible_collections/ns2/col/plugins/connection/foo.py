@@ -6,7 +6,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
     name: foo
     short_description: Foo connection O(bar)
     version_added: 1.2.0
@@ -29,13 +29,13 @@ DOCUMENTATION = '''
       bar:
           description: Foo bar.
           type: int
-'''
+"""
 
 from ansible.plugins.connection import ConnectionBase
 
 
 class Connection(ConnectionBase):
-    ''' ssh based connections '''
+    """ssh based connections"""
 
-    transport = 'ns2.col.foo'
+    transport = "ns2.col.foo"
     has_pipelining = False

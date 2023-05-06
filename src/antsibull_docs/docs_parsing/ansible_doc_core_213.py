@@ -33,7 +33,7 @@ async def _call_ansible_doc(
     *parameters: str,
 ) -> Mapping[str, t.Any]:
     p = await venv.async_log_run(
-        ['ansible-doc', '-vvv', '--metadata-dump', '--no-fail-on-errors', *parameters],
+        ["ansible-doc", "-vvv", "--metadata-dump", "--no-fail-on-errors", *parameters],
         env=env,
     )
     return json.loads(_filter_non_json_lines(p.stdout)[0])
@@ -42,13 +42,14 @@ async def _call_ansible_doc(
 # Versions when flatmapping was removed from collections, resp. when an explicit
 # docs/docsite/config.yml file was added.
 _MIN_UNFLATMAP_VERSIONS: Mapping[str, semver.Version] = {
-    'community.general': semver.Version('6.0.0'),
-    'community.network': semver.Version('5.0.0'),
+    "community.general": semver.Version("6.0.0"),
+    "community.network": semver.Version("5.0.0"),
 }
 
 
-def should_flatmap(collection: str,
-                   collection_metadata: Mapping[str, AnsibleCollectionMetadata]) -> bool:
+def should_flatmap(
+    collection: str, collection_metadata: Mapping[str, AnsibleCollectionMetadata]
+) -> bool:
     """
     Decide whether a collection should use flatmapping or not.
     """
@@ -68,12 +69,14 @@ def should_flatmap(collection: str,
     return meta.docs_config.flatmap
 
 
-async def get_ansible_plugin_info(venv: VenvRunner | FakeVenvRunner,
-                                  collection_dir: str | None,
-                                  collection_names: list[str] | None = None
-                                  ) -> tuple[
-                                      MutableMapping[str, MutableMapping[str, t.Any]],
-                                      Mapping[str, AnsibleCollectionMetadata]]:
+async def get_ansible_plugin_info(
+    venv: VenvRunner | FakeVenvRunner,
+    collection_dir: str | None,
+    collection_names: list[str] | None = None,
+) -> tuple[
+    MutableMapping[str, MutableMapping[str, t.Any]],
+    Mapping[str, AnsibleCollectionMetadata],
+]:
     """
     Retrieve information about all of the Ansible Plugins. Requires ansible-core 2.13+.
 
@@ -92,27 +95,27 @@ async def get_ansible_plugin_info(venv: VenvRunner | FakeVenvRunner,
 
         The second component is a Mapping of collection names to metadata.
     """
-    flog = mlog.fields(func='get_ansible_plugin_info')
-    flog.debug('Enter')
+    flog = mlog.fields(func="get_ansible_plugin_info")
+    flog.debug("Enter")
 
     env = _get_environment(collection_dir, venv=venv)
 
-    flog.debug('Retrieving and loading plugin documentation')
+    flog.debug("Retrieving and loading plugin documentation")
     if collection_names and len(collection_names) == 1:
         # ansible-doc only allows *one* filter
         ansible_doc_output = await _call_ansible_doc(venv, env, collection_names[0])
     else:
         ansible_doc_output = await _call_ansible_doc(venv, env)
 
-    flog.debug('Retrieving collection metadata')
+    flog.debug("Retrieving collection metadata")
     collection_metadata = await get_collection_metadata(venv, env, collection_names)
 
-    flog.debug('Processing plugin documentation')
+    flog.debug("Processing plugin documentation")
     plugin_map: MutableMapping[str, MutableMapping[str, t.Any]] = {}
     for plugin_type in DOCUMENTABLE_PLUGINS:
         plugin_type_data: dict[str, t.Any] = {}
         plugin_map[plugin_type] = plugin_type_data
-        plugins_of_type = ansible_doc_output['all'].get(plugin_type, {})
+        plugins_of_type = ansible_doc_output["all"].get(plugin_type, {})
         for plugin_name, plugin_data in plugins_of_type.items():
             # ansible-doc returns plugins shipped with ansible-core using no namespace and
             # collection.  For now, we fix these entries to use the ansible.builtin collection
@@ -124,7 +127,7 @@ async def get_ansible_plugin_info(venv: VenvRunner | FakeVenvRunner,
             fqcn = plugin_name
             try:
                 namespace, collection, name = get_fqcn_parts(fqcn)
-                collection = f'{namespace}.{collection}'
+                collection = f"{namespace}.{collection}"
 
                 if should_flatmap(collection, collection_metadata):
                     # ansible-core devel branch will soon start to emit non-flattened FQCNs. This
@@ -132,28 +135,28 @@ async def get_ansible_plugin_info(venv: VenvRunner | FakeVenvRunner,
                     # of --metadata-dump to conform to the output we had before (through
                     # `ansible-doc --json` or the ansible-internal backend).
                     # (https://github.com/ansible/ansible/pull/74963#issuecomment-1041580237)
-                    dot_position = name.rfind('.')
+                    dot_position = name.rfind(".")
                     if dot_position >= 0:
-                        name = name[dot_position + 1:]
+                        name = name[dot_position + 1 :]
 
-                fqcn = f'{collection}.{name}'
+                fqcn = f"{collection}.{name}"
             except ValueError:
                 name = plugin_name
-                collection = 'ansible.builtin'
-                fqcn = f'{collection}.{name}'
+                collection = "ansible.builtin"
+                fqcn = f"{collection}.{name}"
 
             # ansible-core devel branch will soon start to prepend _ to deprecated plugins when
             # --metadata-dump is used.
             # (https://github.com/ansible/ansible/pull/74963#issuecomment-1041580237)
-            if collection == 'ansible.builtin' and fqcn.startswith('ansible.builtin._'):
-                fqcn = fqcn.replace('_', '', 1)
+            if collection == "ansible.builtin" and fqcn.startswith("ansible.builtin._"):
+                fqcn = fqcn.replace("_", "", 1)
 
             # Filter collection name
             if collection_names is not None and collection not in collection_names:
-                flog.debug(f'Ignoring documenation for {plugin_type} plugin {fqcn}')
+                flog.debug(f"Ignoring documenation for {plugin_type} plugin {fqcn}")
                 continue
 
             plugin_type_data[fqcn] = plugin_data
 
-    flog.debug('Leave')
+    flog.debug("Leave")
     return (plugin_map, collection_metadata)

@@ -7,7 +7,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
   name: foo
   version_added: 1.3.0
   short_description: The foo filter O(bar)
@@ -26,21 +26,21 @@ DOCUMENTATION = r'''
     bar:
       description: Some bar.
       type: string
-'''
+"""
 
-EXAMPLES = r'''
+EXAMPLES = r"""
 some_var: "{{ 'foo' | ns2.col.foo }}"
-'''
+"""
 
-RETURN = r'''
+RETURN = r"""
   _value:
     description: The result.
     type: str
-'''
+"""
 
 
 def foo(input, foo):
-    return 'FOO:{0}:BAR'.format(input)
+    return "FOO:{0}:BAR".format(input)
 
 
 def bar(input, foo, bar, baz):
@@ -50,6 +50,6 @@ def bar(input, foo, bar, baz):
 class FilterModule(object):
     def filters(self):
         return {
-            'foo': foo,
-            'bar': bar,
+            "foo": foo,
+            "bar": bar,
         }

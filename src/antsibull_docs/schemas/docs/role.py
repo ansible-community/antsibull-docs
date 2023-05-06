@@ -29,14 +29,14 @@ from .base import (
 
 
 class InnerRoleOptionsSchema(OptionsSchema):
-    options: dict[str, 'InnerRoleOptionsSchema'] = {}
+    options: dict[str, "InnerRoleOptionsSchema"] = {}
 
     @p.root_validator(pre=True)
     # pylint:disable=no-self-argument
     def allow_description_to_be_optional(cls, values):
         # Doing this in a validator so that the json-schema will still flag it as an error
-        if 'description' not in values:
-            values['description'] = []
+        if "description" not in values:
+            values["description"] = []
         return values
 
 
@@ -44,11 +44,12 @@ InnerRoleOptionsSchema.update_forward_refs()
 
 
 class RoleOptionsSchema(OptionsSchema):
-    options: dict[str, 'InnerRoleOptionsSchema'] = {}
+    options: dict[str, "InnerRoleOptionsSchema"] = {}
 
 
 class RoleEntrypointSchema(BaseModel):
     """Documentation for role entrypoints."""
+
     description: list[str]
     short_description: str
     author: list[str] = []
@@ -57,16 +58,18 @@ class RoleEntrypointSchema(BaseModel):
     requirements: list[str] = []
     seealso: list[t.Union[SeeAlsoModSchema, SeeAlsoRefSchema, SeeAlsoLinkSchema]] = []
     todo: list[str] = []
-    version_added: str = 'historical'
-    attributes: dict[str, t.Union[AttributeSchema,
-                                  AttributeSchemaActionGroup,
-                                  AttributeSchemaPlatform]] = {}
+    version_added: str = "historical"
+    attributes: dict[
+        str,
+        t.Union[AttributeSchema, AttributeSchemaActionGroup, AttributeSchemaPlatform],
+    ] = {}
 
     options: dict[str, RoleOptionsSchema] = {}
 
 
 class RoleSchema(BaseModel):
     """Documentation for roles."""
+
     collection: str = COLLECTION_NAME_F
     entry_points: dict[str, RoleEntrypointSchema]
     path: str

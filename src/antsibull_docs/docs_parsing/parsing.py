@@ -27,12 +27,14 @@ if t.TYPE_CHECKING:
 mlog = log.fields(mod=__name__)
 
 
-async def get_ansible_plugin_info(venv: VenvRunner | FakeVenvRunner,
-                                  collection_dir: str | None,
-                                  collection_names: list[str] | None = None
-                                  ) -> tuple[
-                                    MutableMapping[str, MutableMapping[str, t.Any]],
-                                    Mapping[str, AnsibleCollectionMetadata]]:
+async def get_ansible_plugin_info(
+    venv: VenvRunner | FakeVenvRunner,
+    collection_dir: str | None,
+    collection_names: list[str] | None = None,
+) -> tuple[
+    MutableMapping[str, MutableMapping[str, t.Any]],
+    Mapping[str, AnsibleCollectionMetadata],
+]:
     """
     Retrieve information about all of the Ansible Plugins.
 
@@ -53,20 +55,23 @@ async def get_ansible_plugin_info(venv: VenvRunner | FakeVenvRunner,
         always includes the metadata for ansible.builtin, even if it was not explicitly
         mentioned in ``collection_names``.
     """
-    flog = mlog.fields(func='get_ansible_plugin_info')
+    flog = mlog.fields(func="get_ansible_plugin_info")
 
     app_ctx = app_context.app_ctx.get()
 
     doc_parsing_backend = app_ctx.doc_parsing_backend
-    if doc_parsing_backend == 'auto':
+    if doc_parsing_backend == "auto":
         version = await get_ansible_core_version(venv)
-        flog.debug(f'Ansible-core version: {version}')
-        if version < PypiVer('2.13.0.dev0'):
-            raise RuntimeError(f'Unsupported ansible-core version {version}. Need 2.13.0 or later.')
-        doc_parsing_backend = 'ansible-core-2.13'
-        flog.debug(f'Auto-detected docs parsing backend: {doc_parsing_backend}')
-    if doc_parsing_backend == 'ansible-core-2.13':
+        flog.debug(f"Ansible-core version: {version}")
+        if version < PypiVer("2.13.0.dev0"):
+            raise RuntimeError(
+                f"Unsupported ansible-core version {version}. Need 2.13.0 or later."
+            )
+        doc_parsing_backend = "ansible-core-2.13"
+        flog.debug(f"Auto-detected docs parsing backend: {doc_parsing_backend}")
+    if doc_parsing_backend == "ansible-core-2.13":
         return await ansible_doc_core_213_get_ansible_plugin_info(
-            venv, collection_dir, collection_names=collection_names)
+            venv, collection_dir, collection_names=collection_names
+        )
 
-    raise RuntimeError(f'Invalid value for doc_parsing_backend: {doc_parsing_backend}')
+    raise RuntimeError(f"Invalid value for doc_parsing_backend: {doc_parsing_backend}")

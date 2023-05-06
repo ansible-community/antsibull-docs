@@ -6,7 +6,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
     name: foo
     type: stdout
     short_description: Foo output O(bar)
@@ -17,12 +17,12 @@ DOCUMENTATION = '''
         bar:
             description: Nothing.
             type: string
-'''
+"""
 
 from ansible.plugins.callback import CallbackBase
 
 
 class CallbackModule(CallbackBase):
     CALLBACK_VERSION = 2.0
-    CALLBACK_TYPE = 'stdout'
-    CALLBACK_NAME = 'ns2.col.foo'
+    CALLBACK_TYPE = "stdout"
+    CALLBACK_NAME = "ns2.col.foo"

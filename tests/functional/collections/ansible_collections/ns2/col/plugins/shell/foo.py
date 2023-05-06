@@ -6,7 +6,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 name: foo
 short_description: Foo shell O(bar)
 version_added: 1.0.0
@@ -30,11 +30,11 @@ options:
   bar:
     description: Foo bar.
     type: string
-'''
+"""
 
 from ansible.plugins.shell import ShellBase
 
 
 class ShellModule(ShellBase):
-    COMPATIBLE_SHELLS = frozenset(('foo'))
-    SHELL_FAMILY = 'foo'
+    COMPATIBLE_SHELLS = frozenset(("foo"))
+    SHELL_FAMILY = "foo"

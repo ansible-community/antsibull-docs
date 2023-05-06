@@ -15,28 +15,31 @@ from ..schemas.collection_config import CollectionConfig
 
 #: Clear Ansible environment variables that set paths where plugins could be found.
 ANSIBLE_PATH_ENVIRON: dict[str, str] = os.environ.copy()
-ANSIBLE_PATH_ENVIRON.update({'ANSIBLE_COLLECTIONS_PATH': '/dev/null',
-                             'ANSIBLE_ACTION_PLUGINS': '/dev/null',
-                             'ANSIBLE_CACHE_PLUGINS': '/dev/null',
-                             'ANSIBLE_CALLBACK_PLUGINS': '/dev/null',
-                             'ANSIBLE_CLICONF_PLUGINS': '/dev/null',
-                             'ANSIBLE_CONNECTION_PLUGINS': '/dev/null',
-                             'ANSIBLE_FILTER_PLUGINS': '/dev/null',
-                             'ANSIBLE_HTTPAPI_PLUGINS': '/dev/null',
-                             'ANSIBLE_INVENTORY_PLUGINS': '/dev/null',
-                             'ANSIBLE_LOOKUP_PLUGINS': '/dev/null',
-                             'ANSIBLE_LIBRARY': '/dev/null',
-                             'ANSIBLE_MODULE_UTILS': '/dev/null',
-                             'ANSIBLE_NETCONF_PLUGINS': '/dev/null',
-                             'ANSIBLE_ROLES_PATH': '/dev/null',
-                             'ANSIBLE_STRATEGY_PLUGINS': '/dev/null',
-                             'ANSIBLE_TERMINAL_PLUGINS': '/dev/null',
-                             'ANSIBLE_TEST_PLUGINS': '/dev/null',
-                             'ANSIBLE_VARS_PLUGINS': '/dev/null',
-                             'ANSIBLE_DOC_FRAGMENT_PLUGINS': '/dev/null',
-                             })
+ANSIBLE_PATH_ENVIRON.update(
+    {
+        "ANSIBLE_COLLECTIONS_PATH": "/dev/null",
+        "ANSIBLE_ACTION_PLUGINS": "/dev/null",
+        "ANSIBLE_CACHE_PLUGINS": "/dev/null",
+        "ANSIBLE_CALLBACK_PLUGINS": "/dev/null",
+        "ANSIBLE_CLICONF_PLUGINS": "/dev/null",
+        "ANSIBLE_CONNECTION_PLUGINS": "/dev/null",
+        "ANSIBLE_FILTER_PLUGINS": "/dev/null",
+        "ANSIBLE_HTTPAPI_PLUGINS": "/dev/null",
+        "ANSIBLE_INVENTORY_PLUGINS": "/dev/null",
+        "ANSIBLE_LOOKUP_PLUGINS": "/dev/null",
+        "ANSIBLE_LIBRARY": "/dev/null",
+        "ANSIBLE_MODULE_UTILS": "/dev/null",
+        "ANSIBLE_NETCONF_PLUGINS": "/dev/null",
+        "ANSIBLE_ROLES_PATH": "/dev/null",
+        "ANSIBLE_STRATEGY_PLUGINS": "/dev/null",
+        "ANSIBLE_TERMINAL_PLUGINS": "/dev/null",
+        "ANSIBLE_TEST_PLUGINS": "/dev/null",
+        "ANSIBLE_VARS_PLUGINS": "/dev/null",
+        "ANSIBLE_DOC_FRAGMENT_PLUGINS": "/dev/null",
+    }
+)
 try:
-    del ANSIBLE_PATH_ENVIRON['ANSIBLE_COLLECTIONS_PATHS']
+    del ANSIBLE_PATH_ENVIRON["ANSIBLE_COLLECTIONS_PATHS"]
 except KeyError:
     # ANSIBLE_COLLECTIONS_PATHS is the deprecated name replaced by
     # ANSIBLE_COLLECTIONS_PATH
@@ -47,23 +50,24 @@ class ParsingError(Exception):
     """Error raised while parsing plugins for documentation."""
 
 
-def _get_environment(collection_dir: str | None,
-                     venv: VenvRunner | FakeVenvRunner,
-                     ) -> dict[str, str]:
+def _get_environment(
+    collection_dir: str | None,
+    venv: VenvRunner | FakeVenvRunner,
+) -> dict[str, str]:
     env = ANSIBLE_PATH_ENVIRON.copy()
     if isinstance(venv, VenvRunner):
         try:
-            del env['PYTHONPATH']
+            del env["PYTHONPATH"]
         except KeyError:
             # We just wanted to make sure there was no PYTHONPATH set...
             # all Python libs will come from the venv
             pass
     if collection_dir is not None:
-        env['ANSIBLE_COLLECTIONS_PATH'] = collection_dir
+        env["ANSIBLE_COLLECTIONS_PATH"] = collection_dir
     else:
         # Copy ANSIBLE_COLLECTIONS_PATH and ANSIBLE_COLLECTIONS_PATHS from the
         # original environment.
-        for env_var in ('ANSIBLE_COLLECTIONS_PATH', 'ANSIBLE_COLLECTIONS_PATHS'):
+        for env_var in ("ANSIBLE_COLLECTIONS_PATH", "ANSIBLE_COLLECTIONS_PATHS"):
             try:
                 del env[env_var]
             except KeyError:
@@ -79,19 +83,21 @@ class AnsibleCollectionMetadata:
     requires_ansible: str | None
     docs_config: CollectionConfig
 
-    def __init__(self,
-                 path: str,
-                 docs_config: CollectionConfig,
-                 version: str | None = None,
-                 requires_ansible: str | None = None):
+    def __init__(
+        self,
+        path: str,
+        docs_config: CollectionConfig,
+        version: str | None = None,
+        requires_ansible: str | None = None,
+    ):
         self.path = path
         self.version = version
         self.requires_ansible = requires_ansible
         self.docs_config = docs_config
 
     def __repr__(self):
-        return f'AnsibleCollectionMetadata({repr(self.path)}, {repr(self.version)})'
+        return f"AnsibleCollectionMetadata({repr(self.path)}, {repr(self.version)})"
 
     @classmethod
-    def empty(cls, path='.'):
+    def empty(cls, path="."):
         return cls(path=path, docs_config=CollectionConfig.parse_obj({}), version=None)

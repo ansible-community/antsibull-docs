@@ -20,7 +20,7 @@ from ._counter import count as _count
 
 
 def rst_escape(value: t.Any, escape_ending_whitespace=False) -> str:
-    ''' make sure value is converted to a string, and RST special characters are escaped '''
+    """make sure value is converted to a string, and RST special characters are escaped"""
     if not isinstance(value, str):
         value = str(value)
 
@@ -28,24 +28,25 @@ def rst_escape(value: t.Any, escape_ending_whitespace=False) -> str:
 
 
 def rst_code(value: str) -> str:
-    ''' Write value as :code:`...` RST construct. '''
+    """Write value as :code:`...` RST construct."""
     if not isinstance(value, str):
         value = str(value)
-    return f':code:`{rst_escape(value, escape_ending_whitespace=True)}`'
+    return f":code:`{rst_escape(value, escape_ending_whitespace=True)}`"
 
 
-def rst_ify(text: str,
-            *,
-            plugin_fqcn: str | None = None,
-            plugin_type: str | None = None,
-            role_entrypoint: str | None = None,
-            ) -> tuple[str, Mapping[str, int]]:
-    ''' convert symbols like I(this is in italics) to valid restructured text '''
+def rst_ify(
+    text: str,
+    *,
+    plugin_fqcn: str | None = None,
+    plugin_type: str | None = None,
+    role_entrypoint: str | None = None,
+) -> tuple[str, Mapping[str, int]]:
+    """convert symbols like I(this is in italics) to valid restructured text"""
     current_plugin: dom.PluginIdentifier | None = None
     if plugin_fqcn and plugin_type:
         current_plugin = dom.PluginIdentifier(fqcn=plugin_fqcn, type=plugin_type)
     context = Context(current_plugin=current_plugin, role_entrypoint=role_entrypoint)
-    paragraphs = parse(text, context, errors='message')
+    paragraphs = parse(text, context, errors="message")
     text = to_rst(paragraphs, current_plugin=current_plugin)
     counts = _count(paragraphs)
     return text, counts

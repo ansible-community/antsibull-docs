@@ -7,7 +7,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
   name: foo
   author: Nobody
   short_description: Is something a foo O(bar)
@@ -21,17 +21,17 @@ DOCUMENTATION = r'''
     bar:
       description: Foo bar.
       type: string
-'''
+"""
 
-EXAMPLES = r'''
+EXAMPLES = r"""
 some_var: "{{ {'a': 1} is ns2.col.foo }}"
-'''
+"""
 
-RETURN = r'''
+RETURN = r"""
   _value:
     description: Whether the input is a foo.
     type: boolean
-'''
+"""
 
 
 def foo(input):
@@ -45,7 +45,7 @@ def bar(input):
 class TestModule(object):
     def tests(self):
         return {
-            'foo': foo,
-            'bar': bar,
-            'is_bar': bar,
+            "foo": foo,
+            "bar": bar,
+            "is_bar": bar,
         }

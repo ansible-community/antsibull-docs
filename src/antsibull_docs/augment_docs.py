@@ -11,9 +11,12 @@ import typing as t
 from collections.abc import Mapping, MutableMapping
 
 
-def add_full_key(options_data: Mapping[str, t.Any], suboption_entry: str,
-                 _full_key: list[str] | None = None,
-                 _full_keys: list[list[str]] | None = None) -> None:
+def add_full_key(
+    options_data: Mapping[str, t.Any],
+    suboption_entry: str,
+    _full_key: list[str] | None = None,
+    _full_keys: list[list[str]] | None = None,
+) -> None:
     """
     Add information on the strucfture of a dict value in options or returns.
 
@@ -40,18 +43,18 @@ def add_full_key(options_data: Mapping[str, t.Any], suboption_entry: str,
     if _full_keys is None:
         _full_keys = [[]]
 
-    for (key, entry) in options_data.items():
+    for key, entry in options_data.items():
         # Make sure that "full key" is contained
         full_key_k = _full_key + [key]
         full_keys_k = [fk + [key] for fk in _full_keys]
-        if 'aliases' in entry:
-            for alias in entry['aliases']:
+        if "aliases" in entry:
+            for alias in entry["aliases"]:
                 full_keys_k.extend([fk + [alias] for fk in _full_keys])
-        entry['full_key'] = full_key_k
-        entry['full_keys'] = full_keys_k
-        entry['full_keys_rst'] = sorted({
-            tuple(' '.join(p.lower().split()) for p in fk) for fk in full_keys_k
-        })
+        entry["full_key"] = full_key_k
+        entry["full_keys"] = full_keys_k
+        entry["full_keys_rst"] = sorted(
+            {tuple(" ".join(p.lower().split()) for p in fk) for fk in full_keys_k}
+        )
 
         # Process suboptions
         suboptions = entry.get(suboption_entry)
@@ -60,32 +63,34 @@ def add_full_key(options_data: Mapping[str, t.Any], suboption_entry: str,
                 suboptions,
                 suboption_entry=suboption_entry,
                 _full_key=full_key_k,
-                _full_keys=full_keys_k)
+                _full_keys=full_keys_k,
+            )
 
 
-def _add_seealso(seealso: list[MutableMapping[str, t.Any]],
-                 plugin_info: Mapping[str, Mapping[str, t.Any]],
-                 ) -> None:
+def _add_seealso(
+    seealso: list[MutableMapping[str, t.Any]],
+    plugin_info: Mapping[str, Mapping[str, t.Any]],
+) -> None:
     for entry in seealso:
-        if entry.get('description'):
+        if entry.get("description"):
             continue
-        plugin = ''
-        plugin_type = 'module'
-        if entry.get('module'):
-            plugin = entry['module']
-        elif entry.get('plugin') and entry.get('plugin_type'):
-            plugin = entry['plugin']
-            plugin_type = entry['plugin_type']
+        plugin = ""
+        plugin_type = "module"
+        if entry.get("module"):
+            plugin = entry["module"]
+        elif entry.get("plugin") and entry.get("plugin_type"):
+            plugin = entry["plugin"]
+            plugin_type = entry["plugin_type"]
         else:
             continue
         try:
-            desc = plugin_info[plugin_type][plugin]['doc']['short_description']
+            desc = plugin_info[plugin_type][plugin]["doc"]["short_description"]
         except (KeyError, TypeError):
             desc = None
         if desc:
-            if not desc.endswith(('.', '!', '?')):
-                desc += '.'
-            entry['description'] = desc
+            if not desc.endswith((".", "!", "?")):
+                desc += "."
+            entry["description"] = desc
 
 
 def augment_docs(plugin_info: MutableMapping[str, MutableMapping[str, t.Any]]) -> None:
@@ -106,12 +111,12 @@ def augment_docs(plugin_info: MutableMapping[str, MutableMapping[str, t.Any]]) -
     """
     for _, plugin_map in plugin_info.items():
         for _, plugin_record in plugin_map.items():
-            if plugin_record.get('return'):
-                add_full_key(plugin_record['return'], 'contains')
-            if plugin_record.get('doc'):
-                add_full_key(plugin_record['doc']['options'], 'suboptions')
-                if plugin_record['doc'].get('seealso'):
-                    _add_seealso(plugin_record['doc']['seealso'], plugin_info)
-            if plugin_record.get('entry_points'):
-                for entry_point in plugin_record['entry_points'].values():
-                    add_full_key(entry_point['options'], 'options')
+            if plugin_record.get("return"):
+                add_full_key(plugin_record["return"], "contains")
+            if plugin_record.get("doc"):
+                add_full_key(plugin_record["doc"]["options"], "suboptions")
+                if plugin_record["doc"].get("seealso"):
+                    _add_seealso(plugin_record["doc"]["seealso"], plugin_info)
+            if plugin_record.get("entry_points"):
+                for entry_point in plugin_record["entry_points"].values():
+                    add_full_key(entry_point["options"], "options")

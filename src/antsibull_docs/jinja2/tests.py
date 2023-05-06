@@ -18,7 +18,7 @@ from semantic_version import Version as SemVer
 # collection is mentioned as when a feature was added that is older than the cut-off version,
 # we do not print the version.
 TOO_OLD_TO_BE_NOTABLE = {
-    'ansible.builtin': '2.7',
+    "ansible.builtin": "2.7",
 }
 
 test_list: t.Callable[[t.Any], bool] = partial(is_sequence, include_strings=False)
@@ -39,7 +39,7 @@ def still_relevant(version, collection=None):
     if not version:
         return False
 
-    if version == 'historical':
+    if version == "historical":
         return False
 
     cutoff = TOO_OLD_TO_BE_NOTABLE.get(collection)
@@ -48,7 +48,7 @@ def still_relevant(version, collection=None):
         # still relevant
         return True
 
-    if collection == 'ansible.builtin':
+    if collection == "ansible.builtin":
         Version = PypiVer
     else:
         Version = SemVer

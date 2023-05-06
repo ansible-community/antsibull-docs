@@ -25,10 +25,14 @@ from . import CollectionInfoT, _render_template
 mlog = log.fields(mod=__name__)
 
 
-async def write_collection_list(collections: Iterable[str], namespaces: Iterable[str],
-                                template: Template, dest_dir: str,
-                                breadcrumbs: bool = True,
-                                for_official_docsite: bool = False) -> None:
+async def write_collection_list(
+    collections: Iterable[str],
+    namespaces: Iterable[str],
+    template: Template,
+    dest_dir: str,
+    breadcrumbs: bool = True,
+    for_official_docsite: bool = False,
+) -> None:
     """
     Write an index page listing all of the collections.
 
@@ -51,15 +55,19 @@ async def write_collection_list(collections: Iterable[str], namespaces: Iterable
         breadcrumbs=breadcrumbs,
         for_official_docsite=for_official_docsite,
     )
-    index_file = os.path.join(dest_dir, 'index.rst')
+    index_file = os.path.join(dest_dir, "index.rst")
 
     await write_file(index_file, index_contents)
 
 
-async def write_collection_namespace_index(namespace: str, collections: Iterable[str],
-                                           template: Template, dest_dir: str,
-                                           breadcrumbs: bool = True,
-                                           for_official_docsite: bool = False) -> None:
+async def write_collection_namespace_index(
+    namespace: str,
+    collections: Iterable[str],
+    template: Template,
+    dest_dir: str,
+    breadcrumbs: bool = True,
+    for_official_docsite: bool = False,
+) -> None:
     """
     Write an index page listing all of the collections for this namespace.
 
@@ -82,18 +90,20 @@ async def write_collection_namespace_index(namespace: str, collections: Iterable
         breadcrumbs=breadcrumbs,
         for_official_docsite=for_official_docsite,
     )
-    index_file = os.path.join(dest_dir, 'index.rst')
+    index_file = os.path.join(dest_dir, "index.rst")
 
     await write_file(index_file, index_contents)
 
 
-async def output_collection_index(collection_to_plugin_info: CollectionInfoT,
-                                  collection_namespaces: Mapping[str, list[str]],
-                                  dest_dir: str,
-                                  collection_url: CollectionNameTransformer,
-                                  collection_install: CollectionNameTransformer,
-                                  breadcrumbs: bool = True,
-                                  for_official_docsite: bool = False) -> None:
+async def output_collection_index(
+    collection_to_plugin_info: CollectionInfoT,
+    collection_namespaces: Mapping[str, list[str]],
+    dest_dir: str,
+    collection_url: CollectionNameTransformer,
+    collection_install: CollectionNameTransformer,
+    breadcrumbs: bool = True,
+    for_official_docsite: bool = False,
+) -> None:
     """
     Generate top-level collection index page for the collections.
 
@@ -106,36 +116,45 @@ async def output_collection_index(collection_to_plugin_info: CollectionInfoT,
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
     """
-    flog = mlog.fields(func='output_collection_index')
-    flog.debug('Enter')
+    flog = mlog.fields(func="output_collection_index")
+    flog.debug("Enter")
 
     env = doc_environment(
-        ('antsibull_docs.data', 'docsite'),
+        ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
-        collection_install=collection_install)
+        collection_install=collection_install,
+    )
     # Get the templates
-    collection_list_tmpl = env.get_template('list_of_collections.rst.j2')
+    collection_list_tmpl = env.get_template("list_of_collections.rst.j2")
 
-    collection_toplevel = os.path.join(dest_dir, 'collections')
-    flog.fields(toplevel=collection_toplevel, exists=os.path.isdir(collection_toplevel)).debug(
-        'collection_toplevel exists?')
+    collection_toplevel = os.path.join(dest_dir, "collections")
+    flog.fields(
+        toplevel=collection_toplevel, exists=os.path.isdir(collection_toplevel)
+    ).debug("collection_toplevel exists?")
     # This is only safe because we made sure that the top of the directory tree we're writing to
     # (docs/docsite/rst) is only writable by us.
     os.makedirs(collection_toplevel, mode=0o755, exist_ok=True)
 
-    await write_collection_list(collection_to_plugin_info.keys(), collection_namespaces.keys(),
-                                collection_list_tmpl, collection_toplevel, breadcrumbs=breadcrumbs,
-                                for_official_docsite=for_official_docsite)
+    await write_collection_list(
+        collection_to_plugin_info.keys(),
+        collection_namespaces.keys(),
+        collection_list_tmpl,
+        collection_toplevel,
+        breadcrumbs=breadcrumbs,
+        for_official_docsite=for_official_docsite,
+    )
 
-    flog.debug('Leave')
+    flog.debug("Leave")
 
 
-async def output_collection_namespace_indexes(collection_namespaces: Mapping[str, list[str]],
-                                              dest_dir: str,
-                                              collection_url: CollectionNameTransformer,
-                                              collection_install: CollectionNameTransformer,
-                                              breadcrumbs: bool = True,
-                                              for_official_docsite: bool = False) -> None:
+async def output_collection_namespace_indexes(
+    collection_namespaces: Mapping[str, list[str]],
+    dest_dir: str,
+    collection_url: CollectionNameTransformer,
+    collection_install: CollectionNameTransformer,
+    breadcrumbs: bool = True,
+    for_official_docsite: bool = False,
+) -> None:
     """
     Generate collection namespace index pages for the collections.
 
@@ -146,30 +165,39 @@ async def output_collection_namespace_indexes(collection_namespaces: Mapping[str
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
     """
-    flog = mlog.fields(func='output_collection_namespace_indexes')
-    flog.debug('Enter')
+    flog = mlog.fields(func="output_collection_namespace_indexes")
+    flog.debug("Enter")
 
     env = doc_environment(
-        ('antsibull_docs.data', 'docsite'),
+        ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
-        collection_install=collection_install)
+        collection_install=collection_install,
+    )
     # Get the templates
-    collection_list_tmpl = env.get_template('list_of_collections_by_namespace.rst.j2')
+    collection_list_tmpl = env.get_template("list_of_collections_by_namespace.rst.j2")
 
     writers = []
     lib_ctx = app_context.lib_ctx.get()
     async with asyncio_pool.AioPool(size=lib_ctx.thread_max) as pool:
         for namespace, collection_names in collection_namespaces.items():
-            namespace_dir = os.path.join(dest_dir, 'collections', namespace)
+            namespace_dir = os.path.join(dest_dir, "collections", namespace)
             # This is only safe because we made sure that the top of the directory tree we're
             # writing to (docs/docsite/rst) is only writable by us.
             os.makedirs(namespace_dir, mode=0o755, exist_ok=True)
 
-            writers.append(await pool.spawn(
-                write_collection_namespace_index(
-                    namespace, collection_names, collection_list_tmpl, namespace_dir,
-                    breadcrumbs=breadcrumbs, for_official_docsite=for_official_docsite)))
+            writers.append(
+                await pool.spawn(
+                    write_collection_namespace_index(
+                        namespace,
+                        collection_names,
+                        collection_list_tmpl,
+                        namespace_dir,
+                        breadcrumbs=breadcrumbs,
+                        for_official_docsite=for_official_docsite,
+                    )
+                )
+            )
 
         await asyncio.gather(*writers)
 
-    flog.debug('Leave')
+    flog.debug("Leave")

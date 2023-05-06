@@ -8,7 +8,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: foo2
 author:
@@ -60,19 +60,19 @@ attributes:
           - Sometimes our markup is B(broken.
         support: N/A
         platforms: posix
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 name: This is YAML.
-'''
+"""
 
-RETURN = '''
+RETURN = """
 bar:
     description: Some bar.
     returned: success
     type: string
     sample: baz
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
 
@@ -82,8 +82,8 @@ def main():
         argument_spec=dict(),
         supports_check_mode=True,
     )
-    module.exit_json(bar='baz')
+    module.exit_json(bar="baz")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

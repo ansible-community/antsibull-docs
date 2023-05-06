@@ -27,11 +27,13 @@ from . import PluginCollectionInfoT, _render_template
 mlog = log.fields(mod=__name__)
 
 
-async def write_callback_type_index(callback_type: str,
-                                    per_collection_plugins: Mapping[str, Mapping[str, str]],
-                                    template: Template,
-                                    dest_filename: str,
-                                    for_official_docsite: bool = False) -> None:
+async def write_callback_type_index(
+    callback_type: str,
+    per_collection_plugins: Mapping[str, Mapping[str, str]],
+    template: Template,
+    dest_filename: str,
+    for_official_docsite: bool = False,
+) -> None:
     """
     Write an index page for each plugin type.
 
@@ -54,13 +56,15 @@ async def write_callback_type_index(callback_type: str,
     await write_file(dest_filename, index_contents)
 
 
-async def write_plugin_type_index(plugin_type: str,
-                                  per_collection_plugins: Mapping[str, Mapping[str, str]],
-                                  # pylint:disable-next=unused-argument
-                                  collection_metadata: Mapping[str, AnsibleCollectionMetadata],
-                                  template: Template,
-                                  dest_filename: str,
-                                  for_official_docsite: bool = False) -> None:
+async def write_plugin_type_index(
+    plugin_type: str,
+    per_collection_plugins: Mapping[str, Mapping[str, str]],
+    # pylint:disable-next=unused-argument
+    collection_metadata: Mapping[str, AnsibleCollectionMetadata],
+    template: Template,
+    dest_filename: str,
+    for_official_docsite: bool = False,
+) -> None:
     """
     Write an index page for each plugin type.
 
@@ -84,11 +88,13 @@ async def write_plugin_type_index(plugin_type: str,
     await write_file(dest_filename, index_contents)
 
 
-async def output_callback_indexes(plugin_info: PluginCollectionInfoT,
-                                  dest_dir: str,
-                                  collection_url: CollectionNameTransformer,
-                                  collection_install: CollectionNameTransformer,
-                                  for_official_docsite: bool = False) -> None:
+async def output_callback_indexes(
+    plugin_info: PluginCollectionInfoT,
+    dest_dir: str,
+    collection_url: CollectionNameTransformer,
+    collection_install: CollectionNameTransformer,
+    for_official_docsite: bool = False,
+) -> None:
     """
     Generate top-level callback plugin index pages for all callback plugins of a type in all
     collections.
@@ -99,19 +105,21 @@ async def output_callback_indexes(plugin_info: PluginCollectionInfoT,
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
     """
-    flog = mlog.fields(func='output_callback_indexes')
-    flog.debug('Enter')
+    flog = mlog.fields(func="output_callback_indexes")
+    flog.debug("Enter")
 
     env = doc_environment(
-        ('antsibull_docs.data', 'docsite'),
+        ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
-        collection_install=collection_install)
+        collection_install=collection_install,
+    )
     # Get the templates
-    plugin_list_tmpl = env.get_template('list_of_callback_plugins.rst.j2')
+    plugin_list_tmpl = env.get_template("list_of_callback_plugins.rst.j2")
 
-    collection_toplevel = os.path.join(dest_dir, 'collections')
-    flog.fields(toplevel=collection_toplevel, exists=os.path.isdir(collection_toplevel)).debug(
-        'collection_toplevel exists?')
+    collection_toplevel = os.path.join(dest_dir, "collections")
+    flog.fields(
+        toplevel=collection_toplevel, exists=os.path.isdir(collection_toplevel)
+    ).debug("collection_toplevel exists?")
     # This is only safe because we made sure that the top of the directory tree we're writing to
     # (docs/docsite/rst) is only writable by us.
     os.makedirs(collection_toplevel, mode=0o755, exist_ok=True)
@@ -120,23 +128,34 @@ async def output_callback_indexes(plugin_info: PluginCollectionInfoT,
     lib_ctx = app_context.lib_ctx.get()
     async with asyncio_pool.AioPool(size=lib_ctx.thread_max) as pool:
         for callback_type, per_collection_data in plugin_info.items():
-            filename = os.path.join(collection_toplevel, f'callback_index_{callback_type}.rst')
-            writers.append(await pool.spawn(
-                write_callback_type_index(
-                    callback_type, per_collection_data, plugin_list_tmpl,
-                    filename, for_official_docsite=for_official_docsite)))
+            filename = os.path.join(
+                collection_toplevel, f"callback_index_{callback_type}.rst"
+            )
+            writers.append(
+                await pool.spawn(
+                    write_callback_type_index(
+                        callback_type,
+                        per_collection_data,
+                        plugin_list_tmpl,
+                        filename,
+                        for_official_docsite=for_official_docsite,
+                    )
+                )
+            )
 
         await asyncio.gather(*writers)
 
-    flog.debug('Leave')
+    flog.debug("Leave")
 
 
-async def output_plugin_indexes(plugin_info: PluginCollectionInfoT,
-                                collection_metadata: Mapping[str, AnsibleCollectionMetadata],
-                                dest_dir: str,
-                                collection_url: CollectionNameTransformer,
-                                collection_install: CollectionNameTransformer,
-                                for_official_docsite: bool = False) -> None:
+async def output_plugin_indexes(
+    plugin_info: PluginCollectionInfoT,
+    collection_metadata: Mapping[str, AnsibleCollectionMetadata],
+    dest_dir: str,
+    collection_url: CollectionNameTransformer,
+    collection_install: CollectionNameTransformer,
+    for_official_docsite: bool = False,
+) -> None:
     """
     Generate top-level plugin index pages for all plugins of a type in all collections.
 
@@ -147,19 +166,21 @@ async def output_plugin_indexes(plugin_info: PluginCollectionInfoT,
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
     """
-    flog = mlog.fields(func='output_plugin_indexes')
-    flog.debug('Enter')
+    flog = mlog.fields(func="output_plugin_indexes")
+    flog.debug("Enter")
 
     env = doc_environment(
-        ('antsibull_docs.data', 'docsite'),
+        ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
-        collection_install=collection_install)
+        collection_install=collection_install,
+    )
     # Get the templates
-    plugin_list_tmpl = env.get_template('list_of_plugins.rst.j2')
+    plugin_list_tmpl = env.get_template("list_of_plugins.rst.j2")
 
-    collection_toplevel = os.path.join(dest_dir, 'collections')
-    flog.fields(toplevel=collection_toplevel, exists=os.path.isdir(collection_toplevel)).debug(
-        'collection_toplevel exists?')
+    collection_toplevel = os.path.join(dest_dir, "collections")
+    flog.fields(
+        toplevel=collection_toplevel, exists=os.path.isdir(collection_toplevel)
+    ).debug("collection_toplevel exists?")
     # This is only safe because we made sure that the top of the directory tree we're writing to
     # (docs/docsite/rst) is only writable by us.
     os.makedirs(collection_toplevel, mode=0o755, exist_ok=True)
@@ -168,21 +189,30 @@ async def output_plugin_indexes(plugin_info: PluginCollectionInfoT,
     lib_ctx = app_context.lib_ctx.get()
     async with asyncio_pool.AioPool(size=lib_ctx.thread_max) as pool:
         for plugin_type, per_collection_data in plugin_info.items():
-            filename = os.path.join(collection_toplevel, f'index_{plugin_type}.rst')
-            writers.append(await pool.spawn(
-                write_plugin_type_index(
-                    plugin_type, per_collection_data, collection_metadata, plugin_list_tmpl,
-                    filename, for_official_docsite=for_official_docsite)))
+            filename = os.path.join(collection_toplevel, f"index_{plugin_type}.rst")
+            writers.append(
+                await pool.spawn(
+                    write_plugin_type_index(
+                        plugin_type,
+                        per_collection_data,
+                        collection_metadata,
+                        plugin_list_tmpl,
+                        filename,
+                        for_official_docsite=for_official_docsite,
+                    )
+                )
+            )
 
         await asyncio.gather(*writers)
 
-    flog.debug('Leave')
+    flog.debug("Leave")
 
 
-async def output_environment_variables(dest_dir: str,
-                                       env_variables: Mapping[str, EnvironmentVariableInfo],
-                                       squash_hierarchy: bool = False
-                                       ) -> None:
+async def output_environment_variables(
+    dest_dir: str,
+    env_variables: Mapping[str, EnvironmentVariableInfo],
+    squash_hierarchy: bool = False,
+) -> None:
     """
     Write environment variable Generate collection-level index pages for the collections.
 
@@ -192,25 +222,26 @@ async def output_environment_variables(dest_dir: str,
                            Undefined behavior if documentation for multiple collections are
                            created.
     """
-    flog = mlog.fields(func='write_environment_variables')
-    flog.debug('Enter')
+    flog = mlog.fields(func="write_environment_variables")
+    flog.debug("Enter")
 
     if not squash_hierarchy:
-        collection_toplevel = os.path.join(dest_dir, 'collections')
+        collection_toplevel = os.path.join(dest_dir, "collections")
     else:
         collection_toplevel = dest_dir
 
-    env = doc_environment(('antsibull_docs.data', 'docsite'))
+    env = doc_environment(("antsibull_docs.data", "docsite"))
     # Get the templates
-    env_var_list_tmpl = env.get_template('list_of_env_variables.rst.j2')
+    env_var_list_tmpl = env.get_template("list_of_env_variables.rst.j2")
 
-    flog.fields(toplevel=collection_toplevel, exists=os.path.isdir(collection_toplevel)).debug(
-        'collection_toplevel exists?')
+    flog.fields(
+        toplevel=collection_toplevel, exists=os.path.isdir(collection_toplevel)
+    ).debug("collection_toplevel exists?")
     # This is only safe because we made sure that the top of the directory tree we're writing to
     # (docs/docsite/rst) is only writable by us.
     os.makedirs(collection_toplevel, mode=0o755, exist_ok=True)
 
-    index_file = os.path.join(collection_toplevel, 'environment_variables.rst')
+    index_file = os.path.join(collection_toplevel, "environment_variables.rst")
     index_contents = _render_template(
         env_var_list_tmpl,
         index_file,
@@ -219,4 +250,4 @@ async def output_environment_variables(dest_dir: str,
 
     await write_file(index_file, index_contents)
 
-    flog.debug('Leave')
+    flog.debug("Leave")

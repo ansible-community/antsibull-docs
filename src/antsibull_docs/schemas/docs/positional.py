@@ -34,12 +34,14 @@ class InnerPositionalDocSchema(InnerDocSchema):
         Having both sample and example is redundant.  Many more plugins are using sample so
         standardize on that.
         """
-        positional = values.get('positional', [])
+        positional = values.get("positional", [])
 
         if isinstance(positional, str):
-            positional = [part.strip() for part in positional.split(',')] if positional else []
+            positional = (
+                [part.strip() for part in positional.split(",")] if positional else []
+            )
 
-        values['positional'] = positional
+        values["positional"] = positional
         return values
 
 
@@ -50,6 +52,11 @@ class PositionalDocSchema(BaseModel):
     doc: InnerPositionalDocSchema
 
 
-class PositionalSchema(PositionalDocSchema, PluginExamplesSchema, PluginMetadataSchema,
-                       PluginReturnSchema, BaseModel):
+class PositionalSchema(
+    PositionalDocSchema,
+    PluginExamplesSchema,
+    PluginMetadataSchema,
+    PluginReturnSchema,
+    BaseModel,
+):
     """Documentation of plugins with positional parameters."""

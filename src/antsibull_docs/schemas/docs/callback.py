@@ -15,7 +15,7 @@ from .plugin import (
     PluginReturnSchema,
 )
 
-REQUIRED_CALLBACK_TYPE_F = p.Field(..., regex='^(aggregate|notification|stdout)$')
+REQUIRED_CALLBACK_TYPE_F = p.Field(..., regex="^(aggregate|notification|stdout)$")
 
 
 class InnerCallbackDocSchema(InnerDocSchema):
@@ -36,6 +36,11 @@ class CallbackDocSchema(BaseModel):
     doc: InnerCallbackDocSchema
 
 
-class CallbackSchema(CallbackDocSchema, PluginExamplesSchema, PluginMetadataSchema,
-                     PluginReturnSchema, BaseModel):
+class CallbackSchema(
+    CallbackDocSchema,
+    PluginExamplesSchema,
+    PluginMetadataSchema,
+    PluginReturnSchema,
+    BaseModel,
+):
     """Documentation of callback plugins."""

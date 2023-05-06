@@ -29,44 +29,54 @@ def lint_collection_docs() -> int:
     :returns: A return code for the program.  See :func:`antsibull.cli.antsibull_docs.main` for
         details on what each code means.
     """
-    flog = mlog.fields(func='lint_collection_docs')
-    flog.notice('Begin collection docs linting')
+    flog = mlog.fields(func="lint_collection_docs")
+    flog.notice("Begin collection docs linting")
 
     app_ctx = app_context.app_ctx.get()
 
-    collection_root = app_ctx.extra['collection_root_path']
-    plugin_docs = app_ctx.extra['plugin_docs']
-    skip_rstcheck = app_ctx.extra['skip_rstcheck']
-    disallow_semantic_markup = app_ctx.extra['disallow_semantic_markup']
+    collection_root = app_ctx.extra["collection_root_path"]
+    plugin_docs = app_ctx.extra["plugin_docs"]
+    skip_rstcheck = app_ctx.extra["skip_rstcheck"]
+    disallow_semantic_markup = app_ctx.extra["disallow_semantic_markup"]
 
-    flog.notice('Linting docs config file')
+    flog.notice("Linting docs config file")
     errors = lint_collection_config(collection_root)
 
-    flog.notice('Linting extra docs files')
+    flog.notice("Linting extra docs files")
     errors.extend(lint_collection_extra_docs_files(collection_root))
 
-    flog.notice('Linting collection links')
+    flog.notice("Linting collection links")
     errors.extend(lint_collection_links(collection_root))
 
     if plugin_docs:
-        flog.notice('Linting plugin docs')
+        flog.notice("Linting plugin docs")
         collection_url = CollectionNameTransformer(
-            app_ctx.collection_url, 'https://galaxy.ansible.com/{namespace}/{name}')
+            app_ctx.collection_url, "https://galaxy.ansible.com/{namespace}/{name}"
+        )
         collection_install = CollectionNameTransformer(
-            app_ctx.collection_install, 'ansible-galaxy collection install {namespace}.{name}')
-        errors.extend(lint_collection_plugin_docs(
-            collection_root,
-            collection_url=collection_url,
-            collection_install=collection_install,
-            skip_rstcheck=skip_rstcheck,
-            disallow_semantic_markup=disallow_semantic_markup))
+            app_ctx.collection_install,
+            "ansible-galaxy collection install {namespace}.{name}",
+        )
+        errors.extend(
+            lint_collection_plugin_docs(
+                collection_root,
+                collection_url=collection_url,
+                collection_install=collection_install,
+                skip_rstcheck=skip_rstcheck,
+                disallow_semantic_markup=disallow_semantic_markup,
+            )
+        )
 
     messages = sorted(
-        (os.path.normpath(error[0]), error[1], error[2], error[3].lstrip()) for error in errors
+        (os.path.normpath(error[0]), error[1], error[2], error[3].lstrip())
+        for error in errors
     )
 
     for file, row, col, message in messages:
-        prefix = f'{file}:{row}:{col}: '
-        print(prefix + textwrap.indent(message, ' ' * len(prefix), lambda line: True).lstrip())
+        prefix = f"{file}:{row}:{col}: "
+        print(
+            prefix
+            + textwrap.indent(message, " " * len(prefix), lambda line: True).lstrip()
+        )
 
     return 3 if messages else 0

@@ -36,8 +36,8 @@ _SENTINEL = object()
 class OptionCliSchema(BaseModel):
     name: str = REQUIRED_CLI_F
     deprecated: DeprecationSchema = p.Field({})
-    option: str = ''
-    version_added: str = 'historical'
+    option: str = ""
+    version_added: str = "historical"
     version_added_collection: str = COLLECTION_NAME_F
 
     @p.root_validator(pre=True)
@@ -46,10 +46,10 @@ class OptionCliSchema(BaseModel):
         """
         Add option if not present
         """
-        option = values.get('option', _SENTINEL)
+        option = values.get("option", _SENTINEL)
 
         if option is _SENTINEL:
-            values['option'] = f'--{values["name"].replace("_", "-")}'
+            values["option"] = f'--{values["name"].replace("_", "-")}'
 
         return values
 
@@ -57,7 +57,7 @@ class OptionCliSchema(BaseModel):
 class OptionEnvSchema(BaseModel):
     name: str = REQUIRED_ENV_VAR_F
     deprecated: DeprecationSchema = p.Field({})
-    version_added: str = 'historical'
+    version_added: str = "historical"
     version_added_collection: str = COLLECTION_NAME_F
 
 
@@ -65,21 +65,21 @@ class OptionIniSchema(BaseModel):
     key: str
     section: str
     deprecated: DeprecationSchema = p.Field({})
-    version_added: str = 'historical'
+    version_added: str = "historical"
     version_added_collection: str = COLLECTION_NAME_F
 
 
 class OptionVarsSchema(BaseModel):
     name: str
     deprecated: DeprecationSchema = p.Field({})
-    version_added: str = 'historical'
+    version_added: str = "historical"
     version_added_collection: str = COLLECTION_NAME_F
 
 
 class OptionKeywordSchema(BaseModel):
     name: str
     deprecated: DeprecationSchema = p.Field({})
-    version_added: str = 'historical'
+    version_added: str = "historical"
     version_added_collection: str = COLLECTION_NAME_F
 
 
@@ -89,25 +89,25 @@ class ReturnSchema(BaseModel):
     description: list[str]
     choices: t.Union[list[t.Any], dict[t.Any, list[str]]] = []
     elements: str = RETURN_TYPE_F
-    returned: str = 'success'
+    returned: str = "success"
     sample: t.Any = None  # JSON value
     type: str = RETURN_TYPE_F
-    version_added: str = 'historical'
+    version_added: str = "historical"
     version_added_collection: str = COLLECTION_NAME_F
 
-    @p.validator('description', pre=True)
+    @p.validator("description", pre=True)
     # pylint:disable=no-self-argument
     def list_from_scalars(cls, obj):
         return list_from_scalars(obj)
 
-    @p.validator('sample', pre=True)
+    @p.validator("sample", pre=True)
     # pylint:disable=no-self-argument
     def is_json_value(cls, obj):
         if not is_json_value(obj):
-            raise ValueError('`sample` must be a JSON value')
+            raise ValueError("`sample` must be a JSON value")
         return obj
 
-    @p.validator('type', 'elements', pre=True)
+    @p.validator("type", "elements", pre=True)
     # pylint:disable=no-self-argument
     def normalize_types(cls, obj):
         return normalize_return_type_names(obj)
@@ -121,17 +121,19 @@ class ReturnSchema(BaseModel):
         Having both sample and example is redundant.  Many more plugins are using sample so
         standardize on that.
         """
-        example = values.get('example', _SENTINEL)
+        example = values.get("example", _SENTINEL)
 
         if example is not _SENTINEL:
-            if values.get('sample'):
-                raise ValueError('Cannot specify `example` if `sample` has been specified.')
+            if values.get("sample"):
+                raise ValueError(
+                    "Cannot specify `example` if `sample` has been specified."
+                )
 
             if not is_json_value(example):
-                raise ValueError('`example` must be a JSON value')
+                raise ValueError("`example` must be a JSON value")
 
-            values['sample'] = example
-            del values['example']
+            values["sample"] = example
+            del values["example"]
 
         return values
 
@@ -139,7 +141,7 @@ class ReturnSchema(BaseModel):
     # pylint:disable=no-self-argument
     def normalize_sample(cls, values):
         try:
-            normalize_value(values, 'sample')
+            normalize_value(values, "sample")
         except ValueError:
             pass
         return values
@@ -147,25 +149,29 @@ class ReturnSchema(BaseModel):
     @p.root_validator(pre=True)
     # pylint:disable=no-self-argument
     def normalize_choices(cls, values):
-        if isinstance(values.get('choices'), dict):
-            for k, v in values['choices'].items():
-                values['choices'][k] = list_from_scalars(v)
+        if isinstance(values.get("choices"), dict):
+            for k, v in values["choices"].items():
+                values["choices"][k] = list_from_scalars(v)
         normalize_value(
-            values, 'choices', is_list_of_values=values.get('type') != 'list', accept_dict=True)
+            values,
+            "choices",
+            is_list_of_values=values.get("type") != "list",
+            accept_dict=True,
+        )
         return values
 
 
 class InnerReturnSchema(ReturnSchema):
     """Nested return schema which allows leaving out description."""
 
-    contains: dict[str, 'InnerReturnSchema'] = {}
+    contains: dict[str, "InnerReturnSchema"] = {}
 
     @p.root_validator(pre=True)
     # pylint:disable=no-self-argument
     def allow_description_to_be_optional(cls, values):
         # Doing this in a validator so that the json-schema will still flag it as an error
-        if 'description' not in values:
-            values['description'] = []
+        if "description" not in values:
+            values["description"] = []
         return values
 
 
@@ -182,7 +188,7 @@ class PluginOptionsSchema(OptionsSchema):
     cli: list[OptionCliSchema] = []
     env: list[OptionEnvSchema] = []
     ini: list[OptionIniSchema] = []
-    suboptions: dict[str, 'PluginOptionsSchema'] = {}
+    suboptions: dict[str, "PluginOptionsSchema"] = {}
     vars: list[OptionVarsSchema] = []
     keyword: list[OptionKeywordSchema] = []
     deprecated: DeprecationSchema = p.Field({})
@@ -200,13 +206,13 @@ class PluginDocSchema(BaseModel):
 
 
 class PluginExamplesSchema(BaseModel):
-    examples: str = ''
+    examples: str = ""
 
-    @p.validator('examples', pre=True)
+    @p.validator("examples", pre=True)
     # pylint:disable=no-self-argument
     def normalize_examples(cls, value):
         if value is None:
-            value = ''
+            value = ""
         return value
 
 
@@ -216,17 +222,23 @@ class PluginMetadataSchema(BaseModel):
 
 class PluginReturnSchema(BaseModel):
     class Config(LocalConfig):
-        fields = {'return_': 'return',
-                  }
+        fields = {
+            "return_": "return",
+        }
 
     return_: dict[str, OuterReturnSchema] = {}
 
-    @p.validator('return_', pre=True)
+    @p.validator("return_", pre=True)
     # pylint:disable=no-self-argument
     def transform_return(cls, obj):
         return transform_return_docs(obj)
 
 
-class PluginSchema(PluginDocSchema, PluginExamplesSchema, PluginMetadataSchema, PluginReturnSchema,
-                   BaseModel):
+class PluginSchema(
+    PluginDocSchema,
+    PluginExamplesSchema,
+    PluginMetadataSchema,
+    PluginReturnSchema,
+    BaseModel,
+):
     """Documentation of an Ansible plugin."""

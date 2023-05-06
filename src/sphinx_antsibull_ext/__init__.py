@@ -3,9 +3,9 @@
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 # SPDX-FileCopyrightText: 2020, Ansible Project
-'''
+"""
 Antsibull minimal Sphinx extension which adds some features from the Ansible doc site.
-'''
+"""
 
 from __future__ import annotations
 
@@ -20,10 +20,10 @@ from .roles import setup_roles
 
 
 def setup(app):
-    '''
+    """
     Initializer for Sphinx extension API.
     See http://www.sphinx-doc.org/en/stable/extdev/index.html#dev-extensions.
-    '''
+    """
 
     # Add assets
     setup_assets(app)
@@ -32,7 +32,7 @@ def setup(app):
     setup_roles(app)
 
     return {
-        'parallel_read_safe': True,
-        'parallel_write_safe': True,
-        'version': __version__,
+        "parallel_read_safe": True,
+        "parallel_write_safe": True,
+        "version": __version__,
     }

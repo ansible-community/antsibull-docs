@@ -22,34 +22,45 @@ from .extra_docs import (
 from .lint_helpers import load_collection_name
 from .rstcheck import check_rst_content
 
-_RST_LABEL_DEFINITION = re.compile(r'''^\.\. _([^:]+):''')
+_RST_LABEL_DEFINITION = re.compile(r"""^\.\. _([^:]+):""")
 
 
-# pylint:disable-next=unused-argument
-def lint_optional_conditions(content: str, path: str, collection_name: str
-                             ) -> list[tuple[int, int, str]]:
-    '''Check a extra docs RST file's content for whether it satisfied the required conditions.
+def lint_optional_conditions(
+    content: str,
+    path: str,
+    # pylint:disable-next=unused-argument
+    collection_name: str,
+) -> list[tuple[int, int, str]]:
+    """Check a extra docs RST file's content for whether it satisfied the required conditions.
 
     Return a list of errors.
-    '''
-    return check_rst_content(content, filename=path, ignore_roles=list(antsibull_roles.ROLES))
+    """
+    return check_rst_content(
+        content, filename=path, ignore_roles=list(antsibull_roles.ROLES)
+    )
 
 
-def lint_collection_extra_docs_files(path_to_collection: str
-                                     ) -> list[tuple[str, int, int, str]]:
+def lint_collection_extra_docs_files(
+    path_to_collection: str,
+) -> list[tuple[str, int, int, str]]:
     try:
         collection_name = load_collection_name(path_to_collection)
     except Exception:  # pylint:disable=broad-except
-        return [(
-            path_to_collection, 0, 0,
-            'Cannot identify collection with galaxy.yml or MANIFEST.json at this path')]
+        return [
+            (
+                path_to_collection,
+                0,
+                0,
+                "Cannot identify collection with galaxy.yml or MANIFEST.json at this path",
+            )
+        ]
     result: list[tuple[str, int, int, str]] = []
     all_labels = set()
     docs = find_extra_docs(path_to_collection)
     for doc in docs:
         try:
             # Load content
-            with open(doc[0], encoding='utf-8') as f:
+            with open(doc[0], encoding="utf-8") as f:
                 content = f.read()
             # Rstcheck
             errors = lint_optional_conditions(content, doc[0], collection_name)
@@ -60,7 +71,7 @@ def lint_collection_extra_docs_files(path_to_collection: str
             result.extend((doc[0], line, col, msg) for (line, col, msg) in errors)
         except Exception as e:  # pylint:disable=broad-except
             result.append((doc[0], 0, 0, str(e)))
-    index_path = os.path.join(path_to_collection, 'docs', 'docsite', 'extra-docs.yml')
+    index_path = os.path.join(path_to_collection, "docs", "docsite", "extra-docs.yml")
     try:
         _, index_errors = load_extra_docs_index(index_path)
         result.extend((index_path, 0, 0, error) for error in index_errors)

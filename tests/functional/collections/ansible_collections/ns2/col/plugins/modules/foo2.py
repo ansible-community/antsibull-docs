@@ -8,7 +8,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: foo2
 author:
@@ -43,15 +43,15 @@ attributes:
         membership:
           - ns2.col.bar_group
           - ns2.col.foo_group
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Do some foo
   ns2.col.foo2:
     bar: foo
-'''
+"""
 
-RETURN = '''
+RETURN = """
 bar:
     description:
       - Some bar.
@@ -60,7 +60,7 @@ bar:
     returned: success
     type: str
     sample: baz
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
 
@@ -68,19 +68,14 @@ from ansible.module_utils.basic import AnsibleModule
 def main():
     module = AnsibleModule(
         argument_spec=dict(
-            foo=dict(type='str', required=True),
-            bar=dict(type='list', elements='int', aliases=['baz']),
-            subfoo=dict(
-                type='dict',
-                options=dict(
-                    foo=dict(type='str', required=True)
-                )
-            ),
+            foo=dict(type="str", required=True),
+            bar=dict(type="list", elements="int", aliases=["baz"]),
+            subfoo=dict(type="dict", options=dict(foo=dict(type="str", required=True))),
         ),
         supports_check_mode=True,
     )
-    module.exit_json(bar='baz')
+    module.exit_json(bar="baz")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

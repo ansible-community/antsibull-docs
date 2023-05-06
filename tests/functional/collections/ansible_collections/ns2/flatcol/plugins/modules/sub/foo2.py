@@ -8,7 +8,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: foo2
 author:
@@ -25,15 +25,15 @@ options:
           - See O(ns2.flatcol.foo#role:main:foo_param_1) for a random role parameter reference. And
             O(ns2.flatcol.foo#role:main:foo_param_2=42) for one with a value.
         type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Do some foo
   ns2.flatcol.foo2:
     bar: foo
-'''
+"""
 
-RETURN = '''
+RETURN = """
 bar:
     description:
       - Some bar.
@@ -42,7 +42,7 @@ bar:
     returned: success
     type: str
     sample: baz
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
 
@@ -50,19 +50,14 @@ from ansible.module_utils.basic import AnsibleModule
 def main():
     module = AnsibleModule(
         argument_spec=dict(
-            foo=dict(type='str', required=True),
-            bar=dict(type='list', elements='int', aliases=['baz']),
-            subfoo=dict(
-                type='dict',
-                options=dict(
-                    foo=dict(type='str', required=True)
-                )
-            ),
+            foo=dict(type="str", required=True),
+            bar=dict(type="list", elements="int", aliases=["baz"]),
+            subfoo=dict(type="dict", options=dict(foo=dict(type="str", required=True))),
         ),
         supports_check_mode=True,
     )
-    module.exit_json(bar='baz')
+    module.exit_json(bar="baz")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

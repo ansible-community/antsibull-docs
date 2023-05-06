@@ -13,14 +13,14 @@ from .plugin import PluginExamplesSchema, PluginMetadataSchema, PluginReturnSche
 
 
 class InnerModuleOptionsSchema(OptionsSchema):
-    suboptions: dict[str, 'InnerModuleOptionsSchema'] = {}
+    suboptions: dict[str, "InnerModuleOptionsSchema"] = {}
 
     @p.root_validator(pre=True)
     # pylint:disable=no-self-argument
     def allow_description_to_be_optional(cls, values):
         # Doing this in a validator so that the json-schema will still flag it as an error
-        if 'description' not in values:
-            values['description'] = []
+        if "description" not in values:
+            values["description"] = []
         return values
 
 
@@ -28,7 +28,7 @@ InnerModuleOptionsSchema.update_forward_refs()
 
 
 class ModuleOptionsSchema(OptionsSchema):
-    suboptions: dict[str, 'InnerModuleOptionsSchema'] = {}
+    suboptions: dict[str, "InnerModuleOptionsSchema"] = {}
 
 
 class OuterModuleDocSchema(DocSchema):
@@ -43,6 +43,11 @@ class ModuleDocSchema(BaseModel):
     doc: OuterModuleDocSchema
 
 
-class ModuleSchema(ModuleDocSchema, PluginExamplesSchema, PluginMetadataSchema,
-                   PluginReturnSchema, BaseModel):
+class ModuleSchema(
+    ModuleDocSchema,
+    PluginExamplesSchema,
+    PluginMetadataSchema,
+    PluginReturnSchema,
+    BaseModel,
+):
     """Documentation for modules."""

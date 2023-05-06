@@ -81,4 +81,4 @@ from ansible.plugins.become import BecomeBase
 
 
 class BecomeModule(BecomeBase):
-    name = 'ns2.col.foo'
+    name = "ns2.col.foo"

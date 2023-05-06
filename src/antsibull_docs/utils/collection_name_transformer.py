@@ -36,19 +36,20 @@ class CollectionNameTransformer:
 
     def __call__(self, collection_name: str) -> str:
         """Transform the given collection name."""
-        parts = collection_name.split('.', 1)
+        parts = collection_name.split(".", 1)
         if len(parts) < 2:
             raise RuntimeError(
-                f'Collection name must have at least one period; {collection_name!r} has not')
+                f"Collection name must have at least one period; {collection_name!r} has not"
+            )
         namespace, name = parts
         if collection_name in self._data:
             transform = self._data[collection_name]
-        elif f'{namespace}.*' in self._data:
-            transform = self._data[f'{namespace}.*']
-        elif f'*.{name}' in self._data:
-            transform = self._data[f'*.{name}']
-        elif '*' in self._data:
-            transform = self._data['*']
+        elif f"{namespace}.*" in self._data:
+            transform = self._data[f"{namespace}.*"]
+        elif f"*.{name}" in self._data:
+            transform = self._data[f"*.{name}"]
+        elif "*" in self._data:
+            transform = self._data["*"]
         else:
             transform = self._default_transform
         return transform.format(namespace=namespace, name=name)

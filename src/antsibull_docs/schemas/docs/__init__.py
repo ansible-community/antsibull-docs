@@ -39,19 +39,19 @@ VarsSchema = PluginSchema
 
 #: The schemas that most plugins use to validate and normalize their documentation.
 _PLUGIN_SCHEMA_RECORD = {
-    'top': PluginSchema,
-    'doc': PluginDocSchema,
-    'examples': PluginExamplesSchema,
-    'metadata': PluginMetadataSchema,
-    'return': PluginReturnSchema,
+    "top": PluginSchema,
+    "doc": PluginDocSchema,
+    "examples": PluginExamplesSchema,
+    "metadata": PluginMetadataSchema,
+    "return": PluginReturnSchema,
 }
 
 _POSITIONAL_PLUGIN_SCHEMA_RECORD = {
-    'top': PositionalSchema,
-    'doc': PositionalDocSchema,
-    'examples': PluginExamplesSchema,
-    'metadata': PluginMetadataSchema,
-    'return': PluginReturnSchema,
+    "top": PositionalSchema,
+    "doc": PositionalDocSchema,
+    "examples": PluginExamplesSchema,
+    "metadata": PluginMetadataSchema,
+    "return": PluginReturnSchema,
 }
 
 
@@ -60,32 +60,32 @@ _POSITIONAL_PLUGIN_SCHEMA_RECORD = {
 #: The inner keys are the sections of the documentation (doc, example, metadata, return, or top
 #: [which combines all of hte above, such as ansible-doc returns]) to validate.
 DOCS_SCHEMAS = {
-    'become': _PLUGIN_SCHEMA_RECORD,
-    'cache': _PLUGIN_SCHEMA_RECORD,
-    'callback': {
-        'top': CallbackSchema,
-        'doc': CallbackDocSchema,
-        'examples': PluginExamplesSchema,
-        'metadata': PluginMetadataSchema,
-        'return': PluginReturnSchema,
+    "become": _PLUGIN_SCHEMA_RECORD,
+    "cache": _PLUGIN_SCHEMA_RECORD,
+    "callback": {
+        "top": CallbackSchema,
+        "doc": CallbackDocSchema,
+        "examples": PluginExamplesSchema,
+        "metadata": PluginMetadataSchema,
+        "return": PluginReturnSchema,
     },
-    'cliconf': _PLUGIN_SCHEMA_RECORD,
-    'connection': _PLUGIN_SCHEMA_RECORD,
-    'filter': _POSITIONAL_PLUGIN_SCHEMA_RECORD,
-    'httpapi': _PLUGIN_SCHEMA_RECORD,
-    'inventory': _PLUGIN_SCHEMA_RECORD,
-    'lookup': _POSITIONAL_PLUGIN_SCHEMA_RECORD,
-    'module': {
-        'top': ModuleSchema,
-        'doc': ModuleDocSchema,
-        'examples': PluginExamplesSchema,
-        'metadata': PluginMetadataSchema,
-        'return': PluginReturnSchema,
+    "cliconf": _PLUGIN_SCHEMA_RECORD,
+    "connection": _PLUGIN_SCHEMA_RECORD,
+    "filter": _POSITIONAL_PLUGIN_SCHEMA_RECORD,
+    "httpapi": _PLUGIN_SCHEMA_RECORD,
+    "inventory": _PLUGIN_SCHEMA_RECORD,
+    "lookup": _POSITIONAL_PLUGIN_SCHEMA_RECORD,
+    "module": {
+        "top": ModuleSchema,
+        "doc": ModuleDocSchema,
+        "examples": PluginExamplesSchema,
+        "metadata": PluginMetadataSchema,
+        "return": PluginReturnSchema,
     },
-    'netconf': _PLUGIN_SCHEMA_RECORD,
-    'shell': _PLUGIN_SCHEMA_RECORD,
-    'strategy': _PLUGIN_SCHEMA_RECORD,
-    'test': _POSITIONAL_PLUGIN_SCHEMA_RECORD,
-    'vars': _PLUGIN_SCHEMA_RECORD,
-    'role': RoleSchema,
+    "netconf": _PLUGIN_SCHEMA_RECORD,
+    "shell": _PLUGIN_SCHEMA_RECORD,
+    "strategy": _PLUGIN_SCHEMA_RECORD,
+    "test": _POSITIONAL_PLUGIN_SCHEMA_RECORD,
+    "vars": _PLUGIN_SCHEMA_RECORD,
+    "role": RoleSchema,
 }

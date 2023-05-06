@@ -6,7 +6,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
     name: foo
     short_description: Foo files O(bar)
     description:
@@ -27,7 +27,7 @@ DOCUMENTATION = '''
       bar:
         description: Nothing.
         type: str
-'''
+"""
 
 from ansible.plugins.cache import BaseFileCacheModule
 

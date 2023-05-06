@@ -14,6 +14,9 @@ import warnings
 # pylint: disable=wildcard-import,unused-wildcard-import
 from .docs.ansible_doc import *  # noqa: F403,F401
 
-warnings.warn('antsibull.schemas.ansible_doc is deprecated.'
-              ' Use antsibull_docs.schemas.docs.ansible_doc instead.',
-              DeprecationWarning, stacklevel=2)
+warnings.warn(
+    "antsibull.schemas.ansible_doc is deprecated."
+    " Use antsibull_docs.schemas.docs.ansible_doc instead.",
+    DeprecationWarning,
+    stacklevel=2,
+)

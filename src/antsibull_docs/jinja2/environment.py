@@ -49,71 +49,74 @@ def from_kludge_ns(key):
 
 
 def reference_plugin_rst(plugin_name: str, plugin_type: str) -> str:
-    fqcn = f'{plugin_name}'
+    fqcn = f"{plugin_name}"
     return f"\\ :ref:`{rst_escape(fqcn)} <ansible_collections.{fqcn}_{plugin_type}>`\\ "
 
 
-def doc_environment(template_location: str | tuple[str, str],
-                    *,
-                    extra_filters: Mapping[str, t.Callable] | None = None,
-                    extra_tests: Mapping[str, t.Callable] | None = None,
-                    collection_url: CollectionNameTransformer | None = None,
-                    collection_install: CollectionNameTransformer | None = None,
-                    ) -> Environment:
+def doc_environment(
+    template_location: str | tuple[str, str],
+    *,
+    extra_filters: Mapping[str, t.Callable] | None = None,
+    extra_tests: Mapping[str, t.Callable] | None = None,
+    collection_url: CollectionNameTransformer | None = None,
+    collection_install: CollectionNameTransformer | None = None,
+) -> Environment:
     loader: BaseLoader
     if isinstance(template_location, str) and os.path.exists(template_location):
         loader = FileSystemLoader(template_location)
     else:
         if isinstance(template_location, str):
             template_pkg = template_location
-            template_path = 'templates'
+            template_path = "templates"
         else:
             template_pkg = template_location[0]
             template_path = template_location[1]
 
         loader = PackageLoader(template_pkg, template_path)
 
-    env = Environment(loader=loader,
-                      variable_start_string="@{",
-                      variable_end_string="}@",
-                      trim_blocks=True)
-    env.globals['xline'] = rst_xline
+    env = Environment(
+        loader=loader,
+        variable_start_string="@{",
+        variable_end_string="}@",
+        trim_blocks=True,
+    )
+    env.globals["xline"] = rst_xline
 
     # Can be removed (and template switched to use namespace) when we no longer need to build
     # with <Jinja-2.10
-    env.globals['to_kludge_ns'] = to_kludge_ns
-    env.globals['from_kludge_ns'] = from_kludge_ns
-    env.globals['reference_plugin_rst'] = reference_plugin_rst
-    if 'max' not in env.filters:
+    env.globals["to_kludge_ns"] = to_kludge_ns
+    env.globals["from_kludge_ns"] = from_kludge_ns
+    env.globals["reference_plugin_rst"] = reference_plugin_rst
+    if "max" not in env.filters:
         # Jinja < 2.10
-        env.filters['max'] = do_max
+        env.filters["max"] = do_max
 
-    if 'tojson' not in env.filters:
+    if "tojson" not in env.filters:
         # Jinja < 2.9
-        env.filters['tojson'] = json.dumps
+        env.filters["tojson"] = json.dumps
 
-    env.filters['rst_ify'] = rst_ify
-    env.filters['html_ify'] = html_ify
-    env.filters['fmt'] = rst_fmt
-    env.filters['rst_code'] = rst_code
-    env.filters['rst_escape'] = rst_escape
-    env.filters['xline'] = rst_xline
-    env.filters['documented_type'] = documented_type
-    env.filters['move_first'] = move_first
-    env.filters['massage_author_name'] = massage_author_name
-    env.filters['extract_options_from_list'] = extract_options_from_list
-    env.filters['remove_options_from_list'] = remove_options_from_list
-    env.filters['antsibull_to_json'] = to_json
-    env.filters['antsibull_to_ini_value'] = to_ini_value
+    env.filters["rst_ify"] = rst_ify
+    env.filters["html_ify"] = html_ify
+    env.filters["fmt"] = rst_fmt
+    env.filters["rst_code"] = rst_code
+    env.filters["rst_escape"] = rst_escape
+    env.filters["xline"] = rst_xline
+    env.filters["documented_type"] = documented_type
+    env.filters["move_first"] = move_first
+    env.filters["massage_author_name"] = massage_author_name
+    env.filters["extract_options_from_list"] = extract_options_from_list
+    env.filters["remove_options_from_list"] = remove_options_from_list
+    env.filters["antsibull_to_json"] = to_json
+    env.filters["antsibull_to_ini_value"] = to_ini_value
     if collection_url is not None:
-        env.filters['collection_url'] = collection_url
+        env.filters["collection_url"] = collection_url
     if collection_install is not None:
-        env.filters['collection_install'] = collection_install
+        env.filters["collection_install"] = collection_install
     if extra_filters:
         env.filters.update(extra_filters)
 
-    env.tests['list'] = test_list
-    env.tests['still_relevant'] = still_relevant
+    env.tests["list"] = test_list
+    env.tests["still_relevant"] = still_relevant
     if extra_tests:
         env.tests.update(extra_tests)
 

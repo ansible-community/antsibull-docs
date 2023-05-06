@@ -6,14 +6,14 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
     name: foo
     short_description: Executes tasks in foo
     description:
         - This is something funny. Or at least I think so from its name.
     version_added: 1.1.0
     author: Ansible Core Team
-'''
+"""
 
 from ansible.plugins.strategy import StrategyBase
 

@@ -15,6 +15,7 @@ import tempfile
 try:
     import rstcheck_core.checker
     import rstcheck_core.config
+
     HAS_RSTCHECK_CORE = True
 except ImportError:
     HAS_RSTCHECK_CORE = False
@@ -22,34 +23,41 @@ except ImportError:
     import rstcheck
 
 
-def check_rst_content(content: str, filename: str | None = None,
-                      ignore_directives: list[str] | None = None,
-                      ignore_roles: list[str] | None = None,
-                      ) -> list[tuple[int, int, str]]:
-    '''
+def check_rst_content(
+    content: str,
+    filename: str | None = None,
+    ignore_directives: list[str] | None = None,
+    ignore_roles: list[str] | None = None,
+) -> list[tuple[int, int, str]]:
+    """
     Check the content with rstcheck. Return list of errors and warnings.
 
     The entries in the return list are tuples with line number, column number, and
     error/warning message.
-    '''
+    """
     if HAS_RSTCHECK_CORE:
-        filename = os.path.basename(filename or 'file.rst') or 'file.rst'
+        filename = os.path.basename(filename or "file.rst") or "file.rst"
         with tempfile.TemporaryDirectory() as tempdir:
             rst_path = os.path.join(tempdir, filename)
-            with open(rst_path, 'w', encoding='utf-8') as f:
+            with open(rst_path, "w", encoding="utf-8") as f:
                 f.write(content)
             config = rstcheck_core.config.RstcheckConfig(
                 report_level=rstcheck_core.config.ReportLevel.WARNING,
                 ignore_directives=ignore_directives,
                 ignore_roles=ignore_roles,
             )
-            core_results = rstcheck_core.checker.check_file(pathlib.Path(rst_path), config)
-            return [(result['line_number'], 0, result['message']) for result in core_results]
+            core_results = rstcheck_core.checker.check_file(
+                pathlib.Path(rst_path), config
+            )
+            return [
+                (result["line_number"], 0, result["message"]) for result in core_results
+            ]
     else:
         if ignore_directives or ignore_roles:
             # pylint: disable-next=no-member,used-before-assignment
             rstcheck.ignore_directives_and_roles(
-                ignore_directives or [], ignore_roles or [])
+                ignore_directives or [], ignore_roles or []
+            )
         # pylint: disable-next=no-member
         results = rstcheck.check(
             content,

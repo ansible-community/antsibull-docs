@@ -26,15 +26,18 @@ def generate_docs() -> int:
     :returns: A return code for the program.  See :func:`antsibull.cli.antsibull_docs.main` for
         details on what each code means.
     """
-    flog = mlog.fields(func='generate_docs')
-    flog.debug('Begin processing docs')
+    flog = mlog.fields(func="generate_docs")
+    flog.debug("Begin processing docs")
 
     app_ctx = app_context.app_ctx.get()
 
     venv = FakeVenvRunner()
 
     return generate_docs_for_all_collections(
-        venv, app_ctx.extra['collection_dir'], app_ctx.extra['dest_dir'],
+        venv,
+        app_ctx.extra["collection_dir"],
+        app_ctx.extra["dest_dir"],
         breadcrumbs=app_ctx.breadcrumbs,
         use_html_blobs=app_ctx.use_html_blobs,
-        fail_on_error=app_ctx.extra['fail_on_error'])
+        fail_on_error=app_ctx.extra["fail_on_error"],
+    )

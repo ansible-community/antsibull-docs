@@ -15,7 +15,7 @@ import pydantic as p
 
 _SENTINEL = object()
 
-GOOGLE_GROUPS_PREFIX = 'https://groups.google.com/g/'
+GOOGLE_GROUPS_PREFIX = "https://groups.google.com/g/"
 
 
 class CollectionEditOnGitHub(p.BaseModel):
@@ -28,15 +28,15 @@ class CollectionEditOnGitHub(p.BaseModel):
     # Path prefix (example: '')
     # Set to 'ansible_collections/community/general/' if the collection root in the repository
     # is inside a subdirectory ansible_collections/community/general/.
-    path_prefix: str = ''
+    path_prefix: str = ""
 
-    @p.validator('path_prefix', pre=True)
+    @p.validator("path_prefix", pre=True)
     # pylint:disable=no-self-argument
     def ensure_trailing_slash(cls, obj):
         if isinstance(obj, str):
-            obj = obj.rstrip('/')
+            obj = obj.rstrip("/")
             if obj:
-                obj += '/'
+                obj += "/"
         return obj
 
 
@@ -66,11 +66,13 @@ class MailingList(p.BaseModel):
     def add_subscribe(cls, values):
         """If 'subscribe' is not provided, try to deduce it from the URL."""
 
-        if values.get('subscribe', _SENTINEL) is _SENTINEL:
-            url = str(values.get('url'))
+        if values.get("subscribe", _SENTINEL) is _SENTINEL:
+            url = str(values.get("url"))
             if url.startswith(GOOGLE_GROUPS_PREFIX):
-                name = url[len(GOOGLE_GROUPS_PREFIX):]
-                values['subscribe'] = f"{name}+subscribe@googlegroups.com?subject=subscribe"
+                name = url[len(GOOGLE_GROUPS_PREFIX) :]
+                values[
+                    "subscribe"
+                ] = f"{name}+subscribe@googlegroups.com?subject=subscribe"
 
         return values
 
@@ -82,7 +84,9 @@ class Communication(p.BaseModel):
 
     @property
     def empty(self):
-        return not self.irc_channels and not self.matrix_rooms and not self.mailing_lists
+        return (
+            not self.irc_channels and not self.matrix_rooms and not self.mailing_lists
+        )
 
 
 class CollectionLinks(p.BaseModel):

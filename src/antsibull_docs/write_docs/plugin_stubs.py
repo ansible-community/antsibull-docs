@@ -28,16 +28,20 @@ from . import _render_template
 mlog = log.fields(mod=__name__)
 
 
-async def write_stub_rst(collection_name: str, collection_meta: AnsibleCollectionMetadata,
-                         collection_links: CollectionLinks,
-                         plugin_short_name: str, plugin_type: str,
-                         routing_data: Mapping[str, t.Any],
-                         redirect_tmpl: Template,
-                         tombstone_tmpl: Template,
-                         dest_dir: str,
-                         path_override: str | None = None,
-                         squash_hierarchy: bool = False,
-                         for_official_docsite: bool = False) -> None:
+async def write_stub_rst(
+    collection_name: str,
+    collection_meta: AnsibleCollectionMetadata,
+    collection_links: CollectionLinks,
+    plugin_short_name: str,
+    plugin_type: str,
+    routing_data: Mapping[str, t.Any],
+    redirect_tmpl: Template,
+    tombstone_tmpl: Template,
+    dest_dir: str,
+    path_override: str | None = None,
+    squash_hierarchy: bool = False,
+    for_official_docsite: bool = False,
+) -> None:
     """
     Write the rst page for one plugin stub.
 
@@ -59,38 +63,38 @@ async def write_stub_rst(collection_name: str, collection_meta: AnsibleCollectio
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
     """
-    flog = mlog.fields(func='write_stub_rst')
-    flog.debug('Enter')
+    flog = mlog.fields(func="write_stub_rst")
+    flog.debug("Enter")
 
-    namespace, collection = collection_name.split('.')
-    plugin_name = '.'.join((collection_name, plugin_short_name))
+    namespace, collection = collection_name.split(".")
+    plugin_name = ".".join((collection_name, plugin_short_name))
 
-    if 'tombstone' in routing_data:
+    if "tombstone" in routing_data:
         plugin_contents = _render_template(
             tombstone_tmpl,
-            plugin_name + '_' + plugin_type,
+            plugin_name + "_" + plugin_type,
             plugin_type=plugin_type,
             plugin_name=plugin_name,
             collection=collection_name,
             collection_version=collection_meta.version,
             collection_links=collection_links.links,
             collection_communication=collection_links.communication,
-            tombstone=routing_data['tombstone'],
+            tombstone=routing_data["tombstone"],
             for_official_docsite=for_official_docsite,
         )
     else:  # 'redirect' in routing_data
         plugin_contents = _render_template(
             redirect_tmpl,
-            plugin_name + '_' + plugin_type,
+            plugin_name + "_" + plugin_type,
             collection=collection_name,
             collection_version=collection_meta.version,
             collection_links=collection_links.links,
             collection_communication=collection_links.communication,
             plugin_type=plugin_type,
             plugin_name=plugin_name,
-            redirect=routing_data['redirect'],
-            redirect_is_symlink=routing_data.get('redirect_is_symlink') or False,
-            deprecation=routing_data.get('deprecation'),
+            redirect=routing_data["redirect"],
+            redirect_is_symlink=routing_data.get("redirect_is_symlink") or False,
+            deprecation=routing_data.get("deprecation"),
             for_official_docsite=for_official_docsite,
         )
 
@@ -100,28 +104,32 @@ async def write_stub_rst(collection_name: str, collection_meta: AnsibleCollectio
         if squash_hierarchy:
             collection_dir = dest_dir
         else:
-            collection_dir = os.path.join(dest_dir, 'collections', namespace, collection)
+            collection_dir = os.path.join(
+                dest_dir, "collections", namespace, collection
+            )
             # This is dangerous but the code that takes dest_dir from the user checks
             # permissions on it to make it as safe as possible.
             os.makedirs(collection_dir, mode=0o755, exist_ok=True)
 
-        plugin_file = os.path.join(collection_dir, f'{plugin_short_name}_{plugin_type}.rst')
+        plugin_file = os.path.join(
+            collection_dir, f"{plugin_short_name}_{plugin_type}.rst"
+        )
 
     await write_file(plugin_file, plugin_contents)
 
-    flog.debug('Leave')
+    flog.debug("Leave")
 
 
-async def output_all_plugin_stub_rst(stubs_info: Mapping[
-                                         str, Mapping[str, Mapping[str, t.Any]]],
-                                     dest_dir: str,
-                                     collection_url: CollectionNameTransformer,
-                                     collection_install: CollectionNameTransformer,
-                                     collection_metadata: Mapping[
-                                         str, AnsibleCollectionMetadata],
-                                     link_data: Mapping[str, CollectionLinks],
-                                     squash_hierarchy: bool = False,
-                                     for_official_docsite: bool = False) -> None:
+async def output_all_plugin_stub_rst(
+    stubs_info: Mapping[str, Mapping[str, Mapping[str, t.Any]]],
+    dest_dir: str,
+    collection_url: CollectionNameTransformer,
+    collection_install: CollectionNameTransformer,
+    collection_metadata: Mapping[str, AnsibleCollectionMetadata],
+    link_data: Mapping[str, CollectionLinks],
+    squash_hierarchy: bool = False,
+    for_official_docsite: bool = False,
+) -> None:
     """
     Output rst files for each plugin stub.
 
@@ -138,12 +146,13 @@ async def output_all_plugin_stub_rst(stubs_info: Mapping[
     """
     # Setup the jinja environment
     env = doc_environment(
-        ('antsibull_docs.data', 'docsite'),
+        ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
-        collection_install=collection_install)
+        collection_install=collection_install,
+    )
     # Get the templates
-    redirect_tmpl = env.get_template('plugin-redirect.rst.j2')
-    tombstone_tmpl = env.get_template('plugin-tombstone.rst.j2')
+    redirect_tmpl = env.get_template("plugin-redirect.rst.j2")
+    tombstone_tmpl = env.get_template("plugin-tombstone.rst.j2")
 
     writers = []
     lib_ctx = app_context.lib_ctx.get()
@@ -151,14 +160,23 @@ async def output_all_plugin_stub_rst(stubs_info: Mapping[
         for collection_name, plugins_by_type in stubs_info.items():
             for plugin_type, plugins in plugins_by_type.items():
                 for plugin_short_name, routing_data in plugins.items():
-                    writers.append(await pool.spawn(
-                        write_stub_rst(collection_name,
-                                       collection_metadata[collection_name],
-                                       link_data[collection_name],
-                                       plugin_short_name, plugin_type,
-                                       routing_data, redirect_tmpl, tombstone_tmpl,
-                                       dest_dir, squash_hierarchy=squash_hierarchy,
-                                       for_official_docsite=for_official_docsite)))
+                    writers.append(
+                        await pool.spawn(
+                            write_stub_rst(
+                                collection_name,
+                                collection_metadata[collection_name],
+                                link_data[collection_name],
+                                plugin_short_name,
+                                plugin_type,
+                                routing_data,
+                                redirect_tmpl,
+                                tombstone_tmpl,
+                                dest_dir,
+                                squash_hierarchy=squash_hierarchy,
+                                for_official_docsite=for_official_docsite,
+                            )
+                        )
+                    )
 
         # Write docs for each plugin
         await asyncio.gather(*writers)

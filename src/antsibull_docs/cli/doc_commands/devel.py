@@ -27,13 +27,14 @@ from ._build import generate_docs_for_all_collections
 mlog = log.fields(mod=__name__)
 
 
-async def retrieve(collections: list[str],
-                   tmp_dir: str,
-                   galaxy_server: str,
-                   ansible_core_source: str | None = None,
-                   collection_cache: str | None = None,
-                   use_installed_ansible_core: bool = False,
-                   ) -> dict[str, str]:
+async def retrieve(
+    collections: list[str],
+    tmp_dir: str,
+    galaxy_server: str,
+    ansible_core_source: str | None = None,
+    collection_cache: str | None = None,
+    use_installed_ansible_core: bool = False,
+) -> dict[str, str]:
     """
     Download ansible-core and the latest versions of the collections.
 
@@ -50,7 +51,7 @@ async def retrieve(collections: list[str],
     :returns: Map of collection name to directory it is in.  ansible-core will
         use the special key, `_ansible_core`.
     """
-    collection_dir = os.path.join(tmp_dir, 'collections')
+    collection_dir = os.path.join(tmp_dir, "collections")
     os.mkdir(collection_dir, mode=0o700)
 
     requestors = {}
@@ -59,21 +60,31 @@ async def retrieve(collections: list[str],
     async with aiohttp.ClientSession() as aio_session:
         async with asyncio_pool.AioPool(size=lib_ctx.thread_max) as pool:
             if not use_installed_ansible_core:
-                requestors['_ansible_core'] = await pool.spawn(
-                    get_ansible_core(aio_session, '@devel', tmp_dir,
-                                     ansible_core_source=ansible_core_source))
+                requestors["_ansible_core"] = await pool.spawn(
+                    get_ansible_core(
+                        aio_session,
+                        "@devel",
+                        tmp_dir,
+                        ansible_core_source=ansible_core_source,
+                    )
+                )
 
-            downloader = CollectionDownloader(aio_session, collection_dir,
-                                              galaxy_server=galaxy_server,
-                                              collection_cache=collection_cache)
+            downloader = CollectionDownloader(
+                aio_session,
+                collection_dir,
+                galaxy_server=galaxy_server,
+                collection_cache=collection_cache,
+            )
             for collection in collections:
                 requestors[collection] = await pool.spawn(
-                    downloader.download_latest_matching(collection, '*'))
+                    downloader.download_latest_matching(collection, "*")
+                )
 
             responses = await asyncio.gather(*requestors.values())
 
     responses = [
-        data.download_path if isinstance(data, DownloadResults) else data for data in responses
+        data.download_path if isinstance(data, DownloadResults) else data
+        for data in responses
     ]
     # Note: Python dicts have always had a stable order as long as you don't modify the dict.
     # So requestors (implicitly, the keys) and responses have a matching order here.
@@ -91,66 +102,79 @@ def generate_docs() -> int:
     :returns: A return code for the program.  See :func:`antsibull.cli.antsibull_docs.main` for
         details on what each code means.
     """
-    flog = mlog.fields(func='generate_docs')
-    flog.notice('Begin generating docs')
+    flog = mlog.fields(func="generate_docs")
+    flog.notice("Begin generating docs")
 
     app_ctx = app_context.app_ctx.get()
-    use_installed_ansible_core: bool = app_ctx.extra['use_installed_ansible_core']
+    use_installed_ansible_core: bool = app_ctx.extra["use_installed_ansible_core"]
 
     # Parse the pieces file
-    flog.fields(deps_file=app_ctx.extra['pieces_file']).info('Parse pieces file')
-    collections = parse_pieces_file(app_ctx.extra['pieces_file'])
-    flog.debug('Finished parsing deps file')
+    flog.fields(deps_file=app_ctx.extra["pieces_file"]).info("Parse pieces file")
+    collections = parse_pieces_file(app_ctx.extra["pieces_file"])
+    flog.debug("Finished parsing deps file")
 
     with tempfile.TemporaryDirectory() as tmp_dir:
         # Retrieve ansible-core and the collections
-        flog.fields(tmp_dir=tmp_dir).info('created tmpdir')
+        flog.fields(tmp_dir=tmp_dir).info("created tmpdir")
         collection_tarballs = asyncio.run(
-            retrieve(collections, tmp_dir,
-                     galaxy_server=app_ctx.galaxy_url,
-                     ansible_core_source=app_ctx.extra['ansible_core_source'],
-                     collection_cache=app_ctx.collection_cache,
-                     use_installed_ansible_core=use_installed_ansible_core))
+            retrieve(
+                collections,
+                tmp_dir,
+                galaxy_server=app_ctx.galaxy_url,
+                ansible_core_source=app_ctx.extra["ansible_core_source"],
+                collection_cache=app_ctx.collection_cache,
+                use_installed_ansible_core=use_installed_ansible_core,
+            )
+        )
         # flog.fields(tarballs=collection_tarballs).debug('Download complete')
-        flog.notice('Finished retrieving tarballs')
+        flog.notice("Finished retrieving tarballs")
 
         # Get the ansible-core location
         if use_installed_ansible_core:
             ansible_core_path = None
         else:
             try:
-                ansible_core_path = collection_tarballs.pop('_ansible_core')
+                ansible_core_path = collection_tarballs.pop("_ansible_core")
             except KeyError:
-                print('ansible-core did not download successfully')
+                print("ansible-core did not download successfully")
                 return 3
-            flog.fields(ansible_core_path=ansible_core_path).info('ansible-core location')
+            flog.fields(ansible_core_path=ansible_core_path).info(
+                "ansible-core location"
+            )
 
         # Install the collections to a directory
 
         # Directory that ansible needs to see
-        collection_dir = os.path.join(tmp_dir, 'installed')
+        collection_dir = os.path.join(tmp_dir, "installed")
         # Directory that the collections will be untarred inside of
-        collection_install_dir = os.path.join(collection_dir, 'ansible_collections')
+        collection_install_dir = os.path.join(collection_dir, "ansible_collections")
         # Safe to recursively mkdir because we created the tmp_dir
         os.makedirs(collection_install_dir, mode=0o700)
-        flog.fields(collection_install_dir=collection_install_dir).debug('collection install dir')
+        flog.fields(collection_install_dir=collection_install_dir).debug(
+            "collection install dir"
+        )
 
         # Install the collections
-        asyncio.run(install_together(list(collection_tarballs.values()), collection_install_dir))
-        flog.notice('Finished installing collections')
+        asyncio.run(
+            install_together(list(collection_tarballs.values()), collection_install_dir)
+        )
+        flog.notice("Finished installing collections")
 
         # Create venv for ansible-core
         venv: FakeVenvRunner | VenvRunner
         if ansible_core_path is None:
             venv = FakeVenvRunner()
         else:
-            venv = VenvRunner('ansible-core-venv', tmp_dir)
+            venv = VenvRunner("ansible-core-venv", tmp_dir)
             venv.install_package(ansible_core_path)
-            flog.fields(venv=venv).notice('Finished installing ansible-core')
+            flog.fields(venv=venv).notice("Finished installing ansible-core")
 
         return generate_docs_for_all_collections(
-            venv, collection_dir, app_ctx.extra['dest_dir'],
+            venv,
+            collection_dir,
+            app_ctx.extra["dest_dir"],
             breadcrumbs=app_ctx.breadcrumbs,
             use_html_blobs=app_ctx.use_html_blobs,
-            fail_on_error=app_ctx.extra['fail_on_error'],
-            for_official_docsite=True)
+            fail_on_error=app_ctx.extra["fail_on_error"],
+            for_official_docsite=True,
+        )

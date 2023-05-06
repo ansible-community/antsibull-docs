@@ -24,11 +24,25 @@ from .role import RoleSchema
 # pyre-ignore-all-errors[13]
 
 
-__all__ = ('ANSIBLE_DOC_SCHEMAS', 'AnsibleDocSchema', 'BecomePluginSchema', 'CachePluginSchema',
-           'CallbackPluginSchema', 'CliConfPluginSchema', 'ConnectionPluginSchema',
-           'HttpApiPluginSchema', 'InventoryPluginSchema', 'LookupPluginSchema',
-           'ModulePluginSchema', 'NetConfPluginSchema', 'ShellPluginSchema', 'StrategyPluginSchema',
-           'VarsPluginSchema', 'TestPluginSchema', 'FilterPluginSchema',)
+__all__ = (
+    "ANSIBLE_DOC_SCHEMAS",
+    "AnsibleDocSchema",
+    "BecomePluginSchema",
+    "CachePluginSchema",
+    "CallbackPluginSchema",
+    "CliConfPluginSchema",
+    "ConnectionPluginSchema",
+    "HttpApiPluginSchema",
+    "InventoryPluginSchema",
+    "LookupPluginSchema",
+    "ModulePluginSchema",
+    "NetConfPluginSchema",
+    "ShellPluginSchema",
+    "StrategyPluginSchema",
+    "VarsPluginSchema",
+    "TestPluginSchema",
+    "FilterPluginSchema",
+)
 
 
 class AnsibleDocSchema(BaseModel):
@@ -149,20 +163,20 @@ FilterPluginSchema = PositionalPluginSchema
 #: A mapping from plugin type to the Schema to use for them.  Use this to more easily get
 #: the Schema programmatically.
 ANSIBLE_DOC_SCHEMAS = {
-    'become': BecomePluginSchema,
-    'cache': CachePluginSchema,
-    'callback': CallbackPluginSchema,
-    'cliconf': CliConfPluginSchema,
-    'connection': ConnectionPluginSchema,
-    'filter': FilterPluginSchema,
-    'httpapi': HttpApiPluginSchema,
-    'inventory': InventoryPluginSchema,
-    'lookup': LookupPluginSchema,
-    'module': ModulePluginSchema,
-    'netconf': NetConfPluginSchema,
-    'role': RolePluginSchema,
-    'shell': ShellPluginSchema,
-    'strategy': StrategyPluginSchema,
-    'test': TestPluginSchema,
-    'vars': VarsPluginSchema,
+    "become": BecomePluginSchema,
+    "cache": CachePluginSchema,
+    "callback": CallbackPluginSchema,
+    "cliconf": CliConfPluginSchema,
+    "connection": ConnectionPluginSchema,
+    "filter": FilterPluginSchema,
+    "httpapi": HttpApiPluginSchema,
+    "inventory": InventoryPluginSchema,
+    "lookup": LookupPluginSchema,
+    "module": ModulePluginSchema,
+    "netconf": NetConfPluginSchema,
+    "role": RolePluginSchema,
+    "shell": ShellPluginSchema,
+    "strategy": StrategyPluginSchema,
+    "test": TestPluginSchema,
+    "vars": VarsPluginSchema,
 }

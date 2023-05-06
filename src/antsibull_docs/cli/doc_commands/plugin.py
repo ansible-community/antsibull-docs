@@ -34,54 +34,61 @@ from ...write_docs.plugins import write_plugin_rst
 mlog = log.fields(mod=__name__)
 
 
-def generate_plugin_docs(plugin_type: str, plugin_name: str,
-                         collection_name: str, plugin: str,
-                         output_path: str) -> int:
+def generate_plugin_docs(
+    plugin_type: str,
+    plugin_name: str,
+    collection_name: str,
+    plugin: str,
+    output_path: str,
+) -> int:
     """
     Render documentation for a locally installed plugin.
     """
-    flog = mlog.fields(func='generate_plugin_docs')
-    flog.debug('Begin generating plugin docs')
+    flog = mlog.fields(func="generate_plugin_docs")
+    flog.debug("Begin generating plugin docs")
 
     app_ctx = app_context.app_ctx.get()
 
     venv = FakeVenvRunner()
-    venv_ansible_doc = venv.get_command('ansible-doc')
-    venv_ansible_doc = venv_ansible_doc.bake('-vvv')
+    venv_ansible_doc = venv.get_command("ansible-doc")
+    venv_ansible_doc = venv_ansible_doc.bake("-vvv")
     try:
         ansible_doc_results = venv.log_run(
-            ['ansible-doc', '-vvv', '-t', plugin_type, '--json', plugin_name])
+            ["ansible-doc", "-vvv", "-t", plugin_type, "--json", plugin_name]
+        )
     except CalledProcessError as exc:
         err_msg = []
         formatted_exception = traceback.format_exception(None, exc, exc.__traceback__)
-        err_msg.append(f'Exception while parsing documentation for {plugin_type} plugin:'
-                       f' {plugin_name}.  Will not document this plugin.')
+        err_msg.append(
+            f"Exception while parsing documentation for {plugin_type} plugin:"
+            f" {plugin_name}.  Will not document this plugin."
+        )
         err_msg.append(f'Exception:\n{"".join(formatted_exception)}')
 
-        err_msg.append(f'Full process stdout:\n{exc.stdout}')
-        err_msg.append(f'Full process stderr:\n{exc.stderr}')
+        err_msg.append(f"Full process stdout:\n{exc.stdout}")
+        err_msg.append(f"Full process stderr:\n{exc.stderr}")
 
-        sys.stderr.write('\n'.join(err_msg))
+        sys.stderr.write("\n".join(err_msg))
         return 1
 
     plugin_data = json.loads(_filter_non_json_lines(ansible_doc_results.stdout)[0])
     try:
         plugin_info = plugin_data[plugin_name]
     except KeyError:
-        print(f'Cannot find documentation for plugin {plugin_name}!')
+        print(f"Cannot find documentation for plugin {plugin_name}!")
         return 1
-    flog.debug('Finished parsing info from plugin')
+    flog.debug("Finished parsing info from plugin")
 
     try:
         plugin_info, errors = normalize_plugin_info(plugin_type, plugin_info)
     except ValueError as exc:
-        print('Cannot parse documentation:')
+        print("Cannot parse documentation:")
         print(str(exc))
         return 1
-    flog.debug('Finished normalizing data')
+    flog.debug("Finished normalizing data")
 
-    if errors and app_ctx.extra['fail_on_error']:
-        print('Found errors:')
+    if errors and app_ctx.extra["fail_on_error"]:
+        print("Found errors:")
         for error in errors:
             print(error)
         return 1
@@ -91,33 +98,47 @@ def generate_plugin_docs(plugin_type: str, plugin_name: str,
     #     dict[str, dict[str, dict[str, typing.Any]]]
     # is acceptable for
     #     MutableMapping[str, MutableMapping[str, typing.Any]].
-    augment_docs(t.cast(MutableMapping[str, MutableMapping[str, t.Any]], {
-        plugin_type: {
-            plugin_name: plugin_info
-        }
-    }))
+    augment_docs(
+        t.cast(
+            MutableMapping[str, MutableMapping[str, t.Any]],
+            {plugin_type: {plugin_name: plugin_info}},
+        )
+    )
 
     # Setup the jinja environment
     collection_url = CollectionNameTransformer(
-        app_ctx.collection_url, 'https://galaxy.ansible.com/{namespace}/{name}')
+        app_ctx.collection_url, "https://galaxy.ansible.com/{namespace}/{name}"
+    )
     collection_install = CollectionNameTransformer(
-        app_ctx.collection_install, 'ansible-galaxy collection install {namespace}.{name}')
+        app_ctx.collection_install,
+        "ansible-galaxy collection install {namespace}.{name}",
+    )
     env = doc_environment(
-        ('antsibull_docs.data', 'docsite'),
+        ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
-        collection_install=collection_install)
+        collection_install=collection_install,
+    )
     # Get the templates
-    plugin_tmpl = env.get_template('plugin.rst.j2')
-    error_tmpl = env.get_template('plugin-error.rst.j2')
+    plugin_tmpl = env.get_template("plugin.rst.j2")
+    error_tmpl = env.get_template("plugin-error.rst.j2")
 
-    asyncio.run(write_plugin_rst(
-        collection_name,
-        AnsibleCollectionMetadata.empty(),
-        CollectionLinks(), plugin, plugin_type,
-        plugin_info, errors, plugin_tmpl, error_tmpl, '',
-        path_override=output_path,
-        use_html_blobs=app_ctx.use_html_blobs))
-    flog.debug('Finished writing plugin docs')
+    asyncio.run(
+        write_plugin_rst(
+            collection_name,
+            AnsibleCollectionMetadata.empty(),
+            CollectionLinks(),
+            plugin,
+            plugin_type,
+            plugin_info,
+            errors,
+            plugin_tmpl,
+            error_tmpl,
+            "",
+            path_override=output_path,
+            use_html_blobs=app_ctx.use_html_blobs,
+        )
+    )
+    flog.debug("Finished writing plugin docs")
 
     return 0
 
@@ -131,27 +152,32 @@ def generate_docs() -> int:
     :returns: A return code for the program.  See :func:`antsibull.cli.antsibull_docs.main` for
         details on what each code means.
     """
-    flog = mlog.fields(func='generate_docs')
-    flog.debug('Begin processing docs')
+    flog = mlog.fields(func="generate_docs")
+    flog.debug("Begin processing docs")
 
     app_ctx = app_context.app_ctx.get()
-    plugin_type: str = app_ctx.extra['plugin_type']
-    plugin_name: str = app_ctx.extra['plugin'][0]
+    plugin_type: str = app_ctx.extra["plugin_type"]
+    plugin_name: str = app_ctx.extra["plugin"][0]
 
     if not is_fqcn(plugin_name):
-        raise NotImplementedError('Priority to implement subcommands is stable, devel, plugin, and'
-                                  ' then collection commands. Only the FQCN form is implemented'
-                                  ' for the plugin subcommand right now.')
+        raise NotImplementedError(
+            "Priority to implement subcommands is stable, devel, plugin, and"
+            " then collection commands. Only the FQCN form is implemented"
+            " for the plugin subcommand right now."
+        )
 
-    output_path = os.path.join(app_ctx.extra['dest_dir'], f'{plugin_name}_{plugin_type}.rst')
+    output_path = os.path.join(
+        app_ctx.extra["dest_dir"], f"{plugin_name}_{plugin_type}.rst"
+    )
 
     try:
         namespace, collection, plugin = get_fqcn_parts(plugin_name)
     except ValueError:
-        namespace, collection = 'ansible', 'builtin'
+        namespace, collection = "ansible", "builtin"
         plugin = plugin_name
-    collection_name = '.'.join([namespace, collection])
-    plugin_name = '.'.join([namespace, collection, plugin])
+    collection_name = ".".join([namespace, collection])
+    plugin_name = ".".join([namespace, collection, plugin])
 
     return generate_plugin_docs(
-        plugin_type, plugin_name, collection_name, plugin, output_path)
+        plugin_type, plugin_name, collection_name, plugin, output_path
+    )
