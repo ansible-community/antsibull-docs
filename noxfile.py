@@ -119,7 +119,8 @@ def formatters(session: nox.Session):
     posargs = list(session.posargs)
     if IN_CI:
         posargs.append("--check")
-    session.run("isort", *posargs, "src", "tests")
+    session.run("isort", *posargs, "src", "tests", "noxfile.py")
+    session.run("black", *posargs, "src", "tests", "noxfile.py")
 
 
 @nox.session

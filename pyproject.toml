@@ -76,6 +76,7 @@ coverage = [
     "coverage[toml]",
 ]
 formatters = [
+    "black",
     "isort",
 ]
 test = [
@@ -108,13 +109,13 @@ dev = [
 [tool.hatch.build.targets.wheel]
 packages = ["src/antsibull_docs", "src/sphinx_antsibull_ext"]
 
+[tool.black]
+exclude = '''
+tests/functional/baseline-sphinx-init-.*
+'''
+
 [tool.isort]
-# Match black
 profile = "black"
-line_length = 89
-#
-multi_line_output = 3
-include_trailing_comma = true
 
 [tool.coverage.paths]
 source = [
