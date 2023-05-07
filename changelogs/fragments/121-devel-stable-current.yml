@@ -1,4 +1,0 @@
-minor_changes:
-  - "Allow to use the currently installed ansible-core version for the ``devel`` and ``stable`` subcommands (https://github.com/ansible-community/antsibull-docs/pull/121)."
-breaking_changes:
-  - "No longer removes ``PYTHONPATH`` from the environment when calling ``ansible``, ``ansible-galaxy``, or ``ansible-doc`` outside a self-created venv (https://github.com/ansible-community/antsibull-docs/pull/121)."

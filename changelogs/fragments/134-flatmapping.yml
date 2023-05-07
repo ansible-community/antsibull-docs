@@ -1,4 +1,0 @@
-minor_changes:
-  - "Support a per-collection docs config file ``docs/docsite/config.yml``. It is also linted by the ``lint-collection-docs`` subcommand (https://github.com/ansible-community/antsibull-docs/pull/134)."
-breaking_changes:
-  - "Disable flatmapping for all collections except community.general < 6.0.0 and community.network < 5.0.0. You can enable flatmapping for your collection by setting ``flatmap: true`` in ``docs/docsite/config.yml`` (https://github.com/ansible-community/antsibull-docs/pull/134)."

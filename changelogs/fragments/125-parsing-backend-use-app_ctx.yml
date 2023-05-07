@@ -1,2 +1,0 @@
-bugfixes:
-  - "Use ``doc_parsing_backend`` from the application context instead of the library context. This prevents removal of ``doc_parsing_backend`` from the antsibull-core library context (https://github.com/ansible-community/antsibull-docs/pull/125)."

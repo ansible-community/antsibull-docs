@@ -5,6 +5,44 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v2.0.0a1
+========
+
+Release Summary
+---------------
+
+Pre-release of new major 2.0.0 release.
+
+Major Changes
+-------------
+
+- Change pyproject build backend from ``poetry-core`` to ``hatchling``. ``pip install antsibull-docs`` works exactly the same as before, but some users may be affected depending on how they build/install the project (https://github.com/ansible-community/antsibull-docs/pull/115).
+
+Minor Changes
+-------------
+
+- Allow to use the currently installed ansible-core version for the ``devel`` and ``stable`` subcommands (https://github.com/ansible-community/antsibull-docs/pull/121).
+- Ansibull-docs now no longer depends directly on ``sh`` (https://github.com/ansible-community/antsibull-docs/pull/122).
+- Now depends antsibull-core 2.0.0 or newer; antsibull-core 1.x.y is no longer supported (https://github.com/ansible-community/antsibull-docs/pull/122).
+- Remove residual compatability code for Python 3.6 and 3.7 (https://github.com/ansible-community/antsibull-docs/pulls/70).
+- Support a per-collection docs config file ``docs/docsite/config.yml``. It is also linted by the ``lint-collection-docs`` subcommand (https://github.com/ansible-community/antsibull-docs/pull/134).
+- The antsibull-docs requirement in the ``requirements.txt`` file created by the sphinx-init subcommand now has version range ``>= 2.0.0, < 3.0.0`` (https://github.com/ansible-community/antsibull-docs/pull/126).
+- The dependency `antsibull-docs-parser <https://github.com/ansible-community/antsibull-docs-parser>`__ has been added and is used for processing Ansible markup (https://github.com/ansible-community/antsibull-docs/pull/124).
+
+Breaking Changes / Porting Guide
+--------------------------------
+
+- Disable flatmapping for all collections except community.general < 6.0.0 and community.network < 5.0.0. You can enable flatmapping for your collection by setting ``flatmap: true`` in ``docs/docsite/config.yml`` (https://github.com/ansible-community/antsibull-docs/pull/134).
+- Drop support for Python 3.6, 3.7, and 3.8 (https://github.com/ansible-community/antsibull-docs/pull/115)."
+- No longer removes ``PYTHONPATH`` from the environment when calling ``ansible``, ``ansible-galaxy``, or ``ansible-doc`` outside a self-created venv (https://github.com/ansible-community/antsibull-docs/pull/121).
+- No longer supports Ansible 2.9, ansible-base 2.10, and ansible-core 2.11 and 2.12. The minimum required ansible-core version is 2.13. This allows for simpler and more efficient docs parsing and information retrieval (https://github.com/ansible-community/antsibull-docs/pull/120).
+- The ``ansible-doc`` and ``ansible-internal`` values for ``doc_parsing_backend`` in the configuration file have been removed. Change the value to ``auto`` for best compatibility (https://github.com/ansible-community/antsibull-docs/pull/120).
+
+Bugfixes
+--------
+
+- Use ``doc_parsing_backend`` from the application context instead of the library context. This prevents removal of ``doc_parsing_backend`` from the antsibull-core library context (https://github.com/ansible-community/antsibull-docs/pull/125).
+
 v1.11.0
 =======
 
