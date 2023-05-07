@@ -253,7 +253,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         default=argparse.SUPPRESS,
         help="Determines whether to use HTML blobs for option and return"
         " value tables. Using HTML blobs reduces memory and CPU time"
-        " usage significantly so you can disable this if necessary."
+        " usage significantly so you can enable this if necessary."
         " (default: False)",
     )
 
