@@ -19,13 +19,15 @@ DOC_PARSING_BACKEND_CHOICES_F = p.Field("auto", regex="^(auto|ansible-core-2\\.1
 
 
 class DocsAppContext(CoreAppContext):
-    # These are already defined in CoreConfigModel, but might vanish from there eventually
-    breadcrumbs: p.StrictBool = True
+    # These are already defined in CoreConfigModel, but deprecated and will be removed in
+    # antsibull-core 3.0.0
     doc_parsing_backend: str = DOC_PARSING_BACKEND_CHOICES_F
+
+    # These are antsibull-docs specific
+    breadcrumbs: p.StrictBool = True
     indexes: p.StrictBool = True
     use_html_blobs: p.StrictBool = False
 
-    # These are antsibull-docs specific
     collection_url: dict[str, str] = {
         "*": "https://galaxy.ansible.com/{namespace}/{name}",
     }
