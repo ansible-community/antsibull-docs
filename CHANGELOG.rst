@@ -5,6 +5,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v2.0.0a2
+========
+
+Release Summary
+---------------
+
+Hotfix to make ``sphinx-init`` work properly.
+
+Bugfixes
+--------
+
+- Bump version range of antsibull-docs requirement written by ``sphinx-init`` subcommand to ``>= 2.0.0a2, < 3.0.0``. Previously, this was set to ``>=2.0.0, <3.0.0`` which could not be satisfied (https://github.com/ansible-community/antsibull-docs/pull/149).
+
 v2.0.0a1
 ========
 

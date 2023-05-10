@@ -458,3 +458,13 @@ releases:
     - drop-python-3.6-3.7.yaml
     - hatchling.yml
     release_date: '2023-05-07'
+  2.0.0a2:
+    changes:
+      bugfixes:
+      - Bump version range of antsibull-docs requirement written by ``sphinx-init``
+        subcommand to ``>= 2.0.0a2, < 3.0.0``. Previously, this was set to ``>=2.0.0,
+        <3.0.0`` which could not be satisfied (https://github.com/ansible-community/antsibull-docs/pull/149).
+      release_summary: Hotfix to make ``sphinx-init`` work properly.
+    fragments:
+    - 2.0.0a2.yml
+    release_date: '2023-05-10'
