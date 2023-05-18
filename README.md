@@ -34,6 +34,8 @@ The current major version is 2.x.y. Development for 2.x.y occurs on the `main` b
 
 We explicitly exclude code compatibility. **antsibull-docs is not supposed to be used as a library.** The only exception are potential dependencies with other antsibull projects (currently there are none). If you want to use a certain part of antsibull-docs as a library, please create an issue so we can discuss whether we add a stable interface for **parts** of the Python code. We do not promise that this will actually happen though.
 
+If you are interested in library support for interpreting Ansible markup, please take a look at [the antsibull-docs-parser project](https://github.com/ansible-community/antsibull-docs-parser).
+
 ## Using the Sphinx extension
 
 Include it in your Sphinx configuration ``conf.py``::
