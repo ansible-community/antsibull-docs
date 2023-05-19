@@ -1,2 +1,0 @@
-minor_changes:
-  - "Bump version range of antsibull-docs requirement written by ``sphinx-init`` subcommand to ``>= 2.0.0, < 3.0.0``. Previously, this was set to ``>=2.0.0a2, <3.0.0`` (https://github.com/ansible-community/antsibull-docs/pull/151)."

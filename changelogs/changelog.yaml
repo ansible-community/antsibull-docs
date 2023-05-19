@@ -409,6 +409,18 @@ releases:
     - 90-callbacks.yml
     - 92-sphinx-init-build-sh.yml
     release_date: '2023-01-12'
+  2.0.0:
+    changes:
+      minor_changes:
+      - Bump version range of antsibull-docs requirement written by ``sphinx-init``
+        subcommand to ``>= 2.0.0, < 3.0.0``. Previously, this was set to ``>=2.0.0a2,
+        <3.0.0`` (https://github.com/ansible-community/antsibull-docs/pull/151).
+      release_summary: Major new release that drops support for older Python and Ansible/ansible-base/ansible-core
+        versions.
+    fragments:
+    - 151-changes.yml
+    - 2.0.0.yml
+    release_date: '2023-05-19'
   2.0.0a1:
     changes:
       breaking_changes:

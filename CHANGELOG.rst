@@ -5,26 +5,13 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
-v2.0.0a2
-========
+v2.0.0
+======
 
 Release Summary
 ---------------
 
-Hotfix to make ``sphinx-init`` work properly.
-
-Bugfixes
---------
-
-- Bump version range of antsibull-docs requirement written by ``sphinx-init`` subcommand to ``>= 2.0.0a2, < 3.0.0``. Previously, this was set to ``>=2.0.0, <3.0.0`` which could not be satisfied (https://github.com/ansible-community/antsibull-docs/pull/149).
-
-v2.0.0a1
-========
-
-Release Summary
----------------
-
-Pre-release of new major 2.0.0 release.
+Major new release that drops support for older Python and Ansible/ansible-base/ansible-core versions.
 
 Major Changes
 -------------
@@ -36,6 +23,7 @@ Minor Changes
 
 - Allow to use the currently installed ansible-core version for the ``devel`` and ``stable`` subcommands (https://github.com/ansible-community/antsibull-docs/pull/121).
 - Ansibull-docs now no longer depends directly on ``sh`` (https://github.com/ansible-community/antsibull-docs/pull/122).
+- Bump version range of antsibull-docs requirement written by ``sphinx-init`` subcommand to ``>= 2.0.0, < 3.0.0``. Previously, this was set to ``>=2.0.0a2, <3.0.0`` (https://github.com/ansible-community/antsibull-docs/pull/151).
 - Now depends antsibull-core 2.0.0 or newer; antsibull-core 1.x.y is no longer supported (https://github.com/ansible-community/antsibull-docs/pull/122).
 - Remove residual compatability code for Python 3.6 and 3.7 (https://github.com/ansible-community/antsibull-docs/pulls/70).
 - Support a per-collection docs config file ``docs/docsite/config.yml``. It is also linted by the ``lint-collection-docs`` subcommand (https://github.com/ansible-community/antsibull-docs/pull/134).
@@ -54,6 +42,7 @@ Breaking Changes / Porting Guide
 Bugfixes
 --------
 
+- Bump version range of antsibull-docs requirement written by ``sphinx-init`` subcommand to ``>= 2.0.0a2, < 3.0.0``. Previously, this was set to ``>=2.0.0, <3.0.0`` which could not be satisfied (https://github.com/ansible-community/antsibull-docs/pull/149).
 - Use ``doc_parsing_backend`` from the application context instead of the library context. This prevents removal of ``doc_parsing_backend`` from the antsibull-core library context (https://github.com/ansible-community/antsibull-docs/pull/125).
 
 v1.11.0
