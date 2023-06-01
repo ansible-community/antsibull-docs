@@ -50,7 +50,7 @@ class RoleOptionsSchema(OptionsSchema):
 class RoleEntrypointSchema(BaseModel):
     """Documentation for role entrypoints."""
 
-    description: list[str]
+    description: list[str] = []
     short_description: str
     author: list[str] = []
     deprecated: DeprecationSchema = p.Field({})
