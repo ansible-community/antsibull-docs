@@ -31,6 +31,8 @@ antsibull-docs is covered by the [Ansible Code of Conduct](https://docs.ansible.
 
 From version 1.0.0 on, antsibull-docs sticks to semantic versioning and aims at providing no backwards compatibility breaking changes **to the command line API (antsibull-docs)** during a major release cycle. We might make exceptions from this in case of security fixes for vulnerabilities that are severe enough.
 
+Note that there are newer major versions than 1.x.y. Check out the changelog of such later major versions to see what changed. The 1.x.y version stream is still developed on the `stable-1` branch, but only security fixes and major bugfixes will be backported from newer versions.
+
 We explicitly exclude code compatibility. **antsibull-docs is not supposed to be used as a library.** The only exception are dependencies with other antsibull projects (currently, only [antsibull](https://github.com/ansible-community/antsibull/) itself). If you want to use a certain part of antsibull-docs as a library, please create an issue so we can discuss whether we add a stable interface for **parts** of the Python code. We do not promise that this will actually happen though.
 
 ## Running from source
