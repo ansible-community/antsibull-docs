@@ -123,27 +123,45 @@ class _MarkupValidator:
     _return_value_names: dict[str, str]
 
     def _collect_role_option_names(
-        self, options: dict[str, t.Any], entrypoint: str, path_prefix: str
+        self, options: dict[str, t.Any], entrypoint: str, path_prefixes: list[str]
     ) -> None:
         for opt, data in sorted(options.items()):
-            path = f"{path_prefix}{opt}"
-            self._option_names[
-                f"{entrypoint}{_ROLE_ENTRYPOINT_SEPARATOR}{path}"
-            ] = data["type"]
+            names = [opt]
+            if isinstance(data.get("aliases"), Sequence):
+                names.extend(data["aliases"])
+            paths = [
+                f"{path_prefix}{name}"
+                for name in names
+                for path_prefix in path_prefixes
+            ]
+            for path in paths:
+                self._option_names[
+                    f"{entrypoint}{_ROLE_ENTRYPOINT_SEPARATOR}{path}"
+                ] = data["type"]
             if "options" in data:
                 self._collect_role_option_names(
-                    data["options"], entrypoint, f"{path}{_NAME_SEPARATOR}"
+                    data["options"],
+                    entrypoint,
+                    [f"{path}{_NAME_SEPARATOR}" for path in paths],
                 )
 
     def _collect_option_names(
-        self, options: dict[str, t.Any], path_prefix: str
+        self, options: dict[str, t.Any], path_prefixes: list[str]
     ) -> None:
         for opt, data in sorted(options.items()):
-            path = f"{path_prefix}{opt}"
-            self._option_names[path] = data["type"]
+            names = [opt]
+            if isinstance(data.get("aliases"), Sequence):
+                names.extend(data["aliases"])
+            paths = [
+                f"{path_prefix}{name}"
+                for name in names
+                for path_prefix in path_prefixes
+            ]
+            for path in paths:
+                self._option_names[path] = data["type"]
             if "suboptions" in data:
                 self._collect_option_names(
-                    data["suboptions"], f"{path}{_NAME_SEPARATOR}"
+                    data["suboptions"], [f"{path}{_NAME_SEPARATOR}" for path in paths]
                 )
 
     def _collect_return_value_names(
@@ -393,13 +411,13 @@ class _MarkupValidator:
         self._option_names = {}
         self._return_value_names = {}
         if "doc" in plugin_record and "options" in plugin_record["doc"]:
-            self._collect_option_names(plugin_record["doc"]["options"], "")
+            self._collect_option_names(plugin_record["doc"]["options"], [""])
         if "return" in plugin_record:
             self._collect_return_value_names(plugin_record["return"], "")
         if "entry_points" in plugin_record:
             for entry_point, data in sorted(plugin_record["entry_points"].items()):
                 if "options" in data:
-                    self._collect_role_option_names(data["options"], entry_point, "")
+                    self._collect_role_option_names(data["options"], entry_point, [""])
 
         # Validate names
         self.errors = []

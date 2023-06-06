@@ -1,0 +1,2 @@
+minor_changes:
+  - "When linting semantic markup in collection docs, also accept aliases when checking ``O()`` values (https://github.com/ansible-community/antsibull-docs/pull/155)."
