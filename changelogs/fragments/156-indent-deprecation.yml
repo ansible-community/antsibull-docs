@@ -1,3 +1,3 @@
 bugfixes:
-  - "Indent module/plugin and role entrypoint deprecations correctly if "Why" or "Alternative" texts need more than one line (https://github.com/ansible-community/antsibull-docs/pull/156)."
+  - "Indent module/plugin and role entrypoint deprecations correctly if 'Why' or 'Alternative' texts need more than one line (https://github.com/ansible-community/antsibull-docs/pull/156)."
   - "Allow role entrypoint deprecations without having to specify the collection the role is removed from (https://github.com/ansible-community/antsibull-docs/pull/156)."
