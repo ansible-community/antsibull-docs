@@ -177,7 +177,9 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-subfoo"></div>
+        <div class="ansibleOptionAnchor" id="parameter-subbaz"></div>
 
+      .. _ansible_collections.ns2.flatcol.foo_module__parameter-subbaz:
       .. _ansible_collections.ns2.flatcol.foo_module__parameter-subfoo:
 
       .. rst-class:: ansible-option-title
@@ -187,6 +189,10 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-subfoo" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: subbaz`
 
       .. rst-class:: ansible-option-type-line
 
@@ -214,7 +220,13 @@ Parameters
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-subfoo/foo"></div>
+        <div class="ansibleOptionAnchor" id="parameter-subbaz/foo"></div>
+        <div class="ansibleOptionAnchor" id="parameter-subfoo/bam"></div>
+        <div class="ansibleOptionAnchor" id="parameter-subbaz/bam"></div>
 
+      .. _ansible_collections.ns2.flatcol.foo_module__parameter-subbaz/bam:
+      .. _ansible_collections.ns2.flatcol.foo_module__parameter-subbaz/foo:
+      .. _ansible_collections.ns2.flatcol.foo_module__parameter-subfoo/bam:
       .. _ansible_collections.ns2.flatcol.foo_module__parameter-subfoo/foo:
 
       .. rst-class:: ansible-option-title
@@ -224,6 +236,10 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-subfoo/foo" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: bam`
 
       .. rst-class:: ansible-option-type-line
 
@@ -242,6 +258,8 @@ Parameters
       Whatever.
 
       Also required when \ :ansopt:`ns2.flatcol.foo#module:subfoo`\  is specified when \ :ansopt:`ns2.flatcol.foo#module:foo=bar`\  or \ :ansval:`baz`\ .
+
+      Note that \ :ansopt:`ns2.flatcol.foo#module:subfoo.foo`\  is the same as \ :ansopt:`ns2.flatcol.foo#module:subbaz.foo`\ , \ :ansopt:`ns2.flatcol.foo#module:subbaz.bam`\ , and \ :ansopt:`ns2.flatcol.foo#module:subfoo.bam`\ .
 
 
       .. raw:: html

@@ -37,14 +37,19 @@ options:
         description: Some recursive foo.
         version_added: 2.0.0
         type: dict
+        aliases:
+          - subbaz
         suboptions:
             foo:
                 description:
                     - A sub foo.
                     - Whatever.
                     - Also required when O(subfoo) is specified when O(foo=bar) or V(baz).
+                    - Note that O(subfoo.foo) is the same as O(subbaz.foo), O(subbaz.bam), and O(subfoo.bam).
                 type: str
                 required: true
+                aliases:
+                  - bam
 """
 
 EXAMPLES = """
@@ -78,7 +83,9 @@ def main():
         argument_spec=dict(
             foo=dict(type="str", required=True),
             bar=dict(type="list", elements="int", aliases=["baz"]),
-            subfoo=dict(type="dict", options=dict(foo=dict(type="str", required=True))),
+            subfoo=dict(type="dict", aliases=["subbaz"], options=dict(
+                foo=dict(type="str", required=True, aliases=["bam"]),
+            )),
         ),
         supports_check_mode=True,
     )
