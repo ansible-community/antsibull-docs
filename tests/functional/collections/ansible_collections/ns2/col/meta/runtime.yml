@@ -11,3 +11,10 @@ action_groups:
     - foo2
   bar_group:
     - foo2
+
+plugin_routing:
+  become:
+    foo:
+      deprecation:
+        removal_version: 5.0.0
+        warning_text: It will be gone

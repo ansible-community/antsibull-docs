@@ -5,6 +5,12 @@
     "doc": {
      "author": "Nobody (!UNKNOWN)",
      "collection": "ns2.col",
+     "deprecated": {
+      "alternatives": "I don't know\nof any\nalternative.\n",
+      "removed_from_collection": "ns2.col",
+      "removed_in": "5.0.0",
+      "why": "Just some text.\nThis one has more than one line.\nAnd one more.\n"
+     },
      "description": [
       "This become plugin uses foo.",
       "This is a second paragraph."
@@ -14,10 +20,10 @@
      "options": {
       "bar": {
        "deprecated": {
-        "alternatives": "nothing",
+        "alternatives": "nothing\nrelevant\nI know off\n",
         "collection_name": "ns2.col",
         "version": "4.0.0",
-        "why": "Just some other text."
+        "why": "Just some other text.\nThis one has more than one line though.\nOne more.\n"
        },
        "description": [
         "Bar. B(BAR!)",
