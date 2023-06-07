@@ -1643,6 +1643,11 @@
       "author": [
        "Felix Fontein (@felixfontein)"
       ],
+      "deprecated": {
+       "alternatives": "I don't know\nof any\nalternative.\n",
+       "removed_in": "5.0.0",
+       "why": "Just some text.\nThis one has more than one line.\nAnd one more.\n"
+      },
       "description": [
        "This is the foo role.",
        "If you set O(foo_param_1) while O(foo_param_2=3), this might behave funny."

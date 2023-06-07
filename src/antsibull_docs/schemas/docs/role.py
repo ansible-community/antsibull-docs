@@ -11,6 +11,7 @@
 # pyre-ignore-all-errors[13]
 
 import typing as t
+from collections.abc import Mapping
 
 import pydantic as p
 
@@ -26,6 +27,8 @@ from .base import (
     SeeAlsoModSchema,
     SeeAlsoRefSchema,
 )
+
+_SENTINEL = object()
 
 
 class InnerRoleOptionsSchema(OptionsSchema):
@@ -73,3 +76,20 @@ class RoleSchema(BaseModel):
     collection: str = COLLECTION_NAME_F
     entry_points: dict[str, RoleEntrypointSchema]
     path: str
+
+    @p.root_validator(pre=True)
+    # pylint:disable=no-self-argument
+    def add_entrypoint_deprecation_collection(cls, values):
+        entry_points = values.get("entry_points")
+        collection = values.get("collection")
+        if isinstance(entry_points, Mapping) and isinstance(collection, str):
+            for data in entry_points.values():
+                if isinstance(data, Mapping):
+                    deprecation = data.get("deprecated")
+                    if isinstance(deprecation, Mapping):
+                        removed_from_collection = deprecation.get(
+                            "removed_from_collection", _SENTINEL
+                        )
+                        if removed_from_collection is _SENTINEL:
+                            deprecation["removed_from_collection"] = collection
+        return values
