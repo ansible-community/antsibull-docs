@@ -83,9 +83,13 @@ def main():
         argument_spec=dict(
             foo=dict(type="str", required=True),
             bar=dict(type="list", elements="int", aliases=["baz"]),
-            subfoo=dict(type="dict", aliases=["subbaz"], options=dict(
-                foo=dict(type="str", required=True, aliases=["bam"]),
-            )),
+            subfoo=dict(
+                type="dict",
+                aliases=["subbaz"],
+                options=dict(
+                    foo=dict(type="str", required=True, aliases=["bam"]),
+                ),
+            ),
         ),
         supports_check_mode=True,
     )
