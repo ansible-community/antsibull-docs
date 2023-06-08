@@ -53,3 +53,9 @@ make_ansible_doc_extract ns.col1 ns.col1
 make_ansible_doc_extract ns.col2 ns.col2
 make_ansible_doc_extract ns2.col ns2.col
 make_ansible_doc_extract ns2.flatcol ns2.flatcol
+
+echo "Build extended ansible-galaxy collection list output cache"
+ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/:other-collections/ ansible-galaxy collection list --format json | python sanitize-ansible-galaxy-list.py > "ansible-galaxy-cache-all-others.json"
+
+echo "Build extended ansible-doc --metadata-dump --no-fail-on-errors output cache"
+ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/:other-collections/ ansible-doc --metadata-dump --no-fail-on-errors | python sanitize-ansible-doc-dump.py > "ansible-doc-cache-all-others.json"

@@ -1,0 +1,21 @@
+{
+ "../other-collections/ansible_collections": {
+  "ext.col": {
+   "version": "3.0.0"
+  }
+ },
+ "ansible_collections": {
+  "ns.col1": {
+   "version": "*"
+  },
+  "ns.col2": {
+   "version": "0.0.1"
+  },
+  "ns2.col": {
+   "version": "2.1.0"
+  },
+  "ns2.flatcol": {
+   "version": "*"
+  }
+ }
+}

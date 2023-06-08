@@ -3,13 +3,15 @@
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-namespace: ns
-name: col2
-version: 0.0.1
+namespace: ext
+name: col
+version: 3.0.0
 readme: README.md
 authors:
   - Ansible (https://github.com/ansible)
-dependencies:
-  ns2.col: '>= 1.0.0'
-license_file: COPYING
-tags: [community, nothing]
+description: |
+  This is a description.
+
+  With multiple paragraphs.
+license: GPL-3.0-or-later
+tags: [external, stuff]

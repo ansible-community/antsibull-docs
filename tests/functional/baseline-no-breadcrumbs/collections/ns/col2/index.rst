@@ -44,6 +44,7 @@ Modules
 * :ref:`foo module <ansible_collections.ns.col2.foo_module>` -- 
 * :ref:`foo2 module <ansible_collections.ns.col2.foo2_module>` -- Foo two
 * :ref:`foo3 module <ansible_collections.ns.col2.foo3_module>` -- Foo III
+* :ref:`foo4 module <ansible_collections.ns.col2.foo4_module>` -- Markup reference linting test
 
 
 

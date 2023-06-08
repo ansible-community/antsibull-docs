@@ -106,7 +106,7 @@ def _normalize_docs_options(args: argparse.Namespace) -> None:
     try:
         if writable_via_acls(args.dest_dir, euid):
             raise InvalidArgumentError(
-                f"Filesystem acls grant write on {args.dest_dir} to" " additional users"
+                f"Filesystem acls grant write on {args.dest_dir} to additional users"
             )
     except UnableToCheck:
         # We've done our best but some systems don't even have acls on their filesystem so we can't
@@ -313,7 +313,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     parser = get_toplevel_parser(
         prog=program_name,
         package="antsibull_docs",
-        description="Script to manage generated documentation for" " ansible",
+        description="Script to manage generated documentation for ansible",
     )
     subparsers = parser.add_subparsers(
         title="Subcommands", dest="command", help="for help use: `SUBCOMMANDS -h`"
@@ -326,7 +326,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     devel_parser = subparsers.add_parser(
         "devel",
         parents=[docs_parser, cache_parser, whole_site_parser, template_parser],
-        description="Generate documentation for the next major" " release of Ansible",
+        description="Generate documentation for the next major release of Ansible",
     )
     devel_parser.add_argument(
         "--pieces-file",
@@ -348,7 +348,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     stable_parser = subparsers.add_parser(
         "stable",
         parents=[docs_parser, cache_parser, whole_site_parser, template_parser],
-        description="Generate documentation for a current" " version of ansible",
+        description="Generate documentation for a current version of ansible",
     )
     stable_parser.add_argument(
         "--deps-file",
@@ -388,7 +388,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     collection_parser = subparsers.add_parser(
         "collection",
         parents=[docs_parser, whole_site_parser, template_parser],
-        description="Generate documentation for specified" " collections",
+        description="Generate documentation for specified collections",
     )
     collection_parser.add_argument(
         "--collection-version",
@@ -451,7 +451,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     sphinx_init_parser = subparsers.add_parser(
         "sphinx-init",
         parents=[docs_parser, template_parser, whole_site_parser],
-        description="Generate a Sphinx site template for a" " collection docsite",
+        description="Generate a Sphinx site template for a collection docsite",
     )
 
     sphinx_init_parser.add_argument(
@@ -558,13 +558,13 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     #
     lint_collection_docs_parser = subparsers.add_parser(
         "lint-collection-docs",
-        description="Collection extra docs linter" " for inclusion in docsite",
+        description="Collection extra docs linter for inclusion in docsite",
     )
 
     lint_collection_docs_parser.add_argument(
         "collection_root_path",
         metavar="/path/to/collection",
-        help="path to collection (directory that includes" " galaxy.yml)",
+        help="path to collection (directory that includes galaxy.yml)",
     )
     lint_collection_docs_parser.add_argument(
         "--plugin-docs",
@@ -574,6 +574,28 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         help="Determine whether to also check RST file"
         " generation and schema and markup validation for"
         " plugins and roles in this collection.",
+    )
+    lint_collection_docs_parser.add_argument(
+        "--validate-collection-refs",
+        dest="validate_collections_refs",
+        choices=["self", "dependent", "all"],
+        default="self",
+        help="When --plugin-docs is specified, determine references to which"
+        " collections to validate.  'self' means only validate references to"
+        " this collection.  'dependent' means validating references to"
+        " collections this collection (transitively) depends on.  'all' means"
+        " validating references to all collections the linter can find.",
+    )
+    lint_collection_docs_parser.add_argument(
+        "--disallow-unknown-collection-refs",
+        dest="disallow_unknown_collection_refs",
+        action=BooleanOptionalAction,
+        default=False,
+        help="When --plugin-docs is specified, determine references to which"
+        " collections to validate.  'self' means only validate references to"
+        " this collection.  'dependent' means validating references to"
+        " collections this collection (transitively) depends on.  'all' means"
+        " validating references to all collections the linter can find.",
     )
     lint_collection_docs_parser.add_argument(
         "--skip-rstcheck",

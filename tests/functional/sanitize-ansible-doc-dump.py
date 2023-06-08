@@ -12,6 +12,7 @@ import sys
 import ansible
 
 root = os.path.join(os.getcwd(), "collections")
+other_root = os.path.join(os.getcwd(), "other-collections")
 ansible_root = os.path.dirname(ansible.__file__)
 data = json.load(sys.stdin)
 for plugin_type, plugins in data["all"].items():
@@ -30,8 +31,10 @@ for plugin_type, plugins in data["all"].items():
             if key in doc:
                 rel_root = os.path.relpath(doc[key], root)
                 rel_ansible = os.path.relpath(doc[key], ansible_root)
-                if not rel_root.startswith("."):
-                    doc[key] = os.path.join(rel_root)
+                if not rel_root.startswith(".") or rel_root.startswith(
+                    "../other-collections/"
+                ):
+                    doc[key] = rel_root
                 elif not rel_ansible.startswith("."):
                     doc[key] = os.path.join("/ansible", rel_ansible)
                 else:

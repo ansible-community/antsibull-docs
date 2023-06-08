@@ -878,6 +878,83 @@
      },
      "baz": "baz!"
     }
+   },
+   "ns.col2.foo4": {
+    "doc": {
+     "author": [
+      "Nobody (@ansible)"
+     ],
+     "collection": "ns.col2",
+     "description": [],
+     "filename": "ansible_collections/ns/col2/plugins/modules/foo4.py",
+     "has_action": false,
+     "module": "foo4",
+     "options": {
+      "existing": {
+       "description": [
+        "M(ansible.builtin.service)",
+        "P(ansible.builtin.pipe#lookup)",
+        "O(ansible.builtin.file#module:state)",
+        "RV(ansible.builtin.stat#module:stat.exists)",
+        "M(ns2.flatcol.foo)",
+        "P(ns2.flatcol.sub.foo2#module)",
+        "O(ns2.flatcol.foo#module:subbaz.bam)",
+        "RV(ns2.flatcol.sub.foo2#module:bar)",
+        "M(ns2.col.foo2)",
+        "P(ns2.col.foo#lookup)",
+        "O(ns2.col.bar#filter:foo[-1])",
+        "RV(ns2.col.bar#test:stat._value)",
+        "M(ns.col2.foo)",
+        "P(ns.col2.foo2#module)",
+        "O(ns.col2.foo#module:subfoo.foo)",
+        "RV(ns.col2.foo#module:baz)",
+        "M(ext.col.foo)",
+        "P(ext.col.bar#lookup)",
+        "O(ext.col.foo#module:foo[len(foo\\)].bar)",
+        "RV(ext.col.foo#module:baz[])"
+       ]
+      },
+      "not_existing": {
+       "description": [
+        "M(ansible.builtin.foobar)",
+        "P(ansible.builtin.bazbam#lookup)",
+        "O(ansible.builtin.file#module:foobarbaz)",
+        "RV(ansible.builtin.stat#module:baz.bam[])",
+        "O(ansible.builtin.foobar#module:state)",
+        "RV(ansible.builtin.bazbam#module:stat.exists)",
+        "M(ns2.flatcol.foobarbaz)",
+        "P(ns2.flatcol.sub.bazbam#module)",
+        "O(ns2.flatcol.foo#module:foofoofoobar)",
+        "RV(ns2.flatcol.sub.foo2#module:bazbarbam)",
+        "O(ns2.flatcol.foobar#module:subbaz.bam)",
+        "RV(ns2.flatcol.sub.bazbam#module:bar)",
+        "M(ns2.col.joo)",
+        "P(ns2.col.joo#lookup)",
+        "O(ns2.col.bar#filter:jooo)",
+        "RV(ns2.col.bar#test:booo)",
+        "O(ns2.col.joo#filter:foo[-1])",
+        "RV(ns2.col.joo#test:stat._value)",
+        "M(ns.col2.foobarbaz)",
+        "P(ns.col2.foobarbam#filter)",
+        "O(ns.col2.foo#module:barbazbam.foo)",
+        "RV(ns.col2.foo#module:bambazbar)",
+        "O(ns.col2.foofoo#test:subfoo.foo)",
+        "RV(ns.col2.foofoo#lookup:baz)",
+        "M(ext.col.notthere)",
+        "P(ext.col.notthere#lookup)",
+        "O(ext.col.foo#module:foo[len(foo\\)].notthere)",
+        "O(ext.col.foo#module:notthere[len(notthere\\)].bar)",
+        "RV(ext.col.foo#module:notthere[])",
+        "O(ext.col.notthere#module:foo[len(foo\\)].bar)",
+        "RV(ext.col.notthere#module:baz[])"
+       ]
+      }
+     },
+     "short_description": "Markup reference linting test"
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    }
   },
   "netconf": {},

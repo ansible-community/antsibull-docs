@@ -73,6 +73,7 @@ async def get_ansible_plugin_info(
     venv: VenvRunner | FakeVenvRunner,
     collection_dir: str | None,
     collection_names: list[str] | None = None,
+    fetch_all_installed: bool = False,
 ) -> tuple[
     MutableMapping[str, MutableMapping[str, t.Any]],
     Mapping[str, AnsibleCollectionMetadata],
@@ -86,6 +87,8 @@ async def get_ansible_plugin_info(
                          search path for Ansible.
     :arg collection_names: Optional list of collections. If specified, will only collect
                            information for plugins in these collections.
+    :arg fetch_all_installed: If set to ``True``, will also retrieve plugins of installed
+        collections outside ``collection_dir`` (if specified).
     :returns: An tuple. The first component is a nested directory structure that looks like:
 
             plugin_type:
@@ -98,7 +101,9 @@ async def get_ansible_plugin_info(
     flog = mlog.fields(func="get_ansible_plugin_info")
     flog.debug("Enter")
 
-    env = _get_environment(collection_dir, venv=venv)
+    env = _get_environment(
+        collection_dir, keep_current_collections_path=fetch_all_installed, venv=venv
+    )
 
     flog.debug("Retrieving and loading plugin documentation")
     if collection_names and len(collection_names) == 1:
