@@ -1546,13 +1546,20 @@
        "type": "str"
       },
       "subfoo": {
+       "aliases": [
+        "subbaz"
+       ],
        "description": "Some recursive foo.",
        "suboptions": {
         "foo": {
+         "aliases": [
+          "bam"
+         ],
          "description": [
           "A sub foo.",
           "Whatever.",
-          "Also required when O(subfoo) is specified when O(foo=bar) or V(baz)."
+          "Also required when O(subfoo) is specified when O(foo=bar) or V(baz).",
+          "Note that O(subfoo.foo) is the same as O(subbaz.foo), O(subbaz.bam), and O(subfoo.bam)."
          ],
          "required": true,
          "type": "str"
