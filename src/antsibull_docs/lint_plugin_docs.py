@@ -463,6 +463,7 @@ def lint_collection_plugin_docs(path_to_collection: str,
                 dependency = dependencies.pop(0)
                 if dependency in done_dependencies:
                     continue
+                done_dependencies.add(dependency)
                 dep_namespace, dep_name = dependency.split('.', 2)
                 dep_collection_path = collection_finder.find(dep_namespace, dep_name)
                 if dep_collection_path:
