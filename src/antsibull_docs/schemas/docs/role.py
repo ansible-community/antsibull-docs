@@ -75,7 +75,7 @@ class RoleSchema(BaseModel):
     path: str
 
     @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument
+    # pylint:disable=no-self-argument,no-self-use
     def add_entrypoint_deprecation_collection(cls, values):
         entry_points = values.get("entry_points")
         collection = values.get("collection")
