@@ -14,6 +14,16 @@ DOCUMENTATION = """
         - This is a second paragraph.
     author: Nobody (!UNKNOWN)
     version_added: historical
+    deprecated:
+        removed_in: 5.0.0
+        why: |
+          Just some text.
+          This one has more than one line.
+          And one more.
+        alternatives: |
+          I don't know
+          of any
+          alternative.
     options:
         become_user:
             description: User you 'become' to execute the task.
@@ -72,9 +82,15 @@ DOCUMENTATION = """
             type: str
             version_added: 1.2.0
             deprecated:
-                why: Just some other text.
+                why: |
+                  Just some other text.
+                  This one has more than one line though.
+                  One more.
                 version: 4.0.0
-                alternatives: nothing
+                alternatives: |
+                  nothing
+                  relevant
+                  I know of
 """
 
 from ansible.plugins.become import BecomeBase

@@ -28,3 +28,13 @@ argument_specs:
         support: full
     seealso:
       - module: ns2.col.foo
+    deprecated:
+        removed_in: 5.0.0
+        why: |
+          Just some text.
+          This one has more than one line.
+          And one more.
+        alternatives: |
+          I don't know
+          of any
+          alternative.

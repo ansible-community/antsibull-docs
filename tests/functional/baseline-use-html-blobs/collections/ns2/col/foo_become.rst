@@ -58,6 +58,17 @@ ns2.col.foo become -- Use foo \ :ansopt:`ns2.col.foo#become:bar`\
 
 .. Deprecated
 
+DEPRECATED
+----------
+:Removed in: version 5.0.0
+:Why: Just some text.
+      This one has more than one line.
+      And one more.
+
+:Alternative: I don't know
+              of any
+              alternative.
+
 
 Synopsis
 --------
@@ -103,8 +114,14 @@ Parameters
       </p>
       <p><span class="ansible-option-versionadded">added in ns2.col 1.2.0</span></p>
   <p>Removed in: version 4.0.0</p>
-  <p>Why: Just some other text.</p>
-  <p>Alternative: nothing</p>
+  <p>Why: Just some other text.
+  This one has more than one line though.
+  One more.
+  </p>
+  <p>Alternative: nothing
+  relevant
+  I know of
+  </p>
 
     </div></td>
     <td><div class="ansible-option-cell">
@@ -246,6 +263,15 @@ Parameters
 
 
 ..  Status (Presently only deprecated)
+
+Status
+------
+
+.. Deprecated note
+
+- This become will be removed in version 5.0.0.
+  *[deprecated]*
+- For more information see `DEPRECATED`_.
 
 
 .. Authors

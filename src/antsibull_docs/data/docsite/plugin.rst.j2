@@ -137,8 +137,8 @@ DEPRECATED
 {% if doc['deprecated']['removed_from_collection'] and doc['deprecated']['removed_from_collection'] != collection %}
              of @{ doc['deprecated']['removed_from_collection'] | rst_ify }@
 {% endif %}
-:Why: @{ doc['deprecated']['why'] | rst_ify }@
-:Alternative: @{ doc['deprecated']['alternative'] | rst_ify }@
+:Why: @{ doc['deprecated']['why'] | rst_ify | indent(6) }@
+:Alternative: @{ doc['deprecated']['alternative'] | rst_ify | indent(14) }@
 {% endif %}
 
 {% if plugin_type == 'callback' %}
