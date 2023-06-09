@@ -1,0 +1,2 @@
+bugfixes:
+  - "When collecting collection dependencies for the ``lint-collection-docs`` subcommand, a bug prevented the duplicate detection to work (https://github.com/ansible-community/antsibull-docs/pull/160)."
