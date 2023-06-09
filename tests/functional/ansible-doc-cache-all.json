@@ -20,7 +20,7 @@
      "options": {
       "bar": {
        "deprecated": {
-        "alternatives": "nothing\nrelevant\nI know off\n",
+        "alternatives": "nothing\nrelevant\nI know of\n",
         "collection_name": "ns2.col",
         "version": "4.0.0",
         "why": "Just some other text.\nThis one has more than one line though.\nOne more.\n"

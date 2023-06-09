@@ -120,7 +120,7 @@ Parameters
   </p>
   <p>Alternative: nothing
   relevant
-  I know off
+  I know of
   </p>
 
     </div></td>

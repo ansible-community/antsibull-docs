@@ -90,7 +90,7 @@ DOCUMENTATION = """
                 alternatives: |
                   nothing
                   relevant
-                  I know off
+                  I know of
 """
 
 from ansible.plugins.become import BecomeBase
