@@ -115,8 +115,8 @@ DEPRECATED
 {%     else %}
 :Removed in: a future release
 {%     endif %}
-:Why: @{ ep_doc['deprecated']['why'] | rst_ify(role_entrypoint=entry_point) }@
-:Alternative: @{ ep_doc['deprecated']['alternative'] | rst_ify(role_entrypoint=entry_point) }@
+:Why: @{ ep_doc['deprecated']['why'] | rst_ify(role_entrypoint=entry_point) | indent(6) }@
+:Alternative: @{ ep_doc['deprecated']['alternative'] | rst_ify(role_entrypoint=entry_point) | indent(14) }@
 {%   endif %}
 
 Synopsis
