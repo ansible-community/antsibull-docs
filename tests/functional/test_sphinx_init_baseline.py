@@ -32,7 +32,7 @@ TEST_CASES = [
             "--lenient",
             "--fail-on-error",
             "--index-rst-source",
-            "tests/functional/test.rst",
+            os.path.join(os.path.dirname(__file__), "test.rst"),
             "--intersphinx",
             "identifier:https://server/path",
             "--intersphinx",
@@ -134,7 +134,7 @@ def _compare_directories(source, dest):
 
 @pytest.mark.parametrize("arguments, directory", TEST_CASES)
 def test_baseline(arguments, directory, tmp_path):
-    tests_root = os.path.join("tests", "functional")
+    tests_root = os.path.dirname(__file__)
 
     # Re-build baseline
     command = ["antsibull-docs", "sphinx-init", "--dest-dir", str(tmp_path)] + arguments

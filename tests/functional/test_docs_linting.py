@@ -248,7 +248,7 @@ def change_cwd(directory):
 
 @pytest.mark.parametrize("namespace, name, rc, errors", TEST_CASES)
 def test_lint_collection_plugin_docs(namespace, name, rc, errors, tmp_path):
-    tests_root = os.path.join("tests", "functional")
+    tests_root = os.path.dirname(__file__)
     collection_root = os.path.join(
         tests_root, "collections", "ansible_collections", namespace, name
     )
