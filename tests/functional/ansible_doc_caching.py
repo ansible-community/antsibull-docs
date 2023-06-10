@@ -30,8 +30,12 @@ def ansible_doc_cache():
             raise Exception(
                 f"UNEXPECTED parameters to call_ansible_doc: {parameters!r}"
             )
-        root = env["ANSIBLE_COLLECTIONS_PATH"]
-        arg = "all" if len(parameters) == 0 else parameters[0]
+        root, *others = env["ANSIBLE_COLLECTIONS_PATH"].split(":")
+        arg = (
+            ("all-others" if others else "all")
+            if len(parameters) == 0
+            else parameters[0]
+        )
         filename = os.path.join(
             os.path.dirname(__file__), f"ansible-doc-cache-{arg}.json"
         )
@@ -39,8 +43,6 @@ def ansible_doc_cache():
             data = json.load(f)
         for plugin_type, plugins in data["all"].items():
             for plugin_fqcn, plugin_data in list(plugins.items()):
-                if plugin_fqcn.startswith("ansible.builtin."):
-                    del plugins[plugin_fqcn]
                 for doc_key, key in [
                     ("doc", "filename"),
                     ("", "path"),
@@ -63,7 +65,7 @@ def ansible_doc_cache():
             content = f.read()
 
         root = (
-            env["ANSIBLE_COLLECTIONS_PATH"]
+            env["ANSIBLE_COLLECTIONS_PATH"].split(":", 1)[0]
             if env and "ANSIBLE_COLLECTIONS_PATH" in env
             else "/collections"
         )
@@ -78,12 +80,31 @@ def ansible_doc_cache():
         venv: VenvRunner | FakeVenvRunner,
         env: t.Dict[str, str],
     ) -> t.Mapping[str, t.Any]:
+        root, *others = env["ANSIBLE_COLLECTIONS_PATH"].split(":")
+        filename = os.path.join(
+            os.path.dirname(__file__),
+            "ansible-galaxy-cache-all-others.json"
+            if others
+            else "ansible-galaxy-cache-all.json",
+        )
+        with open(filename, encoding="utf-8") as f:
+            data = json.load(f)
+        result = {}
+        for path, collections in data.items():
+            if path.startswith("../other-collections/") and others:
+                path = os.path.join(others[0], path.split("/", 2)[2])
+            else:
+                path = os.path.join(root, path)
+            result[path] = collections
+        return result
+
+    def call_ansible_galaxy_collection_list_simple() -> t.Mapping[str, t.Any]:
         filename = os.path.join(
             os.path.dirname(__file__), "ansible-galaxy-cache-all.json"
         )
         with open(filename, encoding="utf-8") as f:
             data = json.load(f)
-        root = env["ANSIBLE_COLLECTIONS_PATH"]
+        root = os.path.join(os.path.dirname(__file__), "collections")
         result = {}
         for path, collections in data.items():
             result[os.path.join(root, path)] = collections
@@ -101,4 +122,8 @@ def ansible_doc_cache():
                 "antsibull_docs.docs_parsing.ansible_doc._call_ansible_galaxy_collection_list",
                 call_ansible_galaxy_collection_list,
             ):
-                yield
+                with mock.patch(
+                    "antsibull_docs.lint_plugin_docs._call_ansible_galaxy_collection_list",
+                    call_ansible_galaxy_collection_list_simple,
+                ):
+                    yield

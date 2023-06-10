@@ -36,6 +36,8 @@ def lint_collection_docs() -> int:
 
     collection_root = app_ctx.extra["collection_root_path"]
     plugin_docs = app_ctx.extra["plugin_docs"]
+    validate_collections_refs = app_ctx.extra["validate_collections_refs"]
+    disallow_unknown_collection_refs = app_ctx.extra["disallow_unknown_collection_refs"]
     skip_rstcheck = app_ctx.extra["skip_rstcheck"]
     disallow_semantic_markup = app_ctx.extra["disallow_semantic_markup"]
 
@@ -62,6 +64,8 @@ def lint_collection_docs() -> int:
                 collection_root,
                 collection_url=collection_url,
                 collection_install=collection_install,
+                validate_collections_refs=validate_collections_refs,
+                disallow_unknown_collection_refs=disallow_unknown_collection_refs,
                 skip_rstcheck=skip_rstcheck,
                 disallow_semantic_markup=disallow_semantic_markup,
             )

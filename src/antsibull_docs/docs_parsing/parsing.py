@@ -31,6 +31,7 @@ async def get_ansible_plugin_info(
     venv: VenvRunner | FakeVenvRunner,
     collection_dir: str | None,
     collection_names: list[str] | None = None,
+    fetch_all_installed: bool = False,
 ) -> tuple[
     MutableMapping[str, MutableMapping[str, t.Any]],
     Mapping[str, AnsibleCollectionMetadata],
@@ -44,6 +45,8 @@ async def get_ansible_plugin_info(
                          search path for Ansible.
     :arg collection_names: Optional list of collections. If specified, will only collect
                            information for plugins in these collections.
+    :arg fetch_all_installed: If set to ``True``, will also retrieve plugins of installed
+        collections outside ``collection_dir`` (if specified).
     :returns: An tuple. The first component is a nested directory structure that looks like:
 
             plugin_type:
@@ -71,7 +74,10 @@ async def get_ansible_plugin_info(
         flog.debug(f"Auto-detected docs parsing backend: {doc_parsing_backend}")
     if doc_parsing_backend == "ansible-core-2.13":
         return await ansible_doc_core_213_get_ansible_plugin_info(
-            venv, collection_dir, collection_names=collection_names
+            venv,
+            collection_dir,
+            collection_names=collection_names,
+            fetch_all_installed=fetch_all_installed,
         )
 
     raise RuntimeError(f"Invalid value for doc_parsing_backend: {doc_parsing_backend}")

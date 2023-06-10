@@ -8795,6 +8795,40 @@
      }
     }
    },
+   "ext.col.bar": {
+    "doc": {
+     "author": "Felix Fontein (@felixfontein)",
+     "collection": "ext.col",
+     "description": [
+      "This looks up some foo.",
+      "Whatever that is."
+     ],
+     "filename": "../other-collections/ansible_collections/ext/col/plugins/lookup/bar.py",
+     "name": "bar",
+     "options": {
+      "_terms": {
+       "description": "The stuff to look up.",
+       "elements": "str",
+       "required": true,
+       "type": "list"
+      }
+     },
+     "short_description": "Move O(_terms) to RV(_raw)",
+     "version_added": "1.0.0",
+     "version_added_collection": "ext.col"
+    },
+    "examples": "\n- name: Look up bar\n  ansible.builtin.debug:\n    msg: \"{{ lookup('ext.col.bar', 'bar') }}\"\n",
+    "metadata": null,
+    "return": {
+     "_raw": {
+      "description": [
+       "The resulting stuff."
+      ],
+      "elements": "str",
+      "type": "list"
+     }
+    }
+   },
    "ns2.col.foo": {
     "doc": {
      "author": "Felix Fontein (@felixfontein)",
@@ -22444,6 +22478,53 @@
       "returned": "success",
       "sample": "present",
       "type": "str"
+     }
+    }
+   },
+   "ext.col.foo": {
+    "doc": {
+     "author": [
+      "Nobody (@ansible)"
+     ],
+     "collection": "ext.col",
+     "description": [
+      "Some foo bar."
+     ],
+     "filename": "../other-collections/ansible_collections/ext/col/plugins/modules/foo.py",
+     "has_action": false,
+     "module": "foo",
+     "options": {
+      "foo": {
+       "description": "Foo.",
+       "elements": "dict",
+       "suboptions": {
+        "bar": {
+         "description": [
+          "Bar."
+         ],
+         "required": true,
+         "type": "str"
+        }
+       },
+       "type": "list"
+      }
+     },
+     "short_description": "A test module"
+    },
+    "examples": null,
+    "metadata": null,
+    "return": {
+     "baz": {
+      "description": [
+       "Some baz.",
+       "Indeed."
+      ],
+      "elements": "string",
+      "returned": "success",
+      "sample": [
+       "foo"
+      ],
+      "type": "list"
      }
     }
    },

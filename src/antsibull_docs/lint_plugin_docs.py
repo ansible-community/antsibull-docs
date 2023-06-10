@@ -13,7 +13,7 @@ import os
 import shutil
 import tempfile
 import typing as t
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 
 from antsibull_core.subprocess_util import log_run
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
@@ -26,6 +26,7 @@ from sphinx_antsibull_ext import roles as antsibull_roles
 
 from .augment_docs import augment_docs
 from .collection_links import load_collections_links
+from .docs_parsing import AnsibleCollectionMetadata
 from .docs_parsing.ansible_doc import parse_ansible_galaxy_collection_list
 from .docs_parsing.parsing import get_ansible_plugin_info
 from .docs_parsing.routing import (
@@ -46,6 +47,8 @@ from .write_docs.plugins import (
     guess_relative_filename,
     has_broken_docs,
 )
+
+ValidCollectionRefs = t.Literal["self", "dependent", "all"]
 
 
 class CollectionCopier:
@@ -82,11 +85,15 @@ class CollectionCopier:
         self.dir = None
 
 
+def _call_ansible_galaxy_collection_list() -> t.Mapping[str, t.Any]:
+    p = log_run(["ansible-galaxy", "collection", "list", "--format", "json"])
+    return json.loads(_filter_non_json_lines(p.stdout)[0])
+
+
 class CollectionFinder:
     def __init__(self):
         self.collections = {}
-        p = log_run(["ansible-galaxy", "collection", "list", "--format", "json"])
-        data = json.loads(_filter_non_json_lines(p.stdout)[0])
+        data = _call_ansible_galaxy_collection_list()
         for namespace, name, path, _ in reversed(
             parse_ansible_galaxy_collection_list(data)
         ):
@@ -114,16 +121,26 @@ _NAME_SEPARATOR = "/"
 _ROLE_ENTRYPOINT_SEPARATOR = "###"
 
 
-class _MarkupValidator:
-    errors: list[str]
+def _get_fqcn_collection_name(fqcn: str) -> str:
+    return ".".join(fqcn.split(".")[:2])
 
-    _current_plugin: dom.PluginIdentifier
-    _disallow_semantic_markup: bool
-    _option_names: dict[str, str]
-    _return_value_names: dict[str, str]
+
+def _get_fqcn_collection_prefix(fqcn: str) -> str:
+    return _get_fqcn_collection_name(fqcn) + "."
+
+
+class _NameCollector:
+    _plugins: set[tuple[str, str]]
+    _option_names: dict[tuple[str, str, str], str]
+    _return_value_names: dict[tuple[str, str, str], str]
+    _collection_prefixes: set[str]
 
     def _collect_role_option_names(
-        self, options: dict[str, t.Any], entrypoint: str, path_prefixes: list[str]
+        self,
+        plugin: tuple[str, str],
+        options: dict[str, t.Any],
+        entrypoint: str,
+        path_prefixes: list[str],
     ) -> None:
         for opt, data in sorted(options.items()):
             names = [opt]
@@ -136,17 +153,21 @@ class _MarkupValidator:
             ]
             for path in paths:
                 self._option_names[
-                    f"{entrypoint}{_ROLE_ENTRYPOINT_SEPARATOR}{path}"
+                    (*plugin, f"{entrypoint}{_ROLE_ENTRYPOINT_SEPARATOR}{path}")
                 ] = data["type"]
             if "options" in data:
                 self._collect_role_option_names(
+                    plugin,
                     data["options"],
                     entrypoint,
                     [f"{path}{_NAME_SEPARATOR}" for path in paths],
                 )
 
     def _collect_option_names(
-        self, options: dict[str, t.Any], path_prefixes: list[str]
+        self,
+        plugin: tuple[str, str],
+        options: dict[str, t.Any],
+        path_prefixes: list[str],
     ) -> None:
         for opt, data in sorted(options.items()):
             names = [opt]
@@ -158,52 +179,163 @@ class _MarkupValidator:
                 for path_prefix in path_prefixes
             ]
             for path in paths:
-                self._option_names[path] = data["type"]
+                self._option_names[(*plugin, path)] = data["type"]
             if "suboptions" in data:
                 self._collect_option_names(
-                    data["suboptions"], [f"{path}{_NAME_SEPARATOR}" for path in paths]
+                    plugin,
+                    data["suboptions"],
+                    [f"{path}{_NAME_SEPARATOR}" for path in paths],
                 )
 
     def _collect_return_value_names(
-        self, return_values: dict[str, t.Any], path_prefix: str
+        self, plugin: tuple[str, str], return_values: dict[str, t.Any], path_prefix: str
     ) -> None:
         for rv, data in sorted(return_values.items()):
             path = f"{path_prefix}{rv}"
-            self._return_value_names[path] = data["type"]
+            self._return_value_names[(*plugin, path)] = data["type"]
             if "contains" in data:
                 self._collect_return_value_names(
-                    data["contains"], f"{path}{_NAME_SEPARATOR}"
+                    plugin, data["contains"], f"{path}{_NAME_SEPARATOR}"
                 )
+
+    def __init__(self):
+        self._plugins = set()
+        self._collection_prefixes = set()
+        self._option_names = {}
+        self._return_value_names = {}
+
+    def collect_collection(self, collection_name_or_fqcn: str):
+        self._collection_prefixes.add(
+            _get_fqcn_collection_prefix(collection_name_or_fqcn)
+        )
+
+    def collect_plugin(
+        self, plugin_record: dict[str, t.Any], plugin_fqcn: str, plugin_type: str
+    ):
+        plugin = (plugin_fqcn, plugin_type)
+        self._plugins.add(plugin)
+        self._collection_prefixes.add(_get_fqcn_collection_prefix(plugin_fqcn))
+        if "doc" in plugin_record and "options" in plugin_record["doc"]:
+            self._collect_option_names(plugin, plugin_record["doc"]["options"], [""])
+        if "return" in plugin_record:
+            self._collect_return_value_names(plugin, plugin_record["return"], "")
+        if "entry_points" in plugin_record:
+            for entry_point, data in sorted(plugin_record["entry_points"].items()):
+                if "options" in data:
+                    self._collect_role_option_names(
+                        plugin, data["options"], entry_point, [""]
+                    )
+
+    def get_option_type(
+        self, plugin_fqcn: str, plugin_type: str, option_name: str
+    ) -> str | None:
+        key = (plugin_fqcn, plugin_type, option_name)
+        return self._option_names.get(key)
+
+    def get_return_value_type(
+        self, plugin_fqcn: str, plugin_type: str, return_value_name: str
+    ) -> str | None:
+        key = (plugin_fqcn, plugin_type, return_value_name)
+        return self._return_value_names.get(key)
+
+    def is_valid_collection(self, plugin_fqcn: str) -> bool:
+        return any(
+            plugin_fqcn.startswith(prefix) for prefix in self._collection_prefixes
+        )
+
+    def is_valid_plugin(self, plugin_fqcn: str, plugin_type: str) -> bool:
+        return (plugin_fqcn, plugin_type) in self._plugins
+
+    def is_valid_option(
+        self, plugin_fqcn: str, plugin_type: str, option_name: str
+    ) -> bool:
+        return self.get_option_type(plugin_fqcn, plugin_type, option_name) is not None
+
+    def is_valid_return_value(
+        self, plugin_fqcn: str, plugin_type: str, return_value_name: str
+    ) -> bool:
+        return (
+            self.get_return_value_type(plugin_fqcn, plugin_type, return_value_name)
+            is not None
+        )
+
+
+class _MarkupValidator:
+    errors: list[str]
+
+    _name_collector: _NameCollector
+    _current_plugin: dom.PluginIdentifier
+    _collection_name_prefix: str
+    _validate_collections_refs: ValidCollectionRefs
+    _disallow_unknown_collection_refs: bool
+    _disallow_semantic_markup: bool
+
+    def _report_disallowed_collection(
+        self, part: dom.AnyPart, plugin_fqcn: str, key: str
+    ) -> None:
+        self.errors.append(
+            f"{key}: {part.source}: a reference to the collection"
+            f" {_get_fqcn_collection_name(plugin_fqcn)} is not allowed"
+        )
+
+    def _validate_plugin_fqcn(
+        self, part: dom.AnyPart, plugin_fqcn: str, plugin_type: str, key: str
+    ) -> bool:
+        if self._validate_collections_refs == "self":
+            if not plugin_fqcn.startswith(self._collection_name_prefix):
+                if self._disallow_unknown_collection_refs:
+                    self._report_disallowed_collection(part, plugin_fqcn, key)
+                return False
+        if self._name_collector.is_valid_plugin(plugin_fqcn, plugin_type):
+            return True
+        if self._name_collector.is_valid_collection(plugin_fqcn):
+            prefix = "" if plugin_type in ("role", "module") else " plugin"
+            self.errors.append(
+                f"{key}: {part.source}: there is no {plugin_type}{prefix} {plugin_fqcn}"
+            )
+        elif self._disallow_unknown_collection_refs:
+            self._report_disallowed_collection(part, plugin_fqcn, key)
+        return False
 
     def _validate_option_name(self, opt: dom.OptionNamePart, key: str) -> None:
         plugin = opt.plugin
         if plugin is None:
             return
-        if plugin == self._current_plugin:
-            lookup = _NAME_SEPARATOR.join(opt.link)
-            if opt.entrypoint is not None:
-                lookup = f"{opt.entrypoint}{_ROLE_ENTRYPOINT_SEPARATOR}{lookup}"
-            if lookup not in self._option_names:
-                prefix = "" if plugin.type in ("role", "module") else " plugin"
-                self.errors.append(
-                    f'{key}: option name reference "{opt.name}" does not reference to an existing'
-                    f" option of the {plugin.type}{prefix} {plugin.fqcn}"
-                )
+        if not self._validate_plugin_fqcn(opt, plugin.fqcn, plugin.type, key):
+            return
+        lookup = _NAME_SEPARATOR.join(opt.link)
+        if opt.entrypoint is not None:
+            lookup = f"{opt.entrypoint}{_ROLE_ENTRYPOINT_SEPARATOR}{lookup}"
+        if not self._name_collector.is_valid_option(plugin.fqcn, plugin.type, lookup):
+            prefix = "" if plugin.type in ("role", "module") else " plugin"
+            self.errors.append(
+                f"{key}: {opt.source}: option name does not reference to an existing"
+                f" option of the {plugin.type}{prefix} {plugin.fqcn}"
+            )
 
     def _validate_return_value(self, rv: dom.ReturnValuePart, key: str) -> None:
         plugin = rv.plugin
         if plugin is None:
             return
-        if plugin == self._current_plugin:
-            lookup = _NAME_SEPARATOR.join(rv.link)
-            if rv.entrypoint is not None:
-                lookup = f"{rv.entrypoint}{_ROLE_ENTRYPOINT_SEPARATOR}{lookup}"
-            if lookup not in self._return_value_names:
-                prefix = "" if plugin.type in ("role", "module") else " plugin"
-                self.errors.append(
-                    f'{key}: return value name reference "{rv.name}" does not reference to an'
-                    f" existing return value of the {plugin.type}{prefix} {plugin.fqcn}"
-                )
+        if not self._validate_plugin_fqcn(rv, plugin.fqcn, plugin.type, key):
+            return
+        lookup = _NAME_SEPARATOR.join(rv.link)
+        if rv.entrypoint is not None:
+            lookup = f"{rv.entrypoint}{_ROLE_ENTRYPOINT_SEPARATOR}{lookup}"
+        if not self._name_collector.is_valid_return_value(
+            plugin.fqcn, plugin.type, lookup
+        ):
+            prefix = "" if plugin.type in ("role", "module") else " plugin"
+            self.errors.append(
+                f"{key}: {rv.source}: return value name does not reference to an"
+                f" existing return value of the {plugin.type}{prefix} {plugin.fqcn}"
+            )
+
+    def _validate_module(self, module: dom.ModulePart, key: str) -> None:
+        self._validate_plugin_fqcn(module, module.fqcn, "module", key)
+
+    def _validate_plugin(self, plugin: dom.PluginPart, key: str) -> None:
+        self._validate_plugin_fqcn(plugin, plugin.plugin.fqcn, plugin.plugin.type, key)
 
     def _validate_markup_entry(
         self, entry: str | t.Sequence[str], key: str, role_entrypoint: str | None = None
@@ -216,6 +348,7 @@ class _MarkupValidator:
             entry,
             context,
             errors="message",
+            add_source=True,
             only_classic_markup=False,
         )
         for paragraph in parsed_paragraphs:
@@ -228,7 +361,7 @@ class _MarkupValidator:
                     and par_elem.type not in _CLASSICAL_MARKUP
                 ):
                     self.errors.append(
-                        f"{key}: Found semantic markup ({par_elem.type.name} element)"
+                        f"{key}: Found semantic markup: {par_elem.source}"
                     )
                 if par_elem.type == dom.PartType.OPTION_NAME:
                     self._validate_option_name(
@@ -238,6 +371,10 @@ class _MarkupValidator:
                     self._validate_return_value(
                         t.cast(dom.ReturnValuePart, par_elem), key
                     )
+                if par_elem.type == dom.PartType.MODULE:
+                    self._validate_module(t.cast(dom.ModulePart, par_elem), key)
+                if par_elem.type == dom.PartType.PLUGIN:
+                    self._validate_plugin(t.cast(dom.PluginPart, par_elem), key)
 
     def _validate_markup_dict_entry(
         self,
@@ -399,25 +536,20 @@ class _MarkupValidator:
 
     def __init__(
         self,
+        name_collector: _NameCollector,
         plugin_record: dict[str, t.Any],
         plugin_fqcn: str,
         plugin_type: str,
+        validate_collections_refs: ValidCollectionRefs = "self",
+        disallow_unknown_collection_refs: bool = False,
         disallow_semantic_markup: bool = False,
     ):
+        self._name_collector = name_collector
+        self._collection_name_prefix = _get_fqcn_collection_prefix(plugin_fqcn)
         self._current_plugin = dom.PluginIdentifier(fqcn=plugin_fqcn, type=plugin_type)
         self._disallow_semantic_markup = disallow_semantic_markup
-
-        # Collect option and return value names
-        self._option_names = {}
-        self._return_value_names = {}
-        if "doc" in plugin_record and "options" in plugin_record["doc"]:
-            self._collect_option_names(plugin_record["doc"]["options"], [""])
-        if "return" in plugin_record:
-            self._collect_return_value_names(plugin_record["return"], "")
-        if "entry_points" in plugin_record:
-            for entry_point, data in sorted(plugin_record["entry_points"].items()):
-                if "options" in data:
-                    self._collect_role_option_names(data["options"], entry_point, [""])
+        self._validate_collections_refs = validate_collections_refs
+        self._disallow_unknown_collection_refs = disallow_unknown_collection_refs
 
         # Validate names
         self.errors = []
@@ -435,35 +567,85 @@ class _MarkupValidator:
 
 
 def _validate_markup(
+    name_collector: _NameCollector,
     plugin_record: dict[str, t.Any],
     plugin_fqcn: str,
     plugin_type: str,
     path: str,
+    validate_collections_refs: ValidCollectionRefs,
+    disallow_unknown_collection_refs: bool,
     disallow_semantic_markup: bool,
 ) -> list[tuple[str, int, int, str]]:
     validator = _MarkupValidator(
+        name_collector,
         plugin_record,
         plugin_fqcn,
         plugin_type,
+        validate_collections_refs=validate_collections_refs,
+        disallow_unknown_collection_refs=disallow_unknown_collection_refs,
         disallow_semantic_markup=disallow_semantic_markup,
     )
     return [(path, 0, 0, msg) for msg in validator.errors]
 
 
+def _collect_names(
+    new_plugin_info: Mapping[str, Mapping[str, t.Any]],
+    collection_to_plugin_info: Mapping[str, Mapping[str, Mapping[str, str]]],
+    collection_name: str,
+    collections: list[str],
+    collection_metadata: Mapping[str, AnsibleCollectionMetadata],
+    validate_collections_refs: ValidCollectionRefs,
+) -> _NameCollector:
+    name_collector = _NameCollector()
+    name_collector.collect_collection(collection_name)
+    for other_collection in collection_metadata.keys():
+        if validate_collections_refs != "all" and other_collection not in collections:
+            continue
+    for collection_name_, plugins_by_type in collection_to_plugin_info.items():
+        if validate_collections_refs != "all" and collection_name_ not in collections:
+            continue
+        for plugin_type, plugins_dict in plugins_by_type.items():
+            for plugin_short_name, dummy_ in plugins_dict.items():
+                plugin_name = ".".join((collection_name_, plugin_short_name))
+                plugin_record = new_plugin_info[plugin_type].get(plugin_name) or {}
+                if not has_broken_docs(plugin_record, plugin_type):
+                    name_collector.collect_plugin(
+                        plugin_record, plugin_name, plugin_type
+                    )
+    return name_collector
+
+
 def _lint_collection_plugin_docs(
     collections_dir: str,
+    dependencies: list[str],
     collection_name: str,
     original_path_to_collection: str,
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
+    validate_collections_refs: ValidCollectionRefs,
+    disallow_unknown_collection_refs: bool,
     skip_rstcheck: bool,
     disallow_semantic_markup: bool,
 ) -> list[tuple[str, int, int, str]]:
+    # Compile a list of collections that the collection depends on, and make
+    # sure that ansible.builtin is on it
+    collections = list(dependencies)
+    collections.append(collection_name)
+    collections.append("ansible.builtin")
+    collections = sorted(set(collections))
+
     # Load collection docs
     venv = FakeVenvRunner()
     plugin_info, collection_metadata = asyncio.run(
         get_ansible_plugin_info(
-            venv, collections_dir, collection_names=[collection_name]
+            venv,
+            collections_dir,
+            collection_names=[collection_name]
+            if validate_collections_refs == "self"
+            else collections
+            if validate_collections_refs == "dependent"
+            else None,
+            fetch_all_installed=validate_collections_refs == "all",
         )
     )
     # Load routing information
@@ -496,9 +678,20 @@ def _lint_collection_plugin_docs(
     plugin_tmpl = env.get_template("plugin.rst.j2")
     role_tmpl = env.get_template("role.rst.j2")
     error_tmpl = env.get_template("plugin-error.rst.j2")
+    # Collect all option and return value names
+    name_collector = _collect_names(
+        new_plugin_info,
+        collection_to_plugin_info,
+        collection_name,
+        collections,
+        collection_metadata,
+        validate_collections_refs,
+    )
 
     result = []
     for collection_name_, plugins_by_type in collection_to_plugin_info.items():
+        if collection_name_ != collection_name:
+            continue
         for plugin_type, plugins_dict in plugins_by_type.items():
             plugin_type_tmpl = plugin_tmpl
             if plugin_type == "role":
@@ -523,10 +716,13 @@ def _lint_collection_plugin_docs(
                 else:
                     result.extend(
                         _validate_markup(
+                            name_collector,
                             plugin_record,
                             plugin_name,
                             plugin_type,
                             filename,
+                            validate_collections_refs,
+                            disallow_unknown_collection_refs,
                             disallow_semantic_markup,
                         )
                     )
@@ -571,6 +767,8 @@ def lint_collection_plugin_docs(
     path_to_collection: str,
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
+    validate_collections_refs: ValidCollectionRefs = "self",
+    disallow_unknown_collection_refs: bool = False,
     skip_rstcheck: bool = False,
     disallow_semantic_markup: bool = False,
 ) -> list[tuple[str, int, int, str]]:
@@ -596,7 +794,7 @@ def lint_collection_plugin_docs(
         # Copy collection
         copier.add_collection(path_to_collection, namespace, name)
         # Copy all dependencies
-        if dependencies:
+        if dependencies and validate_collections_refs != "all":
             collection_finder = CollectionFinder()
             while dependencies:
                 dependency = dependencies.pop(0)
@@ -624,10 +822,13 @@ def lint_collection_plugin_docs(
         result.extend(
             _lint_collection_plugin_docs(
                 copier.dir,
+                sorted(done_dependencies),
                 collection_name,
                 path_to_collection,
                 collection_url=collection_url,
                 collection_install=collection_install,
+                validate_collections_refs=validate_collections_refs,
+                disallow_unknown_collection_refs=disallow_unknown_collection_refs,
                 skip_rstcheck=skip_rstcheck,
                 disallow_semantic_markup=disallow_semantic_markup,
             )

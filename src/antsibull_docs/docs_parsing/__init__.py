@@ -50,9 +50,17 @@ class ParsingError(Exception):
     """Error raised while parsing plugins for documentation."""
 
 
+def _get_existing_collections_path() -> str | None:
+    for env_var in ("ANSIBLE_COLLECTIONS_PATH", "ANSIBLE_COLLECTIONS_PATHS"):
+        if os.environ.get(env_var):
+            return os.environ[env_var]
+    return None
+
+
 def _get_environment(
     collection_dir: str | None,
     venv: VenvRunner | FakeVenvRunner,
+    keep_current_collections_path: bool = False,
 ) -> dict[str, str]:
     env = ANSIBLE_PATH_ENVIRON.copy()
     if isinstance(venv, VenvRunner):
@@ -62,18 +70,18 @@ def _get_environment(
             # We just wanted to make sure there was no PYTHONPATH set...
             # all Python libs will come from the venv
             pass
+    for env_var in ("ANSIBLE_COLLECTIONS_PATH", "ANSIBLE_COLLECTIONS_PATHS"):
+        try:
+            del env[env_var]
+        except KeyError:
+            pass
+    existing_collections_path = _get_existing_collections_path()
     if collection_dir is not None:
+        if keep_current_collections_path and existing_collections_path:
+            collection_dir = f"{collection_dir}:{existing_collections_path}"
         env["ANSIBLE_COLLECTIONS_PATH"] = collection_dir
-    else:
-        # Copy ANSIBLE_COLLECTIONS_PATH and ANSIBLE_COLLECTIONS_PATHS from the
-        # original environment.
-        for env_var in ("ANSIBLE_COLLECTIONS_PATH", "ANSIBLE_COLLECTIONS_PATHS"):
-            try:
-                del env[env_var]
-            except KeyError:
-                pass
-            if env_var in os.environ:
-                env[env_var] = os.environ[env_var]
+    elif existing_collections_path:
+        env["ANSIBLE_COLLECTIONS_PATH"] = existing_collections_path
     return env
 
 

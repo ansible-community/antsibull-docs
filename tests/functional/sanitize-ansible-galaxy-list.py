@@ -10,11 +10,12 @@ import os
 import sys
 
 root = os.path.join(os.getcwd(), "collections")
+other_root = os.path.join(os.getcwd(), "other-collections")
 data = json.load(sys.stdin)
 result = {}
 for path, collections in data.items():
     rel_root = os.path.relpath(path, root)
-    if rel_root.startswith("."):
+    if rel_root.startswith(".") and not rel_root.startswith("../other-collections/"):
         raise Exception(f"Cannot sanitize {doc[key]}")
     result[rel_root] = collections
 json.dump(result, sys.stdout, indent=1, sort_keys=True)
