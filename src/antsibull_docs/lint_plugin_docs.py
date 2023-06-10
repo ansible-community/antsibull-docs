@@ -592,18 +592,18 @@ def _collect_names(
     new_plugin_info: Mapping[str, Mapping[str, t.Any]],
     collection_to_plugin_info: Mapping[str, Mapping[str, Mapping[str, str]]],
     collection_name: str,
-    dependencies: list[str],
+    collections: list[str],
     collection_metadata: Mapping[str, AnsibleCollectionMetadata],
     validate_collections_refs: ValidCollectionRefs,
 ) -> _NameCollector:
     name_collector = _NameCollector()
     name_collector.collect_collection(collection_name)
     for other_collection in collection_metadata.keys():
-        # ansible.builtin is always included in collection_metadata
-        if validate_collections_refs != "all" and other_collection not in dependencies:
+        if validate_collections_refs != "all" and other_collection not in collections:
             continue
-        name_collector.collect_collection(other_collection)
     for collection_name_, plugins_by_type in collection_to_plugin_info.items():
+        if validate_collections_refs != "all" and other_collection not in collections:
+            continue
         for plugin_type, plugins_dict in plugins_by_type.items():
             for plugin_short_name, dummy_ in plugins_dict.items():
                 plugin_name = ".".join((collection_name_, plugin_short_name))
@@ -627,6 +627,13 @@ def _lint_collection_plugin_docs(
     skip_rstcheck: bool,
     disallow_semantic_markup: bool,
 ) -> list[tuple[str, int, int, str]]:
+    # Compile a list of collections that the collection depends on, and make
+    # sure that ansible.builtin is on it
+    collections = list(dependencies)
+    collections.append(collection_name)
+    collections.append("ansible.builtin")
+    collections = sorted(set(collections))
+
     # Load collection docs
     venv = FakeVenvRunner()
     plugin_info, collection_metadata = asyncio.run(
@@ -635,7 +642,7 @@ def _lint_collection_plugin_docs(
             collections_dir,
             collection_names=[collection_name]
             if validate_collections_refs == "self"
-            else dependencies
+            else collections
             if validate_collections_refs == "dependent"
             else None,
             fetch_all_installed=validate_collections_refs == "all",
@@ -676,7 +683,7 @@ def _lint_collection_plugin_docs(
         new_plugin_info,
         collection_to_plugin_info,
         collection_name,
-        dependencies,
+        collections,
         collection_metadata,
         validate_collections_refs,
     )

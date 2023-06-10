@@ -139,15 +139,15 @@ Parameters
 
       \ :ansopt:`ns2.col.bar#filter:foo[-1]`\ 
 
-      \ :ansretval:`ns2.col.bar#test:stat.\_value`\ 
-
-      \ :ref:`ns.col2.foo <ansible_collections.ns.col2.foo_module>`\ 
+      \ :ansretval:`ns2.col.bar#test:\_value`\ 
 
       \ :ref:`ns.col2.foo2 <ansible_collections.ns.col2.foo2_module>`\ 
 
-      \ :ansopt:`ns.col2.foo#module:subfoo.foo`\ 
+      \ :ref:`ns.col2.foo2 <ansible_collections.ns.col2.foo2_module>`\ 
 
-      \ :ansretval:`ns.col2.foo#module:baz`\ 
+      \ :ansopt:`ns.col2.foo2#module:subfoo.foo`\ 
+
+      \ :ansretval:`ns.col2.foo2#module:bar`\ 
 
       \ :ref:`ext.col.foo <ansible_collections.ext.col.foo_module>`\ 
 
@@ -223,15 +223,15 @@ Parameters
 
       \ :ansopt:`ns2.col.joo#filter:foo[-1]`\ 
 
-      \ :ansretval:`ns2.col.joo#test:stat.\_value`\ 
+      \ :ansretval:`ns2.col.joo#test:\_value`\ 
 
       \ :ref:`ns.col2.foobarbaz <ansible_collections.ns.col2.foobarbaz_module>`\ 
 
       \ :ref:`ns.col2.foobarbam <ansible_collections.ns.col2.foobarbam_filter>`\ 
 
-      \ :ansopt:`ns.col2.foo#module:barbazbam.foo`\ 
+      \ :ansopt:`ns.col2.foo2#module:barbazbam.foo`\ 
 
-      \ :ansretval:`ns.col2.foo#module:bambazbar`\ 
+      \ :ansretval:`ns.col2.foo2#module:bambazbar`\ 
 
       \ :ansopt:`ns.col2.foofoo#test:subfoo.foo`\ 
 

@@ -43,8 +43,6 @@ def ansible_doc_cache():
             data = json.load(f)
         for plugin_type, plugins in data["all"].items():
             for plugin_fqcn, plugin_data in list(plugins.items()):
-                if plugin_fqcn.startswith("ansible.builtin."):
-                    del plugins[plugin_fqcn]
                 for doc_key, key in [
                     ("doc", "filename"),
                     ("", "path"),

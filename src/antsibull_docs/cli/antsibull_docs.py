@@ -579,12 +579,13 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         "--validate-collection-refs",
         dest="validate_collections_refs",
         choices=["self", "dependent", "all"],
-        default="self",
+        default="dependent",
         help="When --plugin-docs is specified, determine references to which"
         " collections to validate.  'self' means only validate references to"
         " this collection.  'dependent' means validating references to"
-        " collections this collection (transitively) depends on.  'all' means"
-        " validating references to all collections the linter can find.",
+        " collections this collection (transitively) depends on, including"
+        " references to ansible.builtin.  'all' means validating references"
+        " to all collections the linter can find.",
     )
     lint_collection_docs_parser.add_argument(
         "--disallow-unknown-collection-refs",

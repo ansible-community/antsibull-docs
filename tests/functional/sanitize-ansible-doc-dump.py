@@ -17,8 +17,6 @@ ansible_root = os.path.dirname(ansible.__file__)
 data = json.load(sys.stdin)
 for plugin_type, plugins in data["all"].items():
     for plugin_fqcn, plugin_data in list(plugins.items()):
-        if plugin_fqcn.startswith("ansible.builtin."):
-            del plugins[plugin_fqcn]
         for doc_key, key in [
             ("doc", "filename"),
             ("", "path"),

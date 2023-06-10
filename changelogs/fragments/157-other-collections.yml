@@ -1,4 +1,4 @@
 minor_changes:
-  - "When linting markup in collection docs, validate plugin/module/role names, and also option/return value names for other plugins/modules/roles in the same collection (https://github.com/ansible-community/antsibull-docs/pull/157)."
+  - "When linting markup in collection docs, validate plugin/module/role names, and also option/return value names for other plugins/modules/roles in the same collection, (transitively) dependent collections, and ansible.builtin (https://github.com/ansible-community/antsibull-docs/pull/157)."
   - "Add option ``--validate-collection-refs`` to the ``lint-collection-docs`` subcommand to also control which references to plugin/module/role names in (other) collections and their options and return values should be validated (https://github.com/ansible-community/antsibull-docs/pull/157)."
   - "Add option ``--disallow-unknown-collection-refs`` to disallow references to other collections than the one covered by ``--validate-collection-refs`` (https://github.com/ansible-community/antsibull-docs/pull/157)."
