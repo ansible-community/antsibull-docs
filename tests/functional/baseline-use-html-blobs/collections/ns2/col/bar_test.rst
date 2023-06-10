@@ -2,22 +2,209 @@
 .. Document meta
 
 :orphan:
+:github_url: https://github.com/ansible-community/antsibull-docs/edit/main/tests/functional/collections/ansible_collections/ns2/col/plugins/test/bar.yml?description=%23%23%23%23%23%20SUMMARY%0A%3C!---%20Your%20description%20here%20--%3E%0A%0A%0A%23%23%23%23%23%20ISSUE%20TYPE%0A-%20Docs%20Pull%20Request%0A%0A%2Blabel:%20docsite_pr
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
 
 .. Anchors
 
 .. _ansible_collections.ns2.col.bar_test:
 
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+.. _ansible_collections.ns2.col.is_bar_test:
+
 .. Title
 
-ns2.col.bar test
-++++++++++++++++
+ns2.col.bar test -- Is something a bar
+++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This redirect is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
+    This test plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
+
+    To install it, use: :code:`ansible-galaxy collection install ns2.col`.
 
     To use it in a playbook, specify: :code:`ns2.col.bar`.
 
-- This is a redirect to the :ref:`ns2.col.foo test plugin <ansible_collections.ns2.col.foo_test>`.
-- This redirect does **not** work with Ansible 2.9.
+.. version_added
+
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Check whether a path is a bar.
+
+
+.. Aliases
+
+Aliases: 
+
+.. Requirements
+
+
+
+
+
+.. Input
+
+Input
+-----
+
+This describes the input of the test, the value before ``is ns2.col.bar`` or ``is not ns2.col.bar``.
+
+.. raw:: html
+
+  <table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
+  <thead>
+  <tr class="row-odd">
+    <th class="head"><p>Parameter</p></th>
+    <th class="head"><p>Comments</p></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr class="row-even">
+    <td><div class="ansible-option-cell">
+      <div class="ansibleOptionAnchor" id="parameter-_input"></div>
+      <p class="ansible-option-title"><strong>Input</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-_input" title="Permalink to this option"></a>
+      <p class="ansible-option-type-line">
+        <span class="ansible-option-type">path</span>
+      </p>
+
+    </div></td>
+    <td><div class="ansible-option-cell">
+      <p>A path.</p>
+    </div></td>
+  </tr>
+  </tbody>
+  </table>
+
+
+
+
+
+.. Options
+
+
+.. Attributes
+
+
+.. Notes
+
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    is_path_bar: "{{ '/etc/hosts' is ns2.col.bar }}}"
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Value
+------------
+
+.. raw:: html
+
+  <table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
+  <thead>
+  <tr class="row-odd">
+    <th class="head"><p>Key</p></th>
+    <th class="head"><p>Description</p></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr class="row-even">
+    <td><div class="ansible-option-cell">
+      <div class="ansibleOptionAnchor" id="return-_value"></div>
+      <p class="ansible-option-title"><strong>Return value</strong></p>
+      <a class="ansibleOptionLink" href="#return-_value" title="Permalink to this return value"></a>
+      <p class="ansible-option-type-line">
+        <span class="ansible-option-type">boolean</span>
+      </p>
+    </div></td>
+    <td><div class="ansible-option-cell">
+      <p>Returns <code class='docutils literal notranslate'>true</code> if the path is a bar, <code class='docutils literal notranslate'>false</code> if it is not a bar.</p>
+      <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> success</p>
+    </div></td>
+  </tr>
+  </tbody>
+  </table>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Ansible Core
+
+
+.. hint::
+    Configuration entries for each entry type have a low to high priority order. For example, a variable that is lower in the list will override a variable that is higher up.
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/ansible-collections/community.general/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/ansible-collections/community.crypto" aria-role="button" target="_blank" rel="noopener external">Homepage</a>
+    <a href="https://github.com/ansible-collections/community.internal_test_tools" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+    <a href="https://github.com/ansible-community/antsibull-docs/issues/new?assignees=&amp;labels=&amp;template=bug_report.md" aria-role="button" target="_blank" rel="noopener external">Submit a bug report</a>
+    <a href="./#communication-for-ns2-col" aria-role="button" target="_blank">Communication</a>
+  </p>
+
+.. Parsing errors
+

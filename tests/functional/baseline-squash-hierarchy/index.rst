@@ -150,12 +150,14 @@ Connection Plugins
 Filter Plugins
 ~~~~~~~~~~~~~~
 
+* :ref:`bar filter <ansible_collections.ns2.col.bar_filter>` -- The bar filter
 * :ref:`foo filter <ansible_collections.ns2.col.foo_filter>` -- The foo filter \ :ansopt:`ns2.col.foo#filter:bar`\ 
 
 .. toctree::
     :maxdepth: 1
     :hidden:
 
+    bar_filter
     foo_filter
 
 
@@ -210,12 +212,14 @@ Strategy Plugins
 Test Plugins
 ~~~~~~~~~~~~
 
+* :ref:`bar test <ansible_collections.ns2.col.bar_test>` -- Is something a bar
 * :ref:`foo test <ansible_collections.ns2.col.foo_test>` -- Is something a foo \ :ansopt:`ns2.col.foo#test:bar`\ 
 
 .. toctree::
     :maxdepth: 1
     :hidden:
 
+    bar_test
     foo_test
 
 

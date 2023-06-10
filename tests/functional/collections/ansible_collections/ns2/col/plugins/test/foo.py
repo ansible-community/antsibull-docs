@@ -38,14 +38,8 @@ def foo(input):
     return True
 
 
-def bar(input):
-    return False
-
-
 class TestModule(object):
     def tests(self):
         return {
             "foo": foo,
-            "bar": bar,
-            "is_bar": bar,
         }

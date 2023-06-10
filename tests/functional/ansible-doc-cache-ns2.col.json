@@ -281,19 +281,34 @@
     "doc": {
      "collection": "ns2.col",
      "description": [
-      "Do some fooing."
+      "Do some barring."
      ],
-     "filename": "ansible_collections/ns2/col/plugins/filter/foo.py",
-     "name": "foo",
+     "filename": "ansible_collections/ns2/col/plugins/filter/bar.yml",
+     "name": "bar",
      "options": {
       "_input": {
        "description": "The main input.",
        "required": true,
-       "type": "str"
+       "type": "dict"
       },
       "bar": {
-       "description": "Some bar.",
-       "type": "string"
+       "default": false,
+       "description": "And some bar.",
+       "type": "bool"
+      },
+      "baz": {
+       "choices": {
+        "a": "Whatever C(a) is.",
+        "b": "What is C(b)? I don't know.",
+        "cde": "This is some more unknown. There are rumors this is related to the alphabet.",
+        "foo": [
+         "Our default value, the glorious C(foo).",
+         "Even has two paragraphs."
+        ]
+       },
+       "default": "foo",
+       "description": "Something else.",
+       "type": "str"
       },
       "foo": {
        "description": "Some foo.",
@@ -302,16 +317,17 @@
        "type": "list"
       }
      },
-     "short_description": "The foo filter O(bar)",
-     "version_added": "1.3.0",
+     "positional": "foo, bar",
+     "short_description": "The bar filter",
+     "version_added": "2.0.0",
      "version_added_collection": "ns2.col"
     },
-    "examples": "\nsome_var: \"{{ 'foo' | ns2.col.foo }}\"\n",
+    "examples": "\n{'a': 1} | ns2.col.bar({'b': 2}, baz='cde')\n",
     "metadata": null,
     "return": {
      "_value": {
       "description": "The result.",
-      "type": "str"
+      "type": "dict"
      }
     }
    },
@@ -1408,31 +1424,29 @@
   "test": {
    "ns2.col.bar": {
     "doc": {
-     "author": "Nobody",
+     "aliases": [
+      "is_bar"
+     ],
+     "author": "Ansible Core",
      "collection": "ns2.col",
      "description": [
-      "Check whether the input dictionary is a foo."
+      "Check whether a path is a bar."
      ],
-     "filename": "ansible_collections/ns2/col/plugins/test/foo.py",
-     "name": "foo",
+     "filename": "ansible_collections/ns2/col/plugins/test/bar.yml",
+     "name": "bar",
      "options": {
       "_input": {
-       "description": "Something to test.",
-       "required": true,
-       "type": "dictionary"
-      },
-      "bar": {
-       "description": "Foo bar.",
-       "type": "string"
+       "description": "A path.",
+       "type": "path"
       }
      },
-     "short_description": "Is something a foo O(bar)"
+     "short_description": "Is something a bar"
     },
-    "examples": "\nsome_var: \"{{ {'a': 1} is ns2.col.foo }}\"\n",
+    "examples": "is_path_bar: \"{{ '/etc/hosts' is ns2.col.bar }}}\"\n",
     "metadata": null,
     "return": {
      "_value": {
-      "description": "Whether the input is a foo.",
+      "description": "Returns C(true) if the path is a bar, C(false) if it is not a bar.",
       "type": "boolean"
      }
     }
@@ -1470,31 +1484,29 @@
    },
    "ns2.col.is_bar": {
     "doc": {
-     "author": "Nobody",
+     "aliases": [
+      "is_bar"
+     ],
+     "author": "Ansible Core",
      "collection": "ns2.col",
      "description": [
-      "Check whether the input dictionary is a foo."
+      "Check whether a path is a bar."
      ],
-     "filename": "ansible_collections/ns2/col/plugins/test/foo.py",
-     "name": "foo",
+     "filename": "ansible_collections/ns2/col/plugins/test/is_bar.yml",
+     "name": "bar",
      "options": {
       "_input": {
-       "description": "Something to test.",
-       "required": true,
-       "type": "dictionary"
-      },
-      "bar": {
-       "description": "Foo bar.",
-       "type": "string"
+       "description": "A path.",
+       "type": "path"
       }
      },
-     "short_description": "Is something a foo O(bar)"
+     "short_description": "Is something a bar"
     },
-    "examples": "\nsome_var: \"{{ {'a': 1} is ns2.col.foo }}\"\n",
+    "examples": "is_path_bar: \"{{ '/etc/hosts' is ns2.col.bar }}}\"\n",
     "metadata": null,
     "return": {
      "_value": {
-      "description": "Whether the input is a foo.",
+      "description": "Returns C(true) if the path is a bar, C(false) if it is not a bar.",
       "type": "boolean"
      }
     }
