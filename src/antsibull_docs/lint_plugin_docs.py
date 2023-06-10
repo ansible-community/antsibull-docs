@@ -602,7 +602,7 @@ def _collect_names(
         if validate_collections_refs != "all" and other_collection not in collections:
             continue
     for collection_name_, plugins_by_type in collection_to_plugin_info.items():
-        if validate_collections_refs != "all" and other_collection not in collections:
+        if validate_collections_refs != "all" and collection_name_ not in collections:
             continue
         for plugin_type, plugins_dict in plugins_by_type.items():
             for plugin_short_name, dummy_ in plugins_dict.items():
