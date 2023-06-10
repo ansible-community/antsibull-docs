@@ -43,13 +43,8 @@ def foo(input, foo):
     return "FOO:{0}:BAR".format(input)
 
 
-def bar(input, foo, bar, baz):
-    return input | foo
-
-
 class FilterModule(object):
     def filters(self):
         return {
             "foo": foo,
-            "bar": bar,
         }

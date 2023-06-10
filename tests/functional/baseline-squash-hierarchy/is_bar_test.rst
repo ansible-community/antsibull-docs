@@ -19,5 +19,5 @@ ns2.col.is_bar test
 
     To use it in a playbook, specify: :code:`ns2.col.is_bar`.
 
-- This is a redirect to the :ref:`ns2.col.foo test plugin <ansible_collections.ns2.col.foo_test>`.
+- This is a redirect to the :ref:`ns2.col.bar test plugin <ansible_collections.ns2.col.bar_test>`.
 - This redirect does **not** work with Ansible 2.9.
