@@ -35,12 +35,12 @@ from .docs_parsing.routing import (
 )
 from .jinja2.environment import doc_environment
 from .lint_helpers import load_collection_info
+from .plugin_docs import walk_plugin_docs_texts
 from .process_docs import (
     get_collection_contents,
     get_plugin_contents,
     normalize_all_plugin_info,
 )
-from .plugin_docs import walk_plugin_docs_texts
 from .rstcheck import check_rst_content
 from .utils.collection_name_transformer import CollectionNameTransformer
 from .write_docs.plugins import (
