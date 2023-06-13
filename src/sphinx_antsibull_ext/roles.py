@@ -288,7 +288,7 @@ def environment_variable_reference(
     ref = text.replace("\x00", "").split("=", 1)[0].strip()
 
     classes = ["xref", "std", "std-envvar"]
-    content = nodes.literal(text, text, classes=classes)
+    content = nodes.literal(rawtext, text, classes=classes)
 
     options = {
         "reftype": "envvar",

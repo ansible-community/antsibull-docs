@@ -46,6 +46,7 @@ options:
                     - Whatever.
                     - Also required when O(subfoo) is specified when O(foo=bar) or V(baz).
                     - Note that O(subfoo.foo) is the same as O(subbaz.foo), O(subbaz.bam), and O(subfoo.bam).
+                    - E(FOOBAR1), E(FOOBAR2), E(FOOBAR3), E(FOOBAR4).
                 type: str
                 required: true
                 aliases:

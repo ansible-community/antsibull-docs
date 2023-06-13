@@ -19,6 +19,7 @@ short_description: Do some foo O(bar)
 description:
     - Does some foo on the remote host.
     - Whether foo is magic or not has not yet been determined.
+    - E(FOOBAR1), E(FOOBAR2), E(FOOBAR3), E(FOOBAR4).
 options:
     foo:
         description: The foo source.
