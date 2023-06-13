@@ -1,0 +1,9 @@
+minor_changes:
+  - "Add the roles ``:ansenvvar:`` and ``:ansenvvarref:`` to the antsibull-docs Sphinx extension
+     (https://github.com/ansible-community/antsibull-docs/pull/166)."
+  - "Add the new collection config field ``envvar_directives`` which allows to declare which environment variables are
+     declared with an ``.. envvar::`` directive in the collection's extra docsite documentation. This is used, next to
+     the plugin configuration information and the ansible-core configuration information, to determine whether an environment
+     variable is referencable or not (https://github.com/ansible-community/antsibull-docs/pull/166)."
+  - "Render ``E(...)`` markup with ``:ansenvvarref:`` or ``:ansenvvar:`` depending on whether the environment variable
+     is known to be referencable or not (https://github.com/ansible-community/antsibull-docs/pull/166)."
