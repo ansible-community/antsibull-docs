@@ -13,4 +13,10 @@ import pydantic as p
 
 
 class CollectionConfig(p.BaseModel):
+    # Whether the collection uses flatmapping to flatten subdirectories in
+    # `plugins/*/`.
     flatmap: bool = False
+
+    # List of environment variables that are defined by `.. envvar::` directives
+    # in the extra docsite RST files.
+    envvar_directives: list[str] = []

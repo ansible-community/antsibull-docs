@@ -673,6 +673,7 @@ def _lint_collection_plugin_docs(
         ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
         collection_install=collection_install,
+        referable_envvars=None,  # this shouldn't make a difference for validation
     )
     # Get the templates
     plugin_tmpl = env.get_template("plugin.rst.j2")

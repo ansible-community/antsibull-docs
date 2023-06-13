@@ -103,6 +103,7 @@ async def output_collection_index(
     collection_install: CollectionNameTransformer,
     breadcrumbs: bool = True,
     for_official_docsite: bool = False,
+    referable_envvars: set[str] | None = None,
 ) -> None:
     """
     Generate top-level collection index page for the collections.
@@ -115,6 +116,7 @@ async def output_collection_index(
         disabled.  This will disable breadcrumbs but save on memory usage.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
+    :kwarg referable_envvars: Optional set of environment variables that can be referenced.
     """
     flog = mlog.fields(func="output_collection_index")
     flog.debug("Enter")
@@ -123,6 +125,7 @@ async def output_collection_index(
         ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
         collection_install=collection_install,
+        referable_envvars=referable_envvars,
     )
     # Get the templates
     collection_list_tmpl = env.get_template("list_of_collections.rst.j2")
@@ -154,6 +157,7 @@ async def output_collection_namespace_indexes(
     collection_install: CollectionNameTransformer,
     breadcrumbs: bool = True,
     for_official_docsite: bool = False,
+    referable_envvars: set[str] | None = None,
 ) -> None:
     """
     Generate collection namespace index pages for the collections.
@@ -164,6 +168,7 @@ async def output_collection_namespace_indexes(
         disabled.  This will disable breadcrumbs but save on memory usage.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
+    :kwarg referable_envvars: Optional set of environment variables that can be referenced.
     """
     flog = mlog.fields(func="output_collection_namespace_indexes")
     flog.debug("Enter")
@@ -172,6 +177,7 @@ async def output_collection_namespace_indexes(
         ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
         collection_install=collection_install,
+        referable_envvars=referable_envvars,
     )
     # Get the templates
     collection_list_tmpl = env.get_template("list_of_collections_by_namespace.rst.j2")

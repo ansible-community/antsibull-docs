@@ -94,6 +94,7 @@ async def output_callback_indexes(
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
     for_official_docsite: bool = False,
+    referable_envvars: set[str] | None = None,
 ) -> None:
     """
     Generate top-level callback plugin index pages for all callback plugins of a type in all
@@ -104,6 +105,7 @@ async def output_callback_indexes(
     :arg dest_dir: The directory to place the documentation in.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
+    :kwarg referable_envvars: Optional set of environment variables that can be referenced.
     """
     flog = mlog.fields(func="output_callback_indexes")
     flog.debug("Enter")
@@ -112,6 +114,7 @@ async def output_callback_indexes(
         ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
         collection_install=collection_install,
+        referable_envvars=referable_envvars,
     )
     # Get the templates
     plugin_list_tmpl = env.get_template("list_of_callback_plugins.rst.j2")
@@ -155,6 +158,7 @@ async def output_plugin_indexes(
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
     for_official_docsite: bool = False,
+    referable_envvars: set[str] | None = None,
 ) -> None:
     """
     Generate top-level plugin index pages for all plugins of a type in all collections.
@@ -165,6 +169,7 @@ async def output_plugin_indexes(
     :arg dest_dir: The directory to place the documentation in.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
+    :kwarg referable_envvars: Optional set of environment variables that can be referenced.
     """
     flog = mlog.fields(func="output_plugin_indexes")
     flog.debug("Enter")
@@ -173,6 +178,7 @@ async def output_plugin_indexes(
         ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
         collection_install=collection_install,
+        referable_envvars=referable_envvars,
     )
     # Get the templates
     plugin_list_tmpl = env.get_template("list_of_plugins.rst.j2")
@@ -212,6 +218,7 @@ async def output_environment_variables(
     dest_dir: str,
     env_variables: Mapping[str, EnvironmentVariableInfo],
     squash_hierarchy: bool = False,
+    referable_envvars: set[str] | None = None,
 ) -> None:
     """
     Write environment variable Generate collection-level index pages for the collections.
@@ -221,6 +228,7 @@ async def output_environment_variables(
     :arg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
                            Undefined behavior if documentation for multiple collections are
                            created.
+    :kwarg referable_envvars: Optional set of environment variables that can be referenced.
     """
     flog = mlog.fields(func="write_environment_variables")
     flog.debug("Enter")
@@ -230,7 +238,10 @@ async def output_environment_variables(
     else:
         collection_toplevel = dest_dir
 
-    env = doc_environment(("antsibull_docs.data", "docsite"))
+    env = doc_environment(
+        ("antsibull_docs.data", "docsite"),
+        referable_envvars=referable_envvars,
+    )
     # Get the templates
     env_var_list_tmpl = env.get_template("list_of_env_variables.rst.j2")
 

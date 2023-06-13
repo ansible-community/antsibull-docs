@@ -137,6 +137,7 @@ async def output_indexes(
     squash_hierarchy: bool = False,
     breadcrumbs: bool = True,
     for_official_docsite: bool = False,
+    referable_envvars: set[str] | None = None,
 ) -> None:
     """
     Generate collection-level index pages for the collections.
@@ -153,6 +154,7 @@ async def output_indexes(
         disabled.  This will disable breadcrumbs but save on memory usage.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
+    :kwarg referable_envvars: Optional set of environment variables that can be referenced.
     """
     flog = mlog.fields(func="output_indexes")
     flog.debug("Enter")
@@ -164,6 +166,7 @@ async def output_indexes(
         ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
         collection_install=collection_install,
+        referable_envvars=referable_envvars,
     )
     # Get the templates
     collection_plugins_tmpl = env.get_template("plugins_by_collection.rst.j2")

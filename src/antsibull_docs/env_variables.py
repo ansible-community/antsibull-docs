@@ -114,14 +114,17 @@ def _augment_env_var_descriptions(
 def collect_referenced_environment_variables(
     plugin_info: Mapping[str, Mapping[str, t.Any]],
     ansible_config: Mapping[str, Mapping[str, t.Any]],
-) -> Mapping[str, EnvironmentVariableInfo]:
+) -> tuple[Mapping[str, EnvironmentVariableInfo], set[str]]:
     """
     Collect referenced environment variables that are not defined in the ansible-core
     configuration.
 
     :arg plugin_info: Mapping of plugin type to a mapping of plugin name to plugin record.
     :arg ansible_config: The Ansible base configuration (``lib/ansible/config/base.yml``).
-    :returns: A Mapping of environment variable name to an environment variable infomation object.
+    :returns: A tuple consisting of a
+        Mapping of environment variable name to an environment variable infomation object,
+        and a set of environment variable names that are part of the ansible-core
+        configuration.
     """
     core_envs = {"ANSIBLE_CONFIG"}
     for config in ansible_config.values():
@@ -133,4 +136,26 @@ def collect_referenced_environment_variables(
         plugin_info, core_envs
     )
     _augment_env_var_descriptions(other_variables, other_variable_description)
-    return other_variables
+    return other_variables, core_envs
+
+
+def collect_referable_envvars(
+    referenced_env_vars: Mapping[str, EnvironmentVariableInfo],
+    core_env_vars: set[str],
+    collection_metadata: Mapping[str, AnsibleCollectionMetadata],
+) -> set[str]:
+    """
+    :arg referenced_env_vars: A Mapping of environment variable name to an
+        environment variable infomation object.
+    :arg core_env_vars: Set of environment variable names that are part of the
+        ansible-core configuration.
+    :arg collection_metadata: A Mapping of collection names to collection metadata
+        objects.
+    :returns: A set of environment variables that can be referenced via the
+        ``:envvar:`` role.
+    """
+    referable_envvars = set(referenced_env_vars)
+    referable_envvars.update(core_env_vars)
+    for collection_meta in collection_metadata.values():
+        referable_envvars.update(collection_meta.docs_config.envvar_directives)
+    return referable_envvars

@@ -23,6 +23,7 @@ from ...docs_parsing.routing import (
     remove_redirect_duplicates,
 )
 from ...env_variables import (
+    collect_referable_envvars,
     collect_referenced_environment_variables,
     load_ansible_config,
 )
@@ -160,8 +161,11 @@ def generate_docs_for_all_collections(
 
     # Handle environment variables
     ansible_config = load_ansible_config(full_collection_metadata["ansible.builtin"])
-    referenced_env_vars = collect_referenced_environment_variables(
+    referenced_env_vars, core_env_vars = collect_referenced_environment_variables(
         new_plugin_info, ansible_config
+    )
+    referable_envvars = collect_referable_envvars(
+        referenced_env_vars, core_env_vars, collection_metadata
     )
 
     collection_namespaces = get_collection_namespaces(collection_to_plugin_info.keys())
@@ -185,6 +189,7 @@ def generate_docs_for_all_collections(
                 collection_install=collection_install,
                 breadcrumbs=breadcrumbs,
                 for_official_docsite=for_official_docsite,
+                referable_envvars=referable_envvars,
             )
         )
         flog.notice("Finished writing collection index")
@@ -196,6 +201,7 @@ def generate_docs_for_all_collections(
                 collection_install=collection_install,
                 breadcrumbs=breadcrumbs,
                 for_official_docsite=for_official_docsite,
+                referable_envvars=referable_envvars,
             )
         )
         flog.notice("Finished writing collection namespace index")
@@ -207,6 +213,7 @@ def generate_docs_for_all_collections(
                 collection_url=collection_url,
                 collection_install=collection_install,
                 for_official_docsite=for_official_docsite,
+                referable_envvars=referable_envvars,
             )
         )
         flog.notice("Finished writing plugin indexes")
@@ -217,6 +224,7 @@ def generate_docs_for_all_collections(
                 collection_url=collection_url,
                 collection_install=collection_install,
                 for_official_docsite=for_official_docsite,
+                referable_envvars=referable_envvars,
             )
         )
         flog.notice("Finished writing callback plugin indexes")
@@ -233,6 +241,7 @@ def generate_docs_for_all_collections(
             link_data=link_data,
             breadcrumbs=breadcrumbs,
             for_official_docsite=for_official_docsite,
+            referable_envvars=referable_envvars,
         )
     )
     flog.notice("Finished writing indexes")
@@ -247,6 +256,7 @@ def generate_docs_for_all_collections(
             link_data=link_data,
             squash_hierarchy=squash_hierarchy,
             for_official_docsite=for_official_docsite,
+            referable_envvars=referable_envvars,
         )
     )
     flog.debug("Finished writing plugin stubs")
@@ -264,6 +274,7 @@ def generate_docs_for_all_collections(
             squash_hierarchy=squash_hierarchy,
             use_html_blobs=use_html_blobs,
             for_official_docsite=for_official_docsite,
+            referable_envvars=referable_envvars,
         )
     )
     flog.debug("Finished writing plugin docs")
@@ -275,7 +286,10 @@ def generate_docs_for_all_collections(
 
     asyncio.run(
         output_environment_variables(
-            dest_dir, referenced_env_vars, squash_hierarchy=squash_hierarchy
+            dest_dir,
+            referenced_env_vars,
+            squash_hierarchy=squash_hierarchy,
+            referable_envvars=referable_envvars,
         )
     )
     flog.debug("Finished writing environment variables")

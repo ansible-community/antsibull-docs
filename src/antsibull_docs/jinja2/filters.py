@@ -161,6 +161,7 @@ def rst_ify(
         plugin_fqcn=plugin_fqcn,
         plugin_type=plugin_type,
         role_entrypoint=role_entrypoint,
+        referable_envvars=context.get("referable_envvars"),
     )
 
     flog.fields(counts=counts).info("Number of macros converted to rst equivalents")

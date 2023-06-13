@@ -60,6 +60,7 @@ def doc_environment(
     extra_tests: Mapping[str, t.Callable] | None = None,
     collection_url: CollectionNameTransformer | None = None,
     collection_install: CollectionNameTransformer | None = None,
+    referable_envvars: set[str] | None = None,
 ) -> Environment:
     loader: BaseLoader
     if isinstance(template_location, str) and os.path.exists(template_location):
@@ -86,7 +87,6 @@ def doc_environment(
     # with <Jinja-2.10
     env.globals["to_kludge_ns"] = to_kludge_ns
     env.globals["from_kludge_ns"] = from_kludge_ns
-    env.globals["reference_plugin_rst"] = reference_plugin_rst
     if "max" not in env.filters:
         # Jinja < 2.10
         env.filters["max"] = do_max
@@ -95,6 +95,8 @@ def doc_environment(
         # Jinja < 2.9
         env.filters["tojson"] = json.dumps
 
+    env.globals["reference_plugin_rst"] = reference_plugin_rst
+    env.globals["referable_envvars"] = referable_envvars
     env.filters["rst_ify"] = rst_ify
     env.filters["html_ify"] = html_ify
     env.filters["fmt"] = rst_fmt

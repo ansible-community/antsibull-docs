@@ -342,6 +342,7 @@ async def output_all_plugin_rst(
     squash_hierarchy: bool = False,
     use_html_blobs: bool = False,
     for_official_docsite: bool = False,
+    referable_envvars: set[str] | None = None,
 ) -> None:
     """
     Output rst files for each plugin.
@@ -361,12 +362,14 @@ async def output_all_plugin_rst(
                          tables instead of using RST tables.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
+    :kwarg referable_envvars: Optional set of environment variables that can be referenced.
     """
     # Setup the jinja environment
     env = doc_environment(
         ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
         collection_install=collection_install,
+        referable_envvars=referable_envvars,
     )
     # Get the templates
     plugin_tmpl = env.get_template("plugin.rst.j2")
