@@ -254,6 +254,54 @@ def return_value_role(name, rawtext, text, lineno, inliner, options={}, content=
     return [nodes.literal(rawtext, text, *subnodes, classes=classes)], []
 
 
+# pylint:disable-next=unused-argument,dangerous-default-value
+def environment_variable(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    """Format environment variable with possible assignment, without reference.
+
+    Returns 2 part tuple containing list of nodes to insert into the
+    document and a list of system messages.  Both are allowed to be
+    empty.
+
+    :param name: The role name used in the document.
+    :param rawtext: The entire markup snippet, with role.
+    :param text: The text marked with the role.
+    :param lineno: The line number where rawtext appears in the input.
+    :param inliner: The inliner instance that called us.
+    :param options: Directive options for customization.
+    :param content: The directive content for customization.
+    """
+    classes = ["xref", "std", "std-envvar"]
+    return [nodes.literal(rawtext, text, classes=classes)], []
+
+
+# pylint:disable-next=dangerous-default-value
+def environment_variable_reference(
+    name,  # pylint:disable=unused-argument
+    rawtext,
+    text,
+    lineno,  # pylint:disable=unused-argument
+    inliner,  # pylint:disable=unused-argument
+    options={},
+    content=[],
+):
+    # Extract the name of the environment variable
+    ref = text.replace("\x00", "").split("=", 1)[0].strip()
+
+    classes = ["xref", "std", "std-envvar"]
+    content = nodes.literal(text, text, classes=classes)
+
+    options = {
+        "reftype": "envvar",
+        "refdomain": "std",
+        "refexplicit": True,
+        "refwarn": True,
+    }
+    refnode = addnodes.pending_xref(text, content, **options)
+    refnode["reftarget"] = ref
+
+    return [refnode], []
+
+
 ROLES = {
     "ansible-option-choices-entry": option_choice,
     "ansible-option-choices-entry-default": option_choice_default,
@@ -262,6 +310,8 @@ ROLES = {
     "ansopt": option_role,
     "ansval": value_role,
     "ansretval": return_value_role,
+    "ansenvvar": environment_variable,
+    "ansenvvarref": environment_variable_reference,
 }
 
 
