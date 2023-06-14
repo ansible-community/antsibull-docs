@@ -1,2 +1,0 @@
-minor_changes:
-  - "When refering to markup in multi-paragraph texts, like ``description``, now includes the paragraph number in error messages (https://github.com/ansible-community/antsibull-docs/pull/163)."

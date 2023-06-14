@@ -5,6 +5,33 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v2.1.0
+======
+
+Release Summary
+---------------
+
+Feature and bugfix release with many improvements related to semantic markup and validation.
+
+Minor Changes
+-------------
+
+- Add option ``--disallow-unknown-collection-refs`` to disallow references to other collections than the one covered by ``--validate-collection-refs`` (https://github.com/ansible-community/antsibull-docs/pull/157).
+- Add option ``--validate-collection-refs`` to the ``lint-collection-docs`` subcommand to also control which references to plugin/module/role names in (other) collections and their options and return values should be validated (https://github.com/ansible-community/antsibull-docs/pull/157).
+- Add the new collection config field ``envvar_directives`` which allows to declare which environment variables are declared with an ``.. envvar::`` directive in the collection's extra docsite documentation. This is used, next to the plugin configuration information and the ansible-core configuration information, to determine whether an environment variable is referencable or not (https://github.com/ansible-community/antsibull-docs/pull/166).
+- Add the roles ``:ansenvvar:`` and ``:ansenvvarref:`` to the antsibull-docs Sphinx extension (https://github.com/ansible-community/antsibull-docs/pull/166).
+- Render ``E(...)`` markup with ``:ansenvvarref:`` or ``:ansenvvar:`` depending on whether the environment variable is known to be referencable or not (https://github.com/ansible-community/antsibull-docs/pull/166).
+- When linting markup in collection docs, validate plugin/module/role names, and also option/return value names for other plugins/modules/roles in the same collection, (transitively) dependent collections, and ansible.builtin (https://github.com/ansible-community/antsibull-docs/pull/157).
+- When linting semantic markup in collection docs, also accept aliases when checking ``O()`` values (https://github.com/ansible-community/antsibull-docs/pull/155).
+- When refering to markup in multi-paragraph texts, like ``description``, now includes the paragraph number in error messages (https://github.com/ansible-community/antsibull-docs/pull/163).
+
+Bugfixes
+--------
+
+- Allow role entrypoint deprecations without having to specify the collection the role is removed from (https://github.com/ansible-community/antsibull-docs/pull/156).
+- Indent module/plugin and role entrypoint deprecations correctly if 'Why' or 'Alternative' texts need more than one line (https://github.com/ansible-community/antsibull-docs/pull/156).
+- When collecting collection dependencies for the ``lint-collection-docs`` subcommand, a bug prevented the duplicate detection to work (https://github.com/ansible-community/antsibull-docs/pull/160).
+
 v2.0.0
 ======
 
