@@ -16,3 +16,15 @@ The :ref:`ns2.col collection <plugins_in_ns2.col>` offers two filters.
 
 - ``ns2.col.foo``: foo!
 - ``ns2.col.bar``: bar!
+
+.. envvar:: FOOBAR1
+
+    This is one environment variable.
+
+.. envvar:: FOOBAR2
+
+    This is another environment variable.
+
+.. envvar:: FOOBAR3
+
+    This is a third environment variable.

@@ -1101,7 +1101,8 @@
      "collection": "ns2.col",
      "description": [
       "Does some foo on the remote host.",
-      "Whether foo is magic or not has not yet been determined."
+      "Whether foo is magic or not has not yet been determined.",
+      "E(FOOBAR1), E(FOOBAR2), E(FOOBAR3), E(FOOBAR4)."
      ],
      "filename": "ansible_collections/ns2/col/plugins/modules/foo.py",
      "has_action": false,

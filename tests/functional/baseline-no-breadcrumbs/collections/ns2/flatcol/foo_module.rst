@@ -261,6 +261,8 @@ Parameters
 
       Note that \ :ansopt:`ns2.flatcol.foo#module:subfoo.foo`\  is the same as \ :ansopt:`ns2.flatcol.foo#module:subbaz.foo`\ , \ :ansopt:`ns2.flatcol.foo#module:subbaz.bam`\ , and \ :ansopt:`ns2.flatcol.foo#module:subfoo.bam`\ .
 
+      \ :ansenvvarref:`FOOBAR1`\ , \ :ansenvvarref:`FOOBAR2`\ , \ :ansenvvar:`FOOBAR3`\ , \ :ansenvvar:`FOOBAR4`\ .
+
 
       .. raw:: html
 

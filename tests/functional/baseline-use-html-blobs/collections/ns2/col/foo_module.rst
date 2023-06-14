@@ -71,6 +71,7 @@ Synopsis
 
 - Does some foo on the remote host.
 - Whether foo is magic or not has not yet been determined.
+- \ :ansenvvarref:`FOOBAR1`\ , \ :ansenvvarref:`FOOBAR2`\ , \ :ansenvvar:`FOOBAR3`\ , \ :ansenvvar:`FOOBAR4`\ .
 
 
 .. Aliases

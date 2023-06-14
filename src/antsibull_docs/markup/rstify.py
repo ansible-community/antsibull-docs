@@ -13,6 +13,7 @@ from collections.abc import Mapping
 
 from antsibull_docs_parser import dom
 from antsibull_docs_parser.parser import Context, parse
+from antsibull_docs_parser.rst import AntsibullRSTFormatter
 from antsibull_docs_parser.rst import rst_escape as _rst_escape
 from antsibull_docs_parser.rst import to_rst
 
@@ -31,7 +32,18 @@ def rst_code(value: str) -> str:
     """Write value as :code:`...` RST construct."""
     if not isinstance(value, str):
         value = str(value)
-    return f":code:`{rst_escape(value, escape_ending_whitespace=True)}`"
+    return f":code:`{_rst_escape(value, escape_ending_whitespace=True)}`"
+
+
+class CustomizedAntsibullRSTFormatter(AntsibullRSTFormatter):
+    def __init__(self, referable_envvars: set[str] | None = None):
+        self._referable_envvars = referable_envvars or set()
+
+    def format_env_variable(self, part: dom.EnvVariablePart) -> str:
+        envvar = part.name.split("=", 1)[0].strip()
+        if envvar in self._referable_envvars:
+            return f"\\ :ansenvvarref:`{_rst_escape(part.name, True)}`\\ "
+        return f"\\ :ansenvvar:`{_rst_escape(part.name, True)}`\\ "
 
 
 def rst_ify(
@@ -40,6 +52,7 @@ def rst_ify(
     plugin_fqcn: str | None = None,
     plugin_type: str | None = None,
     role_entrypoint: str | None = None,
+    referable_envvars: set[str] | None = None,
 ) -> tuple[str, Mapping[str, int]]:
     """convert symbols like I(this is in italics) to valid restructured text"""
     current_plugin: dom.PluginIdentifier | None = None
@@ -47,6 +60,10 @@ def rst_ify(
         current_plugin = dom.PluginIdentifier(fqcn=plugin_fqcn, type=plugin_type)
     context = Context(current_plugin=current_plugin, role_entrypoint=role_entrypoint)
     paragraphs = parse(text, context, errors="message")
-    text = to_rst(paragraphs, current_plugin=current_plugin)
+    text = to_rst(
+        paragraphs,
+        current_plugin=current_plugin,
+        formatter=CustomizedAntsibullRSTFormatter(referable_envvars),
+    )
     counts = _count(paragraphs)
     return text, counts

@@ -19,7 +19,7 @@ make_docsite_baseline() {
         set -e
     )
 
-    rstcheck --report-level warning --ignore-roles ansible-option-default,ansible-rv-sample-value,ansopt,ansval,ansretval,ansible-option-choices-entry-default,ansible-option-choices-entry -r "${DEST}" 2>&1 | (
+    rstcheck --report-level warning --ignore-roles ansible-option-default,ansible-rv-sample-value,ansopt,ansval,ansretval,ansible-option-choices-entry-default,ansible-option-choices-entry,ansenvvar,ansenvvarref -r "${DEST}" 2>&1 | (
         set +e
         grep -v "CRITICAL:rstcheck_core.checker:An \`AttributeError\` error occured."
         set -e

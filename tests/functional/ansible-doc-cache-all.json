@@ -1390,6 +1390,7 @@
         "Secret used to either login the ssh server or as a passphrase for ssh keys that require it",
         "Can be set from the CLI via the C(--ask-pass) option."
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_password"
@@ -1487,6 +1488,7 @@
          "version_added_collection": "ansible.builtin"
         }
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_private_key_file"
@@ -1518,6 +1520,7 @@
          "section": "paramiko_connection"
         }
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_paramiko_proxy_command",
@@ -1563,6 +1566,7 @@
        "description": [
         "Address of the remote target"
        ],
+       "type": "string",
        "vars": [
         {
          "name": "inventory_hostname"
@@ -1610,6 +1614,7 @@
          "name": "remote_user"
         }
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_user"
@@ -1642,6 +1647,7 @@
          "section": "ssh_connection"
         }
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_ssh_args",
@@ -1679,6 +1685,7 @@
          "version_added_collection": "ansible.builtin"
         }
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_ssh_common_args"
@@ -1714,6 +1721,7 @@
          "version_added_collection": "ansible.builtin"
         }
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_ssh_extra_args"
@@ -1987,7 +1995,7 @@
        ]
       },
       "ignore_proxy": {
-       "default": "no",
+       "default": false,
        "description": [
         "Will disable any environment proxy settings and connect directly to the remote host.",
         "This option is ignored if C(proxy) is set."
@@ -2341,6 +2349,7 @@
          "section": "ssh_connection"
         }
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_control_path",
@@ -2366,6 +2375,7 @@
          "section": "ssh_connection"
         }
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_control_path_dir",
@@ -2377,6 +2387,7 @@
       "host": {
        "default": "inventory_hostname",
        "description": "Hostname/IP to connect to.",
+       "type": "string",
        "vars": [
         {
          "name": "inventory_hostname"
@@ -2436,6 +2447,7 @@
       },
       "password": {
        "description": "Authentication password for the C(remote_user). Can be supplied as CLI option.",
+       "type": "string",
        "vars": [
         {
          "name": "ansible_password"
@@ -2504,6 +2516,7 @@
          "section": "ssh_connection"
         }
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_ssh_pkcs11_provider"
@@ -2561,6 +2574,7 @@
          "section": "defaults"
         }
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_private_key_file"
@@ -2627,6 +2641,7 @@
          "name": "remote_user"
         }
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_user"
@@ -2652,6 +2667,7 @@
          "section": "ssh_connection"
         }
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_scp_executable",
@@ -2685,6 +2701,7 @@
          "version_added_collection": "ansible.builtin"
         }
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_scp_extra_args"
@@ -2726,7 +2743,7 @@
        ]
       },
       "sftp_batch_mode": {
-       "default": "yes",
+       "default": true,
        "description": "TODO: write it",
        "env": [
         {
@@ -2764,6 +2781,7 @@
          "section": "ssh_connection"
         }
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_sftp_executable",
@@ -2797,6 +2815,7 @@
          "version_added_collection": "ansible.builtin"
         }
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_sftp_extra_args"
@@ -2817,6 +2836,7 @@
          "section": "ssh_connection"
         }
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_ssh_args",
@@ -2848,6 +2868,7 @@
          "version_added_collection": "ansible.builtin"
         }
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_ssh_common_args"
@@ -2871,6 +2892,7 @@
          "section": "ssh_connection"
         }
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_ssh_executable",
@@ -2904,6 +2926,7 @@
          "version_added_collection": "ansible.builtin"
         }
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_ssh_extra_args"
@@ -2934,6 +2957,7 @@
          "section": "ssh_connection"
         }
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_ssh_transfer_method",
@@ -2959,6 +2983,7 @@
          "section": "ssh_connection"
         }
        ],
+       "type": "string",
        "vars": [
         {
          "name": "ansible_sshpass_prompt"
@@ -3010,7 +3035,7 @@
        ]
       },
       "use_tty": {
-       "default": "yes",
+       "default": true,
        "description": "add -tt to ssh commands to force tty allocation.",
        "env": [
         {
@@ -8257,12 +8282,14 @@
        "description": "list of files to template"
       },
       "comment_end_string": {
+       "default": "#}",
        "description": "The string marking the end of a comment statement.",
        "type": "str",
        "version_added": "2.12",
        "version_added_collection": "ansible.builtin"
       },
       "comment_start_string": {
+       "default": "{#",
        "description": "The string marking the beginning of a comment statement.",
        "type": "str",
        "version_added": "2.12",
@@ -9394,7 +9421,7 @@
      "version_added": "1.0",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: One way to avoid apt_key once it is removed from your distro, armored keys should use .asc extension, binary should use .gpg\n  block:\n    - name: somerepo | no apt key\n      ansible.builtin.get_url:\n        url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x36a1d7869245c8950f966e92d8576a8ba88d21e9\n        dest: /etc/apt/keyrings/myrepo.asc\n\n    - name: somerepo | apt source\n      ansible.builtin.apt_repository:\n        repo: \"deb [arch=amd64 signed-by=/etc/apt/keyrings/myrepo.asc] https://download.example.com/linux/ubuntu {{ ansible_distribution_release }} stable\"\n        state: present\n\n- name: Add an apt key by id from a keyserver\n  ansible.builtin.apt_key:\n    keyserver: keyserver.ubuntu.com\n    id: 36A1D7869245C8950F966E92D8576A8BA88D21E9\n\n- name: Add an Apt signing key, uses whichever key is at the URL\n  ansible.builtin.apt_key:\n    url: https://ftp-master.debian.org/keys/archive-key-6.0.asc\n    state: present\n\n- name: Add an Apt signing key, will not download if present\n  ansible.builtin.apt_key:\n    id: 9FED2BCBDCD29CDF762678CBAED4B06F473041FA\n    url: https://ftp-master.debian.org/keys/archive-key-6.0.asc\n    state: present\n\n- name: Remove a Apt specific signing key, leading 0x is valid\n  ansible.builtin.apt_key:\n    id: 0x9FED2BCBDCD29CDF762678CBAED4B06F473041FA\n    state: absent\n\n# Use armored file since utf-8 string is expected. Must be of \"PGP PUBLIC KEY BLOCK\" type.\n- name: Add a key from a file on the Ansible server\n  ansible.builtin.apt_key:\n    data: \"{{ lookup('ansible.builtin.file', 'apt.asc') }}\"\n    state: present\n\n- name: Add an Apt signing key to a specific keyring file\n  ansible.builtin.apt_key:\n    id: 9FED2BCBDCD29CDF762678CBAED4B06F473041FA\n    url: https://ftp-master.debian.org/keys/archive-key-6.0.asc\n    keyring: /etc/apt/trusted.gpg.d/debian.gpg\n\n- name: Add Apt signing key on remote server to keyring\n  ansible.builtin.apt_key:\n    id: 9FED2BCBDCD29CDF762678CBAED4B06F473041FA\n    file: /tmp/apt.gpg\n    state: present\n",
+    "examples": "\n- name: One way to avoid apt_key once it is removed from your distro, armored keys should use .asc extension, binary should use .gpg\n  block:\n    - name: somerepo | no apt key\n      ansible.builtin.get_url:\n        url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x36a1d7869245c8950f966e92d8576a8ba88d21e9\n        dest: /etc/apt/keyrings/myrepo.asc\n        checksum: sha256:bb42f0db45d46bab5f9ec619e1a47360b94c27142e57aa71f7050d08672309e0\n\n    - name: somerepo | apt source\n      ansible.builtin.apt_repository:\n        repo: \"deb [arch=amd64 signed-by=/etc/apt/keyrings/myrepo.asc] https://download.example.com/linux/ubuntu {{ ansible_distribution_release }} stable\"\n        state: present\n\n- name: Add an apt key by id from a keyserver\n  ansible.builtin.apt_key:\n    keyserver: keyserver.ubuntu.com\n    id: 36A1D7869245C8950F966E92D8576A8BA88D21E9\n\n- name: Add an Apt signing key, uses whichever key is at the URL\n  ansible.builtin.apt_key:\n    url: https://ftp-master.debian.org/keys/archive-key-6.0.asc\n    state: present\n\n- name: Add an Apt signing key, will not download if present\n  ansible.builtin.apt_key:\n    id: 9FED2BCBDCD29CDF762678CBAED4B06F473041FA\n    url: https://ftp-master.debian.org/keys/archive-key-6.0.asc\n    state: present\n\n- name: Remove a Apt specific signing key, leading 0x is valid\n  ansible.builtin.apt_key:\n    id: 0x9FED2BCBDCD29CDF762678CBAED4B06F473041FA\n    state: absent\n\n# Use armored file since utf-8 string is expected. Must be of \"PGP PUBLIC KEY BLOCK\" type.\n- name: Add a key from a file on the Ansible server\n  ansible.builtin.apt_key:\n    data: \"{{ lookup('ansible.builtin.file', 'apt.asc') }}\"\n    state: present\n\n- name: Add an Apt signing key to a specific keyring file\n  ansible.builtin.apt_key:\n    id: 9FED2BCBDCD29CDF762678CBAED4B06F473041FA\n    url: https://ftp-master.debian.org/keys/archive-key-6.0.asc\n    keyring: /etc/apt/trusted.gpg.d/debian.gpg\n\n- name: Add Apt signing key on remote server to keyring\n  ansible.builtin.apt_key:\n    id: 9FED2BCBDCD29CDF762678CBAED4B06F473041FA\n    file: /tmp/apt.gpg\n    state: present\n",
     "metadata": null,
     "return": {
      "after": {
@@ -12904,6 +12931,7 @@
       "contains": {
        "description": [
         "A regular expression or pattern which should be matched against the file content.",
+        "If I(read_whole_file) is C(true) it matches against the beginning of the line (uses C(re.match())). If I(read_whole_file) is C(false), it searches anywhere for that pattern (uses C(re.search())).",
         "Works only when I(file_type) is C(file)."
        ],
        "type": "str"
@@ -19244,7 +19272,7 @@
        "WatchdogTimestampMonotonic": "0",
        "WatchdogUSec": "0"
       },
-      "type": "complex"
+      "type": "dict"
      }
     }
    },
@@ -19360,27 +19388,35 @@
     "metadata": null,
     "return": {
      "results": {
-      "description": "results from actions taken",
-      "returned": "always",
-      "sample": {
-       "attempts": 1,
-       "changed": true,
-       "name": "apache2",
+      "contains": {
+       "name": {
+        "description": "Name of the service",
+        "returned": "always",
+        "sample": "apache2",
+        "type": "str"
+       },
        "status": {
-        "enabled": {
-         "changed": true,
-         "rc": 0,
-         "stderr": "",
-         "stdout": ""
+        "description": "Status of the service",
+        "returned": "changed",
+        "sample": {
+         "enabled": {
+          "changed": true,
+          "rc": 0,
+          "stderr": "",
+          "stdout": ""
+         },
+         "stopped": {
+          "changed": true,
+          "rc": 0,
+          "stderr": "",
+          "stdout": "Stopping web server: apache2.\n"
+         }
         },
-        "stopped": {
-         "changed": true,
-         "rc": 0,
-         "stderr": "",
-         "stdout": "Stopping web server: apache2.\n"
-        }
+        "type": "dict"
        }
       },
+      "description": "results from actions taken",
+      "returned": "always",
       "type": "complex"
      }
     }
@@ -22790,7 +22826,8 @@
      "collection": "ns2.col",
      "description": [
       "Does some foo on the remote host.",
-      "Whether foo is magic or not has not yet been determined."
+      "Whether foo is magic or not has not yet been determined.",
+      "E(FOOBAR1), E(FOOBAR2), E(FOOBAR3), E(FOOBAR4)."
      ],
      "filename": "ansible_collections/ns2/col/plugins/modules/foo.py",
      "has_action": false,
@@ -23035,7 +23072,8 @@
           "A sub foo.",
           "Whatever.",
           "Also required when O(subfoo) is specified when O(foo=bar) or V(baz).",
-          "Note that O(subfoo.foo) is the same as O(subbaz.foo), O(subbaz.bam), and O(subfoo.bam)."
+          "Note that O(subfoo.foo) is the same as O(subbaz.foo), O(subbaz.bam), and O(subfoo.bam).",
+          "E(FOOBAR1), E(FOOBAR2), E(FOOBAR3), E(FOOBAR4)."
          ],
          "required": true,
          "type": "str"
