@@ -75,6 +75,10 @@ def _add_seealso(seealso: t.List[t.MutableMapping[str, t.Any]],
             plugin_type = entry['plugin_type']
         else:
             continue
+        if plugin_type not in plugin_info or plugin not in plugin_info[plugin_type]:
+            # We cannot use KeyError in the following try/except since plugin_info could
+            # be a defaultdict, which effectively creates new entries.
+            continue
         try:
             desc = plugin_info[plugin_type][plugin]['doc']['short_description']
         except (KeyError, TypeError):
