@@ -101,7 +101,7 @@ def _create_option_reference(
 ) -> str | None:
     if not plugin_fqcn or not plugin_type:
         return None
-    ref = option.replace(".", "/")
+    ref = " ".join(option.replace(".", "/").lower().split())
     ep = f"{entrypoint}__" if entrypoint is not None else ""
     return f"ansible_collections.{plugin_fqcn}_{plugin_type}__parameter-{ep}{ref}"
 
@@ -114,7 +114,7 @@ def _create_return_value_reference(
 ) -> str | None:
     if not plugin_fqcn or not plugin_type:
         return None
-    ref = return_value.replace(".", "/")
+    ref = " ".join(return_value.replace(".", "/").lower().split())
     ep = f"{entrypoint}__" if entrypoint is not None else ""
     return f"ansible_collections.{plugin_fqcn}_{plugin_type}__return-{ep}{ref}"
 
