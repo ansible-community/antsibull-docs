@@ -22849,7 +22849,7 @@
         "O(ansible.builtin.file#module:state[])",
         "RV(ansible.builtin.stat#module:stat[foo.bar].exists)",
         "RV(ansible.builtin.stat#module:stat.exists[])",
-        "O(ns.col2.foo2#module:subfoo][)",
+        "O(ns.col2.foo2#module:subfoo[)",
         "RV(ns.col2.foo2#module:bar[])",
         "O(ext.col.foo#module:foo.bar)"
        ]

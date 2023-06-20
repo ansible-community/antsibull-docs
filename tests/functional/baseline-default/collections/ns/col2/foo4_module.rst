@@ -239,7 +239,7 @@ Parameters
 
       \ :ansretval:`ansible.builtin.stat#module:stat.exists[]`\ 
 
-      \ :ansopt:`ns.col2.foo2#module:subfoo][`\ 
+      \ :ansopt:`ns.col2.foo2#module:subfoo[`\ 
 
       \ :ansretval:`ns.col2.foo2#module:bar[]`\ 
 

@@ -308,6 +308,19 @@ class _MarkupValidator:
             self._report_disallowed_collection(part, plugin_fqcn, key)
         return False
 
+    def _validate_option_like_name(
+        self,
+        key: str,
+        opt: dom.OptionNamePart | dom.ReturnValuePart,
+        what: t.Literal["option", "return value"],
+    ):
+        try:
+            split_option_like_name(opt.name)
+        except ValueError as exc:
+            self.errors.append(
+                f"{key}: {opt.source}: {what} name {opt.name!r} cannot be parsed: {exc}"
+            )
+
     def _validate_link(
         self,
         key: str,
@@ -317,10 +330,7 @@ class _MarkupValidator:
     ):
         try:
             name = split_option_like_name(opt.name)
-        except ValueError as exc:
-            self.errors.append(
-                f"{key}: {opt.source}: {what} name {opt.name!r} cannot be parsed: {exc}"
-            )
+        except ValueError:
             return
         link: list[str] = []
         for index, part in enumerate(name):
@@ -339,6 +349,7 @@ class _MarkupValidator:
                 )
 
     def _validate_option_name(self, opt: dom.OptionNamePart, key: str) -> None:
+        self._validate_option_like_name(key, opt, "option")
         plugin = opt.plugin
         if plugin is None:
             return
@@ -362,6 +373,7 @@ class _MarkupValidator:
         )
 
     def _validate_return_value(self, rv: dom.ReturnValuePart, key: str) -> None:
+        self._validate_option_like_name(key, rv, "return value")
         plugin = rv.plugin
         if plugin is None:
             return
