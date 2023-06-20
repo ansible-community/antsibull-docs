@@ -60,6 +60,26 @@ attributes:
           - Sometimes our markup is B(broken.
         support: N/A
         platforms: posix
+
+seealso:
+    - module: ns.col2.foo3
+    - module: ns.col2.foobarbaz
+      # does not exist
+    - plugin: ns.col2.foo4
+      plugin_type: module
+    - plugin: ns.col2.foobarbaz
+      plugin_type: inventory
+      # does not exist
+    - module: ansible.builtin.service
+      description: The service module.
+    - module: ansible.builtin.foobarbaz
+      description: A non-existing module.
+    - plugin: ansible.builtin.linear
+      plugin_type: strategy
+      description: The linear strategy plugin.
+    - plugin: ansible.builtin.foobarbaz
+      plugin_type: strategy
+      description: A non-existing stragey plugin
 """
 
 EXAMPLES = """

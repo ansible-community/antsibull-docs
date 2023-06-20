@@ -714,6 +714,9 @@
       }
      },
      "requirements": "Foo.",
+     "seealso": {
+      "foo": "bar"
+     },
      "version_added": "foo",
      "version_added_collection": "ns.col2"
     },
@@ -796,6 +799,40 @@
       }
      },
      "requirements": "Foo.",
+     "seealso": [
+      {
+       "module": "ns.col2.foo3"
+      },
+      {
+       "module": "ns.col2.foobarbaz"
+      },
+      {
+       "plugin": "ns.col2.foo4",
+       "plugin_type": "module"
+      },
+      {
+       "plugin": "ns.col2.foobarbaz",
+       "plugin_type": "inventory"
+      },
+      {
+       "description": "The service module.",
+       "module": "ansible.builtin.service"
+      },
+      {
+       "description": "A non-existing module.",
+       "module": "ansible.builtin.foobarbaz"
+      },
+      {
+       "description": "The linear strategy plugin.",
+       "plugin": "ansible.builtin.linear",
+       "plugin_type": "strategy"
+      },
+      {
+       "description": "A non-existing stragey plugin",
+       "plugin": "ansible.builtin.foobarbaz",
+       "plugin_type": "strategy"
+      }
+     ],
      "short_description": "Foo two"
     },
     "examples": "\nname: This is YAML.\n",
@@ -958,7 +995,37 @@
    }
   },
   "netconf": {},
-  "role": {},
+  "role": {
+   "ns.col2.bar": {
+    "collection": "ns.col2",
+    "entry_points": {
+     "baz": {
+      "description": [
+       "This is the baz entrypoint of the bar role."
+      ],
+      "short_description": "Bar role, baz entrypoint"
+     },
+     "main": {
+      "author": [
+       "Felix Fontein (@felixfontein)"
+      ],
+      "description": [
+       "This is the bar role."
+      ],
+      "seealso": [
+       {
+        "module": "ns2.col.foo"
+       },
+       {
+        "module": "ns2.col.foobarbaz"
+       }
+      ],
+      "short_description": "Bar role"
+     }
+    },
+    "path": "ansible_collections/ns/col2"
+   }
+  },
   "shell": {},
   "strategy": {},
   "test": {},

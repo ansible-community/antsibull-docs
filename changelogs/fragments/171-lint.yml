@@ -1,0 +1,2 @@
+minor_changes:
+  - "Collection docs linter - also validate ``seealso`` module and plugin destinations (https://github.com/ansible-community/antsibull-docs/issues/168, https://github.com/ansible-community/antsibull-docs/pull/171)."

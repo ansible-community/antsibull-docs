@@ -272,15 +272,17 @@ class _MarkupValidator:
     _disallow_semantic_markup: bool
 
     def _report_disallowed_collection(
-        self, part: dom.AnyPart, plugin_fqcn: str, key: str
+        self, part: dom.AnyPart | None, plugin_fqcn: str, key: str
     ) -> None:
+        if part:
+            key = f"{key}: {part.source}"
         self.errors.append(
-            f"{key}: {part.source}: a reference to the collection"
+            f"{key}: a reference to the collection"
             f" {_get_fqcn_collection_name(plugin_fqcn)} is not allowed"
         )
 
     def _validate_plugin_fqcn(
-        self, part: dom.AnyPart, plugin_fqcn: str, plugin_type: str, key: str
+        self, part: dom.AnyPart | None, plugin_fqcn: str, plugin_type: str, key: str
     ) -> bool:
         if self._validate_collections_refs == "self":
             if not plugin_fqcn.startswith(self._collection_name_prefix):
@@ -291,8 +293,9 @@ class _MarkupValidator:
             return True
         if self._name_collector.is_valid_collection(plugin_fqcn):
             prefix = "" if plugin_type in ("role", "module") else " plugin"
+            key_prefix = f"{key}: {part.source}" if part else key
             self.errors.append(
-                f"{key}: {part.source}: there is no {plugin_type}{prefix} {plugin_fqcn}"
+                f"{key_prefix}: there is no {plugin_type}{prefix} {plugin_fqcn}"
             )
         elif self._disallow_unknown_collection_refs:
             self._report_disallowed_collection(part, plugin_fqcn, key)
@@ -377,6 +380,18 @@ class _MarkupValidator:
                 if par_elem.type == dom.PartType.PLUGIN:
                     self._validate_plugin(t.cast(dom.PluginPart, par_elem), key)
 
+    def _check_seealso(self, seealso: list[t.Any], key: str):
+        for index, entry in enumerate(seealso):
+            if not isinstance(entry, Mapping):
+                continue
+            entry_key = f"{key}[{index + 1}]"
+            if "module" in entry:
+                self._validate_plugin_fqcn(None, entry["module"], "module", entry_key)
+            if "plugin" in entry and "plugin_type" in entry:
+                self._validate_plugin_fqcn(
+                    None, entry["plugin"], entry["plugin_type"], key
+                )
+
     def __init__(
         self,
         name_collector: _NameCollector,
@@ -399,6 +414,18 @@ class _MarkupValidator:
             self._validate_markup_entry(entry, key, role_entrypoint)
 
         walk_plugin_docs_texts(plugin_record, callback)
+
+        if isinstance(plugin_record.get("doc"), Mapping):
+            if isinstance(plugin_record["doc"].get("seealso"), Sequence):
+                self._check_seealso(
+                    plugin_record["doc"]["seealso"], key="DOCUMENTATION -> seealso"
+                )
+        if isinstance(plugin_record.get("entry_points"), Mapping):
+            for entry_point, data in sorted(plugin_record["entry_points"].items()):
+                if isinstance(data.get("seealso"), Sequence):
+                    self._check_seealso(
+                        data["seealso"], key=f"entry_points -> {entry_point} -> seealso"
+                    )
 
 
 def _validate_markup(

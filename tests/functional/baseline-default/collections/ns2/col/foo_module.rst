@@ -460,10 +460,12 @@ See Also
 
    \ :ref:`ns2.col.foo2 <ansible_collections.ns2.col.foo2_module>`\ 
        Another foo.
-   \ :ref:`ns2.col.foo3 <ansible_collections.ns2.col.foo3_module>`\ 
-       The official documentation on the **ns2.col.foo3** module.
    \ :ref:`ns2.col.foo <ansible_collections.ns2.col.foo_lookup>`\  lookup plugin
        Look up some foo \ :ansopt:`ns2.col.foo#module:bar`\ .
+   \ :ref:`ansible.builtin.service <ansible_collections.ansible.builtin.service_module>`\ 
+       The service module.
+   \ :ref:`ansible.builtin.ssh <ansible_collections.ansible.builtin.ssh_connection>`\  connection plugin
+       The ssh connection plugin.
 
 .. Examples
 

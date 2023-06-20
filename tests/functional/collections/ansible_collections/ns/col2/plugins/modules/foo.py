@@ -62,6 +62,9 @@ attributes:
           - Sometimes our markup is B(broken.
         support: N/A
         platforms: posix
+
+seealso:
+    foo: bar
 """
 
 EXAMPLES = """

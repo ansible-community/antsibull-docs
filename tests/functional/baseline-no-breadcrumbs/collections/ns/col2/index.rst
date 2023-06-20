@@ -47,6 +47,13 @@ Modules
 * :ref:`foo4 module <ansible_collections.ns.col2.foo4_module>` -- Markup reference linting test
 
 
+Role Index
+----------
+
+These are the roles in the ns.col2 collection:
+
+* :ref:`bar role <ansible_collections.ns.col2.bar_role>` -- Bar role
+
 
 .. seealso::
 
