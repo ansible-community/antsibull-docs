@@ -15,6 +15,7 @@ from docutils import nodes
 from sphinx import addnodes
 
 from antsibull_docs.markup.semantic_helper import parse_option, parse_return_value
+from antsibull_docs.utils.rst import massage_rst_label
 
 
 # pylint:disable-next=unused-argument,dangerous-default-value
@@ -101,7 +102,7 @@ def _create_option_reference(
 ) -> str | None:
     if not plugin_fqcn or not plugin_type:
         return None
-    ref = " ".join(option.replace(".", "/").lower().split())
+    ref = massage_rst_label(option.replace(".", "/"))
     ep = f"{entrypoint}__" if entrypoint is not None else ""
     return f"ansible_collections.{plugin_fqcn}_{plugin_type}__parameter-{ep}{ref}"
 
@@ -114,7 +115,7 @@ def _create_return_value_reference(
 ) -> str | None:
     if not plugin_fqcn or not plugin_type:
         return None
-    ref = " ".join(return_value.replace(".", "/").lower().split())
+    ref = massage_rst_label(return_value.replace(".", "/"))
     ep = f"{entrypoint}__" if entrypoint is not None else ""
     return f"ansible_collections.{plugin_fqcn}_{plugin_type}__return-{ep}{ref}"
 
