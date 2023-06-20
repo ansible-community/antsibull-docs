@@ -43,6 +43,9 @@ options:
                     - RV(foobarbaz) does not exist.
                 type: str
                 required: true
+            BaZ:
+                description: Funky.
+                type: int
 
 requirements: Foo.
 
