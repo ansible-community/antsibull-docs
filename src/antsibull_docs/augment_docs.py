@@ -7,6 +7,8 @@
 
 import typing as t
 
+from antsibull_docs.utils.rst import massage_rst_label
+
 
 def add_full_key(options_data: t.Mapping[str, t.Any], suboption_entry: str,
                  _full_key: t.Optional[t.List[str]] = None,
@@ -47,7 +49,7 @@ def add_full_key(options_data: t.Mapping[str, t.Any], suboption_entry: str,
         entry['full_key'] = full_key_k
         entry['full_keys'] = full_keys_k
         entry['full_keys_rst'] = sorted({
-            tuple(' '.join(p.lower().split()) for p in fk) for fk in full_keys_k
+            tuple(massage_rst_label(p) for p in fk) for fk in full_keys_k
         })
 
         # Process suboptions
