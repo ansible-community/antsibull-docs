@@ -38,6 +38,7 @@ options:
             - P(ext.col.bar#lookup)
             - O(ext.col.foo#module:foo[len(foo\)].bar)
             - RV(ext.col.foo#module:baz[])
+            - O(ns.col2.foo2#module:subfoo.BaZ)
     not_existing:
         description:
             - M(ansible.builtin.foobar)

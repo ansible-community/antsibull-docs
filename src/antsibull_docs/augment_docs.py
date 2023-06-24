@@ -10,6 +10,8 @@ from __future__ import annotations
 import typing as t
 from collections.abc import Mapping, MutableMapping
 
+from antsibull_docs.utils.rst import massage_rst_label
+
 
 def add_full_key(
     options_data: Mapping[str, t.Any],
@@ -53,7 +55,7 @@ def add_full_key(
         entry["full_key"] = full_key_k
         entry["full_keys"] = full_keys_k
         entry["full_keys_rst"] = sorted(
-            {tuple(" ".join(p.lower().split()) for p in fk) for fk in full_keys_k}
+            {tuple(massage_rst_label(p) for p in fk) for fk in full_keys_k}
         )
 
         # Process suboptions

@@ -157,6 +157,8 @@ Parameters
 
       \ :ansretval:`ext.col.foo#module:baz[]`\ 
 
+      \ :ansopt:`ns.col2.foo2#module:subfoo.BaZ`\ 
+
 
       .. raw:: html
 
