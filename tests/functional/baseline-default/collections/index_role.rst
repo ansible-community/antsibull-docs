@@ -6,6 +6,11 @@
 Index of all Roles
 ==================
 
+ns.col2
+-------
+
+* :ref:`ns.col2.bar <ansible_collections.ns.col2.bar_role>` -- Bar role
+
 ns2.col
 -------
 

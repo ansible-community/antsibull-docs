@@ -1151,11 +1151,17 @@
        "module": "ns2.col.foo2"
       },
       {
-       "module": "ns2.col.foo3"
-      },
-      {
        "plugin": "ns2.col.foo",
        "plugin_type": "lookup"
+      },
+      {
+       "description": "The service module.",
+       "module": "ansible.builtin.service"
+      },
+      {
+       "description": "The ssh connection plugin.",
+       "plugin": "ansible.builtin.ssh",
+       "plugin_type": "connection"
       }
      ],
      "short_description": "Do some foo O(bar)",

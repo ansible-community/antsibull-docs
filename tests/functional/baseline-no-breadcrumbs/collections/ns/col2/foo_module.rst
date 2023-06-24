@@ -21,9 +21,11 @@ The errors were:
 
 * ::
 
-        5 validation errors for ModuleDocSchema
+        6 validation errors for ModuleDocSchema
         doc -> short_description
           field required (type=value_error.missing)
+        doc -> seealso
+          value is not a valid list (type=type_error.list)
         doc -> options -> bar -> description -> 0
           str type expected (type=type_error.str)
         doc -> options -> bar -> type

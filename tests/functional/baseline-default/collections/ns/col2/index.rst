@@ -55,6 +55,19 @@ Modules
     foo4_module
 
 
+Role Index
+----------
+
+These are the roles in the ns.col2 collection:
+
+* :ref:`bar role <ansible_collections.ns.col2.bar_role>` -- Bar role
+
+.. toctree::
+    :maxdepth: 1
+    :hidden:
+
+    bar_role
+
 
 .. seealso::
 

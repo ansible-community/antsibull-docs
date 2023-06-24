@@ -69,9 +69,13 @@ attributes:
 
 seealso:
     - module: ns2.col.foo2
-    - module: ns2.col.foo3  # does not exist
     - plugin: ns2.col.foo
       plugin_type: lookup
+    - module: ansible.builtin.service
+      description: The service module.
+    - plugin: ansible.builtin.ssh
+      plugin_type: connection
+      description: The ssh connection plugin.
 """
 
 EXAMPLES = """
