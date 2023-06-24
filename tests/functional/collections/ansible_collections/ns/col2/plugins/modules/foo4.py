@@ -72,6 +72,22 @@ options:
             - RV(ext.col.foo#module:notthere[])
             - O(ext.col.notthere#module:foo[len(foo\)].bar)
             - RV(ext.col.notthere#module:baz[])
+    correct_array_stubs:
+        description:
+            - O(ansible.builtin.iptables#module:tcp_flags.flags[])
+            - O(ns2.col.bar#filter:foo)
+            - O(ns2.col.bar#filter:foo[])
+            - O(ext.col.foo#module:foo[baz].bar)
+            - RV(ext.col.foo#module:baz)
+            - RV(ext.col.foo#module:baz[ ])
+    incorrect_array_stubs:
+        description:
+            - O(ansible.builtin.file#module:state[])
+            - RV(ansible.builtin.stat#module:stat[foo.bar].exists)
+            - RV(ansible.builtin.stat#module:stat.exists[])
+            - O(ns.col2.foo2#module:subfoo[)
+            - RV(ns.col2.foo2#module:bar[])
+            - O(ext.col.foo#module:foo.bar)
 """
 
 from ansible.module_utils.basic import AnsibleModule

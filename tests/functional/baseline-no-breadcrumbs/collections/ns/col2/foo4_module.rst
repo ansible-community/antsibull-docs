@@ -93,6 +93,50 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-correct_array_stubs"></div>
+
+      .. _ansible_collections.ns.col2.foo4_module__parameter-correct_array_stubs:
+
+      .. rst-class:: ansible-option-title
+
+      **correct_array_stubs**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-correct_array_stubs" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      \ :ansopt:`ansible.builtin.iptables#module:tcp\_flags.flags[]`\ 
+
+      \ :ansopt:`ns2.col.bar#filter:foo`\ 
+
+      \ :ansopt:`ns2.col.bar#filter:foo[]`\ 
+
+      \ :ansopt:`ext.col.foo#module:foo[baz].bar`\ 
+
+      \ :ansretval:`ext.col.foo#module:baz`\ 
+
+      \ :ansretval:`ext.col.foo#module:baz[ ]`\ 
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-existing"></div>
 
       .. _ansible_collections.ns.col2.foo4_module__parameter-existing:
@@ -158,6 +202,50 @@ Parameters
       \ :ansretval:`ext.col.foo#module:baz[]`\ 
 
       \ :ansopt:`ns.col2.foo2#module:subfoo.BaZ`\ 
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-incorrect_array_stubs"></div>
+
+      .. _ansible_collections.ns.col2.foo4_module__parameter-incorrect_array_stubs:
+
+      .. rst-class:: ansible-option-title
+
+      **incorrect_array_stubs**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-incorrect_array_stubs" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      \ :ansopt:`ansible.builtin.file#module:state[]`\ 
+
+      \ :ansretval:`ansible.builtin.stat#module:stat[foo.bar].exists`\ 
+
+      \ :ansretval:`ansible.builtin.stat#module:stat.exists[]`\ 
+
+      \ :ansopt:`ns.col2.foo2#module:subfoo[`\ 
+
+      \ :ansretval:`ns.col2.foo2#module:bar[]`\ 
+
+      \ :ansopt:`ext.col.foo#module:foo.bar`\ 
 
 
       .. raw:: html

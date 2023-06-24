@@ -12,6 +12,7 @@ from __future__ import annotations
 import re
 
 _ARRAY_STUB_RE = re.compile(r"\[([^\]]*)\]")
+_ARRAY_STUB_SEP_START_RE = re.compile(r"[\[.]")
 _FQCN_TYPE_PREFIX_RE = re.compile(r"^([^.]+\.[^.]+\.[^#]+)#([a-z]+):(.*)$")
 _IGNORE_MARKER = "ignore:"
 
@@ -85,3 +86,40 @@ def parse_return_value(
         "return value name",
         require_plugin=require_plugin,
     )
+
+
+def split_option_like_name(name: str) -> list[tuple[str, str | None]]:
+    """
+    Given an option/return value name, splits it up into components separated by ``.``,
+    and extracts array stubs ``[...]``.
+    """
+    result: list[tuple[str, str | None]] = []
+    index = 0
+    length = len(name)
+    while index < length:
+        m = _ARRAY_STUB_SEP_START_RE.search(name, pos=index)
+        if m is None:
+            result.append((name[index:], None))
+            break
+        part = name[index : m.start(0)]
+        appendix = None
+        index = m.start(0)
+        if name[index] == "[":
+            next_index = name.find("]", index)
+            if next_index < 0:
+                raise ValueError(
+                    f'Found "[" without closing "]" at position {index + 1} of {name!r}'
+                )
+            appendix = name[index : next_index + 1]
+            index = next_index + 1
+        result.append((part, appendix))
+        if index == length:
+            break
+        if name[index] == ".":
+            index += 1
+            continue
+        raise ValueError(
+            f'Expecting separator ".", but got "{name[index]!r}"'
+            f" at position {index + 1} of {name!r}"
+        )
+    return result

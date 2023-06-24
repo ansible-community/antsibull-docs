@@ -35,6 +35,7 @@ from .docs_parsing.routing import (
 )
 from .jinja2.environment import doc_environment
 from .lint_helpers import load_collection_info
+from .markup.semantic_helper import split_option_like_name
 from .plugin_docs import walk_plugin_docs_texts
 from .process_docs import (
     get_collection_contents,
@@ -261,6 +262,15 @@ class _NameCollector:
         )
 
 
+def _create_lookup(
+    opt: dom.OptionNamePart | dom.ReturnValuePart, link: list[str]
+) -> str:
+    lookup = _NAME_SEPARATOR.join(link)
+    if opt.entrypoint is not None:
+        lookup = f"{opt.entrypoint}{_ROLE_ENTRYPOINT_SEPARATOR}{lookup}"
+    return lookup
+
+
 class _MarkupValidator:
     errors: list[str]
 
@@ -301,31 +311,78 @@ class _MarkupValidator:
             self._report_disallowed_collection(part, plugin_fqcn, key)
         return False
 
+    def _validate_option_like_name(
+        self,
+        key: str,
+        opt: dom.OptionNamePart | dom.ReturnValuePart,
+        what: t.Literal["option", "return value"],
+    ):
+        try:
+            split_option_like_name(opt.name)
+        except ValueError as exc:
+            self.errors.append(
+                f"{key}: {opt.source}: {what} name {opt.name!r} cannot be parsed: {exc}"
+            )
+
+    def _validate_link(
+        self,
+        key: str,
+        opt: dom.OptionNamePart | dom.ReturnValuePart,
+        what: t.Literal["option", "return value"],
+        lookup: t.Callable[[str], str | None],
+    ):
+        try:
+            name = split_option_like_name(opt.name)
+        except ValueError:
+            return
+        link: list[str] = []
+        for index, part in enumerate(name):
+            link.append(part[0])
+            lookup_value = _create_lookup(opt, link)
+            part_type = lookup(lookup_value)
+            if part_type == "list" and part[1] is None and index + 1 < len(name):
+                self.errors.append(
+                    f"{key}: {opt.source}: {what} name {opt.name!r} refers to"
+                    f" list {'.'.join(link)} without `[]`"
+                )
+            if part_type not in ("list", "dict", "dictionary") and part[1] is not None:
+                self.errors.append(
+                    f"{key}: {opt.source}: {what} name {opt.name!r} refers to"
+                    f" {'.'.join(link)} - which is neither list nor dictionary - with `[]`"
+                )
+
     def _validate_option_name(self, opt: dom.OptionNamePart, key: str) -> None:
+        self._validate_option_like_name(key, opt, "option")
         plugin = opt.plugin
         if plugin is None:
             return
         if not self._validate_plugin_fqcn(opt, plugin.fqcn, plugin.type, key):
             return
-        lookup = _NAME_SEPARATOR.join(opt.link)
-        if opt.entrypoint is not None:
-            lookup = f"{opt.entrypoint}{_ROLE_ENTRYPOINT_SEPARATOR}{lookup}"
+        lookup = _create_lookup(opt, opt.link)
         if not self._name_collector.is_valid_option(plugin.fqcn, plugin.type, lookup):
             prefix = "" if plugin.type in ("role", "module") else " plugin"
             self.errors.append(
                 f"{key}: {opt.source}: option name does not reference to an existing"
                 f" option of the {plugin.type}{prefix} {plugin.fqcn}"
             )
+            return
+        self._validate_link(
+            key,
+            opt,
+            "option",
+            lambda lookup_: self._name_collector.get_option_type(
+                plugin.fqcn, plugin.type, lookup_  # type: ignore[union-attr]
+            ),
+        )
 
     def _validate_return_value(self, rv: dom.ReturnValuePart, key: str) -> None:
+        self._validate_option_like_name(key, rv, "return value")
         plugin = rv.plugin
         if plugin is None:
             return
         if not self._validate_plugin_fqcn(rv, plugin.fqcn, plugin.type, key):
             return
-        lookup = _NAME_SEPARATOR.join(rv.link)
-        if rv.entrypoint is not None:
-            lookup = f"{rv.entrypoint}{_ROLE_ENTRYPOINT_SEPARATOR}{lookup}"
+        lookup = _create_lookup(rv, rv.link)
         if not self._name_collector.is_valid_return_value(
             plugin.fqcn, plugin.type, lookup
         ):
@@ -334,6 +391,15 @@ class _MarkupValidator:
                 f"{key}: {rv.source}: return value name does not reference to an"
                 f" existing return value of the {plugin.type}{prefix} {plugin.fqcn}"
             )
+            return
+        self._validate_link(
+            key,
+            rv,
+            "return value",
+            lambda lookup_: self._name_collector.get_return_value_type(
+                plugin.fqcn, plugin.type, lookup_  # type: ignore[union-attr]
+            ),
+        )
 
     def _validate_module(self, module: dom.ModulePart, key: str) -> None:
         self._validate_plugin_fqcn(module, module.fqcn, "module", key)
