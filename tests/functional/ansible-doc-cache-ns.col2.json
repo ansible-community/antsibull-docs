@@ -781,6 +781,10 @@
       "subfoo": {
        "description": "Some recursive foo.",
        "suboptions": {
+        "BaZ": {
+         "description": "Funky.",
+         "type": "int"
+        },
         "foo": {
          "description": [
           "A sub foo.",

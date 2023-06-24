@@ -213,6 +213,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-subfoo/BaZ"></div>
+
+      .. _ansible_collections.ns.col2.foo2_module__parameter-subfoo/baz:
+
+      .. rst-class:: ansible-option-title
+
+      **BaZ**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-subfoo/BaZ" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Funky.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-subfoo/foo"></div>
 
       .. _ansible_collections.ns.col2.foo2_module__parameter-subfoo/foo:
