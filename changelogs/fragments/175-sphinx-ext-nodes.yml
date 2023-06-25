@@ -1,0 +1,3 @@
+bugfixes:
+  - "Fix the way the Sphinx extension creates nodes for options and return values so they look identical for internal references, external (intersphinx) references, and unresolved references (https://github.com/ansible-community/antsibull-docs/pull/175)."
+  - "Make sure that broken ``:ansopt:`` and ``:ansretval:`` parameters result in correctly rendered error messages (https://github.com/ansible-community/antsibull-docs/pull/175)."
