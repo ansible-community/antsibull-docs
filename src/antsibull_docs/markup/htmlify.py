@@ -47,18 +47,25 @@ def html_ify(
     plugin_fqcn: str | None = None,
     plugin_type: str | None = None,
     role_entrypoint: str | None = None,
+    doc_plugin_fqcn: str | None = None,
+    doc_plugin_type: str | None = None,
 ) -> tuple[str, Mapping[str, int]]:
     """convert symbols like I(this is in italics) to valid HTML"""
     current_plugin: dom.PluginIdentifier | None = None
     if plugin_fqcn and plugin_type:
         current_plugin = dom.PluginIdentifier(fqcn=plugin_fqcn, type=plugin_type)
+    doc_current_plugin: dom.PluginIdentifier | None = None
+    if doc_plugin_fqcn and doc_plugin_type:
+        doc_current_plugin = dom.PluginIdentifier(
+            fqcn=doc_plugin_fqcn, type=doc_plugin_type
+        )
     context = Context(current_plugin=current_plugin, role_entrypoint=role_entrypoint)
     paragraphs = parse(text, context, errors="message")
     link_provider = _HTMLLinkProvider()
     text = to_html(
         paragraphs,
         link_provider=link_provider,
-        current_plugin=current_plugin,
+        current_plugin=doc_current_plugin,
         par_start="",
         par_end="",
     )

@@ -782,6 +782,7 @@ def lint_collection_plugin_docs(
     disallow_unknown_collection_refs: bool = False,
     skip_rstcheck: bool = False,
     disallow_semantic_markup: bool = False,
+    output_format: OutputFormat = OutputFormat.ANSIBLE_DOCSITE,
 ) -> list[tuple[str, int, int, str]]:
     try:
         info = load_collection_info(path_to_collection)
@@ -842,7 +843,7 @@ def lint_collection_plugin_docs(
                 disallow_unknown_collection_refs=disallow_unknown_collection_refs,
                 skip_rstcheck=skip_rstcheck,
                 disallow_semantic_markup=disallow_semantic_markup,
-                output_format=OutputFormat.ANSIBLE_DOCSITE,
+                output_format=output_format,
             )
         )
     return result

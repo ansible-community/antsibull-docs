@@ -182,22 +182,22 @@ See Also
 {%     for item in ep_doc['seealso'] %}
 {%       if item.module is defined and item.description %}
    @{ reference_plugin_rst(item['module'], 'module') }@
-       @{ item['description'] | rst_ify(role_entrypoint=entry_point) }@
+       @{ item['description'] | rst_ify(role_entrypoint=entry_point) | indent(7) }@
 {%       elif item.module is defined %}
    @{ reference_plugin_rst(item['module'], 'module') }@
        The official documentation on the **@{ item['module'] }@** module.
 {%       elif item.plugin is defined and item.plugin_type is defined and item.description %}
    @{ reference_plugin_rst(item['plugin'], item['plugin_type']) }@ @{ item['plugin_type'] }@ plugin
-       @{ item['description'] | rst_ify(role_entrypoint=entry_point) }@
+       @{ item['description'] | rst_ify(role_entrypoint=entry_point) | indent(7) }@
 {%       elif item.plugin is defined and item.plugin_type is defined %}
    @{ reference_plugin_rst(item['plugin'], item['plugin_type']) }@ @{ item['plugin_type'] }@ plugin
        The official documentation on the **@{ item['plugin'] }@** @{ item['plugin_type'] }@ plugin.
 {%       elif item.name is defined and item.link is defined and item.description %}
    `@{ item['name'] }@ <@{ item['link'] }@>`_
-       @{ item['description'] | rst_ify(role_entrypoint=entry_point) }@
+       @{ item['description'] | rst_ify(role_entrypoint=entry_point) | indent(7) }@
 {%       elif item.ref is defined and item.description %}
    :ref:`@{ item['ref'] }@`
-       @{ item['description'] | rst_ify(role_entrypoint=entry_point) }@
+       @{ item['description'] | rst_ify(role_entrypoint=entry_point) | indent(7) }@
 {%       endif %}
 {%     endfor %}
 {%   endif %}

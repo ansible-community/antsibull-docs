@@ -297,14 +297,16 @@ def generate_docs_for_all_collections(
     )
     flog.debug("Finished writing extra docs")
 
-    asyncio.run(
-        output_environment_variables(
-            dest_dir,
-            referenced_env_vars,
-            output_format=output_format,
-            squash_hierarchy=squash_hierarchy,
-            referable_envvars=referable_envvars,
+    if output_format == OutputFormat.ANSIBLE_DOCSITE:
+        asyncio.run(
+            output_environment_variables(
+                dest_dir,
+                referenced_env_vars,
+                output_format=output_format,
+                squash_hierarchy=squash_hierarchy,
+                referable_envvars=referable_envvars,
+            )
         )
-    )
-    flog.debug("Finished writing environment variables")
+        flog.debug("Finished writing environment variables")
+
     return 0

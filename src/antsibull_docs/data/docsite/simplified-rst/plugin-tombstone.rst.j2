@@ -1,0 +1,28 @@
+{#
+  Copyright (c) Ansible Project
+  GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+  SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+@{ plugin_name }@
+@{ '+' * plugin_name|length }@
+
+{% if collection == 'ansible.builtin' -%}
+.. note::
+    This module was part of ``ansible-core`` and was included in all Ansible installations.
+{% else %}
+.. note::
+    This plugin was part of the `@{collection}@ collection <@{ collection | collection_url }@>`_{% if collection_version %} (version @{ collection_version }@){% endif %}.
+{% endif %}
+
+This {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %} has been removed
+{% if tombstone.removal_version is defined %}
+in version @{ tombstone.removal_version | rst_ify }@ of @{ collection }@.
+{% elif tombstone.removal_date is defined %}
+in a major release after @{ tombstone.removal_date | rst_ify }@ of @{ collection }@.
+{% else %}
+from @{ collection_name }@.
+{% endif %}
+{% if tombstone.warning_text is defined %}
+@{   tombstone.warning_text | rst_ify }@
+{% endif %}

@@ -280,6 +280,17 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         " (Latest version of the collections known to galaxy).",
     )
 
+    output_format_parser = argparse.ArgumentParser(add_help=False)
+    output_format_parser.add_argument(
+        "--output-format",
+        default="ansible-docsite",
+        choices=["ansible-docsite", "simplified-rst"],
+        help="What kind of output format to use. Note that simplified-rst is"
+        " *EXPERIMENTAL*; the output format will likely change considerably"
+        " over the next few versions, and these changes will not be considered"
+        " breaking changes.",
+    )
+
     whole_site_parser = argparse.ArgumentParser(add_help=False)
     whole_site_parser.add_argument(
         "--breadcrumbs",
@@ -371,7 +382,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     #
     current_parser = subparsers.add_parser(
         "current",
-        parents=[docs_parser, whole_site_parser, template_parser],
+        parents=[docs_parser, whole_site_parser, template_parser, output_format_parser],
         description="Generate documentation for the current"
         " installed version of ansible and the current installed"
         " collections",
@@ -388,7 +399,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     #
     collection_parser = subparsers.add_parser(
         "collection",
-        parents=[docs_parser, whole_site_parser, template_parser],
+        parents=[docs_parser, whole_site_parser, template_parser, output_format_parser],
         description="Generate documentation for specified collections",
     )
     collection_parser.add_argument(
@@ -427,7 +438,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     #
     file_parser = subparsers.add_parser(
         "plugin",
-        parents=[docs_parser, template_parser],
+        parents=[docs_parser, template_parser, output_format_parser],
         description="Generate documentation for a single plugin",
     )
     file_parser.add_argument(
@@ -451,7 +462,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     #
     sphinx_init_parser = subparsers.add_parser(
         "sphinx-init",
-        parents=[docs_parser, template_parser, whole_site_parser],
+        parents=[docs_parser, template_parser, whole_site_parser, output_format_parser],
         description="Generate a Sphinx site template for a collection docsite",
     )
 
@@ -559,6 +570,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     #
     lint_collection_docs_parser = subparsers.add_parser(
         "lint-collection-docs",
+        parents=[output_format_parser],
         description="Collection extra docs linter for inclusion in docsite",
     )
 

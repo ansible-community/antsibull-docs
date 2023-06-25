@@ -44,6 +44,7 @@ antsibull-docs \
 {%     if squash_hierarchy %}
     --squash-hierarchy \
 {%     endif %}
+    --output-format @{ output_format }@ \
     --dest-dir temp-rst \
     @{ ' '.join(collections) }@
 {% endif %}

@@ -15,6 +15,7 @@ chmod og-w temp-rst  # antsibull-docs wants that directory only readable by itse
 antsibull-docs \
     --config-file antsibull-docs.cfg \
     collection \
+    --output-format ansible-docsite \
     --dest-dir temp-rst \
     ns.col1
 

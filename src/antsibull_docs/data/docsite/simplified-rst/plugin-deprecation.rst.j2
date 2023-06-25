@@ -1,0 +1,17 @@
+{#
+  Copyright (c) Ansible Project
+  GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+  SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+{% if short_description %}
+{%   set title = alias ~ ' ' ~ plugin_type ~ ' -- ' ~ short_description | rst_ify %}
+{% else %}
+{%   set title = alias ~ ' ' ~ plugin_type %}
+{% endif %}
+
+@{ title }@
+@{ '+' * title|length }@
+
+This is an alias for the @{ module }@ @{ plugin_type }@.
+This name has been **deprecated**. Please update your tasks to use the new name ``@{ module }@`` instead.

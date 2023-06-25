@@ -1,0 +1,28 @@
+{#
+  Copyright (c) Ansible Project
+  GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+  SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+{% macro in_rst(data, collection, indent, role_entrypoint=None) %}
+{%   if data %}
+
+@{ ' ' * indent }@
+{%-    if data['removed_at_date'] -%}
+Removed in: major release after @{ data['removed_at_date'] | rst_ify(role_entrypoint=role_entrypoint) }@
+{%-    elif data['removed_in'] -%}
+Removed in: version @{ data['removed_in'] | rst_ify(role_entrypoint=role_entrypoint) }@
+{%-    else -%}
+Removed in: a future release
+{%-    endif -%}
+{%-    if data['removed_from_collection'] and data['removed_from_collection'] != collection %}
+ of @{ data['removed_from_collection'] | rst_ify(role_entrypoint=role_entrypoint) }@
+{%     endif %}
+
+
+@{ ('Why: ' ~ data['why'] | rst_ify(role_entrypoint=role_entrypoint)) | indent(indent, first=true) }@
+
+@{ ('Alternative: ' ~ data['alternative'] | rst_ify(role_entrypoint=role_entrypoint)) | indent(indent, first=true) }@
+
+{%   endif %}
+{% endmacro %}

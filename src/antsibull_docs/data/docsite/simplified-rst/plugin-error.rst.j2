@@ -1,0 +1,23 @@
+{#
+  Copyright (c) Ansible Project
+  GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+  SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+{% set title = plugin_name ~ ' ' ~ plugin_type -%}
+
+@{ title }@
+@{ '+' * title|length }@
+
+The documentation for the @{ plugin_type }@ plugin, @{ plugin_name }@, was malformed.
+
+The errors were:
+
+{% for error in nonfatal_errors %}
+* ::
+
+@{   error | indent(width=8, first=True) }@
+
+{% endfor %}
+
+File a bug with the `@{ collection }@ collection <@{ collection_issue_tracker or (collection | collection_url) }@>`_ in order to have it corrected.

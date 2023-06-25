@@ -54,11 +54,24 @@ def reference_plugin_rst(plugin_name: str, plugin_type: str) -> str:
     return f"\\ :ref:`{rst_escape(fqcn)} <ansible_collections.{fqcn}_{plugin_type}>`\\ "
 
 
+def reference_plugin_rst_simplified(plugin_name: str, plugin_type: str) -> str:
+    fqcn = f"{plugin_name}"
+    # TODO: return f"\\ {fqcn}\\ " for other collections
+    name = plugin_name.split(".", 2)[2]
+    return f"\\ `{rst_escape(fqcn)} <{name}_{plugin_type}.rst>`__\\ "
+
+
+def make_reference_plugin_rst(output_format: OutputFormat):
+    if output_format == OutputFormat.SIMPLIFIED_RST:
+        return reference_plugin_rst_simplified
+    return reference_plugin_rst
+
+
 def get_template_location(output_format: OutputFormat) -> tuple[str, str]:
     """
     Return template location given the output format.
     """
-    return ("antsibull_docs.data", f"docsite/{output_format.value}")
+    return ("antsibull_docs.data", f"docsite/{output_format.output_format}")
 
 
 def get_template_filename(filename_base: str, output_format: OutputFormat) -> str:
@@ -125,7 +138,7 @@ def doc_environment(
         # Jinja < 2.9
         env.filters["tojson"] = json.dumps
 
-    env.globals["reference_plugin_rst"] = reference_plugin_rst
+    env.globals["reference_plugin_rst"] = make_reference_plugin_rst(output_format)
     env.globals["referable_envvars"] = referable_envvars
     env.filters["rst_ify"] = make_rst_ify(output_format)
     env.filters["html_ify"] = html_ify

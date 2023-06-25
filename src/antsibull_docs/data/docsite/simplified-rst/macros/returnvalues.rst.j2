@@ -1,0 +1,68 @@
+{#
+  Copyright (c) Ansible Project
+  GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+  SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+{% from 'macros/choiceslist.rst.j2' import in_rst as choices_rst %}
+{% from 'macros/version_added.rst.j2' import version_added_rst %}
+
+{% macro in_rst(elements, role_entrypoint=None) %}
+.. list-table::
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+{% for key, value in elements recursive %}
+{#   return value name #}
+
+  * - .. raw:: html
+
+        <div style="display: flex;">{% for i in range(1, loop.depth) %}<div style="margin-left: 2em; border-right: 1px solid #000000;"></div>{% endfor %}<div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
+
+{% for full_key in value['full_keys_rst'] %}
+      .. _return-{% for part in full_key %}@{ part }@{% if not loop.last %}/{% endif %}{% endfor %}:
+{% endfor %}
+
+      **@{ key }@**
+
+      :literal:`@{ value['type'] | documented_type }@`
+      {%- if value['type'] == 'list' and value['elements'] is not none %} / :literal:`elements=@{ value['elements'] | documented_type }@`{% endif %}
+{%-   if value['version_added'] is still_relevant(collection=value['version_added_collection'] or collection) %}
+
+
+      added in @{ version_added_rst(value['version_added'], value['version_added_collection'] or collection) }@
+{%   endif %}
+{#   description #}
+
+
+      .. raw:: html
+
+        </div></div>
+    - 
+{%   for desc in value['description'] %}
+      @{ desc | rst_ify(role_entrypoint=role_entrypoint) | indent(6) }@
+
+{%   endfor %}
+{%   if value['returned'] %}
+
+      Returned: @{ value['returned'] | rst_ify(role_entrypoint=role_entrypoint) | indent(6) }@
+{%   endif %}
+{#   Show possible choices and highlight details #}
+{%   if value['choices'] %}
+
+      Can only return:
+
+@{     choices_rst(value['choices'], has_no_default=True, role_entrypoint=role_entrypoint) }@
+{%   endif %}
+{%   if value['sample'] is not none %}
+
+      Sample: :literal:`@{ value['sample'] | antsibull_to_json | rst_escape(escape_ending_whitespace=true) | indent(6, blank=true) }@`
+{%   endif %}
+
+{%   if value['contains'] %}
+    @{ loop(value['contains'] | dictsort) }@
+{%   endif %}
+{% endfor %}
+{% endmacro %}

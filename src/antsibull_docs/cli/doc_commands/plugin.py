@@ -160,6 +160,7 @@ def generate_docs() -> int:
     app_ctx = app_context.app_ctx.get()
     plugin_type: str = app_ctx.extra["plugin_type"]
     plugin_name: str = app_ctx.extra["plugin"][0]
+    output_format = OutputFormat.parse(app_ctx.extra["output_format"])
 
     if not is_fqcn(plugin_name):
         raise NotImplementedError(
@@ -186,5 +187,5 @@ def generate_docs() -> int:
         collection_name,
         plugin,
         output_path,
-        OutputFormat.ANSIBLE_DOCSITE,
+        output_format,
     )

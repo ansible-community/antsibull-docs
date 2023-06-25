@@ -1,0 +1,138 @@
+{#
+  Copyright (c) Ansible Project
+  GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+  SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+{% from 'macros/choiceslist.rst.j2' import in_rst as choices_rst %}
+{% from 'macros/deprecates.rst.j2' import in_rst as deprecates_rst with context %}
+{% from 'macros/version_added.rst.j2' import version_added_rst %}
+
+{% macro in_rst(elements, suboption_key='suboptions', parameter_html_prefix='', parameter_rst_prefix='', role_entrypoint=None) %}
+.. list-table::
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+{% for key, value in elements recursive %}
+{#   parameter name with required and/or introduced label #}
+
+  * - .. raw:: html
+
+        <div style="display: flex;">{% for i in range(1, loop.depth) %}<div style="margin-left: 2em; border-right: 1px solid #000000;"></div>{% endfor %}<div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
+
+{% for full_key in value['full_keys_rst'] %}
+      .. _parameter-@{ parameter_rst_prefix }@{% for part in full_key %}@{ part }@{% if not loop.last %}/{% endif %}{% endfor %}:
+{% endfor %}
+
+      **@{ key }@**
+{%   if value['aliases'] %}
+
+      aliases: @{ value['aliases']|join(', ') }@
+{%   endif %}
+
+      :literal:`@{ value['type'] | documented_type }@`
+      {%- if value['type'] == 'list' and value['elements'] is not none %} / :literal:`elements=@{ value['elements'] | documented_type }@`{% endif -%}
+      {%- if value['required'] %} / :strong:`required`{% endif %}
+{%-   if value['version_added'] is still_relevant(collection=value['version_added_collection'] or collection) %}
+
+
+      added in @{ version_added_rst(value['version_added'], value['version_added_collection'] or collection) }@
+{%   endif %}
+{%-   if plugin_type != 'module' %}
+
+
+@{     deprecates_rst(value['deprecated'], collection, 6, role_entrypoint=role_entrypoint) }@
+{%   endif %}
+
+
+      .. raw:: html
+
+        </div></div>
+
+{#   description #}
+    - 
+{%   for desc in value['description'] %}
+      @{ desc | replace('\n', '\n    ') | rst_ify(role_entrypoint=role_entrypoint) | indent(6) }@
+
+{%   endfor %}
+{#   default / choices #}
+{%   if value['type'] == 'bool' %}
+{%     set _x = value.update({'choices': [false, true]}) %}
+{%   endif %}
+{#   Show possible choices and highlight details #}
+{%   if value['choices'] %}
+
+      Choices:
+
+@{     choices_rst(value['choices'], value['default'], role_entrypoint=role_entrypoint) }@
+{%   endif %}
+{# Show default value, when multiple choice or no choices #}
+{%   if value['default'] is not none and value['default'] not in value['choices'] %}
+
+      Default: :literal:`@{ value['default'] | antsibull_to_json | rst_escape(escape_ending_whitespace=true) | indent(6, blank=true) }@`
+{%   endif %}
+{#   Configuration #}
+{%   if plugin_type != 'module' and plugin_type != 'role' and (value['ini'] or value['env'] or value['vars'] or value['cli']) %}
+
+      Configuration:
+
+{%     if value['ini'] %}
+      - INI {% if value['ini'] | length == 1 %}entry{% else %}entries{% endif %}:
+{%       for ini in value['ini'] %}
+
+        .. code-block::
+
+          [@{ ini['section'] }@]
+{%        if value['default'] is none %}
+          @{ ini['key'] }@ = VALUE
+{%        else %}
+          @{ ini['key'] }@ = @{ value['default'] | antsibull_to_ini_value | indent(10, blank=true) }@
+{%        endif %}
+
+{%         if ini['version_added'] is still_relevant(collection=ini['version_added_collection'] or collection) %}
+        added in @{ version_added_rst(ini['version_added'], ini['version_added_collection'] or collection) }@
+{%         endif %}
+@{         deprecates_rst(ini['deprecated'], collection, 8, role_entrypoint=role_entrypoint) }@
+{%       endfor %}
+{%     endif %}
+{%     for env in value['env'] %}
+      - Environment variable: :literal:`@{ env['name'] | rst_escape(escape_ending_whitespace=true) }@`
+{%       if env['version_added'] is still_relevant(collection=env['version_added_collection'] or collection) %}
+
+        added in @{ version_added_rst(env['version_added'], env['version_added_collection'] or collection) }@
+{%       endif %}
+@{       deprecates_rst(env['deprecated'], collection, 8, role_entrypoint=role_entrypoint) }@
+{%     endfor %}
+{%     for myvar in value['vars'] %}
+      - Variable: @{ myvar['name'] | rst_escape }@
+{%       if myvar['version_added'] is still_relevant(collection=myvar['version_added_collection'] or collection) %}
+
+        added in @{ version_added_rst(myvar['version_added'], myvar['version_added_collection'] or collection) }@
+{%       endif %}
+@{       deprecates_rst(myvar['deprecated'], collection, 8, role_entrypoint=role_entrypoint) }@
+{%     endfor %}
+{%     for kw in value['keyword'] %}
+      - Keyword: @{ kw['name'] | rst_escape }@
+{%       if kw['version_added'] is still_relevant(collection=kw['version_added_collection'] or collection) %}
+
+        added in @{ version_added_rst(kw['version_added'], kw['version_added_collection'] or collection) }@
+{%       endif %}
+@{       deprecates_rst(kw['deprecated'], collection, 8, role_entrypoint=role_entrypoint) }@
+{%     endfor %}
+{%     for mycli in value['cli'] %}
+      - CLI argument: @{ mycli['option'] | rst_escape }@
+{%       if mycli['version_added'] is still_relevant(collection=mycli['version_added_collection'] or collection) %}
+
+        added in @{ version_added_rst(mycli['version_added'], mycli['version_added_collection'] or collection) }@
+{%       endif %}
+@{       deprecates_rst(mycli['deprecated'], collection, 8, role_entrypoint=role_entrypoint) }@
+{%     endfor %}
+{%   endif %}
+
+{%   if value[suboption_key] %}
+    @{ loop(value[suboption_key] | dictsort) }@
+{%   endif %}
+{% endfor %}
+{% endmacro %}

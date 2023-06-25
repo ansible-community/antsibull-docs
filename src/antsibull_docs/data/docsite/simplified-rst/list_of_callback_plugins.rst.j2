@@ -1,0 +1,22 @@
+{#
+  Copyright (c) Ansible Project
+  GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+  SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+Index of all @{ callback_type | capitalize }@ Callback Plugins
+=============@{ '=' * (callback_type | length) }@=================
+
+See `List of all Callback Plugins <index_callback.rst>`_ for the list of *all* callback plugins.
+
+{% for collection_name, plugins in per_collection_plugins.items() | sort %}
+@{ collection_name }@
+@{ '-' * (collection_name | length) }@
+
+{%   for plugin_name, plugin_desc in plugins.items() | sort %}
+* `@{ collection_name }@.@{ plugin_name }@ <@{ collection_name.replace('.', '/') }@/@{ plugin_name }@_callback.rst>`_ -- @{ plugin_desc | rst_ify(plugin_fqcn=collection_name ~ '.' ~ plugin_name, plugin_type='callback') }@
+{%   endfor %}
+
+{% else %}
+No public @{ callback_type }@ callback plugin found.
+{% endfor %}

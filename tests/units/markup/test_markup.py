@@ -7,7 +7,11 @@ from __future__ import annotations
 import pytest
 
 from antsibull_docs.jinja2 import OutputFormat
-from antsibull_docs.markup.rstify import get_rst_formatter, rst_escape, rst_ify
+from antsibull_docs.markup.rstify import (
+    get_rst_formatter_link_provider,
+    rst_escape,
+    rst_ify,
+)
 
 RST_IFY_DATA = {
     # No substitutions
@@ -35,9 +39,17 @@ RST_IFY_DATA = {
 
 @pytest.mark.parametrize("text, expected", RST_IFY_DATA.items())
 def test_rst_ify(text, expected):
-    formatter = get_rst_formatter(OutputFormat.ANSIBLE_DOCSITE)
+    formatter, link_provider = get_rst_formatter_link_provider(
+        OutputFormat.ANSIBLE_DOCSITE
+    )
     assert (
-        rst_ify(text, formatter, plugin_fqcn="foo.bar.baz", plugin_type="module")[0]
+        rst_ify(
+            text,
+            formatter,
+            plugin_fqcn="foo.bar.baz",
+            plugin_type="module",
+            link_provider=link_provider,
+        )[0]
         == expected
     )
 
