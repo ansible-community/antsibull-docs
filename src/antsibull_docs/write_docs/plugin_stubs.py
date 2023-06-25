@@ -21,7 +21,7 @@ from jinja2 import Template
 
 from ..collection_links import CollectionLinks
 from ..docs_parsing import AnsibleCollectionMetadata
-from ..jinja2.environment import doc_environment
+from ..jinja2.environment import OutputFormat, doc_environment, get_template_filename
 from ..utils.collection_name_transformer import CollectionNameTransformer
 from . import _render_template
 
@@ -127,6 +127,7 @@ async def output_all_plugin_stub_rst(
     collection_install: CollectionNameTransformer,
     collection_metadata: Mapping[str, AnsibleCollectionMetadata],
     link_data: Mapping[str, CollectionLinks],
+    output_format: OutputFormat,
     squash_hierarchy: bool = False,
     for_official_docsite: bool = False,
     referable_envvars: set[str] | None = None,
@@ -145,17 +146,22 @@ async def output_all_plugin_stub_rst(
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
     :kwarg referable_envvars: Optional set of environment variables that can be referenced.
+    :kwarg output_format: The output format to use.
     """
     # Setup the jinja environment
     env = doc_environment(
-        ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
         collection_install=collection_install,
         referable_envvars=referable_envvars,
+        output_format=output_format,
     )
     # Get the templates
-    redirect_tmpl = env.get_template("plugin-redirect.rst.j2")
-    tombstone_tmpl = env.get_template("plugin-tombstone.rst.j2")
+    redirect_tmpl = env.get_template(
+        get_template_filename("plugin-redirect", output_format)
+    )
+    tombstone_tmpl = env.get_template(
+        get_template_filename("plugin-tombstone", output_format)
+    )
 
     writers = []
     lib_ctx = app_context.lib_ctx.get()

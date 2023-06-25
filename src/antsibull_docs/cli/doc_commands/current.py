@@ -11,6 +11,7 @@ from antsibull_core.logging import log
 from antsibull_core.venv import FakeVenvRunner
 
 from ... import app_context
+from ...jinja2.environment import OutputFormat
 from ._build import generate_docs_for_all_collections
 
 mlog = log.fields(mod=__name__)
@@ -37,6 +38,7 @@ def generate_docs() -> int:
         venv,
         app_ctx.extra["collection_dir"],
         app_ctx.extra["dest_dir"],
+        OutputFormat.ANSIBLE_DOCSITE,
         breadcrumbs=app_ctx.breadcrumbs,
         use_html_blobs=app_ctx.use_html_blobs,
         fail_on_error=app_ctx.extra["fail_on_error"],

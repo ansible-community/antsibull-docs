@@ -33,7 +33,7 @@ from .docs_parsing.routing import (
     load_all_collection_routing,
     remove_redirect_duplicates,
 )
-from .jinja2.environment import doc_environment
+from .jinja2.environment import OutputFormat, doc_environment
 from .lint_helpers import load_collection_info
 from .markup.semantic_helper import split_option_like_name
 from .plugin_docs import walk_plugin_docs_texts
@@ -554,6 +554,7 @@ def _lint_collection_plugin_docs(
     disallow_unknown_collection_refs: bool,
     skip_rstcheck: bool,
     disallow_semantic_markup: bool,
+    output_format: OutputFormat,
 ) -> list[tuple[str, int, int, str]]:
     # Compile a list of collections that the collection depends on, and make
     # sure that ansible.builtin is on it
@@ -598,10 +599,10 @@ def _lint_collection_plugin_docs(
     # Compose RST files and check for errors
     # Setup the jinja environment
     env = doc_environment(
-        ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
         collection_install=collection_install,
         referable_envvars=None,  # this shouldn't make a difference for validation
+        output_format=output_format,
     )
     # Get the templates
     plugin_tmpl = env.get_template("plugin.rst.j2")
@@ -760,6 +761,7 @@ def lint_collection_plugin_docs(
                 disallow_unknown_collection_refs=disallow_unknown_collection_refs,
                 skip_rstcheck=skip_rstcheck,
                 disallow_semantic_markup=disallow_semantic_markup,
+                output_format=OutputFormat.ANSIBLE_DOCSITE,
             )
         )
     return result

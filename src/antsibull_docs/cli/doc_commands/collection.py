@@ -21,6 +21,7 @@ from antsibull_core.logging import log
 from antsibull_core.venv import FakeVenvRunner
 
 from ... import app_context
+from ...jinja2.environment import OutputFormat
 from ._build import generate_docs_for_all_collections
 
 mlog = log.fields(mod=__name__)
@@ -38,7 +39,8 @@ def generate_collection_docs(collection_dir: str | None, squash_hierarchy: bool)
         venv,
         collection_dir,
         app_ctx.extra["dest_dir"],
-        app_ctx.extra["collections"],
+        OutputFormat.ANSIBLE_DOCSITE,
+        collection_names=app_ctx.extra["collections"],
         create_indexes=app_ctx.indexes and not squash_hierarchy,
         squash_hierarchy=squash_hierarchy,
         breadcrumbs=app_ctx.breadcrumbs,

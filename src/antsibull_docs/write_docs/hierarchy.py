@@ -18,7 +18,7 @@ from antsibull_core.logging import log
 from antsibull_core.utils.io import write_file
 from jinja2 import Template
 
-from ..jinja2.environment import doc_environment
+from ..jinja2.environment import OutputFormat, doc_environment, get_template_filename
 from ..utils.collection_name_transformer import CollectionNameTransformer
 from . import CollectionInfoT, _render_template
 
@@ -101,6 +101,7 @@ async def output_collection_index(
     dest_dir: str,
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
+    output_format: OutputFormat,
     breadcrumbs: bool = True,
     for_official_docsite: bool = False,
     referable_envvars: set[str] | None = None,
@@ -117,18 +118,21 @@ async def output_collection_index(
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
     :kwarg referable_envvars: Optional set of environment variables that can be referenced.
+    :kwarg output_format: The output format to use.
     """
     flog = mlog.fields(func="output_collection_index")
     flog.debug("Enter")
 
     env = doc_environment(
-        ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
         collection_install=collection_install,
         referable_envvars=referable_envvars,
+        output_format=output_format,
     )
     # Get the templates
-    collection_list_tmpl = env.get_template("list_of_collections.rst.j2")
+    collection_list_tmpl = env.get_template(
+        get_template_filename("list_of_collections", output_format)
+    )
 
     collection_toplevel = os.path.join(dest_dir, "collections")
     flog.fields(
@@ -155,6 +159,7 @@ async def output_collection_namespace_indexes(
     dest_dir: str,
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
+    output_format: OutputFormat,
     breadcrumbs: bool = True,
     for_official_docsite: bool = False,
     referable_envvars: set[str] | None = None,
@@ -169,18 +174,21 @@ async def output_collection_namespace_indexes(
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
     :kwarg referable_envvars: Optional set of environment variables that can be referenced.
+    :kwarg output_format: The output format to use.
     """
     flog = mlog.fields(func="output_collection_namespace_indexes")
     flog.debug("Enter")
 
     env = doc_environment(
-        ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
         collection_install=collection_install,
         referable_envvars=referable_envvars,
+        output_format=output_format,
     )
     # Get the templates
-    collection_list_tmpl = env.get_template("list_of_collections_by_namespace.rst.j2")
+    collection_list_tmpl = env.get_template(
+        get_template_filename("list_of_collections_by_namespace", output_format)
+    )
 
     writers = []
     lib_ctx = app_context.lib_ctx.get()

@@ -18,7 +18,9 @@ from jinja2.runtime import Context, Undefined
 from jinja2.utils import pass_context
 
 from ..markup.htmlify import html_ify as html_ify_impl
+from ..markup.rstify import get_rst_formatter
 from ..markup.rstify import rst_ify as rst_ify_impl
+from . import OutputFormat
 
 mlog = log.fields(mod=__name__)
 
@@ -139,34 +141,38 @@ def to_ini_value(data: t.Any) -> str:
     return json.dumps(data)
 
 
-@pass_context
-def rst_ify(
-    context: Context,
-    text: str,
-    *,
-    plugin_fqcn: str | None = None,
-    plugin_type: str | None = None,
-    role_entrypoint: str | None = None,
-) -> str:
-    """convert symbols like I(this is in italics) to valid restructured text"""
-    flog = mlog.fields(func="rst_ify")
-    flog.fields(text=text).debug("Enter")
+def make_rst_ify(output_format: OutputFormat):
+    @pass_context
+    def rst_ify(
+        context: Context,
+        text: str,
+        *,
+        plugin_fqcn: str | None = None,
+        plugin_type: str | None = None,
+        role_entrypoint: str | None = None,
+    ) -> str:
+        """convert symbols like I(this is in italics) to valid restructured text"""
+        flog = mlog.fields(func="rst_ify")
+        flog.fields(text=text).debug("Enter")
 
-    plugin_fqcn, plugin_type = extract_plugin_data(
-        context, plugin_fqcn=plugin_fqcn, plugin_type=plugin_type
-    )
+        plugin_fqcn, plugin_type = extract_plugin_data(
+            context, plugin_fqcn=plugin_fqcn, plugin_type=plugin_type
+        )
 
-    text, counts = rst_ify_impl(
-        text,
-        plugin_fqcn=plugin_fqcn,
-        plugin_type=plugin_type,
-        role_entrypoint=role_entrypoint,
-        referable_envvars=context.get("referable_envvars"),
-    )
+        formatter = get_rst_formatter(output_format, context.get("referable_envvars"))
+        text, counts = rst_ify_impl(
+            text,
+            plugin_fqcn=plugin_fqcn,
+            plugin_type=plugin_type,
+            role_entrypoint=role_entrypoint,
+            formatter=formatter,
+        )
 
-    flog.fields(counts=counts).info("Number of macros converted to rst equivalents")
-    flog.debug("Leave")
-    return text
+        flog.fields(counts=counts).info("Number of macros converted to rst equivalents")
+        flog.debug("Leave")
+        return text
+
+    return rst_ify
 
 
 @pass_context

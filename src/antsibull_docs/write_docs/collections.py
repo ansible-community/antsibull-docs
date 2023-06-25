@@ -21,7 +21,7 @@ from packaging.specifiers import SpecifierSet
 from ..collection_links import CollectionLinks
 from ..docs_parsing import AnsibleCollectionMetadata
 from ..extra_docs import CollectionExtraDocsInfoT
-from ..jinja2.environment import doc_environment
+from ..jinja2.environment import OutputFormat, doc_environment, get_template_filename
 from ..utils.collection_name_transformer import CollectionNameTransformer
 from . import CollectionInfoT, _render_template
 
@@ -134,6 +134,7 @@ async def output_indexes(
     link_data: Mapping[str, CollectionLinks],
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
+    output_format: OutputFormat,
     squash_hierarchy: bool = False,
     breadcrumbs: bool = True,
     for_official_docsite: bool = False,
@@ -155,6 +156,7 @@ async def output_indexes(
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
     :kwarg referable_envvars: Optional set of environment variables that can be referenced.
+    :kwarg output_format: The output format to use.
     """
     flog = mlog.fields(func="output_indexes")
     flog.debug("Enter")
@@ -163,13 +165,15 @@ async def output_indexes(
         collection_metadata = {}
 
     env = doc_environment(
-        ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
         collection_install=collection_install,
         referable_envvars=referable_envvars,
+        output_format=output_format,
     )
     # Get the templates
-    collection_plugins_tmpl = env.get_template("plugins_by_collection.rst.j2")
+    collection_plugins_tmpl = env.get_template(
+        get_template_filename("plugins_by_collection", output_format)
+    )
 
     writers = []
     lib_ctx = app_context.lib_ctx.get()

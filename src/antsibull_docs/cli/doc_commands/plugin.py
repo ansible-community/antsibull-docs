@@ -26,7 +26,7 @@ from ...augment_docs import augment_docs
 from ...collection_links import CollectionLinks
 from ...docs_parsing import AnsibleCollectionMetadata
 from ...docs_parsing.fqcn import get_fqcn_parts, is_fqcn
-from ...jinja2.environment import doc_environment
+from ...jinja2.environment import OutputFormat, doc_environment
 from ...process_docs import normalize_plugin_info
 from ...utils.collection_name_transformer import CollectionNameTransformer
 from ...write_docs.plugins import write_plugin_rst
@@ -40,6 +40,7 @@ def generate_plugin_docs(
     collection_name: str,
     plugin: str,
     output_path: str,
+    output_format: OutputFormat,
 ) -> int:
     """
     Render documentation for a locally installed plugin.
@@ -114,9 +115,9 @@ def generate_plugin_docs(
         "ansible-galaxy collection install {namespace}.{name}",
     )
     env = doc_environment(
-        ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
         collection_install=collection_install,
+        output_format=output_format,
     )
     # Get the templates
     plugin_tmpl = env.get_template("plugin.rst.j2")
@@ -179,5 +180,10 @@ def generate_docs() -> int:
     plugin_name = ".".join([namespace, collection, plugin])
 
     return generate_plugin_docs(
-        plugin_type, plugin_name, collection_name, plugin, output_path
+        plugin_type,
+        plugin_name,
+        collection_name,
+        plugin,
+        output_path,
+        OutputFormat.ANSIBLE_DOCSITE,
     )

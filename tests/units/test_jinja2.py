@@ -6,10 +6,11 @@ from __future__ import annotations
 
 import pytest
 
+from antsibull_docs.jinja2 import OutputFormat
 from antsibull_docs.jinja2.filters import (
+    make_rst_ify,
     massage_author_name,
     move_first,
-    rst_ify,
     to_ini_value,
     to_json,
 )
@@ -44,6 +45,7 @@ def test_rst_ify(text, expected):
         "plugin_name": "foo.bar.baz",
         "plugin_type": "module",
     }
+    rst_ify = make_rst_ify(OutputFormat.ANSIBLE_DOCSITE)
     assert rst_ify(context, text) == expected
 
 
