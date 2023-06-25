@@ -15,16 +15,17 @@ from jinja2 import BaseLoader, Environment, FileSystemLoader, PackageLoader
 
 from ..markup.rstify import rst_code, rst_escape
 from ..utils.collection_name_transformer import CollectionNameTransformer
+from . import OutputFormat
 from .filters import (
     do_max,
     documented_type,
     extract_options_from_list,
     html_ify,
+    make_rst_ify,
     massage_author_name,
     move_first,
     remove_options_from_list,
     rst_fmt,
-    rst_ify,
     rst_xline,
     to_ini_value,
     to_json,
@@ -53,27 +54,56 @@ def reference_plugin_rst(plugin_name: str, plugin_type: str) -> str:
     return f"\\ :ref:`{rst_escape(fqcn)} <ansible_collections.{fqcn}_{plugin_type}>`\\ "
 
 
+def get_template_location(output_format: OutputFormat) -> tuple[str, str]:
+    """
+    Return template location given the output format.
+    """
+    return ("antsibull_docs.data", f"docsite/{output_format.value}")
+
+
+def get_template_filename(filename_base: str, output_format: OutputFormat) -> str:
+    """
+    Return template filename given the filename base and the output format.
+    """
+    return f"{filename_base}{output_format.extension}"
+
+
+def _get_loader(
+    template_location: str | tuple[str, str] | None, output_format: OutputFormat | None
+) -> BaseLoader:
+    if template_location is None:
+        if output_format is None:
+            raise ValueError(
+                "Either template_location or output_format must be provided"
+            )
+        template_location = get_template_location(output_format)
+
+    if isinstance(template_location, str) and os.path.exists(template_location):
+        return FileSystemLoader(template_location)
+
+    if isinstance(template_location, str):
+        template_pkg = template_location
+        template_path = "templates"
+    else:
+        template_pkg = template_location[0]
+        template_path = template_location[1]
+
+    return PackageLoader(template_pkg, template_path)
+
+
 def doc_environment(
-    template_location: str | tuple[str, str],
+    template_location: str | tuple[str, str] | None = None,
     *,
     extra_filters: Mapping[str, t.Callable] | None = None,
     extra_tests: Mapping[str, t.Callable] | None = None,
     collection_url: CollectionNameTransformer | None = None,
     collection_install: CollectionNameTransformer | None = None,
     referable_envvars: set[str] | None = None,
+    output_format: OutputFormat | None = None,
 ) -> Environment:
-    loader: BaseLoader
-    if isinstance(template_location, str) and os.path.exists(template_location):
-        loader = FileSystemLoader(template_location)
-    else:
-        if isinstance(template_location, str):
-            template_pkg = template_location
-            template_path = "templates"
-        else:
-            template_pkg = template_location[0]
-            template_path = template_location[1]
-
-        loader = PackageLoader(template_pkg, template_path)
+    loader = _get_loader(template_location, output_format)
+    if output_format is None:
+        output_format = OutputFormat.ANSIBLE_DOCSITE
 
     env = Environment(
         loader=loader,
@@ -97,7 +127,7 @@ def doc_environment(
 
     env.globals["reference_plugin_rst"] = reference_plugin_rst
     env.globals["referable_envvars"] = referable_envvars
-    env.filters["rst_ify"] = rst_ify
+    env.filters["rst_ify"] = make_rst_ify(output_format)
     env.filters["html_ify"] = html_ify
     env.filters["fmt"] = rst_fmt
     env.filters["rst_code"] = rst_code

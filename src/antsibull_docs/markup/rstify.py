@@ -12,11 +12,13 @@ import typing as t
 from collections.abc import Mapping
 
 from antsibull_docs_parser import dom
+from antsibull_docs_parser.format import Formatter
 from antsibull_docs_parser.parser import Context, parse
-from antsibull_docs_parser.rst import AntsibullRSTFormatter
+from antsibull_docs_parser.rst import AntsibullRSTFormatter as _AntsibullRSTFormatter
 from antsibull_docs_parser.rst import rst_escape as _rst_escape
 from antsibull_docs_parser.rst import to_rst
 
+from ..jinja2 import OutputFormat
 from ._counter import count as _count
 
 
@@ -35,7 +37,7 @@ def rst_code(value: str) -> str:
     return f":code:`{_rst_escape(value, escape_ending_whitespace=True)}`"
 
 
-class CustomizedAntsibullRSTFormatter(AntsibullRSTFormatter):
+class AnsibleDocsiteFormatter(_AntsibullRSTFormatter):
     def __init__(self, referable_envvars: set[str] | None = None):
         self._referable_envvars = referable_envvars or set()
 
@@ -48,11 +50,11 @@ class CustomizedAntsibullRSTFormatter(AntsibullRSTFormatter):
 
 def rst_ify(
     text: str,
+    formatter: Formatter,
     *,
     plugin_fqcn: str | None = None,
     plugin_type: str | None = None,
     role_entrypoint: str | None = None,
-    referable_envvars: set[str] | None = None,
 ) -> tuple[str, Mapping[str, int]]:
     """convert symbols like I(this is in italics) to valid restructured text"""
     current_plugin: dom.PluginIdentifier | None = None
@@ -63,7 +65,16 @@ def rst_ify(
     text = to_rst(
         paragraphs,
         current_plugin=current_plugin,
-        formatter=CustomizedAntsibullRSTFormatter(referable_envvars),
+        formatter=formatter,
     )
     counts = _count(paragraphs)
     return text, counts
+
+
+def get_rst_formatter(
+    output_format: OutputFormat,
+    referable_envvars: set[str] | None = None,
+) -> Formatter:
+    if output_format == OutputFormat.ANSIBLE_DOCSITE:
+        return AnsibleDocsiteFormatter(referable_envvars)
+    raise ValueError(f"Unknown output format {output_format}")

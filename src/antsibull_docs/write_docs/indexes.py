@@ -20,7 +20,7 @@ from jinja2 import Template
 
 from ..docs_parsing import AnsibleCollectionMetadata
 from ..env_variables import EnvironmentVariableInfo
-from ..jinja2.environment import doc_environment
+from ..jinja2.environment import OutputFormat, doc_environment, get_template_filename
 from ..utils.collection_name_transformer import CollectionNameTransformer
 from . import PluginCollectionInfoT, _render_template
 
@@ -93,6 +93,7 @@ async def output_callback_indexes(
     dest_dir: str,
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
+    output_format: OutputFormat,
     for_official_docsite: bool = False,
     referable_envvars: set[str] | None = None,
 ) -> None:
@@ -106,18 +107,21 @@ async def output_callback_indexes(
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
     :kwarg referable_envvars: Optional set of environment variables that can be referenced.
+    :kwarg output_format: The output format to use.
     """
     flog = mlog.fields(func="output_callback_indexes")
     flog.debug("Enter")
 
     env = doc_environment(
-        ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
         collection_install=collection_install,
         referable_envvars=referable_envvars,
+        output_format=output_format,
     )
     # Get the templates
-    plugin_list_tmpl = env.get_template("list_of_callback_plugins.rst.j2")
+    plugin_list_tmpl = env.get_template(
+        get_template_filename("list_of_callback_plugins", output_format)
+    )
 
     collection_toplevel = os.path.join(dest_dir, "collections")
     flog.fields(
@@ -157,6 +161,7 @@ async def output_plugin_indexes(
     dest_dir: str,
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
+    output_format: OutputFormat,
     for_official_docsite: bool = False,
     referable_envvars: set[str] | None = None,
 ) -> None:
@@ -170,18 +175,21 @@ async def output_plugin_indexes(
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
     :kwarg referable_envvars: Optional set of environment variables that can be referenced.
+    :kwarg output_format: The output format to use.
     """
     flog = mlog.fields(func="output_plugin_indexes")
     flog.debug("Enter")
 
     env = doc_environment(
-        ("antsibull_docs.data", "docsite"),
         collection_url=collection_url,
         collection_install=collection_install,
         referable_envvars=referable_envvars,
+        output_format=output_format,
     )
     # Get the templates
-    plugin_list_tmpl = env.get_template("list_of_plugins.rst.j2")
+    plugin_list_tmpl = env.get_template(
+        get_template_filename("list_of_plugins", output_format)
+    )
 
     collection_toplevel = os.path.join(dest_dir, "collections")
     flog.fields(
@@ -217,6 +225,7 @@ async def output_plugin_indexes(
 async def output_environment_variables(
     dest_dir: str,
     env_variables: Mapping[str, EnvironmentVariableInfo],
+    output_format: OutputFormat,
     squash_hierarchy: bool = False,
     referable_envvars: set[str] | None = None,
 ) -> None:
@@ -229,6 +238,7 @@ async def output_environment_variables(
                            Undefined behavior if documentation for multiple collections are
                            created.
     :kwarg referable_envvars: Optional set of environment variables that can be referenced.
+    :kwarg output_format: The output format to use.
     """
     flog = mlog.fields(func="write_environment_variables")
     flog.debug("Enter")
@@ -239,11 +249,13 @@ async def output_environment_variables(
         collection_toplevel = dest_dir
 
     env = doc_environment(
-        ("antsibull_docs.data", "docsite"),
         referable_envvars=referable_envvars,
+        output_format=output_format,
     )
     # Get the templates
-    env_var_list_tmpl = env.get_template("list_of_env_variables.rst.j2")
+    env_var_list_tmpl = env.get_template(
+        get_template_filename("list_of_env_variables", output_format)
+    )
 
     flog.fields(
         toplevel=collection_toplevel, exists=os.path.isdir(collection_toplevel)

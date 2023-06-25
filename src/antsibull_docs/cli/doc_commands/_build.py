@@ -28,6 +28,7 @@ from ...env_variables import (
     load_ansible_config,
 )
 from ...extra_docs import load_collections_extra_docs
+from ...jinja2.environment import OutputFormat
 from ...process_docs import (
     get_callback_plugin_contents,
     get_collection_contents,
@@ -56,6 +57,8 @@ def generate_docs_for_all_collections(
     venv: VenvRunner | FakeVenvRunner,
     collection_dir: str | None,
     dest_dir: str,
+    output_format: OutputFormat,
+    *,
     collection_names: list[str] | None = None,
     create_indexes: bool = True,
     squash_hierarchy: bool = False,
@@ -72,6 +75,7 @@ def generate_docs_for_all_collections(
                          If ``None``, the collections are assumed to be in the current
                          search path for Ansible.
     :arg dest_dir: The directory into which the documentation is written.
+    :arg output_format: The output format.
     :kwarg collection_names: Optional list of collection names. If specified, only documentation
                              for these collections will be collected and generated.
     :kwarg create_indexes: Whether to create the collection, namespace, and plugin indexes. By
@@ -187,6 +191,7 @@ def generate_docs_for_all_collections(
                 dest_dir,
                 collection_url=collection_url,
                 collection_install=collection_install,
+                output_format=output_format,
                 breadcrumbs=breadcrumbs,
                 for_official_docsite=for_official_docsite,
                 referable_envvars=referable_envvars,
@@ -199,6 +204,7 @@ def generate_docs_for_all_collections(
                 dest_dir,
                 collection_url=collection_url,
                 collection_install=collection_install,
+                output_format=output_format,
                 breadcrumbs=breadcrumbs,
                 for_official_docsite=for_official_docsite,
                 referable_envvars=referable_envvars,
@@ -212,6 +218,7 @@ def generate_docs_for_all_collections(
                 dest_dir,
                 collection_url=collection_url,
                 collection_install=collection_install,
+                output_format=output_format,
                 for_official_docsite=for_official_docsite,
                 referable_envvars=referable_envvars,
             )
@@ -223,6 +230,7 @@ def generate_docs_for_all_collections(
                 dest_dir,
                 collection_url=collection_url,
                 collection_install=collection_install,
+                output_format=output_format,
                 for_official_docsite=for_official_docsite,
                 referable_envvars=referable_envvars,
             )
@@ -239,6 +247,7 @@ def generate_docs_for_all_collections(
             squash_hierarchy=squash_hierarchy,
             extra_docs_data=extra_docs_data,
             link_data=link_data,
+            output_format=output_format,
             breadcrumbs=breadcrumbs,
             for_official_docsite=for_official_docsite,
             referable_envvars=referable_envvars,
@@ -254,6 +263,7 @@ def generate_docs_for_all_collections(
             collection_install=collection_install,
             collection_metadata=collection_metadata,
             link_data=link_data,
+            output_format=output_format,
             squash_hierarchy=squash_hierarchy,
             for_official_docsite=for_official_docsite,
             referable_envvars=referable_envvars,
@@ -271,6 +281,7 @@ def generate_docs_for_all_collections(
             collection_install=collection_install,
             collection_metadata=collection_metadata,
             link_data=link_data,
+            output_format=output_format,
             squash_hierarchy=squash_hierarchy,
             use_html_blobs=use_html_blobs,
             for_official_docsite=for_official_docsite,
@@ -288,6 +299,7 @@ def generate_docs_for_all_collections(
         output_environment_variables(
             dest_dir,
             referenced_env_vars,
+            output_format=output_format,
             squash_hierarchy=squash_hierarchy,
             referable_envvars=referable_envvars,
         )
