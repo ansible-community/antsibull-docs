@@ -151,7 +151,7 @@ def _create_ref_or_not(
 
 # pylint:disable-next=unused-argument
 def _create_error(rawtext: str, text: str, error: str) -> tuple[list[t.Any], list[str]]:
-    content = nodes.strong(text, error, classes=['error'])
+    content = nodes.strong(text, error, classes=["error"])
     return [content], []
 
 
@@ -193,8 +193,8 @@ def option_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
         text,
     )
     if value is None:
-        content = nodes.strong(rawtext, '', content)
-    return [nodes.literal(rawtext, '', content, classes=classes)], []
+        content = nodes.strong(rawtext, "", content)
+    return [nodes.literal(rawtext, "", content, classes=classes)], []
 
 
 # pylint:disable-next=unused-argument,dangerous-default-value
@@ -251,7 +251,7 @@ def return_value_role(name, rawtext, text, lineno, inliner, options={}, content=
         rv_link,
         text,
     )
-    return [nodes.literal(rawtext, '', content, classes=classes)], []
+    return [nodes.literal(rawtext, "", content, classes=classes)], []
 
 
 # pylint:disable-next=unused-argument,dangerous-default-value
