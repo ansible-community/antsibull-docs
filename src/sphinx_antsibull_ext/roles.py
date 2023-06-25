@@ -118,14 +118,16 @@ def _create_ref_or_not(create_ref: t.Callable[[t.Optional[str], t.Optional[str],
                        plugin_fqcn: t.Optional[str], plugin_type: t.Optional[str],
                        entrypoint: t.Optional[str],
                        ref_parameter: str, text: str
-                       ) -> t.Tuple[str, t.List[t.Any]]:
+                       ) -> t.Any:
+    # When successfully resolving *internal* references, Sphinx does **NOT**
+    # use the node we provide, but simply extracts the text and creates a new
+    # node. Thus we use nodes.inline so that the result is the same no matter
+    # whether the reference was internal, not resolved, or external
+    # (intersphinx).
+    content = nodes.inline(text, text)
     ref = create_ref(plugin_fqcn, plugin_type, entrypoint, ref_parameter)
     if ref is None:
-        return text, []
-
-    # The content node will be replaced by Sphinx anyway, so it doesn't matter what kind
-    # of node we are using...
-    content = nodes.literal(text, text)
+        return content
 
     options = {
         'reftype': 'ref',
@@ -135,13 +137,13 @@ def _create_ref_or_not(create_ref: t.Callable[[t.Optional[str], t.Optional[str],
     }
     refnode = addnodes.pending_xref(text, content, **options)
     refnode['reftarget'] = ref
-    return '', [refnode]
+    return refnode
 
 
 # pylint:disable-next=unused-argument
 def _create_error(rawtext: str, text: str, error: str) -> t.Tuple[t.List[t.Any], t.List[str]]:
-    node = ...  # FIXME
-    return [node], []
+    content = nodes.strong(text, error, classes=['error'])
+    return [content], []
 
 
 # pylint:disable-next=unused-argument,dangerous-default-value
@@ -172,14 +174,17 @@ def option_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
     else:
         text = f'{option}={value}'
         classes.append('ansible-option-value')
-    text, subnodes = _create_ref_or_not(
-        _create_option_reference, plugin_fqcn, plugin_type, entrypoint, option_link, text)
+    content = _create_ref_or_not(
+        _create_option_reference,
+        plugin_fqcn,
+        plugin_type,
+        entrypoint,
+        option_link,
+        text,
+    )
     if value is None:
-        content = nodes.strong(rawtext, text, *subnodes)
-        content = nodes.literal(rawtext, '', content, classes=classes)
-    else:
-        content = nodes.literal(rawtext, text, *subnodes, classes=classes)
-    return [content], []
+        content = nodes.strong(rawtext, '', content)
+    return [nodes.literal(rawtext, '', content, classes=classes)], []
 
 
 # pylint:disable-next=unused-argument,dangerous-default-value
@@ -227,9 +232,15 @@ def return_value_role(name, rawtext, text, lineno, inliner, options={}, content=
         text = f'{rv}'
     else:
         text = f'{rv}={value}'
-    text, subnodes = _create_ref_or_not(
-        _create_return_value_reference, plugin_fqcn, plugin_type, entrypoint, rv_link, text)
-    return [nodes.literal(rawtext, text, *subnodes, classes=classes)], []
+    content = _create_ref_or_not(
+        _create_return_value_reference,
+        plugin_fqcn,
+        plugin_type,
+        entrypoint,
+        rv_link,
+        text,
+    )
+    return [nodes.literal(rawtext, '', content, classes=classes)], []
 
 
 ROLES = {
