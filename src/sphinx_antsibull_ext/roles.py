@@ -149,8 +149,8 @@ def _create_ref_or_not(
 
 # pylint:disable-next=unused-argument
 def _create_error(rawtext: str, text: str, error: str) -> tuple[list[t.Any], list[str]]:
-    node = ...  # FIXME
-    return [node], []
+    content = nodes.strong(text, error, classes=['error'])
+    return [content], []
 
 
 # pylint:disable-next=unused-argument,dangerous-default-value
