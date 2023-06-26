@@ -5,6 +5,26 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v1.11.1
+=======
+
+Release Summary
+---------------
+
+Bugfix release.
+
+Bugfixes
+--------
+
+- Allow role entrypoint deprecations without having to specify the collection the role is removed from (https://github.com/ansible-community/antsibull-docs/pull/156).
+- Fix the way the Sphinx extension creates nodes for options and return values so they look identical for internal references, external (intersphinx) references, and unresolved references (https://github.com/ansible-community/antsibull-docs/pull/175).
+- Indent module/plugin and role entrypoint deprecations correctly if 'Why' or 'Alternative' texts need more than one line (https://github.com/ansible-community/antsibull-docs/pull/156).
+- Make sure that ``:ansopt:`` and ``:ansretval:`` create the same references as the labels created in the RST files (https://github.com/ansible-community/antsibull-docs/issues/167, https://github.com/ansible-community/antsibull-docs/pull/172).
+- Make sure that broken ``:ansopt:`` and ``:ansretval:`` parameters result in correctly rendered error messages (https://github.com/ansible-community/antsibull-docs/pull/175).
+- Use ``doc_parsing_backend`` from the application context instead of the library context. This prevents removal of ``doc_parsing_backend`` from the antsibull-core library context (https://github.com/ansible-community/antsibull-docs/pull/125).
+- When collecting collection dependencies for the ``lint-collection-docs`` subcommand, a bug prevented the duplicate detection to work (https://github.com/ansible-community/antsibull-docs/pull/160).
+- When trying to copying descriptions of non-existing plugins to ``seealso``, references to these non-existing plugins were added in some cases, crashing the docs augmentation process (https://github.com/ansible-community/antsibull-docs/pull/169).
+
 v1.11.0
 =======
 
