@@ -1,2 +1,0 @@
-minor_changes:
-  - "When linting collection plugin docs, make sure that array stubs ``[...]`` are used when referencing sub-options or sub-return values inside lists, and are not used outside lists and dictionaries (https://github.com/ansible-community/antsibull-docs/pull/173)."

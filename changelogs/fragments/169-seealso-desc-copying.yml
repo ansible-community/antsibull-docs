@@ -1,2 +1,0 @@
-bugfixes:
-  - "When trying to copying descriptions of non-existing plugins to ``seealso``, references to these non-existing plugins were added in some cases, crashing the docs augmentation process (https://github.com/ansible-community/antsibull-docs/pull/169)."

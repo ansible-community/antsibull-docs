@@ -1,2 +1,0 @@
-bugfixes:
-  - "Make sure that ``:ansopt:`` and ``:ansretval:`` create the same references as the labels created in the RST files (https://github.com/ansible-community/antsibull-docs/issues/167, https://github.com/ansible-community/antsibull-docs/pull/172)."

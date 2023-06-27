@@ -5,6 +5,28 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v2.2.0
+======
+
+Release Summary
+---------------
+
+Bugfix and feature release improving rendering and linting.
+
+Minor Changes
+-------------
+
+- Collection docs linter - also validate ``seealso`` module and plugin destinations (https://github.com/ansible-community/antsibull-docs/issues/168, https://github.com/ansible-community/antsibull-docs/pull/171).
+- When linting collection plugin docs, make sure that array stubs ``[...]`` are used when referencing sub-options or sub-return values inside lists, and are not used outside lists and dictionaries (https://github.com/ansible-community/antsibull-docs/pull/173).
+
+Bugfixes
+--------
+
+- Fix the way the Sphinx extension creates nodes for options and return values so they look identical for internal references, external (intersphinx) references, and unresolved references (https://github.com/ansible-community/antsibull-docs/pull/175).
+- Make sure that ``:ansopt:`` and ``:ansretval:`` create the same references as the labels created in the RST files (https://github.com/ansible-community/antsibull-docs/issues/167, https://github.com/ansible-community/antsibull-docs/pull/172).
+- Make sure that broken ``:ansopt:`` and ``:ansretval:`` parameters result in correctly rendered error messages (https://github.com/ansible-community/antsibull-docs/pull/175).
+- When trying to copying descriptions of non-existing plugins to ``seealso``, references to these non-existing plugins were added in some cases, crashing the docs augmentation process (https://github.com/ansible-community/antsibull-docs/pull/169).
+
 v2.1.0
 ======
 
