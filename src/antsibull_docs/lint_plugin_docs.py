@@ -21,6 +21,7 @@ from antsibull_core.venv import FakeVenvRunner
 from antsibull_docs_parser import dom
 from antsibull_docs_parser.parser import Context as ParserContext
 from antsibull_docs_parser.parser import parse as parse_markup
+from jinja2 import Template
 
 from sphinx_antsibull_ext import roles as antsibull_roles
 
@@ -44,7 +45,9 @@ from .process_docs import (
     normalize_all_plugin_info,
 )
 from .rstcheck import check_rst_content
+from .schemas.collection_links import CollectionLinks
 from .utils.collection_name_transformer import CollectionNameTransformer
+from .write_docs import PluginErrorsT
 from .write_docs.plugins import (
     create_plugin_rst,
     guess_relative_filename,
@@ -580,11 +583,79 @@ def _collect_names(
     return name_collector
 
 
+def _lint_plugin_docs(
+    result: list[tuple[str, int, int, str]],
+    original_path_to_collection: str,
+    name_collector: _NameCollector,
+    collection_name: str,
+    collection_metadata: Mapping[str, AnsibleCollectionMetadata],
+    link_data: Mapping[str, CollectionLinks],
+    plugin_name: str,
+    plugin_type: str,
+    plugin_short_name: str,
+    filename: str,
+    plugin_record: dict[str, t.Any],
+    nonfatal_errors: PluginErrorsT,
+    plugin_type_tmpl: Template,
+    error_tmpl: Template,
+    disallow_unknown_collection_refs: bool,
+    disallow_semantic_markup: bool,
+    skip_rstcheck: bool,
+    validate_collections_refs: ValidCollectionRefs,
+):
+    if has_broken_docs(plugin_record, plugin_type):
+        result.append((filename, 0, 0, "Did not return correct DOCUMENTATION"))
+    else:
+        result.extend(
+            _validate_markup(
+                name_collector,
+                plugin_record,
+                plugin_name,
+                plugin_type,
+                filename,
+                validate_collections_refs,
+                disallow_unknown_collection_refs,
+                disallow_semantic_markup,
+            )
+        )
+    for error in nonfatal_errors[plugin_type][plugin_name]:
+        result.append((filename, 0, 0, error))
+    rst_content = create_plugin_rst(
+        collection_name,
+        collection_metadata[collection_name],
+        link_data[collection_name],
+        plugin_short_name,
+        plugin_type,
+        plugin_record,
+        nonfatal_errors[plugin_type][plugin_name],
+        plugin_type_tmpl,
+        error_tmpl,
+        use_html_blobs=False,
+        log_errors=False,
+    )
+    if not skip_rstcheck:
+        path = os.path.join(
+            original_path_to_collection,
+            "plugins",
+            plugin_type,
+            f"{plugin_short_name}.rst",
+        )
+        rst_results = check_rst_content(
+            rst_content,
+            filename=path,
+            ignore_directives=["rst-class"],
+            ignore_roles=list(antsibull_roles.ROLES),
+        )
+        result.extend(
+            [(path, result[0], result[1], result[2]) for result in rst_results]
+        )
+
+
 def _lint_collection_plugin_docs(
-    collections_dir: str,
+    collections_dir: str | None,
     dependencies: list[str],
     collection_name: str,
-    original_path_to_collection: str,
+    original_path_to_collection: str | None,
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
     validate_collections_refs: ValidCollectionRefs,
@@ -614,6 +685,9 @@ def _lint_collection_plugin_docs(
             fetch_all_installed=validate_collections_refs == "all",
         )
     )
+    if original_path_to_collection is None:
+        original_path_to_collection = collection_metadata[collection_name].path
+
     # Load routing information
     collection_routing = asyncio.run(load_all_collection_routing(collection_metadata))
     # Process data
@@ -656,7 +730,7 @@ def _lint_collection_plugin_docs(
         collection_routing,
     )
 
-    result = []
+    result: list[tuple[str, int, int, str]] = []
     for collection_name_, plugins_by_type in collection_to_plugin_info.items():
         if collection_name_ != collection_name:
             continue
@@ -677,57 +751,26 @@ def _lint_collection_plugin_docs(
                         collection_metadata[collection_name_],
                     ),
                 )
-                if has_broken_docs(plugin_record, plugin_type):
-                    result.append(
-                        (filename, 0, 0, "Did not return correct DOCUMENTATION")
-                    )
-                else:
-                    result.extend(
-                        _validate_markup(
-                            name_collector,
-                            plugin_record,
-                            plugin_name,
-                            plugin_type,
-                            filename,
-                            validate_collections_refs,
-                            disallow_unknown_collection_refs,
-                            disallow_semantic_markup,
-                        )
-                    )
-                for error in nonfatal_errors[plugin_type][plugin_name]:
-                    result.append((filename, 0, 0, error))
-                rst_content = create_plugin_rst(
+                _lint_plugin_docs(
+                    result,
+                    original_path_to_collection,
+                    name_collector,
                     collection_name_,
-                    collection_metadata[collection_name_],
-                    link_data[collection_name_],
-                    plugin_short_name,
+                    collection_metadata,
+                    link_data,
+                    plugin_name,
                     plugin_type,
+                    plugin_short_name,
+                    filename,
                     plugin_record,
-                    nonfatal_errors[plugin_type][plugin_name],
+                    nonfatal_errors,
                     plugin_type_tmpl,
                     error_tmpl,
-                    use_html_blobs=False,
-                    log_errors=False,
+                    disallow_unknown_collection_refs,
+                    disallow_semantic_markup,
+                    skip_rstcheck,
+                    validate_collections_refs,
                 )
-                if not skip_rstcheck:
-                    path = os.path.join(
-                        original_path_to_collection,
-                        "plugins",
-                        plugin_type,
-                        f"{plugin_short_name}.rst",
-                    )
-                    rst_results = check_rst_content(
-                        rst_content,
-                        filename=path,
-                        ignore_directives=["rst-class"],
-                        ignore_roles=list(antsibull_roles.ROLES),
-                    )
-                    result.extend(
-                        [
-                            (path, result[0], result[1], result[2])
-                            for result in rst_results
-                        ]
-                    )
     return result
 
 
@@ -802,4 +845,26 @@ def lint_collection_plugin_docs(
                 output_format=OutputFormat.ANSIBLE_DOCSITE,
             )
         )
+    return result
+
+
+def lint_core_plugin_docs(
+    collection_url: CollectionNameTransformer,
+    collection_install: CollectionNameTransformer,
+    validate_collections_refs: ValidCollectionRefs = "self",
+    disallow_unknown_collection_refs: bool = False,
+) -> list[tuple[str, int, int, str]]:
+    result = _lint_collection_plugin_docs(
+        None,
+        ["ansible.builtin"],
+        "ansible.builtin",
+        None,
+        collection_url=collection_url,
+        collection_install=collection_install,
+        validate_collections_refs=validate_collections_refs,
+        disallow_unknown_collection_refs=disallow_unknown_collection_refs,
+        skip_rstcheck=True,
+        disallow_semantic_markup=False,
+        output_format=OutputFormat.ANSIBLE_DOCSITE,
+    )
     return result
