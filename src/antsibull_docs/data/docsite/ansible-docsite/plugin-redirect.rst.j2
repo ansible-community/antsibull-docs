@@ -48,7 +48,7 @@
   It will eventually be removed from @{ collection_name }@.
 {%   endif %}
 {% endif %}
-- This is a redirect to the :ref:`@{ redirect }@ {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %} <ansible_collections.@{ redirect }@_@{ plugin_type }@>`.
+- This is a redirect to the :ansplugin:`@{ redirect }@ {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %} <@{ redirect }@#@{ plugin_type }@>`.
 {% if collection != 'ansible.builtin' -%}
 {%   if redirect_is_symlink %}
 - This redirect also works with Ansible 2.9.

@@ -14,28 +14,28 @@ Environment variables used by the ansible-core configuration are documented in :
     Foo executable.
 
     *Used by:*
-    :ref:`ns2.col.foo become plugin <ansible_collections.ns2.col.foo_become>`
+    :ansplugin:`ns2.col.foo become plugin <ns2.col.foo#become>`
 .. envvar:: ANSIBLE_FOO_FILENAME_EXT
 
     All extensions to check.
 
     *Used by:*
-    :ref:`ns2.col.foo vars plugin <ansible_collections.ns2.col.foo_vars>`
+    :ansplugin:`ns2.col.foo vars plugin <ns2.col.foo#vars>`
 .. envvar:: ANSIBLE_FOO_USER
 
     User you 'become' to execute the task.
 
     *Used by:*
-    :ref:`ns2.col.foo become plugin <ansible_collections.ns2.col.foo_become>`
+    :ansplugin:`ns2.col.foo become plugin <ns2.col.foo#become>`
 .. envvar:: ANSIBLE_REMOTE_TEMP
 
     Temporary directory to use on targets when executing tasks.
 
     *Used by:*
-    :ref:`ns2.col.foo shell plugin <ansible_collections.ns2.col.foo_shell>`
+    :ansplugin:`ns2.col.foo shell plugin <ns2.col.foo#shell>`
 .. envvar:: ANSIBLE_REMOTE_TMP
 
     Temporary directory to use on targets when executing tasks.
 
     *Used by:*
-    :ref:`ns2.col.foo shell plugin <ansible_collections.ns2.col.foo_shell>`
+    :ansplugin:`ns2.col.foo shell plugin <ns2.col.foo#shell>`
