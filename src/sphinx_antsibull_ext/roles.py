@@ -14,8 +14,16 @@ import typing as t
 from docutils import nodes
 from sphinx import addnodes
 
-from antsibull_docs.markup.semantic_helper import parse_option, parse_return_value
+from antsibull_docs.markup.semantic_helper import (
+    parse_option,
+    parse_plugin_name,
+    parse_return_value,
+)
 from antsibull_docs.utils.rst import massage_rst_label
+
+
+def _plugin_ref(plugin_fqcn: str, plugin_type: str) -> str:
+    return f"ansible_collections.{plugin_fqcn}_{plugin_type}"
 
 
 # pylint:disable-next=unused-argument,dangerous-default-value
@@ -104,7 +112,7 @@ def _create_option_reference(
         return None
     ref = massage_rst_label(option.replace(".", "/"))
     ep = f"{entrypoint}__" if entrypoint is not None else ""
-    return f"ansible_collections.{plugin_fqcn}_{plugin_type}__parameter-{ep}{ref}"
+    return f"{_plugin_ref(plugin_fqcn, plugin_type)}__parameter-{ep}{ref}"
 
 
 def _create_return_value_reference(
@@ -117,7 +125,7 @@ def _create_return_value_reference(
         return None
     ref = massage_rst_label(return_value.replace(".", "/"))
     ep = f"{entrypoint}__" if entrypoint is not None else ""
-    return f"ansible_collections.{plugin_fqcn}_{plugin_type}__return-{ep}{ref}"
+    return f"{_plugin_ref(plugin_fqcn, plugin_type)}__return-{ep}{ref}"
 
 
 def _create_ref_or_not(
@@ -302,6 +310,41 @@ def environment_variable_reference(
     return [refnode], []
 
 
+# pylint:disable-next=unused-argument,dangerous-default-value
+def plugin_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    """Format Ansible plugin.
+
+    Returns 2 part tuple containing list of nodes to insert into the
+    document and a list of system messages.  Both are allowed to be
+    empty.
+
+    :param name: The role name used in the document.
+    :param rawtext: The entire markup snippet, with role.
+    :param text: The text marked with the role.
+    :param lineno: The line number where rawtext appears in the input.
+    :param inliner: The inliner instance that called us.
+    :param options: Directive options for customization.
+    :param content: The directive content for customization.
+    """
+    try:
+        plugin_fqcn, plugin_type = parse_plugin_name(text.replace("\x00", ""))
+    except ValueError as exc:
+        return _create_error(rawtext, text, str(exc))
+
+    options = {
+        "reftype": "ref",
+        "refdomain": "std",
+        "refexplicit": True,
+        "refwarn": True,
+    }
+    refnode = addnodes.pending_xref(
+        plugin_fqcn, nodes.inline(rawtext, plugin_fqcn), **options
+    )
+    refnode["reftarget"] = _plugin_ref(plugin_fqcn, plugin_type)
+
+    return [refnode], []
+
+
 ROLES = {
     "ansible-option-choices-entry": option_choice,
     "ansible-option-choices-entry-default": option_choice_default,
@@ -312,6 +355,7 @@ ROLES = {
     "ansretval": return_value_role,
     "ansenvvar": environment_variable,
     "ansenvvarref": environment_variable_reference,
+    "ansplugin": plugin_role,
 }
 
 
