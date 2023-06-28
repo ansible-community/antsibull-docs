@@ -34,7 +34,7 @@ Index of all @{ plugin_type | capitalize }@ Plugins
 @{ '-' * (collection_name | length) }@
 
 {%   for plugin_name, plugin_desc in plugins.items() | sort %}
-* :ref:`@{ collection_name }@.@{ plugin_name }@ <ansible_collections.@{ collection_name }@.@{ plugin_name }@_@{ plugin_type }@>` -- @{ plugin_desc | rst_ify(plugin_fqcn=collection_name ~ '.' ~ plugin_name, plugin_type=plugin_type) }@
+* :ansplugin:`@{ collection_name }@.@{ plugin_name }@#@{ plugin_type }@` -- @{ plugin_desc | rst_ify(plugin_fqcn=collection_name ~ '.' ~ plugin_name, plugin_type=plugin_type) }@
 {%   endfor %}
 
 {% else %}

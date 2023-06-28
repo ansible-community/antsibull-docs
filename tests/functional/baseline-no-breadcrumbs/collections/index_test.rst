@@ -9,6 +9,6 @@ Index of all Test Plugins
 ns2.col
 -------
 
-* :ref:`ns2.col.bar <ansible_collections.ns2.col.bar_test>` -- Is something a bar
-* :ref:`ns2.col.foo <ansible_collections.ns2.col.foo_test>` -- Is something a foo \ :ansopt:`ns2.col.foo#test:bar`\ 
+* :ansplugin:`ns2.col.bar#test` -- Is something a bar
+* :ansplugin:`ns2.col.foo#test` -- Is something a foo \ :ansopt:`ns2.col.foo#test:bar`\ 
 

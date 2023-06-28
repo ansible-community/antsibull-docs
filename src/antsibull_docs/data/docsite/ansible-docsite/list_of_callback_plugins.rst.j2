@@ -18,7 +18,7 @@ See :ref:`list_of_callback_plugins` for the list of *all* callback plugins.
 @{ '-' * (collection_name | length) }@
 
 {%   for plugin_name, plugin_desc in plugins.items() | sort %}
-* :ref:`@{ collection_name }@.@{ plugin_name }@ <ansible_collections.@{ collection_name }@.@{ plugin_name }@_callback>` -- @{ plugin_desc | rst_ify(plugin_fqcn=collection_name ~ '.' ~ plugin_name, plugin_type='callback') }@
+* :ansplugin:`@{ collection_name }@.@{ plugin_name }@#callback` -- @{ plugin_desc | rst_ify(plugin_fqcn=collection_name ~ '.' ~ plugin_name, plugin_type='callback') }@
 {%   endfor %}
 
 {% else %}
