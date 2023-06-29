@@ -1,0 +1,2 @@
+bugfixes:
+  - "Consider module/plugin aliases when linting references to other modules and plugins (https://github.com/ansible-community/antsibull-docs/pull/184)."
