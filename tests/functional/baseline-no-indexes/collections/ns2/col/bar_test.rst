@@ -65,7 +65,7 @@ Synopsis
 
 .. Aliases
 
-Aliases: 
+Aliases: is_bar
 
 .. Requirements
 

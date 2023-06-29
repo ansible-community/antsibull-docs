@@ -584,7 +584,7 @@ def _lint_collection_plugin_docs(
     new_plugin_info, nonfatal_errors = asyncio.run(
         normalize_all_plugin_info(plugin_info)
     )
-    augment_docs(new_plugin_info)
+    augment_docs(new_plugin_info, collection_routing)
     # Load link data
     link_data = asyncio.run(
         load_collections_links(

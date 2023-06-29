@@ -162,7 +162,7 @@ Synopsis
 .. Aliases
 
 {% if doc['aliases'] -%}
-Aliases: @{ ','.join(aliases) }@
+Aliases: @{ ', '.join(doc['aliases'] | sort) }@
 {% endif %}
 
 .. Requirements

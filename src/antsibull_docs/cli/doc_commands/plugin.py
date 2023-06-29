@@ -103,7 +103,8 @@ def generate_plugin_docs(
         t.cast(
             MutableMapping[str, MutableMapping[str, t.Any]],
             {plugin_type: {plugin_name: plugin_info}},
-        )
+        ),
+        {},
     )
 
     # Setup the jinja environment

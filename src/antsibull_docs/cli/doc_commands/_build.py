@@ -127,7 +127,7 @@ def generate_docs_for_all_collections(
         normalize_all_plugin_info(plugin_info)
     )
     flog.fields(errors=len(nonfatal_errors)).notice("Finished data validation")
-    augment_docs(new_plugin_info)
+    augment_docs(new_plugin_info, collection_routing)
     flog.notice("Finished calculating new data")
 
     # Load collection extra docs data
