@@ -31,11 +31,6 @@
 
 .. Anchors: short name for ansible.builtin
 
-.. Anchors: aliases
-
-
-.. _ansible_collections.ns2.col.is_bar_test:
-
 .. Title
 
 ns2.col.bar test -- Is something a bar

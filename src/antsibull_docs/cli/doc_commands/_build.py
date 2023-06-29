@@ -119,6 +119,8 @@ def generate_docs_for_all_collections(
 
     remove_redirect_duplicates(plugin_info, collection_routing)
     stubs_info = find_stubs(plugin_info, collection_routing)
+    if collection_names is not None and "ansible.builtin" not in collection_names:
+        stubs_info.pop("ansible.builtin", None)
     # flog.fields(stubs_info=stubs_info).debug('Stubs info')
 
     new_plugin_info, nonfatal_errors = asyncio.run(

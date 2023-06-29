@@ -57,16 +57,6 @@
 .. _@{ doc['name'] }@_@{ plugin_type }@:
 {% endif -%}
 
-.. Anchors: aliases
-
-{# TODO: This assumes that aliases will be short names.
-   If they're FQCN, then we need to change this
-#}
-
-{% for alias in doc['aliases'] -%}
-.. _ansible_collections.@{collection}@.@{ alias }@_@{ plugin_type }@:
-{% endfor %}
-
 .. Title
 
 {% if doc['short_description'] -%}

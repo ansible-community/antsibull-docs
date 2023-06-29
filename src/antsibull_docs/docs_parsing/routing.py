@@ -14,7 +14,7 @@ import datetime
 import os
 import typing as t
 from collections import defaultdict
-from collections.abc import Mapping, MutableMapping
+from collections.abc import Mapping, MutableMapping, Sequence
 
 import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context, yaml
@@ -260,6 +260,29 @@ def _add_symlink_redirects(
                 plugin_type_routing[redirect_name]["redirect_is_symlink"] = True
 
 
+def _add_core_symlink_redirects(
+    collection_metadata: AnsibleCollectionMetadata,
+    plugin_routing_out: dict[str, dict[str, dict[str, t.Any]]],
+) -> None:
+    for plugin_type in DOCUMENTABLE_PLUGINS:
+        directory_name = (
+            "modules"
+            if plugin_type == "module"
+            else os.path.join("plugins", plugin_type)
+        )
+        directory_path = os.path.join(collection_metadata.path, directory_name)
+        plugin_type_routing = plugin_routing_out[plugin_type]
+
+        symlink_redirects = find_symlink_redirects(
+            "ansible.builtin", plugin_type, directory_path
+        )
+        for redirect_name, redirect_dst in symlink_redirects.items():
+            if redirect_name not in plugin_type_routing:
+                plugin_type_routing[redirect_name] = {}
+            if "redirect" not in plugin_type_routing[redirect_name]:
+                plugin_type_routing[redirect_name]["redirect"] = redirect_dst
+
+
 async def load_collection_routing(
     collection_name: str, collection_metadata: AnsibleCollectionMetadata
 ) -> dict[str, dict[str, dict[str, t.Any]]]:
@@ -280,6 +303,7 @@ async def load_collection_routing(
     if collection_name == "ansible.builtin":
         # ansible-core has a special directory structure we currently do not want
         # (or need) to handle
+        _add_core_symlink_redirects(collection_metadata, plugin_routing_out)
         return plugin_routing_out
 
     _add_symlink_redirects(collection_name, collection_metadata, plugin_routing_out)
@@ -316,6 +340,62 @@ async def load_all_collection_routing(
     return global_plugin_routing
 
 
+def _add_meta_redirect_for_aliases(
+    plugin_map: MutableMapping[str, t.Any],
+    plugin_routing: MutableMapping[str, MutableMapping[str, t.Any]],
+) -> None:
+    for plugin_name, plugin_record in plugin_map.items():
+        if isinstance(plugin_record.get("doc"), Mapping) and isinstance(
+            plugin_record["doc"].get("aliases"), Sequence
+        ):
+            for alias in plugin_record["doc"]["aliases"]:
+                alias_fqcn = f"ansible.builtin.{alias}"
+                if alias_fqcn not in plugin_routing:
+                    plugin_routing[alias_fqcn] = {}
+                if "redirect" not in plugin_routing[alias_fqcn]:
+                    plugin_routing[alias_fqcn]["redirect"] = plugin_name
+
+
+def _remove_redirect_duplicates(
+    plugin_map: MutableMapping[str, t.Any],
+    plugin_routing: MutableMapping[str, MutableMapping[str, t.Any]],
+) -> None:
+    for plugin_name, plugin_record in list(plugin_map.items()):
+        if plugin_name in plugin_routing and "redirect" in plugin_routing[plugin_name]:
+            destination = plugin_routing[plugin_name]["redirect"]
+            if destination in plugin_map and destination != plugin_name:
+                # Heuristic: if we have a redirect, and docs for both this plugin and the
+                # redirected one are generated from the same plugin filename, then we can
+                # remove this plugin's docs and generate a redirect stub instead.
+                a = plugin_record.get("doc")
+                b = plugin_map[destination].get("doc")
+                if a and b and compare_all_but(a, b, ["filename"]):
+                    del plugin_map[plugin_name]
+
+
+def _remove_other_duplicates(
+    plugin_type: str,
+    plugin_map: MutableMapping[str, t.Any],
+    plugin_routing: MutableMapping[str, MutableMapping[str, t.Any]],
+) -> None:
+    # In some cases, both the plugin and its aliases will be listed.
+    # Basically look for plugins whose name is wrong, a plugin with that
+    # name exists, and whose docs are identical.
+    for plugin_name, plugin_record in list(plugin_map.items()):
+        doc = plugin_record.get("doc") or {}
+        name = doc.get("module" if plugin_type == "module" else "name")
+        collection_name = ".".join(plugin_name.split(".")[:2])
+        full_name = f"{collection_name}.{name}"
+        if full_name and full_name != plugin_name and full_name in plugin_map:
+            a = plugin_record.get("doc")
+            b = plugin_map[full_name].get("doc")
+            if a and b and compare_all_but(a, b, ["name", "filename"]):
+                del plugin_map[plugin_name]
+                if plugin_name not in plugin_routing:
+                    plugin_routing[plugin_name] = {}
+                plugin_routing[plugin_name]["redirect"] = full_name
+
+
 def remove_redirect_duplicates(
     plugin_info: MutableMapping[str, MutableMapping[str, t.Any]],
     collection_routing: MutableCollectionRoutingT,
@@ -326,37 +406,9 @@ def remove_redirect_duplicates(
     """
     for plugin_type, plugin_map in plugin_info.items():
         plugin_routing = collection_routing[plugin_type]
-        for plugin_name, plugin_record in list(plugin_map.items()):
-            # Check redirect
-            if (
-                plugin_name in plugin_routing
-                and "redirect" in plugin_routing[plugin_name]
-            ):
-                destination = plugin_routing[plugin_name]["redirect"]
-                if destination in plugin_map and destination != plugin_name:
-                    # Heuristic: if we have a redirect, and docs for both this plugin and the
-                    # redirected one are generated from the same plugin filename, then we can
-                    # remove this plugin's docs and generate a redirect stub instead.
-                    a = plugin_record.get("doc")
-                    b = plugin_map[destination].get("doc")
-                    if a and b and compare_all_but(a, b, ["filename"]):
-                        del plugin_map[plugin_name]
-
-        # For filters and tests, both the plugin and its aliases will be listed. Basically
-        # look for plugins whose name is wrong, a plugin with that name exists, and whose
-        # docs are identical
-        for plugin_name, plugin_record in list(plugin_map.items()):
-            name = (plugin_record.get("doc") or {}).get("name")
-            collection_name = ".".join(plugin_name.split(".")[:2])
-            full_name = f"{collection_name}.{name}"
-            if full_name and full_name != plugin_name and full_name in plugin_map:
-                a = plugin_record.get("doc")
-                b = plugin_map[full_name].get("doc")
-                if a and b and compare_all_but(a, b, ["name", "filename"]):
-                    del plugin_map[plugin_name]
-                    if plugin_name not in plugin_routing:
-                        plugin_routing[plugin_name] = {}
-                    plugin_routing[plugin_name]["redirect"] = full_name
+        _add_meta_redirect_for_aliases(plugin_map, plugin_routing)
+        _remove_redirect_duplicates(plugin_map, plugin_routing)
+        _remove_other_duplicates(plugin_type, plugin_map, plugin_routing)
 
 
 def find_stubs(
