@@ -8,9 +8,11 @@
 from __future__ import annotations
 
 import typing as t
+from collections import defaultdict
 from collections.abc import Mapping, MutableMapping
 
-from antsibull_docs.utils.rst import massage_rst_label
+from .docs_parsing.routing import CollectionRoutingT
+from .utils.rst import massage_rst_label
 
 
 def add_full_key(
@@ -99,7 +101,25 @@ def _add_seealso(
             entry["description"] = desc
 
 
-def augment_docs(plugin_info: MutableMapping[str, MutableMapping[str, t.Any]]) -> None:
+def _add_aliases(
+    plugin_name: str,
+    plugin_record: MutableMapping[str, t.Any],
+    routing_sources: list[str],
+) -> None:
+    collection_prefix = ".".join(plugin_name.split(".", 2)[:2]) + "."
+    for redirect in routing_sources:
+        if redirect.startswith(collection_prefix):
+            alias = redirect[len(collection_prefix) :]
+            if "aliases" not in plugin_record:
+                plugin_record["aliases"] = []
+            if alias not in plugin_record["aliases"]:
+                plugin_record["aliases"].append(alias)
+
+
+def augment_docs(
+    plugin_info: MutableMapping[str, MutableMapping[str, t.Any]],
+    collection_routing: CollectionRoutingT,
+) -> None:
     """
     Add additional data to the data extracted from the plugins.
 
@@ -115,14 +135,24 @@ def augment_docs(plugin_info: MutableMapping[str, MutableMapping[str, t.Any]]) -
     .. warning:: This function operates by side-effect.  The plugin_info dictionay is modified
         directly.
     """
-    for _, plugin_map in plugin_info.items():
-        for _, plugin_record in plugin_map.items():
+    for plugin_type, plugin_map in plugin_info.items():
+        # First collect all routing targets
+        routing_sources: defaultdict[str, list[str]] = defaultdict(list)
+        for plugin_name, plugin_meta in collection_routing.get(plugin_type, {}).items():
+            redirect = plugin_meta.get("redirect")
+            if isinstance(redirect, str):
+                routing_sources[redirect].append(plugin_name)
+        # Now augment all plugin records
+        for plugin_name, plugin_record in plugin_map.items():
             if plugin_record.get("return"):
                 add_full_key(plugin_record["return"], "contains")
             if plugin_record.get("doc"):
                 add_full_key(plugin_record["doc"]["options"], "suboptions")
                 if plugin_record["doc"].get("seealso"):
                     _add_seealso(plugin_record["doc"]["seealso"], plugin_info)
+                _add_aliases(
+                    plugin_name, plugin_record["doc"], routing_sources[plugin_name]
+                )
             if plugin_record.get("entry_points"):
                 for entry_point in plugin_record["entry_points"].values():
                     add_full_key(entry_point["options"], "options")

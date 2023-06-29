@@ -23,9 +23,6 @@
 
 .. _ansible_collections.ns2.col.foo_role:
 
-.. Anchors: aliases
-
-
 .. Title
 
 ns2.col.foo role -- Foo role

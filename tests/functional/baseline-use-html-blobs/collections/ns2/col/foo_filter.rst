@@ -31,10 +31,6 @@
 
 .. Anchors: short name for ansible.builtin
 
-.. Anchors: aliases
-
-
-
 .. Title
 
 ns2.col.foo filter -- The foo filter \ :ansopt:`ns2.col.foo#filter:bar`\ 

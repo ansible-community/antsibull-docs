@@ -1,0 +1,5 @@
+bugfixes:
+  - "When looking for redirects, the ``aliases`` field and filesystem redirects in ansible-core were not properly considered.
+     This ensures that all redirect stubs are created, and that no duplicates show up, not depending on whether ansible-core is installed in editable mode or not
+     (https://github.com/ansible-community/antsibull-docs/pull/183)."
+  - "Make sure that all aliases are actually listed for plugins (https://github.com/ansible-community/antsibull-docs/pull/183)."

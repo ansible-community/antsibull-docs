@@ -22,9 +22,6 @@
 
 .. _ansible_collections.ns.col2.bar_role:
 
-.. Anchors: aliases
-
-
 .. Title
 
 ns.col2.bar role -- Bar role

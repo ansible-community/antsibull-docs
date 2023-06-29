@@ -30,10 +30,6 @@
 
 .. Anchors: short name for ansible.builtin
 
-.. Anchors: aliases
-
-
-
 .. Title
 
 ns2.flatcol.foo2 module -- Another foo

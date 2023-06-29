@@ -31,10 +31,6 @@
 
 .. Anchors: short name for ansible.builtin
 
-.. Anchors: aliases
-
-
-
 .. Title
 
 ns2.col.foo lookup -- Look up some foo \ :ansopt:`ns2.col.foo#lookup:bar`\ 

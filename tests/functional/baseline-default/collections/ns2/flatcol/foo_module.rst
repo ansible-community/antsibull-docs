@@ -30,10 +30,6 @@
 
 .. Anchors: short name for ansible.builtin
 
-.. Anchors: aliases
-
-
-
 .. Title
 
 ns2.flatcol.foo module -- Do some foo \ :ansopt:`ns2.flatcol.foo#module:bar`\ 
