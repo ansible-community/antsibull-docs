@@ -138,7 +138,7 @@ def augment_docs(
     for plugin_type, plugin_map in plugin_info.items():
         # First collect all routing targets
         routing_sources: defaultdict[str, list[str]] = defaultdict(list)
-        for plugin_name, plugin_meta in collection_routing[plugin_type].items():
+        for plugin_name, plugin_meta in collection_routing.get(plugin_type, {}).items():
             redirect = plugin_meta.get("redirect")
             if isinstance(redirect, str):
                 routing_sources[redirect].append(plugin_name)
