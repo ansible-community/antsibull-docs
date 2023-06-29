@@ -72,6 +72,7 @@ Synopsis
 
 .. Aliases
 
+Aliases: foo_redirect
 
 .. Requirements
 
