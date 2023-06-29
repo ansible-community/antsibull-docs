@@ -62,6 +62,7 @@ Synopsis
 
 - Foo bar.
 - See \ :ansopt:`ns2.col.foo#role:main:foo\_param\_1`\  for a random role parameter reference. And \ :ansopt:`ns2.col.foo#role:main:foo\_param\_2=42`\  for one with a value.
+- Reference using alias - \ :ansopt:`ns2.col.foo\_redirect#module:bar`\  and \ :ansopt:`ns2.col.foo\_redirect#module:baz`\ .
 
 
 .. Aliases
