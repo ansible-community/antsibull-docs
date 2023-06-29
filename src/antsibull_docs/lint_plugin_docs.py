@@ -30,6 +30,7 @@ from .docs_parsing import AnsibleCollectionMetadata
 from .docs_parsing.ansible_doc import parse_ansible_galaxy_collection_list
 from .docs_parsing.parsing import get_ansible_plugin_info
 from .docs_parsing.routing import (
+    CollectionRoutingT,
     load_all_collection_routing,
     remove_redirect_duplicates,
 )
@@ -136,6 +137,8 @@ class _NameCollector:
     _option_names: dict[tuple[str, str, str], str]
     _return_value_names: dict[tuple[str, str, str], str]
     _collection_prefixes: set[str]
+    _collection_routing: CollectionRoutingT
+    _routing_table: dict[tuple[str, str], str]
 
     def _collect_role_option_names(
         self,
@@ -200,11 +203,13 @@ class _NameCollector:
                     plugin, data["contains"], f"{path}{_NAME_SEPARATOR}"
                 )
 
-    def __init__(self):
+    def __init__(self, collection_routing: CollectionRoutingT):
         self._plugins = set()
         self._collection_prefixes = set()
         self._option_names = {}
         self._return_value_names = {}
+        self._collection_routing = collection_routing
+        self._routing_table = {}
 
     def collect_collection(self, collection_name_or_fqcn: str):
         self._collection_prefixes.add(
@@ -228,16 +233,44 @@ class _NameCollector:
                         plugin, data["options"], entry_point, [""]
                     )
 
+    def _resolve_plugin_fqcn(self, plugin_fqcn: str, plugin_type: str) -> str:
+        try:
+            return self._routing_table[(plugin_fqcn, plugin_type)]
+        except KeyError:
+            pass
+        tried_names = {plugin_fqcn}
+        new_fqcn = plugin_fqcn
+        while True:
+            try:
+                new_fqcn = self._collection_routing[plugin_type][new_fqcn]["redirect"]
+            except KeyError:
+                break
+            if new_fqcn in tried_names:
+                # Found infinite loop! Do not resolve name.
+                new_fqcn = plugin_fqcn
+                break
+            tried_names.add(new_fqcn)
+        self._routing_table[(plugin_fqcn, plugin_type)] = new_fqcn
+        return new_fqcn
+
     def get_option_type(
         self, plugin_fqcn: str, plugin_type: str, option_name: str
     ) -> str | None:
-        key = (plugin_fqcn, plugin_type, option_name)
+        key = (
+            self._resolve_plugin_fqcn(plugin_fqcn, plugin_type),
+            plugin_type,
+            option_name,
+        )
         return self._option_names.get(key)
 
     def get_return_value_type(
         self, plugin_fqcn: str, plugin_type: str, return_value_name: str
     ) -> str | None:
-        key = (plugin_fqcn, plugin_type, return_value_name)
+        key = (
+            self._resolve_plugin_fqcn(plugin_fqcn, plugin_type),
+            plugin_type,
+            return_value_name,
+        )
         return self._return_value_names.get(key)
 
     def is_valid_collection(self, plugin_fqcn: str) -> bool:
@@ -246,7 +279,10 @@ class _NameCollector:
         )
 
     def is_valid_plugin(self, plugin_fqcn: str, plugin_type: str) -> bool:
-        return (plugin_fqcn, plugin_type) in self._plugins
+        return (
+            self._resolve_plugin_fqcn(plugin_fqcn, plugin_type),
+            plugin_type,
+        ) in self._plugins
 
     def is_valid_option(
         self, plugin_fqcn: str, plugin_type: str, option_name: str
@@ -523,8 +559,9 @@ def _collect_names(
     collections: list[str],
     collection_metadata: Mapping[str, AnsibleCollectionMetadata],
     validate_collections_refs: ValidCollectionRefs,
+    collection_routing: CollectionRoutingT,
 ) -> _NameCollector:
-    name_collector = _NameCollector()
+    name_collector = _NameCollector(collection_routing)
     name_collector.collect_collection(collection_name)
     for other_collection in collection_metadata.keys():
         if validate_collections_refs != "all" and other_collection not in collections:
@@ -616,6 +653,7 @@ def _lint_collection_plugin_docs(
         collections,
         collection_metadata,
         validate_collections_refs,
+        collection_routing,
     )
 
     result = []
