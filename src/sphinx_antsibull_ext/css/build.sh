@@ -3,11 +3,11 @@
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-SASSC=${SASS_COMPILER:-$(which sassc)}
+SASS=${SASS_COMPILER:-$(which sass)}
 POSTCSS=${POSTCSS:-$(which postcss)}
 
-if [ "${SASSC}" == "" ]; then
-    echo "Need 'sassc' on path. You can install sassc with 'apt-get install sassc'."
+if [ "${SASS}" == "" ]; then
+    echo "Need 'sass' on path. You can install sass with 'npm install sass'."
     exit -1
 fi
 
@@ -28,7 +28,7 @@ build_css() {
     SOURCE="$1.scss"
     DEST="../$1.css"
     set -x
-    ${SASSC} "${SOURCE}" "${DEST}"
+    ${SASS} --no-source-map "${SOURCE}" "${DEST}"
     ${POSTCSS} --use autoprefixer --use cssnano --no-map -r "${DEST}"
     { set +x; } 2>/dev/null  # https://stackoverflow.com/a/19226038
 }

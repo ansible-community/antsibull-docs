@@ -34,8 +34,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get install sassc
-          npm install -g autoprefixer cssnano postcss postcss-cli
+          npm install -g sass autoprefixer cssnano postcss postcss-cli
 
       - name: Build CSS
         run: |
