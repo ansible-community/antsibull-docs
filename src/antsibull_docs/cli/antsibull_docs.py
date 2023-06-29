@@ -39,7 +39,7 @@ from .doc_commands import (  # noqa: E402
     collection,
     current,
     devel,
-    lint_collection_docs,
+    lint_docs,
     plugin,
     sphinx_init,
     stable,
@@ -59,7 +59,8 @@ ARGS_MAP: dict[str, Callable] = {
     "collection": collection.generate_docs,
     "plugin": plugin.generate_docs,
     "sphinx-init": sphinx_init.site_init,
-    "lint-collection-docs": lint_collection_docs.lint_collection_docs,
+    "lint-collection-docs": lint_docs.lint_collection_docs,
+    "lint-core-docs": lint_docs.lint_core_docs,
 }
 
 #: The filename for the file which lists raw collection names
@@ -67,7 +68,7 @@ DEFAULT_PIECES_FILE: str = "ansible.in"
 
 
 def _normalize_docs_options(args: argparse.Namespace) -> None:
-    if args.command == "lint-collection-docs":
+    if args.command in ("lint-collection-docs", "lint-core-docs"):
         return
 
     args.dest_dir = os.path.abspath(os.path.realpath(args.dest_dir))
@@ -592,11 +593,9 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         dest="disallow_unknown_collection_refs",
         action=BooleanOptionalAction,
         default=False,
-        help="When --plugin-docs is specified, determine references to which"
-        " collections to validate.  'self' means only validate references to"
-        " this collection.  'dependent' means validating references to"
-        " collections this collection (transitively) depends on.  'all' means"
-        " validating references to all collections the linter can find.",
+        help="When --plugin-docs is specified, determine whether to accept"
+        " references to unknown collections that are not covered by "
+        "--validate-collection-refs.",
     )
     lint_collection_docs_parser.add_argument(
         "--skip-rstcheck",
@@ -616,6 +615,32 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         " there is no semantic markup used. This can be used"
         " by collections to ensure that semantic markup is"
         " not yet used.",
+    )
+
+    #
+    # Lint core docs
+    #
+    lint_core_docs_parser = subparsers.add_parser(
+        "lint-core-docs",
+        description="Collection extra docs linter for inclusion in docsite",
+    )
+
+    lint_core_docs_parser.add_argument(
+        "--validate-collection-refs",
+        dest="validate_collections_refs",
+        choices=["self", "all"],
+        default="self",
+        help="Determine references to which collections to validate.  'self'"
+        " means only validate references to ansible.builtin.  'all' means"
+        " validating references to all collections the linter can find.",
+    )
+    lint_core_docs_parser.add_argument(
+        "--disallow-unknown-collection-refs",
+        dest="disallow_unknown_collection_refs",
+        action=BooleanOptionalAction,
+        default=False,
+        help="Determine whether to accept references to unknown collections"
+        " that are not covered by --validate-collection-refs.",
     )
 
     flog.debug("Argument parser setup")
