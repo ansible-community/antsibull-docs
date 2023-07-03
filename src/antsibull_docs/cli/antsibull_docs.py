@@ -477,10 +477,17 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     collection_plugins_parser.add_argument(
         "--use-current",
         action="store_true",
+        default=False,
         help="Assumes that the argument is a collection name, and"
         " that collection has been installed with the current"
         " version of ansible. Specified --collection-version will be"
         " ignored.",
+    )
+    collection_plugins_parser.add_argument(
+        "--fqcn-plugin-names",
+        action="store_true",
+        default=False,
+        help="Include the collection name in the plugin file names.",
     )
     collection_plugins_parser.add_argument(
         nargs=1,

@@ -25,7 +25,9 @@ mlog = log.fields(mod=__name__)
 
 
 def generate_collection_plugins_docs(
-    collection_dir: str | None, output_format: OutputFormat
+    collection_dir: str | None,
+    output_format: OutputFormat,
+    fqcn_plugin_names: bool,
 ) -> int:
     flog = mlog.fields(func="generate_collection_plugins_docs")
     flog.debug("Begin generating docs")
@@ -48,6 +50,7 @@ def generate_collection_plugins_docs(
         breadcrumbs=app_ctx.breadcrumbs,
         use_html_blobs=app_ctx.use_html_blobs,
         fail_on_error=app_ctx.extra["fail_on_error"],
+        include_collection_name_in_plugins=fqcn_plugin_names,
     )
 
 
@@ -67,9 +70,12 @@ def generate_docs() -> int:
     app_ctx = app_context.app_ctx.get()
 
     output_format = OutputFormat.parse(app_ctx.extra["output_format"])
+    fqcn_plugin_names: bool = app_ctx.extra["fqcn_plugin_names"]
 
     if app_ctx.extra["use_current"]:
-        return generate_collection_plugins_docs(None, output_format)
+        return generate_collection_plugins_docs(
+            None, output_format, fqcn_plugin_names=fqcn_plugin_names
+        )
 
     collection_version = app_ctx.extra["collection_version"]
     if collection_version == "@latest":
@@ -108,4 +114,6 @@ def generate_docs() -> int:
         )
         flog.notice("Finished installing collection")
 
-        return generate_collection_plugins_docs(collection_dir, output_format)
+        return generate_collection_plugins_docs(
+            collection_dir, output_format, fqcn_plugin_names=fqcn_plugin_names
+        )
