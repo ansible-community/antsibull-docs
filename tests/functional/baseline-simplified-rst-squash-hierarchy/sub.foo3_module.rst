@@ -3,12 +3,11 @@
 ns2.col.sub.foo3 module -- A sub-foo
 ++++++++++++++++++++++++++++++++++++
 
-.. note::
-    This module is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
+This module is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
 
-    To install it, use: :code:`ansible-galaxy collection install ns2.col`.
+To install it, use: :code:`ansible-galaxy collection install ns2.col`.
 
-    To use it in a playbook, specify: :code:`ns2.col.sub.foo3`.
+To use it in a playbook, specify: :code:`ns2.col.sub.foo3`.
 
 
 .. contents::
@@ -133,7 +132,7 @@ Attributes
 Examples
 --------
 
-.. code-block:: yaml+jinja
+.. code-block:: yaml
 
     
     - name: Do some foobar

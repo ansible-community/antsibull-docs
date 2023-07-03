@@ -3,12 +3,11 @@
 ns.col2.bar role -- Bar role
 ++++++++++++++++++++++++++++
 
-.. note::
-    This role is part of the `ns.col2 collection <https://galaxy.ansible.com/ns/col2>`_ (version 0.0.1).
+This role is part of the `ns.col2 collection <https://galaxy.ansible.com/ns/col2>`_ (version 0.0.1).
 
-    To install it use: :code:`ansible-galaxy collection install ns.col2`.
+To install it use: :code:`ansible-galaxy collection install ns.col2`.
 
-    To use it in a playbook, specify: :code:`ns.col2.bar`.
+To use it in a playbook, specify: :code:`ns.col2.bar`.
 
 .. contents::
    :local:

@@ -3,12 +3,11 @@
 ns2.col.bar test -- Is something a bar
 ++++++++++++++++++++++++++++++++++++++
 
-.. note::
-    This test plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
+This test plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
 
-    To install it, use: :code:`ansible-galaxy collection install ns2.col`.
+To install it, use: :code:`ansible-galaxy collection install ns2.col`.
 
-    To use it in a playbook, specify: :code:`ns2.col.bar`.
+To use it in a playbook, specify: :code:`ns2.col.bar`.
 
 
 .. contents::
@@ -72,7 +71,7 @@ This describes the input of the test, the value before ``is ns2.col.bar`` or ``i
 Examples
 --------
 
-.. code-block:: yaml+jinja
+.. code-block:: yaml
 
     is_path_bar: "{{ '/etc/hosts' is ns2.col.bar }}}"
 

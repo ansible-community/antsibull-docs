@@ -3,12 +3,11 @@
 ns2.flatcol.foo2 module -- Another foo
 ++++++++++++++++++++++++++++++++++++++
 
-.. note::
-    This module is part of the `ns2.flatcol collection <https://galaxy.ansible.com/ns2/flatcol>`_.
+This module is part of the `ns2.flatcol collection <https://galaxy.ansible.com/ns2/flatcol>`_.
 
-    To install it, use: :code:`ansible-galaxy collection install ns2.flatcol`.
+To install it, use: :code:`ansible-galaxy collection install ns2.flatcol`.
 
-    To use it in a playbook, specify: :code:`ns2.flatcol.foo2`.
+To use it in a playbook, specify: :code:`ns2.flatcol.foo2`.
 
 
 .. contents::
@@ -67,7 +66,7 @@ Parameters
 Examples
 --------
 
-.. code-block:: yaml+jinja
+.. code-block:: yaml
 
     
     - name: Do some foo

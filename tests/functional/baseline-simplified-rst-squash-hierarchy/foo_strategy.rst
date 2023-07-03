@@ -3,12 +3,11 @@
 ns2.col.foo strategy -- Executes tasks in foo
 +++++++++++++++++++++++++++++++++++++++++++++
 
-.. note::
-    This strategy plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
+This strategy plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
 
-    To install it, use: :code:`ansible-galaxy collection install ns2.col`.
+To install it, use: :code:`ansible-galaxy collection install ns2.col`.
 
-    To use it in a playbook, specify: :code:`ns2.col.foo`.
+To use it in a playbook, specify: :code:`ns2.col.foo`.
 
 New in ns2.col 1.1.0
 

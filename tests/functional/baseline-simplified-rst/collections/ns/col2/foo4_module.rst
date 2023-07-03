@@ -3,12 +3,11 @@
 ns.col2.foo4 module -- Markup reference linting test
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-.. note::
-    This module is part of the `ns.col2 collection <https://galaxy.ansible.com/ns/col2>`_ (version 0.0.1).
+This module is part of the `ns.col2 collection <https://galaxy.ansible.com/ns/col2>`_ (version 0.0.1).
 
-    To install it, use: :code:`ansible-galaxy collection install ns.col2`.
+To install it, use: :code:`ansible-galaxy collection install ns.col2`.
 
-    To use it in a playbook, specify: :code:`ns.col2.foo4`.
+To use it in a playbook, specify: :code:`ns.col2.foo4`.
 
 
 .. contents::

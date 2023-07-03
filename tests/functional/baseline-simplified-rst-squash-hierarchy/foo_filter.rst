@@ -3,12 +3,11 @@
 ns2.col.foo filter -- The foo filter \ :literal:`bar` (`link <parameter-bar_>`_)\ 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-.. note::
-    This filter plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
+This filter plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
 
-    To install it, use: :code:`ansible-galaxy collection install ns2.col`.
+To install it, use: :code:`ansible-galaxy collection install ns2.col`.
 
-    To use it in a playbook, specify: :code:`ns2.col.foo`.
+To use it in a playbook, specify: :code:`ns2.col.foo`.
 
 New in ns2.col 1.3.0
 
@@ -129,7 +128,7 @@ example: ``input | ns2.col.foo(key1=value1, key2=value2, ...)``
 Examples
 --------
 
-.. code-block:: yaml+jinja
+.. code-block:: yaml
 
     
     some_var: "{{ 'foo' | ns2.col.foo }}"

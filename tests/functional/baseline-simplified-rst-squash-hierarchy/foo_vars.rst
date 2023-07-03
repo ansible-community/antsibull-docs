@@ -3,14 +3,13 @@
 ns2.col.foo vars -- Load foo \ :literal:`bar` (`link <parameter-bar_>`_)\ 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-.. note::
-    This vars plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
+This vars plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
 
-    To install it, use: :code:`ansible-galaxy collection install ns2.col`.
-    You need further requirements to be able to use this vars plugin,
-    see `Requirements <ansible_collections.ns2.col.foo_vars_requirements_>`_ for details.
+To install it, use: :code:`ansible-galaxy collection install ns2.col`.
+You need further requirements to be able to use this vars plugin,
+see `Requirements <ansible_collections.ns2.col.foo_vars_requirements_>`_ for details.
 
-    To use it in a playbook, specify: :code:`ns2.col.foo`.
+To use it in a playbook, specify: :code:`ns2.col.foo`.
 
 New in ns2.col 0.9.0
 

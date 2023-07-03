@@ -3,12 +3,11 @@
 ns2.col.foo become -- Use foo \ :literal:`bar` (`link <parameter-bar_>`_)\ 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-.. note::
-    This become plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
+This become plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
 
-    To install it, use: :code:`ansible-galaxy collection install ns2.col`.
+To install it, use: :code:`ansible-galaxy collection install ns2.col`.
 
-    To use it in a playbook, specify: :code:`ns2.col.foo`.
+To use it in a playbook, specify: :code:`ns2.col.foo`.
 
 
 .. contents::

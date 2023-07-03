@@ -3,14 +3,13 @@
 ns.col2.foo2 module -- Foo two
 ++++++++++++++++++++++++++++++
 
-.. note::
-    This module is part of the `ns.col2 collection <https://galaxy.ansible.com/ns/col2>`_ (version 0.0.1).
+This module is part of the `ns.col2 collection <https://galaxy.ansible.com/ns/col2>`_ (version 0.0.1).
 
-    To install it, use: :code:`ansible-galaxy collection install ns.col2`.
-    You need further requirements to be able to use this module,
-    see `Requirements <ansible_collections.ns.col2.foo2_module_requirements_>`_ for details.
+To install it, use: :code:`ansible-galaxy collection install ns.col2`.
+You need further requirements to be able to use this module,
+see `Requirements <ansible_collections.ns.col2.foo2_module_requirements_>`_ for details.
 
-    To use it in a playbook, specify: :code:`ns.col2.foo2`.
+To use it in a playbook, specify: :code:`ns.col2.foo2`.
 
 
 .. contents::
@@ -248,7 +247,7 @@ See Also
 Examples
 --------
 
-.. code-block:: yaml+jinja
+.. code-block:: yaml
 
     
     name: This is YAML.

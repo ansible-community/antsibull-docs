@@ -3,12 +3,11 @@
 ns2.col.foo test -- Is something a foo \ :literal:`bar` (`link <parameter-bar_>`_)\ 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-.. note::
-    This test plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
+This test plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
 
-    To install it, use: :code:`ansible-galaxy collection install ns2.col`.
+To install it, use: :code:`ansible-galaxy collection install ns2.col`.
 
-    To use it in a playbook, specify: :code:`ns2.col.foo`.
+To use it in a playbook, specify: :code:`ns2.col.foo`.
 
 
 .. contents::
@@ -106,7 +105,7 @@ examples: ``input is ns2.col.foo(key1=value1, key2=value2, ...)`` and ``input is
 Examples
 --------
 
-.. code-block:: yaml+jinja
+.. code-block:: yaml
 
     
     some_var: "{{ {'a': 1} is ns2.col.foo }}"

@@ -3,12 +3,11 @@
 ns2.col.foo lookup -- Look up some foo \ :literal:`bar` (`link <parameter-bar_>`_)\ 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-.. note::
-    This lookup plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
+This lookup plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
 
-    To install it, use: :code:`ansible-galaxy collection install ns2.col`.
+To install it, use: :code:`ansible-galaxy collection install ns2.col`.
 
-    To use it in a playbook, specify: :code:`ns2.col.foo`.
+To use it in a playbook, specify: :code:`ns2.col.foo`.
 
 New in ns2.col 1.0.0
 
@@ -104,15 +103,14 @@ examples: ``lookup('ns2.col.foo', key1=value1, key2=value2, ...)`` and ``query('
 Notes
 -----
 
-.. note::
-   - When keyword and positional parameters are used together, positional parameters must be listed before keyword parameters:
-     ``lookup('ns2.col.foo', term1, term2, key1=value1, key2=value2)`` and ``query('ns2.col.foo', term1, term2, key1=value1, key2=value2)``
+- When keyword and positional parameters are used together, positional parameters must be listed before keyword parameters:
+  ``lookup('ns2.col.foo', term1, term2, key1=value1, key2=value2)`` and ``query('ns2.col.foo', term1, term2, key1=value1, key2=value2)``
 
 
 Examples
 --------
 
-.. code-block:: yaml+jinja
+.. code-block:: yaml
 
     
     - name: Look up bar

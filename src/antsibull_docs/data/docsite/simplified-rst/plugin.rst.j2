@@ -21,33 +21,31 @@
 @{ '+' * title|length }@
 
 {% if collection == 'ansible.builtin' -%}
-.. note::
-    This {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %}
-    is part of ``ansible-core`` and included in all Ansible
-    installations. In most cases, you can use the short
-    {% if plugin_type == 'module' %}module{% else %}plugin{% endif %} name
-    ``@{ plugin_name.rsplit('.', 1)[-1] }@`` even without specifying the ``collections:`` keyword.
-    However, we recommend you use the FQCN for easy linking to the
-    {% if plugin_type == 'module' %}module{% else %}plugin{% endif %}
-    documentation and to avoid conflicting with other collections that may have
-    the same {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %} name.
+This {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %}
+is part of ``ansible-core`` and included in all Ansible
+installations. In most cases, you can use the short
+{% if plugin_type == 'module' %}module{% else %}plugin{% endif %} name
+``@{ plugin_name.rsplit('.', 1)[-1] }@`` even without specifying the ``collections:`` keyword.
+However, we recommend you use the FQCN for easy linking to the
+{% if plugin_type == 'module' %}module{% else %}plugin{% endif %}
+documentation and to avoid conflicting with other collections that may have
+the same {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %} name.
 {% else %}
-.. note::
-    This {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %} is part of the `@{collection}@ collection <@{ collection | collection_url }@>`_{% if collection_version %} (version @{ collection_version }@){% endif %}.
+This {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %} is part of the `@{collection}@ collection <@{ collection | collection_url }@>`_{% if collection_version %} (version @{ collection_version }@){% endif %}.
 {%   if for_official_docsite %}
 
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+You might already have this collection installed if you are using the ``ansible`` package.
+It is not included in ``ansible-core``.
+To check whether it is installed, run :code:`ansible-galaxy collection list`.
 {%   endif %}
 
-    To install it, use: @{ collection | collection_install | rst_code }@.
+To install it, use: @{ collection | collection_install | rst_code }@.
 {%   if doc['requirements'] %}
-    You need further requirements to be able to use this {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %},
-    see `Requirements <ansible_collections.@{plugin_name}@_@{plugin_type}@_requirements_>`_ for details.
+You need further requirements to be able to use this {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %},
+see `Requirements <ansible_collections.@{plugin_name}@_@{plugin_type}@_requirements_>`_ for details.
 {%   endif %}
 
-    To use it in a playbook, specify: :code:`@{plugin_name}@`.
+To use it in a playbook, specify: :code:`@{plugin_name}@`.
 {% endif %}
 
 {% if doc['version_added'] is still_relevant(collection=doc['version_added_collection'] or collection) -%}
@@ -96,8 +94,7 @@ Synopsis
 {%   endfor %}
 
 {% if doc['has_action'] %}
-.. note::
-    This module has a corresponding action plugin.
+This module has a corresponding action plugin.
 {% endif %}
 
 {% if doc['aliases'] -%}
@@ -203,20 +200,19 @@ Attributes
 Notes
 -----
 
-.. note::
 {%   if has_positional_parameters and has_keyword_parameters %}
-   - When keyword and positional parameters are used together, positional parameters must be listed before keyword parameters:
+- When keyword and positional parameters are used together, positional parameters must be listed before keyword parameters:
 {%     if plugin_type == 'filter' %}
-     ``input | @{plugin_name}@(positional1, positional2, key1=value1, key2=value2)``
+  ``input | @{plugin_name}@(positional1, positional2, key1=value1, key2=value2)``
 {%     elif plugin_type == 'test' %}
-     ``input is @{plugin_name}@(positional1, positional2, key1=value1, key2=value2)`` and ``input is not @{plugin_name}@(positional1, positional2, key1=value1, key2=value2)``
+  ``input is @{plugin_name}@(positional1, positional2, key1=value1, key2=value2)`` and ``input is not @{plugin_name}@(positional1, positional2, key1=value1, key2=value2)``
 {%     elif plugin_type == 'lookup' %}
-     ``lookup('@{plugin_name}@', term1, term2, key1=value1, key2=value2)`` and ``query('@{plugin_name}@', term1, term2, key1=value1, key2=value2)``
+  ``lookup('@{plugin_name}@', term1, term2, key1=value1, key2=value2)`` and ``query('@{plugin_name}@', term1, term2, key1=value1, key2=value2)``
 {%     endif %}
 {%   endif %}
 {%   if doc['notes'] %}
 {%     for note in doc['notes'] %}
-   - @{ note | rst_ify | indent(width=5) }@
+- @{ note | rst_ify | indent(width=2) }@
 {%     endfor %}
 {%   endif %}
 {% endif %}
@@ -258,7 +254,7 @@ See Also
 Examples
 --------
 
-.. code-block:: yaml+jinja
+.. code-block:: yaml
 
 @{ examples | indent(4, True) }@
 

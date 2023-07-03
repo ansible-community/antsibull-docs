@@ -10,19 +10,17 @@
 @{ '+' * title|length }@
 
 {% if collection == 'ansible.builtin' -%}
-.. note::
-    This redirect is part of ``ansible-core`` and included in all Ansible
-    installations. In most cases, you can use the short module name
-    @{ plugin_name.rsplit('.', 1)[-1] }@ even without specifying the ``collections:`` keyword.
-    Despite that, we recommend you use the FQCN for easy linking to the module
-    documentation and to avoid conflicting with other collections that may have
-    the same module name.
+- This redirect is part of ``ansible-core`` and included in all Ansible
+  installations. In most cases, you can use the short module name
+  @{ plugin_name.rsplit('.', 1)[-1] }@ even without specifying the ``collections:`` keyword.
+  Despite that, we recommend you use the FQCN for easy linking to the module
+  documentation and to avoid conflicting with other collections that may have
+  the same module name.
 {% else %}
-.. note::
-    This redirect is part of the `@{collection}@ collection <@{ collection | collection_url }@>`_{% if collection_version %} (version @{ collection_version }@){% endif %}.
+- This redirect is part of the `@{collection}@ collection <@{ collection | collection_url }@>`_{% if collection_version %} (version @{ collection_version }@){% endif %}.
 
 {%   if not deprecation %}
-    To use it in a playbook, specify: :code:`@{plugin_name}@`.
+  To use it in a playbook, specify: :code:`@{plugin_name}@`.
 {%   endif %}
 {% endif %}
 

@@ -18,22 +18,20 @@
 @{ '+' * title|length }@
 
 {% if collection == 'ansible.builtin' -%}
-.. note::
-    This role is part of ``ansible-core`` and included in all Ansible
-    installations.
+This role is part of ``ansible-core`` and included in all Ansible
+installations.
 {% else %}
-.. note::
-    This role is part of the `@{collection}@ collection <@{ collection | collection_url }@>`_{% if collection_version %} (version @{ collection_version }@){% endif %}.
+This role is part of the `@{collection}@ collection <@{ collection | collection_url }@>`_{% if collection_version %} (version @{ collection_version }@){% endif %}.
 {%   if for_official_docsite %}
 
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+You might already have this collection installed if you are using the ``ansible`` package.
+It is not included in ``ansible-core``.
+To check whether it is installed, run :code:`ansible-galaxy collection list`.
 {%   endif %}
 
-    To install it use: @{ collection | collection_install | rst_code }@.
+To install it use: @{ collection | collection_install | rst_code }@.
 
-    To use it in a playbook, specify: :code:`@{plugin_name}@`.
+To use it in a playbook, specify: :code:`@{plugin_name}@`.
 {% endif %}
 
 .. contents::
@@ -107,9 +105,8 @@ Attributes
 Notes
 ^^^^^
 
-.. note::
 {%     for note in ep_doc['notes'] %}
-   - @{ note | rst_ify(role_entrypoint=entry_point) | indent(width=5) }@
+- @{ note | rst_ify(role_entrypoint=entry_point) | indent(width=2) }@
 {%     endfor %}
 {%   endif %}
 

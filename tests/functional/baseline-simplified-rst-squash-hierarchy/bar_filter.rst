@@ -3,12 +3,11 @@
 ns2.col.bar filter -- The bar filter
 ++++++++++++++++++++++++++++++++++++
 
-.. note::
-    This filter plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
+This filter plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
 
-    To install it, use: :code:`ansible-galaxy collection install ns2.col`.
+To install it, use: :code:`ansible-galaxy collection install ns2.col`.
 
-    To use it in a playbook, specify: :code:`ns2.col.bar`.
+To use it in a playbook, specify: :code:`ns2.col.bar`.
 
 New in ns2.col 2.0.0
 
@@ -188,15 +187,14 @@ example: ``input | ns2.col.bar(key1=value1, key2=value2, ...)``
 Notes
 -----
 
-.. note::
-   - When keyword and positional parameters are used together, positional parameters must be listed before keyword parameters:
-     ``input | ns2.col.bar(positional1, positional2, key1=value1, key2=value2)``
+- When keyword and positional parameters are used together, positional parameters must be listed before keyword parameters:
+  ``input | ns2.col.bar(positional1, positional2, key1=value1, key2=value2)``
 
 
 Examples
 --------
 
-.. code-block:: yaml+jinja
+.. code-block:: yaml
 
     
     {'a': 1} | ns2.col.bar({'b': 2}, baz='cde')
