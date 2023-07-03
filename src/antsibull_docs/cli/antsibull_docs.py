@@ -37,6 +37,7 @@ from ..docs_parsing.fqcn import is_fqcn  # noqa: E402
 from ..schemas.app_context import DocsAppContext  # noqa: E402
 from .doc_commands import (  # noqa: E402
     collection,
+    collection_plugins,
     current,
     devel,
     lint_docs,
@@ -57,6 +58,7 @@ ARGS_MAP: dict[str, Callable] = {
     "stable": stable.generate_docs,
     "current": current.generate_docs,
     "collection": collection.generate_docs,
+    "collection-plugins": collection_plugins.generate_docs,
     "plugin": plugin.generate_docs,
     "sphinx-init": sphinx_init.site_init,
     "lint-collection-docs": lint_docs.lint_collection_docs,
@@ -455,6 +457,37 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         default="module",
         choices=DOCUMENTABLE_PLUGINS,
         help="The type of the plugin",
+    )
+
+    #
+    # Document one or more specified collections
+    #
+    collection_plugins_parser = subparsers.add_parser(
+        "collection-plugins",
+        parents=[docs_parser, template_parser, output_format_parser],
+        description="Generate documentation for all plugins of a specified collection",
+    )
+    collection_plugins_parser.add_argument(
+        "--collection-version",
+        default="@latest",
+        help="The version of the collection to document.  The special"
+        ' version, "@latest" can be used to download and document the'
+        " latest version from galaxy.",
+    )
+    collection_plugins_parser.add_argument(
+        "--use-current",
+        action="store_true",
+        help="Assumes that the argument is a collection name, and"
+        " that collection has been installed with the current"
+        " version of ansible. Specified --collection-version will be"
+        " ignored.",
+    )
+    collection_plugins_parser.add_argument(
+        nargs=1,
+        dest="collection",
+        help="A collection whose plugins to document.  It will be"
+        " downloaded from Galaxy or is assumed to be installed,"
+        " depending on whether --use-current is specified.",
     )
 
     #

@@ -6,7 +6,7 @@
 
 {% macro list_plugins(plugin_type) %}
 {%   for name, desc in plugin_maps[plugin_type].items() | sort %}
-* `@{ name }@ @{ plugin_type }@ <@{ name }@_@{ plugin_type }@.rst>`_ -- @{ desc | rst_ify(plugin_fqcn=collection_name ~ '.' ~ name, plugin_type=plugin_type) | indent(width=2) }@
+* `@{ name }@ @{ plugin_type }@ <@{ get_plugin_filename(collection_name ~ '.' ~ name, plugin_type) }@>`_ -- @{ desc | rst_ify(plugin_fqcn=collection_name ~ '.' ~ name, plugin_type=plugin_type) | indent(width=2) }@
 {%   endfor %}
 {% endmacro %}
 

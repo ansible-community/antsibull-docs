@@ -21,7 +21,8 @@ from jinja2 import Template
 
 from ..collection_links import CollectionLinks
 from ..docs_parsing import AnsibleCollectionMetadata
-from ..jinja2.environment import OutputFormat, doc_environment, get_template_filename
+from ..jinja2 import FilenameGenerator, OutputFormat
+from ..jinja2.environment import doc_environment, get_template_filename
 from ..utils.collection_name_transformer import CollectionNameTransformer
 from . import _render_template
 
@@ -38,6 +39,8 @@ async def write_stub_rst(
     redirect_tmpl: Template,
     tombstone_tmpl: Template,
     dest_dir: str,
+    output_format: OutputFormat,
+    filename_generator: FilenameGenerator,
     path_override: str | None = None,
     squash_hierarchy: bool = False,
     for_official_docsite: bool = False,
@@ -112,7 +115,8 @@ async def write_stub_rst(
             os.makedirs(collection_dir, mode=0o755, exist_ok=True)
 
         plugin_file = os.path.join(
-            collection_dir, f"{plugin_short_name}_{plugin_type}.rst"
+            collection_dir,
+            filename_generator.plugin_filename(plugin_name, plugin_type, output_format),
         )
 
     await write_file(plugin_file, plugin_contents)
@@ -128,6 +132,7 @@ async def output_all_plugin_stub_rst(
     collection_metadata: Mapping[str, AnsibleCollectionMetadata],
     link_data: Mapping[str, CollectionLinks],
     output_format: OutputFormat,
+    filename_generator: FilenameGenerator,
     squash_hierarchy: bool = False,
     for_official_docsite: bool = False,
     referable_envvars: set[str] | None = None,
@@ -154,6 +159,7 @@ async def output_all_plugin_stub_rst(
         collection_install=collection_install,
         referable_envvars=referable_envvars,
         output_format=output_format,
+        filename_generator=filename_generator,
     )
     # Get the templates
     redirect_tmpl = env.get_template(
@@ -181,6 +187,8 @@ async def output_all_plugin_stub_rst(
                                 redirect_tmpl,
                                 tombstone_tmpl,
                                 dest_dir,
+                                output_format,
+                                filename_generator,
                                 squash_hierarchy=squash_hierarchy,
                                 for_official_docsite=for_official_docsite,
                             )

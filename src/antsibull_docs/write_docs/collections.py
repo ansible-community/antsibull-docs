@@ -21,7 +21,8 @@ from packaging.specifiers import SpecifierSet
 from ..collection_links import CollectionLinks
 from ..docs_parsing import AnsibleCollectionMetadata
 from ..extra_docs import CollectionExtraDocsInfoT
-from ..jinja2.environment import OutputFormat, doc_environment, get_template_filename
+from ..jinja2 import FilenameGenerator, OutputFormat
+from ..jinja2.environment import doc_environment, get_template_filename
 from ..utils.collection_name_transformer import CollectionNameTransformer
 from . import CollectionInfoT, _render_template
 
@@ -61,6 +62,8 @@ async def write_plugin_lists(
     collection_meta: AnsibleCollectionMetadata,
     extra_docs_data: CollectionExtraDocsInfoT,
     link_data: CollectionLinks,
+    output_format: OutputFormat,
+    filename_generator: FilenameGenerator,  # pylint: disable=unused-argument
     breadcrumbs: bool = True,
     for_official_docsite: bool = False,
     squash_hierarchy: bool = False,
@@ -119,7 +122,7 @@ async def write_plugin_lists(
     # This is only safe because we made sure that the top of the directory tree we're writing to
     # (docs/docsite/rst) is only writable by us.
     os.makedirs(dest_dir, mode=0o755, exist_ok=True)
-    index_file = os.path.join(dest_dir, "index.rst")
+    index_file = os.path.join(dest_dir, f"index{output_format.output_extension}")
 
     await write_file(index_file, index_contents)
 
@@ -135,6 +138,7 @@ async def output_indexes(
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
     output_format: OutputFormat,
+    filename_generator: FilenameGenerator,
     squash_hierarchy: bool = False,
     breadcrumbs: bool = True,
     for_official_docsite: bool = False,
@@ -169,6 +173,7 @@ async def output_indexes(
         collection_install=collection_install,
         referable_envvars=referable_envvars,
         output_format=output_format,
+        filename_generator=filename_generator,
     )
     # Get the templates
     collection_plugins_tmpl = env.get_template(
@@ -207,6 +212,8 @@ async def output_indexes(
                         collection_metadata[collection_name],
                         extra_docs_data[collection_name],
                         link_data[collection_name],
+                        output_format,
+                        filename_generator,
                         breadcrumbs=breadcrumbs,
                         for_official_docsite=for_official_docsite,
                         squash_hierarchy=squash_hierarchy,

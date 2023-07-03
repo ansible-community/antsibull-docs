@@ -30,7 +30,7 @@ mlog = log.fields(mod=__name__)
 def generate_collection_docs(
     collection_dir: str | None, output_format: OutputFormat, squash_hierarchy: bool
 ) -> int:
-    flog = mlog.fields(func="generate_current_docs")
+    flog = mlog.fields(func="generate_collection_docs")
     flog.debug("Begin generating docs")
 
     app_ctx = app_context.app_ctx.get()

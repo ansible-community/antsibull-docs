@@ -224,3 +224,11 @@ def html_ify(
     flog.fields(counts=counts).info("Number of macros converted to html equivalents")
     flog.debug("Leave")
     return text
+
+
+def collection_name(fqcn: str) -> str:
+    return ".".join(fqcn.split(".", 2)[:2])
+
+
+def plugin_shortname(fqcn: str) -> str:
+    return fqcn.split(".", 2)[2]

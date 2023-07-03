@@ -20,7 +20,7 @@ Index of all @{ plugin_type | capitalize }@ Plugins
 @{ '-' * (collection_name | length) }@
 
 {%   for plugin_name, plugin_desc in plugins.items() | sort %}
-* `@{ collection_name }@.@{ plugin_name }@ <@{ collection_name.replace('.', '/') }@/@{ plugin_name }@_@{ plugin_type }@.rst>`_ -- @{ plugin_desc | rst_ify(plugin_fqcn=collection_name ~ '.' ~ plugin_name, plugin_type=plugin_type) }@
+* `@{ collection_name }@.@{ plugin_name }@ <@{ collection_name | replace('.', '/') }@/@{ get_plugin_filename(collection_name ~ '.' ~ plugin_name, plugin_type) }@>`_ -- @{ plugin_desc | rst_ify(plugin_fqcn=collection_name ~ '.' ~ plugin_name, plugin_type=plugin_type) }@
 {%   endfor %}
 
 {% else %}

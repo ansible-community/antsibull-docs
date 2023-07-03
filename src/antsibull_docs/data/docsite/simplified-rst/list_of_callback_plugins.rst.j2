@@ -14,7 +14,7 @@ See `List of all Callback Plugins <index_callback.rst>`_ for the list of *all* c
 @{ '-' * (collection_name | length) }@
 
 {%   for plugin_name, plugin_desc in plugins.items() | sort %}
-* `@{ collection_name }@.@{ plugin_name }@ <@{ collection_name.replace('.', '/') }@/@{ plugin_name }@_callback.rst>`_ -- @{ plugin_desc | rst_ify(plugin_fqcn=collection_name ~ '.' ~ plugin_name, plugin_type='callback') }@
+* `@{ collection_name }@.@{ plugin_name }@ <@{ collection_name | replace('.', '/') }@/@{ get_plugin_filename(collection_name ~ '.' ~ plugin_name, 'callback') }@>`_ -- @{ plugin_desc | rst_ify(plugin_fqcn=collection_name ~ '.' ~ plugin_name, plugin_type='callback') }@
 {%   endfor %}
 
 {% else %}

@@ -14,5 +14,5 @@ These are the collections documented here.
 {% endif %}
 
 {% for name in collections | sort %}
-* `@{ name }@ <@{ name.replace('.', '/') }@/index.rst>`_
+* `@{ name }@ <@{ name | replace('.', '/') }@/index.rst>`_
 {% endfor %}

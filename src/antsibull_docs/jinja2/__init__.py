@@ -12,20 +12,27 @@ from enum import Enum
 
 
 class OutputFormat(Enum):
-    def __init__(self, output_format: str, extension: str):
+    def __init__(
+        self, output_format: str, template_extension: str, output_extension: str
+    ):
         self._output_format = output_format
-        self._extension = extension
+        self._template_extension = template_extension
+        self._output_extension = output_extension
 
-    ANSIBLE_DOCSITE = ("ansible-docsite", ".rst.j2")
-    SIMPLIFIED_RST = ("simplified-rst", ".rst.j2")
+    ANSIBLE_DOCSITE = ("ansible-docsite", ".rst.j2", ".rst")
+    SIMPLIFIED_RST = ("simplified-rst", ".rst.j2", ".rst")
 
     @property
     def output_format(self):
         return self._output_format
 
     @property
-    def extension(self):
-        return self._extension
+    def template_extension(self):
+        return self._template_extension
+
+    @property
+    def output_extension(self):
+        return self._output_extension
 
     @classmethod
     def parse(cls, output_format: str) -> OutputFormat:
@@ -36,3 +43,32 @@ class OutputFormat(Enum):
         raise ValueError(
             f"Unknown output format '{output_format}'. Allowed values are {output_formats}"
         )
+
+
+class FilenameGenerator:
+    def __init__(self, *, include_collection_name_in_plugins: bool = False):
+        """
+        :kwarg include_collection_name_in_plugins: Default False.  Set to True to use the FQCN
+            for plugin files instead of only the part without the collection name.
+        """
+        self._include_collection_name_in_plugins = include_collection_name_in_plugins
+
+    def plugin_basename(self, plugin_fqcn: str, plugin_type: str) -> str:
+        """
+        Given the plugin's FQCN and type, return the basename for the plugin's documentation's
+        filename.
+        """
+        col_namespace, col_name, plugin_name = plugin_fqcn.split(".", 2)
+        prefix = ""
+        if self._include_collection_name_in_plugins:
+            prefix = f"{col_namespace}.{col_name}."
+        return f"{prefix}{plugin_name}_{plugin_type}"
+
+    def plugin_filename(
+        self, plugin_fqcn: str, plugin_type: str, output_format: OutputFormat
+    ) -> str:
+        """
+        Given the plugin's FQCN and type, return the plugin's documentation's filename.
+        """
+        basename = self.plugin_basename(plugin_fqcn, plugin_type)
+        return f"{basename}{output_format.output_extension}"

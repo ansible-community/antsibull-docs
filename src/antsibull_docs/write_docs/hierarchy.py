@@ -18,7 +18,8 @@ from antsibull_core.logging import log
 from antsibull_core.utils.io import write_file
 from jinja2 import Template
 
-from ..jinja2.environment import OutputFormat, doc_environment, get_template_filename
+from ..jinja2 import FilenameGenerator, OutputFormat
+from ..jinja2.environment import doc_environment, get_template_filename
 from ..utils.collection_name_transformer import CollectionNameTransformer
 from . import CollectionInfoT, _render_template
 
@@ -30,6 +31,8 @@ async def write_collection_list(
     namespaces: Iterable[str],
     template: Template,
     dest_dir: str,
+    output_format: OutputFormat,
+    filename_generator: FilenameGenerator,  # pylint: disable=unused-argument
     breadcrumbs: bool = True,
     for_official_docsite: bool = False,
 ) -> None:
@@ -55,7 +58,7 @@ async def write_collection_list(
         breadcrumbs=breadcrumbs,
         for_official_docsite=for_official_docsite,
     )
-    index_file = os.path.join(dest_dir, "index.rst")
+    index_file = os.path.join(dest_dir, f"index{output_format.output_extension}")
 
     await write_file(index_file, index_contents)
 
@@ -65,6 +68,8 @@ async def write_collection_namespace_index(
     collections: Iterable[str],
     template: Template,
     dest_dir: str,
+    output_format: OutputFormat,
+    filename_generator: FilenameGenerator,  # pylint: disable=unused-argument
     breadcrumbs: bool = True,
     for_official_docsite: bool = False,
 ) -> None:
@@ -90,7 +95,7 @@ async def write_collection_namespace_index(
         breadcrumbs=breadcrumbs,
         for_official_docsite=for_official_docsite,
     )
-    index_file = os.path.join(dest_dir, "index.rst")
+    index_file = os.path.join(dest_dir, f"index{output_format.output_extension}")
 
     await write_file(index_file, index_contents)
 
@@ -102,6 +107,7 @@ async def output_collection_index(
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
     output_format: OutputFormat,
+    filename_generator: FilenameGenerator,
     breadcrumbs: bool = True,
     for_official_docsite: bool = False,
     referable_envvars: set[str] | None = None,
@@ -128,6 +134,7 @@ async def output_collection_index(
         collection_install=collection_install,
         referable_envvars=referable_envvars,
         output_format=output_format,
+        filename_generator=filename_generator,
     )
     # Get the templates
     collection_list_tmpl = env.get_template(
@@ -147,6 +154,8 @@ async def output_collection_index(
         collection_namespaces.keys(),
         collection_list_tmpl,
         collection_toplevel,
+        output_format,
+        filename_generator,
         breadcrumbs=breadcrumbs,
         for_official_docsite=for_official_docsite,
     )
@@ -160,6 +169,7 @@ async def output_collection_namespace_indexes(
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
     output_format: OutputFormat,
+    filename_generator: FilenameGenerator,
     breadcrumbs: bool = True,
     for_official_docsite: bool = False,
     referable_envvars: set[str] | None = None,
@@ -184,6 +194,7 @@ async def output_collection_namespace_indexes(
         collection_install=collection_install,
         referable_envvars=referable_envvars,
         output_format=output_format,
+        filename_generator=filename_generator,
     )
     # Get the templates
     collection_list_tmpl = env.get_template(
@@ -206,6 +217,8 @@ async def output_collection_namespace_indexes(
                         collection_names,
                         collection_list_tmpl,
                         namespace_dir,
+                        output_format,
+                        filename_generator,
                         breadcrumbs=breadcrumbs,
                         for_official_docsite=for_official_docsite,
                     )

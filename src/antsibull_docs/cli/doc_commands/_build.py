@@ -28,7 +28,7 @@ from ...env_variables import (
     load_ansible_config,
 )
 from ...extra_docs import load_collections_extra_docs
-from ...jinja2.environment import OutputFormat
+from ...jinja2 import FilenameGenerator, OutputFormat
 from ...process_docs import (
     get_callback_plugin_contents,
     get_collection_contents,
@@ -53,7 +53,7 @@ from ...write_docs.plugins import output_all_plugin_rst
 mlog = log.fields(mod=__name__)
 
 
-def generate_docs_for_all_collections(
+def generate_docs_for_all_collections(  # noqa: C901
     venv: VenvRunner | FakeVenvRunner,
     collection_dir: str | None,
     dest_dir: str,
@@ -61,11 +61,15 @@ def generate_docs_for_all_collections(
     *,
     collection_names: list[str] | None = None,
     create_indexes: bool = True,
+    create_collection_indexes: bool = True,
+    add_extra_docs: bool = True,
+    add_redirect_stubs: bool = True,
     squash_hierarchy: bool = False,
     breadcrumbs: bool = True,
     use_html_blobs: bool = False,
     fail_on_error: bool = False,
     for_official_docsite: bool = False,
+    include_collection_name_in_plugins: bool = False,
 ) -> int:
     """
     Create documentation for a set of installed collections.
@@ -80,6 +84,9 @@ def generate_docs_for_all_collections(
                              for these collections will be collected and generated.
     :kwarg create_indexes: Whether to create the collection, namespace, and plugin indexes. By
                            default, they are created.
+    :kwarg create_collection_indexes: Whether to create the per-collection plugin index.
+    :kwarg add_extra_docs: Whether to add extra docs.
+    :kwarg add_redirect_stubs: Whether to create redirect stub files.
     :kwarg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
                              Undefined behavior if documentation for multiple collections are
                              created.
@@ -91,6 +98,8 @@ def generate_docs_for_all_collections(
         errors, instead of generating error pages.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
+    :kwarg include_collection_name_in_plugins: Default False.  Set to True to use the FQCN for
+        plugin files instead of only the part without the collection name.
     :returns: A return code for the program.  See :func:`antsibull.cli.antsibull_docs.main` for
         details on what each code means.
     """
@@ -184,6 +193,10 @@ def generate_docs_for_all_collections(
         "ansible-galaxy collection install {namespace}.{name}",
     )
 
+    filename_generator = FilenameGenerator(
+        include_collection_name_in_plugins=include_collection_name_in_plugins
+    )
+
     # Only build top-level index if requested
     if create_indexes:
         asyncio.run(
@@ -194,6 +207,7 @@ def generate_docs_for_all_collections(
                 collection_url=collection_url,
                 collection_install=collection_install,
                 output_format=output_format,
+                filename_generator=filename_generator,
                 breadcrumbs=breadcrumbs,
                 for_official_docsite=for_official_docsite,
                 referable_envvars=referable_envvars,
@@ -207,6 +221,7 @@ def generate_docs_for_all_collections(
                 collection_url=collection_url,
                 collection_install=collection_install,
                 output_format=output_format,
+                filename_generator=filename_generator,
                 breadcrumbs=breadcrumbs,
                 for_official_docsite=for_official_docsite,
                 referable_envvars=referable_envvars,
@@ -221,6 +236,7 @@ def generate_docs_for_all_collections(
                 collection_url=collection_url,
                 collection_install=collection_install,
                 output_format=output_format,
+                filename_generator=filename_generator,
                 for_official_docsite=for_official_docsite,
                 referable_envvars=referable_envvars,
             )
@@ -233,45 +249,50 @@ def generate_docs_for_all_collections(
                 collection_url=collection_url,
                 collection_install=collection_install,
                 output_format=output_format,
+                filename_generator=filename_generator,
                 for_official_docsite=for_official_docsite,
                 referable_envvars=referable_envvars,
             )
         )
         flog.notice("Finished writing callback plugin indexes")
 
-    asyncio.run(
-        output_indexes(
-            collection_to_plugin_info,
-            dest_dir,
-            collection_url=collection_url,
-            collection_install=collection_install,
-            collection_metadata=collection_metadata,
-            squash_hierarchy=squash_hierarchy,
-            extra_docs_data=extra_docs_data,
-            link_data=link_data,
-            output_format=output_format,
-            breadcrumbs=breadcrumbs,
-            for_official_docsite=for_official_docsite,
-            referable_envvars=referable_envvars,
+    if create_collection_indexes:
+        asyncio.run(
+            output_indexes(
+                collection_to_plugin_info,
+                dest_dir,
+                collection_url=collection_url,
+                collection_install=collection_install,
+                collection_metadata=collection_metadata,
+                squash_hierarchy=squash_hierarchy,
+                extra_docs_data=extra_docs_data,
+                link_data=link_data,
+                output_format=output_format,
+                filename_generator=filename_generator,
+                breadcrumbs=breadcrumbs,
+                for_official_docsite=for_official_docsite,
+                referable_envvars=referable_envvars,
+            )
         )
-    )
-    flog.notice("Finished writing indexes")
+        flog.notice("Finished writing indexes")
 
-    asyncio.run(
-        output_all_plugin_stub_rst(
-            stubs_info,
-            dest_dir,
-            collection_url=collection_url,
-            collection_install=collection_install,
-            collection_metadata=collection_metadata,
-            link_data=link_data,
-            output_format=output_format,
-            squash_hierarchy=squash_hierarchy,
-            for_official_docsite=for_official_docsite,
-            referable_envvars=referable_envvars,
+    if add_redirect_stubs:
+        asyncio.run(
+            output_all_plugin_stub_rst(
+                stubs_info,
+                dest_dir,
+                collection_url=collection_url,
+                collection_install=collection_install,
+                collection_metadata=collection_metadata,
+                link_data=link_data,
+                output_format=output_format,
+                filename_generator=filename_generator,
+                squash_hierarchy=squash_hierarchy,
+                for_official_docsite=for_official_docsite,
+                referable_envvars=referable_envvars,
+            )
         )
-    )
-    flog.debug("Finished writing plugin stubs")
+        flog.debug("Finished writing plugin stubs")
 
     asyncio.run(
         output_all_plugin_rst(
@@ -284,6 +305,7 @@ def generate_docs_for_all_collections(
             collection_metadata=collection_metadata,
             link_data=link_data,
             output_format=output_format,
+            filename_generator=filename_generator,
             squash_hierarchy=squash_hierarchy,
             use_html_blobs=use_html_blobs,
             for_official_docsite=for_official_docsite,
@@ -292,10 +314,13 @@ def generate_docs_for_all_collections(
     )
     flog.debug("Finished writing plugin docs")
 
-    asyncio.run(
-        output_extra_docs(dest_dir, extra_docs_data, squash_hierarchy=squash_hierarchy)
-    )
-    flog.debug("Finished writing extra docs")
+    if add_extra_docs:
+        asyncio.run(
+            output_extra_docs(
+                dest_dir, extra_docs_data, squash_hierarchy=squash_hierarchy
+            )
+        )
+        flog.debug("Finished writing extra docs")
 
     if output_format == OutputFormat.ANSIBLE_DOCSITE:
         asyncio.run(
@@ -303,6 +328,7 @@ def generate_docs_for_all_collections(
                 dest_dir,
                 referenced_env_vars,
                 output_format=output_format,
+                filename_generator=filename_generator,
                 squash_hierarchy=squash_hierarchy,
                 referable_envvars=referable_envvars,
             )

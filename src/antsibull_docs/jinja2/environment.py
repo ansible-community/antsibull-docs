@@ -15,8 +15,9 @@ from jinja2 import BaseLoader, Environment, FileSystemLoader, PackageLoader
 
 from ..markup.rstify import rst_code, rst_escape
 from ..utils.collection_name_transformer import CollectionNameTransformer
-from . import OutputFormat
+from . import FilenameGenerator, OutputFormat
 from .filters import (
+    collection_name,
     do_max,
     documented_type,
     extract_options_from_list,
@@ -24,6 +25,7 @@ from .filters import (
     make_rst_ify,
     massage_author_name,
     move_first,
+    plugin_shortname,
     remove_options_from_list,
     rst_fmt,
     rst_xline,
@@ -78,7 +80,7 @@ def get_template_filename(filename_base: str, output_format: OutputFormat) -> st
     """
     Return template filename given the filename base and the output format.
     """
-    return f"{filename_base}{output_format.extension}"
+    return f"{filename_base}{output_format.template_extension}"
 
 
 def _get_loader(
@@ -104,6 +106,24 @@ def _get_loader(
     return PackageLoader(template_pkg, template_path)
 
 
+def _create_filename_functions(
+    filename_generator: FilenameGenerator,
+    output_format: OutputFormat,
+) -> Mapping[str, t.Callable]:
+    def get_plugin_basename(plugin_fqcn: str, plugin_type: str) -> str:
+        return filename_generator.plugin_basename(plugin_fqcn, plugin_type)
+
+    def get_plugin_filename(plugin_fqcn: str, plugin_type: str) -> str:
+        return filename_generator.plugin_filename(
+            plugin_fqcn, plugin_type, output_format
+        )
+
+    return {
+        "get_plugin_basename": get_plugin_basename,
+        "get_plugin_filename": get_plugin_filename,
+    }
+
+
 def doc_environment(
     template_location: str | tuple[str, str] | None = None,
     *,
@@ -113,6 +133,7 @@ def doc_environment(
     collection_install: CollectionNameTransformer | None = None,
     referable_envvars: set[str] | None = None,
     output_format: OutputFormat | None = None,
+    filename_generator: FilenameGenerator | None = None,
 ) -> Environment:
     loader = _get_loader(template_location, output_format)
     if output_format is None:
@@ -138,6 +159,11 @@ def doc_environment(
         # Jinja < 2.9
         env.filters["tojson"] = json.dumps
 
+    if filename_generator:
+        env.globals.update(
+            _create_filename_functions(filename_generator, output_format)
+        )
+
     env.globals["reference_plugin_rst"] = make_reference_plugin_rst(output_format)
     env.globals["referable_envvars"] = referable_envvars
     env.filters["rst_ify"] = make_rst_ify(output_format)
@@ -153,6 +179,8 @@ def doc_environment(
     env.filters["remove_options_from_list"] = remove_options_from_list
     env.filters["antsibull_to_json"] = to_json
     env.filters["antsibull_to_ini_value"] = to_ini_value
+    env.filters["collection_name"] = collection_name
+    env.filters["plugin_shortname"] = plugin_shortname
     if collection_url is not None:
         env.filters["collection_url"] = collection_url
     if collection_install is not None:
