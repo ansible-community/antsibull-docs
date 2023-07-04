@@ -31,77 +31,69 @@ Synopsis
 Parameters
 ----------
 
-.. list-table::
-  :widths: auto
-  :header-rows: 1
+.. raw:: html
 
-  * - Parameter
-    - Comments
+  <table style="width: 100%; height: 1px;">
+  <thead>
+  <tr>
+    <th><p>Parameter</p></th>
+    <th><p>Comments</p></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
+      <p style="display: inline;"><strong>bar</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">string</span>
+      </p>
 
-  * - .. raw:: html
+    </div></td>
+    <td>
+      <p>Foo bar.</p>
+    </td>
+  </tr>
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+      <div class="ansibleOptionAnchor" id="parameter-remote_tmp"></div>
+      <p style="display: inline;"><strong>remote_tmp</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-remote_tmp" title="Permalink to this option"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">string</span>
+      </p>
+      <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in ansible-base 2.10</span></p>
 
-        <div style="display: flex;"><div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
+    </div></td>
+    <td>
+      <p>Temporary directory to use on targets when executing tasks.</p>
+      <p style="margin-top: 8px;"><span style="color: blue; font-weight: 700;">Default:</span> <code style="color: blue;">&#34;~/.ansible/tmp&#34;</code></p>
+      <p style="margin-top: 8px;"><span style="font-weight: 700;">Configuration:</span></p>
+      <ul>
+      <li>
+        <p>INI entry</p>
+        <pre>[defaults]
+  remote_tmp = ~/.ansible/tmp</pre>
 
-      .. _parameter-bar:
+      </li>
+      <li>
+        <p>Environment variable: <code>ANSIBLE_REMOTE_TEMP</code></p>
 
-      **bar**
+      </li>
+      <li>
+        <p>Environment variable: <code>ANSIBLE_REMOTE_TMP</code></p>
 
-      :literal:`string`
+      </li>
+      <li>
+        <p>Variable: ansible_remote_tmp</p>
 
-
-
-
-      .. raw:: html
-
-        </div></div>
-
-    - 
-      Foo bar.
-
-
-
-  * - .. raw:: html
-
-        <div style="display: flex;"><div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
-
-      .. _parameter-remote_tmp:
-
-      **remote_tmp**
-
-      :literal:`string`
-
-      added in ansible-base 2.10
-
-
-
-
-
-      .. raw:: html
-
-        </div></div>
-
-    - 
-      Temporary directory to use on targets when executing tasks.
-
-
-      Default: :literal:`"~/.ansible/tmp"`
-
-      Configuration:
-
-      - INI entry:
-
-        .. code-block::
-
-          [defaults]
-          remote_tmp = ~/.ansible/tmp
-
-
-      - Environment variable: :literal:`ANSIBLE\_REMOTE\_TEMP`
-
-      - Environment variable: :literal:`ANSIBLE\_REMOTE\_TMP`
-
-      - Variable: ansible\_remote\_tmp
-
+      </li>
+      </ul>
+    </td>
+  </tr>
+  </tbody>
+  </table>
 
 
 

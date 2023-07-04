@@ -31,33 +31,33 @@ Input
 
 This describes the input of the test, the value before ``is ns2.col.foo`` or ``is not ns2.col.foo``.
 
-.. list-table::
-  :widths: auto
-  :header-rows: 1
+.. raw:: html
 
-  * - Parameter
-    - Comments
+  <table style="width: 100%; height: 1px;">
+  <thead>
+  <tr>
+    <th><p>Parameter</p></th>
+    <th><p>Comments</p></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+      <div class="ansibleOptionAnchor" id="parameter-_input"></div>
+      <p style="display: inline;"><strong>Input</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-_input" title="Permalink to this option"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">dictionary</span>
+        / <span style="color: red;">required</span>
+      </p>
 
-  * - .. raw:: html
-
-        <div style="display: flex;"><div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
-
-      .. _parameter-_input:
-
-      **Input**
-
-      :literal:`dictionary` / :strong:`required`
-
-
-
-
-      .. raw:: html
-
-        </div></div>
-
-    - 
-      Something to test.
-
+    </div></td>
+    <td>
+      <p>Something to test.</p>
+    </td>
+  </tr>
+  </tbody>
+  </table>
 
 
 
@@ -69,33 +69,32 @@ Keyword parameters
 This describes keyword parameters of the test. These are the values ``key1=value1``, ``key2=value2`` and so on in the following
 examples: ``input is ns2.col.foo(key1=value1, key2=value2, ...)`` and ``input is not ns2.col.foo(key1=value1, key2=value2, ...)``
 
-.. list-table::
-  :widths: auto
-  :header-rows: 1
+.. raw:: html
 
-  * - Parameter
-    - Comments
+  <table style="width: 100%; height: 1px;">
+  <thead>
+  <tr>
+    <th><p>Parameter</p></th>
+    <th><p>Comments</p></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
+      <p style="display: inline;"><strong>bar</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">string</span>
+      </p>
 
-  * - .. raw:: html
-
-        <div style="display: flex;"><div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
-
-      .. _parameter-bar:
-
-      **bar**
-
-      :literal:`string`
-
-
-
-
-      .. raw:: html
-
-        </div></div>
-
-    - 
-      Foo bar.
-
+    </div></td>
+    <td>
+      <p>Foo bar.</p>
+    </td>
+  </tr>
+  </tbody>
+  </table>
 
 
 
@@ -117,31 +116,32 @@ Examples
 Return Value
 ------------
 
-.. list-table::
-  :widths: auto
-  :header-rows: 1
+.. raw:: html
 
-  * - Key
-    - Description
-
-  * - .. raw:: html
-
-        <div style="display: flex;"><div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
-
-      .. _return-_value:
-
-      **Return value**
-
-      :literal:`boolean`
-
-      .. raw:: html
-
-        </div></div>
-    - 
-      Whether the input is a foo.
-
-
-      Returned: success
+  <table style="width: 100%; height: 1px;">
+  <thead>
+  <tr>
+    <th><p>Key</p></th>
+    <th><p>Description</p></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+      <div class="ansibleOptionAnchor" id="return-_value"></div>
+      <p style="display: inline;"><strong>Return value</strong></p>
+      <a class="ansibleOptionLink" href="#return-_value" title="Permalink to this return value"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">boolean</span>
+      </p>
+    </div></td>
+    <td>
+      <p>Whether the input is a foo.</p>
+      <p style="margin-top: 8px;"><span style="font-weight: 700;">Returned:</span> success</p>
+    </td>
+  </tr>
+  </tbody>
+  </table>
 
 
 

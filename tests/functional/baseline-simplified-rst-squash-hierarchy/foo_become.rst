@@ -42,188 +42,152 @@ Synopsis
 Parameters
 ----------
 
-.. list-table::
-  :widths: auto
-  :header-rows: 1
-
-  * - Parameter
-    - Comments
-
-  * - .. raw:: html
-
-        <div style="display: flex;"><div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
-
-      .. _parameter-bar:
-
-      **bar**
-
-      :literal:`string`
-
-      added in ns2.col 1.2.0
-
-
-
-      Removed in: version 4.0.0
-
-      Why: Just some other text.
-      This one has more than one line though.
-      One more.
-
-
-      Alternative: nothing
-      relevant
-      I know of
-
-
-
-
-
-      .. raw:: html
-
-        </div></div>
-
-    - 
-      Bar. \ :strong:`BAR!`\ 
-
-      Totally unrelated to \ :literal:`become\_user` (`link <parameter-become_user_>`_)\ . Even with \ :literal:`become\_user=foo` (`link <parameter-become_user_>`_)\ .
-
-      Might not be compatible when \ :literal:`become\_user` (`link <parameter-become_user_>`_)\  is \ :literal:`bar`\ , though.
-
-
-
-  * - .. raw:: html
-
-        <div style="display: flex;"><div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
-
-      .. _parameter-become_exe:
-
-      **become_exe**
-
-      :literal:`string`
-
-      added in ns2.col 0.2.0
-
-
-
-
-
-      .. raw:: html
-
-        </div></div>
-
-    - 
-      Foo executable.
-
-
-      Default: :literal:`"foo"`
-
-      Configuration:
-
-      - INI entries:
-
-        .. code-block::
-
-          [privilege_escalation]
-          become_exe = foo
-
-
-
-        .. code-block::
-
-          [foo_become_plugin]
-          executable = foo
-
-
-        Removed in: version 3.0.0
-
-        Why: Just some text.
-
-        Alternative: nothing
-
-
-      - Environment variable: :literal:`ANSIBLE\_BECOME\_EXE`
-
-      - Environment variable: :literal:`ANSIBLE\_FOO\_EXE`
-
-        Removed in: version 3.0.0
-
-        Why: Just some text.
-
-        Alternative: nothing
-
-
-      - Variable: ansible\_become\_exe
-
-      - Variable: ansible\_foo\_exe
-
-        Removed in: version 3.0.0
-
-        Why: Just some text.
-
-        Alternative: nothing
-
-
-      - Keyword: become\_exe
-
-
-
-  * - .. raw:: html
-
-        <div style="display: flex;"><div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
-
-      .. _parameter-become_user:
-
-      **become_user**
-
-      :literal:`string`
-
-
-
-
-      .. raw:: html
-
-        </div></div>
-
-    - 
-      User you 'become' to execute the task.
-
-
-      Default: :literal:`"root"`
-
-      Configuration:
-
-      - INI entries:
-
-        .. code-block::
-
-          [privilege_escalation]
-          become_user = root
-
-        added in ns2.col 0.1.0
-
-
-        .. code-block::
-
-          [foo_become_plugin]
-          user = root
-
-
-      - Environment variable: :literal:`ANSIBLE\_BECOME\_USER`
-
-        added in ns2.col 0.1.0
-
-      - Environment variable: :literal:`ANSIBLE\_FOO\_USER`
-
-      - Variable: ansible\_become\_user
-
-      - Variable: ansible\_foo\_user
-
-        added in ns2.col 0.1.0
-
-      - Keyword: become\_user
-
-        added in ns2.col 0.1.0
-
+.. raw:: html
+
+  <table style="width: 100%; height: 1px;">
+  <thead>
+  <tr>
+    <th><p>Parameter</p></th>
+    <th><p>Comments</p></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
+      <p style="display: inline;"><strong>bar</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">string</span>
+      </p>
+      <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in ns2.col 1.2.0</span></p>
+  <p>Removed in: version 4.0.0</p>
+  <p>Why: Just some other text.
+  This one has more than one line though.
+  One more.
+  </p>
+  <p>Alternative: nothing
+  relevant
+  I know of
+  </p>
+
+    </div></td>
+    <td>
+      <p>Bar. <b>BAR!</b></p>
+      <p>Totally unrelated to <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="#parameter-become_user"><span class="std std-ref"><span class="pre">become_user</span></span></a></strong></code>. Even with <code class="ansible-option-value literal notranslate"><a class="reference internal" href="#parameter-become_user"><span class="std std-ref"><span class="pre">become_user=foo</span></span></a></code>.</p>
+      <p>Might not be compatible when <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="#parameter-become_user"><span class="std std-ref"><span class="pre">become_user</span></span></a></strong></code> is <code class="ansible-value literal notranslate">bar</code>, though.</p>
+    </td>
+  </tr>
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+      <div class="ansibleOptionAnchor" id="parameter-become_exe"></div>
+      <p style="display: inline;"><strong>become_exe</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-become_exe" title="Permalink to this option"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">string</span>
+      </p>
+      <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in ns2.col 0.2.0</span></p>
+
+    </div></td>
+    <td>
+      <p>Foo executable.</p>
+      <p style="margin-top: 8px;"><span style="color: blue; font-weight: 700;">Default:</span> <code style="color: blue;">&#34;foo&#34;</code></p>
+      <p style="margin-top: 8px;"><span style="font-weight: 700;">Configuration:</span></p>
+      <ul>
+      <li>
+        <p>INI entries</p>
+        <pre>[privilege_escalation]
+  become_exe = foo</pre>
+
+        <pre>[foo_become_plugin]
+  executable = foo</pre>
+  <p>Removed in: version 3.0.0</p>
+  <p>Why: Just some text.</p>
+  <p>Alternative: nothing</p>
+
+      </li>
+      <li>
+        <p>Environment variable: <code>ANSIBLE_BECOME_EXE</code></p>
+
+      </li>
+      <li>
+        <p>Environment variable: <code>ANSIBLE_FOO_EXE</code></p>
+  <p>Removed in: version 3.0.0</p>
+  <p>Why: Just some text.</p>
+  <p>Alternative: nothing</p>
+
+      </li>
+      <li>
+        <p>Variable: ansible_become_exe</p>
+
+      </li>
+      <li>
+        <p>Variable: ansible_foo_exe</p>
+  <p>Removed in: version 3.0.0</p>
+  <p>Why: Just some text.</p>
+  <p>Alternative: nothing</p>
+
+      </li>
+      <li>
+        <p>Keyword: become_exe</p>
+
+      </li>
+      </ul>
+    </td>
+  </tr>
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+      <div class="ansibleOptionAnchor" id="parameter-become_user"></div>
+      <p style="display: inline;"><strong>become_user</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-become_user" title="Permalink to this option"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">string</span>
+      </p>
+
+    </div></td>
+    <td>
+      <p>User you &#x27;become&#x27; to execute the task.</p>
+      <p style="margin-top: 8px;"><span style="color: blue; font-weight: 700;">Default:</span> <code style="color: blue;">&#34;root&#34;</code></p>
+      <p style="margin-top: 8px;"><span style="font-weight: 700;">Configuration:</span></p>
+      <ul>
+      <li>
+        <p>INI entries</p>
+        <pre>[privilege_escalation]
+  become_user = root</pre>
+        <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in ns2.col 0.1.0</span></p>
+
+        <pre>[foo_become_plugin]
+  user = root</pre>
+
+      </li>
+      <li>
+        <p>Environment variable: <code>ANSIBLE_BECOME_USER</code></p>
+        <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in ns2.col 0.1.0</span></p>
+
+      </li>
+      <li>
+        <p>Environment variable: <code>ANSIBLE_FOO_USER</code></p>
+
+      </li>
+      <li>
+        <p>Variable: ansible_become_user</p>
+
+      </li>
+      <li>
+        <p>Variable: ansible_foo_user</p>
+        <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in ns2.col 0.1.0</span></p>
+
+      </li>
+      <li>
+        <p>Keyword: become_user</p>
+        <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in ns2.col 0.1.0</span></p>
+
+      </li>
+      </ul>
+    </td>
+  </tr>
+  </tbody>
+  </table>
 
 
 

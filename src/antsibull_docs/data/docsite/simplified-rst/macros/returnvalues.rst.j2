@@ -4,65 +4,63 @@
   SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
-{% from 'macros/choiceslist.rst.j2' import in_rst as choices_rst %}
-{% from 'macros/version_added.rst.j2' import version_added_rst %}
+{% from 'macros/choiceslist.rst.j2' import in_html as choices_html %}
+{% from 'macros/version_added.rst.j2' import version_added_html %}
 
-{% macro in_rst(elements, role_entrypoint=None) %}
-.. list-table::
-  :widths: auto
-  :header-rows: 1
+{% macro in_html(elements, role_entrypoint=None) %}
+.. raw:: html
 
-  * - Key
-    - Description
+  <table style="width: 100%; height: 1px;">
+  <thead>
+  <tr>
+    <th><p>Key</p></th>
+    <th><p>Description</p></th>
+  </tr>
+  </thead>
+  <tbody>
+{% set row_class = cycler('even', 'odd') %}
 {% for key, value in elements recursive %}
 {#   return value name #}
-
-  * - .. raw:: html
-
-        <div style="display: flex;">{% for i in range(1, loop.depth) %}<div style="margin-left: 2em; border-right: 1px solid #000000;"></div>{% endfor %}<div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
-
-{% for full_key in value['full_keys_rst'] %}
-      .. _return-{% for part in full_key %}@{ part }@{% if not loop.last %}/{% endif %}{% endfor %}:
-{% endfor %}
-
-      **@{ key }@**
-
-      :literal:`@{ value['type'] | documented_type }@`
-      {%- if value['type'] == 'list' and value['elements'] is not none %} / :literal:`elements=@{ value['elements'] | documented_type }@`{% endif %}
-{%-   if value['version_added'] is still_relevant(collection=value['version_added_collection'] or collection) %}
-
-
-      added in @{ version_added_rst(value['version_added'], value['version_added_collection'] or collection) }@
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;">{% for i in range(1, loop.depth) %}<div style="margin-left: 2em; border-right: 1px solid #000000;"></div>{% endfor %}<div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+{%   for full_key in value['full_keys'] %}
+      <div class="ansibleOptionAnchor" id="return-{% for part in full_key %}@{ part | urlencode }@{% if not loop.last %}/{% endif %}{% endfor %}"></div>
+{%   endfor %}
+      <p style="display: inline;"><strong>@{ key | escape }@</strong></p>
+      <a class="ansibleOptionLink" href="#return-{% for part in value['full_key'] %}@{ part | urlencode }@{% if not loop.last %}/{% endif %}{% endfor %}" title="Permalink to this return value"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">@{ value['type'] | documented_type }@</span>
+{%   if value['type'] == 'list' and value['elements'] is not none %}
+        / <span style="color: purple;">elements=@{ value['elements'] | documented_type }@</span>
 {%   endif %}
+      </p>
+{%   if value['version_added'] is still_relevant(collection=value['version_added_collection'] or collection) %}
+      <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in @{ version_added_html(value['version_added'], value['version_added_collection'] or collection) }@</span></p>
+{%   endif %}
+    </div></td>
 {#   description #}
-
-
-      .. raw:: html
-
-        </div></div>
-    - 
+    <td>
 {%   for desc in value['description'] %}
-      @{ desc | rst_ify(role_entrypoint=role_entrypoint) | indent(6) }@
-
+      <p>@{ desc | html_ify(role_entrypoint=role_entrypoint) | indent(6, blank=true) }@</p>
 {%   endfor %}
 {%   if value['returned'] %}
-
-      Returned: @{ value['returned'] | rst_ify(role_entrypoint=role_entrypoint) | indent(6) }@
+      <p style="margin-top: 8px;"><span style="font-weight: 700;">Returned:</span> @{ value['returned'] | html_ify(role_entrypoint=role_entrypoint) | indent(6, blank=true) }@</p>
 {%   endif %}
 {#   Show possible choices and highlight details #}
 {%   if value['choices'] %}
-
-      Can only return:
-
-@{     choices_rst(value['choices'], has_no_default=True, role_entrypoint=role_entrypoint) }@
+      <p style="margin-top: 8px;"><span style="font-weight: 700;">Can only return:</span></p>
+@{     choices_html(value['choices'], has_no_default=True, role_entrypoint=role_entrypoint) }@
 {%   endif %}
 {%   if value['sample'] is not none %}
-
-      Sample: :literal:`@{ value['sample'] | antsibull_to_json | rst_escape(escape_ending_whitespace=true) | indent(6, blank=true) }@`
+      <p style="margin-top: 8px; color: blue; word-wrap: break-word; word-break: break-all;"><span style="color: black; font-weight: 700;">Sample:</span> <code>@{ value['sample'] | antsibull_to_json | escape | indent(6, blank=true) }@</code></p>
 {%   endif %}
-
+    </td>
+  </tr>
 {%   if value['contains'] %}
-    @{ loop(value['contains'] | dictsort) }@
+@{     loop(value['contains'] | dictsort) }@
 {%   endif %}
 {% endfor %}
+  </tbody>
+  </table>
+
 {% endmacro %}

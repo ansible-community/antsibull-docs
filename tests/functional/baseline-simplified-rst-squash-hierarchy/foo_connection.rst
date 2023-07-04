@@ -31,70 +31,70 @@ Synopsis
 Parameters
 ----------
 
-.. list-table::
-  :widths: auto
-  :header-rows: 1
+.. raw:: html
 
-  * - Parameter
-    - Comments
+  <table style="width: 100%; height: 1px;">
+  <thead>
+  <tr>
+    <th><p>Parameter</p></th>
+    <th><p>Comments</p></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
+      <p style="display: inline;"><strong>bar</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">integer</span>
+      </p>
 
-  * - .. raw:: html
+    </div></td>
+    <td>
+      <p>Foo bar.</p>
+    </td>
+  </tr>
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+      <div class="ansibleOptionAnchor" id="parameter-host"></div>
+      <p style="display: inline;"><strong>host</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-host" title="Permalink to this option"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">string</span>
+      </p>
 
-        <div style="display: flex;"><div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
+    </div></td>
+    <td>
+      <p>Hostname to connect to.</p>
+      <p style="margin-top: 8px;"><span style="color: blue; font-weight: 700;">Default:</span> <code style="color: blue;">&#34;inventory_hostname&#34;</code></p>
+      <p style="margin-top: 8px;"><span style="font-weight: 700;">Configuration:</span></p>
+      <ul>
+      <li>
+        <p>Variable: inventory_hostname</p>
 
-      .. _parameter-bar:
+      </li>
+      <li>
+        <p>Variable: ansible_host</p>
 
-      **bar**
+      </li>
+      <li>
+        <p>Variable: ansible_ssh_host</p>
 
-      :literal:`integer`
+      </li>
+      <li>
+        <p>Variable: delegated_vars[&#39;ansible_host&#39;]</p>
 
+      </li>
+      <li>
+        <p>Variable: delegated_vars[&#39;ansible_ssh_host&#39;]</p>
 
-
-
-      .. raw:: html
-
-        </div></div>
-
-    - 
-      Foo bar.
-
-
-
-  * - .. raw:: html
-
-        <div style="display: flex;"><div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
-
-      .. _parameter-host:
-
-      **host**
-
-      :literal:`string`
-
-
-
-
-      .. raw:: html
-
-        </div></div>
-
-    - 
-      Hostname to connect to.
-
-
-      Default: :literal:`"inventory\_hostname"`
-
-      Configuration:
-
-      - Variable: inventory\_hostname
-
-      - Variable: ansible\_host
-
-      - Variable: ansible\_ssh\_host
-
-      - Variable: delegated\_vars['ansible\_host']
-
-      - Variable: delegated\_vars['ansible\_ssh\_host']
-
+      </li>
+      </ul>
+    </td>
+  </tr>
+  </tbody>
+  </table>
 
 
 

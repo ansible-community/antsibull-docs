@@ -42,70 +42,61 @@ The below requirements are needed on the local controller node that executes thi
 Parameters
 ----------
 
-.. list-table::
-  :widths: auto
-  :header-rows: 1
+.. raw:: html
 
-  * - Parameter
-    - Comments
+  <table style="width: 100%; height: 1px;">
+  <thead>
+  <tr>
+    <th><p>Parameter</p></th>
+    <th><p>Comments</p></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+      <div class="ansibleOptionAnchor" id="parameter-_valid_extensions"></div>
+      <p style="display: inline;"><strong>_valid_extensions</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-_valid_extensions" title="Permalink to this option"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">list</span>
+        / <span style="color: purple;">elements=string</span>
+      </p>
 
-  * - .. raw:: html
+    </div></td>
+    <td>
+      <p>All extensions to check.</p>
+      <p style="margin-top: 8px;"><span style="color: blue; font-weight: 700;">Default:</span> <code style="color: blue;">[&#34;.foo&#34;, &#34;.foobar&#34;]</code></p>
+      <p style="margin-top: 8px;"><span style="font-weight: 700;">Configuration:</span></p>
+      <ul>
+      <li>
+        <p>INI entry</p>
+        <pre>[defaults]
+  foo_valid_extensions = .foo, .foobar</pre>
 
-        <div style="display: flex;"><div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
+      </li>
+      <li>
+        <p>Environment variable: <code>ANSIBLE_FOO_FILENAME_EXT</code></p>
 
-      .. _parameter-_valid_extensions:
+      </li>
+      </ul>
+    </td>
+  </tr>
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
+      <p style="display: inline;"><strong>bar</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">string</span>
+      </p>
 
-      **_valid_extensions**
-
-      :literal:`list` / :literal:`elements=string`
-
-
-
-
-      .. raw:: html
-
-        </div></div>
-
-    - 
-      All extensions to check.
-
-
-      Default: :literal:`[".foo", ".foobar"]`
-
-      Configuration:
-
-      - INI entry:
-
-        .. code-block::
-
-          [defaults]
-          foo_valid_extensions = .foo, .foobar
-
-
-      - Environment variable: :literal:`ANSIBLE\_FOO\_FILENAME\_EXT`
-
-
-
-  * - .. raw:: html
-
-        <div style="display: flex;"><div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
-
-      .. _parameter-bar:
-
-      **bar**
-
-      :literal:`string`
-
-
-
-
-      .. raw:: html
-
-        </div></div>
-
-    - 
-      Foo bar.
-
+    </div></td>
+    <td>
+      <p>Foo bar.</p>
+    </td>
+  </tr>
+  </tbody>
+  </table>
 
 
 

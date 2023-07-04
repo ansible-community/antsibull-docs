@@ -4,26 +4,30 @@
   SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
-{% macro in_rst(choices, default_value=None, has_no_default=False, role_entrypoint=None) %}
+{% macro in_html(choices, default_value=None, has_no_default=False, role_entrypoint=None) %}
+      <ul>
 {%   if choices is mapping %}
 {%     for choice, desc in choices | dictsort %}
+        <li>
 {%       if not has_no_default and ((default_value is not list and default_value == choice) or (default_value is list and choice in default_value)) %}
-      - :literal:`@{ choice | antsibull_to_json | rst_escape(escape_ending_whitespace=true) }@` (default):
+          <p><code style="color: blue; font-weight: 700;">@{ choice | antsibull_to_json | escape }@</code> <span style="color: blue;">(default)</span>:
 {%       else %}
-      - :literal:`@{ choice | antsibull_to_json | rst_escape(escape_ending_whitespace=true) }@`\ :
+          <p><code>@{ choice | antsibull_to_json | escape }@</code>:
 {%       endif %}
-{%       for par in desc %}
-        @{ par | rst_ify(role_entrypoint=role_entrypoint) | indent(8) }@
-
+          @{ desc | first | default('') | html_ify(role_entrypoint=role_entrypoint) | indent(10, blank=true) }@</p>
+{%       for line in desc[1:] %}
+          <p>@{ line | html_ify(role_entrypoint=role_entrypoint) | indent(10, blank=true) }@</p>
 {%       endfor %}
+        </li>
 {%     endfor %}
 {%   else %}
 {%     for choice in choices %}
 {%       if not has_no_default and ((default_value is not list and default_value == choice) or (default_value is list and choice in default_value)) %}
-      - :literal:`@{ choice | antsibull_to_json | rst_escape(escape_ending_whitespace=true) }@` ← (default)
+        <li><p><code style="color: blue; font-weight: 700;">@{ choice | antsibull_to_json | escape }@</code> <span style="color: blue;">← (default)</span></p></li>
 {%       else %}
-      - :literal:`@{ choice | antsibull_to_json | rst_escape(escape_ending_whitespace=true) }@`
+        <li><p><code>@{ choice | antsibull_to_json | escape }@</code></p></li>
 {%       endif %}
 {%     endfor %}
 {%   endif %}
+      </ul>
 {% endmacro %}

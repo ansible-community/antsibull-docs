@@ -32,33 +32,33 @@ Input
 
 This describes the input of the filter, the value before ``| ns2.col.bar``.
 
-.. list-table::
-  :widths: auto
-  :header-rows: 1
+.. raw:: html
 
-  * - Parameter
-    - Comments
+  <table style="width: 100%; height: 1px;">
+  <thead>
+  <tr>
+    <th><p>Parameter</p></th>
+    <th><p>Comments</p></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+      <div class="ansibleOptionAnchor" id="parameter-_input"></div>
+      <p style="display: inline;"><strong>Input</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-_input" title="Permalink to this option"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">dictionary</span>
+        / <span style="color: red;">required</span>
+      </p>
 
-  * - .. raw:: html
-
-        <div style="display: flex;"><div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
-
-      .. _parameter-_input:
-
-      **Input**
-
-      :literal:`dictionary` / :strong:`required`
-
-
-
-
-      .. raw:: html
-
-        </div></div>
-
-    - 
-      The main input.
-
+    </div></td>
+    <td>
+      <p>The main input.</p>
+    </td>
+  </tr>
+  </tbody>
+  </table>
 
 
 
@@ -70,61 +70,54 @@ Positional parameters
 This describes positional parameters of the filter. These are the values ``positional1``, ``positional2`` and so on in the following
 example: ``input | ns2.col.bar(positional1, positional2, ...)``
 
-.. list-table::
-  :widths: auto
-  :header-rows: 1
+.. raw:: html
 
-  * - Parameter
-    - Comments
+  <table style="width: 100%; height: 1px;">
+  <thead>
+  <tr>
+    <th><p>Parameter</p></th>
+    <th><p>Comments</p></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+      <div class="ansibleOptionAnchor" id="parameter-foo"></div>
+      <p style="display: inline;"><strong>foo</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-foo" title="Permalink to this option"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">list</span>
+        / <span style="color: purple;">elements=dictionary</span>
+        / <span style="color: red;">required</span>
+      </p>
 
-  * - .. raw:: html
+    </div></td>
+    <td>
+      <p>Some foo.</p>
+    </td>
+  </tr>
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
+      <p style="display: inline;"><strong>bar</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">boolean</span>
+      </p>
 
-        <div style="display: flex;"><div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
+    </div></td>
+    <td>
+      <p>And some bar.</p>
+      <p style="margin-top: 8px;"><span style="font-weight: 700;">Choices:</span></p>
+      <ul>
+        <li><p><code style="color: blue; font-weight: 700;">false</code> <span style="color: blue;">← (default)</span></p></li>
+        <li><p><code>true</code></p></li>
+      </ul>
 
-      .. _parameter-foo:
-
-      **foo**
-
-      :literal:`list` / :literal:`elements=dictionary` / :strong:`required`
-
-
-
-
-      .. raw:: html
-
-        </div></div>
-
-    - 
-      Some foo.
-
-
-
-  * - .. raw:: html
-
-        <div style="display: flex;"><div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
-
-      .. _parameter-bar:
-
-      **bar**
-
-      :literal:`boolean`
-
-
-
-
-      .. raw:: html
-
-        </div></div>
-
-    - 
-      And some bar.
-
-
-      Choices:
-
-      - :literal:`false` ← (default)
-      - :literal:`true`
-
+    </td>
+  </tr>
+  </tbody>
+  </table>
 
 
 
@@ -135,51 +128,53 @@ Keyword parameters
 This describes keyword parameters of the filter. These are the values ``key1=value1``, ``key2=value2`` and so on in the following
 example: ``input | ns2.col.bar(key1=value1, key2=value2, ...)``
 
-.. list-table::
-  :widths: auto
-  :header-rows: 1
+.. raw:: html
 
-  * - Parameter
-    - Comments
+  <table style="width: 100%; height: 1px;">
+  <thead>
+  <tr>
+    <th><p>Parameter</p></th>
+    <th><p>Comments</p></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+      <div class="ansibleOptionAnchor" id="parameter-baz"></div>
+      <p style="display: inline;"><strong>baz</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-baz" title="Permalink to this option"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">string</span>
+      </p>
 
-  * - .. raw:: html
+    </div></td>
+    <td>
+      <p>Something else.</p>
+      <p style="margin-top: 8px;"><span style="font-weight: 700;">Choices:</span></p>
+      <ul>
+        <li>
+          <p><code>&#34;a&#34;</code>:
+          Whatever <code class='docutils literal notranslate'>a</code> is.</p>
+        </li>
+        <li>
+          <p><code>&#34;b&#34;</code>:
+          What is <code class='docutils literal notranslate'>b</code>? I don&#x27;t know.</p>
+        </li>
+        <li>
+          <p><code>&#34;cde&#34;</code>:
+          This is some more unknown. There are rumors this is related to the alphabet.</p>
+        </li>
+        <li>
+          <p><code style="color: blue; font-weight: 700;">&#34;foo&#34;</code> <span style="color: blue;">(default)</span>:
+          Our default value, the glorious <code class='docutils literal notranslate'>foo</code>.</p>
+          <p>Even has two paragraphs.</p>
+        </li>
+      </ul>
 
-        <div style="display: flex;"><div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
-
-      .. _parameter-baz:
-
-      **baz**
-
-      :literal:`string`
-
-
-
-
-      .. raw:: html
-
-        </div></div>
-
-    - 
-      Something else.
-
-
-      Choices:
-
-      - :literal:`"a"`\ :
-        Whatever \ :literal:`a`\  is.
-
-      - :literal:`"b"`\ :
-        What is \ :literal:`b`\ ? I don't know.
-
-      - :literal:`"cde"`\ :
-        This is some more unknown. There are rumors this is related to the alphabet.
-
-      - :literal:`"foo"` (default):
-        Our default value, the glorious \ :literal:`foo`\ .
-
-        Even has two paragraphs.
-
-
+    </td>
+  </tr>
+  </tbody>
+  </table>
 
 
 
@@ -206,31 +201,32 @@ Examples
 Return Value
 ------------
 
-.. list-table::
-  :widths: auto
-  :header-rows: 1
+.. raw:: html
 
-  * - Key
-    - Description
-
-  * - .. raw:: html
-
-        <div style="display: flex;"><div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
-
-      .. _return-_value:
-
-      **Return value**
-
-      :literal:`dictionary`
-
-      .. raw:: html
-
-        </div></div>
-    - 
-      The result.
-
-
-      Returned: success
+  <table style="width: 100%; height: 1px;">
+  <thead>
+  <tr>
+    <th><p>Key</p></th>
+    <th><p>Description</p></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+      <div class="ansibleOptionAnchor" id="return-_value"></div>
+      <p style="display: inline;"><strong>Return value</strong></p>
+      <a class="ansibleOptionLink" href="#return-_value" title="Permalink to this return value"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">dictionary</span>
+      </p>
+    </div></td>
+    <td>
+      <p>The result.</p>
+      <p style="margin-top: 8px;"><span style="font-weight: 700;">Returned:</span> success</p>
+    </td>
+  </tr>
+  </tbody>
+  </table>
 
 
 

@@ -41,59 +41,48 @@ Synopsis
 Parameters
 ^^^^^^^^^^
 
-.. list-table::
-  :widths: auto
-  :header-rows: 1
+.. raw:: html
 
-  * - Parameter
-    - Comments
+  <table style="width: 100%; height: 1px;">
+  <thead>
+  <tr>
+    <th><p>Parameter</p></th>
+    <th><p>Comments</p></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+      <div class="ansibleOptionAnchor" id="parameter-main--foo_param_1"></div>
+      <p style="display: inline;"><strong>foo_param_1</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-main--foo_param_1" title="Permalink to this option"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">string</span>
+      </p>
 
-  * - .. raw:: html
+    </div></td>
+    <td>
+      <p>A string parameter</p>
+      <p>If you set <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="#parameter-main--foo_param_1"><span class="std std-ref"><span class="pre">foo_param_1</span></span></a></strong></code> while <code class="ansible-option-value literal notranslate"><a class="reference internal" href="#parameter-main--foo_param_2"><span class="std std-ref"><span class="pre">foo_param_2=3</span></span></a></code>, this might behave funny.</p>
+    </td>
+  </tr>
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+      <div class="ansibleOptionAnchor" id="parameter-main--foo_param_2"></div>
+      <p style="display: inline;"><strong>foo_param_2</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-main--foo_param_2" title="Permalink to this option"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">integer</span>
+      </p>
 
-        <div style="display: flex;"><div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
-
-      .. _parameter-main__foo_param_1:
-
-      **foo_param_1**
-
-      :literal:`string`
-
-
-
-
-      .. raw:: html
-
-        </div></div>
-
-    - 
-      A string parameter
-
-      If you set \ :literal:`foo\_param\_1` (`link <parameter-main__foo_param_1_>`_)\  while \ :literal:`foo\_param\_2=3` (`link <parameter-main__foo_param_2_>`_)\ , this might behave funny.
-
-
-
-  * - .. raw:: html
-
-        <div style="display: flex;"><div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
-
-      .. _parameter-main__foo_param_2:
-
-      **foo_param_2**
-
-      :literal:`integer`
-
-
-
-
-      .. raw:: html
-
-        </div></div>
-
-    - 
-      An integer parameter with a default.
-
-
-      Default: :literal:`13`
+    </div></td>
+    <td>
+      <p>An integer parameter with a default.</p>
+      <p style="margin-top: 8px;"><span style="color: blue; font-weight: 700;">Default:</span> <code style="color: blue;">13</code></p>
+    </td>
+  </tr>
+  </tbody>
+  </table>
 
 
 

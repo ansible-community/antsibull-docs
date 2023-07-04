@@ -31,68 +31,60 @@ Synopsis
 Parameters
 ----------
 
-.. list-table::
-  :widths: auto
-  :header-rows: 1
+.. raw:: html
 
-  * - Parameter
-    - Comments
+  <table style="width: 100%; height: 1px;">
+  <thead>
+  <tr>
+    <th><p>Parameter</p></th>
+    <th><p>Comments</p></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+      <div class="ansibleOptionAnchor" id="parameter-_uri"></div>
+      <p style="display: inline;"><strong>_uri</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-_uri" title="Permalink to this option"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">path</span>
+        / <span style="color: red;">required</span>
+      </p>
 
-  * - .. raw:: html
+    </div></td>
+    <td>
+      <p>Path in which the cache plugin will save the foo files.</p>
+      <p style="margin-top: 8px;"><span style="font-weight: 700;">Configuration:</span></p>
+      <ul>
+      <li>
+        <p>INI entry</p>
+        <pre>[defaults]
+  fact_caching_connection = VALUE</pre>
 
-        <div style="display: flex;"><div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
+      </li>
+      <li>
+        <p>Environment variable: <code>ANSIBLE_CACHE_PLUGIN_CONNECTION</code></p>
 
-      .. _parameter-_uri:
+      </li>
+      </ul>
+    </td>
+  </tr>
+  <tr style="height: 100%;">
+    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
+      <p style="display: inline;"><strong>bar</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">string</span>
+      </p>
 
-      **_uri**
-
-      :literal:`path` / :strong:`required`
-
-
-
-
-      .. raw:: html
-
-        </div></div>
-
-    - 
-      Path in which the cache plugin will save the foo files.
-
-
-      Configuration:
-
-      - INI entry:
-
-        .. code-block::
-
-          [defaults]
-          fact_caching_connection = VALUE
-
-
-      - Environment variable: :literal:`ANSIBLE\_CACHE\_PLUGIN\_CONNECTION`
-
-
-
-  * - .. raw:: html
-
-        <div style="display: flex;"><div style="flex: 1 0 auto; white-space: nowrap; margin-left: 0.25em;">
-
-      .. _parameter-bar:
-
-      **bar**
-
-      :literal:`string`
-
-
-
-
-      .. raw:: html
-
-        </div></div>
-
-    - 
-      Nothing.
-
+    </div></td>
+    <td>
+      <p>Nothing.</p>
+    </td>
+  </tr>
+  </tbody>
+  </table>
 
 
 
