@@ -30,7 +30,7 @@ Environment variables used by the ansible-core configuration are documented in :
 {%     endfor %}
 {%   endfor %}
 {%   for plugin_name, plugin_type in plugins_ | unique | sort %}
-    :ref:`@{ plugin_name | rst_escape }@ {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %} <ansible_collections.@{ plugin_name }@_@{ plugin_type }@>`
+    :ansplugin:`@{ plugin_name | rst_escape }@ {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %} <@{ plugin_name }@#@{ plugin_type }@>`
 {%-    if not loop.last -%}
 ,
 {%     endif -%}

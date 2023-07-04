@@ -74,9 +74,9 @@ These are the plugins in the ns2.col collection:
 Modules
 ~~~~~~~
 
-* :ref:`foo module <ansible_collections.ns2.col.foo_module>` -- Do some foo \ :ansopt:`ns2.col.foo#module:bar`\ 
-* :ref:`foo2 module <ansible_collections.ns2.col.foo2_module>` -- Another foo
-* :ref:`sub.foo3 module <ansible_collections.ns2.col.sub.foo3_module>` -- A sub-foo
+* :ansplugin:`foo module <ns2.col.foo#module>` -- Do some foo \ :ansopt:`ns2.col.foo#module:bar`\ 
+* :ansplugin:`foo2 module <ns2.col.foo2#module>` -- Another foo
+* :ansplugin:`sub.foo3 module <ns2.col.sub.foo3#module>` -- A sub-foo
 
 .. toctree::
     :maxdepth: 1
@@ -90,7 +90,7 @@ Modules
 Become Plugins
 ~~~~~~~~~~~~~~
 
-* :ref:`foo become <ansible_collections.ns2.col.foo_become>` -- Use foo \ :ansopt:`ns2.col.foo#become:bar`\ 
+* :ansplugin:`foo become <ns2.col.foo#become>` -- Use foo \ :ansopt:`ns2.col.foo#become:bar`\ 
 
 .. toctree::
     :maxdepth: 1
@@ -102,7 +102,7 @@ Become Plugins
 Cache Plugins
 ~~~~~~~~~~~~~
 
-* :ref:`foo cache <ansible_collections.ns2.col.foo_cache>` -- Foo files \ :ansopt:`ns2.col.foo#cache:bar`\ 
+* :ansplugin:`foo cache <ns2.col.foo#cache>` -- Foo files \ :ansopt:`ns2.col.foo#cache:bar`\ 
 
 .. toctree::
     :maxdepth: 1
@@ -114,7 +114,7 @@ Cache Plugins
 Callback Plugins
 ~~~~~~~~~~~~~~~~
 
-* :ref:`foo callback <ansible_collections.ns2.col.foo_callback>` -- Foo output \ :ansopt:`ns2.col.foo#callback:bar`\ 
+* :ansplugin:`foo callback <ns2.col.foo#callback>` -- Foo output \ :ansopt:`ns2.col.foo#callback:bar`\ 
 
 .. toctree::
     :maxdepth: 1
@@ -126,7 +126,7 @@ Callback Plugins
 Cliconf Plugins
 ~~~~~~~~~~~~~~~
 
-* :ref:`foo cliconf <ansible_collections.ns2.col.foo_cliconf>` -- Foo router CLI config
+* :ansplugin:`foo cliconf <ns2.col.foo#cliconf>` -- Foo router CLI config
 
 .. toctree::
     :maxdepth: 1
@@ -138,7 +138,7 @@ Cliconf Plugins
 Connection Plugins
 ~~~~~~~~~~~~~~~~~~
 
-* :ref:`foo connection <ansible_collections.ns2.col.foo_connection>` -- Foo connection \ :ansopt:`ns2.col.foo#connection:bar`\ 
+* :ansplugin:`foo connection <ns2.col.foo#connection>` -- Foo connection \ :ansopt:`ns2.col.foo#connection:bar`\ 
 
 .. toctree::
     :maxdepth: 1
@@ -150,8 +150,8 @@ Connection Plugins
 Filter Plugins
 ~~~~~~~~~~~~~~
 
-* :ref:`bar filter <ansible_collections.ns2.col.bar_filter>` -- The bar filter
-* :ref:`foo filter <ansible_collections.ns2.col.foo_filter>` -- The foo filter \ :ansopt:`ns2.col.foo#filter:bar`\ 
+* :ansplugin:`bar filter <ns2.col.bar#filter>` -- The bar filter
+* :ansplugin:`foo filter <ns2.col.foo#filter>` -- The foo filter \ :ansopt:`ns2.col.foo#filter:bar`\ 
 
 .. toctree::
     :maxdepth: 1
@@ -164,7 +164,7 @@ Filter Plugins
 Inventory Plugins
 ~~~~~~~~~~~~~~~~~
 
-* :ref:`foo inventory <ansible_collections.ns2.col.foo_inventory>` -- The foo inventory \ :ansopt:`ns2.col.foo#inventory:bar`\ 
+* :ansplugin:`foo inventory <ns2.col.foo#inventory>` -- The foo inventory \ :ansopt:`ns2.col.foo#inventory:bar`\ 
 
 .. toctree::
     :maxdepth: 1
@@ -176,7 +176,7 @@ Inventory Plugins
 Lookup Plugins
 ~~~~~~~~~~~~~~
 
-* :ref:`foo lookup <ansible_collections.ns2.col.foo_lookup>` -- Look up some foo \ :ansopt:`ns2.col.foo#lookup:bar`\ 
+* :ansplugin:`foo lookup <ns2.col.foo#lookup>` -- Look up some foo \ :ansopt:`ns2.col.foo#lookup:bar`\ 
 
 .. toctree::
     :maxdepth: 1
@@ -188,7 +188,7 @@ Lookup Plugins
 Shell Plugins
 ~~~~~~~~~~~~~
 
-* :ref:`foo shell <ansible_collections.ns2.col.foo_shell>` -- Foo shell \ :ansopt:`ns2.col.foo#shell:bar`\ 
+* :ansplugin:`foo shell <ns2.col.foo#shell>` -- Foo shell \ :ansopt:`ns2.col.foo#shell:bar`\ 
 
 .. toctree::
     :maxdepth: 1
@@ -200,7 +200,7 @@ Shell Plugins
 Strategy Plugins
 ~~~~~~~~~~~~~~~~
 
-* :ref:`foo strategy <ansible_collections.ns2.col.foo_strategy>` -- Executes tasks in foo
+* :ansplugin:`foo strategy <ns2.col.foo#strategy>` -- Executes tasks in foo
 
 .. toctree::
     :maxdepth: 1
@@ -212,8 +212,8 @@ Strategy Plugins
 Test Plugins
 ~~~~~~~~~~~~
 
-* :ref:`bar test <ansible_collections.ns2.col.bar_test>` -- Is something a bar
-* :ref:`foo test <ansible_collections.ns2.col.foo_test>` -- Is something a foo \ :ansopt:`ns2.col.foo#test:bar`\ 
+* :ansplugin:`bar test <ns2.col.bar#test>` -- Is something a bar
+* :ansplugin:`foo test <ns2.col.foo#test>` -- Is something a foo \ :ansopt:`ns2.col.foo#test:bar`\ 
 
 .. toctree::
     :maxdepth: 1
@@ -226,7 +226,7 @@ Test Plugins
 Vars Plugins
 ~~~~~~~~~~~~
 
-* :ref:`foo vars <ansible_collections.ns2.col.foo_vars>` -- Load foo \ :ansopt:`ns2.col.foo#vars:bar`\ 
+* :ansplugin:`foo vars <ns2.col.foo#vars>` -- Load foo \ :ansopt:`ns2.col.foo#vars:bar`\ 
 
 .. toctree::
     :maxdepth: 1
@@ -240,7 +240,7 @@ Role Index
 
 These are the roles in the ns2.col collection:
 
-* :ref:`foo role <ansible_collections.ns2.col.foo_role>` -- Foo role
+* :ansplugin:`foo role <ns2.col.foo#role>` -- Foo role
 
 .. toctree::
     :maxdepth: 1

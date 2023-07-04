@@ -9,5 +9,5 @@ Index of all Strategy Plugins
 ns2.col
 -------
 
-* :ref:`ns2.col.foo <ansible_collections.ns2.col.foo_strategy>` -- Executes tasks in foo
+* :ansplugin:`ns2.col.foo#strategy` -- Executes tasks in foo
 

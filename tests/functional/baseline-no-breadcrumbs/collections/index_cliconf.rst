@@ -9,5 +9,5 @@ Index of all Cliconf Plugins
 ns2.col
 -------
 
-* :ref:`ns2.col.foo <ansible_collections.ns2.col.foo_cliconf>` -- Foo router CLI config
+* :ansplugin:`ns2.col.foo#cliconf` -- Foo router CLI config
 

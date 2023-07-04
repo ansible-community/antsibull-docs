@@ -1,0 +1,2 @@
+minor_changes:
+  - "Add a ``:ansplugin:`` role to the Sphinx extension. This allows to reference a module, plugin, or role with the ``fqcn#type`` syntax from semantic markup instead of having to manually compose a ``ansible_collections.{fqcn}_{type}`` label. An explicit reference title can also be provided with the ``title <fqcn#type>`` syntax similar to the ``:ref:`` role (https://github.com/ansible-community/antsibull-docs/pull/180)."

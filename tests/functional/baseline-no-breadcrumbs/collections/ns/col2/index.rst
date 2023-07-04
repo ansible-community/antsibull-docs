@@ -41,10 +41,10 @@ These are the plugins in the ns.col2 collection:
 Modules
 ~~~~~~~
 
-* :ref:`foo module <ansible_collections.ns.col2.foo_module>` -- 
-* :ref:`foo2 module <ansible_collections.ns.col2.foo2_module>` -- Foo two
-* :ref:`foo3 module <ansible_collections.ns.col2.foo3_module>` -- Foo III
-* :ref:`foo4 module <ansible_collections.ns.col2.foo4_module>` -- Markup reference linting test
+* :ansplugin:`foo module <ns.col2.foo#module>` -- 
+* :ansplugin:`foo2 module <ns.col2.foo2#module>` -- Foo two
+* :ansplugin:`foo3 module <ns.col2.foo3#module>` -- Foo III
+* :ansplugin:`foo4 module <ns.col2.foo4#module>` -- Markup reference linting test
 
 
 Role Index
@@ -52,7 +52,7 @@ Role Index
 
 These are the roles in the ns.col2 collection:
 
-* :ref:`bar role <ansible_collections.ns.col2.bar_role>` -- Bar role
+* :ansplugin:`bar role <ns.col2.bar#role>` -- Bar role
 
 
 .. seealso::

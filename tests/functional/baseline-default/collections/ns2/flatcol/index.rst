@@ -36,8 +36,8 @@ These are the plugins in the ns2.flatcol collection:
 Modules
 ~~~~~~~
 
-* :ref:`foo module <ansible_collections.ns2.flatcol.foo_module>` -- Do some foo \ :ansopt:`ns2.flatcol.foo#module:bar`\ 
-* :ref:`foo2 module <ansible_collections.ns2.flatcol.foo2_module>` -- Another foo
+* :ansplugin:`foo module <ns2.flatcol.foo#module>` -- Do some foo \ :ansopt:`ns2.flatcol.foo#module:bar`\ 
+* :ansplugin:`foo2 module <ns2.flatcol.foo2#module>` -- Another foo
 
 .. toctree::
     :maxdepth: 1

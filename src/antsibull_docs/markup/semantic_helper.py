@@ -13,6 +13,7 @@ import re
 
 _ARRAY_STUB_RE = re.compile(r"\[([^\]]*)\]")
 _ARRAY_STUB_SEP_START_RE = re.compile(r"[\[.]")
+_FQCN_TYPE_RE = re.compile(r"^([^.]+\.[^.]+\.[^#]+)#([a-z]+)$")
 _FQCN_TYPE_PREFIX_RE = re.compile(r"^([^.]+\.[^.]+\.[^#]+)#([a-z]+):(.*)$")
 _IGNORE_MARKER = "ignore:"
 
@@ -123,3 +124,10 @@ def split_option_like_name(name: str) -> list[tuple[str, str | None]]:
             f" at position {index + 1} of {name!r}"
         )
     return result
+
+
+def parse_plugin_name(text: str) -> tuple[str, str]:
+    m = _FQCN_TYPE_RE.match(text)
+    if not m:
+        raise ValueError("Cannot extract plugin name and type")
+    return m.group(1), m.group(2)
