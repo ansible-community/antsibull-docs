@@ -78,7 +78,7 @@ Parameters
     </div></td>
     <td>
       <p>An integer parameter with a default.</p>
-      <p style="margin-top: 8px;"><span style="color: blue; font-weight: 700;">Default:</span> <code style="color: blue;">13</code></p>
+      <p style="margin-top: 8px;"><b style="color: blue;">Default:</b> <code style="color: blue;">13</code></p>
     </td>
   </tr>
   </tbody>

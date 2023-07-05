@@ -108,9 +108,9 @@ example: ``input | ns2.col.bar(positional1, positional2, ...)``
     </div></td>
     <td>
       <p>And some bar.</p>
-      <p style="margin-top: 8px;"><span style="font-weight: 700;">Choices:</span></p>
+      <p style="margin-top: 8px;"><b">Choices:</b></p>
       <ul>
-        <li><p><code style="color: blue; font-weight: 700;">false</code> <span style="color: blue;">← (default)</span></p></li>
+        <li><p><code style="color: blue;"><b>false</b></code> <span style="color: blue;">← (default)</span></p></li>
         <li><p><code>true</code></p></li>
       </ul>
 
@@ -150,7 +150,7 @@ example: ``input | ns2.col.bar(key1=value1, key2=value2, ...)``
     </div></td>
     <td>
       <p>Something else.</p>
-      <p style="margin-top: 8px;"><span style="font-weight: 700;">Choices:</span></p>
+      <p style="margin-top: 8px;"><b">Choices:</b></p>
       <ul>
         <li>
           <p><code>&#34;a&#34;</code>:
@@ -165,7 +165,7 @@ example: ``input | ns2.col.bar(key1=value1, key2=value2, ...)``
           This is some more unknown. There are rumors this is related to the alphabet.</p>
         </li>
         <li>
-          <p><code style="color: blue; font-weight: 700;">&#34;foo&#34;</code> <span style="color: blue;">(default)</span>:
+          <p><code style="color: blue;"><b>&#34;foo&#34;</b></code> <span style="color: blue;">(default)</span>:
           Our default value, the glorious <code class='docutils literal notranslate'>foo</code>.</p>
           <p>Even has two paragraphs.</p>
         </li>
@@ -222,7 +222,7 @@ Return Value
     </div></td>
     <td>
       <p>The result.</p>
-      <p style="margin-top: 8px;"><span style="font-weight: 700;">Returned:</span> success</p>
+      <p style="margin-top: 8px;"><b>Returned:</b> success</p>
     </td>
   </tr>
   </tbody>

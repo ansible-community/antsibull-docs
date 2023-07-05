@@ -102,7 +102,7 @@ Return Value
     </div></td>
     <td>
       <p>Returns <code class='docutils literal notranslate'>true</code> if the path is a bar, <code class='docutils literal notranslate'>false</code> if it is not a bar.</p>
-      <p style="margin-top: 8px;"><span style="font-weight: 700;">Returned:</span> success</p>
+      <p style="margin-top: 8px;"><b>Returned:</b> success</p>
     </td>
   </tr>
   </tbody>

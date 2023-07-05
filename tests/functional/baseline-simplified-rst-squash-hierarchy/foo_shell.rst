@@ -63,13 +63,13 @@ Parameters
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>
-      <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in ansible-base 2.10</span></p>
+      <p><i style="font-size: small; color: darkgreen;">added in ansible-base 2.10</i></p>
 
     </div></td>
     <td>
       <p>Temporary directory to use on targets when executing tasks.</p>
-      <p style="margin-top: 8px;"><span style="color: blue; font-weight: 700;">Default:</span> <code style="color: blue;">&#34;~/.ansible/tmp&#34;</code></p>
-      <p style="margin-top: 8px;"><span style="font-weight: 700;">Configuration:</span></p>
+      <p style="margin-top: 8px;"><b style="color: blue;">Default:</b> <code style="color: blue;">&#34;~/.ansible/tmp&#34;</code></p>
+      <p style="margin-top: 8px;"><b>Configuration:</b></p>
       <ul>
       <li>
         <p>INI entry</p>

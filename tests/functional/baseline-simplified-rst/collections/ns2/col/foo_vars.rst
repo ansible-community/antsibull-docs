@@ -65,8 +65,8 @@ Parameters
     </div></td>
     <td>
       <p>All extensions to check.</p>
-      <p style="margin-top: 8px;"><span style="color: blue; font-weight: 700;">Default:</span> <code style="color: blue;">[&#34;.foo&#34;, &#34;.foobar&#34;]</code></p>
-      <p style="margin-top: 8px;"><span style="font-weight: 700;">Configuration:</span></p>
+      <p style="margin-top: 8px;"><b style="color: blue;">Default:</b> <code style="color: blue;">[&#34;.foo&#34;, &#34;.foobar&#34;]</code></p>
+      <p style="margin-top: 8px;"><b>Configuration:</b></p>
       <ul>
       <li>
         <p>INI entry</p>

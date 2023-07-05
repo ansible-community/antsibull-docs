@@ -35,7 +35,7 @@
 {%   endif %}
       </p>
 {%   if value['version_added'] is still_relevant(collection=value['version_added_collection'] or collection) %}
-      <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in @{ version_added_html(value['version_added'], value['version_added_collection'] or collection) }@</span></p>
+      <p><i style="font-size: small; color: darkgreen;">added in @{ version_added_html(value['version_added'], value['version_added_collection'] or collection) }@</i></p>
 {%   endif %}
     </div></td>
 {#   description #}
@@ -44,15 +44,15 @@
       <p>@{ desc | html_ify(role_entrypoint=role_entrypoint) | indent(6, blank=true) }@</p>
 {%   endfor %}
 {%   if value['returned'] %}
-      <p style="margin-top: 8px;"><span style="font-weight: 700;">Returned:</span> @{ value['returned'] | html_ify(role_entrypoint=role_entrypoint) | indent(6, blank=true) }@</p>
+      <p style="margin-top: 8px;"><b>Returned:</b> @{ value['returned'] | html_ify(role_entrypoint=role_entrypoint) | indent(6, blank=true) }@</p>
 {%   endif %}
 {#   Show possible choices and highlight details #}
 {%   if value['choices'] %}
-      <p style="margin-top: 8px;"><span style="font-weight: 700;">Can only return:</span></p>
+      <p style="margin-top: 8px;"><b>Can only return:</b></p>
 @{     choices_html(value['choices'], has_no_default=True, role_entrypoint=role_entrypoint) }@
 {%   endif %}
 {%   if value['sample'] is not none %}
-      <p style="margin-top: 8px; color: blue; word-wrap: break-word; word-break: break-all;"><span style="color: black; font-weight: 700;">Sample:</span> <code>@{ value['sample'] | antsibull_to_json | escape | indent(6, blank=true) }@</code></p>
+      <p style="margin-top: 8px; color: blue; word-wrap: break-word; word-break: break-all;"><b style="color: black;">Sample:</b> <code>@{ value['sample'] | antsibull_to_json | escape | indent(6, blank=true) }@</code></p>
 {%   endif %}
     </td>
   </tr>

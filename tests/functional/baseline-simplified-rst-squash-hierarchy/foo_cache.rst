@@ -54,7 +54,7 @@ Parameters
     </div></td>
     <td>
       <p>Path in which the cache plugin will save the foo files.</p>
-      <p style="margin-top: 8px;"><span style="font-weight: 700;">Configuration:</span></p>
+      <p style="margin-top: 8px;"><b>Configuration:</b></p>
       <ul>
       <li>
         <p>INI entry</p>

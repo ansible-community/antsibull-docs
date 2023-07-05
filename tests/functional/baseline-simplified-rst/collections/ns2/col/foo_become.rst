@@ -60,7 +60,7 @@ Parameters
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>
-      <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in ns2.col 1.2.0</span></p>
+      <p><i style="font-size: small; color: darkgreen;">added in ns2.col 1.2.0</i></p>
   <p>Removed in: version 4.0.0</p>
   <p>Why: Just some other text.
   This one has more than one line though.
@@ -86,13 +86,13 @@ Parameters
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>
-      <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in ns2.col 0.2.0</span></p>
+      <p><i style="font-size: small; color: darkgreen;">added in ns2.col 0.2.0</i></p>
 
     </div></td>
     <td>
       <p>Foo executable.</p>
-      <p style="margin-top: 8px;"><span style="color: blue; font-weight: 700;">Default:</span> <code style="color: blue;">&#34;foo&#34;</code></p>
-      <p style="margin-top: 8px;"><span style="font-weight: 700;">Configuration:</span></p>
+      <p style="margin-top: 8px;"><b style="color: blue;">Default:</b> <code style="color: blue;">&#34;foo&#34;</code></p>
+      <p style="margin-top: 8px;"><b>Configuration:</b></p>
       <ul>
       <li>
         <p>INI entries</p>
@@ -147,14 +147,14 @@ Parameters
     </div></td>
     <td>
       <p>User you &#x27;become&#x27; to execute the task.</p>
-      <p style="margin-top: 8px;"><span style="color: blue; font-weight: 700;">Default:</span> <code style="color: blue;">&#34;root&#34;</code></p>
-      <p style="margin-top: 8px;"><span style="font-weight: 700;">Configuration:</span></p>
+      <p style="margin-top: 8px;"><b style="color: blue;">Default:</b> <code style="color: blue;">&#34;root&#34;</code></p>
+      <p style="margin-top: 8px;"><b>Configuration:</b></p>
       <ul>
       <li>
         <p>INI entries</p>
         <pre>[privilege_escalation]
   become_user = root</pre>
-        <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in ns2.col 0.1.0</span></p>
+        <p><i style="font-size: small; color: darkgreen;">added in ns2.col 0.1.0</i></p>
 
         <pre>[foo_become_plugin]
   user = root</pre>
@@ -162,7 +162,7 @@ Parameters
       </li>
       <li>
         <p>Environment variable: <code>ANSIBLE_BECOME_USER</code></p>
-        <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in ns2.col 0.1.0</span></p>
+        <p><i style="font-size: small; color: darkgreen;">added in ns2.col 0.1.0</i></p>
 
       </li>
       <li>
@@ -175,12 +175,12 @@ Parameters
       </li>
       <li>
         <p>Variable: ansible_foo_user</p>
-        <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in ns2.col 0.1.0</span></p>
+        <p><i style="font-size: small; color: darkgreen;">added in ns2.col 0.1.0</i></p>
 
       </li>
       <li>
         <p>Keyword: become_user</p>
-        <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in ns2.col 0.1.0</span></p>
+        <p><i style="font-size: small; color: darkgreen;">added in ns2.col 0.1.0</i></p>
 
       </li>
       </ul>

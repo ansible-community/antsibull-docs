@@ -137,7 +137,7 @@ Return Value
     </div></td>
     <td>
       <p>Whether the input is a foo.</p>
-      <p style="margin-top: 8px;"><span style="font-weight: 700;">Returned:</span> success</p>
+      <p style="margin-top: 8px;"><b>Returned:</b> success</p>
     </td>
   </tr>
   </tbody>

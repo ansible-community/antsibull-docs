@@ -10,7 +10,7 @@
 {%     for choice, desc in choices | dictsort %}
         <li>
 {%       if not has_no_default and ((default_value is not list and default_value == choice) or (default_value is list and choice in default_value)) %}
-          <p><code style="color: blue; font-weight: 700;">@{ choice | antsibull_to_json | escape }@</code> <span style="color: blue;">(default)</span>:
+          <p><code style="color: blue;"><b>@{ choice | antsibull_to_json | escape }@</b></code> <span style="color: blue;">(default)</span>:
 {%       else %}
           <p><code>@{ choice | antsibull_to_json | escape }@</code>:
 {%       endif %}
@@ -23,7 +23,7 @@
 {%   else %}
 {%     for choice in choices %}
 {%       if not has_no_default and ((default_value is not list and default_value == choice) or (default_value is list and choice in default_value)) %}
-        <li><p><code style="color: blue; font-weight: 700;">@{ choice | antsibull_to_json | escape }@</code> <span style="color: blue;">← (default)</span></p></li>
+        <li><p><code style="color: blue;"><b>@{ choice | antsibull_to_json | escape }@</b></code> <span style="color: blue;">← (default)</span></p></li>
 {%       else %}
         <li><p><code>@{ choice | antsibull_to_json | escape }@</code></p></li>
 {%       endif %}

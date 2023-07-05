@@ -42,7 +42,7 @@
 {%   endif %}
       </p>
 {%   if value['version_added'] is still_relevant(collection=value['version_added_collection'] or collection) %}
-      <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in @{ version_added_html(value['version_added'], value['version_added_collection'] or collection) }@</span></p>
+      <p><i style="font-size: small; color: darkgreen;">added in @{ version_added_html(value['version_added'], value['version_added_collection'] or collection) }@</i></p>
 {%   endif %}
 {%   if plugin_type != 'module' %}
 @{     deprecates_html(value['deprecated'], collection, role_entrypoint=role_entrypoint) }@
@@ -59,16 +59,16 @@
 {%   endif %}
 {#   Show possible choices and highlight details #}
 {%   if value['choices'] %}
-      <p style="margin-top: 8px;"><span style="font-weight: 700;">Choices:</span></p>
+      <p style="margin-top: 8px;"><b">Choices:</b></p>
 @{     choices_html(value['choices'], value['default'], role_entrypoint=role_entrypoint) }@
 {%   endif %}
 {#   Show default value, when multiple choice or no choices #}
 {%   if value['default'] is not none and value['default'] not in value['choices'] %}
-      <p style="margin-top: 8px;"><span style="color: blue; font-weight: 700;">Default:</span> <code style="color: blue;">@{ value['default'] | antsibull_to_json | escape | indent(6, blank=true) }@</code></p>
+      <p style="margin-top: 8px;"><b style="color: blue;">Default:</b> <code style="color: blue;">@{ value['default'] | antsibull_to_json | escape | indent(6, blank=true) }@</code></p>
 {%   endif %}
 {#   Configuration #}
 {%   if plugin_type != 'module' and plugin_type != 'role' and (value['ini'] or value['env'] or value['vars'] or value['cli']) %}
-      <p style="margin-top: 8px;"><span style="font-weight: 700;">Configuration:</span></p>
+      <p style="margin-top: 8px;"><b>Configuration:</b></p>
       <ul>
 {%     if value['ini'] %}
       <li>
@@ -81,7 +81,7 @@
   @{ ini['key'] | escape }@ = @{ value['default'] | antsibull_to_ini_value | escape }@</pre>
 {%         endif %}
 {%         if ini['version_added'] is still_relevant(collection=ini['version_added_collection'] or collection) %}
-        <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in @{ version_added_html(ini['version_added'], ini['version_added_collection'] or collection) }@</span></p>
+        <p><i style="font-size: small; color: darkgreen;">added in @{ version_added_html(ini['version_added'], ini['version_added_collection'] or collection) }@</i></p>
 {%         endif %}
 @{         deprecates_html(ini['deprecated'], collection, role_entrypoint=role_entrypoint) }@
 {%       endfor %}
@@ -91,7 +91,7 @@
       <li>
         <p>Environment variable: <code>@{ env['name'] | escape }@</code></p>
 {%       if env['version_added'] is still_relevant(collection=env['version_added_collection'] or collection) %}
-        <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in @{ version_added_html(env['version_added'], env['version_added_collection'] or collection) }@</span></p>
+        <p><i style="font-size: small; color: darkgreen;">added in @{ version_added_html(env['version_added'], env['version_added_collection'] or collection) }@</i></p>
 {%       endif %}
 @{       deprecates_html(env['deprecated'], collection, role_entrypoint=role_entrypoint) }@
       </li>
@@ -100,7 +100,7 @@
       <li>
         <p>Variable: @{ myvar['name'] | escape }@</p>
 {%       if myvar['version_added'] is still_relevant(collection=myvar['version_added_collection'] or collection) %}
-        <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in @{ version_added_html(myvar['version_added'], myvar['version_added_collection'] or collection) }@</span></p>
+        <p><i style="font-size: small; color: darkgreen;">added in @{ version_added_html(myvar['version_added'], myvar['version_added_collection'] or collection) }@</i></p>
 {%       endif %}
 @{       deprecates_html(myvar['deprecated'], collection, role_entrypoint=role_entrypoint) }@
       </li>
@@ -109,7 +109,7 @@
       <li>
         <p>Keyword: @{ kw['name'] | escape }@</p>
 {%       if kw['version_added'] is still_relevant(collection=kw['version_added_collection'] or collection) %}
-        <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in @{ version_added_html(kw['version_added'], kw['version_added_collection'] or collection) }@</span></p>
+        <p><i style="font-size: small; color: darkgreen;">added in @{ version_added_html(kw['version_added'], kw['version_added_collection'] or collection) }@</i></p>
 {%       endif %}
 @{       deprecates_html(kw['deprecated'], collection, role_entrypoint=role_entrypoint) }@
       </li>
@@ -118,7 +118,7 @@
       <li>
         <p>CLI argument: @{ mycli['option'] | escape }@</p>
 {%       if mycli['version_added'] is still_relevant(collection=mycli['version_added_collection'] or collection) %}
-        <p><span style="font-style: italic; font-size: small; color: darkgreen;">added in @{ version_added_html(mycli['version_added'], mycli['version_added_collection'] or collection) }@</span></p>
+        <p><i style="font-size: small; color: darkgreen;">added in @{ version_added_html(mycli['version_added'], mycli['version_added_collection'] or collection) }@</i></p>
 {%       endif %}
 @{       deprecates_html(mycli['deprecated'], collection, role_entrypoint=role_entrypoint) }@
       </li>

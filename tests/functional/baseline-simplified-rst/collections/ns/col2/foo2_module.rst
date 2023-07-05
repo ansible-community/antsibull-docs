@@ -256,8 +256,8 @@ The following are the fields unique to this module:
     </div></td>
     <td>
       <p>Some bar.</p>
-      <p style="margin-top: 8px;"><span style="font-weight: 700;">Returned:</span> success</p>
-      <p style="margin-top: 8px; color: blue; word-wrap: break-word; word-break: break-all;"><span style="color: black; font-weight: 700;">Sample:</span> <code>&#34;baz&#34;</code></p>
+      <p style="margin-top: 8px;"><b>Returned:</b> success</p>
+      <p style="margin-top: 8px; color: blue; word-wrap: break-word; word-break: break-all;"><b style="color: black;">Sample:</b> <code>&#34;baz&#34;</code></p>
     </td>
   </tr>
   </tbody>
