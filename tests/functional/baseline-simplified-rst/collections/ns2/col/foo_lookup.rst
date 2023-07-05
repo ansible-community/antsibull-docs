@@ -32,16 +32,16 @@ Terms
 
 .. raw:: html
 
-  <table style="width: 100%; height: 1px;">
+  <table style="width: 100%;">
   <thead>
-  <tr>
+    <tr>
     <th><p>Parameter</p></th>
     <th><p>Comments</p></th>
   </tr>
   </thead>
   <tbody>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td valign="top">
       <div class="ansibleOptionAnchor" id="parameter-_terms"></div>
       <p style="display: inline;"><strong>Terms</strong></p>
       <a class="ansibleOptionLink" href="#parameter-_terms" title="Permalink to this option"></a>
@@ -51,8 +51,8 @@ Terms
         / <span style="color: red;">required</span>
       </p>
 
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>The stuff to look up.</p>
     </td>
   </tr>
@@ -72,16 +72,16 @@ examples: ``lookup('ns2.col.foo', key1=value1, key2=value2, ...)`` and ``query('
 
 .. raw:: html
 
-  <table style="width: 100%; height: 1px;">
+  <table style="width: 100%;">
   <thead>
-  <tr>
+    <tr>
     <th><p>Parameter</p></th>
     <th><p>Comments</p></th>
   </tr>
   </thead>
   <tbody>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td valign="top">
       <div class="ansibleOptionAnchor" id="parameter-bar"></div>
       <p style="display: inline;"><strong>bar</strong></p>
       <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
@@ -89,8 +89,8 @@ examples: ``lookup('ns2.col.foo', key1=value1, key2=value2, ...)`` and ``query('
         <span style="color: purple;">string</span>
       </p>
 
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>Foo bar.</p>
     </td>
   </tr>
@@ -126,16 +126,16 @@ Return Value
 
 .. raw:: html
 
-  <table style="width: 100%; height: 1px;">
+  <table style="width: 100%;">
   <thead>
-  <tr>
+    <tr>
     <th><p>Key</p></th>
     <th><p>Description</p></th>
   </tr>
   </thead>
   <tbody>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td valign="top">
       <div class="ansibleOptionAnchor" id="return-_raw"></div>
       <p style="display: inline;"><strong>Return value</strong></p>
       <a class="ansibleOptionLink" href="#return-_raw" title="Permalink to this return value"></a>
@@ -143,8 +143,8 @@ Return Value
         <span style="color: purple;">list</span>
         / <span style="color: purple;">elements=string</span>
       </p>
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>The resulting stuff.</p>
       <p style="margin-top: 8px;"><b>Returned:</b> success</p>
     </td>

@@ -43,16 +43,16 @@ Parameters
 
 .. raw:: html
 
-  <table style="width: 100%; height: 1px;">
+  <table style="width: 100%;">
   <thead>
-  <tr>
+    <tr>
     <th><p>Parameter</p></th>
     <th><p>Comments</p></th>
   </tr>
   </thead>
   <tbody>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td valign="top">
       <div class="ansibleOptionAnchor" id="parameter-main--foo_param_1"></div>
       <p style="display: inline;"><strong>foo_param_1</strong></p>
       <a class="ansibleOptionLink" href="#parameter-main--foo_param_1" title="Permalink to this option"></a>
@@ -60,14 +60,14 @@ Parameters
         <span style="color: purple;">string</span>
       </p>
 
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>A string parameter</p>
       <p>If you set <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="#parameter-main--foo_param_1"><span class="std std-ref"><span class="pre">foo_param_1</span></span></a></strong></code> while <code class="ansible-option-value literal notranslate"><a class="reference internal" href="#parameter-main--foo_param_2"><span class="std std-ref"><span class="pre">foo_param_2=3</span></span></a></code>, this might behave funny.</p>
     </td>
   </tr>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td valign="top">
       <div class="ansibleOptionAnchor" id="parameter-main--foo_param_2"></div>
       <p style="display: inline;"><strong>foo_param_2</strong></p>
       <a class="ansibleOptionLink" href="#parameter-main--foo_param_2" title="Permalink to this option"></a>
@@ -75,8 +75,8 @@ Parameters
         <span style="color: purple;">integer</span>
       </p>
 
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>An integer parameter with a default.</p>
       <p style="margin-top: 8px;"><b style="color: blue;">Default:</b> <code style="color: blue;">13</code></p>
     </td>

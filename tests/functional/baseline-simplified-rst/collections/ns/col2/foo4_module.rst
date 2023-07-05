@@ -31,24 +31,24 @@ Parameters
 
 .. raw:: html
 
-  <table style="width: 100%; height: 1px;">
+  <table style="width: 100%;">
   <thead>
-  <tr>
+    <tr>
     <th><p>Parameter</p></th>
     <th><p>Comments</p></th>
   </tr>
   </thead>
   <tbody>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td valign="top">
       <div class="ansibleOptionAnchor" id="parameter-correct_array_stubs"></div>
       <p style="display: inline;"><strong>correct_array_stubs</strong></p>
       <a class="ansibleOptionLink" href="#parameter-correct_array_stubs" title="Permalink to this option"></a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p><code class="ansible-option literal notranslate"><strong><a class="reference internal" href="../../ansible/builtin/iptables_module.html#parameter-tcp_flags/flags"><span class="std std-ref"><span class="pre">tcp_flags.flags[]</span></span></a></strong></code></p>
       <p><code class="ansible-option literal notranslate"><strong><a class="reference internal" href="../../ns2/col/bar_filter.html#parameter-foo"><span class="std std-ref"><span class="pre">foo</span></span></a></strong></code></p>
       <p><code class="ansible-option literal notranslate"><strong><a class="reference internal" href="../../ns2/col/bar_filter.html#parameter-foo"><span class="std std-ref"><span class="pre">foo[]</span></span></a></strong></code></p>
@@ -57,16 +57,16 @@ Parameters
       <p><code class="ansible-return-value literal notranslate"><a class="reference internal" href="../../ext/col/foo_module.html#return-baz"><span class="std std-ref"><span class="pre">baz[ ]</span></span></a></code></p>
     </td>
   </tr>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td valign="top">
       <div class="ansibleOptionAnchor" id="parameter-existing"></div>
       <p style="display: inline;"><strong>existing</strong></p>
       <a class="ansibleOptionLink" href="#parameter-existing" title="Permalink to this option"></a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p><a href='../../ansible/builtin/service_module.html' class='module'>ansible.builtin.service</a></p>
       <p><a href='../../ansible/builtin/pipe_lookup.html' class='module'>ansible.builtin.pipe</a></p>
       <p><code class="ansible-option literal notranslate"><strong><a class="reference internal" href="../../ansible/builtin/file_module.html#parameter-state"><span class="std std-ref"><span class="pre">state</span></span></a></strong></code></p>
@@ -90,16 +90,16 @@ Parameters
       <p><code class="ansible-option literal notranslate"><strong><a class="reference internal" href="../../ns/col2/foo2_module.html#parameter-subfoo/BaZ"><span class="std std-ref"><span class="pre">subfoo.BaZ</span></span></a></strong></code></p>
     </td>
   </tr>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td valign="top">
       <div class="ansibleOptionAnchor" id="parameter-incorrect_array_stubs"></div>
       <p style="display: inline;"><strong>incorrect_array_stubs</strong></p>
       <a class="ansibleOptionLink" href="#parameter-incorrect_array_stubs" title="Permalink to this option"></a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p><code class="ansible-option literal notranslate"><strong><a class="reference internal" href="../../ansible/builtin/file_module.html#parameter-state"><span class="std std-ref"><span class="pre">state[]</span></span></a></strong></code></p>
       <p><code class="ansible-return-value literal notranslate"><a class="reference internal" href="../../ansible/builtin/stat_module.html#return-stat/exists"><span class="std std-ref"><span class="pre">stat[foo.bar].exists</span></span></a></code></p>
       <p><code class="ansible-return-value literal notranslate"><a class="reference internal" href="../../ansible/builtin/stat_module.html#return-stat/exists"><span class="std std-ref"><span class="pre">stat.exists[]</span></span></a></code></p>
@@ -108,16 +108,16 @@ Parameters
       <p><code class="ansible-option literal notranslate"><strong><a class="reference internal" href="../../ext/col/foo_module.html#parameter-foo/bar"><span class="std std-ref"><span class="pre">foo.bar</span></span></a></strong></code></p>
     </td>
   </tr>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td valign="top">
       <div class="ansibleOptionAnchor" id="parameter-not_existing"></div>
       <p style="display: inline;"><strong>not_existing</strong></p>
       <a class="ansibleOptionLink" href="#parameter-not_existing" title="Permalink to this option"></a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p><a href='../../ansible/builtin/foobar_module.html' class='module'>ansible.builtin.foobar</a></p>
       <p><a href='../../ansible/builtin/bazbam_lookup.html' class='module'>ansible.builtin.bazbam</a></p>
       <p><code class="ansible-option literal notranslate"><strong><a class="reference internal" href="../../ansible/builtin/file_module.html#parameter-foobarbaz"><span class="std std-ref"><span class="pre">foobarbaz</span></span></a></strong></code></p>

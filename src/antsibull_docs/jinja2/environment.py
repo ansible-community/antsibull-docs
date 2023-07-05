@@ -27,6 +27,7 @@ from .filters import (
     remove_options_from_list,
     rst_fmt,
     rst_xline,
+    suboption_depth,
     to_ini_value,
     to_json,
 )
@@ -151,6 +152,7 @@ def doc_environment(
     env.filters["antsibull_to_ini_value"] = to_ini_value
     env.filters["collection_name"] = collection_name
     env.filters["plugin_shortname"] = plugin_shortname
+    env.filters["suboption_depth"] = suboption_depth
     if collection_url is not None:
         env.filters["collection_url"] = collection_url
     if collection_install is not None:

@@ -34,16 +34,16 @@ Parameters
 
 .. raw:: html
 
-  <table style="width: 100%; height: 1px;">
+  <table style="width: 100%;">
   <thead>
-  <tr>
-    <th><p>Parameter</p></th>
+    <tr>
+    <th colspan="2"><p>Parameter</p></th>
     <th><p>Comments</p></th>
   </tr>
   </thead>
   <tbody>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td colspan="2" valign="top">
       <div class="ansibleOptionAnchor" id="parameter-bar"></div>
       <div class="ansibleOptionAnchor" id="parameter-baz"></div>
       <p style="display: inline;"><strong>bar</strong></p>
@@ -53,15 +53,15 @@ Parameters
         <span style="color: purple;">list</span>
         / <span style="color: purple;">elements=integer</span>
       </p>
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>A bar.</p>
       <p>Independent from <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="#parameter-foo"><span class="std std-ref"><span class="pre">foo</span></span></a></strong></code>.</p>
       <p>Do not confuse with <code class="ansible-return-value literal notranslate"><a class="reference internal" href="#return-bar"><span class="std std-ref"><span class="pre">bar</span></span></a></code>.</p>
     </td>
   </tr>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td colspan="2" valign="top">
       <div class="ansibleOptionAnchor" id="parameter-foo"></div>
       <p style="display: inline;"><strong>foo</strong></p>
       <a class="ansibleOptionLink" href="#parameter-foo" title="Permalink to this option"></a>
@@ -69,13 +69,13 @@ Parameters
         <span style="color: purple;">string</span>
         / <span style="color: red;">required</span>
       </p>
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>The foo source.</p>
     </td>
   </tr>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td colspan="2" valign="top">
       <div class="ansibleOptionAnchor" id="parameter-subfoo"></div>
       <div class="ansibleOptionAnchor" id="parameter-subbaz"></div>
       <p style="display: inline;"><strong>subfoo</strong></p>
@@ -85,13 +85,14 @@ Parameters
         <span style="color: purple;">dictionary</span>
       </p>
       <p><i style="font-size: small; color: darkgreen;">added in ns2.flatcol 2.0.0</i></p>
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>Some recursive foo.</p>
     </td>
   </tr>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="margin-left: 2em; border-right: 1px solid #000000;"></div><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td></td>
+    <td valign="top">
       <div class="ansibleOptionAnchor" id="parameter-subfoo/foo"></div>
       <div class="ansibleOptionAnchor" id="parameter-subbaz/foo"></div>
       <div class="ansibleOptionAnchor" id="parameter-subfoo/bam"></div>
@@ -103,8 +104,8 @@ Parameters
         <span style="color: purple;">string</span>
         / <span style="color: red;">required</span>
       </p>
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>A sub foo.</p>
       <p>Whatever.</p>
       <p>Also required when <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="#parameter-subfoo"><span class="std std-ref"><span class="pre">subfoo</span></span></a></strong></code> is specified when <code class="ansible-option-value literal notranslate"><a class="reference internal" href="#parameter-foo"><span class="std std-ref"><span class="pre">foo=bar</span></span></a></code> or <code class="ansible-value literal notranslate">baz</code>.</p>
@@ -147,24 +148,24 @@ The following are the fields unique to this module:
 
 .. raw:: html
 
-  <table style="width: 100%; height: 1px;">
+  <table style="width: 100%;">
   <thead>
-  <tr>
+    <tr>
     <th><p>Key</p></th>
     <th><p>Description</p></th>
   </tr>
   </thead>
   <tbody>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td valign="top">
       <div class="ansibleOptionAnchor" id="return-bar"></div>
       <p style="display: inline;"><strong>bar</strong></p>
       <a class="ansibleOptionLink" href="#return-bar" title="Permalink to this return value"></a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>Some bar.</p>
       <p>Referencing myself as <code class="ansible-return-value literal notranslate"><a class="reference internal" href="#return-bar"><span class="std std-ref"><span class="pre">bar</span></span></a></code>.</p>
       <p>Do not confuse with <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="#parameter-bar"><span class="std std-ref"><span class="pre">bar</span></span></a></strong></code>.</p>

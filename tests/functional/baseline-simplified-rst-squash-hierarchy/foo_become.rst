@@ -44,16 +44,16 @@ Parameters
 
 .. raw:: html
 
-  <table style="width: 100%; height: 1px;">
+  <table style="width: 100%;">
   <thead>
-  <tr>
+    <tr>
     <th><p>Parameter</p></th>
     <th><p>Comments</p></th>
   </tr>
   </thead>
   <tbody>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td valign="top">
       <div class="ansibleOptionAnchor" id="parameter-bar"></div>
       <p style="display: inline;"><strong>bar</strong></p>
       <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
@@ -71,15 +71,15 @@ Parameters
   I know of
   </p>
 
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>Bar. <b>BAR!</b></p>
       <p>Totally unrelated to <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="#parameter-become_user"><span class="std std-ref"><span class="pre">become_user</span></span></a></strong></code>. Even with <code class="ansible-option-value literal notranslate"><a class="reference internal" href="#parameter-become_user"><span class="std std-ref"><span class="pre">become_user=foo</span></span></a></code>.</p>
       <p>Might not be compatible when <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="#parameter-become_user"><span class="std std-ref"><span class="pre">become_user</span></span></a></strong></code> is <code class="ansible-value literal notranslate">bar</code>, though.</p>
     </td>
   </tr>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td valign="top">
       <div class="ansibleOptionAnchor" id="parameter-become_exe"></div>
       <p style="display: inline;"><strong>become_exe</strong></p>
       <a class="ansibleOptionLink" href="#parameter-become_exe" title="Permalink to this option"></a>
@@ -88,8 +88,8 @@ Parameters
       </p>
       <p><i style="font-size: small; color: darkgreen;">added in ns2.col 0.2.0</i></p>
 
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>Foo executable.</p>
       <p style="margin-top: 8px;"><b style="color: blue;">Default:</b> <code style="color: blue;">&#34;foo&#34;</code></p>
       <p style="margin-top: 8px;"><b>Configuration:</b></p>
@@ -135,8 +135,8 @@ Parameters
       </ul>
     </td>
   </tr>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td valign="top">
       <div class="ansibleOptionAnchor" id="parameter-become_user"></div>
       <p style="display: inline;"><strong>become_user</strong></p>
       <a class="ansibleOptionLink" href="#parameter-become_user" title="Permalink to this option"></a>
@@ -144,8 +144,8 @@ Parameters
         <span style="color: purple;">string</span>
       </p>
 
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>User you &#x27;become&#x27; to execute the task.</p>
       <p style="margin-top: 8px;"><b style="color: blue;">Default:</b> <code style="color: blue;">&#34;root&#34;</code></p>
       <p style="margin-top: 8px;"><b>Configuration:</b></p>

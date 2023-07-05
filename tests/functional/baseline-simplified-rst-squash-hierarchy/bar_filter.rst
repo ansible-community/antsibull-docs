@@ -34,16 +34,16 @@ This describes the input of the filter, the value before ``| ns2.col.bar``.
 
 .. raw:: html
 
-  <table style="width: 100%; height: 1px;">
+  <table style="width: 100%;">
   <thead>
-  <tr>
+    <tr>
     <th><p>Parameter</p></th>
     <th><p>Comments</p></th>
   </tr>
   </thead>
   <tbody>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td valign="top">
       <div class="ansibleOptionAnchor" id="parameter-_input"></div>
       <p style="display: inline;"><strong>Input</strong></p>
       <a class="ansibleOptionLink" href="#parameter-_input" title="Permalink to this option"></a>
@@ -52,8 +52,8 @@ This describes the input of the filter, the value before ``| ns2.col.bar``.
         / <span style="color: red;">required</span>
       </p>
 
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>The main input.</p>
     </td>
   </tr>
@@ -72,16 +72,16 @@ example: ``input | ns2.col.bar(positional1, positional2, ...)``
 
 .. raw:: html
 
-  <table style="width: 100%; height: 1px;">
+  <table style="width: 100%;">
   <thead>
-  <tr>
+    <tr>
     <th><p>Parameter</p></th>
     <th><p>Comments</p></th>
   </tr>
   </thead>
   <tbody>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td valign="top">
       <div class="ansibleOptionAnchor" id="parameter-foo"></div>
       <p style="display: inline;"><strong>foo</strong></p>
       <a class="ansibleOptionLink" href="#parameter-foo" title="Permalink to this option"></a>
@@ -91,13 +91,13 @@ example: ``input | ns2.col.bar(positional1, positional2, ...)``
         / <span style="color: red;">required</span>
       </p>
 
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>Some foo.</p>
     </td>
   </tr>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td valign="top">
       <div class="ansibleOptionAnchor" id="parameter-bar"></div>
       <p style="display: inline;"><strong>bar</strong></p>
       <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
@@ -105,8 +105,8 @@ example: ``input | ns2.col.bar(positional1, positional2, ...)``
         <span style="color: purple;">boolean</span>
       </p>
 
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>And some bar.</p>
       <p style="margin-top: 8px;"><b">Choices:</b></p>
       <ul>
@@ -130,16 +130,16 @@ example: ``input | ns2.col.bar(key1=value1, key2=value2, ...)``
 
 .. raw:: html
 
-  <table style="width: 100%; height: 1px;">
+  <table style="width: 100%;">
   <thead>
-  <tr>
+    <tr>
     <th><p>Parameter</p></th>
     <th><p>Comments</p></th>
   </tr>
   </thead>
   <tbody>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td valign="top">
       <div class="ansibleOptionAnchor" id="parameter-baz"></div>
       <p style="display: inline;"><strong>baz</strong></p>
       <a class="ansibleOptionLink" href="#parameter-baz" title="Permalink to this option"></a>
@@ -147,8 +147,8 @@ example: ``input | ns2.col.bar(key1=value1, key2=value2, ...)``
         <span style="color: purple;">string</span>
       </p>
 
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>Something else.</p>
       <p style="margin-top: 8px;"><b">Choices:</b></p>
       <ul>
@@ -203,24 +203,24 @@ Return Value
 
 .. raw:: html
 
-  <table style="width: 100%; height: 1px;">
+  <table style="width: 100%;">
   <thead>
-  <tr>
+    <tr>
     <th><p>Key</p></th>
     <th><p>Description</p></th>
   </tr>
   </thead>
   <tbody>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td valign="top">
       <div class="ansibleOptionAnchor" id="return-_value"></div>
       <p style="display: inline;"><strong>Return value</strong></p>
       <a class="ansibleOptionLink" href="#return-_value" title="Permalink to this return value"></a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">dictionary</span>
       </p>
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>The result.</p>
       <p style="margin-top: 8px;"><b>Returned:</b> success</p>
     </td>

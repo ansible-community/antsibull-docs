@@ -227,3 +227,14 @@ def collection_name(fqcn: str) -> str:
 
 def plugin_shortname(fqcn: str) -> str:
     return fqcn.split(".", 2)[2]
+
+
+def suboption_depth(
+    data: Sequence[tuple[t.Any, t.Any]] | t.ItemsView[t.Any, t.Any], subkey: str
+) -> int:
+    subdepth = 0
+    for _, option in data:
+        subdata = option.get(subkey)
+        if subdata and isinstance(subdata, Mapping):
+            subdepth = max(subdepth, suboption_depth(subdata.items(), subkey))
+    return subdepth + 1

@@ -42,16 +42,16 @@ Parameters
 
 .. raw:: html
 
-  <table style="width: 100%; height: 1px;">
+  <table style="width: 100%;">
   <thead>
-  <tr>
-    <th><p>Parameter</p></th>
+    <tr>
+    <th colspan="2"><p>Parameter</p></th>
     <th><p>Comments</p></th>
   </tr>
   </thead>
   <tbody>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td colspan="2" valign="top">
       <div class="ansibleOptionAnchor" id="parameter-bar"></div>
       <p style="display: inline;"><strong>bar</strong></p>
       <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
@@ -59,39 +59,40 @@ Parameters
         <span style="color: purple;">list</span>
         / <span style="color: purple;">elements=integer</span>
       </p>
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>Bar.</p>
     </td>
   </tr>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td colspan="2" valign="top">
       <div class="ansibleOptionAnchor" id="parameter-foo"></div>
       <p style="display: inline;"><strong>foo</strong></p>
       <a class="ansibleOptionLink" href="#parameter-foo" title="Permalink to this option"></a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>The foo source.</p>
     </td>
   </tr>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td colspan="2" valign="top">
       <div class="ansibleOptionAnchor" id="parameter-subfoo"></div>
       <p style="display: inline;"><strong>subfoo</strong></p>
       <a class="ansibleOptionLink" href="#parameter-subfoo" title="Permalink to this option"></a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">dictionary</span>
       </p>
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>Some recursive foo.</p>
     </td>
   </tr>
-  <tr style="height: 100%;">
-    <td style="height: inherit; display: flex; flex-direction: row;"><div style="margin-left: 2em; border-right: 1px solid #000000;"></div><div style="padding: 8px 16px; border-top: 1px solid #000000; height: inherit; flex: 1 0 auto; white-space: nowrap; max-width: 100%;">
+  <tr>
+    <td></td>
+    <td valign="top">
       <div class="ansibleOptionAnchor" id="parameter-subfoo/foo"></div>
       <p style="display: inline;"><strong>foo</strong></p>
       <a class="ansibleOptionLink" href="#parameter-subfoo/foo" title="Permalink to this option"></a>
@@ -99,8 +100,8 @@ Parameters
         <span style="color: purple;">string</span>
         / <span style="color: red;">required</span>
       </p>
-    </div></td>
-    <td>
+    </td>
+    <td valign="top">
       <p>A sub foo.</p>
       <p>Whatever.</p>
       <p>Also required when <em>subfoo</em> is specified when <em>foo=bar</em> or <code class='docutils literal notranslate'>baz</code>.</p>
