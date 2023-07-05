@@ -64,11 +64,6 @@ def documented_type(text) -> str:
     return text
 
 
-# The max filter was added in Jinja2-2.10.  Until we can require that version, use this
-def do_max(seq):
-    return max(seq)
-
-
 def rst_fmt(text, fmt):
     """helper for Jinja2 to do format strings"""
 
