@@ -163,7 +163,6 @@ def _create_ref_or_not(
     return refnode
 
 
-# pylint:disable-next=unused-argument
 def _create_error(rawtext: str, text: str, error: str) -> tuple[list[t.Any], list[str]]:
     content = nodes.strong(text, error, classes=["error"])
     logger.error(
