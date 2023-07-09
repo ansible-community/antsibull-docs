@@ -14,6 +14,7 @@ import typing as t
 from docutils import nodes
 from docutils.utils import unescape  # pyre-ignore[21]
 from sphinx import addnodes
+from sphinx.util import logging
 
 from antsibull_docs.markup.semantic_helper import (
     parse_option,
@@ -23,6 +24,8 @@ from antsibull_docs.markup.semantic_helper import (
 from antsibull_docs.utils.rst import massage_rst_label
 
 from .sphinx_helper import extract_explicit_title
+
+logger = logging.getLogger(__name__)
 
 
 def _plugin_ref(plugin_fqcn: str, plugin_type: str) -> str:
@@ -160,9 +163,11 @@ def _create_ref_or_not(
     return refnode
 
 
-# pylint:disable-next=unused-argument
 def _create_error(rawtext: str, text: str, error: str) -> tuple[list[t.Any], list[str]]:
     content = nodes.strong(text, error, classes=["error"])
+    logger.error(
+        f"while processing {rawtext}: {error}", location=content, type="semantic-markup"
+    )
     return [content], []
 
 
