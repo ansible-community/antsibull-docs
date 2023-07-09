@@ -1,2 +1,2 @@
 minor_changes:
-  - "When parsing errors happen during in the Sphinx extension, the extension now emits error messages during the build process next to emitting error markup (https://github.com/ansible-community/antsibull-docs/pull/187)."
+  - "When parsing errors happen in the Sphinx extension, the extension now emits error messages during the build process next to emitting error markup (https://github.com/ansible-community/antsibull-docs/pull/187)."
