@@ -1,2 +1,0 @@
-minor_changes:
-  - "Add a new subcommand ``lint-core-docs`` which lints the ansible-core documentation (https://github.com/ansible-community/antsibull-docs/pull/182)."

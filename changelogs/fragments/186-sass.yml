@@ -1,2 +1,0 @@
-minor_changes:
-  - "Use Dart sass compiler instead of sassc to compile CSS for Sphinx extension (https://github.com/ansible-community/antsibull-docs/issues/185, https://github.com/ansible-community/antsibull-docs/pull/186)."

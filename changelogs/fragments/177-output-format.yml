@@ -1,3 +1,0 @@
-minor_changes:
-  - "Add support for different output formats. Next to the default format, ``ansible-docsite``, a new **experimental** format ``simplified-rst`` is supported. Experimental means that it will likely change considerably in the next few releases until it stabilizes. Such changes will not be considered breaking changes, and could potentially even be bugfixes (https://github.com/ansible-community/antsibull-docs/pull/177)."
-  - "Add a new subcommand, ``collection-plugins``, for rendering files for all plugins and roles in a collection without any indexes (https://github.com/ansible-community/antsibull-docs/pull/177)."

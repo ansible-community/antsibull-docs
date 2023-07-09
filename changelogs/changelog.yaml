@@ -553,3 +553,43 @@ releases:
     - 175-sphinx-ext-nodes.yml
     - 2.2.0.yml
     release_date: '2023-06-27'
+  2.3.0:
+    changes:
+      bugfixes:
+      - Consider module/plugin aliases when linting references to other modules and
+        plugins (https://github.com/ansible-community/antsibull-docs/pull/184).
+      - Make sure that all aliases are actually listed for plugins (https://github.com/ansible-community/antsibull-docs/pull/183).
+      - When looking for redirects, the ``aliases`` field and filesystem redirects
+        in ansible-core were not properly considered. This ensures that all redirect
+        stubs are created, and that no duplicates show up, not depending on whether
+        ansible-core is installed in editable mode or not (https://github.com/ansible-community/antsibull-docs/pull/183).
+      minor_changes:
+      - Add a ``:ansplugin:`` role to the Sphinx extension. This allows to reference
+        a module, plugin, or role with the ``fqcn#type`` syntax from semantic markup
+        instead of having to manually compose a ``ansible_collections.{fqcn}_{type}``
+        label. An explicit reference title can also be provided with the ``title <fqcn#type>``
+        syntax similar to the ``:ref:`` role (https://github.com/ansible-community/antsibull-docs/pull/180).
+      - Add a new subcommand ``lint-core-docs`` which lints the ansible-core documentation
+        (https://github.com/ansible-community/antsibull-docs/pull/182).
+      - Add a new subcommand, ``collection-plugins``, for rendering files for all
+        plugins and roles in a collection without any indexes (https://github.com/ansible-community/antsibull-docs/pull/177).
+      - Add support for different output formats. Next to the default format, ``ansible-docsite``,
+        a new **experimental** format ``simplified-rst`` is supported. Experimental
+        means that it will likely change considerably in the next few releases until
+        it stabilizes. Such changes will not be considered breaking changes, and could
+        potentially even be bugfixes (https://github.com/ansible-community/antsibull-docs/pull/177).
+      - Use Dart sass compiler instead of sassc to compile CSS for Sphinx extension
+        (https://github.com/ansible-community/antsibull-docs/issues/185, https://github.com/ansible-community/antsibull-docs/pull/186).
+      - When parsing errors happen in the Sphinx extension, the extension now emits
+        error messages during the build process in addition to error markup (https://github.com/ansible-community/antsibull-docs/pull/187).
+      release_summary: Bugfix and feature release.
+    fragments:
+    - 177-output-format.yml
+    - 180-plugin-role.yml
+    - 182-core-lint.yml
+    - 183-routing.yml
+    - 184-lint-routing.yml
+    - 186-sass.yml
+    - 187-role-errors.yml
+    - 2.3.0.yml
+    release_date: '2023-07-09'
