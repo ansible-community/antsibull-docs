@@ -1,0 +1,60 @@
+{#
+  Copyright (c) Ansible Project
+  GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+  SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+{% from 'macros/version_added.rst.j2' import version_added_rst %}
+
+{% macro in_rst(attributes, role_entrypoint=None) %}
+.. list-table::
+  :widths: auto
+  :header-rows: 1
+
+  * - Attribute
+    - Support
+    - Description
+{% for attribute, data in attributes | dictsort %}
+{#   attribute name #}
+
+  * - .. _ansible_collections.@{plugin_name}@_@{plugin_type}@__attribute-@{ attribute }@:
+
+      **@{ attribute }@**
+
+{#   support #}
+    - 
+{%   if attribute == 'action_group' %}
+      Action group@{ 's' if data.membership | length != 1 else '' }@: \ 
+{%-    for member in data.membership -%}
+           @{- member | rst_ify(role_entrypoint=role_entrypoint) -}@
+{%-        if not loop.last %}, {% endif -%}
+{%-    endfor %}
+{%   elif attribute == 'platform' %}
+      Platform@{ 's' if data.platforms | length != 1 or data.platforms == ['all'] else '' }@: 
+{%-    for platform in data.platforms -%}
+           @{- platform | rst_ify(role_entrypoint=role_entrypoint) -}@
+{%-      if not loop.last %}, {% endif -%}
+{%-    endfor %}
+{%   else %}
+      Support: @{ data.support }@
+{%   endif %}
+
+{%   if data['version_added'] is still_relevant(collection=data['version_added_collection'] or collection) %}
+
+      added in @{ version_added_rst(data['version_added'], data['version_added_collection'] or collection) }@
+{%   endif %}
+
+{%   for desc in data['details'] %}
+      @{ desc | rst_ify(role_entrypoint=role_entrypoint) | indent(6) }@
+
+{%   endfor %}
+
+{#   description #}
+    - 
+{% for desc in data['description'] %}
+      @{ desc | rst_ify(role_entrypoint=role_entrypoint) | indent(6) }@
+
+{%   endfor %}
+
+{% endfor %}
+{% endmacro %}

@@ -1,0 +1,33 @@
+{#
+  Copyright (c) Ansible Project
+  GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+  SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+{% macro in_html(choices, default_value=None, has_no_default=False, role_entrypoint=None) %}
+      <ul>
+{%   if choices is mapping %}
+{%     for choice, desc in choices | dictsort %}
+        <li>
+{%       if not has_no_default and ((default_value is not list and default_value == choice) or (default_value is list and choice in default_value)) %}
+          <p><code style="color: blue;"><b>@{ choice | antsibull_to_json | escape }@</b></code> <span style="color: blue;">(default)</span>:
+{%       else %}
+          <p><code>@{ choice | antsibull_to_json | escape }@</code>:
+{%       endif %}
+          @{ desc | first | default('') | html_ify(role_entrypoint=role_entrypoint) | indent(10, blank=true) }@</p>
+{%       for line in desc[1:] %}
+          <p>@{ line | html_ify(role_entrypoint=role_entrypoint) | indent(10, blank=true) }@</p>
+{%       endfor %}
+        </li>
+{%     endfor %}
+{%   else %}
+{%     for choice in choices %}
+{%       if not has_no_default and ((default_value is not list and default_value == choice) or (default_value is list and choice in default_value)) %}
+        <li><p><code style="color: blue;"><b>@{ choice | antsibull_to_json | escape }@</b></code> <span style="color: blue;">← (default)</span></p></li>
+{%       else %}
+        <li><p><code>@{ choice | antsibull_to_json | escape }@</code></p></li>
+{%       endif %}
+{%     endfor %}
+{%   endif %}
+      </ul>
+{% endmacro %}

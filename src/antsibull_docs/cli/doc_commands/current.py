@@ -32,13 +32,15 @@ def generate_docs() -> int:
 
     app_ctx = app_context.app_ctx.get()
 
+    output_format = OutputFormat.parse(app_ctx.extra["output_format"])
+
     venv = FakeVenvRunner()
 
     return generate_docs_for_all_collections(
         venv,
         app_ctx.extra["collection_dir"],
         app_ctx.extra["dest_dir"],
-        OutputFormat.ANSIBLE_DOCSITE,
+        output_format,
         breadcrumbs=app_ctx.breadcrumbs,
         use_html_blobs=app_ctx.use_html_blobs,
         fail_on_error=app_ctx.extra["fail_on_error"],

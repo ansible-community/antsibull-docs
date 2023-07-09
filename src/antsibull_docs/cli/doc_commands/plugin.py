@@ -26,7 +26,8 @@ from ...augment_docs import augment_docs
 from ...collection_links import CollectionLinks
 from ...docs_parsing import AnsibleCollectionMetadata
 from ...docs_parsing.fqcn import get_fqcn_parts, is_fqcn
-from ...jinja2.environment import OutputFormat, doc_environment
+from ...jinja2 import FilenameGenerator, OutputFormat
+from ...jinja2.environment import doc_environment
 from ...process_docs import normalize_plugin_info
 from ...utils.collection_name_transformer import CollectionNameTransformer
 from ...write_docs.plugins import write_plugin_rst
@@ -41,6 +42,7 @@ def generate_plugin_docs(
     plugin: str,
     output_path: str,
     output_format: OutputFormat,
+    filename_generator: FilenameGenerator,
 ) -> int:
     """
     Render documentation for a locally installed plugin.
@@ -136,6 +138,8 @@ def generate_plugin_docs(
             plugin_tmpl,
             error_tmpl,
             "",
+            output_format,
+            filename_generator,
             path_override=output_path,
             use_html_blobs=app_ctx.use_html_blobs,
         )
@@ -160,6 +164,7 @@ def generate_docs() -> int:
     app_ctx = app_context.app_ctx.get()
     plugin_type: str = app_ctx.extra["plugin_type"]
     plugin_name: str = app_ctx.extra["plugin"][0]
+    output_format = OutputFormat.parse(app_ctx.extra["output_format"])
 
     if not is_fqcn(plugin_name):
         raise NotImplementedError(
@@ -180,11 +185,14 @@ def generate_docs() -> int:
     collection_name = ".".join([namespace, collection])
     plugin_name = ".".join([namespace, collection, plugin])
 
+    filename_generator = FilenameGenerator()
+
     return generate_plugin_docs(
         plugin_type,
         plugin_name,
         collection_name,
         plugin,
         output_path,
-        OutputFormat.ANSIBLE_DOCSITE,
+        output_format,
+        filename_generator,
     )

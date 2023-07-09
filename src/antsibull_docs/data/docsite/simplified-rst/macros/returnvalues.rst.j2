@@ -1,0 +1,70 @@
+{#
+  Copyright (c) Ansible Project
+  GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+  SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+{% from 'macros/choiceslist.rst.j2' import in_html as choices_html %}
+{% from 'macros/version_added.rst.j2' import version_added_html %}
+
+{% macro in_html(elements, role_entrypoint=None) %}
+.. raw:: html
+
+  <table style="width: 100%;">
+  <thead>
+  {% set table_depth = elements | suboption_depth('contains') %}
+  <tr>
+    <th{% if table_depth > 1 %} colspan="@{ table_depth }@"{% endif %}><p>Key</p></th>
+    <th><p>Description</p></th>
+  </tr>
+  </thead>
+  <tbody>
+{% set row_class = cycler('even', 'odd') %}
+{% for key, value in elements recursive %}
+{#   return value name #}
+  <tr>
+{%   for i in range(1, loop.depth) %}
+    <td></td>
+{%   endfor %}
+    <td{% if table_depth > loop.depth %} colspan="@{ table_depth - loop.depth0 }@"{% endif %} valign="top">
+{%   for full_key in value['full_keys'] %}
+      <div class="ansibleOptionAnchor" id="return-{% for part in full_key %}@{ part | urlencode }@{% if not loop.last %}/{% endif %}{% endfor %}"></div>
+{%   endfor %}
+      <p style="display: inline;"><strong>@{ key | escape }@</strong></p>
+      <a class="ansibleOptionLink" href="#return-{% for part in value['full_key'] %}@{ part | urlencode }@{% if not loop.last %}/{% endif %}{% endfor %}" title="Permalink to this return value"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">@{ value['type'] | documented_type }@</span>
+{%   if value['type'] == 'list' and value['elements'] is not none %}
+        / <span style="color: purple;">elements=@{ value['elements'] | documented_type }@</span>
+{%   endif %}
+      </p>
+{%   if value['version_added'] is still_relevant(collection=value['version_added_collection'] or collection) %}
+      <p><i style="font-size: small; color: darkgreen;">added in @{ version_added_html(value['version_added'], value['version_added_collection'] or collection) }@</i></p>
+{%   endif %}
+    </td>
+{#   description #}
+    <td valign="top">
+{%   for desc in value['description'] %}
+      <p>@{ desc | html_ify(role_entrypoint=role_entrypoint) | indent(6, blank=true) }@</p>
+{%   endfor %}
+{%   if value['returned'] %}
+      <p style="margin-top: 8px;"><b>Returned:</b> @{ value['returned'] | html_ify(role_entrypoint=role_entrypoint) | indent(6, blank=true) }@</p>
+{%   endif %}
+{#   Show possible choices and highlight details #}
+{%   if value['choices'] %}
+      <p style="margin-top: 8px;"><b>Can only return:</b></p>
+@{     choices_html(value['choices'], has_no_default=True, role_entrypoint=role_entrypoint) }@
+{%   endif %}
+{%   if value['sample'] is not none %}
+      <p style="margin-top: 8px; color: blue; word-wrap: break-word; word-break: break-all;"><b style="color: black;">Sample:</b> <code>@{ value['sample'] | antsibull_to_json | escape | indent(6, blank=true) }@</code></p>
+{%   endif %}
+    </td>
+  </tr>
+{%   if value['contains'] %}
+@{     loop(value['contains'] | dictsort) }@
+{%   endif %}
+{% endfor %}
+  </tbody>
+  </table>
+
+{% endmacro %}

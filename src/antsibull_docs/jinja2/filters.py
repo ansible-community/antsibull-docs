@@ -18,7 +18,7 @@ from jinja2.runtime import Context, Undefined
 from jinja2.utils import pass_context
 
 from ..markup.htmlify import html_ify as html_ify_impl
-from ..markup.rstify import get_rst_formatter
+from ..markup.rstify import get_rst_formatter_link_provider
 from ..markup.rstify import rst_ify as rst_ify_impl
 from . import OutputFormat
 
@@ -31,15 +31,21 @@ _EMAIL_ADDRESS = re.compile(
 
 def extract_plugin_data(
     context: Context, plugin_fqcn: str | None = None, plugin_type: str | None = None
-) -> tuple[str | None, str | None]:
-    plugin_fqcn = context.get("plugin_name") if plugin_fqcn is None else plugin_fqcn
-    plugin_type = context.get("plugin_type") if plugin_type is None else plugin_type
+) -> tuple[str | None, str | None, str | None, str | None]:
+    # The doc plugin is determined by the current page
+    doc_plugin_fqcn = context.get("plugin_name")
+    doc_plugin_type = context.get("plugin_type")
+    if doc_plugin_fqcn is None or doc_plugin_type is None:
+        doc_plugin_fqcn = doc_plugin_type = None
+
+    # The current plugin for this markup is determined by the parameters,
+    # with fallback to the doc plugin
+    plugin_fqcn = doc_plugin_fqcn if plugin_fqcn is None else plugin_fqcn
+    plugin_type = doc_plugin_type if plugin_type is None else plugin_type
     if plugin_fqcn is None or plugin_type is None:
-        return None, None
-    # if plugin_type == 'role':
-    #     entry_point = context.get('entry_point', 'main')
-    #     # FIXME: use entry_point
-    return plugin_fqcn, plugin_type
+        plugin_fqcn = plugin_type = None
+
+    return doc_plugin_fqcn, doc_plugin_type, plugin_fqcn, plugin_type
 
 
 def documented_type(text) -> str:
@@ -56,11 +62,6 @@ def documented_type(text) -> str:
     if text == "dict":
         return "dictionary"
     return text
-
-
-# The max filter was added in Jinja2-2.10.  Until we can require that version, use this
-def do_max(seq):
-    return max(seq)
 
 
 def rst_fmt(text, fmt):
@@ -155,17 +156,29 @@ def make_rst_ify(output_format: OutputFormat):
         flog = mlog.fields(func="rst_ify")
         flog.fields(text=text).debug("Enter")
 
-        plugin_fqcn, plugin_type = extract_plugin_data(
-            context, plugin_fqcn=plugin_fqcn, plugin_type=plugin_type
+        (
+            doc_plugin_fqcn,
+            doc_plugin_type,
+            plugin_fqcn,
+            plugin_type,
+        ) = extract_plugin_data(
+            context,
+            plugin_fqcn=plugin_fqcn,
+            plugin_type=plugin_type,
         )
 
-        formatter = get_rst_formatter(output_format, context.get("referable_envvars"))
+        formatter, link_provider = get_rst_formatter_link_provider(
+            output_format, context.get("referable_envvars")
+        )
         text, counts = rst_ify_impl(
             text,
             plugin_fqcn=plugin_fqcn,
             plugin_type=plugin_type,
             role_entrypoint=role_entrypoint,
+            doc_plugin_fqcn=doc_plugin_fqcn,
+            doc_plugin_type=doc_plugin_type,
             formatter=formatter,
+            link_provider=link_provider,
         )
 
         flog.fields(counts=counts).info("Number of macros converted to rst equivalents")
@@ -188,8 +201,10 @@ def html_ify(
     flog = mlog.fields(func="html_ify")
     flog.fields(text=text).debug("Enter")
 
-    plugin_fqcn, plugin_type = extract_plugin_data(
-        context, plugin_fqcn=plugin_fqcn, plugin_type=plugin_type
+    doc_plugin_fqcn, doc_plugin_type, plugin_fqcn, plugin_type = extract_plugin_data(
+        context,
+        plugin_fqcn=plugin_fqcn,
+        plugin_type=plugin_type,
     )
 
     text, counts = html_ify_impl(
@@ -197,8 +212,29 @@ def html_ify(
         plugin_fqcn=plugin_fqcn,
         plugin_type=plugin_type,
         role_entrypoint=role_entrypoint,
+        doc_plugin_fqcn=doc_plugin_fqcn,
+        doc_plugin_type=doc_plugin_type,
     )
 
     flog.fields(counts=counts).info("Number of macros converted to html equivalents")
     flog.debug("Leave")
     return text
+
+
+def collection_name(fqcn: str) -> str:
+    return ".".join(fqcn.split(".", 2)[:2])
+
+
+def plugin_shortname(fqcn: str) -> str:
+    return fqcn.split(".", 2)[2]
+
+
+def suboption_depth(
+    data: Sequence[tuple[t.Any, t.Any]] | t.ItemsView[t.Any, t.Any], subkey: str
+) -> int:
+    subdepth = 0
+    for _, option in data:
+        subdata = option.get(subkey)
+        if subdata and isinstance(subdata, Mapping):
+            subdepth = max(subdepth, suboption_depth(subdata.items(), subkey))
+    return subdepth + 1

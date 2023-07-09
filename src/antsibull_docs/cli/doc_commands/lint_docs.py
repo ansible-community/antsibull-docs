@@ -15,6 +15,7 @@ from antsibull_core.logging import log
 from ... import app_context
 from ...collection_config import lint_collection_config
 from ...collection_links import lint_collection_links
+from ...jinja2.environment import OutputFormat
 from ...lint_extra_docs import lint_collection_extra_docs_files
 from ...lint_plugin_docs import lint_collection_plugin_docs, lint_core_plugin_docs
 from ...utils.collection_name_transformer import CollectionNameTransformer
@@ -40,6 +41,7 @@ def lint_collection_docs() -> int:
     disallow_unknown_collection_refs = app_ctx.extra["disallow_unknown_collection_refs"]
     skip_rstcheck = app_ctx.extra["skip_rstcheck"]
     disallow_semantic_markup = app_ctx.extra["disallow_semantic_markup"]
+    output_format = OutputFormat.parse(app_ctx.extra["output_format"])
 
     flog.notice("Linting docs config file")
     errors = lint_collection_config(collection_root)
@@ -68,6 +70,7 @@ def lint_collection_docs() -> int:
                 disallow_unknown_collection_refs=disallow_unknown_collection_refs,
                 skip_rstcheck=skip_rstcheck,
                 disallow_semantic_markup=disallow_semantic_markup,
+                output_format=output_format,
             )
         )
 

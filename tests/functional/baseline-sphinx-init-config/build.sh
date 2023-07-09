@@ -17,6 +17,7 @@ antsibull-docs \
     collection \
     --fail-on-error \
     --squash-hierarchy \
+    --output-format ansible-docsite \
     --dest-dir temp-rst \
     ns.col1
 

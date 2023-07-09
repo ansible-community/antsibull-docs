@@ -20,7 +20,8 @@ from jinja2 import Template
 
 from ..docs_parsing import AnsibleCollectionMetadata
 from ..env_variables import EnvironmentVariableInfo
-from ..jinja2.environment import OutputFormat, doc_environment, get_template_filename
+from ..jinja2 import FilenameGenerator, OutputFormat
+from ..jinja2.environment import doc_environment, get_template_filename
 from ..utils.collection_name_transformer import CollectionNameTransformer
 from . import PluginCollectionInfoT, _render_template
 
@@ -94,6 +95,7 @@ async def output_callback_indexes(
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
     output_format: OutputFormat,
+    filename_generator: FilenameGenerator,
     for_official_docsite: bool = False,
     referable_envvars: set[str] | None = None,
 ) -> None:
@@ -117,6 +119,7 @@ async def output_callback_indexes(
         collection_install=collection_install,
         referable_envvars=referable_envvars,
         output_format=output_format,
+        filename_generator=filename_generator,
     )
     # Get the templates
     plugin_list_tmpl = env.get_template(
@@ -136,7 +139,8 @@ async def output_callback_indexes(
     async with asyncio_pool.AioPool(size=lib_ctx.thread_max) as pool:
         for callback_type, per_collection_data in plugin_info.items():
             filename = os.path.join(
-                collection_toplevel, f"callback_index_{callback_type}.rst"
+                collection_toplevel,
+                f"callback_index_{callback_type}{output_format.output_extension}",
             )
             writers.append(
                 await pool.spawn(
@@ -162,6 +166,7 @@ async def output_plugin_indexes(
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
     output_format: OutputFormat,
+    filename_generator: FilenameGenerator,
     for_official_docsite: bool = False,
     referable_envvars: set[str] | None = None,
 ) -> None:
@@ -185,6 +190,7 @@ async def output_plugin_indexes(
         collection_install=collection_install,
         referable_envvars=referable_envvars,
         output_format=output_format,
+        filename_generator=filename_generator,
     )
     # Get the templates
     plugin_list_tmpl = env.get_template(
@@ -203,7 +209,10 @@ async def output_plugin_indexes(
     lib_ctx = app_context.lib_ctx.get()
     async with asyncio_pool.AioPool(size=lib_ctx.thread_max) as pool:
         for plugin_type, per_collection_data in plugin_info.items():
-            filename = os.path.join(collection_toplevel, f"index_{plugin_type}.rst")
+            filename = os.path.join(
+                collection_toplevel,
+                f"index_{plugin_type}{output_format.output_extension}",
+            )
             writers.append(
                 await pool.spawn(
                     write_plugin_type_index(
@@ -226,6 +235,7 @@ async def output_environment_variables(
     dest_dir: str,
     env_variables: Mapping[str, EnvironmentVariableInfo],
     output_format: OutputFormat,
+    filename_generator: FilenameGenerator,
     squash_hierarchy: bool = False,
     referable_envvars: set[str] | None = None,
 ) -> None:
@@ -251,6 +261,7 @@ async def output_environment_variables(
     env = doc_environment(
         referable_envvars=referable_envvars,
         output_format=output_format,
+        filename_generator=filename_generator,
     )
     # Get the templates
     env_var_list_tmpl = env.get_template(
@@ -264,7 +275,9 @@ async def output_environment_variables(
     # (docs/docsite/rst) is only writable by us.
     os.makedirs(collection_toplevel, mode=0o755, exist_ok=True)
 
-    index_file = os.path.join(collection_toplevel, "environment_variables.rst")
+    index_file = os.path.join(
+        collection_toplevel, f"environment_variables{output_format.output_extension}"
+    )
     index_contents = _render_template(
         env_var_list_tmpl,
         index_file,

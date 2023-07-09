@@ -1,0 +1,141 @@
+{#
+  Copyright (c) Ansible Project
+  GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+  SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+{% from 'macros/choiceslist.rst.j2' import in_html as choices_html %}
+{% from 'macros/deprecates.rst.j2' import in_html as deprecates_html with context %}
+{% from 'macros/version_added.rst.j2' import version_added_html %}
+
+{% macro in_html(elements, suboption_key='suboptions', parameter_html_prefix='', parameter_rst_prefix='', role_entrypoint=None) %}
+.. raw:: html
+
+  <table style="width: 100%;">
+  <thead>
+  {% set table_depth = elements | suboption_depth(suboption_key) %}
+  <tr>
+    <th{% if table_depth > 1 %} colspan="@{ table_depth }@"{% endif %}><p>Parameter</p></th>
+    <th><p>Comments</p></th>
+  </tr>
+  </thead>
+  <tbody>
+{% set row_class = cycler('even', 'odd') %}
+{% for key, value in elements recursive %}
+{#   parameter name with required and/or introduced label #}
+  <tr>
+{%   for i in range(1, loop.depth) %}
+    <td></td>
+{%   endfor %}
+    <td{% if table_depth > loop.depth %} colspan="@{ table_depth - loop.depth0 }@"{% endif %} valign="top">
+{%   for full_key in value['full_keys'] %}
+      <div class="ansibleOptionAnchor" id="parameter-@{ parameter_html_prefix }@{% for part in full_key %}@{ part | urlencode }@{% if not loop.last %}/{% endif %}{% endfor %}"></div>
+{%   endfor %}
+      <p style="display: inline;"><strong>@{ key | escape }@</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-@{ parameter_html_prefix }@{% for part in value['full_key'] %}@{ part | urlencode }@{% if not loop.last %}/{% endif %}{% endfor %}" title="Permalink to this option"></a>
+{%   if value['aliases'] %}
+      <p style="font-size: small; margin-bottom: 0;"><span style="color: darkgreen; white-space: normal;">aliases: @{ value['aliases']|join(', ') }@</span></p>
+{%   endif %}
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">@{ value['type'] | documented_type }@</span>
+{%   if value['type'] == 'list' and value['elements'] is not none %}
+        / <span style="color: purple;">elements=@{ value['elements'] | documented_type }@</span>
+{%   endif %}
+{%   if value['required'] %}
+        / <span style="color: red;">required</span>
+{%   endif %}
+      </p>
+{%   if value['version_added'] is still_relevant(collection=value['version_added_collection'] or collection) %}
+      <p><i style="font-size: small; color: darkgreen;">added in @{ version_added_html(value['version_added'], value['version_added_collection'] or collection) }@</i></p>
+{%   endif %}
+{%   if plugin_type != 'module' %}
+@{     deprecates_html(value['deprecated'], collection, role_entrypoint=role_entrypoint) }@
+{%   endif %}
+    </td>
+{#   description #}
+    <td valign="top">
+{%   for desc in value['description'] %}
+      <p>@{ desc | html_ify(role_entrypoint=role_entrypoint) | indent(6, blank=true) }@</p>
+{%   endfor %}
+{#   default / choices #}
+{%   if value['type'] == 'bool' %}
+{%     set _x = value.update({'choices': [false, true]}) %}
+{%   endif %}
+{#   Show possible choices and highlight details #}
+{%   if value['choices'] %}
+      <p style="margin-top: 8px;"><b">Choices:</b></p>
+@{     choices_html(value['choices'], value['default'], role_entrypoint=role_entrypoint) }@
+{%   endif %}
+{#   Show default value, when multiple choice or no choices #}
+{%   if value['default'] is not none and value['default'] not in value['choices'] %}
+      <p style="margin-top: 8px;"><b style="color: blue;">Default:</b> <code style="color: blue;">@{ value['default'] | antsibull_to_json | escape | indent(6, blank=true) }@</code></p>
+{%   endif %}
+{#   Configuration #}
+{%   if plugin_type != 'module' and plugin_type != 'role' and (value['ini'] or value['env'] or value['vars'] or value['cli']) %}
+      <p style="margin-top: 8px;"><b>Configuration:</b></p>
+      <ul>
+{%     if value['ini'] %}
+      <li>
+        <p>INI {% if value['ini'] | length == 1 %}entry{% else %}entries{% endif %}</p>
+{%       for ini in value['ini'] %}
+        <pre>[@{ ini['section'] | escape }@]
+{%         if value['default'] is none %}
+  @{ ini['key'] | escape }@ = VALUE</pre>
+{%         else %}
+  @{ ini['key'] | escape }@ = @{ value['default'] | antsibull_to_ini_value | escape }@</pre>
+{%         endif %}
+{%         if ini['version_added'] is still_relevant(collection=ini['version_added_collection'] or collection) %}
+        <p><i style="font-size: small; color: darkgreen;">added in @{ version_added_html(ini['version_added'], ini['version_added_collection'] or collection) }@</i></p>
+{%         endif %}
+@{         deprecates_html(ini['deprecated'], collection, role_entrypoint=role_entrypoint) }@
+{%       endfor %}
+      </li>
+{%     endif %}
+{%     for env in value['env'] %}
+      <li>
+        <p>Environment variable: <code>@{ env['name'] | escape }@</code></p>
+{%       if env['version_added'] is still_relevant(collection=env['version_added_collection'] or collection) %}
+        <p><i style="font-size: small; color: darkgreen;">added in @{ version_added_html(env['version_added'], env['version_added_collection'] or collection) }@</i></p>
+{%       endif %}
+@{       deprecates_html(env['deprecated'], collection, role_entrypoint=role_entrypoint) }@
+      </li>
+{%     endfor %}
+{%     for myvar in value['vars'] %}
+      <li>
+        <p>Variable: @{ myvar['name'] | escape }@</p>
+{%       if myvar['version_added'] is still_relevant(collection=myvar['version_added_collection'] or collection) %}
+        <p><i style="font-size: small; color: darkgreen;">added in @{ version_added_html(myvar['version_added'], myvar['version_added_collection'] or collection) }@</i></p>
+{%       endif %}
+@{       deprecates_html(myvar['deprecated'], collection, role_entrypoint=role_entrypoint) }@
+      </li>
+{%     endfor %}
+{%     for kw in value['keyword'] %}
+      <li>
+        <p>Keyword: @{ kw['name'] | escape }@</p>
+{%       if kw['version_added'] is still_relevant(collection=kw['version_added_collection'] or collection) %}
+        <p><i style="font-size: small; color: darkgreen;">added in @{ version_added_html(kw['version_added'], kw['version_added_collection'] or collection) }@</i></p>
+{%       endif %}
+@{       deprecates_html(kw['deprecated'], collection, role_entrypoint=role_entrypoint) }@
+      </li>
+{%     endfor %}
+{%     for mycli in value['cli'] %}
+      <li>
+        <p>CLI argument: @{ mycli['option'] | escape }@</p>
+{%       if mycli['version_added'] is still_relevant(collection=mycli['version_added_collection'] or collection) %}
+        <p><i style="font-size: small; color: darkgreen;">added in @{ version_added_html(mycli['version_added'], mycli['version_added_collection'] or collection) }@</i></p>
+{%       endif %}
+@{       deprecates_html(mycli['deprecated'], collection, role_entrypoint=role_entrypoint) }@
+      </li>
+{%     endfor %}
+      </ul>
+{%   endif %}
+    </td>
+  </tr>
+{%   if value[suboption_key] %}
+@{     loop(value[suboption_key] | dictsort) }@
+{%   endif %}
+{% endfor %}
+  </tbody>
+  </table>
+
+{% endmacro %}

@@ -27,8 +27,10 @@ from ._build import generate_docs_for_all_collections
 mlog = log.fields(mod=__name__)
 
 
-def generate_collection_docs(collection_dir: str | None, squash_hierarchy: bool) -> int:
-    flog = mlog.fields(func="generate_current_docs")
+def generate_collection_docs(
+    collection_dir: str | None, output_format: OutputFormat, squash_hierarchy: bool
+) -> int:
+    flog = mlog.fields(func="generate_collection_docs")
     flog.debug("Begin generating docs")
 
     app_ctx = app_context.app_ctx.get()
@@ -39,7 +41,7 @@ def generate_collection_docs(collection_dir: str | None, squash_hierarchy: bool)
         venv,
         collection_dir,
         app_ctx.extra["dest_dir"],
-        OutputFormat.ANSIBLE_DOCSITE,
+        output_format,
         collection_names=app_ctx.extra["collections"],
         create_indexes=app_ctx.indexes and not squash_hierarchy,
         squash_hierarchy=squash_hierarchy,
@@ -117,9 +119,10 @@ def generate_docs() -> int:
     app_ctx = app_context.app_ctx.get()
 
     squash_hierarchy: bool = app_ctx.extra["squash_hierarchy"]
+    output_format = OutputFormat.parse(app_ctx.extra["output_format"])
 
     if app_ctx.extra["use_current"]:
-        return generate_collection_docs(None, squash_hierarchy)
+        return generate_collection_docs(None, output_format, squash_hierarchy)
 
     collection_version = app_ctx.extra["collection_version"]
     if collection_version == "@latest":
@@ -137,7 +140,7 @@ def generate_docs() -> int:
                 collection_cache=app_ctx.collection_cache,
             )
         )
-        # flog.fields(tarballs=collection_tarballs).debug('Download complete')
+        flog.fields(tarballs=collection_tarballs).debug("Download complete")
         flog.notice("Finished retrieving tarballs")
 
         # Install the collections to a directory
@@ -158,4 +161,4 @@ def generate_docs() -> int:
         )
         flog.notice("Finished installing collections")
 
-        return generate_collection_docs(collection_dir, squash_hierarchy)
+        return generate_collection_docs(collection_dir, output_format, squash_hierarchy)

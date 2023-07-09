@@ -66,6 +66,31 @@ TEST_CASES = [
         ],
         "baseline-squash-hierarchy",
     ),
+    (
+        [
+            "collection",
+            "--use-current",
+            "ns.col1",
+            "ns.col2",
+            "ns2.col",
+            "ns2.flatcol",
+            "--output-format",
+            "simplified-rst",
+        ],
+        "baseline-simplified-rst",
+    ),
+    (
+        [
+            "collection",
+            "--use-current",
+            "ns2.col",
+            "--fail-on-error",
+            "--squash-hierarchy",
+            "--output-format",
+            "simplified-rst",
+        ],
+        "baseline-simplified-rst-squash-hierarchy",
+    ),
 ]
 
 

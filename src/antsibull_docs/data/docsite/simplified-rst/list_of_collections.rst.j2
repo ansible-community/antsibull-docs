@@ -1,0 +1,18 @@
+{#
+  Copyright (c) Ansible Project
+  GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+  SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+Collection Index
+================
+
+{% if for_official_docsite %}
+These are the collections with docs hosted on `docs.ansible.com <https://docs.ansible.com/>`_.
+{% else %}
+These are the collections documented here.
+{% endif %}
+
+{% for name in collections | sort %}
+* `@{ name }@ <@{ name | replace('.', '/') }@/index.rst>`_
+{% endfor %}

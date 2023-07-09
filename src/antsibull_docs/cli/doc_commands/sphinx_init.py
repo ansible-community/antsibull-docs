@@ -128,6 +128,7 @@ def site_init() -> int:
     extra_conf = split_kv(app_ctx.extra["extra_conf"])
     extra_html_context = split_kv(app_ctx.extra["extra_html_context"])
     extra_html_theme_options = split_kv(app_ctx.extra["extra_html_theme_options"])
+    output_format = app_ctx.extra["output_format"]
 
     sphinx_theme = "sphinx_ansible_theme"
     sphinx_theme_package = "sphinx-ansible-theme >= 0.9.0"
@@ -174,6 +175,7 @@ def site_init() -> int:
                 extra_conf=extra_conf,
                 extra_html_context=extra_html_context,
                 extra_html_theme_options=extra_html_theme_options,
+                output_format=output_format,
             )
             + "\n"
         )

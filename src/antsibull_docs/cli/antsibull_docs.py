@@ -37,6 +37,7 @@ from ..docs_parsing.fqcn import is_fqcn  # noqa: E402
 from ..schemas.app_context import DocsAppContext  # noqa: E402
 from .doc_commands import (  # noqa: E402
     collection,
+    collection_plugins,
     current,
     devel,
     lint_docs,
@@ -57,6 +58,7 @@ ARGS_MAP: dict[str, Callable] = {
     "stable": stable.generate_docs,
     "current": current.generate_docs,
     "collection": collection.generate_docs,
+    "collection-plugins": collection_plugins.generate_docs,
     "plugin": plugin.generate_docs,
     "sphinx-init": sphinx_init.site_init,
     "lint-collection-docs": lint_docs.lint_collection_docs,
@@ -280,6 +282,17 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         " (Latest version of the collections known to galaxy).",
     )
 
+    output_format_parser = argparse.ArgumentParser(add_help=False)
+    output_format_parser.add_argument(
+        "--output-format",
+        default="ansible-docsite",
+        choices=["ansible-docsite", "simplified-rst"],
+        help="What kind of output format to use. Note that simplified-rst is"
+        " *EXPERIMENTAL*; the output format will likely change considerably"
+        " over the next few versions, and these changes will not be considered"
+        " breaking changes.",
+    )
+
     whole_site_parser = argparse.ArgumentParser(add_help=False)
     whole_site_parser.add_argument(
         "--breadcrumbs",
@@ -371,7 +384,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     #
     current_parser = subparsers.add_parser(
         "current",
-        parents=[docs_parser, whole_site_parser, template_parser],
+        parents=[docs_parser, whole_site_parser, template_parser, output_format_parser],
         description="Generate documentation for the current"
         " installed version of ansible and the current installed"
         " collections",
@@ -388,7 +401,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     #
     collection_parser = subparsers.add_parser(
         "collection",
-        parents=[docs_parser, whole_site_parser, template_parser],
+        parents=[docs_parser, whole_site_parser, template_parser, output_format_parser],
         description="Generate documentation for specified collections",
     )
     collection_parser.add_argument(
@@ -427,7 +440,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     #
     file_parser = subparsers.add_parser(
         "plugin",
-        parents=[docs_parser, template_parser],
+        parents=[docs_parser, template_parser, output_format_parser],
         description="Generate documentation for a single plugin",
     )
     file_parser.add_argument(
@@ -447,11 +460,49 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     )
 
     #
+    # Document one or more specified collections
+    #
+    collection_plugins_parser = subparsers.add_parser(
+        "collection-plugins",
+        parents=[docs_parser, template_parser, output_format_parser],
+        description="Generate documentation for all plugins of a specified collection",
+    )
+    collection_plugins_parser.add_argument(
+        "--collection-version",
+        default="@latest",
+        help="The version of the collection to document.  The special"
+        ' version, "@latest" can be used to download and document the'
+        " latest version from galaxy.",
+    )
+    collection_plugins_parser.add_argument(
+        "--use-current",
+        action="store_true",
+        default=False,
+        help="Assumes that the argument is a collection name, and"
+        " that collection has been installed with the current"
+        " version of ansible. Specified --collection-version will be"
+        " ignored.",
+    )
+    collection_plugins_parser.add_argument(
+        "--fqcn-plugin-names",
+        action="store_true",
+        default=False,
+        help="Include the collection name in the plugin file names.",
+    )
+    collection_plugins_parser.add_argument(
+        nargs=1,
+        dest="collection",
+        help="A collection whose plugins to document.  It will be"
+        " downloaded from Galaxy or is assumed to be installed,"
+        " depending on whether --use-current is specified.",
+    )
+
+    #
     # Create a Sphinx site template
     #
     sphinx_init_parser = subparsers.add_parser(
         "sphinx-init",
-        parents=[docs_parser, template_parser, whole_site_parser],
+        parents=[docs_parser, template_parser, whole_site_parser, output_format_parser],
         description="Generate a Sphinx site template for a collection docsite",
     )
 
@@ -559,6 +610,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     #
     lint_collection_docs_parser = subparsers.add_parser(
         "lint-collection-docs",
+        parents=[output_format_parser],
         description="Collection extra docs linter for inclusion in docsite",
     )
 

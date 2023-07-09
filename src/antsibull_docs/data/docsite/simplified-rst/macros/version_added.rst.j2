@@ -1,0 +1,41 @@
+{#
+  Copyright (c) Ansible Project
+  GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+  SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+{% macro ansible_name(version) -%}
+{%-  if version.startswith('2.10.') -%}
+ansible-base
+{%-  elif version.startswith('0.') or version.startswith('1.') or (version.startswith('2.') and (version | length == 3 or version[3] == '.')) -%}
+Ansible
+{%-  elif version.startswith('2.10.') or version == '2.10' -%}
+ansible-base
+{%-  else -%}
+ansible-core
+{%-  endif -%}
+{%- endmacro %}
+
+{% macro version_added_rst(version_added, version_added_collection=None, do_not_escape_first_word=False) -%}
+{%-   if version_added_collection == 'ansible.builtin' -%}
+@{      ansible_name(version_added) }@ @{ version_added | rst_escape }@
+{%-   elif version_added_collection and do_not_escape_first_word -%}
+@{      version_added_collection }@ @{ version_added | rst_escape }@
+{%-   elif version_added_collection -%}
+@{      version_added_collection | rst_escape }@ @{ version_added | rst_escape }@
+{%-   elif do_not_escape_first_word -%}
+@{      version_added }@
+{%-   else -%}
+@{      version_added | rst_escape }@
+{%-   endif -%}
+{%- endmacro %}
+
+{% macro version_added_html(version_added, version_added_collection=None) -%}
+{%-   if version_added_collection == 'ansible.builtin' -%}
+@{      ansible_name(version_added) }@ @{ version_added | escape }@
+{%-   elif version_added_collection -%}
+@{      version_added_collection | escape }@ @{ version_added | escape }@
+{%-   else -%}
+@{      version_added | escape }@
+{%-   endif -%}
+{%- endmacro %}
