@@ -140,7 +140,7 @@ def generate_docs() -> int:
                 collection_cache=app_ctx.collection_cache,
             )
         )
-        flog.fields(tarballs=collection_tarballs).debug('Download complete')
+        flog.fields(tarballs=collection_tarballs).debug("Download complete")
         flog.notice("Finished retrieving tarballs")
 
         # Install the collections to a directory

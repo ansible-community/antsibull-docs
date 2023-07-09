@@ -129,7 +129,7 @@ def generate_docs() -> int:
                 use_installed_ansible_core=use_installed_ansible_core,
             )
         )
-        flog.fields(tarballs=collection_tarballs).debug('Download complete')
+        flog.fields(tarballs=collection_tarballs).debug("Download complete")
         flog.notice("Finished retrieving tarballs")
 
         # Get the ansible-core location
