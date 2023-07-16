@@ -1,2 +1,0 @@
-bugfixes:
-  - "Fix antsibull Sphinx extension CSS so that the option/return value anchors for module/plugin/role documentation can also be used on WebKit-based browsers such as Gnome Web and Safari (https://github.com/ansible-community/antsibull-docs/issues/188, https://github.com/ansible-community/antsibull-docs/pull/189)."

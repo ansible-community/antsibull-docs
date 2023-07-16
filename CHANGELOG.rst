@@ -5,6 +5,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v2.3.1
+======
+
+Release Summary
+---------------
+
+Bugfix release with a CSS fix for the Sphinx extension.
+
+Bugfixes
+--------
+
+- Fix antsibull Sphinx extension CSS so that the option/return value anchors for module/plugin/role documentation can also be used on WebKit-based browsers such as Gnome Web and Safari (https://github.com/ansible-community/antsibull-docs/issues/188, https://github.com/ansible-community/antsibull-docs/pull/189).
+
 v2.3.0
 ======
 
