@@ -61,15 +61,15 @@ table.documentation-table {
   tr {
     .ansibleOptionLink {
       display: inline-block;
-      visibility: hidden;
 
       &::after {
         content: "🔗";
+        opacity: 0;
       }
     }
 
     &:hover .ansibleOptionLink::after {
-      visibility: visible;
+      opacity: 1;
     }
 
     &:nth-child(odd) {
@@ -203,10 +203,10 @@ table.ansible-option-table {
 
   .ansibleOptionLink {
     display: inline-block;
-    visibility: hidden;
 
     &::after {
       content: "🔗";
+      opacity: 0;
     }
   }
 
@@ -215,7 +215,7 @@ table.ansible-option-table {
   }
 
   tr:hover .ansibleOptionLink::after {
-    visibility: visible;
+    opacity: 1;
   }
 
   td {
