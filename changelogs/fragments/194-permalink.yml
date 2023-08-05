@@ -1,0 +1,2 @@
+bugfixes:
+  - "Avoid option/return value permalink icons to be selectable (https://github.com/ansible/ansible-documentation/issues/245, https://github.com/ansible-community/antsibull-docs/pull/194)."

@@ -65,6 +65,7 @@ table.documentation-table {
       &::after {
         content: "🔗";
         opacity: 0;
+        user-select: none;
       }
     }
 
@@ -207,6 +208,7 @@ table.ansible-option-table {
     &::after {
       content: "🔗";
       opacity: 0;
+      user-select: none;
     }
   }
 
