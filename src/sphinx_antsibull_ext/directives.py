@@ -8,15 +8,12 @@ Add directives for general formatting.
 """
 
 from docutils import nodes
-from docutils.parsers.rst import Directive, directives
+from docutils.parsers.rst import Directive
 
 
 class _OptionTypeLine(Directive):
     final_argument_whitespace = True
     has_content = True
-    option_spec = {}
-    optional_arguments = 0
-    required_arguments = 0
 
     def run(self):
         self.assert_has_content()
@@ -24,8 +21,9 @@ class _OptionTypeLine(Directive):
         self.state.nested_parse(self.content, self.content_offset, node)
         for subnode in node.children:
             if not isinstance(subnode, nodes.paragraph):
-                raise Exception(
-                    f"{self.name} directive's children must all be paragraphs; found {type(subnode)}"
+                raise ValueError(
+                    f"{self.name} directive's children must all be paragraphs;"
+                    f" found {type(subnode)}"
                 )
             subnode.insert(
                 0, nodes.raw("{\\footnotesize{}", "{\\footnotesize{}", format="latex")

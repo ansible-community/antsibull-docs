@@ -310,8 +310,8 @@ def _create_extra_role(
         """
         result = []
         if prepend_raw:
-            for format, value in prepend_raw.items():
-                result.append(nodes.raw(value, value, format=format))
+            for format_value, value in prepend_raw.items():
+                result.append(nodes.raw(value, value, format=format_value))
         nested = []
         if nested_node:
             nested.append(nested_node(rawtext, text))
@@ -322,8 +322,8 @@ def _create_extra_role(
             )
         )
         if append_raw:
-            for format, value in append_raw.items():
-                result.append(nodes.raw(value, value, format=format))
+            for format_value, value in append_raw.items():
+                result.append(nodes.raw(value, value, format=format_value))
         return result, []
 
     return extra_role
@@ -415,8 +415,8 @@ _EXTRA_ROLES = {
 }
 
 
-for extra_role, kwargs in _EXTRA_ROLES.items():
-    ROLES[extra_role] = _create_extra_role(extra_role, **kwargs)
+for _extra_role, _kwargs in _EXTRA_ROLES.items():
+    ROLES[_extra_role] = _create_extra_role(_extra_role, **_kwargs)
 
 
 def setup_roles(app):
