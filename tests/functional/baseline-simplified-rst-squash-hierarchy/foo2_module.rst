@@ -1,5 +1,4 @@
 
-
 ns2.col.foo2 module -- Another foo
 ++++++++++++++++++++++++++++++++++
 

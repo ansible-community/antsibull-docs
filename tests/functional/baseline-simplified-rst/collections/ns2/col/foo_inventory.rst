@@ -1,5 +1,4 @@
 
-
 ns2.col.foo inventory -- The foo inventory \ :literal:`bar` (`link <parameter-bar_>`_)\ 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

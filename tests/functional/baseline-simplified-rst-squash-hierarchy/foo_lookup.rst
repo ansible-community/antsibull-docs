@@ -1,5 +1,4 @@
 
-
 ns2.col.foo lookup -- Look up some foo \ :literal:`bar` (`link <parameter-bar_>`_)\ 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

@@ -4,6 +4,8 @@
   SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
+{% from 'macros/collection_links.rst.j2' import add as add_collection_links with context -%}
+
 {% macro list_plugins(plugin_type) %}
 {%   for name, desc in plugin_maps[plugin_type].items() | sort %}
 * `@{ name }@ @{ plugin_type }@ <@{ get_plugin_filename(collection_name ~ '.' ~ name, plugin_type) }@>`_ -- @{ desc | rst_ify(plugin_fqcn=collection_name ~ '.' ~ name, plugin_type=plugin_type) | indent(width=2) }@
@@ -49,11 +51,8 @@ Description
 Collection links
 ~~~~~~~~~~~~~~~~
 
-{%     for link in collection_links %}
-* `@{ link.description | rst_escape }@ <@{ link.url | rst_escape }@>`__
-{%     endfor %}
+@{     add_collection_links(collection_links) -}@
 {%   endif %}
-
 {% endif %}
 
 {% if not collection_communication.empty %}

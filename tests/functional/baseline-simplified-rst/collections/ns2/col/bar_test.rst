@@ -1,5 +1,4 @@
 
-
 ns2.col.bar test -- Is something a bar
 ++++++++++++++++++++++++++++++++++++++
 

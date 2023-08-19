@@ -1,5 +1,4 @@
 
-
 ns2.col.bar filter -- The bar filter
 ++++++++++++++++++++++++++++++++++++
 

@@ -1,5 +1,4 @@
 
-
 ns2.col.foo connection -- Foo connection \ :literal:`bar` (`link <parameter-bar_>`_)\ 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

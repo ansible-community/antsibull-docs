@@ -1,5 +1,4 @@
 
-
 ns.col2.foo4 module -- Markup reference linting test
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
 
