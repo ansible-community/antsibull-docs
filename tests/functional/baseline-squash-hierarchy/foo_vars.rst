@@ -92,15 +92,13 @@ The below requirements are needed on the local controller node that executes thi
 Parameters
 ----------
 
-.. rst-class:: ansible-option-table
-
 .. tabularcolumns:: \X{1}{3}\X{2}{3}
 
 .. list-table::
   :width: 100%
   :widths: auto
   :header-rows: 1
-  :class: longtable
+  :class: longtable ansible-option-table
 
   * - Parameter
     - Comments

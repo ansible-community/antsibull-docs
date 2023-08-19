@@ -80,15 +80,13 @@ Synopsis
 Terms
 -----
 
-.. rst-class:: ansible-option-table
-
 .. tabularcolumns:: \X{1}{3}\X{2}{3}
 
 .. list-table::
   :width: 100%
   :widths: auto
   :header-rows: 1
-  :class: longtable
+  :class: longtable ansible-option-table
 
   * - Parameter
     - Comments
@@ -142,15 +140,13 @@ Keyword parameters
 This describes keyword parameters of the lookup. These are the values ``key1=value1``, ``key2=value2`` and so on in the following
 examples: ``lookup('ns2.col.foo', key1=value1, key2=value2, ...)`` and ``query('ns2.col.foo', key1=value1, key2=value2, ...)``
 
-.. rst-class:: ansible-option-table
-
 .. tabularcolumns:: \X{1}{3}\X{2}{3}
 
 .. list-table::
   :width: 100%
   :widths: auto
   :header-rows: 1
-  :class: longtable
+  :class: longtable ansible-option-table
 
   * - Parameter
     - Comments
@@ -231,15 +227,13 @@ Examples
 Return Value
 ------------
 
-.. rst-class:: ansible-option-table
-
 .. tabularcolumns:: \X{1}{3}\X{2}{3}
 
 .. list-table::
   :width: 100%
   :widths: auto
   :header-rows: 1
-  :class: longtable
+  :class: longtable ansible-option-table
 
   * - Key
     - Description

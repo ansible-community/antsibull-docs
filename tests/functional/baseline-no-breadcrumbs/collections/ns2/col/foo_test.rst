@@ -79,15 +79,13 @@ Input
 
 This describes the input of the test, the value before ``is ns2.col.foo`` or ``is not ns2.col.foo``.
 
-.. rst-class:: ansible-option-table
-
 .. tabularcolumns:: \X{1}{3}\X{2}{3}
 
 .. list-table::
   :width: 100%
   :widths: auto
   :header-rows: 1
-  :class: longtable
+  :class: longtable ansible-option-table
 
   * - Parameter
     - Comments
@@ -140,15 +138,13 @@ Keyword parameters
 This describes keyword parameters of the test. These are the values ``key1=value1``, ``key2=value2`` and so on in the following
 examples: ``input is ns2.col.foo(key1=value1, key2=value2, ...)`` and ``input is not ns2.col.foo(key1=value1, key2=value2, ...)``
 
-.. rst-class:: ansible-option-table
-
 .. tabularcolumns:: \X{1}{3}\X{2}{3}
 
 .. list-table::
   :width: 100%
   :widths: auto
   :header-rows: 1
-  :class: longtable
+  :class: longtable ansible-option-table
 
   * - Parameter
     - Comments
@@ -221,15 +217,13 @@ Examples
 Return Value
 ------------
 
-.. rst-class:: ansible-option-table
-
 .. tabularcolumns:: \X{1}{3}\X{2}{3}
 
 .. list-table::
   :width: 100%
   :widths: auto
   :header-rows: 1
-  :class: longtable
+  :class: longtable ansible-option-table
 
   * - Key
     - Description

@@ -7,15 +7,13 @@
 {% from 'macros/version_added.rst.j2' import version_added_rst %}
 
 {% macro in_rst(attributes, role_entrypoint=None) %}
-.. rst-class:: ansible-option-table
-
 .. tabularcolumns:: \X{2}{10}\X{3}{10}\X{5}{10}
 
 .. list-table::
   :width: 100%
   :widths: auto
   :header-rows: 1
-  :class: longtable
+  :class: longtable ansible-option-table
 
   * - Attribute
     - Support
