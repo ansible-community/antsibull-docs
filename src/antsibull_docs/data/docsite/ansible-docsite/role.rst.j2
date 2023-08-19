@@ -4,10 +4,12 @@
   SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
-{% from 'macros/attributes.rst.j2' import in_rst as attributes_rst with context %}
-{% from 'macros/parameters.rst.j2' import in_rst as parameters_rst with context %}
-{% from 'macros/parameters.rst.j2' import in_html as parameters_html with context %}
-{% from 'macros/version_added.rst.j2' import version_added_rst %}
+{% from 'macros/attributes.rst.j2' import in_rst as attributes_rst with context -%}
+{% from 'macros/collection_links.rst.j2' import add as add_collection_links with context -%}
+{% from 'macros/parameters.rst.j2' import in_rst as parameters_rst with context -%}
+{% from 'macros/parameters.rst.j2' import in_html as parameters_html with context -%}
+{% from 'macros/version_added.rst.j2' import version_added_rst -%}
+
 .. Document meta
 
 :orphan:
@@ -220,17 +222,7 @@ Authors
 Collection links
 ~~~~~~~~~~~~~~~~
 
-.. raw:: html
-
-  <p class="ansible-links">
-{%   for link in collection_links %}
-    <a href="@{ link.url | escape }@" aria-role="button" target="_blank" rel="noopener external">@{ link.description | escape }@</a>
-{%   endfor %}
-{%   if not collection_communication.empty %}
-{#     WARNING: the anchor is created from Sphinx from the label and might change #}
-    <a href="./#communication-for-@{ collection | replace('.', '-') | escape }@" aria-role="button" target="_blank">Communication</a>
-{%   endif %}
-  </p>
+@{   add_collection_links(collection_links, collection_communication, collection) -}@
 {% endif %}
 
 .. Parsing errors

@@ -1,5 +1,4 @@
 
-
 ns2.flatcol.foo2 module -- Another foo
 ++++++++++++++++++++++++++++++++++++++
 

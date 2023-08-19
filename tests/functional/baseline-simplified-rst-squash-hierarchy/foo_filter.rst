@@ -1,5 +1,4 @@
 
-
 ns2.col.foo filter -- The foo filter \ :literal:`bar` (`link <parameter-bar_>`_)\ 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

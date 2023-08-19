@@ -1,5 +1,4 @@
 
-
 ns2.col.foo strategy -- Executes tasks in foo
 +++++++++++++++++++++++++++++++++++++++++++++
 

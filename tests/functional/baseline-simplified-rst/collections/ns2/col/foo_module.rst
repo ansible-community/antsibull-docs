@@ -1,5 +1,4 @@
 
-
 ns2.col.foo module -- Do some foo \ :literal:`bar` (`link <parameter-bar_>`_)\ 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

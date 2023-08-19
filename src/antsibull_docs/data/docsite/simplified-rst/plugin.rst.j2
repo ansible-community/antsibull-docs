@@ -4,12 +4,14 @@
   SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
-{% from 'macros/attributes.rst.j2' import in_rst as attributes_rst with context %}
-{% from 'macros/parameters.rst.j2' import in_html as parameters_html with context %}
-{% from 'macros/returnvalues.rst.j2' import in_html as return_docs_html with context %}
-{% from 'macros/version_added.rst.j2' import version_added_rst %}
-{% set has_positional_parameters = false %}
-{% set has_keyword_parameters = false %}
+{% from 'macros/attributes.rst.j2' import in_rst as attributes_rst with context -%}
+{% from 'macros/collection_links.rst.j2' import add as add_collection_links with context -%}
+{% from 'macros/parameters.rst.j2' import in_html as parameters_html with context -%}
+{% from 'macros/returnvalues.rst.j2' import in_html as return_docs_html with context -%}
+{% from 'macros/version_added.rst.j2' import version_added_rst -%}
+
+{% set has_positional_parameters = false -%}
+{% set has_keyword_parameters = false -%}
 
 {% if doc['short_description'] -%}
 {%   set title = plugin_name ~ ' ' ~ plugin_type ~ ' -- ' ~ doc['short_description'] | rst_ify -%}
@@ -338,9 +340,7 @@ Authors
 Collection links
 ~~~~~~~~~~~~~~~~
 
-{%   for link in collection_links %}
-* `@{ link.description | rst_escape }@ <@{ link.url | rst_escape }@>`__
-{%   endfor %}
+@{   add_collection_links(collection_links) -}@
 {% endif %}
 
 {% if nonfatal_errors %}

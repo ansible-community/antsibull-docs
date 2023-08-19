@@ -4,6 +4,8 @@
   SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
+{% from 'macros/collection_links.rst.j2' import add as add_collection_links with context -%}
+
 {% if not breadcrumbs %}
 :orphan:
 {% endif %}
@@ -62,13 +64,7 @@ Description
 {%   endif %}
 
 {%   if collection_links %}
-.. raw:: html
-
-  <p class="ansible-links">
-{%     for link in collection_links %}
-    <a href="@{ link.url | escape }@" aria-role="button" target="_blank" rel="noopener external">@{ link.description | escape }@</a>
-{%     endfor %}
-  </p>
+@{     add_collection_links(collection_links) -}@
 {%   endif %}
 
 {% endif %}

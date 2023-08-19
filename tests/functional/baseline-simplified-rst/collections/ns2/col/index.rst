@@ -35,7 +35,6 @@ Collection links
 * `Repository (Sources) <https://github.com/ansible-collections/community.internal\_test\_tools>`__
 * `Submit a bug report <https://github.com/ansible-community/antsibull-docs/issues/new?assignees=&labels=&template=bug\_report.md>`__
 
-
 Communication
 -------------
 

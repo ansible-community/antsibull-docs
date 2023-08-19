@@ -1,5 +1,4 @@
 
-
 ns2.col.foo callback -- Foo output \ :literal:`bar` (`link <parameter-bar_>`_)\ 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
