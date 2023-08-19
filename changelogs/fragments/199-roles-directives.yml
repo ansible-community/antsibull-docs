@@ -1,0 +1,3 @@
+minor_changes:
+  - "Move roles from templates and structural styling from stylesheet to antsibull Sphinx extension. This makes sure that HTML tags such as ``<strong>`` and ``<em>`` are used for bold and italic texts, and that the same formattings are used for the LaTeX builder (https://github.com/ansible-community/antsibull-docs/pull/195)."
+  - "Use same colors for LaTeX builder's output as for HTML builder's output (https://github.com/ansible-community/antsibull-docs/pull/195)."
