@@ -14,24 +14,29 @@ import pkgutil
 
 from sphinx.util.osutil import ensuredir
 
-CSS_FILES = [
-    "antsibull-minimal.css",
-]
+BUILDER_FILES = {
+    "html": {
+        "antsibull-minimal.css": "_static",
+    },
+    "latex": {
+        "antsibull.sty": "",
+    },
+}
 
 
 def _copy_asset_files(app, exc):  # pylint: disable=unused-argument
     """
     Copy asset files.
     """
-    # Copy CSS files
-    for file in CSS_FILES:
+    for file, directory in BUILDER_FILES.get(app.builder.name, {}).items():
         data = pkgutil.get_data("sphinx_antsibull_ext", file)
         if data is None:
             raise RuntimeError(
                 f"Internal error: cannot find {file} in sphinx_antsibull_ext package"
             )
-        ensuredir(os.path.join(app.outdir, "_static"))
-        destination = os.path.join(app.outdir, "_static", file)
+        path = os.path.join(app.outdir, directory) if directory else app.outdir
+        ensuredir(path)
+        destination = os.path.join(path, file)
         with open(destination, "wb") as f:
             f.write(data)
 
@@ -44,9 +49,15 @@ def setup_assets(app):
     app.connect("build-finished", _copy_asset_files)
 
     # Add CSS files
-    for file in CSS_FILES:
-        try:
-            app.add_css_file(file)
-        except AttributeError:
-            # Compat for Sphinx < 1.8
-            app.add_stylesheet(file)
+    for file in BUILDER_FILES.get("html", {}):
+        if file.endswith(".css"):
+            try:
+                app.add_css_file(file)
+            except AttributeError:
+                # Compat for Sphinx < 1.8
+                app.add_stylesheet(file)
+
+    # Add LaTeX packages
+    for file in BUILDER_FILES.get("latex", {}):
+        if file.endswith(".sty"):
+            app.add_latex_package(file[:-4])

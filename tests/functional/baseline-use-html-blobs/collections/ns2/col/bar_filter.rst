@@ -7,24 +7,6 @@
 .. |antsibull-internal-nbsp| unicode:: 0xA0
     :trim:
 
-.. role:: ansible-attribute-support-label
-.. role:: ansible-attribute-support-property
-.. role:: ansible-attribute-support-full
-.. role:: ansible-attribute-support-partial
-.. role:: ansible-attribute-support-none
-.. role:: ansible-attribute-support-na
-.. role:: ansible-option-type
-.. role:: ansible-option-elements
-.. role:: ansible-option-required
-.. role:: ansible-option-versionadded
-.. role:: ansible-option-aliases
-.. role:: ansible-option-choices
-.. role:: ansible-option-choices-default-mark
-.. role:: ansible-option-default-bold
-.. role:: ansible-option-configuration
-.. role:: ansible-option-returned-bold
-.. role:: ansible-option-sample-bold
-
 .. Anchors
 
 .. _ansible_collections.ns2.col.bar_filter:
@@ -160,9 +142,9 @@ example: ``input | ns2.col.bar(positional1, positional2, ...)``
     </div></td>
     <td><div class="ansible-option-cell">
       <p>And some bar.</p>
-      <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+      <p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
       <ul class="simple">
-        <li><p><code class="ansible-value literal notranslate ansible-option-default-bold">false</code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+        <li><p><code class="ansible-value literal notranslate ansible-option-default-bold"><strong>false</strong></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
         <li><p><code class="ansible-value literal notranslate ansible-option-choices-entry">true</code></p></li>
       </ul>
 
@@ -204,7 +186,7 @@ example: ``input | ns2.col.bar(key1=value1, key2=value2, ...)``
     </div></td>
     <td><div class="ansible-option-cell">
       <p>Something else.</p>
-      <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+      <p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
       <ul class="simple">
         <li>
           <p><code class="ansible-value literal notranslate ansible-option-choices-entry">&#34;a&#34;</code>:
@@ -219,7 +201,7 @@ example: ``input | ns2.col.bar(key1=value1, key2=value2, ...)``
           This is some more unknown. There are rumors this is related to the alphabet.</p>
         </li>
         <li>
-          <p><code class="ansible-value literal notranslate ansible-option-default-bold">&#34;foo&#34;</code> <span class="ansible-option-choices-default-mark">(default)</span>:
+          <p><code class="ansible-value literal notranslate ansible-option-default-bold"><strong>&#34;foo&#34;</strong></code> <span class="ansible-option-choices-default-mark">(default)</span>:
           Our default value, the glorious <code class='docutils literal notranslate'>foo</code>.</p>
           <p>Even has two paragraphs.</p>
         </li>
@@ -289,7 +271,7 @@ Return Value
     </div></td>
     <td><div class="ansible-option-cell">
       <p>The result.</p>
-      <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> success</p>
+      <p class="ansible-option-line"><strong class="ansible-option-returned-bold">Returned:</strong> success</p>
     </div></td>
   </tr>
   </tbody>

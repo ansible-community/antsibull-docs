@@ -7,24 +7,6 @@
 .. |antsibull-internal-nbsp| unicode:: 0xA0
     :trim:
 
-.. role:: ansible-attribute-support-label
-.. role:: ansible-attribute-support-property
-.. role:: ansible-attribute-support-full
-.. role:: ansible-attribute-support-partial
-.. role:: ansible-attribute-support-none
-.. role:: ansible-attribute-support-na
-.. role:: ansible-option-type
-.. role:: ansible-option-elements
-.. role:: ansible-option-required
-.. role:: ansible-option-versionadded
-.. role:: ansible-option-aliases
-.. role:: ansible-option-choices
-.. role:: ansible-option-choices-default-mark
-.. role:: ansible-option-default-bold
-.. role:: ansible-option-configuration
-.. role:: ansible-option-returned-bold
-.. role:: ansible-option-sample-bold
-
 .. Anchors
 
 .. _ansible_collections.ns2.col.foo_cache:
@@ -104,7 +86,7 @@ Parameters
     </div></td>
     <td><div class="ansible-option-cell">
       <p>Path in which the cache plugin will save the foo files.</p>
-      <p class="ansible-option-line"><span class="ansible-option-configuration">Configuration:</span></p>
+      <p class="ansible-option-line"><strong class="ansible-option-configuration">Configuration:</strong></p>
       <ul class="simple">
       <li>
         <p>INI entry</p>

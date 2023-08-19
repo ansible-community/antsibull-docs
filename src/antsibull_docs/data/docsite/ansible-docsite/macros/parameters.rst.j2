@@ -204,7 +204,7 @@
 {%   endif %}
       </p>
 {%   if value['version_added'] is still_relevant(collection=value['version_added_collection'] or collection) %}
-      <p><span class="ansible-option-versionadded">added in @{ version_added_html(value['version_added'], value['version_added_collection'] or collection) }@</span></p>
+      <p><i class="ansible-option-versionadded">added in @{ version_added_html(value['version_added'], value['version_added_collection'] or collection) }@</i></p>
 {%   endif %}
 {%   if plugin_type != 'module' %}
 @{     deprecates_html(value['deprecated'], collection, role_entrypoint=role_entrypoint) }@
@@ -221,16 +221,16 @@
 {%   endif %}
 {#   Show possible choices and highlight details #}
 {%   if value['choices'] %}
-      <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+      <p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
 @{     choices_html(value['choices'], value['default'], role_entrypoint=role_entrypoint) }@
 {%   endif %}
 {#   Show default value, when multiple choice or no choices #}
 {%   if value['default'] is not none and value['default'] not in value['choices'] %}
-      <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <code class="ansible-value literal notranslate ansible-option-default">@{ value['default'] | antsibull_to_json | escape | indent(6, blank=true) }@</code></p>
+      <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-value literal notranslate ansible-option-default">@{ value['default'] | antsibull_to_json | escape | indent(6, blank=true) }@</code></p>
 {%   endif %}
 {#   Configuration #}
 {%   if plugin_type != 'module' and plugin_type != 'role' and (value['ini'] or value['env'] or value['vars'] or value['cli']) %}
-      <p class="ansible-option-line"><span class="ansible-option-configuration">Configuration:</span></p>
+      <p class="ansible-option-line"><strong class="ansible-option-configuration">Configuration:</strong></p>
       <ul class="simple">
 {%     if value['ini'] %}
       <li>
@@ -243,7 +243,7 @@
   <span class="l l-Scalar l-Scalar-Plain">@{ ini['key'] | escape }@ = @{ value['default'] | antsibull_to_ini_value | escape }@</span></pre></div></div>
 {%         endif %}
 {%         if ini['version_added'] is still_relevant(collection=ini['version_added_collection'] or collection) %}
-        <p><span class="ansible-option-versionadded">added in @{ version_added_html(ini['version_added'], ini['version_added_collection'] or collection) }@</span></p>
+        <p><i class="ansible-option-versionadded">added in @{ version_added_html(ini['version_added'], ini['version_added_collection'] or collection) }@</i></p>
 {%         endif %}
 @{         deprecates_html(ini['deprecated'], collection, role_entrypoint=role_entrypoint) }@
 {%       endfor %}
@@ -253,7 +253,7 @@
       <li>
         <p>Environment variable: <code class="xref std std-envvar literal notranslate">@{ env['name'] | escape }@</code></p>
 {%       if env['version_added'] is still_relevant(collection=env['version_added_collection'] or collection) %}
-        <p><span class="ansible-option-versionadded">added in @{ version_added_html(env['version_added'], env['version_added_collection'] or collection) }@</span></p>
+        <p><i class="ansible-option-versionadded">added in @{ version_added_html(env['version_added'], env['version_added_collection'] or collection) }@</i></p>
 {%       endif %}
 @{       deprecates_html(env['deprecated'], collection, role_entrypoint=role_entrypoint) }@
       </li>
@@ -262,7 +262,7 @@
       <li>
         <p>Variable: @{ myvar['name'] | escape }@</p>
 {%       if myvar['version_added'] is still_relevant(collection=myvar['version_added_collection'] or collection) %}
-        <p><span class="ansible-option-versionadded">added in @{ version_added_html(myvar['version_added'], myvar['version_added_collection'] or collection) }@</span></p>
+        <p><i class="ansible-option-versionadded">added in @{ version_added_html(myvar['version_added'], myvar['version_added_collection'] or collection) }@</i></p>
 {%       endif %}
 @{       deprecates_html(myvar['deprecated'], collection, role_entrypoint=role_entrypoint) }@
       </li>
@@ -271,7 +271,7 @@
       <li>
         <p>Keyword: @{ kw['name'] | escape }@</p>
 {%       if kw['version_added'] is still_relevant(collection=kw['version_added_collection'] or collection) %}
-        <p><span class="ansible-option-versionadded">added in @{ version_added_html(kw['version_added'], kw['version_added_collection'] or collection) }@</span></p>
+        <p><i class="ansible-option-versionadded">added in @{ version_added_html(kw['version_added'], kw['version_added_collection'] or collection) }@</i></p>
 {%       endif %}
 @{       deprecates_html(kw['deprecated'], collection, role_entrypoint=role_entrypoint) }@
       </li>
@@ -280,7 +280,7 @@
       <li>
         <p>CLI argument: @{ mycli['option'] | escape }@</p>
 {%       if mycli['version_added'] is still_relevant(collection=mycli['version_added_collection'] or collection) %}
-        <p><span class="ansible-option-versionadded">added in @{ version_added_html(mycli['version_added'], mycli['version_added_collection'] or collection) }@</span></p>
+        <p><i class="ansible-option-versionadded">added in @{ version_added_html(mycli['version_added'], mycli['version_added_collection'] or collection) }@</i></p>
 {%       endif %}
 @{       deprecates_html(mycli['deprecated'], collection, role_entrypoint=role_entrypoint) }@
       </li>
