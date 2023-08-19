@@ -81,10 +81,13 @@ This describes the input of the test, the value before ``is ns2.col.foo`` or ``i
 
 .. rst-class:: ansible-option-table
 
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
+
 .. list-table::
   :width: 100%
   :widths: auto
   :header-rows: 1
+  :class: longtable
 
   * - Parameter
     - Comments
@@ -139,10 +142,13 @@ examples: ``input is ns2.col.foo(key1=value1, key2=value2, ...)`` and ``input is
 
 .. rst-class:: ansible-option-table
 
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
+
 .. list-table::
   :width: 100%
   :widths: auto
   :header-rows: 1
+  :class: longtable
 
   * - Parameter
     - Comments
@@ -217,10 +223,13 @@ Return Value
 
 .. rst-class:: ansible-option-table
 
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
+
 .. list-table::
   :width: 100%
   :widths: auto
   :header-rows: 1
+  :class: longtable
 
   * - Key
     - Description

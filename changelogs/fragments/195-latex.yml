@@ -1,0 +1,2 @@
+minor_changes:
+  - "Adjust default RST output to work better with Spinx's LaTeX builder (https://github.com/ansible-community/antsibull-docs/pull/195)."

@@ -84,10 +84,13 @@ This describes the input of the filter, the value before ``| ns2.col.foo``.
 
 .. rst-class:: ansible-option-table
 
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
+
 .. list-table::
   :width: 100%
   :widths: auto
   :header-rows: 1
+  :class: longtable
 
   * - Parameter
     - Comments
@@ -142,10 +145,13 @@ example: ``input | ns2.col.foo(key1=value1, key2=value2, ...)``
 
 .. rst-class:: ansible-option-table
 
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
+
 .. list-table::
   :width: 100%
   :widths: auto
   :header-rows: 1
+  :class: longtable
 
   * - Parameter
     - Comments
@@ -257,10 +263,13 @@ Return Value
 
 .. rst-class:: ansible-option-table
 
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
+
 .. list-table::
   :width: 100%
   :widths: auto
   :header-rows: 1
+  :class: longtable
 
   * - Key
     - Description

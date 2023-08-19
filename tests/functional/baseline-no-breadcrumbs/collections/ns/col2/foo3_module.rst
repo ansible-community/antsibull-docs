@@ -89,10 +89,13 @@ Parameters
 
 .. rst-class:: ansible-option-table
 
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
+
 .. list-table::
   :width: 100%
   :widths: auto
   :header-rows: 1
+  :class: longtable
 
   * - Parameter
     - Comments
@@ -247,10 +250,13 @@ Attributes
 
 .. rst-class:: ansible-option-table
 
+.. tabularcolumns:: \X{2}{10}\X{3}{10}\X{5}{10}
+
 .. list-table::
   :width: 100%
   :widths: auto
   :header-rows: 1
+  :class: longtable
 
   * - Attribute
     - Support

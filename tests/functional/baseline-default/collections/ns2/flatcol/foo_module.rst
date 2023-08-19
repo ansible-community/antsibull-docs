@@ -83,10 +83,13 @@ Parameters
 
 .. rst-class:: ansible-option-table
 
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
+
 .. list-table::
   :width: 100%
   :widths: auto
   :header-rows: 1
+  :class: longtable
 
   * - Parameter
     - Comments
@@ -307,10 +310,13 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
 .. rst-class:: ansible-option-table
 
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
+
 .. list-table::
   :width: 100%
   :widths: auto
   :header-rows: 1
+  :class: longtable
 
   * - Key
     - Description
