@@ -30,6 +30,12 @@
 {% for full_key in value['full_keys'] %}
         <div class="ansibleOptionAnchor" id="parameter-@{ parameter_html_prefix }@{% for part in full_key %}@{ part | urlencode }@{% if not loop.last %}/{% endif %}{% endfor %}"></div>
 {% endfor %}
+{% if loop.depth > 1 %}
+
+      .. raw:: latex
+
+        \hspace{@{ 0.02 * loop.depth0 }@\textwidth}\begin{minipage}[t]{@{ 0.32 - 0.02 * loop.depth0 }@\textwidth}
+{% endif %}
 
 {% for full_key in value['full_keys_rst'] %}
       .. _ansible_collections.@{plugin_name}@_@{plugin_type}@__parameter-@{ parameter_rst_prefix }@{% for part in full_key %}@{ part }@{% if not loop.last %}/{% endif %}{% endfor %}:
@@ -69,6 +75,12 @@
       .. raw:: html
 
         </div>
+{% if loop.depth > 1 %}
+
+      .. raw:: latex
+
+        \end{minipage}
+{% endif %}
 
 {#   description #}
     - .. raw:: html

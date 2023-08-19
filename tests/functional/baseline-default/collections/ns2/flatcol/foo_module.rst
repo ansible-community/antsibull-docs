@@ -221,6 +221,10 @@ Parameters
         <div class="ansibleOptionAnchor" id="parameter-subfoo/bam"></div>
         <div class="ansibleOptionAnchor" id="parameter-subbaz/bam"></div>
 
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
       .. _ansible_collections.ns2.flatcol.foo_module__parameter-subbaz/bam:
       .. _ansible_collections.ns2.flatcol.foo_module__parameter-subbaz/foo:
       .. _ansible_collections.ns2.flatcol.foo_module__parameter-subfoo/bam:
@@ -245,6 +249,10 @@ Parameters
       .. raw:: html
 
         </div>
+
+      .. raw:: latex
+
+        \end{minipage}
 
     - .. raw:: html
 
