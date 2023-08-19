@@ -90,9 +90,9 @@ This describes the input of the filter, the value before ``| ns2.col.bar``.
 
         <a class="ansibleOptionLink" href="#parameter-_input" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`dictionary` / :ansible-option-required:`required`
+        :ansible-option-type:`dictionary` / :ansible-option-required:`required`
 
 
 
@@ -149,9 +149,9 @@ example: ``input | ns2.col.bar(positional1, positional2, ...)``
 
         <a class="ansibleOptionLink" href="#parameter-foo" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
 
 
 
@@ -186,9 +186,9 @@ example: ``input | ns2.col.bar(positional1, positional2, ...)``
 
         <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
 
 
@@ -252,9 +252,9 @@ example: ``input | ns2.col.bar(key1=value1, key2=value2, ...)``
 
         <a class="ansibleOptionLink" href="#parameter-baz" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
 
 
@@ -357,9 +357,9 @@ Return Value
 
         <a class="ansibleOptionLink" href="#return-_value" title="Permalink to this return value"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`dictionary`
+        :ansible-option-type:`dictionary`
 
       .. raw:: html
 

@@ -23,6 +23,7 @@ from antsibull_docs_parser.parser import Context as ParserContext
 from antsibull_docs_parser.parser import parse as parse_markup
 from jinja2 import Template
 
+from sphinx_antsibull_ext import directives as antsibull_directives
 from sphinx_antsibull_ext import roles as antsibull_roles
 
 from .augment_docs import augment_docs
@@ -643,7 +644,7 @@ def _lint_plugin_docs(
         rst_results = check_rst_content(
             rst_content,
             filename=path,
-            ignore_directives=["rst-class"],
+            ignore_directives=["rst-class"] + list(antsibull_directives.DIRECTIVES),
             ignore_roles=list(antsibull_roles.ROLES),
         )
         result.extend(

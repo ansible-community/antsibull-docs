@@ -104,13 +104,11 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-aliases:`aliases: baz`
+        :ansible-option-aliases:`aliases: baz`
 
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=integer`
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=integer`
 
       .. raw:: html
 
@@ -146,9 +144,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-foo" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+        :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -180,9 +178,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-subfoo" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`dictionary`
+        :ansible-option-type:`dictionary`
 
       :ansible-option-versionadded:`added in ns2.col 2.0.0`
 
@@ -217,9 +215,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-subfoo/foo" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+        :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -504,9 +502,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <a class="ansibleOptionLink" href="#return-bar" title="Permalink to this return value"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
       .. raw:: html
 

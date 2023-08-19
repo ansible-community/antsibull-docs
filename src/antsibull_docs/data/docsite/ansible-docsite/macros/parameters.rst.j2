@@ -42,18 +42,16 @@
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-@{ parameter_html_prefix }@{% for part in value['full_key'] %}@{ part | urlencode }@{% if not loop.last %}/{% endif %}{% endfor %}" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
 {%   if value['aliases'] %}
 
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-aliases:`aliases: @{ value['aliases']|join(', ') }@`
+        :ansible-option-aliases:`aliases: @{ value['aliases']|join(', ') }@`
 {%   endif %}
 
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`@{ value['type'] | documented_type }@`
-      {%- if value['type'] == 'list' and value['elements'] is not none %} / :ansible-option-elements:`elements=@{ value['elements'] | documented_type }@`{% endif -%}
-      {%- if value['required'] %} / :ansible-option-required:`required`{% endif %}
+        :ansible-option-type:`@{ value['type'] | documented_type }@`
+        {%- if value['type'] == 'list' and value['elements'] is not none %} / :ansible-option-elements:`elements=@{ value['elements'] | documented_type }@`{% endif -%}
+        {%- if value['required'] %} / :ansible-option-required:`required`{% endif %}
 {%-   if value['version_added'] is still_relevant(collection=value['version_added_collection'] or collection) %}
 
 

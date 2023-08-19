@@ -94,9 +94,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-main--foo_param_1" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
 
 
@@ -133,9 +133,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-main--foo_param_2" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`integer`
+        :ansible-option-type:`integer`
 
 
 

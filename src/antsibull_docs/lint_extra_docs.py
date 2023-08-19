@@ -11,6 +11,7 @@ import os
 import os.path
 import re
 
+from sphinx_antsibull_ext import directives as antsibull_directives
 from sphinx_antsibull_ext import roles as antsibull_roles
 
 from .extra_docs import (
@@ -36,7 +37,10 @@ def lint_optional_conditions(
     Return a list of errors.
     """
     return check_rst_content(
-        content, filename=path, ignore_roles=list(antsibull_roles.ROLES)
+        content,
+        filename=path,
+        ignore_directives=list(antsibull_directives.DIRECTIVES),
+        ignore_roles=list(antsibull_roles.ROLES),
     )
 
 

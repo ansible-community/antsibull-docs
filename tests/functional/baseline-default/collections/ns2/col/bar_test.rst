@@ -88,9 +88,9 @@ This describes the input of the test, the value before ``is ns2.col.bar`` or ``i
 
         <a class="ansibleOptionLink" href="#parameter-_input" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`path`
+        :ansible-option-type:`path`
 
 
 
@@ -171,9 +171,9 @@ Return Value
 
         <a class="ansibleOptionLink" href="#return-_value" title="Permalink to this return value"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
       .. raw:: html
 

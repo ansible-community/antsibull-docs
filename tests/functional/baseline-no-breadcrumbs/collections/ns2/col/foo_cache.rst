@@ -89,9 +89,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-_uri" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`path` / :ansible-option-required:`required`
+        :ansible-option-type:`path` / :ansible-option-required:`required`
 
 
 
@@ -141,9 +141,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
 
 

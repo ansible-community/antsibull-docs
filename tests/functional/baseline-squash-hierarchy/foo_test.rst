@@ -87,9 +87,9 @@ This describes the input of the test, the value before ``is ns2.col.foo`` or ``i
 
         <a class="ansibleOptionLink" href="#parameter-_input" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`dictionary` / :ansible-option-required:`required`
+        :ansible-option-type:`dictionary` / :ansible-option-required:`required`
 
 
 
@@ -146,9 +146,9 @@ examples: ``input is ns2.col.foo(key1=value1, key2=value2, ...)`` and ``input is
 
         <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
 
 
@@ -225,9 +225,9 @@ Return Value
 
         <a class="ansibleOptionLink" href="#return-_value" title="Permalink to this return value"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
       .. raw:: html
 

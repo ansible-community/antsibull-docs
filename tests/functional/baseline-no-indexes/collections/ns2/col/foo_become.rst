@@ -98,9 +98,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
       :ansible-option-versionadded:`added in ns2.col 1.2.0`
 
@@ -155,9 +155,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-become_exe" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
       :ansible-option-versionadded:`added in ns2.col 0.2.0`
 
@@ -250,9 +250,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-become_user" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
 
 

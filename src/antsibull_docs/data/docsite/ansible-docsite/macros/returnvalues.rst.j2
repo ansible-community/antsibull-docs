@@ -41,10 +41,10 @@
 
         <a class="ansibleOptionLink" href="#return-{% for part in value['full_key'] %}@{ part | urlencode }@{% if not loop.last %}/{% endif %}{% endfor %}" title="Permalink to this return value"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`@{ value['type'] | documented_type }@`
-      {%- if value['type'] == 'list' and value['elements'] is not none %} / :ansible-option-elements:`elements=@{ value['elements'] | documented_type }@`{% endif %}
+        :ansible-option-type:`@{ value['type'] | documented_type }@`
+        {%- if value['type'] == 'list' and value['elements'] is not none %} / :ansible-option-elements:`elements=@{ value['elements'] | documented_type }@`{% endif %}
 {%-   if value['version_added'] is still_relevant(collection=value['version_added_collection'] or collection) %}
 
 
