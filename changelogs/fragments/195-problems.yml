@@ -1,0 +1,3 @@
+known_issues:
+  - "When using Sphinx builders other than HTML, the indentation for nested options and return values is missing,
+     and the collection links section is empty (https://github.com/ansible-community/antsibull-docs/pull/195)."
