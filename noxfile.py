@@ -198,6 +198,9 @@ def _repl_version_impl(
 def _repl_version(session: nox.Session, new_version: str) -> None:
     _repl_version_impl("pyproject.toml", "version", new_version)
     _repl_version_impl(
+        os.path.join("src", "antsibull_docs", "__init__.py"), "__version__", new_version
+    )
+    _repl_version_impl(
         os.path.join("src", "sphinx_antsibull_ext", "__init__.py"),
         "__version__",
         new_version,
