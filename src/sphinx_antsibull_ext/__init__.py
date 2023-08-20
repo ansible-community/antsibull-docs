@@ -9,8 +9,7 @@ Antsibull minimal Sphinx extension which adds some features from the Ansible doc
 
 from __future__ import annotations
 
-# TODO: update version automatically
-__version__ = "2.4.0"
+__version__ = "2.3.1.post0"
 __license__ = "GPL-3.0-or-later"
 __author__ = "Felix Fontein"
 __author_email__ = "felix@fontein.de"

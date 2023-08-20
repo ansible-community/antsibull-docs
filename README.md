@@ -115,7 +115,7 @@ nox
 ## Creating a new release:
 
 1. Run `nox -e bump -- <version> <release_summary_message>`. This:
-   * Bumps the package version in `pyproject.toml`.
+   * Bumps the package version in `pyproject.toml` and `src/sphinx_antsibull_ext/__init__.py`.
    * Creates `changelogs/fragments/<version>.yml` with a `release_summary` section.
    * Runs `antsibull-changelog release` and adds the changed files to git.
    * Commits with message `Release <version>.` and runs `git tag -a -m 'antsibull-docs <version>' <version>`.

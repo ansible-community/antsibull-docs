@@ -178,15 +178,30 @@ def typing(session: nox.Session):
     )
 
 
-def _repl_version(session: nox.Session, new_version: str):
-    with open("pyproject.toml", "r+") as fp:
+def _repl_version_impl(
+    path: str | Path, version_variable: str, new_version: str
+) -> None:
+    found = False
+    with open(path, "r+") as fp:
         lines = tuple(fp)
         fp.seek(0)
         for line in lines:
-            if line.startswith("version = "):
-                line = f'version = "{new_version}"\n'
+            if line.startswith(f"{version_variable} = "):
+                line = f'{version_variable} = "{new_version}"\n'
+                found = True
             fp.write(line)
         fp.truncate()
+    if not found:
+        raise RuntimeError(f"Cannot find {version_variable} assignment in {path}")
+
+
+def _repl_version(session: nox.Session, new_version: str) -> None:
+    _repl_version_impl("pyproject.toml", "version", new_version)
+    _repl_version_impl(
+        os.path.join("src", "sphinx_antsibull_ext", "__init__.py"),
+        "__version__",
+        new_version,
+    )
 
 
 def check_no_modifications(session: nox.Session) -> None:
