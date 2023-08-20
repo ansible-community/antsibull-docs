@@ -8,9 +8,21 @@
   justify-content: flex-start;
   flex-wrap: wrap;
 
-  > a {
+  > * {
+    margin: 2px 4px !important;
+  }
+
+  > li {
+    list-style: none !important;
+
+    > p {
+      display: inline;
+    }
+  }
+
+  a {
+    display: block;
     padding: 4px 12px;
-    margin: 2px 4px;
 
     cursor: pointer;
     border-radius: 3px;

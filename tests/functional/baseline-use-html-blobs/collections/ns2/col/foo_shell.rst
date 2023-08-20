@@ -162,15 +162,23 @@ Parameters
 Collection links
 ~~~~~~~~~~~~~~~~
 
-.. raw:: html
+.. ansible-links::
 
-  <p class="ansible-links">
-    <a href="https://github.com/ansible-collections/community.general/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
-    <a href="https://github.com/ansible-collections/community.crypto" aria-role="button" target="_blank" rel="noopener external">Homepage</a>
-    <a href="https://github.com/ansible-collections/community.internal_test_tools" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
-    <a href="https://github.com/ansible-community/antsibull-docs/issues/new?assignees=&amp;labels=&amp;template=bug_report.md" aria-role="button" target="_blank" rel="noopener external">Submit a bug report</a>
-    <a href="./#communication-for-ns2-col" aria-role="button" target="_blank">Communication</a>
-  </p>
+  - title: "Issue Tracker"
+    url: "https://github.com/ansible-collections/community.general/issues"
+    external: true
+  - title: "Homepage"
+    url: "https://github.com/ansible-collections/community.crypto"
+    external: true
+  - title: "Repository (Sources)"
+    url: "https://github.com/ansible-collections/community.internal_test_tools"
+    external: true
+  - title: "Submit a bug report"
+    url: "https://github.com/ansible-community/antsibull-docs/issues/new?assignees=&labels=&template=bug_report.md"
+    external: true
+  - title: Communication
+    ref: plugins_in_ns2.col
+
 
 .. Parsing errors
 
