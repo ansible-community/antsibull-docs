@@ -14,18 +14,17 @@ from docutils import nodes
 class link_button(nodes.reference):  # pyre-ignore[11]
     def __init__(self, *args, link_external: bool = True, **kwargs):
         super().__init__(*args, **kwargs)
-        self.link_external = link_external
+        self["link_external"] = link_external  # pyre-ignore[16]
 
 
 def visit_link_button_html(self, node) -> None:
-    external = node.link_external
     atts = {
         "class": "ansible-link reference",
         "href": node["refuri"],
         "aria-role": "button",
         "target": "_blank",
     }
-    if external:
+    if node["link_external"]:
         atts["rel"] = "noopener external"
         atts["class"] += " external"
     else:

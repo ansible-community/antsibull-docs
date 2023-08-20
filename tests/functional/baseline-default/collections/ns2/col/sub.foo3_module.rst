@@ -419,7 +419,7 @@ Collection links
     url: "https://github.com/ansible-community/antsibull-docs/issues/new?assignees=&labels=&template=bug_report.md"
     external: true
   - title: Communication
-    ref: plugins_in_ns2.col
+    ref: communication_for_ns2.col
 
 
 .. Parsing errors
