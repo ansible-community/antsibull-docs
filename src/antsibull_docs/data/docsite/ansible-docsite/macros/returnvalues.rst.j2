@@ -9,12 +9,13 @@
 {% from 'macros/version_added.rst.j2' import version_added_rst, version_added_html %}
 
 {% macro in_rst(elements, role_entrypoint=None) %}
-.. rst-class:: ansible-option-table
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
 
 .. list-table::
   :width: 100%
   :widths: auto
   :header-rows: 1
+  :class: longtable ansible-option-table
 
   * - Key
     - Description
