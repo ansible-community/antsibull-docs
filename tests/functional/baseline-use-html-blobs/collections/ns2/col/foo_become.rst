@@ -90,7 +90,7 @@ Parameters
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">string</span>
       </p>
-      <p><i class="ansible-option-versionadded">added in ns2.col 1.2.0</i></p>
+      <p><em class="ansible-option-versionadded">added in ns2.col 1.2.0</em></p>
   <p>Removed in: version 4.0.0</p>
   <p>Why: Just some other text.
   This one has more than one line though.
@@ -116,7 +116,7 @@ Parameters
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">string</span>
       </p>
-      <p><i class="ansible-option-versionadded">added in ns2.col 0.2.0</i></p>
+      <p><em class="ansible-option-versionadded">added in ns2.col 0.2.0</em></p>
 
     </div></td>
     <td><div class="ansible-option-cell">
@@ -184,7 +184,7 @@ Parameters
         <p>INI entries</p>
         <div class="highlight-YAML+Jinja notranslate"><div class="highlight"><pre><span class="p p-Indicator">[</span><span class="nv">privilege_escalation</span><span class="p p-Indicator">]</span>
   <span class="l l-Scalar l-Scalar-Plain">become_user = root</span></pre></div></div>
-        <p><i class="ansible-option-versionadded">added in ns2.col 0.1.0</i></p>
+        <p><em class="ansible-option-versionadded">added in ns2.col 0.1.0</em></p>
 
         <div class="highlight-YAML+Jinja notranslate"><div class="highlight"><pre><span class="p p-Indicator">[</span><span class="nv">foo_become_plugin</span><span class="p p-Indicator">]</span>
   <span class="l l-Scalar l-Scalar-Plain">user = root</span></pre></div></div>
@@ -192,7 +192,7 @@ Parameters
       </li>
       <li>
         <p>Environment variable: <code class="xref std std-envvar literal notranslate">ANSIBLE_BECOME_USER</code></p>
-        <p><i class="ansible-option-versionadded">added in ns2.col 0.1.0</i></p>
+        <p><em class="ansible-option-versionadded">added in ns2.col 0.1.0</em></p>
 
       </li>
       <li>
@@ -205,12 +205,12 @@ Parameters
       </li>
       <li>
         <p>Variable: ansible_foo_user</p>
-        <p><i class="ansible-option-versionadded">added in ns2.col 0.1.0</i></p>
+        <p><em class="ansible-option-versionadded">added in ns2.col 0.1.0</em></p>
 
       </li>
       <li>
         <p>Keyword: become_user</p>
-        <p><i class="ansible-option-versionadded">added in ns2.col 0.1.0</i></p>
+        <p><em class="ansible-option-versionadded">added in ns2.col 0.1.0</em></p>
 
       </li>
       </ul>

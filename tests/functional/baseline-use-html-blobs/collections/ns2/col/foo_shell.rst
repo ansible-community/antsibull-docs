@@ -95,7 +95,7 @@ Parameters
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">string</span>
       </p>
-      <p><i class="ansible-option-versionadded">added in ansible-base 2.10</i></p>
+      <p><em class="ansible-option-versionadded">added in ansible-base 2.10</em></p>
 
     </div></td>
     <td><div class="ansible-option-cell">

@@ -126,7 +126,7 @@ Parameters
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">dictionary</span>
       </p>
-      <p><i class="ansible-option-versionadded">added in ns2.col 2.0.0</i></p>
+      <p><em class="ansible-option-versionadded">added in ns2.col 2.0.0</em></p>
     </div></td>
     <td><div class="ansible-option-cell">
       <p>Some recursive foo.</p>

@@ -129,7 +129,7 @@
 {%   endif %}
       </p>
 {%   if value['version_added'] is still_relevant(collection=value['version_added_collection'] or collection) %}
-      <p><i class="ansible-option-versionadded">added in @{ version_added_html(value['version_added'], value['version_added_collection'] or collection) }@</i></p>
+      <p><em class="ansible-option-versionadded">added in @{ version_added_html(value['version_added'], value['version_added_collection'] or collection) }@</em></p>
 {%   endif %}
     </div></td>
 {#   description #}
