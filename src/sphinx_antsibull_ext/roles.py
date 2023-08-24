@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # SPDX-FileCopyrightText: 2021, Ansible Project
 """
-Add roles for semantic markup.
+Add roles for semantic markup and general formatting.
 """
 
 from __future__ import annotations
@@ -30,82 +30,6 @@ logger = logging.getLogger(__name__)
 
 def _plugin_ref(plugin_fqcn: str, plugin_type: str) -> str:
     return f"ansible_collections.{plugin_fqcn}_{plugin_type}"
-
-
-# pylint:disable-next=unused-argument,dangerous-default-value
-def option_choice(name, rawtext, text, lineno, inliner, options={}, content=[]):
-    """Format Ansible option choice entry.
-
-    Returns 2 part tuple containing list of nodes to insert into the
-    document and a list of system messages.  Both are allowed to be
-    empty.
-
-    :param name: The role name used in the document.
-    :param rawtext: The entire markup snippet, with role.
-    :param text: The text marked with the role.
-    :param lineno: The line number where rawtext appears in the input.
-    :param inliner: The inliner instance that called us.
-    :param options: Directive options for customization.
-    :param content: The directive content for customization.
-    """
-    return [nodes.literal(rawtext, text, classes=["ansible-option-choices-entry"])], []
-
-
-# pylint:disable-next=unused-argument,dangerous-default-value
-def option_choice_default(name, rawtext, text, lineno, inliner, options={}, content=[]):
-    """Format Ansible option choice entry that is the default.
-
-    Returns 2 part tuple containing list of nodes to insert into the
-    document and a list of system messages.  Both are allowed to be
-    empty.
-
-    :param name: The role name used in the document.
-    :param rawtext: The entire markup snippet, with role.
-    :param text: The text marked with the role.
-    :param lineno: The line number where rawtext appears in the input.
-    :param inliner: The inliner instance that called us.
-    :param options: Directive options for customization.
-    :param content: The directive content for customization.
-    """
-    return [nodes.literal(rawtext, text, classes=["ansible-option-default-bold"])], []
-
-
-# pylint:disable-next=unused-argument,dangerous-default-value
-def option_default(name, rawtext, text, lineno, inliner, options={}, content=[]):
-    """Format Ansible option default value.
-
-    Returns 2 part tuple containing list of nodes to insert into the
-    document and a list of system messages.  Both are allowed to be
-    empty.
-
-    :param name: The role name used in the document.
-    :param rawtext: The entire markup snippet, with role.
-    :param text: The text marked with the role.
-    :param lineno: The line number where rawtext appears in the input.
-    :param inliner: The inliner instance that called us.
-    :param options: Directive options for customization.
-    :param content: The directive content for customization.
-    """
-    return [nodes.literal(rawtext, text, classes=["ansible-option-default"])], []
-
-
-# pylint:disable-next=unused-argument,dangerous-default-value
-def return_value_sample(name, rawtext, text, lineno, inliner, options={}, content=[]):
-    """Format Ansible return value sample value.
-
-    Returns 2 part tuple containing list of nodes to insert into the
-    document and a list of system messages.  Both are allowed to be
-    empty.
-
-    :param name: The role name used in the document.
-    :param rawtext: The entire markup snippet, with role.
-    :param text: The text marked with the role.
-    :param lineno: The line number where rawtext appears in the input.
-    :param inliner: The inliner instance that called us.
-    :param options: Directive options for customization.
-    :param content: The directive content for customization.
-    """
-    return [nodes.literal(rawtext, text, classes=["ansible-option-sample"])], []
 
 
 def _create_option_reference(
@@ -358,11 +282,54 @@ def plugin_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
     return [refnode], []
 
 
+def _create_extra_role(
+    role_name,
+    prepend_raw=None,
+    append_raw=None,
+    node=None,
+    nested_node=None,
+    css_class=None,
+):
+    """Create a simple role."""
+
+    # pylint:disable-next=unused-argument,dangerous-default-value
+    def extra_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+        """No special format, except adding the role name as a class.
+
+        Returns 2 part tuple containing list of nodes to insert into the
+        document and a list of system messages.  Both are allowed to be
+        empty.
+
+        :param name: The role name used in the document.
+        :param rawtext: The entire markup snippet, with role.
+        :param text: The text marked with the role.
+        :param lineno: The line number where rawtext appears in the input.
+        :param inliner: The inliner instance that called us.
+        :param options: Directive options for customization.
+        :param content: The directive content for customization.
+        """
+        result = []
+        if prepend_raw:
+            for format_value, value in prepend_raw.items():
+                result.append(nodes.raw(value, value, format=format_value))
+        nested = []
+        if nested_node:
+            nested.append(nested_node(rawtext, text))
+            text = ""
+        result.append(
+            (node or nodes.inline)(
+                rawtext, text, *nested, classes=[css_class or role_name]
+            )
+        )
+        if append_raw:
+            for format_value, value in append_raw.items():
+                result.append(nodes.raw(value, value, format=format_value))
+        return result, []
+
+    return extra_role
+
+
 ROLES = {
-    "ansible-option-choices-entry": option_choice,
-    "ansible-option-choices-entry-default": option_choice_default,
-    "ansible-option-default": option_default,
-    "ansible-rv-sample-value": return_value_sample,
     "ansopt": option_role,
     "ansval": value_role,
     "ansretval": return_value_role,
@@ -370,6 +337,86 @@ ROLES = {
     "ansenvvarref": environment_variable_reference,
     "ansplugin": plugin_role,
 }
+
+
+def _add_prepend_raw(destination, builder, value):
+    if "prepend_raw" not in destination:
+        destination["prepend_raw"] = {}
+    if builder not in destination["prepend_raw"]:
+        destination["prepend_raw"][builder] = ""
+    destination["prepend_raw"][builder] = value + destination["prepend_raw"][builder]
+
+
+def _add_append_raw(destination, builder, value):
+    if "append_raw" not in destination:
+        destination["append_raw"] = {}
+    if builder not in destination["append_raw"]:
+        destination["append_raw"][builder] = ""
+    destination["append_raw"][builder] = destination["append_raw"][builder] + value
+
+
+def _add_latex(before, after, existing):
+    _add_prepend_raw(existing, "latex", before)
+    _add_append_raw(existing, "latex", after)
+    return existing
+
+
+def _add_latex_color(color_name, existing):
+    return _add_latex(f"{{\\color{{{color_name}}}", "}", existing)
+
+
+_EXTRA_ROLES = {
+    "ansible-attribute-support-label": _add_latex(
+        "\\vphantom{", "}", {"node": nodes.strong}
+    ),
+    "ansible-attribute-support-property": {"node": nodes.strong},
+    "ansible-attribute-support-full": _add_latex_color(
+        "antsibull-green", {"node": nodes.strong}
+    ),
+    "ansible-attribute-support-partial": _add_latex_color(
+        "antsibull-darkyellow", {"node": nodes.strong}
+    ),
+    "ansible-attribute-support-none": _add_latex_color(
+        "antsibull-red", {"node": nodes.strong}
+    ),
+    "ansible-attribute-support-na": {},
+    "ansible-option-aliases": _add_latex_color("antsibull-darkgreen", {}),
+    "ansible-option-choices": {"node": nodes.strong},
+    "ansible-option-choices-default-mark": _add_latex_color("antsibull-blue", {}),
+    "ansible-option-choices-entry": {"node": nodes.literal},
+    "ansible-option-choices-entry-default": _add_latex_color(
+        "antsibull-blue",
+        {
+            "node": nodes.literal,
+            "nested_node": nodes.strong,
+            "css_class": "ansible-option-default-bold",
+        },
+    ),
+    "ansible-option-configuration": {"node": nodes.strong},
+    "ansible-option-default": _add_latex_color(
+        "antsibull-blue", {"node": nodes.literal}
+    ),
+    "ansible-option-default-bold": _add_latex_color(
+        "antsibull-blue", {"node": nodes.strong}
+    ),
+    "ansible-option-elements": _add_latex_color("antsibull-purple", {}),
+    "ansible-option-required": _add_latex_color("antsibull-red", {}),
+    "ansible-option-returned-bold": {"node": nodes.strong},
+    "ansible-option-sample-bold": _add_latex_color("black", {"node": nodes.strong}),
+    "ansible-option-type": _add_latex_color("antsibull-purple", {}),
+    "ansible-option-versionadded": _add_latex(
+        "{\\footnotesize",
+        "}",
+        _add_latex_color("antsibull-darkgreen", {"node": nodes.emphasis}),
+    ),
+    "ansible-rv-sample-value": _add_latex_color(
+        "antsibull-blue", {"node": nodes.literal, "css_class": "ansible-option-sample"}
+    ),
+}
+
+
+for _extra_role, _kwargs in _EXTRA_ROLES.items():
+    ROLES[_extra_role] = _create_extra_role(_extra_role, **_kwargs)
 
 
 def setup_roles(app):

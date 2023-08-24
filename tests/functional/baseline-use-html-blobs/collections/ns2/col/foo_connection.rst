@@ -7,24 +7,6 @@
 .. |antsibull-internal-nbsp| unicode:: 0xA0
     :trim:
 
-.. role:: ansible-attribute-support-label
-.. role:: ansible-attribute-support-property
-.. role:: ansible-attribute-support-full
-.. role:: ansible-attribute-support-partial
-.. role:: ansible-attribute-support-none
-.. role:: ansible-attribute-support-na
-.. role:: ansible-option-type
-.. role:: ansible-option-elements
-.. role:: ansible-option-required
-.. role:: ansible-option-versionadded
-.. role:: ansible-option-aliases
-.. role:: ansible-option-choices
-.. role:: ansible-option-choices-default-mark
-.. role:: ansible-option-default-bold
-.. role:: ansible-option-configuration
-.. role:: ansible-option-returned-bold
-.. role:: ansible-option-sample-bold
-
 .. Anchors
 
 .. _ansible_collections.ns2.col.foo_connection:
@@ -117,8 +99,8 @@ Parameters
     </div></td>
     <td><div class="ansible-option-cell">
       <p>Hostname to connect to.</p>
-      <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <code class="ansible-value literal notranslate ansible-option-default">&#34;inventory_hostname&#34;</code></p>
-      <p class="ansible-option-line"><span class="ansible-option-configuration">Configuration:</span></p>
+      <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-value literal notranslate ansible-option-default">&#34;inventory_hostname&#34;</code></p>
+      <p class="ansible-option-line"><strong class="ansible-option-configuration">Configuration:</strong></p>
       <ul class="simple">
       <li>
         <p>Variable: inventory_hostname</p>

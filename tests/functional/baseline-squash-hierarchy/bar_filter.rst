@@ -7,24 +7,6 @@
 .. |antsibull-internal-nbsp| unicode:: 0xA0
     :trim:
 
-.. role:: ansible-attribute-support-label
-.. role:: ansible-attribute-support-property
-.. role:: ansible-attribute-support-full
-.. role:: ansible-attribute-support-partial
-.. role:: ansible-attribute-support-none
-.. role:: ansible-attribute-support-na
-.. role:: ansible-option-type
-.. role:: ansible-option-elements
-.. role:: ansible-option-required
-.. role:: ansible-option-versionadded
-.. role:: ansible-option-aliases
-.. role:: ansible-option-choices
-.. role:: ansible-option-choices-default-mark
-.. role:: ansible-option-default-bold
-.. role:: ansible-option-configuration
-.. role:: ansible-option-returned-bold
-.. role:: ansible-option-sample-bold
-
 .. Anchors
 
 .. _ansible_collections.ns2.col.bar_filter:
@@ -108,9 +90,9 @@ This describes the input of the filter, the value before ``| ns2.col.bar``.
 
         <a class="ansibleOptionLink" href="#parameter-_input" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`dictionary` / :ansible-option-required:`required`
+        :ansible-option-type:`dictionary` / :ansible-option-required:`required`
 
 
 
@@ -167,9 +149,9 @@ example: ``input | ns2.col.bar(positional1, positional2, ...)``
 
         <a class="ansibleOptionLink" href="#parameter-foo" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
 
 
 
@@ -204,9 +186,9 @@ example: ``input | ns2.col.bar(positional1, positional2, ...)``
 
         <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
 
 
@@ -270,9 +252,9 @@ example: ``input | ns2.col.bar(key1=value1, key2=value2, ...)``
 
         <a class="ansibleOptionLink" href="#parameter-baz" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
 
 
@@ -375,9 +357,9 @@ Return Value
 
         <a class="ansibleOptionLink" href="#return-_value" title="Permalink to this return value"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`dictionary`
+        :ansible-option-type:`dictionary`
 
       .. raw:: html
 

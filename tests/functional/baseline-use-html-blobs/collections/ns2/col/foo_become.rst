@@ -7,24 +7,6 @@
 .. |antsibull-internal-nbsp| unicode:: 0xA0
     :trim:
 
-.. role:: ansible-attribute-support-label
-.. role:: ansible-attribute-support-property
-.. role:: ansible-attribute-support-full
-.. role:: ansible-attribute-support-partial
-.. role:: ansible-attribute-support-none
-.. role:: ansible-attribute-support-na
-.. role:: ansible-option-type
-.. role:: ansible-option-elements
-.. role:: ansible-option-required
-.. role:: ansible-option-versionadded
-.. role:: ansible-option-aliases
-.. role:: ansible-option-choices
-.. role:: ansible-option-choices-default-mark
-.. role:: ansible-option-default-bold
-.. role:: ansible-option-configuration
-.. role:: ansible-option-returned-bold
-.. role:: ansible-option-sample-bold
-
 .. Anchors
 
 .. _ansible_collections.ns2.col.foo_become:
@@ -108,7 +90,7 @@ Parameters
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">string</span>
       </p>
-      <p><span class="ansible-option-versionadded">added in ns2.col 1.2.0</span></p>
+      <p><em class="ansible-option-versionadded">added in ns2.col 1.2.0</em></p>
   <p>Removed in: version 4.0.0</p>
   <p>Why: Just some other text.
   This one has more than one line though.
@@ -134,13 +116,13 @@ Parameters
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">string</span>
       </p>
-      <p><span class="ansible-option-versionadded">added in ns2.col 0.2.0</span></p>
+      <p><em class="ansible-option-versionadded">added in ns2.col 0.2.0</em></p>
 
     </div></td>
     <td><div class="ansible-option-cell">
       <p>Foo executable.</p>
-      <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <code class="ansible-value literal notranslate ansible-option-default">&#34;foo&#34;</code></p>
-      <p class="ansible-option-line"><span class="ansible-option-configuration">Configuration:</span></p>
+      <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-value literal notranslate ansible-option-default">&#34;foo&#34;</code></p>
+      <p class="ansible-option-line"><strong class="ansible-option-configuration">Configuration:</strong></p>
       <ul class="simple">
       <li>
         <p>INI entries</p>
@@ -195,14 +177,14 @@ Parameters
     </div></td>
     <td><div class="ansible-option-cell">
       <p>User you &#x27;become&#x27; to execute the task.</p>
-      <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <code class="ansible-value literal notranslate ansible-option-default">&#34;root&#34;</code></p>
-      <p class="ansible-option-line"><span class="ansible-option-configuration">Configuration:</span></p>
+      <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-value literal notranslate ansible-option-default">&#34;root&#34;</code></p>
+      <p class="ansible-option-line"><strong class="ansible-option-configuration">Configuration:</strong></p>
       <ul class="simple">
       <li>
         <p>INI entries</p>
         <div class="highlight-YAML+Jinja notranslate"><div class="highlight"><pre><span class="p p-Indicator">[</span><span class="nv">privilege_escalation</span><span class="p p-Indicator">]</span>
   <span class="l l-Scalar l-Scalar-Plain">become_user = root</span></pre></div></div>
-        <p><span class="ansible-option-versionadded">added in ns2.col 0.1.0</span></p>
+        <p><em class="ansible-option-versionadded">added in ns2.col 0.1.0</em></p>
 
         <div class="highlight-YAML+Jinja notranslate"><div class="highlight"><pre><span class="p p-Indicator">[</span><span class="nv">foo_become_plugin</span><span class="p p-Indicator">]</span>
   <span class="l l-Scalar l-Scalar-Plain">user = root</span></pre></div></div>
@@ -210,7 +192,7 @@ Parameters
       </li>
       <li>
         <p>Environment variable: <code class="xref std std-envvar literal notranslate">ANSIBLE_BECOME_USER</code></p>
-        <p><span class="ansible-option-versionadded">added in ns2.col 0.1.0</span></p>
+        <p><em class="ansible-option-versionadded">added in ns2.col 0.1.0</em></p>
 
       </li>
       <li>
@@ -223,12 +205,12 @@ Parameters
       </li>
       <li>
         <p>Variable: ansible_foo_user</p>
-        <p><span class="ansible-option-versionadded">added in ns2.col 0.1.0</span></p>
+        <p><em class="ansible-option-versionadded">added in ns2.col 0.1.0</em></p>
 
       </li>
       <li>
         <p>Keyword: become_user</p>
-        <p><span class="ansible-option-versionadded">added in ns2.col 0.1.0</span></p>
+        <p><em class="ansible-option-versionadded">added in ns2.col 0.1.0</em></p>
 
       </li>
       </ul>
