@@ -8,7 +8,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "antsibull-docs"
-version = "2.3.1.post0"
+dynamic = ["version"]
 description = "Tools for building Ansible documentation"
 license = "GPL-3.0-or-later"
 license-files = {globs=["LICENSES/*.txt"]}
@@ -108,6 +108,9 @@ dev = [
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/antsibull_docs", "src/sphinx_antsibull_ext"]
+
+[tool.hatch.version]
+path = "src/antsibull_docs/__init__.py"
 
 [tool.black]
 exclude = '''

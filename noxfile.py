@@ -196,7 +196,6 @@ def _repl_version_impl(
 
 
 def _repl_version(session: nox.Session, new_version: str) -> None:
-    _repl_version_impl("pyproject.toml", "version", new_version)
     _repl_version_impl(
         os.path.join("src", "antsibull_docs", "__init__.py"), "__version__", new_version
     )
@@ -269,18 +268,24 @@ def bump(session: nox.Session):
         )
         with open(fragment_file, "w") as fp:
             print(fragment, file=fp)
-        session.run("git", "add", "pyproject.toml", str(fragment_file), external=True)
+        session.run(
+            "git",
+            "add",
+            "src/antsibull_docs/__init__.py",
+            str(fragment_file),
+            external=True,
+        )
         session.run("git", "commit", "-m", f"Prepare {version}.", external=True)
-    session.run("antsibull-changelog", "release")
+    session.run("antsibull-changelog", "release", "--version", version)
     session.run(
         "git",
         "add",
         "CHANGELOG.rst",
         "changelogs/changelog.yaml",
         "changelogs/fragments/",
-        # pyproject.toml is not committed in the last step
+        # __init__.py is not committed in the last step
         # when the release_summary fragment is created manually
-        "pyproject.toml",
+        "src/antsibull_docs/__init__.py",
         external=True,
     )
     install(session, ".")  # Smoke test
@@ -307,7 +312,7 @@ def publish(session: nox.Session):
     session.run("hatch", "publish", *session.posargs)
     version = session.run("hatch", "version", silent=True).strip()
     _repl_version(session, f"{version}.post0")
-    session.run("git", "add", "pyproject.toml", external=True)
+    session.run("git", "add", "src/antsibull_docs/__init__.py", external=True)
     session.run("git", "commit", "-m", "Post-release version bump.", external=True)
 
 
