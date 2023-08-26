@@ -7,21 +7,20 @@
 Add directives for general formatting.
 """
 
-from collections.abc import Mapping, Sequence
-
-from antsibull_core.yaml import load_yaml_bytes
 from docutils import nodes
 from docutils.parsers.rst import Directive
 from sphinx import addnodes
 
+from .directive_helper import YAMLDirective
 from .nodes import link_button
+from .schemas.ansible_links import AnsibleLinks
 
 
 class _OptionTypeLine(Directive):
     final_argument_whitespace = True
     has_content = True
 
-    def run(self):
+    def run(self) -> list[nodes.Node]:
         self.assert_has_content()
         node = nodes.inline("\n".join(self.content))
         self.state.nested_parse(self.content, self.content_offset, node)
@@ -39,55 +38,17 @@ class _OptionTypeLine(Directive):
         return node.children
 
 
-class _Links(Directive):
-    has_content = True
+class _Links(YAMLDirective[AnsibleLinks]):
+    wrap_as_data = True
+    schema = AnsibleLinks
 
-    def _get_string(
-        self, entry: Mapping, index: int, key: str, exp_type, optional: bool = False
-    ):
-        value = entry.get(key)
-        if value is None and optional:
-            return value
-        if isinstance(value, exp_type):
-            return value
-        raise self.error(
-            f"{index + 1}th entry in {self.name}:"
-            f" entry '{key}' must be {exp_type}, but found {value!r}"
-        )
-
-    def run(self):
-        self.assert_has_content()
-        node = nodes.bullet_list("\n".join(self.content), classes=["ansible-links"])
-        content = "\n".join(self.content)
-        try:
-            data = load_yaml_bytes(content.encode("utf-8"))
-        except Exception as exc:
-            raise self.error(
-                f"Error while parsing content of {self.name} as YAML: {exc}"
-            ) from exc
-        if not isinstance(data, Sequence):
-            raise self.error(
-                f"Content of {self.name} must be a YAML list, got {data!r} - {content!r}"
-            )
-        for index, entry in enumerate(data):
-            if not isinstance(entry, Mapping):
-                raise self.error(
-                    f"Content of {self.name} must be a YAML list of mappings:"
-                    " item {index + 1} is not a mapping, got {entry!r}"
+    def _run(self, content_str: str, content: AnsibleLinks) -> list[nodes.Node]:
+        node = nodes.bullet_list(content_str, classes=["ansible-links"])
+        for entry in content.data:
+            if entry.url is not None:
+                refnode = link_button(
+                    "", entry.title, link_external=entry.external, refuri=entry.url
                 )
-            title = self._get_string(entry, index, "title", str)
-            url = self._get_string(entry, index, "url", str, optional=True)
-            ref = self._get_string(entry, index, "ref", str, optional=True)
-            external = (
-                self._get_string(entry, index, "external", bool, optional=True) or False
-            )
-            if (url is None) == (ref is None):
-                raise self.error(
-                    f"{index + 1}th entry in {self.name}:"
-                    " either one 'url' or one 'ref' must be provided"
-                )
-            if url is not None:
-                refnode = link_button("", title, link_external=external, refuri=url)
             else:
                 # Due to the way that Sphinx works, we have no chance to add
                 # aria-role to the resulting ref node :(
@@ -97,8 +58,10 @@ class _Links(Directive):
                     "refexplicit": True,
                     "refwarn": True,
                 }
-                refnode = addnodes.pending_xref("", nodes.inline("", title), **options)
-                refnode["reftarget"] = ref
+                refnode = addnodes.pending_xref(
+                    "", nodes.inline("", entry.title), **options
+                )
+                refnode["reftarget"] = entry.ref
             item = nodes.list_item("")
             item.append(nodes.inline("", "", refnode))
             node.append(item)
