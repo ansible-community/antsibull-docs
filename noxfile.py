@@ -178,29 +178,6 @@ def typing(session: nox.Session):
     )
 
 
-def _repl_version_impl(
-    path: str | Path, version_variable: str, new_version: str
-) -> None:
-    found = False
-    with open(path, "r+") as fp:
-        lines = tuple(fp)
-        fp.seek(0)
-        for line in lines:
-            if line.startswith(f"{version_variable} = "):
-                line = f'{version_variable} = "{new_version}"\n'
-                found = True
-            fp.write(line)
-        fp.truncate()
-    if not found:
-        raise RuntimeError(f"Cannot find {version_variable} assignment in {path}")
-
-
-def _repl_version(session: nox.Session, new_version: str) -> None:
-    _repl_version_impl(
-        os.path.join("src", "antsibull_docs", "__init__.py"), "__version__", new_version
-    )
-
-
 def check_no_modifications(session: nox.Session) -> None:
     modified = session.run(
         "git",
@@ -257,7 +234,7 @@ def bump(session: nox.Session):
                 "or two positional arguments must be provided."
             )
     install(session, "antsibull-changelog[toml]", "hatch")
-    _repl_version(session, version)
+    session.run("hatch", "version", version)
     if len(session.posargs) > 1:
         fragment = session.run(
             "python",
@@ -310,8 +287,7 @@ def publish(session: nox.Session):
     check_no_modifications(session)
     install(session, "hatch")
     session.run("hatch", "publish", *session.posargs)
-    version = session.run("hatch", "version", silent=True).strip()
-    _repl_version(session, f"{version}.post0")
+    session.run("hatch", "version", "post")
     session.run("git", "add", "src/antsibull_docs/__init__.py", external=True)
     session.run("git", "commit", "-m", "Post-release version bump.", external=True)
 
