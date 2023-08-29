@@ -72,7 +72,7 @@ class _Links(Directive):
         for index, entry in enumerate(data):
             if not isinstance(entry, Mapping):
                 raise self.error(
-                    f"Content of {self.name} must be a YAML list consisting of mappings:"
+                    f"Content of {self.name} must be a YAML list of mappings:"
                     " item {index + 1} is not a mapping, got {entry!r}"
                 )
             title = self._get_string(entry, index, "title", str)

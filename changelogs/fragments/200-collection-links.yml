@@ -1,2 +1,2 @@
 minor_changes:
-  - "Create collection links with a custom directive. This makes them work with other builders than the HTML builder (https://github.com/ansible-community/antsibull-docs/pull/200)."
+  - "Create collection links with a custom directive. This makes them compatible with builders other than the HTML builder (https://github.com/ansible-community/antsibull-docs/pull/200)."
