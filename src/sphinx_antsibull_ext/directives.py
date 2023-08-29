@@ -84,7 +84,7 @@ class _Links(Directive):
             if (url is None) == (ref is None):
                 raise self.error(
                     f"{index + 1}th entry in {self.name}:"
-                    " exactly one of 'url' and 'ref' must be provided"
+                    " either one 'url' or one 'ref' must be provided"
                 )
             if url is not None:
                 refnode = link_button("", title, link_external=external, refuri=url)
