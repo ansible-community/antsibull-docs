@@ -7,6 +7,8 @@
 Add nodes for general formatting.
 """
 
+from __future__ import annotations
+
 from docutils import nodes
 
 
