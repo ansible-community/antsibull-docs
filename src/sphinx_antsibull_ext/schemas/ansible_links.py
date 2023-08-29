@@ -5,6 +5,8 @@
 # SPDX-FileCopyrightText: 2023, Ansible Project
 """Schema for ansible-links directive."""
 
+from __future__ import annotations
+
 # Ignore Unitialized attribute errors because BaseModel works some magic
 # to initialize the attributes when data is loaded into them.
 # pyre-ignore-all-errors[13]

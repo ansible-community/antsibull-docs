@@ -7,6 +7,8 @@
 Add directives for general formatting.
 """
 
+from __future__ import annotations
+
 from docutils import nodes
 from docutils.parsers.rst import Directive
 from sphinx import addnodes
