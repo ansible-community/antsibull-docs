@@ -18,8 +18,8 @@ import pydantic as p
 
 class AnsibleLink(p.BaseModel):
     title: str
-    url: str | None = None
-    ref: str | None = None
+    url: t.Optional[str] = None
+    ref: t.Optional[str] = None
     external: bool = False
 
     @p.root_validator()
