@@ -5,15 +5,16 @@
 #}
 
 {% macro add(collection_links, collection_communication=None, collection=None) %}
-.. raw:: html
+.. ansible-links::
 
-  <p class="ansible-links">
 {%   for link in collection_links %}
-    <a href="@{ link.url | escape }@" aria-role="button" target="_blank" rel="noopener external">@{ link.description | escape }@</a>
+  - title: @{ link.description | antsibull_to_json }@
+    url: @{ link.url | antsibull_to_json }@
+    external: true
 {%   endfor %}
 {%   if collection_communication and collection and not collection_communication.empty %}
-{#     WARNING: the anchor is created from Sphinx from the label and might change #}
-    <a href="./#communication-for-@{ collection | replace('.', '-') | escape }@" aria-role="button" target="_blank">Communication</a>
+  - title: Communication
+    ref: communication_for_@{collection}@
 {%   endif %}
-  </p>
+
 {% endmacro %}

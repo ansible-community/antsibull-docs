@@ -18,6 +18,7 @@ __author_email__ = "felix@fontein.de"
 
 from .assets import setup_assets
 from .directives import setup_directives
+from .nodes import setup_nodes
 from .roles import setup_roles
 
 
@@ -29,6 +30,9 @@ def setup(app):
 
     # Add assets
     setup_assets(app)
+
+    # Add nodes
+    setup_nodes(app)
 
     # Add roles
     setup_roles(app)
