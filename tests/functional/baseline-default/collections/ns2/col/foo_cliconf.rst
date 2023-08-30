@@ -21,6 +21,12 @@
 ns2.col.foo cliconf -- Foo router CLI config
 ++++++++++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.foo
+  plugin_type: cliconf
+  short_description: "Foo router CLI config"
+
 .. Collection note
 
 .. note::

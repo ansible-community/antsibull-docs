@@ -55,9 +55,9 @@ Parameters
   <tbody>
   <tr>
     <td valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
-      <p style="display: inline;"><strong>bar</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---bar"></div>
+      <strong>bar</strong>
+      <a class="ansibleOptionLink" href="#parameter---bar" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>
@@ -81,9 +81,9 @@ Parameters
   </tr>
   <tr>
     <td valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-become_exe"></div>
-      <p style="display: inline;"><strong>become_exe</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-become_exe" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---become_exe"></div>
+      <strong>become_exe</strong>
+      <a class="ansibleOptionLink" href="#parameter---become_exe" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>
@@ -138,9 +138,9 @@ Parameters
   </tr>
   <tr>
     <td valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-become_user"></div>
-      <p style="display: inline;"><strong>become_user</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-become_user" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---become_user"></div>
+      <strong>become_user</strong>
+      <a class="ansibleOptionLink" href="#parameter---become_user" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>

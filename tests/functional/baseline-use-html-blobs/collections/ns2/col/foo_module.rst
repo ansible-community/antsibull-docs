@@ -21,6 +21,12 @@
 ns2.col.foo module -- Do some foo \ :ansopt:`ns2.col.foo#module:bar`\ 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.foo
+  plugin_type: module
+  short_description: "Do some foo \\ :ansopt:`ns2.col.foo#module:bar`\\ "
+
 .. Collection note
 
 .. note::
@@ -91,10 +97,10 @@ Parameters
   <tbody>
   <tr class="row-even">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
-      <div class="ansibleOptionAnchor" id="parameter-baz"></div>
-      <p class="ansible-option-title"><strong>bar</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---bar"></div>
+      <div class="ansibleOptionAnchor" id="parameter---baz"></div>
+      <strong class="ansible-option-title">bar</strong>
+      <a class="ansibleOptionLink" href="#parameter---bar" title="Permalink to this option"></a>
       <p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: baz</span></p>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">list</span>
@@ -109,9 +115,9 @@ Parameters
   </tr>
   <tr class="row-odd">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-foo"></div>
-      <p class="ansible-option-title"><strong>foo</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-foo" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---foo"></div>
+      <strong class="ansible-option-title">foo</strong>
+      <a class="ansibleOptionLink" href="#parameter---foo" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">string</span>
         / <span class="ansible-option-required">required</span>
@@ -123,9 +129,9 @@ Parameters
   </tr>
   <tr class="row-even">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-subfoo"></div>
-      <p class="ansible-option-title"><strong>subfoo</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-subfoo" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---subfoo"></div>
+      <strong class="ansible-option-title">subfoo</strong>
+      <a class="ansibleOptionLink" href="#parameter---subfoo" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">dictionary</span>
       </p>
@@ -137,9 +143,9 @@ Parameters
   </tr>
   <tr class="row-odd">
     <td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-subfoo/foo"></div>
-      <p class="ansible-option-title"><strong>foo</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-subfoo/foo" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---subfoo/foo"></div>
+      <strong class="ansible-option-title">foo</strong>
+      <a class="ansibleOptionLink" href="#parameter---subfoo/foo" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">string</span>
         / <span class="ansible-option-required">required</span>
@@ -178,17 +184,12 @@ Attributes
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="attribute-action_group"></div>
 
-      .. _ansible_collections.ns2.col.foo_module__attribute-action_group:
+      .. ansible-attribute::
 
-      .. rst-class:: ansible-option-title
-
-      **action_group**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#attribute-action_group" title="Permalink to this attribute"></a>
+        fqcn: ns2.col.foo
+        plugin_type: module
+        name: "action_group"
 
       .. raw:: html
 
@@ -220,17 +221,12 @@ Attributes
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="attribute-check_mode"></div>
 
-      .. _ansible_collections.ns2.col.foo_module__attribute-check_mode:
+      .. ansible-attribute::
 
-      .. rst-class:: ansible-option-title
-
-      **check_mode**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#attribute-check_mode" title="Permalink to this attribute"></a>
+        fqcn: ns2.col.foo
+        plugin_type: module
+        name: "check_mode"
 
       .. raw:: html
 
@@ -262,17 +258,12 @@ Attributes
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="attribute-diff_mode"></div>
 
-      .. _ansible_collections.ns2.col.foo_module__attribute-diff_mode:
+      .. ansible-attribute::
 
-      .. rst-class:: ansible-option-title
-
-      **diff_mode**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#attribute-diff_mode" title="Permalink to this attribute"></a>
+        fqcn: ns2.col.foo
+        plugin_type: module
+        name: "diff_mode"
 
       .. raw:: html
 
@@ -304,17 +295,12 @@ Attributes
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="attribute-platform"></div>
 
-      .. _ansible_collections.ns2.col.foo_module__attribute-platform:
+      .. ansible-attribute::
 
-      .. rst-class:: ansible-option-title
-
-      **platform**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#attribute-platform" title="Permalink to this attribute"></a>
+        fqcn: ns2.col.foo
+        plugin_type: module
+        name: "platform"
 
       .. raw:: html
 
@@ -406,7 +392,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   <tr class="row-even">
     <td><div class="ansible-option-cell">
       <div class="ansibleOptionAnchor" id="return-bar"></div>
-      <p class="ansible-option-title"><strong>bar</strong></p>
+      <strong class="ansible-option-title">bar</strong>
       <a class="ansibleOptionLink" href="#return-bar" title="Permalink to this return value"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">string</span>

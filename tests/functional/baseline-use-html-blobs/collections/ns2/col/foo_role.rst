@@ -19,6 +19,12 @@
 ns2.col.foo role -- Foo role
 ++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.foo
+  plugin_type: role
+  short_description: "Foo role"
+
 .. Collection note
 
 .. note::
@@ -37,6 +43,12 @@ ns2.col.foo role -- Foo role
 
 Entry point ``main`` -- Foo role
 --------------------------------
+
+.. ansible-role-entrypoint::
+
+  fqcn: ns2.col.foo
+  entrypoint: main
+  short_description: "Foo role"
 
 .. version_added
 
@@ -86,9 +98,9 @@ Parameters
   <tbody>
   <tr class="row-even">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-main--foo_param_1"></div>
-      <p class="ansible-option-title"><strong>foo_param_1</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-main--foo_param_1" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---foo_param_1"></div>
+      <strong class="ansible-option-title">foo_param_1</strong>
+      <a class="ansibleOptionLink" href="#parameter---foo_param_1" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">string</span>
       </p>
@@ -101,9 +113,9 @@ Parameters
   </tr>
   <tr class="row-odd">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-main--foo_param_2"></div>
-      <p class="ansible-option-title"><strong>foo_param_2</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-main--foo_param_2" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---foo_param_2"></div>
+      <strong class="ansible-option-title">foo_param_2</strong>
+      <a class="ansibleOptionLink" href="#parameter---foo_param_2" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">integer</span>
       </p>
@@ -140,17 +152,13 @@ Attributes
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="attribute-check_mode"></div>
 
-      .. _ansible_collections.ns2.col.foo_role__attribute-check_mode:
+      .. ansible-attribute::
 
-      .. rst-class:: ansible-option-title
-
-      **check_mode**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#attribute-check_mode" title="Permalink to this attribute"></a>
+        fqcn: ns2.col.foo
+        plugin_type: role
+        role_entrypoint: "main"
+        name: "check_mode"
 
       .. raw:: html
 
@@ -182,17 +190,13 @@ Attributes
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="attribute-platform"></div>
 
-      .. _ansible_collections.ns2.col.foo_role__attribute-platform:
+      .. ansible-attribute::
 
-      .. rst-class:: ansible-option-title
-
-      **platform**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#attribute-platform" title="Permalink to this attribute"></a>
+        fqcn: ns2.col.foo
+        plugin_type: role
+        role_entrypoint: "main"
+        name: "platform"
 
       .. raw:: html
 

@@ -14,14 +14,14 @@ import typing as t
 
 from antsibull_core.yaml import load_yaml_bytes
 from docutils import nodes
-from docutils.parsers.rst import Directive
 from pydantic import BaseModel
 from pydantic.error_wrappers import ValidationError
+from sphinx.util.docutils import SphinxDirective
 
 SchemaT = t.TypeVar("SchemaT", bound=BaseModel)
 
 
-class YAMLDirective(Directive, t.Generic[SchemaT], metaclass=abc.ABCMeta):
+class YAMLDirective(SphinxDirective, t.Generic[SchemaT], metaclass=abc.ABCMeta):
     has_content = True
 
     wrap_as_data = False
