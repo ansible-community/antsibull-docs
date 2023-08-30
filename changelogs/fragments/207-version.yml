@@ -1,0 +1,2 @@
+minor_changes:
+  - "Add ``version`` subcommand to print antsibull-docs's version (https://github.com/ansible-community/antsibull-docs/pull/207)."

@@ -44,6 +44,7 @@ from .doc_commands import (  # noqa: E402
     plugin,
     sphinx_init,
     stable,
+    version,
 )
 
 # pylint: enable=wrong-import-position
@@ -63,6 +64,7 @@ ARGS_MAP: dict[str, Callable] = {
     "sphinx-init": sphinx_init.site_init,
     "lint-collection-docs": lint_docs.lint_collection_docs,
     "lint-core-docs": lint_docs.lint_core_docs,
+    "version": version.print_version,
 }
 
 #: The filename for the file which lists raw collection names
@@ -70,7 +72,7 @@ DEFAULT_PIECES_FILE: str = "ansible.in"
 
 
 def _normalize_docs_options(args: argparse.Namespace) -> None:
-    if args.command in ("lint-collection-docs", "lint-core-docs"):
+    if args.command in ("lint-collection-docs", "lint-core-docs", "version"):
         return
 
     args.dest_dir = os.path.abspath(os.path.realpath(args.dest_dir))
@@ -333,6 +335,8 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         title="Subcommands", dest="command", help="for help use: `SUBCOMMANDS -h`"
     )
     subparsers.required = True
+
+    subparsers.add_parser("version", description="Show antsibull-docs version")
 
     #
     # Document the next version of ansible
