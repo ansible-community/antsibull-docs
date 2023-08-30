@@ -14,6 +14,7 @@ import typing as t
 from antsibull_core.logging import log
 
 import antsibull_docs
+
 from ... import app_context
 from ...jinja2.environment import doc_environment
 

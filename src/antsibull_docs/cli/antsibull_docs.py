@@ -35,7 +35,7 @@ from antsibull_core.filesystem import UnableToCheck, writable_via_acls  # noqa: 
 from ..constants import DOCUMENTABLE_PLUGINS  # noqa: E402
 from ..docs_parsing.fqcn import is_fqcn  # noqa: E402
 from ..schemas.app_context import DocsAppContext  # noqa: E402
-from ..test_helpers import ci_setup
+from ..test_helpers import ci_setup  # noqa: E402
 from .doc_commands import (  # noqa: E402
     collection,
     collection_plugins,
