@@ -12,6 +12,8 @@ from collections.abc import Mapping, Sequence
 from antsibull_core.logging import log
 from jinja2 import Template
 
+import antsibull_docs
+
 mlog = log.fields(mod=__name__)
 
 #: Mapping of plugins to nonfatal errors.  This is the type to use when accepting the plugin.
@@ -29,6 +31,6 @@ PluginCollectionInfoT = Mapping[str, Mapping[str, Mapping[str, str]]]
 
 def _render_template(_template: Template, _name: str, **kwargs) -> str:
     try:
-        return _template.render(**kwargs)
+        return _template.render(antsibull_docs_version=antsibull_docs.__version__, **kwargs)
     except Exception as exc:
         raise RuntimeError(f"Error while rendering {_name}") from exc

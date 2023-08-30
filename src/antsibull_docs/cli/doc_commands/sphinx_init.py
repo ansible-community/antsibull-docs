@@ -13,6 +13,7 @@ import typing as t
 
 from antsibull_core.logging import log
 
+import antsibull_docs
 from ... import app_context
 from ...jinja2.environment import doc_environment
 
@@ -176,6 +177,7 @@ def site_init() -> int:
                 extra_html_context=extra_html_context,
                 extra_html_theme_options=extra_html_theme_options,
                 output_format=output_format,
+                antsibull_docs_version=antsibull_docs.__version__,
             )
             + "\n"
         )
