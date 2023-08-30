@@ -10,6 +10,7 @@ import os
 from contextlib import redirect_stdout
 
 import pytest
+from utils import replace_antsibull_version
 
 from antsibull_docs.cli.antsibull_docs import run
 
@@ -140,7 +141,8 @@ def test_baseline(arguments, directory, tmp_path):
     command = ["antsibull-docs", "sphinx-init", "--dest-dir", str(tmp_path)] + arguments
     stdout = io.StringIO()
     with redirect_stdout(stdout):
-        rc = run(command)
+        with replace_antsibull_version():
+            rc = run(command)
     stdout = stdout.getvalue().splitlines()
     assert rc == 0
 

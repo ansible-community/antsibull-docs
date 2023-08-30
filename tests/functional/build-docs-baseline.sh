@@ -13,7 +13,7 @@ make_docsite_baseline() {
     echo "Building baseline ${DEST}..."
     rm -rf "${DEST}"
     mkdir -p "${DEST}"
-    ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --dest-dir "${DEST}" --use-current "$@" 2>&1 | (
+    _ANTSIBULL_DOCS_CI_MARKER=Noo4oogongae ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --dest-dir "${DEST}" --use-current "$@" 2>&1 | (
         set +e
         grep -v "ERROR:antsibull:func=create_plugin_rst:mod=antsibull_docs.write_docs.plugins:nonfatal_errors="
         set -e
@@ -32,10 +32,10 @@ make_ansible_doc_extract() {
     shift
 
     echo "Build ansible-galaxy collection list $@ output cache"
-    ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ ansible-galaxy collection list --format json "$@" | python sanitize-ansible-galaxy-list.py > "ansible-galaxy-cache-${NAME}.json"
+    ANSIBLE_COLLECTIONS_PATH=collections/ ansible-galaxy collection list --format json "$@" | python sanitize-ansible-galaxy-list.py > "ansible-galaxy-cache-${NAME}.json"
 
     echo "Build ansible-doc --metadata-dump --no-fail-on-errors $@ output cache"
-    ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ ansible-doc --metadata-dump --no-fail-on-errors "$@" | python sanitize-ansible-doc-dump.py > "ansible-doc-cache-${NAME}.json"
+    ANSIBLE_COLLECTIONS_PATH=collections/ ansible-doc --metadata-dump --no-fail-on-errors "$@" | python sanitize-ansible-doc-dump.py > "ansible-doc-cache-${NAME}.json"
 }
 
 

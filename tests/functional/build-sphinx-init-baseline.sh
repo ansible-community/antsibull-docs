@@ -13,7 +13,7 @@ make_baseline() {
     echo "Building baseline ${DEST}..."
     rm -rf "${DEST}"
     mkdir -p "${DEST}"
-    antsibull-docs sphinx-init --dest-dir "${DEST}" "$@" > /dev/null
+    _ANTSIBULL_DOCS_CI_MARKER=Noo4oogongae antsibull-docs sphinx-init --dest-dir "${DEST}" "$@" > /dev/null
     sed -i -e 's/^cd .*$/cd DESTINATION/g' "${DEST}/build.sh"
 }
 
