@@ -8,7 +8,8 @@ from contextlib import contextmanager
 from unittest import mock
 
 import antsibull_docs
-from antsibull_docs.test_helpers import ANTSIBULL_DOCS_CI_VERSION
+
+ANTSIBULL_DOCS_CI_VERSION = "<ANTSIBULL_DOCS_VERSION>"
 
 
 @contextmanager

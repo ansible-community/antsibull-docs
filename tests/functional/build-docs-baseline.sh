@@ -13,7 +13,7 @@ make_docsite_baseline() {
     echo "Building baseline ${DEST}..."
     rm -rf "${DEST}"
     mkdir -p "${DEST}"
-    _ANTSIBULL_DOCS_CI_MARKER=Noo4oogongae ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ antsibull-docs collection --dest-dir "${DEST}" --use-current "$@" 2>&1 | (
+    ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ python antsibull-docs-stub.py collection --dest-dir "${DEST}" --use-current "$@" 2>&1 | (
         set +e
         grep -v "ERROR:antsibull:func=create_plugin_rst:mod=antsibull_docs.write_docs.plugins:nonfatal_errors="
         set -e
