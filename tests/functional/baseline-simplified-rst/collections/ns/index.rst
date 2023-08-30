@@ -1,4 +1,6 @@
 
+.. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
+
 
 .. _list_of_collections_ns:
 

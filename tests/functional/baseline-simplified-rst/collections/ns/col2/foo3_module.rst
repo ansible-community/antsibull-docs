@@ -1,4 +1,6 @@
 
+.. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
+
 ns.col2.foo3 module -- Foo III
 ++++++++++++++++++++++++++++++
 

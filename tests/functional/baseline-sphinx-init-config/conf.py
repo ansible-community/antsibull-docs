@@ -2,6 +2,8 @@
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+# Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
+
 # This file only contains a selection of the most common options. For a full list see the
 # documentation:
 # http://www.sphinx-doc.org/en/master/config

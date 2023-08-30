@@ -1,4 +1,6 @@
 
+.. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
+
 ns2.col.foo cliconf -- Foo router CLI config
 ++++++++++++++++++++++++++++++++++++++++++++
 
