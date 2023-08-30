@@ -128,8 +128,7 @@ Attributes
 
       **check_mode**
 
-    - 
-      Support: full
+    - Support: full
 
 
 
@@ -142,8 +141,7 @@ Attributes
 
       **diff_mode**
 
-    - 
-      Support: full
+    - Support: full
 
 
 
@@ -156,8 +154,7 @@ Attributes
 
       **platform**
 
-    - 
-      Platform:posix
+    - Platform:posix
 
 
     - 

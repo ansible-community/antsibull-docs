@@ -3,6 +3,9 @@
 
 :orphan:
 
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
 .. Anchors
 
 .. _ansible_collections.ns.col2.bar_role:

@@ -26,6 +26,10 @@ argument_specs:
       check_mode:
         description: Can run in check_mode and return changed status prediction without modifying target
         support: full
+      platform:
+        description: The supported platforms
+        platforms: Linux, macOS, FreeBSD
+        support: full
     seealso:
       - module: ns2.col.foo
     deprecated:
