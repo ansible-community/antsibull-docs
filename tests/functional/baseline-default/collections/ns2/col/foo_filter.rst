@@ -21,6 +21,12 @@
 ns2.col.foo filter -- The foo filter \ :ansopt:`ns2.col.foo#filter:bar`\ 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.foo
+  plugin_type: filter
+  short_description: "The foo filter \\ :ansopt:`ns2.col.foo#filter:bar`\\ "
+
 .. Collection note
 
 .. note::
@@ -84,17 +90,14 @@ This describes the input of the filter, the value before ``| ns2.col.foo``.
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_input"></div>
 
-      .. _ansible_collections.ns2.col.foo_filter__parameter-_input:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **Input**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_input" title="Permalink to this option"></a>
+        fqcn: ns2.col.foo
+        plugin_type: filter
+        name: "Input"
+        full_keys:
+          - ["_input"]
 
       .. ansible-option-type-line::
 
@@ -143,17 +146,14 @@ example: ``input | ns2.col.foo(key1=value1, key2=value2, ...)``
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-bar"></div>
 
-      .. _ansible_collections.ns2.col.foo_filter__parameter-bar:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **bar**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+        fqcn: ns2.col.foo
+        plugin_type: filter
+        name: "bar"
+        full_keys:
+          - ["bar"]
 
       .. ansible-option-type-line::
 
@@ -180,17 +180,14 @@ example: ``input | ns2.col.foo(key1=value1, key2=value2, ...)``
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-foo"></div>
 
-      .. _ansible_collections.ns2.col.foo_filter__parameter-foo:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **foo**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-foo" title="Permalink to this option"></a>
+        fqcn: ns2.col.foo
+        plugin_type: filter
+        name: "foo"
+        full_keys:
+          - ["foo"]
 
       .. ansible-option-type-line::
 
@@ -259,17 +256,17 @@ Return Value
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-_value"></div>
 
-      .. _ansible_collections.ns2.col.foo_filter__return-_value:
+      .. ansible-return-value::
 
-      .. rst-class:: ansible-option-title
-
-      **Return value**
+        fqcn: ns2.col.foo
+        plugin_type: filter
+        name: "Return value"
+        full_keys:
+          - ["_value"]
 
       .. raw:: html
-
-        <a class="ansibleOptionLink" href="#return-_value" title="Permalink to this return value"></a>
+         :url: data:text/plain;base64,IA==
 
       .. ansible-option-type-line::
 

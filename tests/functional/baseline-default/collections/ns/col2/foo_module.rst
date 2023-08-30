@@ -17,6 +17,10 @@
 ns.col2.foo module
 ++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns.col2.foo
+  plugin_type: module
 
 The documentation for the module plugin, ns.col2.foo,  was malformed.
 

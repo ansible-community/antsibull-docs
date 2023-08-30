@@ -21,6 +21,12 @@
 ns2.col.foo shell -- Foo shell \ :ansopt:`ns2.col.foo#shell:bar`\ 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.foo
+  plugin_type: shell
+  short_description: "Foo shell \\ :ansopt:`ns2.col.foo#shell:bar`\\ "
+
 .. Collection note
 
 .. note::
@@ -83,17 +89,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-bar"></div>
 
-      .. _ansible_collections.ns2.col.foo_shell__parameter-bar:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **bar**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+        fqcn: ns2.col.foo
+        plugin_type: shell
+        name: "bar"
+        full_keys:
+          - ["bar"]
 
       .. ansible-option-type-line::
 
@@ -120,17 +123,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-remote_tmp"></div>
 
-      .. _ansible_collections.ns2.col.foo_shell__parameter-remote_tmp:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **remote_tmp**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-remote_tmp" title="Permalink to this option"></a>
+        fqcn: ns2.col.foo
+        plugin_type: shell
+        name: "remote_tmp"
+        full_keys:
+          - ["remote_tmp"]
 
       .. ansible-option-type-line::
 

@@ -21,6 +21,12 @@
 ns2.col.foo become -- Use foo \ :ansopt:`ns2.col.foo#become:bar`\ 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.foo
+  plugin_type: become
+  short_description: "Use foo \\ :ansopt:`ns2.col.foo#become:bar`\\ "
+
 .. Collection note
 
 .. note::
@@ -90,9 +96,9 @@ Parameters
   <tbody>
   <tr class="row-even">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
-      <p class="ansible-option-title"><strong>bar</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---bar"></div>
+      <strong class="ansible-option-title">bar</strong>
+      <a class="ansibleOptionLink" href="#parameter---bar" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">string</span>
       </p>
@@ -116,9 +122,9 @@ Parameters
   </tr>
   <tr class="row-odd">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-become_exe"></div>
-      <p class="ansible-option-title"><strong>become_exe</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-become_exe" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---become_exe"></div>
+      <strong class="ansible-option-title">become_exe</strong>
+      <a class="ansibleOptionLink" href="#parameter---become_exe" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">string</span>
       </p>
@@ -173,9 +179,9 @@ Parameters
   </tr>
   <tr class="row-even">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-become_user"></div>
-      <p class="ansible-option-title"><strong>become_user</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-become_user" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---become_user"></div>
+      <strong class="ansible-option-title">become_user</strong>
+      <a class="ansibleOptionLink" href="#parameter---become_user" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">string</span>
       </p>

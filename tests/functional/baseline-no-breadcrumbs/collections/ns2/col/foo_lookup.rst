@@ -21,6 +21,12 @@
 ns2.col.foo lookup -- Look up some foo \ :ansopt:`ns2.col.foo#lookup:bar`\ 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.foo
+  plugin_type: lookup
+  short_description: "Look up some foo \\ :ansopt:`ns2.col.foo#lookup:bar`\\ "
+
 .. Collection note
 
 .. note::
@@ -82,17 +88,14 @@ Terms
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_terms"></div>
 
-      .. _ansible_collections.ns2.col.foo_lookup__parameter-_terms:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **Terms**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_terms" title="Permalink to this option"></a>
+        fqcn: ns2.col.foo
+        plugin_type: lookup
+        name: "Terms"
+        full_keys:
+          - ["_terms"]
 
       .. ansible-option-type-line::
 
@@ -142,17 +145,14 @@ examples: ``lookup('ns2.col.foo', key1=value1, key2=value2, ...)`` and ``query('
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-bar"></div>
 
-      .. _ansible_collections.ns2.col.foo_lookup__parameter-bar:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **bar**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+        fqcn: ns2.col.foo
+        plugin_type: lookup
+        name: "bar"
+        full_keys:
+          - ["bar"]
 
       .. ansible-option-type-line::
 
@@ -229,17 +229,17 @@ Return Value
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-_raw"></div>
 
-      .. _ansible_collections.ns2.col.foo_lookup__return-_raw:
+      .. ansible-return-value::
 
-      .. rst-class:: ansible-option-title
-
-      **Return value**
+        fqcn: ns2.col.foo
+        plugin_type: lookup
+        name: "Return value"
+        full_keys:
+          - ["_raw"]
 
       .. raw:: html
-
-        <a class="ansibleOptionLink" href="#return-_raw" title="Permalink to this return value"></a>
+         :url: data:text/plain;base64,IA==
 
       .. ansible-option-type-line::
 

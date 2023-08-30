@@ -21,6 +21,12 @@
 ns2.col.foo strategy -- Executes tasks in foo
 +++++++++++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.foo
+  plugin_type: strategy
+  short_description: "Executes tasks in foo"
+
 .. Collection note
 
 .. note::

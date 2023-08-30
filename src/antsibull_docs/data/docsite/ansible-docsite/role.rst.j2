@@ -38,6 +38,14 @@
 @{ title }@
 @{ '+' * title|column_width }@
 
+.. ansible-plugin::
+
+  fqcn: @{ plugin_name }@
+  plugin_type: @{ plugin_type }@
+{% if entry_points.main and entry_points.main.short_description %}
+  short_description: @{ entry_points.main.short_description | rst_ify(role_entrypoint='main') | antsibull_to_json }@
+{% endif %}
+
 .. Collection note
 
 {% if collection == 'ansible.builtin' -%}
@@ -75,6 +83,14 @@
 
 @{ title }@
 @{ '-' * title|column_width }@
+
+.. ansible-role-entrypoint::
+
+  fqcn: @{ plugin_name }@
+  entrypoint: @{ entry_point }@
+{%   if ep_doc['short_description'] %}
+  short_description: @{ ep_doc['short_description'] | rst_ify(role_entrypoint=entry_point) | antsibull_to_json }@
+{%   endif %}
 
 .. version_added
 
@@ -130,9 +146,9 @@ Parameters
 ^^^^^^^^^^
 
 {%     if use_html_blobs %}
-@{       parameters_html(ep_doc['options'] | dictsort, suboption_key='options', parameter_html_prefix=entry_point ~ '--', role_entrypoint=entry_point) }@
+@{       parameters_html(ep_doc['options'] | dictsort, suboption_key='options', role_entrypoint=entry_point) }@
 {%     else %}
-@{       parameters_rst(ep_doc['options'] | dictsort, suboption_key='options', parameter_html_prefix=entry_point ~ '--', role_entrypoint=entry_point) }@
+@{       parameters_rst(ep_doc['options'] | dictsort, suboption_key='options', role_entrypoint=entry_point) }@
 {%     endif %}
 {%   endif %}
 

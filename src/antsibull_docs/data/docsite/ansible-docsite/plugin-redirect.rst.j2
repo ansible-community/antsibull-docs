@@ -22,6 +22,11 @@
 @{ title }@
 @{ '+' * title|column_width }@
 
+.. ansible-plugin::
+
+  fqcn: @{ plugin_name }@
+  plugin_type: @{ plugin_type }@
+
 .. Collection note
 
 {% if collection == 'ansible.builtin' -%}

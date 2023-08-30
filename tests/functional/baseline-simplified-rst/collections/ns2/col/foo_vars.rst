@@ -58,9 +58,9 @@ Parameters
   <tbody>
   <tr>
     <td valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-_valid_extensions"></div>
-      <p style="display: inline;"><strong>_valid_extensions</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-_valid_extensions" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---_valid_extensions"></div>
+      <strong>_valid_extensions</strong>
+      <a class="ansibleOptionLink" href="#parameter---_valid_extensions" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">list</span>
         / <span style="color: purple;">elements=string</span>
@@ -87,9 +87,9 @@ Parameters
   </tr>
   <tr>
     <td valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
-      <p style="display: inline;"><strong>bar</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---bar"></div>
+      <strong>bar</strong>
+      <a class="ansibleOptionLink" href="#parameter---bar" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>

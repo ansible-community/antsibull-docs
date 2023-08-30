@@ -18,6 +18,12 @@
 ns.col2.bar role -- Bar role
 ++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns.col2.bar
+  plugin_type: role
+  short_description: "Bar role"
+
 .. Collection note
 
 .. note::
@@ -39,6 +45,12 @@ ns.col2.bar role -- Bar role
 
 Entry point ``baz`` -- Bar role, baz entrypoint テストロール
 ------------------------------------------------------------
+
+.. ansible-role-entrypoint::
+
+  fqcn: ns.col2.bar
+  entrypoint: baz
+  short_description: "Bar role, baz entrypoint \u30c6\u30b9\u30c8\u30ed\u30fc\u30eb"
 
 .. version_added
 
@@ -74,6 +86,12 @@ Synopsis
 
 Entry point ``main`` -- Bar role
 --------------------------------
+
+.. ansible-role-entrypoint::
+
+  fqcn: ns.col2.bar
+  entrypoint: main
+  short_description: "Bar role"
 
 .. version_added
 

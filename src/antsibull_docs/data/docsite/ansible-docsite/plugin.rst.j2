@@ -50,6 +50,14 @@
 @{ title }@
 @{ '+' * title|column_width }@
 
+.. ansible-plugin::
+
+  fqcn: @{ plugin_name }@
+  plugin_type: @{ plugin_type }@
+{% if doc['short_description'] %}
+  short_description: @{ doc['short_description'] | rst_ify | antsibull_to_json }@
+{% endif %}
+
 .. Collection note
 
 {% if collection == 'ansible.builtin' -%}

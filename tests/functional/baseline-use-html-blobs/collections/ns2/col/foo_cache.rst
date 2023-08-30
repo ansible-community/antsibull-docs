@@ -21,6 +21,12 @@
 ns2.col.foo cache -- Foo files \ :ansopt:`ns2.col.foo#cache:bar`\ 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.foo
+  plugin_type: cache
+  short_description: "Foo files \\ :ansopt:`ns2.col.foo#cache:bar`\\ "
+
 .. Collection note
 
 .. note::
@@ -81,9 +87,9 @@ Parameters
   <tbody>
   <tr class="row-even">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-_uri"></div>
-      <p class="ansible-option-title"><strong>_uri</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-_uri" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---_uri"></div>
+      <strong class="ansible-option-title">_uri</strong>
+      <a class="ansibleOptionLink" href="#parameter---_uri" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">path</span>
         / <span class="ansible-option-required">required</span>
@@ -109,9 +115,9 @@ Parameters
   </tr>
   <tr class="row-odd">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
-      <p class="ansible-option-title"><strong>bar</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---bar"></div>
+      <strong class="ansible-option-title">bar</strong>
+      <a class="ansibleOptionLink" href="#parameter---bar" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">string</span>
       </p>

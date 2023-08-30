@@ -20,6 +20,12 @@
 ns2.flatcol.foo2 module -- Another foo
 ++++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.flatcol.foo2
+  plugin_type: module
+  short_description: "Another foo"
+
 .. Collection note
 
 .. note::
@@ -80,17 +86,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-bar"></div>
 
-      .. _ansible_collections.ns2.flatcol.foo2_module__parameter-bar:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **bar**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+        fqcn: ns2.flatcol.foo2
+        plugin_type: module
+        name: "bar"
+        full_keys:
+          - ["bar"]
 
       .. ansible-option-type-line::
 
@@ -161,17 +164,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-bar"></div>
 
-      .. _ansible_collections.ns2.flatcol.foo2_module__return-bar:
+      .. ansible-return-value::
 
-      .. rst-class:: ansible-option-title
-
-      **bar**
+        fqcn: ns2.flatcol.foo2
+        plugin_type: module
+        name: "bar"
+        full_keys:
+          - ["bar"]
 
       .. raw:: html
-
-        <a class="ansibleOptionLink" href="#return-bar" title="Permalink to this return value"></a>
+         :url: data:text/plain;base64,IA==
 
       .. ansible-option-type-line::
 
