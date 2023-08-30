@@ -149,8 +149,7 @@ Attributes
 
       **check_mode**
 
-    - 
-      Support: full
+    - Support: full
 
 
 
@@ -163,8 +162,7 @@ Attributes
 
       **diff_mode**
 
-    - 
-      Support: full
+    - Support: full
 
 
 
@@ -177,8 +175,7 @@ Attributes
 
       **platform**
 
-    - 
-      Platform:posix
+    - Platform:posix
 
       The module \ :strong:`ERROR while parsing`\ : While parsing "M(boo)" at index 12: Module name "boo" is not a FQCN\  is not using an FQCN.
 

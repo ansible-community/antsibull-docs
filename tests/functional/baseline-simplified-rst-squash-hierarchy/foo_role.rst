@@ -101,13 +101,24 @@ Attributes
 
       **check_mode**
 
-    - 
-      Support: full
+    - Support: full
 
 
 
     - 
       Can run in check\_mode and return changed status prediction without modifying target
+
+
+
+  * - .. _ansible_collections.ns2.col.foo_role__attribute-platform:
+
+      **platform**
+
+    - Platforms:Linux, macOS, FreeBSD
+
+
+    - 
+      The supported platforms
 
 
 

@@ -138,8 +138,7 @@ Attributes
 
       **action_group**
 
-    - 
-      Action group: \ns2.col.foo\_group
+    - Action group: \ns2.col.foo\_group
 
 
     - 
@@ -151,8 +150,7 @@ Attributes
 
       **check_mode**
 
-    - 
-      Support: full
+    - Support: full
 
 
 
@@ -165,8 +163,7 @@ Attributes
 
       **diff_mode**
 
-    - 
-      Support: full
+    - Support: full
 
 
 
@@ -179,8 +176,7 @@ Attributes
 
       **platform**
 
-    - 
-      Platform:posix
+    - Platform:posix
 
 
     - 

@@ -4,6 +4,9 @@
 :orphan:
 :github_url: https://github.com/ansible-community/antsibull-docs/edit/main/tests/functional/collections/ansible_collections/ns2/col/roles/foo/meta/argument_specs.yml?description=%23%23%23%23%23%20SUMMARY%0A%3C!---%20Your%20description%20here%20--%3E%0A%0A%0A%23%23%23%23%23%20ISSUE%20TYPE%0A-%20Docs%20Pull%20Request%0A%0A%2Blabel:%20docsite_pr
 
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
 .. Anchors
 
 .. _ansible_collections.ns2.col.foo_role:
@@ -166,6 +169,48 @@ Attributes
         <div class="ansible-option-cell">
 
       Can run in check\_mode and return changed status prediction without modifying target
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="attribute-platform"></div>
+
+      .. _ansible_collections.ns2.col.foo_role__attribute-platform:
+
+      .. rst-class:: ansible-option-title
+
+      **platform**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#attribute-platform" title="Permalink to this attribute"></a>
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      :ansible-attribute-support-property:`Platforms:` |antsibull-internal-nbsp|:ansible-attribute-support-full:`Linux`, :ansible-attribute-support-full:`macOS`, :ansible-attribute-support-full:`FreeBSD`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The supported platforms
 
 
       .. raw:: html

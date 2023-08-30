@@ -22,21 +22,20 @@
       **@{ attribute }@**
 
 {#   support #}
-    - 
 {%   if attribute == 'action_group' %}
-      Action group@{ 's' if data.membership | length != 1 else '' }@: \ 
+    - Action group@{ 's' if data.membership | length != 1 else '' }@: \ 
 {%-    for member in data.membership -%}
            @{- member | rst_ify(role_entrypoint=role_entrypoint) -}@
 {%-        if not loop.last %}, {% endif -%}
 {%-    endfor %}
 {%   elif attribute == 'platform' %}
-      Platform@{ 's' if data.platforms | length != 1 or data.platforms == ['all'] else '' }@: 
+    - Platform@{ 's' if data.platforms | length != 1 or data.platforms == ['all'] else '' }@: 
 {%-    for platform in data.platforms -%}
            @{- platform | rst_ify(role_entrypoint=role_entrypoint) -}@
 {%-      if not loop.last %}, {% endif -%}
 {%-    endfor %}
 {%   else %}
-      Support: @{ data.support }@
+    - Support: @{ data.support }@
 {%   endif %}
 
 {%   if data['version_added'] is still_relevant(collection=data['version_added_collection'] or collection) %}
