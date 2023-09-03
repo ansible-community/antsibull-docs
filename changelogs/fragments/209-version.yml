@@ -1,0 +1,5 @@
+minor_changes:
+  - "Antsibull-docs now depends on antsibull-core >= 2.1.0 (https://github.com/ansible-community/antsibull-docs/pull/209)."
+bugfixes:
+  - "When running ``antsibull-docs --version``, the correct version is now shown also for editable installs and other installs that do not allow ``importlib.metadata`` to show the correct version (https://github.com/ansible-community/antsibull-docs/pull/209)."
+  - "When running ``antsibull-docs --help``, the correct program name is now shown for the ``--version`` option (https://github.com/ansible-community/antsibull-docs/pull/209)."

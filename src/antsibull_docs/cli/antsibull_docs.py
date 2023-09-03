@@ -32,6 +32,8 @@ from antsibull_core.compat import BooleanOptionalAction  # noqa: E402
 from antsibull_core.config import ConfigError, load_config  # noqa: E402
 from antsibull_core.filesystem import UnableToCheck, writable_via_acls  # noqa: E402
 
+import antsibull_docs  # noqa: E402
+
 from ..constants import DOCUMENTABLE_PLUGINS  # noqa: E402
 from ..docs_parsing.fqcn import is_fqcn  # noqa: E402
 from ..schemas.app_context import DocsAppContext  # noqa: E402
@@ -327,6 +329,8 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     parser = get_toplevel_parser(
         prog=program_name,
         package="antsibull_docs",
+        package_version=antsibull_docs.__version__,
+        program_name="antsibull-docs",
         description="Script to manage generated documentation for ansible",
     )
     subparsers = parser.add_subparsers(
