@@ -390,6 +390,16 @@ class _MarkupValidator:
                     f"{key}: {opt.source}: {what} name {opt.name!r} refers to"
                     f" {'.'.join(link)} - which is neither list nor dictionary - with `[]`"
                 )
+            if (
+                part_type in ("dict", "dictionary")
+                and part[1] is not None
+                and index + 1 < len(name)
+            ):
+                self.errors.append(
+                    f"{key}: {opt.source}: {what} name {opt.name!r} refers to"
+                    f" dictionary {'.'.join(link)} with `[]`, which is only allowed"
+                    " for the last part"
+                )
 
     def _validate_option_name(self, opt: dom.OptionNamePart, key: str) -> None:
         self._validate_option_like_name(key, opt, "option")

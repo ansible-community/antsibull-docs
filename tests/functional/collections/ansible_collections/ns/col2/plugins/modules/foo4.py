@@ -80,6 +80,7 @@ options:
             - O(ext.col.foo#module:foo[baz].bar)
             - RV(ext.col.foo#module:baz)
             - RV(ext.col.foo#module:baz[ ])
+            - RV(ansible.builtin.stat#module:stat[foo.bar])
     incorrect_array_stubs:
         description:
             - O(ansible.builtin.file#module:state[])
