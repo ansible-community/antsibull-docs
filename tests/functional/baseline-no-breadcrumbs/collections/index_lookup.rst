@@ -1,6 +1,9 @@
 
 :orphan:
 
+.. meta::
+  :antsibull-docs: <ANTSIBULL_DOCS_VERSION>
+
 .. _list_of_lookup_plugins:
 
 Index of all Lookup Plugins

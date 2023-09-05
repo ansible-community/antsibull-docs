@@ -1,6 +1,9 @@
 
 :orphan:
 
+.. meta::
+  :antsibull-docs: <ANTSIBULL_DOCS_VERSION>
+
 .. _list_of_test_plugins:
 
 Index of all Test Plugins

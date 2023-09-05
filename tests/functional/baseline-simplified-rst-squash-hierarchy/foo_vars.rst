@@ -1,4 +1,6 @@
 
+.. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
+
 ns2.col.foo vars -- Load foo \ :literal:`bar` (`link <parameter-bar_>`_)\ 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

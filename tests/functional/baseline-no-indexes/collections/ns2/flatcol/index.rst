@@ -1,5 +1,8 @@
 
 
+.. meta::
+  :antsibull-docs: <ANTSIBULL_DOCS_VERSION>
+
 
 .. _plugins_in_ns2.flatcol:
 

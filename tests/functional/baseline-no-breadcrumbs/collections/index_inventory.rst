@@ -1,6 +1,9 @@
 
 :orphan:
 
+.. meta::
+  :antsibull-docs: <ANTSIBULL_DOCS_VERSION>
+
 .. _list_of_inventory_plugins:
 
 Index of all Inventory Plugins

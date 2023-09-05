@@ -1,4 +1,6 @@
 
+.. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
+
 
 Ns2.Col
 =======

@@ -1,4 +1,6 @@
 
+.. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
+
 ns2.col.bar test -- Is something a bar
 ++++++++++++++++++++++++++++++++++++++
 

@@ -1,0 +1,2 @@
+minor_changes:
+  - "Insert the antsibull-docs version as a comment or metadata into the generated files (https://github.com/ansible-community/antsibull-docs/pull/205)."

@@ -6,6 +6,9 @@
 .. |antsibull-internal-nbsp| unicode:: 0xA0
     :trim:
 
+.. meta::
+  :antsibull-docs: <ANTSIBULL_DOCS_VERSION>
+
 .. Anchors
 
 .. _ansible_collections.ns.col2.foo4_module:
