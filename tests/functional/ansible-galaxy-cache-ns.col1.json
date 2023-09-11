@@ -1,7 +1,0 @@
-{
- "ansible_collections": {
-  "ns.col1": {
-   "version": "*"
-  }
- }
-}

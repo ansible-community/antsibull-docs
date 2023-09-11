@@ -53,10 +53,8 @@ echo "Build ansible --version output cache"
 ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ ansible --version | sed -e "s|${PWD}/collections|<<<<<COLLECTIONS>>>>>|g" | sed -e "s|${HOME}|<<<<<HOME>>>>>|g" | sed -E "s|(ansible python module location = ).*|\\1<<<<<ANSIBLE>>>>>|g" > ansible-version.output
 
 make_ansible_doc_extract all
-make_ansible_doc_extract ns.col1 ns.col1
 make_ansible_doc_extract ns.col2 ns.col2
 make_ansible_doc_extract ns2.col ns2.col
-make_ansible_doc_extract ns2.flatcol ns2.flatcol
 make_ansible_doc_extract ns.col1-ns.col2-ns2.col-ns2.flatcol ns.col1 ns.col2 ns2.col ns2.flatcol
 make_ansible_doc_extract ns.col1-ns2.col-ns2.flatcol ns.col1 ns2.col ns2.flatcol
 make_ansible_doc_extract ansible.builtin-ns2.flatcol ansible.builtin ns2.flatcol
