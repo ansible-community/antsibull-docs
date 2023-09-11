@@ -3787,7 +3787,8 @@
      "author": "Brian Coca (@bcoca)",
      "collection": "ansible.builtin",
      "description": [
-      "Provide a unique list of all the elements of the first list that do not appear in the second one."
+      "Provide a unique list of all the elements of the first list that do not appear in the second one.",
+      "Items in the resulting list are returned in arbitrary order."
      ],
      "filename": "/ansible/plugins/filter/difference.yml",
      "name": "difference",
@@ -3946,7 +3947,7 @@
        "required": true,
        "type": "raw"
       },
-      "contianer": {
+      "container": {
        "description": "Dictionary or list from which to extract a value.",
        "required": true,
        "type": "raw"
@@ -4276,7 +4277,8 @@
      "author": "Brian Coca (@bcoca)",
      "collection": "ansible.builtin",
      "description": [
-      "Provide a list with the common elements from other lists."
+      "Provide a list with the common elements from other lists.",
+      "Items in the resulting list are returned in arbitrary order."
      ],
      "filename": "/ansible/plugins/filter/intersect.yml",
      "name": "intersect",
@@ -5339,7 +5341,8 @@
      "author": "Brian Coca (@bcoca)",
      "collection": "ansible.builtin",
      "description": [
-      "Provide a unique list of all the elements unique to each list."
+      "Provide a unique list of all the elements unique to each list.",
+      "Items in the resulting list are returned in arbitrary order."
      ],
      "filename": "/ansible/plugins/filter/symmetric_difference.yml",
      "name": "symmetric_difference",
@@ -5780,7 +5783,8 @@
      "author": "Brian Coca (@bcoca)",
      "collection": "ansible.builtin",
      "description": [
-      "Provide a unique list of all the elements of two lists."
+      "Provide a unique list of all the elements of two lists.",
+      "Items in the resulting list are returned in arbitrary order."
      ],
      "filename": "/ansible/plugins/filter/union.yml",
      "name": "union",
@@ -16983,7 +16987,7 @@
      "requirements": [
       "pip",
       "virtualenv",
-      "setuptools"
+      "setuptools or packaging"
      ],
      "short_description": "Manages Python library dependencies",
      "version_added": "0.7",
@@ -21043,10 +21047,9 @@
       "profile": {
        "description": [
         "Sets the profile of the user.",
-        "Does nothing when used with other platforms.",
         "Can set multiple profiles using comma separation.",
         "To delete all the profiles, use O(profile='').",
-        "Currently supported on Illumos/Solaris."
+        "Currently supported on Illumos/Solaris. Does nothing when used with other platforms."
        ],
        "type": "str",
        "version_added": "2.8",
@@ -21063,10 +21066,9 @@
       "role": {
        "description": [
         "Sets the role of the user.",
-        "Does nothing when used with other platforms.",
         "Can set multiple roles using comma separation.",
         "To delete all roles, use O(role='').",
-        "Currently supported on Illumos/Solaris."
+        "Currently supported on Illumos/Solaris. Does nothing when used with other platforms."
        ],
        "type": "str",
        "version_added": "2.8",
@@ -21173,8 +21175,7 @@
       "umask": {
        "description": [
         "Sets the umask of the user.",
-        "Does nothing when used with other platforms.",
-        "Currently supported on Linux.",
+        "Currently supported on Linux. Does nothing when used with other platforms.",
         "Requires O(local) is omitted or V(False)."
        ],
        "type": "str",
@@ -22977,7 +22978,8 @@
         "O(ns2.col.bar#filter:foo[])",
         "O(ext.col.foo#module:foo[baz].bar)",
         "RV(ext.col.foo#module:baz)",
-        "RV(ext.col.foo#module:baz[ ])"
+        "RV(ext.col.foo#module:baz[ ])",
+        "RV(ansible.builtin.stat#module:stat[foo.bar])"
        ]
       },
       "existing": {

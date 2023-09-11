@@ -56,6 +56,7 @@ Parameters
       <p><code class="ansible-option literal notranslate"><strong><a class="reference internal" href="../../ext/col/foo_module.html#parameter-foo/bar"><span class="std std-ref"><span class="pre">foo[baz].bar</span></span></a></strong></code></p>
       <p><code class="ansible-return-value literal notranslate"><a class="reference internal" href="../../ext/col/foo_module.html#return-baz"><span class="std std-ref"><span class="pre">baz</span></span></a></code></p>
       <p><code class="ansible-return-value literal notranslate"><a class="reference internal" href="../../ext/col/foo_module.html#return-baz"><span class="std std-ref"><span class="pre">baz[ ]</span></span></a></code></p>
+      <p><code class="ansible-return-value literal notranslate"><a class="reference internal" href="../../ansible/builtin/stat_module.html#return-stat"><span class="std std-ref"><span class="pre">stat[foo.bar]</span></span></a></code></p>
     </td>
   </tr>
   <tr>

@@ -111,6 +111,8 @@ Parameters
 
       \ :ansretval:`ext.col.foo#module:baz[ ]`\ 
 
+      \ :ansretval:`ansible.builtin.stat#module:stat[foo.bar]`\ 
+
 
       .. raw:: html
 

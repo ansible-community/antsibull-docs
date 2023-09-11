@@ -1,0 +1,1695 @@
+{
+ "all": {
+  "become": {
+   "ns2.col.foo": {
+    "doc": {
+     "author": "Nobody (!UNKNOWN)",
+     "collection": "ns2.col",
+     "deprecated": {
+      "alternatives": "I don't know\nof any\nalternative.\n",
+      "removed_from_collection": "ns2.col",
+      "removed_in": "5.0.0",
+      "why": "Just some text.\nThis one has more than one line.\nAnd one more.\n"
+     },
+     "description": [
+      "This become plugin uses foo.",
+      "This is a second paragraph."
+     ],
+     "filename": "ansible_collections/ns2/col/plugins/become/foo.py",
+     "name": "foo",
+     "options": {
+      "bar": {
+       "deprecated": {
+        "alternatives": "nothing\nrelevant\nI know of\n",
+        "collection_name": "ns2.col",
+        "version": "4.0.0",
+        "why": "Just some other text.\nThis one has more than one line though.\nOne more.\n"
+       },
+       "description": [
+        "Bar. B(BAR!)",
+        "Totally unrelated to O(become_user). Even with O(become_user=foo).",
+        "Might not be compatible when O(become_user) is V(bar), though."
+       ],
+       "type": "str",
+       "version_added": "1.2.0",
+       "version_added_collection": "ns2.col"
+      },
+      "become_exe": {
+       "default": "foo",
+       "description": "Foo executable.",
+       "env": [
+        {
+         "name": "ANSIBLE_BECOME_EXE"
+        },
+        {
+         "deprecated": {
+          "alternatives": "nothing",
+          "collection_name": "ns2.col",
+          "version": "3.0.0",
+          "why": "Just some text."
+         },
+         "name": "ANSIBLE_FOO_EXE"
+        }
+       ],
+       "ini": [
+        {
+         "key": "become_exe",
+         "section": "privilege_escalation"
+        },
+        {
+         "deprecated": {
+          "alternatives": "nothing",
+          "collection_name": "ns2.col",
+          "version": "3.0.0",
+          "why": "Just some text."
+         },
+         "key": "executable",
+         "section": "foo_become_plugin"
+        }
+       ],
+       "keyword": [
+        {
+         "name": "become_exe"
+        }
+       ],
+       "vars": [
+        {
+         "name": "ansible_become_exe"
+        },
+        {
+         "deprecated": {
+          "alternatives": "nothing",
+          "collection_name": "ns2.col",
+          "version": "3.0.0",
+          "why": "Just some text."
+         },
+         "name": "ansible_foo_exe"
+        }
+       ],
+       "version_added": "0.2.0",
+       "version_added_collection": "ns2.col"
+      },
+      "become_user": {
+       "default": "root",
+       "description": "User you 'become' to execute the task.",
+       "env": [
+        {
+         "name": "ANSIBLE_BECOME_USER",
+         "version_added": "0.1.0",
+         "version_added_collection": "ns2.col"
+        },
+        {
+         "name": "ANSIBLE_FOO_USER"
+        }
+       ],
+       "ini": [
+        {
+         "key": "become_user",
+         "section": "privilege_escalation",
+         "version_added": "0.1.0",
+         "version_added_collection": "ns2.col"
+        },
+        {
+         "key": "user",
+         "section": "foo_become_plugin"
+        }
+       ],
+       "keyword": [
+        {
+         "name": "become_user",
+         "version_added": "0.1.0"
+        }
+       ],
+       "vars": [
+        {
+         "name": "ansible_become_user"
+        },
+        {
+         "name": "ansible_foo_user",
+         "version_added": "0.1.0",
+         "version_added_collection": "ns2.col"
+        }
+       ]
+      }
+     },
+     "short_description": "Use foo O(bar)",
+     "version_added": "historical",
+     "version_added_collection": "ns2.col"
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   }
+  },
+  "cache": {
+   "ns2.col.foo": {
+    "doc": {
+     "author": "Ansible Core (@ansible-core)",
+     "collection": "ns2.col",
+     "description": [
+      "Cache foo files."
+     ],
+     "filename": "ansible_collections/ns2/col/plugins/cache/foo.py",
+     "name": "foo",
+     "options": {
+      "_uri": {
+       "description": [
+        "Path in which the cache plugin will save the foo files."
+       ],
+       "env": [
+        {
+         "name": "ANSIBLE_CACHE_PLUGIN_CONNECTION"
+        }
+       ],
+       "ini": [
+        {
+         "key": "fact_caching_connection",
+         "section": "defaults"
+        }
+       ],
+       "required": true,
+       "type": "path"
+      },
+      "bar": {
+       "description": "Nothing.",
+       "type": "str"
+      }
+     },
+     "short_description": "Foo files O(bar)",
+     "version_added": "1.9.0",
+     "version_added_collection": "ns2.col"
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   }
+  },
+  "callback": {
+   "ns2.col.foo": {
+    "doc": {
+     "collection": "ns2.col",
+     "description": [
+      "Absolut minimal foo output."
+     ],
+     "filename": "ansible_collections/ns2/col/plugins/callback/foo.py",
+     "name": "foo",
+     "options": {
+      "bar": {
+       "description": "Nothing.",
+       "type": "string"
+      }
+     },
+     "short_description": "Foo output O(bar)",
+     "type": "stdout",
+     "version_added": "0.0.1",
+     "version_added_collection": "ns2.col"
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   }
+  },
+  "cliconf": {
+   "ns2.col.foo": {
+    "doc": {
+     "author": "Felix Fontein (@felixfontein) <felix@fontein.de>",
+     "collection": "ns2.col",
+     "description": [
+      "This is a CLI config for foo routers. Whatever these are."
+     ],
+     "filename": "ansible_collections/ns2/col/plugins/cliconf/foo.py",
+     "name": "foo",
+     "short_description": "Foo router CLI config"
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   }
+  },
+  "connection": {
+   "ns2.col.foo": {
+    "doc": {
+     "author": "ansible (@core)",
+     "collection": "ns2.col",
+     "description": [
+      "This is for the C(foo) connection."
+     ],
+     "filename": "ansible_collections/ns2/col/plugins/connection/foo.py",
+     "name": "foo",
+     "notes": [
+      "Some note. B(Something in bold). C(And in code). I(And in italics). An URL: U(https://example.org).",
+      "And another one. L(A link, https://example.com)."
+     ],
+     "options": {
+      "bar": {
+       "description": "Foo bar.",
+       "type": "int"
+      },
+      "host": {
+       "default": "inventory_hostname",
+       "description": "Hostname to connect to.",
+       "vars": [
+        {
+         "name": "inventory_hostname"
+        },
+        {
+         "name": "ansible_host"
+        },
+        {
+         "name": "ansible_ssh_host"
+        },
+        {
+         "name": "delegated_vars['ansible_host']"
+        },
+        {
+         "name": "delegated_vars['ansible_ssh_host']"
+        }
+       ]
+      }
+     },
+     "short_description": "Foo connection O(bar)",
+     "version_added": "1.2.0",
+     "version_added_collection": "ns2.col"
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   }
+  },
+  "filter": {
+   "ns2.col.bar": {
+    "doc": {
+     "collection": "ns2.col",
+     "description": [
+      "Do some barring."
+     ],
+     "filename": "ansible_collections/ns2/col/plugins/filter/bar.yml",
+     "name": "bar",
+     "options": {
+      "_input": {
+       "description": "The main input.",
+       "required": true,
+       "type": "dict"
+      },
+      "bar": {
+       "default": false,
+       "description": "And some bar.",
+       "type": "bool"
+      },
+      "baz": {
+       "choices": {
+        "a": "Whatever C(a) is.",
+        "b": "What is C(b)? I don't know.",
+        "cde": "This is some more unknown. There are rumors this is related to the alphabet.",
+        "foo": [
+         "Our default value, the glorious C(foo).",
+         "Even has two paragraphs."
+        ]
+       },
+       "default": "foo",
+       "description": "Something else.",
+       "type": "str"
+      },
+      "foo": {
+       "description": "Some foo.",
+       "elements": "dictionary",
+       "required": true,
+       "type": "list"
+      }
+     },
+     "positional": "foo, bar",
+     "short_description": "The bar filter",
+     "version_added": "2.0.0",
+     "version_added_collection": "ns2.col"
+    },
+    "examples": "\n{'a': 1} | ns2.col.bar({'b': 2}, baz='cde')\n",
+    "metadata": null,
+    "return": {
+     "_value": {
+      "description": "The result.",
+      "type": "dict"
+     }
+    }
+   },
+   "ns2.col.foo": {
+    "doc": {
+     "collection": "ns2.col",
+     "description": [
+      "Do some fooing."
+     ],
+     "filename": "ansible_collections/ns2/col/plugins/filter/foo.py",
+     "name": "foo",
+     "options": {
+      "_input": {
+       "description": "The main input.",
+       "required": true,
+       "type": "str"
+      },
+      "bar": {
+       "description": "Some bar.",
+       "type": "string"
+      },
+      "foo": {
+       "description": "Some foo.",
+       "elements": "dictionary",
+       "required": true,
+       "type": "list"
+      }
+     },
+     "short_description": "The foo filter O(bar)",
+     "version_added": "1.3.0",
+     "version_added_collection": "ns2.col"
+    },
+    "examples": "\nsome_var: \"{{ 'foo' | ns2.col.foo }}\"\n",
+    "metadata": null,
+    "return": {
+     "_value": {
+      "description": "The result.",
+      "type": "str"
+     }
+    }
+   }
+  },
+  "httpapi": {},
+  "inventory": {
+   "ns2.col.foo": {
+    "doc": {
+     "collection": "ns2.col",
+     "description": [
+      "Loads inventory from foo."
+     ],
+     "filename": "ansible_collections/ns2/col/plugins/inventory/foo.py",
+     "name": "foo",
+     "options": {
+      "bar": {
+       "description": "Foo bar.",
+       "type": "string"
+      }
+     },
+     "short_description": "The foo inventory O(bar)",
+     "version_added": "0.5.0",
+     "version_added_collection": "ns2.col"
+    },
+    "examples": "\nfoo:\n    bar!\n",
+    "metadata": null,
+    "return": null
+   }
+  },
+  "keyword": {
+   "accelerate": {
+    "applies_to": [],
+    "description": "*DEPRECATED*, set to True to use accelerate connection plugin."
+   },
+   "accelerate_ipv6": {
+    "applies_to": [],
+    "description": "*DEPRECATED*, set to True to force accelerate plugin to use ipv6 for its connection."
+   },
+   "accelerate_port": {
+    "applies_to": [],
+    "description": "*DEPRECATED*, set to override default port use for accelerate connection."
+   },
+   "action": {
+    "applies_to": [
+     "Task"
+    ],
+    "description": "The 'action' to execute for a task, it normally translates into a C(module) or action plugin.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "string"
+   },
+   "always": {
+    "applies_to": [
+     "Block"
+    ],
+    "description": "List of tasks, in a block, that execute no matter if there is an error in the block or not.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "list"
+   },
+   "any_errors_fatal": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "Force any un-handled task errors on any host to propagate to all hosts and end the play.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "bool"
+   },
+   "args": {
+    "applies_to": [
+     "Task"
+    ],
+    "description": "A secondary way to add arguments into a task. Takes a dictionary in which keys map to options and values.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "dict"
+   },
+   "async": {
+    "alias": "async",
+    "applies_to": [
+     "Task"
+    ],
+    "description": "Run a task asynchronously if the C(action) supports this; value is maximum runtime in seconds.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "int"
+   },
+   "become": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "Boolean that controls if privilege escalation is used or not on :term:`Task` execution. Implemented by the become plugin. See :ref:`become_plugins`.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "bool"
+   },
+   "become_exe": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "Path to the executable used to elevate privileges. Implemented by the become plugin. See :ref:`become_plugins`.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "string"
+   },
+   "become_flags": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "A string of flag(s) to pass to the privilege escalation program when :term:`become` is True.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "string"
+   },
+   "become_method": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "Which method of privilege escalation to use (such as sudo or su).",
+    "priority": 0,
+    "template": "explicit",
+    "type": "string"
+   },
+   "become_user": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "User that you 'become' after using privilege escalation. The remote/login user must have permissions to become this user.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "string"
+   },
+   "block": {
+    "applies_to": [
+     "Block"
+    ],
+    "description": "List of tasks in a block.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "list"
+   },
+   "changed_when": {
+    "applies_to": [
+     "Task"
+    ],
+    "description": "Conditional expression that overrides the task's normal 'changed' status.",
+    "priority": 0,
+    "template": "implicit",
+    "type": "list"
+   },
+   "check_mode": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "A boolean that controls if a task is executed in 'check' mode. See :ref:`check_mode_dry`.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "bool"
+   },
+   "collections": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "List of collection namespaces to search for modules, plugins, and roles. See :ref:`collections_using_playbook`\n\n.. note::\n\n    Tasks within a role do not inherit the value of ``collections`` from the play. To have a role search a list of collections, use the ``collections`` keyword in ``meta/main.yml`` within a role.\n",
+    "priority": 100,
+    "template": "static",
+    "type": "list"
+   },
+   "connection": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "Allows you to change the connection plugin used for tasks to execute on the target. See :ref:`using_connection`.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "string"
+   },
+   "debugger": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "Enable debugging tasks based on state of the task result. See :ref:`playbook_debugger`.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "string"
+   },
+   "delay": {
+    "applies_to": [
+     "Task"
+    ],
+    "description": "Number of seconds to delay between retries. This setting is only used in combination with :term:`until`.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "int"
+   },
+   "delegate_facts": {
+    "applies_to": [
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "Boolean that allows you to apply facts to a delegated host instead of inventory_hostname.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "bool"
+   },
+   "delegate_to": {
+    "applies_to": [
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "Host to execute task instead of the target (inventory_hostname). Connection vars from the delegated host will also be used for the task.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "string"
+   },
+   "diff": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "Toggle to make tasks return 'diff' information or not.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "bool"
+   },
+   "environment": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "A dictionary that gets converted into environment vars to be provided for the task upon execution. This can ONLY be used with modules. This isn't supported for any other type of plugins nor Ansible itself nor its configuration, it just sets the variables for the code responsible for executing the task. This is not a recommended way to pass in confidential data.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "list"
+   },
+   "fact_path": {
+    "applies_to": [
+     "Play"
+    ],
+    "description": "Set the fact path option for the fact gathering plugin controlled by :term:`gather_facts`.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "string"
+   },
+   "failed_when": {
+    "applies_to": [
+     "Task"
+    ],
+    "description": "Conditional expression that overrides the task's normal 'failed' status.",
+    "priority": 0,
+    "template": "implicit",
+    "type": "list"
+   },
+   "force_handlers": {
+    "applies_to": [
+     "Play"
+    ],
+    "description": "Will force notified handler execution for hosts even if they failed during the play. Will not trigger if the play itself fails.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "bool"
+   },
+   "gather_facts": {
+    "applies_to": [
+     "Play"
+    ],
+    "description": "A boolean that controls if the play will automatically run the 'setup' task to gather facts for the hosts.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "bool"
+   },
+   "gather_subset": {
+    "applies_to": [
+     "Play"
+    ],
+    "description": "Allows you to pass subset options to the  fact gathering plugin controlled by :term:`gather_facts`.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "list"
+   },
+   "gather_timeout": {
+    "applies_to": [
+     "Play"
+    ],
+    "description": "Allows you to set the timeout for the fact gathering plugin controlled by :term:`gather_facts`.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "int"
+   },
+   "handlers": {
+    "applies_to": [
+     "Play"
+    ],
+    "description": "A section with tasks that are treated as handlers, these won't get executed normally, only when notified after each section of tasks is complete. A handler's `listen` field is not templatable.",
+    "priority": -1,
+    "template": "explicit",
+    "type": "list"
+   },
+   "hosts": {
+    "applies_to": [
+     "Play"
+    ],
+    "description": "A list of groups, hosts or host pattern that translates into a list of hosts that are the play's target.",
+    "priority": -2,
+    "template": "explicit",
+    "type": "list"
+   },
+   "ignore_errors": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "Boolean that allows you to ignore task failures and continue with play. It does not affect connection errors.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "bool"
+   },
+   "ignore_unreachable": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "Boolean that allows you to ignore task failures due to an unreachable host and continue with the play. This does not affect other task errors (see :term:`ignore_errors`) but is useful for groups of volatile/ephemeral hosts.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "bool"
+   },
+   "loop": {
+    "applies_to": [
+     "Task"
+    ],
+    "description": "Takes a list for the task to iterate over, saving each list element into the ``item`` variable (configurable via loop_control)",
+    "priority": 0,
+    "template": "explicit",
+    "type": "list"
+   },
+   "loop_control": {
+    "applies_to": [
+     "Task"
+    ],
+    "description": "Several keys here allow you to modify/set loop behaviour in a task. See :ref:`loop_control`.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "class"
+   },
+   "max_fail_percentage": {
+    "applies_to": [
+     "Play"
+    ],
+    "description": "can be used to abort the run after a given percentage of hosts in the current batch has failed. This only works on linear or linear derived strategies.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "percent"
+   },
+   "module_defaults": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "Specifies default parameter values for modules.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "list"
+   },
+   "name": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "Identifier. Can be used for documentation, or in tasks/handlers.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "string"
+   },
+   "no_log": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "Boolean that controls information disclosure.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "bool"
+   },
+   "notify": {
+    "applies_to": [
+     "Block",
+     "Task"
+    ],
+    "description": "List of handlers to notify when the task returns a 'changed=True' status.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "list"
+   },
+   "order": {
+    "applies_to": [
+     "Play"
+    ],
+    "description": "Controls the sorting of hosts as they are used for executing the play. Possible values are inventory (default), sorted, reverse_sorted, reverse_inventory and shuffle.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "string"
+   },
+   "poll": {
+    "applies_to": [
+     "Task"
+    ],
+    "description": "Sets the polling interval in seconds for async tasks (default 10s).",
+    "priority": 0,
+    "template": "explicit",
+    "type": "int"
+   },
+   "port": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "Used to override the default port used in a connection.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "int"
+   },
+   "post_tasks": {
+    "applies_to": [
+     "Play"
+    ],
+    "description": "A list of tasks to execute after the :term:`tasks` section.",
+    "priority": -1,
+    "template": "explicit",
+    "type": "list"
+   },
+   "pre_tasks": {
+    "applies_to": [
+     "Play"
+    ],
+    "description": "A list of tasks to execute before :term:`roles`.",
+    "priority": -1,
+    "template": "explicit",
+    "type": "list"
+   },
+   "register": {
+    "applies_to": [
+     "Task"
+    ],
+    "description": "Name of variable that will contain task status and module return data.",
+    "priority": 0,
+    "template": "static",
+    "type": "string"
+   },
+   "remote_user": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "User used to log into the target via the connection plugin.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "string"
+   },
+   "rescue": {
+    "applies_to": [
+     "Block"
+    ],
+    "description": "List of tasks in a :term:`block` that run if there is a task error in the main :term:`block` list.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "list"
+   },
+   "retries": {
+    "applies_to": [
+     "Task"
+    ],
+    "description": "Number of retries before giving up in a :term:`until` loop. This setting is only used in combination with :term:`until`.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "int"
+   },
+   "roles": {
+    "applies_to": [
+     "Play"
+    ],
+    "description": "List of roles to be imported into the play",
+    "priority": 90,
+    "template": "explicit",
+    "type": "list"
+   },
+   "run_once": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "Boolean that will bypass the host loop, forcing the task to attempt to execute on the first host available and afterwards apply any results and facts to all active hosts in the same batch.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "bool"
+   },
+   "serial": {
+    "applies_to": [
+     "Play"
+    ],
+    "description": "Explicitly define how Ansible batches the execution of the current play on the play's target. See :ref:`rolling_update_batch_size`.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "list"
+   },
+   "strategy": {
+    "applies_to": [
+     "Play"
+    ],
+    "description": "Allows you to choose the connection plugin to use for the play.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "string"
+   },
+   "tags": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "Tags applied to the task or included tasks, this allows selecting subsets of tasks from the command line.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "list"
+   },
+   "tasks": {
+    "applies_to": [
+     "Play"
+    ],
+    "description": "Main list of tasks to execute in the play, they run after :term:`roles` and before :term:`post_tasks`.",
+    "priority": -1,
+    "template": "explicit",
+    "type": "list"
+   },
+   "throttle": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "Limit number of concurrent task runs on task, block and playbook level. This is independent of the forks and serial settings, but cannot be set higher than those limits. For example, if forks is set to 10 and the throttle is set to 15, at most 10 hosts will be operated on in parallel.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "int"
+   },
+   "timeout": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "Time limit for task to execute in, if exceeded Ansible will interrupt and fail the task.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "int"
+   },
+   "until": {
+    "applies_to": [
+     "Task"
+    ],
+    "description": "This keyword implies a ':term:`retries` loop' that will go on until the condition supplied here is met or we hit the :term:`retries` limit.",
+    "priority": 0,
+    "template": "implicit",
+    "type": "list"
+   },
+   "vars": {
+    "applies_to": [
+     "Play",
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "Dictionary/map of variables",
+    "priority": 100,
+    "template": "static",
+    "type": "dict"
+   },
+   "vars_files": {
+    "applies_to": [
+     "Play"
+    ],
+    "description": "List of files that contain vars to include in the play.",
+    "priority": 99,
+    "template": "explicit",
+    "type": "list"
+   },
+   "vars_prompt": {
+    "applies_to": [
+     "Play"
+    ],
+    "description": "list of variables to prompt for.",
+    "priority": 0,
+    "template": "explicit",
+    "type": "list"
+   },
+   "when": {
+    "applies_to": [
+     "Role",
+     "Block",
+     "Task"
+    ],
+    "description": "Conditional expression, determines if an iteration of a task is run or not.",
+    "priority": 0,
+    "template": "implicit",
+    "type": "list"
+   }
+  },
+  "lookup": {
+   "ns2.col.foo": {
+    "doc": {
+     "author": "Felix Fontein (@felixfontein)",
+     "collection": "ns2.col",
+     "description": [
+      "This looks up some foo.",
+      "Whatever that is."
+     ],
+     "filename": "ansible_collections/ns2/col/plugins/lookup/foo.py",
+     "name": "foo",
+     "options": {
+      "_terms": {
+       "description": "The stuff to look up.",
+       "elements": "str",
+       "required": true,
+       "type": "list"
+      },
+      "bar": {
+       "description": "Foo bar.",
+       "type": "string"
+      }
+     },
+     "short_description": "Look up some foo O(bar)",
+     "version_added": "1.0.0",
+     "version_added_collection": "ns2.col"
+    },
+    "examples": "\n- name: Look up bar\n  ansible.builtin.debug:\n    msg: \"{{ lookup('ns2.col.foo', 'bar') }}\"\n",
+    "metadata": null,
+    "return": {
+     "_raw": {
+      "description": [
+       "The resulting stuff."
+      ],
+      "elements": "str",
+      "type": "list"
+     }
+    }
+   }
+  },
+  "module": {
+   "ns2.col.foo": {
+    "doc": {
+     "attributes": {
+      "action_group": {
+       "description": "Use C(group/ns2.col.foo_group) in C(module_defaults) to set defaults for this module.",
+       "membership": [
+        "ns2.col.foo_group"
+       ],
+       "support": "full"
+      },
+      "check_mode": {
+       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "support": "full"
+      },
+      "diff_mode": {
+       "description": "Will return details on what has changed (or possibly needs changing in check_mode), when in diff mode",
+       "support": "full"
+      },
+      "platform": {
+       "description": "Target OS/families that can be operated against",
+       "platforms": "posix",
+       "support": "N/A"
+      }
+     },
+     "author": [
+      "Ansible Core Team",
+      "Someone else (@ansible)"
+     ],
+     "collection": "ns2.col",
+     "description": [
+      "Does some foo on the remote host.",
+      "Whether foo is magic or not has not yet been determined.",
+      "E(FOOBAR1), E(FOOBAR2), E(FOOBAR3), E(FOOBAR4)."
+     ],
+     "filename": "ansible_collections/ns2/col/plugins/modules/foo.py",
+     "has_action": false,
+     "module": "foo",
+     "options": {
+      "bar": {
+       "aliases": [
+        "baz"
+       ],
+       "description": [
+        "A bar.",
+        "Independent from O(foo).",
+        "Do not confuse with RV(bar)."
+       ],
+       "elements": "int",
+       "type": "list"
+      },
+      "foo": {
+       "description": "The foo source.",
+       "required": true,
+       "type": "str"
+      },
+      "subfoo": {
+       "description": "Some recursive foo.",
+       "suboptions": {
+        "foo": {
+         "description": [
+          "A sub foo.",
+          "Whatever.",
+          "Also required when O(subfoo) is specified when O(foo=bar) or V(baz)."
+         ],
+         "required": true,
+         "type": "str"
+        }
+       },
+       "type": "dict",
+       "version_added": "2.0.0",
+       "version_added_collection": "ns2.col"
+      }
+     },
+     "requirements": [
+      "Foo on remote."
+     ],
+     "seealso": [
+      {
+       "module": "ns2.col.foo2"
+      },
+      {
+       "plugin": "ns2.col.foo",
+       "plugin_type": "lookup"
+      },
+      {
+       "description": "The service module.",
+       "module": "ansible.builtin.service"
+      },
+      {
+       "description": "The ssh connection plugin.",
+       "plugin": "ansible.builtin.ssh",
+       "plugin_type": "connection"
+      }
+     ],
+     "short_description": "Do some foo O(bar)",
+     "version_added": "2.0.0",
+     "version_added_collection": "ns2.col"
+    },
+    "examples": "\n- name: Do some foo\n  ns2.col.foo:\n    foo: '{{ foo }}'\n    bar:\n      - 1\n      - 2\n      - 3\n    subfoo:\n      foo: hoo!\n",
+    "metadata": null,
+    "return": {
+     "bar": {
+      "description": [
+       "Some bar.",
+       "Referencing myself as RV(bar).",
+       "Do not confuse with O(bar)."
+      ],
+      "returned": "success",
+      "sample": "baz",
+      "type": "str"
+     }
+    }
+   },
+   "ns2.col.foo2": {
+    "doc": {
+     "attributes": {
+      "action_group": {
+       "description": "Use C(group/ns2.col.foo_group) or C(group/ns2.col.bar_group) in C(module_defaults) to set defaults for this module.",
+       "membership": [
+        "ns2.col.bar_group",
+        "ns2.col.foo_group"
+       ],
+       "support": "full"
+      },
+      "check_mode": {
+       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "support": "full"
+      },
+      "diff_mode": {
+       "description": "Will return details on what has changed (or possibly needs changing in check_mode), when in diff mode",
+       "support": "N/A"
+      },
+      "platform": {
+       "description": "Target OS/families that can be operated against",
+       "platforms": "posix",
+       "support": "partial"
+      }
+     },
+     "author": [
+      "Another one (@ansible-community)"
+     ],
+     "collection": "ns2.col",
+     "description": [
+      "Foo bar.",
+      "See O(ns2.col.foo#role:main:foo_param_1) for a random role parameter reference. And O(ns2.col.foo#role:main:foo_param_2=42) for one with a value.",
+      "Reference using alias - O(ns2.col.foo_redirect#module:bar) and O(ns2.col.foo_redirect#module:baz)."
+     ],
+     "filename": "ansible_collections/ns2/col/plugins/modules/foo2.py",
+     "has_action": false,
+     "module": "foo2",
+     "options": {
+      "bar": {
+       "description": [
+        "Some bar.",
+        "See O(ns2.col.foo#role:main:foo_param_1) for a random role parameter reference. And O(ns2.col.foo#role:main:foo_param_2=42) for one with a value."
+       ],
+       "type": "str"
+      }
+     },
+     "short_description": "Another foo"
+    },
+    "examples": "\n- name: Do some foo\n  ns2.col.foo2:\n    bar: foo\n",
+    "metadata": null,
+    "return": {
+     "bar": {
+      "description": [
+       "Some bar.",
+       "Referencing myself as RV(bar).",
+       "Do not confuse with O(bar)."
+      ],
+      "returned": "success",
+      "sample": "baz",
+      "type": "str"
+     }
+    }
+   },
+   "ns2.col.sub.foo3": {
+    "doc": {
+     "attributes": {
+      "action_group": {
+       "description": "Use C(group/ns2.col.foo_group) or C(group/ns2.col.bar_group) in C(module_defaults) to set defaults for this module.",
+       "membership": [
+        "ns2.col.bar_group",
+        "ns2.col.foo_group"
+       ],
+       "support": "full"
+      },
+      "check_mode": {
+       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "support": "full"
+      },
+      "diff_mode": {
+       "description": "Will return details on what has changed (or possibly needs changing in check_mode), when in diff mode",
+       "support": "N/A"
+      },
+      "platform": {
+       "description": "Target OS/families that can be operated against",
+       "platforms": "posix",
+       "support": "partial"
+      }
+     },
+     "author": [
+      "Another one (@ansible-community)"
+     ],
+     "collection": "ns2.col",
+     "description": [
+      "Foo sub bar.",
+      "See O(ns2.col.foo#role:main:foo_param_1) for a random role parameter reference. And O(ns2.col.foo#role:main:foo_param_2=42) for one with a value."
+     ],
+     "filename": "ansible_collections/ns2/col/plugins/modules/sub/foo3.py",
+     "has_action": false,
+     "module": "foo3",
+     "options": {
+      "bar": {
+       "description": [
+        "Some bar.",
+        "See O(ns2.col.foo#role:main:foo_param_1) for a random role parameter reference. And O(ns2.col.foo#role:main:foo_param_2=42) for one with a value."
+       ],
+       "type": "str"
+      }
+     },
+     "short_description": "A sub-foo"
+    },
+    "examples": "\n- name: Do some foobar\n  ns2.col.sub.foo3:\n    bar: baz\n",
+    "metadata": null,
+    "return": {
+     "bar": {
+      "description": [
+       "Some bar.",
+       "Referencing myself as RV(bar).",
+       "Do not confuse with O(bar)."
+      ],
+      "returned": "success",
+      "sample": "baz",
+      "type": "str"
+     }
+    }
+   },
+   "ns2.flatcol.foo": {
+    "doc": {
+     "author": [
+      "Ansible Core Team",
+      "Someone else (@ansible)"
+     ],
+     "collection": "ns2.flatcol",
+     "description": [
+      "Does some foo on the remote host.",
+      "Whether foo is magic or not has not yet been determined."
+     ],
+     "filename": "ansible_collections/ns2/flatcol/plugins/modules/foo.py",
+     "has_action": false,
+     "module": "foo",
+     "options": {
+      "bar": {
+       "aliases": [
+        "baz"
+       ],
+       "description": [
+        "A bar.",
+        "Independent from O(foo).",
+        "Do not confuse with RV(bar)."
+       ],
+       "elements": "int",
+       "type": "list"
+      },
+      "foo": {
+       "description": "The foo source.",
+       "required": true,
+       "type": "str"
+      },
+      "subfoo": {
+       "aliases": [
+        "subbaz"
+       ],
+       "description": "Some recursive foo.",
+       "suboptions": {
+        "foo": {
+         "aliases": [
+          "bam"
+         ],
+         "description": [
+          "A sub foo.",
+          "Whatever.",
+          "Also required when O(subfoo) is specified when O(foo=bar) or V(baz).",
+          "Note that O(subfoo.foo) is the same as O(subbaz.foo), O(subbaz.bam), and O(subfoo.bam).",
+          "E(FOOBAR1), E(FOOBAR2), E(FOOBAR3), E(FOOBAR4)."
+         ],
+         "required": true,
+         "type": "str"
+        }
+       },
+       "type": "dict",
+       "version_added": "2.0.0",
+       "version_added_collection": "ns2.flatcol"
+      }
+     },
+     "short_description": "Do some foo O(bar)",
+     "version_added": "2.0.0",
+     "version_added_collection": "ns2.flatcol"
+    },
+    "examples": "\n- name: Do some foo\n  ns2.flatcol.foo:\n    foo: '{{ foo }}'\n    bar:\n      - 1\n      - 2\n      - 3\n    subfoo:\n      foo: hoo!\n",
+    "metadata": null,
+    "return": {
+     "bar": {
+      "description": [
+       "Some bar.",
+       "Referencing myself as RV(bar).",
+       "Do not confuse with O(bar)."
+      ],
+      "returned": "success",
+      "sample": "baz",
+      "type": "str"
+     }
+    }
+   },
+   "ns2.flatcol.sub.foo2": {
+    "doc": {
+     "author": [
+      "Another one (@ansible-community)"
+     ],
+     "collection": "ns2.flatcol",
+     "description": [
+      "Foo bar.",
+      "See O(ns2.flatcol.foo#role:main:foo_param_1) for a random role parameter reference. And O(ns2.flatcol.foo#role:main:foo_param_2=42) for one with a value."
+     ],
+     "filename": "ansible_collections/ns2/flatcol/plugins/modules/sub/foo2.py",
+     "has_action": false,
+     "module": "foo2",
+     "options": {
+      "bar": {
+       "description": [
+        "Some bar.",
+        "See O(ns2.flatcol.foo#role:main:foo_param_1) for a random role parameter reference. And O(ns2.flatcol.foo#role:main:foo_param_2=42) for one with a value."
+       ],
+       "type": "str"
+      }
+     },
+     "short_description": "Another foo"
+    },
+    "examples": "\n- name: Do some foo\n  ns2.flatcol.foo2:\n    bar: foo\n",
+    "metadata": null,
+    "return": {
+     "bar": {
+      "description": [
+       "Some bar.",
+       "Referencing myself as RV(bar).",
+       "Do not confuse with O(bar)."
+      ],
+      "returned": "success",
+      "sample": "baz",
+      "type": "str"
+     }
+    }
+   }
+  },
+  "netconf": {},
+  "role": {
+   "ns2.col.foo": {
+    "collection": "ns2.col",
+    "entry_points": {
+     "main": {
+      "attributes": {
+       "check_mode": {
+        "description": "Can run in check_mode and return changed status prediction without modifying target",
+        "support": "full"
+       },
+       "platform": {
+        "description": "The supported platforms",
+        "platforms": "Linux, macOS, FreeBSD",
+        "support": "full"
+       }
+      },
+      "author": [
+       "Felix Fontein (@felixfontein)"
+      ],
+      "deprecated": {
+       "alternatives": "I don't know\nof any\nalternative.\n",
+       "removed_in": "5.0.0",
+       "why": "Just some text.\nThis one has more than one line.\nAnd one more.\n"
+      },
+      "description": [
+       "This is the foo role.",
+       "If you set O(foo_param_1) while O(foo_param_2=3), this might behave funny."
+      ],
+      "options": {
+       "foo_param_1": {
+        "description": [
+         "A string parameter",
+         "If you set O(foo_param_1) while O(foo_param_2=3), this might behave funny."
+        ],
+        "type": "str"
+       },
+       "foo_param_2": {
+        "default": 13,
+        "description": "An integer parameter with a default.",
+        "type": "int"
+       }
+      },
+      "seealso": [
+       {
+        "module": "ns2.col.foo"
+       }
+      ],
+      "short_description": "Foo role",
+      "version_added": "0.2.0"
+     }
+    },
+    "path": "ansible_collections/ns2/col"
+   }
+  },
+  "shell": {
+   "ns2.col.foo": {
+    "doc": {
+     "collection": "ns2.col",
+     "description": [
+      "This is for the foo shell."
+     ],
+     "filename": "ansible_collections/ns2/col/plugins/shell/foo.py",
+     "name": "foo",
+     "options": {
+      "bar": {
+       "description": "Foo bar.",
+       "type": "string"
+      },
+      "remote_tmp": {
+       "default": "~/.ansible/tmp",
+       "description": [
+        "Temporary directory to use on targets when executing tasks."
+       ],
+       "env": [
+        {
+         "name": "ANSIBLE_REMOTE_TEMP"
+        },
+        {
+         "name": "ANSIBLE_REMOTE_TMP"
+        }
+       ],
+       "ini": [
+        {
+         "key": "remote_tmp",
+         "section": "defaults"
+        }
+       ],
+       "vars": [
+        {
+         "name": "ansible_remote_tmp"
+        }
+       ],
+       "version_added": "2.10",
+       "version_added_collection": "ansible.builtin"
+      }
+     },
+     "short_description": "Foo shell O(bar)",
+     "version_added": "1.0.0",
+     "version_added_collection": "ns2.col"
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   }
+  },
+  "strategy": {
+   "ns2.col.foo": {
+    "doc": {
+     "author": "Ansible Core Team",
+     "collection": "ns2.col",
+     "description": [
+      "This is something funny. Or at least I think so from its name."
+     ],
+     "filename": "ansible_collections/ns2/col/plugins/strategy/foo.py",
+     "name": "foo",
+     "short_description": "Executes tasks in foo",
+     "version_added": "1.1.0",
+     "version_added_collection": "ns2.col"
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   }
+  },
+  "test": {
+   "ns2.col.bar": {
+    "doc": {
+     "aliases": [
+      "is_bar"
+     ],
+     "author": "Ansible Core",
+     "collection": "ns2.col",
+     "description": [
+      "Check whether a path is a bar."
+     ],
+     "filename": "ansible_collections/ns2/col/plugins/test/bar.yml",
+     "name": "bar",
+     "options": {
+      "_input": {
+       "description": "A path.",
+       "type": "path"
+      }
+     },
+     "short_description": "Is something a bar"
+    },
+    "examples": "is_path_bar: \"{{ '/etc/hosts' is ns2.col.bar }}}\"\n",
+    "metadata": null,
+    "return": {
+     "_value": {
+      "description": "Returns C(true) if the path is a bar, C(false) if it is not a bar.",
+      "type": "boolean"
+     }
+    }
+   },
+   "ns2.col.foo": {
+    "doc": {
+     "author": "Nobody",
+     "collection": "ns2.col",
+     "description": [
+      "Check whether the input dictionary is a foo."
+     ],
+     "filename": "ansible_collections/ns2/col/plugins/test/foo.py",
+     "name": "foo",
+     "options": {
+      "_input": {
+       "description": "Something to test.",
+       "required": true,
+       "type": "dictionary"
+      },
+      "bar": {
+       "description": "Foo bar.",
+       "type": "string"
+      }
+     },
+     "short_description": "Is something a foo O(bar)"
+    },
+    "examples": "\nsome_var: \"{{ {'a': 1} is ns2.col.foo }}\"\n",
+    "metadata": null,
+    "return": {
+     "_value": {
+      "description": "Whether the input is a foo.",
+      "type": "boolean"
+     }
+    }
+   },
+   "ns2.col.is_bar": {
+    "doc": {
+     "aliases": [
+      "is_bar"
+     ],
+     "author": "Ansible Core",
+     "collection": "ns2.col",
+     "description": [
+      "Check whether a path is a bar."
+     ],
+     "filename": "ansible_collections/ns2/col/plugins/test/is_bar.yml",
+     "name": "bar",
+     "options": {
+      "_input": {
+       "description": "A path.",
+       "type": "path"
+      }
+     },
+     "short_description": "Is something a bar"
+    },
+    "examples": "is_path_bar: \"{{ '/etc/hosts' is ns2.col.bar }}}\"\n",
+    "metadata": null,
+    "return": {
+     "_value": {
+      "description": "Returns C(true) if the path is a bar, C(false) if it is not a bar.",
+      "type": "boolean"
+     }
+    }
+   }
+  },
+  "vars": {
+   "ns2.col.foo": {
+    "doc": {
+     "collection": "ns2.col",
+     "description": [
+      "Load some foo.",
+      "This is so glorious."
+     ],
+     "filename": "ansible_collections/ns2/col/plugins/vars/foo.py",
+     "name": "foo",
+     "options": {
+      "_valid_extensions": {
+       "default": [
+        ".foo",
+        ".foobar"
+       ],
+       "description": [
+        "All extensions to check."
+       ],
+       "elements": "string",
+       "env": [
+        {
+         "name": "ANSIBLE_FOO_FILENAME_EXT"
+        }
+       ],
+       "ini": [
+        {
+         "key": "foo_valid_extensions",
+         "section": "defaults"
+        }
+       ],
+       "type": "list"
+      },
+      "bar": {
+       "description": "Foo bar.",
+       "type": "string"
+      }
+     },
+     "requirements": [
+      "Enabled in Ansible's configuration."
+     ],
+     "short_description": "Load foo O(bar)",
+     "version_added": "0.9.0",
+     "version_added_collection": "ns2.col"
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   }
+  }
+ }
+}
