@@ -31,7 +31,7 @@ dependencies = [
     "docutils",
     "jinja2 >= 3.0",
     "packaging",
-    "rstcheck >= 3.0.0, < 7.0.0",
+    "rstcheck >= 3.0.0, < 6.2.0",
     "sphinx",
     # pydantic v2 is a major rewrite
     "pydantic >= 1.0.0, < 2.0.0",
