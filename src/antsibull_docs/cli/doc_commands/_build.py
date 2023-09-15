@@ -56,13 +56,23 @@ from ...write_docs.plugins import output_all_plugin_rst
 mlog = log.fields(mod=__name__)
 
 
+def _remove_collections_from_mapping(
+    mapping: MutableMapping[str, t.Any],
+    exclude_collection_names: list[str],
+) -> None:
+    for collection_name in exclude_collection_names:
+        mapping.pop(collection_name, None)
+
+
 def _remove_collections(
     plugin_info: MutableMapping[str, MutableMapping[str, t.Any]],
     collection_metadata: MutableMapping[str, AnsibleCollectionMetadata],
     exclude_collection_names: list[str],
 ) -> None:
-    for collection_name in exclude_collection_names:
-        collection_metadata.pop(collection_name, None)
+    if not exclude_collection_names:
+        return
+
+    _remove_collections_from_mapping(collection_metadata, exclude_collection_names)
 
     prefixes = tuple(
         f"{collection_name}." for collection_name in exclude_collection_names
@@ -75,6 +85,16 @@ def _remove_collections(
         ]
         for plugin_name in plugins_to_remove:
             del plugin_data[plugin_name]
+
+
+def _validate_options(
+    collection_names: list[str] | None,
+    exclude_collection_names: list[str] | None,
+) -> None:
+    if collection_names is not None and exclude_collection_names is not None:
+        raise ValueError(
+            "Cannot specify both collection_names and exclude_collection_names"
+        )
 
 
 def generate_docs_for_all_collections(  # noqa: C901
@@ -133,10 +153,10 @@ def generate_docs_for_all_collections(  # noqa: C901
     flog = mlog.fields(func="generate_docs_for_all_collections")
     flog.notice("Begin")
 
-    if collection_names is not None and exclude_collection_names is not None:
-        raise ValueError(
-            "Cannot specify both collection_names and exclude_collection_names"
-        )
+    _validate_options(collection_names, exclude_collection_names)
+
+    if collection_names is not None and "ansible.builtin" not in collection_names:
+        exclude_collection_names = ["ansible.builtin"]
 
     app_ctx = app_context.app_ctx.get()
 
@@ -150,10 +170,9 @@ def generate_docs_for_all_collections(  # noqa: C901
     #     collection_metadata=full_collection_metadata).debug('Collection metadata')
 
     collection_metadata = dict(full_collection_metadata)
-    if collection_names is not None and "ansible.builtin" not in collection_names:
-        del collection_metadata["ansible.builtin"]
-    if exclude_collection_names is not None:
-        _remove_collections(plugin_info, collection_metadata, exclude_collection_names)
+    _remove_collections(
+        plugin_info, collection_metadata, exclude_collection_names or []
+    )
 
     # Load collection routing information
     collection_routing = asyncio.run(load_all_collection_routing(collection_metadata))
@@ -162,8 +181,7 @@ def generate_docs_for_all_collections(  # noqa: C901
 
     remove_redirect_duplicates(plugin_info, collection_routing)
     stubs_info = find_stubs(plugin_info, collection_routing)
-    if collection_names is not None and "ansible.builtin" not in collection_names:
-        stubs_info.pop("ansible.builtin", None)
+    _remove_collections_from_mapping(stubs_info, exclude_collection_names or [])
     # flog.fields(stubs_info=stubs_info).debug('Stubs info')
 
     new_plugin_info, nonfatal_errors = asyncio.run(

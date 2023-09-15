@@ -20,6 +20,16 @@ pytest.importorskip("ansible")
 
 TEST_CASES = [
     (
+        [
+            "current",
+            "--skip-ansible-builtin",
+            "--collection-dir",
+            "tests/functional/collections/",
+        ],
+        # assumes that baseline-default contains all collections in tests/functional/collections/!
+        "baseline-default",
+    ),
+    (
         ["collection", "--use-current", "ns.col1", "ns.col2", "ns2.col", "ns2.flatcol"],
         "baseline-default",
     ),
