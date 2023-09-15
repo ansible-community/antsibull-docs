@@ -152,14 +152,11 @@ def _normalize_collection_options(args: argparse.Namespace) -> None:
             " only one collection is specified"
         )
 
-    if args.use_current:
-        for collection_name in args.collections:
-            if not is_collection_name(collection_name):
-                raise InvalidArgumentError(
-                    f"The collection, {collection_name}, is not a valid collection"
-                    " name. When using --use-current, all collections must be"
-                    " collection names."
-                )
+    for collection_name in args.collections:
+        if not is_collection_name(collection_name):
+            raise InvalidArgumentError(
+                f"The collection, {collection_name}, is not a valid collection name."
+            )
 
 
 def _normalize_current_options(args: argparse.Namespace) -> None:
@@ -439,10 +436,9 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     collection_parser.add_argument(
         nargs="+",
         dest="collections",
-        help="One or more collections to document.  If the names are"
-        " directories on disk, they will be parsed as expanded"
-        " collections. Otherwise, if they could be collection"
-        " names, they will be downloaded from galaxy.",
+        help="One or more collections to document. No paths or URLs are"
+        " supported. Collections are assumed to exist on Galaxy, or be"
+        " installed locally when --use-current is used.",
     )
 
     #
