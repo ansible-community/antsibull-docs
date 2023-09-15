@@ -481,6 +481,7 @@ TEST_CASES = [
             "plugins/modules/foo4.py:0:0: DOCUMENTATION -> options -> correct_array_stubs -> description[4]: O(ext.col.foo#module:foo[baz].bar): a reference to the collection ext.col is not allowed",
             "plugins/modules/foo4.py:0:0: DOCUMENTATION -> options -> correct_array_stubs -> description[5]: RV(ext.col.foo#module:baz): a reference to the collection ext.col is not allowed",
             "plugins/modules/foo4.py:0:0: DOCUMENTATION -> options -> correct_array_stubs -> description[6]: RV(ext.col.foo#module:baz[ ]): a reference to the collection ext.col is not allowed",
+            "plugins/modules/foo4.py:0:0: DOCUMENTATION -> options -> correct_array_stubs -> description[7]: RV(ansible.builtin.stat#module:stat[foo.bar]): a reference to the collection ansible.builtin is not allowed",
             "plugins/modules/foo4.py:0:0: DOCUMENTATION -> options -> existing -> description[10]: P(ns2.col.foo#lookup): a reference to the collection ns2.col is not allowed",
             "plugins/modules/foo4.py:0:0: DOCUMENTATION -> options -> existing -> description[11]: O(ns2.col.bar#filter:foo[-1]): a reference to the collection ns2.col is not allowed",
             "plugins/modules/foo4.py:0:0: DOCUMENTATION -> options -> existing -> description[12]: RV(ns2.col.bar#test:_value): a reference to the collection ns2.col is not allowed",

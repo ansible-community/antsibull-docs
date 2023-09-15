@@ -31,8 +31,10 @@ make_ansible_doc_extract() {
     NAME="$1"
     shift
 
-    echo "Build ansible-galaxy collection list $@ output cache"
-    ANSIBLE_COLLECTIONS_PATH=collections/ ansible-galaxy collection list --format json "$@" | python sanitize-ansible-galaxy-list.py > "ansible-galaxy-cache-${NAME}.json"
+    if [ "$2" == "" ]; then
+        echo "Build ansible-galaxy collection list $@ output cache"
+        ANSIBLE_COLLECTIONS_PATH=collections/ ansible-galaxy collection list --format json "$@" | python sanitize-ansible-galaxy-list.py > "ansible-galaxy-cache-${NAME}.json"
+    fi
 
     echo "Build ansible-doc --metadata-dump --no-fail-on-errors $@ output cache"
     ANSIBLE_COLLECTIONS_PATH=collections/ ansible-doc --metadata-dump --no-fail-on-errors "$@" | python sanitize-ansible-doc-dump.py > "ansible-doc-cache-${NAME}.json"
@@ -51,10 +53,13 @@ echo "Build ansible --version output cache"
 ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ ansible --version | sed -e "s|${PWD}/collections|<<<<<COLLECTIONS>>>>>|g" | sed -e "s|${HOME}|<<<<<HOME>>>>>|g" | sed -E "s|(ansible python module location = ).*|\\1<<<<<ANSIBLE>>>>>|g" > ansible-version.output
 
 make_ansible_doc_extract all
-make_ansible_doc_extract ns.col1 ns.col1
 make_ansible_doc_extract ns.col2 ns.col2
 make_ansible_doc_extract ns2.col ns2.col
-make_ansible_doc_extract ns2.flatcol ns2.flatcol
+make_ansible_doc_extract ns.col1-ns.col2-ns2.col-ns2.flatcol ns.col1 ns.col2 ns2.col ns2.flatcol
+make_ansible_doc_extract ns.col1-ns2.col-ns2.flatcol ns.col1 ns2.col ns2.flatcol
+make_ansible_doc_extract ansible.builtin-ns2.flatcol ansible.builtin ns2.flatcol
+make_ansible_doc_extract ansible.builtin-ns2.col ansible.builtin ns2.col
+make_ansible_doc_extract ansible.builtin-ns.col2-ns2.col ansible.builtin ns.col2 ns2.col
 
 echo "Build extended ansible-galaxy collection list output cache"
 ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/:other-collections/ ansible-galaxy collection list --format json | python sanitize-ansible-galaxy-list.py > "ansible-galaxy-cache-all-others.json"

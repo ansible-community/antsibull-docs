@@ -122,10 +122,10 @@ async def get_collection_metadata(
     return collection_metadata
 
 
-async def get_ansible_core_version(
+async def _import_ansible_core_version(
     venv: VenvRunner | FakeVenvRunner,
     env: dict[str, str] | None = None,
-) -> PypiVer:
+) -> PypiVer | None:
     p = await venv.async_log_run(
         ["python", "-c", "import ansible.release; print(ansible.release.__version__)"],
         env=env,
@@ -134,6 +134,16 @@ async def get_ansible_core_version(
     output = p.stdout.strip()
     if p.returncode == 0 and output:
         return PypiVer(output)
+    return None
+
+
+async def get_ansible_core_version(
+    venv: VenvRunner | FakeVenvRunner,
+    env: dict[str, str] | None = None,
+) -> PypiVer:
+    version = await _import_ansible_core_version(venv, env)
+    if version is not None:
+        return version
 
     try:
         # Fallback: use `ansible --version`

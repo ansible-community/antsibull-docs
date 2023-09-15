@@ -14,6 +14,7 @@ from collections.abc import Mapping, MutableMapping
 import semantic_version as semver
 from antsibull_core.logging import log
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
+from packaging.version import Version as PypiVer
 
 from ..constants import DOCUMENTABLE_PLUGINS
 from . import AnsibleCollectionMetadata, _get_environment
@@ -69,8 +70,21 @@ def should_flatmap(
     return meta.docs_config.flatmap
 
 
+def _get_ansible_doc_filters(
+    ansible_core_version: PypiVer, collection_names: list[str] | None
+) -> list[str]:
+    if collection_names and len(collection_names) == 1:
+        return collection_names[:1]
+    if collection_names and ansible_core_version >= PypiVer("2.16.0.dev0"):
+        # ansible-doc of ansible-core 2.16.0.dev0 or later allows multiple filters
+        return collection_names
+    # ansible-doc of ansible-core < 2.16 only allows *one* filter
+    return []
+
+
 async def get_ansible_plugin_info(
     venv: VenvRunner | FakeVenvRunner,
+    ansible_core_version: PypiVer,
     collection_dir: str | None,
     collection_names: list[str] | None = None,
     fetch_all_installed: bool = False,
@@ -82,6 +96,8 @@ async def get_ansible_plugin_info(
     Retrieve information about all of the Ansible Plugins. Requires ansible-core 2.13+.
 
     :arg venv: A VenvRunner into which Ansible has been installed.
+    :arg ansible_core_version: The version of ansible-core. Needed to figure out how
+                               many filters can be provided to ansible-doc.
     :arg collection_dir: Directory in which the collections have been installed.
                          If ``None``, the collections are assumed to be in the current
                          search path for Ansible.
@@ -106,11 +122,9 @@ async def get_ansible_plugin_info(
     )
 
     flog.debug("Retrieving and loading plugin documentation")
-    if collection_names and len(collection_names) == 1:
-        # ansible-doc only allows *one* filter
-        ansible_doc_output = await _call_ansible_doc(venv, env, collection_names[0])
-    else:
-        ansible_doc_output = await _call_ansible_doc(venv, env)
+    ansible_doc_output = await _call_ansible_doc(
+        venv, env, *_get_ansible_doc_filters(ansible_core_version, collection_names)
+    )
 
     flog.debug("Retrieving collection metadata")
     collection_metadata = await get_collection_metadata(venv, env, collection_names)

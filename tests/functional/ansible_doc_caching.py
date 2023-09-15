@@ -26,19 +26,19 @@ def ansible_doc_cache():
         env: dict[str, str],
         *parameters: str,
     ) -> Mapping[str, t.Any]:
-        if len(parameters) > 1:
-            raise Exception(
-                f"UNEXPECTED parameters to call_ansible_doc: {parameters!r}"
-            )
         root, *others = env["ANSIBLE_COLLECTIONS_PATH"].split(":")
         arg = (
             ("all-others" if others else "all")
             if len(parameters) == 0
-            else parameters[0]
+            else "-".join(parameters)
         )
         filename = os.path.join(
             os.path.dirname(__file__), f"ansible-doc-cache-{arg}.json"
         )
+        if not os.path.exists(filename):
+            raise Exception(
+                f"UNEXPECTED parameters to call_ansible_doc: {parameters!r} -> {filename} does not exist"
+            )
         with open(filename, encoding="utf-8") as f:
             data = json.load(f)
         for plugin_type, plugins in data["all"].items():
@@ -75,6 +75,12 @@ def ansible_doc_cache():
             "<<<<<ANSIBLE>>>>>", os.path.dirname(ansible.__file__)
         )
         return content
+
+    async def call_import_ansible_core_version(
+        venv: VenvRunner | FakeVenvRunner,
+        env: t.Optional[t.Dict[str, str]],
+    ) -> None:
+        return None
 
     async def call_ansible_galaxy_collection_list(
         venv: VenvRunner | FakeVenvRunner,
@@ -126,4 +132,8 @@ def ansible_doc_cache():
                     "antsibull_docs.lint_plugin_docs._call_ansible_galaxy_collection_list",
                     call_ansible_galaxy_collection_list_simple,
                 ):
-                    yield
+                    with mock.patch(
+                        "antsibull_docs.docs_parsing.ansible_doc._import_ansible_core_version",
+                        call_import_ansible_core_version,
+                    ):
+                        yield
