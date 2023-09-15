@@ -170,11 +170,8 @@ def _normalize_plugin_options(args: argparse.Namespace) -> None:
         return
 
     for plugin_name in args.plugin:
-        if not is_fqcn(plugin_name) and not os.path.isfile(plugin_name):
-            raise InvalidArgumentError(
-                f"The plugin, {plugin_name}, must be an existing file,"
-                f" or it must be a FQCN."
-            )
+        if not is_fqcn(plugin_name):
+            raise InvalidArgumentError(f"The plugin, {plugin_name}, must be a FQCN.")
 
 
 def _normalize_sphinx_init_options(args: argparse.Namespace) -> None:
@@ -442,20 +439,19 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     #
     # Document a specifically named plugin
     #
-    file_parser = subparsers.add_parser(
+    plugin_parser = subparsers.add_parser(
         "plugin",
         parents=[docs_parser, template_parser, output_format_parser],
         description="Generate documentation for a single plugin",
     )
-    file_parser.add_argument(
+    plugin_parser.add_argument(
         nargs=1,
         dest="plugin",
         action="store",
-        help="A single file to document. Either a path to a file, or a FQCN."
-        " In the latter case, the plugin is assumed to be installed for"
-        " the current ansible version.",
+        help="A single file to document. Must be a FQCN. The plugin is assumed"
+        " to be installed for the current ansible-core version.",
     )
-    file_parser.add_argument(
+    plugin_parser.add_argument(
         "--plugin-type",
         action="store",
         default="module",

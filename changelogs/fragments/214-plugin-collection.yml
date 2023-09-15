@@ -1,0 +1,2 @@
+minor_changes:
+  - "The ``plugin`` subcommand claimed to support paths to plugin files, which was never supported. Removed the mention of paths from the help (https://github.com/ansible-community/antsibull-docs/pull/214)."

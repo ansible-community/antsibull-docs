@@ -25,7 +25,7 @@ from ... import app_context
 from ...augment_docs import augment_docs
 from ...collection_links import CollectionLinks
 from ...docs_parsing import AnsibleCollectionMetadata
-from ...docs_parsing.fqcn import get_fqcn_parts, is_fqcn
+from ...docs_parsing.fqcn import get_fqcn_parts
 from ...jinja2 import FilenameGenerator, OutputFormat
 from ...jinja2.environment import doc_environment
 from ...process_docs import normalize_plugin_info
@@ -165,13 +165,6 @@ def generate_docs() -> int:
     plugin_type: str = app_ctx.extra["plugin_type"]
     plugin_name: str = app_ctx.extra["plugin"][0]
     output_format = OutputFormat.parse(app_ctx.extra["output_format"])
-
-    if not is_fqcn(plugin_name):
-        raise NotImplementedError(
-            "Priority to implement subcommands is stable, devel, plugin, and"
-            " then collection commands. Only the FQCN form is implemented"
-            " for the plugin subcommand right now."
-        )
 
     output_path = os.path.join(
         app_ctx.extra["dest_dir"], f"{plugin_name}_{plugin_type}.rst"
