@@ -23,9 +23,9 @@ import re
 #: Format that a collection namespace and collection name must follow
 NAMESPACE_RE_STR = "[a-z0-9][a-z0-9_]+"
 #: Format of a FQCN
-FQCN_RE = re.compile(rf"({NAMESPACE_RE_STR})\.({NAMESPACE_RE_STR})\.(.*)")
+FQCN_RE = re.compile(rf"^({NAMESPACE_RE_STR})\.({NAMESPACE_RE_STR})\.(.*)$")
 FQCN_STRICT_RE = re.compile(
-    rf"({NAMESPACE_RE_STR})\.({NAMESPACE_RE_STR})\.({NAMESPACE_RE_STR}(?:\.{NAMESPACE_RE_STR})*)"
+    rf"^({NAMESPACE_RE_STR})\.({NAMESPACE_RE_STR})\.({NAMESPACE_RE_STR}(?:\.{NAMESPACE_RE_STR})*)$"
 )
 
 # FQCN_RE and FQCN_STRICT_RE match certain Fully Qualified Collection Names. FQCN_RE is more liberal
