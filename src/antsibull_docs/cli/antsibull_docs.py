@@ -35,7 +35,7 @@ from antsibull_core.filesystem import UnableToCheck, writable_via_acls  # noqa: 
 import antsibull_docs  # noqa: E402
 
 from ..constants import DOCUMENTABLE_PLUGINS  # noqa: E402
-from ..docs_parsing.fqcn import is_fqcn  # noqa: E402
+from ..docs_parsing.fqcn import is_collection_name, is_fqcn  # noqa: E402
 from ..schemas.app_context import DocsAppContext  # noqa: E402
 from .doc_commands import (  # noqa: E402
     collection,
@@ -151,6 +151,15 @@ def _normalize_collection_options(args: argparse.Namespace) -> None:
             "The option --squash-hierarchy can only be used when"
             " only one collection is specified"
         )
+
+    if args.use_current:
+        for collection_name in args.collections:
+            if not is_collection_name(collection_name):
+                raise InvalidArgumentError(
+                    f"The collection, {collection_name}, is not a valid collection"
+                    " name. When using --use-current, all collections must be"
+                    " collection names."
+                )
 
 
 def _normalize_current_options(args: argparse.Namespace) -> None:
