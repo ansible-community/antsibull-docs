@@ -9,6 +9,8 @@ from __future__ import annotations
 
 import asyncio
 import textwrap
+import typing as t
+from collections.abc import MutableMapping
 
 from antsibull_core.logging import log
 from antsibull_core.venv import FakeVenvRunner, VenvRunner
@@ -16,6 +18,7 @@ from antsibull_core.venv import FakeVenvRunner, VenvRunner
 from ... import app_context
 from ...augment_docs import augment_docs
 from ...collection_links import load_collections_links
+from ...docs_parsing import AnsibleCollectionMetadata
 from ...docs_parsing.parsing import get_ansible_plugin_info
 from ...docs_parsing.routing import (
     find_stubs,
@@ -53,6 +56,47 @@ from ...write_docs.plugins import output_all_plugin_rst
 mlog = log.fields(mod=__name__)
 
 
+def _remove_collections_from_mapping(
+    mapping: MutableMapping[str, t.Any],
+    exclude_collection_names: list[str],
+) -> None:
+    for collection_name in exclude_collection_names:
+        mapping.pop(collection_name, None)
+
+
+def _remove_collections(
+    plugin_info: MutableMapping[str, MutableMapping[str, t.Any]],
+    collection_metadata: MutableMapping[str, AnsibleCollectionMetadata],
+    exclude_collection_names: list[str],
+) -> None:
+    if not exclude_collection_names:
+        return
+
+    _remove_collections_from_mapping(collection_metadata, exclude_collection_names)
+
+    prefixes = tuple(
+        f"{collection_name}." for collection_name in exclude_collection_names
+    )
+    for _, plugin_data in plugin_info.items():
+        plugins_to_remove = [
+            plugin_name
+            for plugin_name in plugin_data
+            if plugin_name.startswith(prefixes)
+        ]
+        for plugin_name in plugins_to_remove:
+            del plugin_data[plugin_name]
+
+
+def _validate_options(
+    collection_names: list[str] | None,
+    exclude_collection_names: list[str] | None,
+) -> None:
+    if collection_names is not None and exclude_collection_names is not None:
+        raise ValueError(
+            "Cannot specify both collection_names and exclude_collection_names"
+        )
+
+
 def generate_docs_for_all_collections(  # noqa: C901
     venv: VenvRunner | FakeVenvRunner,
     collection_dir: str | None,
@@ -60,6 +104,7 @@ def generate_docs_for_all_collections(  # noqa: C901
     output_format: OutputFormat,
     *,
     collection_names: list[str] | None = None,
+    exclude_collection_names: list[str] | None = None,
     create_indexes: bool = True,
     create_collection_indexes: bool = True,
     add_extra_docs: bool = True,
@@ -82,6 +127,8 @@ def generate_docs_for_all_collections(  # noqa: C901
     :arg output_format: The output format.
     :kwarg collection_names: Optional list of collection names. If specified, only documentation
                              for these collections will be collected and generated.
+    :kwarg exclude_collection_names: Optional list of collection names to skip. Mutually exclusive
+                                     with ``collection_names``.
     :kwarg create_indexes: Whether to create the collection, namespace, and plugin indexes. By
                            default, they are created.
     :kwarg create_collection_indexes: Whether to create the per-collection plugin index.
@@ -106,6 +153,11 @@ def generate_docs_for_all_collections(  # noqa: C901
     flog = mlog.fields(func="generate_docs_for_all_collections")
     flog.notice("Begin")
 
+    _validate_options(collection_names, exclude_collection_names)
+
+    if collection_names is not None and "ansible.builtin" not in collection_names:
+        exclude_collection_names = ["ansible.builtin"]
+
     app_ctx = app_context.app_ctx.get()
 
     # Get the info from the plugins
@@ -118,8 +170,9 @@ def generate_docs_for_all_collections(  # noqa: C901
     #     collection_metadata=full_collection_metadata).debug('Collection metadata')
 
     collection_metadata = dict(full_collection_metadata)
-    if collection_names is not None and "ansible.builtin" not in collection_names:
-        del collection_metadata["ansible.builtin"]
+    _remove_collections(
+        plugin_info, collection_metadata, exclude_collection_names or []
+    )
 
     # Load collection routing information
     collection_routing = asyncio.run(load_all_collection_routing(collection_metadata))
@@ -128,8 +181,7 @@ def generate_docs_for_all_collections(  # noqa: C901
 
     remove_redirect_duplicates(plugin_info, collection_routing)
     stubs_info = find_stubs(plugin_info, collection_routing)
-    if collection_names is not None and "ansible.builtin" not in collection_names:
-        stubs_info.pop("ansible.builtin", None)
+    _remove_collections_from_mapping(stubs_info, exclude_collection_names or [])
     # flog.fields(stubs_info=stubs_info).debug('Stubs info')
 
     new_plugin_info, nonfatal_errors = asyncio.run(

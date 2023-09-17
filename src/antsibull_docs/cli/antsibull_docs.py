@@ -399,6 +399,12 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         " specified, all collections in the currently configured ansible"
         " search paths will be used",
     )
+    current_parser.add_argument(
+        "--skip-ansible-builtin",
+        action="store_true",
+        help="Do not generate documentation for ansible.builtin, the synthetic"
+        " collection consisting of all modules and plugins bundled with ansible-core.",
+    )
 
     #
     # Document one or more specified collections

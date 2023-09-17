@@ -41,6 +41,7 @@ make_ansible_doc_extract() {
 }
 
 
+# baseline-default must include all collections in collections/
 make_docsite_baseline baseline-default ns.col1 ns.col2 ns2.col ns2.flatcol
 make_docsite_baseline baseline-no-breadcrumbs ns.col1 ns.col2 ns2.col ns2.flatcol --no-breadcrumbs
 make_docsite_baseline baseline-no-indexes ns.col1 ns2.col ns2.flatcol --fail-on-error --no-indexes
