@@ -35,7 +35,7 @@ from antsibull_core.filesystem import UnableToCheck, writable_via_acls  # noqa: 
 import antsibull_docs  # noqa: E402
 
 from ..constants import DOCUMENTABLE_PLUGINS  # noqa: E402
-from ..docs_parsing.fqcn import is_fqcn  # noqa: E402
+from ..docs_parsing.fqcn import is_collection_name, is_fqcn  # noqa: E402
 from ..schemas.app_context import DocsAppContext  # noqa: E402
 from .doc_commands import (  # noqa: E402
     collection,
@@ -152,6 +152,12 @@ def _normalize_collection_options(args: argparse.Namespace) -> None:
             " only one collection is specified"
         )
 
+    for collection_name in args.collections:
+        if not is_collection_name(collection_name):
+            raise InvalidArgumentError(
+                f"The collection, {collection_name}, is not a valid collection name."
+            )
+
 
 def _normalize_current_options(args: argparse.Namespace) -> None:
     if args.command != "current":
@@ -170,11 +176,8 @@ def _normalize_plugin_options(args: argparse.Namespace) -> None:
         return
 
     for plugin_name in args.plugin:
-        if not is_fqcn(plugin_name) and not os.path.isfile(plugin_name):
-            raise InvalidArgumentError(
-                f"The plugin, {plugin_name}, must be an existing file,"
-                f" or it must be a FQCN."
-            )
+        if not is_fqcn(plugin_name):
+            raise InvalidArgumentError(f"The plugin, {plugin_name}, must be a FQCN.")
 
 
 def _normalize_sphinx_init_options(args: argparse.Namespace) -> None:
@@ -439,29 +442,27 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     collection_parser.add_argument(
         nargs="+",
         dest="collections",
-        help="One or more collections to document.  If the names are"
-        " directories on disk, they will be parsed as expanded"
-        " collections. Otherwise, if they could be collection"
-        " names, they will be downloaded from galaxy.",
+        help="One or more collections to document. No paths or URLs are"
+        " supported. Collections are assumed to exist on Galaxy, or be"
+        " installed locally when --use-current is used.",
     )
 
     #
     # Document a specifically named plugin
     #
-    file_parser = subparsers.add_parser(
+    plugin_parser = subparsers.add_parser(
         "plugin",
         parents=[docs_parser, template_parser, output_format_parser],
         description="Generate documentation for a single plugin",
     )
-    file_parser.add_argument(
+    plugin_parser.add_argument(
         nargs=1,
         dest="plugin",
         action="store",
-        help="A single file to document. Either a path to a file, or a FQCN."
-        " In the latter case, the plugin is assumed to be installed for"
-        " the current ansible version.",
+        help="A single file to document. Must be a FQCN. The plugin is assumed"
+        " to be installed for the current ansible-core version.",
     )
-    file_parser.add_argument(
+    plugin_parser.add_argument(
         "--plugin-type",
         action="store",
         default="module",
