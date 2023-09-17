@@ -52,6 +52,11 @@ def generate_plugin_docs(
 
     app_ctx = app_context.app_ctx.get()
 
+    if app_ctx.use_html_blobs:
+        print(
+            "WARNING: the use of --use-html-blobs is deprecated. This feature will be removed soon."
+        )
+
     venv = FakeVenvRunner()
     venv_ansible_doc = venv.get_command("ansible-doc")
     venv_ansible_doc = venv_ansible_doc.bake("-vvv")

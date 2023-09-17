@@ -1,0 +1,8 @@
+deprecated_features:
+  - "The ``--use-html-blobs`` feature that inserts HTML blobs for the options and return value
+     tables for the ``ansible-docsite`` output format is deprecated and will be removed soon.
+     The HTML tables cause several features to break, such as references to options and return
+     values. If you think this feature needs to stay, please create an issue in the `antsibull-docs
+     repository <https://github.com/ansible-community/antsibull-docs/issues/>`__ and provide
+     good reasons for it
+     (https://github.com/ansible-community/antsibull-docs/pull/216)."

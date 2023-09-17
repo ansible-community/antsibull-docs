@@ -90,10 +90,16 @@ def _remove_collections(
 def _validate_options(
     collection_names: list[str] | None,
     exclude_collection_names: list[str] | None,
+    use_html_blobs: bool,
 ) -> None:
     if collection_names is not None and exclude_collection_names is not None:
         raise ValueError(
             "Cannot specify both collection_names and exclude_collection_names"
+        )
+
+    if use_html_blobs:
+        print(
+            "WARNING: the use of --use-html-blobs is deprecated. This feature will be removed soon."
         )
 
 
@@ -153,7 +159,7 @@ def generate_docs_for_all_collections(  # noqa: C901
     flog = mlog.fields(func="generate_docs_for_all_collections")
     flog.notice("Begin")
 
-    _validate_options(collection_names, exclude_collection_names)
+    _validate_options(collection_names, exclude_collection_names, use_html_blobs)
 
     if collection_names is not None and "ansible.builtin" not in collection_names:
         exclude_collection_names = ["ansible.builtin"]

@@ -132,6 +132,11 @@ def site_init() -> int:
     extra_html_theme_options = split_kv(app_ctx.extra["extra_html_theme_options"])
     output_format = app_ctx.extra["output_format"]
 
+    if use_html_blobs:
+        print(
+            "WARNING: the use of --use-html-blobs is deprecated. This feature will be removed soon."
+        )
+
     sphinx_theme = "sphinx_ansible_theme"
     sphinx_theme_package = "sphinx-ansible-theme >= 0.9.0"
     if app_ctx.extra["sphinx_theme"] != "sphinx-ansible-theme":
