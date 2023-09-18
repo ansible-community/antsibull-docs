@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import os
 import os.path
+import sys
 import typing as t
 
 from antsibull_core.logging import log
@@ -134,7 +135,8 @@ def site_init() -> int:
 
     if use_html_blobs:
         print(
-            "WARNING: the use of --use-html-blobs is deprecated. This feature will be removed soon."
+            "WARNING: the use of --use-html-blobs is deprecated. This feature will be removed soon.",
+            file=sys.stderr,
         )
 
     sphinx_theme = "sphinx_ansible_theme"

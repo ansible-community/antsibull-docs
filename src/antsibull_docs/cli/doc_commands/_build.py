@@ -10,6 +10,7 @@ from __future__ import annotations
 import asyncio
 import textwrap
 import typing as t
+import sys
 from collections.abc import MutableMapping
 
 from antsibull_core.logging import log
@@ -99,7 +100,8 @@ def _validate_options(
 
     if use_html_blobs:
         print(
-            "WARNING: the use of --use-html-blobs is deprecated. This feature will be removed soon."
+            "WARNING: the use of --use-html-blobs is deprecated. This feature will be removed soon.",
+            file=sys.stderr,
         )
 
 
