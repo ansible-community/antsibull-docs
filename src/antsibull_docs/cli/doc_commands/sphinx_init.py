@@ -135,7 +135,8 @@ def site_init() -> int:
 
     if use_html_blobs:
         print(
-            "WARNING: the use of --use-html-blobs is deprecated. This feature will be removed soon.",
+            "WARNING: the use of --use-html-blobs is deprecated."
+            " This feature will be removed soon.",
             file=sys.stderr,
         )
 
