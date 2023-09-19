@@ -47,6 +47,9 @@ class AnsibleOption(p.BaseModel):
     role_entrypoint: t.Optional[str] = None
     name: str
     full_keys: list[list[str]]
+    special: t.Union[
+        t.Literal["positional"], t.Literal["input"], t.Literal["terms"], None
+    ] = None
 
 
 class AnsibleReturnValue(p.BaseModel):
@@ -55,3 +58,4 @@ class AnsibleReturnValue(p.BaseModel):
     role_entrypoint: t.Optional[str] = None
     name: str
     full_keys: list[list[str]]
+    special: t.Union[t.Literal["facts"], t.Literal["return-value"], None] = None

@@ -96,6 +96,7 @@ Terms
         name: "Terms"
         full_keys:
           - ["_terms"]
+        special: terms
 
       .. ansible-option-type-line::
 
@@ -237,9 +238,7 @@ Return Value
         name: "Return value"
         full_keys:
           - ["_raw"]
-
-      .. raw:: html
-         :url: data:text/plain;base64,IA==
+        special: return-value
 
       .. ansible-option-type-line::
 

@@ -488,9 +488,6 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         full_keys:
           - ["bar"]
 
-      .. raw:: html
-         :url: data:text/plain;base64,IA==
-
       .. ansible-option-type-line::
 
         :ansible-option-type:`string`

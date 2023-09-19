@@ -10,7 +10,7 @@
 {% from 'macros/deprecates.rst.j2' import in_html as deprecates_html with context %}
 {% from 'macros/version_added.rst.j2' import version_added_rst, version_added_html %}
 
-{% macro in_rst(elements, suboption_key='suboptions', role_entrypoint=None) %}
+{% macro in_rst(elements, suboption_key='suboptions', role_entrypoint=None, special=None) %}
 .. tabularcolumns:: \X{1}{3}\X{2}{3}
 
 .. list-table::
@@ -46,6 +46,9 @@
 {%   for full_key in value['full_keys'] %}
           - @{ full_key | antsibull_to_json }@
 {%   endfor %}
+{%   if special is not none %}
+        special: @{ special }@
+{%   endif %}
 
       .. ansible-option-type-line::
 {%   if value['aliases'] %}
@@ -178,7 +181,7 @@
 
 {##################################################################################################################}
 
-{% macro in_html(elements, suboption_key='suboptions', role_entrypoint=None) %}
+{% macro in_html(elements, suboption_key='suboptions', role_entrypoint=None, special=None) %}
 .. raw:: html
 
   <table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">

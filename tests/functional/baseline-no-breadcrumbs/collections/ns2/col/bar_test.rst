@@ -96,6 +96,7 @@ This describes the input of the test, the value before ``is ns2.col.bar`` or ``i
         name: "Input"
         full_keys:
           - ["_input"]
+        special: input
 
       .. ansible-option-type-line::
 
@@ -176,9 +177,7 @@ Return Value
         name: "Return value"
         full_keys:
           - ["_value"]
-
-      .. raw:: html
-         :url: data:text/plain;base64,IA==
+        special: return-value
 
       .. ansible-option-type-line::
 

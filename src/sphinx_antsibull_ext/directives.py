@@ -244,9 +244,8 @@ class _RequirementsAnchor(YAMLDirective[AnsibleRequirementsAnchor]):
         rst_id = (
             f"ansible_collections.{content.fqcn}_{content.plugin_type}_requirements"
         )
-        ref_title = (
-            f"Requirements of the {_plugin_name(content.fqcn, content.plugin_type)}"
-        )
+        plugin_name = _plugin_name(content.fqcn, content.plugin_type)
+        ref_title = f"Requirements of the {plugin_name}"
         if content.role_entrypoint is not None and content.plugin_type == "role":
             rst_id = (
                 f"ansible_collections.{content.fqcn}_role"
@@ -278,13 +277,14 @@ class _Attribute(YAMLDirective[AnsibleAttribute]):
         node = ansible_attribute(
             "", content.name, classes=["ansible-option-title"], ids=[html_id]
         )
+        plugin_name = _plugin_name(content.fqcn, content.plugin_type)
         self.state.document.note_explicit_target(node)
         std = t.cast(StandardDomain, self.env.get_domain("std"))
         std.note_hyperlink_target(
             rst_id,
             self.env.docname,
             html_id,
-            f"{content.name} attribute of {_plugin_name(content.fqcn, content.plugin_type)}",
+            f"{content.name} attribute of {plugin_name}",
         )
         permalink = nodes.raw(
             "",
@@ -309,7 +309,7 @@ def _compile_ids(
     role_entrypoint: str | None,
     full_keys: list[list[str]],
     prefix_type: str,
-) -> tuple[dict[str, tuple[str, str]], list[str]]:
+) -> tuple[dict[str, tuple[str, str, str]], list[str]]:
     rst_id_prefix = f"ansible_collections.{fqcn}_{plugin_type}__{prefix_type}-"
     html_id_prefix = f"{prefix_type}-"
     if role_entrypoint is not None:
@@ -321,7 +321,7 @@ def _compile_ids(
         html_id = html_id_prefix + "/".join([_percent_encode(k) for k in full_key])
         rst_id = rst_id_prefix + "/".join([massage_rst_label(k) for k in full_key])
         html_ids.append(html_id)
-        rst_ids[rst_id] = (html_id, ".".join(full_key))
+        rst_ids[rst_id] = (html_id, ".".join(full_key), ".".join(full_key[1:]))
     return rst_ids, _make_unique(html_ids)
 
 
@@ -342,19 +342,41 @@ class _Option(YAMLDirective[AnsibleOption]):
             classes=["ansible-option-title"],
             ids=html_ids,
         )
+        what_title = "{key} option of"
+        what_perma = "this option"
+        if content.plugin_type in ("lookup", "filter", "test"):
+            what_title = "{key} keyword option of"
+            what_perma = "this keyword option"
+        if content.special == "positional":
+            what_title = "{key} positional option of"
+            what_perma = "this positional option"
+        if content.special == "input":
+            what_title = "input of"
+            what_perma = f"the {content.plugin_type}'s input"
+            if len(content.full_keys[0]) > 1:
+                what_title = "nested input field {subkey} of"
+                what_perma = f"this nested field of the {content.plugin_type}'s input"
+        if content.special == "terms":
+            what_title = "terms for the"
+            what_perma = f"the {content.plugin_type}'s terms"
+            if len(content.full_keys[0]) > 1:
+                what_title = "nested term field {subkey} for the"
+                what_perma = f"this nested field of the {content.plugin_type}'s term"
+        plugin_name = _plugin_name(content.fqcn, content.plugin_type)
         self.state.document.note_explicit_target(node)
         std = t.cast(StandardDomain, self.env.get_domain("std"))
-        for rst_id, (html_id, key) in rst_ids.items():
+        for rst_id, (html_id, key, subkey) in rst_ids.items():
+            rst_title = f"{what_title.format(key=key, subkey=subkey)} {plugin_name}"
             std.note_hyperlink_target(
                 rst_id,
                 self.env.docname,
                 html_id,
-                f"{key} option of {_plugin_name(content.fqcn, content.plugin_type)}",
+                rst_title,
             )
         permalink = nodes.raw(
             "",
             f' <a class="ansibleOptionLink" href="#{html_ids[0]}"'
-            ' title="Permalink to this option"></a>',
+            f' title="Permalink to {what_perma}"></a>',
             format="html",
         )
         return [node, permalink]
@@ -377,19 +399,32 @@ class _ReturnValue(YAMLDirective[AnsibleReturnValue]):
             classes=["ansible-option-title"],
             ids=html_ids,
         )
+        what_title = "{key} return value of"
+        what_perma = "this return value"
+        if content.special == "facts":
+            what_title = "{key} returned fact of"
+            what_perma = "this returned fact"
+        if content.special == "return-value":
+            what_title = "return value of the"
+            what_perma = f"the {content.plugin_type}'s return value"
+            if len(content.full_keys[0]) > 1:
+                what_title = "nested return value field {subkey} of the"
+                what_perma = f"this nested return value of this {content.plugin_type}"
+        plugin_name = _plugin_name(content.fqcn, content.plugin_type)
         self.state.document.note_explicit_target(node)
         std = t.cast(StandardDomain, self.env.get_domain("std"))
-        for rst_id, (html_id, key) in rst_ids.items():
+        for rst_id, (html_id, key, subkey) in rst_ids.items():
+            ref_title = f"{what_title.format(key=key, subkey=subkey)} {plugin_name}"
             std.note_hyperlink_target(
                 rst_id,
                 self.env.docname,
                 html_id,
-                f"{key} return value of {_plugin_name(content.fqcn, content.plugin_type)}",
+                ref_title,
             )
         permalink = nodes.raw(
             "",
             f' <a class="ansibleOptionLink" href="#{html_ids[0]}"'
-            ' title="Permalink to this return value"></a>',
+            f' title="Permalink to {what_perma}"></a>',
             format="html",
         )
         return [node, permalink]

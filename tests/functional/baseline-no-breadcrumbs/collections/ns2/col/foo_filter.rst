@@ -98,6 +98,7 @@ This describes the input of the filter, the value before ``| ns2.col.foo``.
         name: "Input"
         full_keys:
           - ["_input"]
+        special: input
 
       .. ansible-option-type-line::
 
@@ -264,9 +265,7 @@ Return Value
         name: "Return value"
         full_keys:
           - ["_value"]
-
-      .. raw:: html
-         :url: data:text/plain;base64,IA==
+        special: return-value
 
       .. ansible-option-type-line::
 
