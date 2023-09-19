@@ -130,6 +130,13 @@ Synopsis
 {%   if ep_doc['requirements'] -%}
 Requirements
 ^^^^^^^^^^^^
+
+.. ansible-requirements-anchor::
+
+  fqcn: @{ plugin_name }@
+  plugin_type: role
+  entrypoint: @{ entry_point }@
+
 The below requirements are needed on the remote host and/or the local controller node.
 
 {%     for req in ep_doc['requirements'] %}

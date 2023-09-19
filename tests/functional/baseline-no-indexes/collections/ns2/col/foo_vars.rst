@@ -68,10 +68,14 @@ Synopsis
 
 .. Requirements
 
-.. _ansible_collections.ns2.col.foo_vars_requirements:
-
 Requirements
 ------------
+
+.. ansible-requirements-anchor::
+
+  fqcn: ns2.col.foo
+  plugin_type: vars
+
 The below requirements are needed on the local controller node that executes this vars.
 
 - Enabled in Ansible's configuration.

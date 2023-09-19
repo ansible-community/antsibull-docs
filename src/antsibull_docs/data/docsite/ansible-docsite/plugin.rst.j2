@@ -158,10 +158,14 @@ Aliases: @{ ', '.join(doc['aliases'] | sort) }@
 .. Requirements
 
 {% if doc['requirements'] -%}
-.. _@{ rst_requirements_ref(plugin_name, plugin_type) }@:
-
 Requirements
 ------------
+
+.. ansible-requirements-anchor::
+
+  fqcn: @{ plugin_name }@
+  plugin_type: @{ plugin_type }@
+
 {%   if plugin_type in ('module', 'module_util') %}
 The below requirements are needed on the host that executes this @{ plugin_type }@.
 {%   else %}

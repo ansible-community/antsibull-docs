@@ -70,10 +70,14 @@ Aliases: foo_redirect
 
 .. Requirements
 
-.. _ansible_collections.ns2.col.foo_module_requirements:
-
 Requirements
 ------------
+
+.. ansible-requirements-anchor::
+
+  fqcn: ns2.col.foo
+  plugin_type: module
+
 The below requirements are needed on the host that executes this module.
 
 - Foo on remote.

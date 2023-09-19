@@ -32,6 +32,7 @@ from .schemas.ansible_plugin import (
     AnsibleAttribute,
     AnsibleOption,
     AnsiblePlugin,
+    AnsibleRequirementsAnchor,
     AnsibleReturnValue,
     AnsibleRoleEntrypoint,
 )
@@ -219,6 +220,48 @@ class _RoleEntrypoint(YAMLDirective[AnsibleRoleEntrypoint]):
         return [indexnode]
 
 
+def _plugin_name(fqcn: str, plugin_type: str) -> str:
+    if plugin_type in ("module", "role"):
+        return f"{fqcn} {plugin_type}"
+    return f"{fqcn} {plugin_type} plugin"
+
+
+class _RequirementsAnchor(YAMLDirective[AnsibleRequirementsAnchor]):
+    schema = AnsibleRequirementsAnchor
+
+    def _run(
+        self, content_str: str, content: AnsibleRequirementsAnchor
+    ) -> list[nodes.Node]:
+        section = self.state.parent
+        titles = [child for child in section.children if isinstance(child, nodes.title)]
+        if len(titles) != 1:
+            raise self.error(
+                f"Cannot find single title for section {section} - found {titles}"
+            )
+        title = titles[0]
+        self.state.document.note_explicit_target(title)
+        std = t.cast(StandardDomain, self.env.get_domain("std"))
+        rst_id = (
+            f"ansible_collections.{content.fqcn}_{content.plugin_type}_requirements"
+        )
+        ref_title = (
+            f"Requirements of the {_plugin_name(content.fqcn, content.plugin_type)}"
+        )
+        if content.role_entrypoint is not None and content.plugin_type == "role":
+            rst_id = (
+                f"ansible_collections.{content.fqcn}_role"
+                f"-{content.role_entrypoint}_requirements"
+            )
+            ref_title = f"{ref_title}, {content.role_entrypoint} entrypoint"
+        std.note_hyperlink_target(
+            rst_id,
+            self.env.docname,
+            title["ids"][0],
+            ref_title,
+        )
+        return []
+
+
 def _percent_encode(s):
     return _urllib_quote(s, safe="")
 
@@ -241,7 +284,7 @@ class _Attribute(YAMLDirective[AnsibleAttribute]):
             rst_id,
             self.env.docname,
             html_id,
-            f"{content.name} attribute of {content.fqcn} {content.plugin_type}",
+            f"{content.name} attribute of {_plugin_name(content.fqcn, content.plugin_type)}",
         )
         permalink = nodes.raw(
             "",
@@ -306,7 +349,7 @@ class _Option(YAMLDirective[AnsibleOption]):
                 rst_id,
                 self.env.docname,
                 html_id,
-                f"{key} option of {content.fqcn} {content.plugin_type}",
+                f"{key} option of {_plugin_name(content.fqcn, content.plugin_type)}",
             )
         permalink = nodes.raw(
             "",
@@ -341,7 +384,7 @@ class _ReturnValue(YAMLDirective[AnsibleReturnValue]):
                 rst_id,
                 self.env.docname,
                 html_id,
-                f"{key} return value of {content.fqcn} {content.plugin_type}",
+                f"{key} return value of {_plugin_name(content.fqcn, content.plugin_type)}",
             )
         permalink = nodes.raw(
             "",
@@ -357,6 +400,7 @@ DIRECTIVES = {
     "ansible-links": _Links,
     "ansible-plugin": _Plugin,
     "ansible-role-entrypoint": _RoleEntrypoint,
+    "ansible-requirements-anchor": _RequirementsAnchor,
     "ansible-attribute": _Attribute,
     "ansible-option": _Option,
     "ansible-return-value": _ReturnValue,

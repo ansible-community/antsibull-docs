@@ -63,10 +63,14 @@ Synopsis
 
 .. Requirements
 
-.. _ansible_collections.ns.col2.foo3_module_requirements:
-
 Requirements
 ------------
+
+.. ansible-requirements-anchor::
+
+  fqcn: ns.col2.foo3
+  plugin_type: module
+
 The below requirements are needed on the host that executes this module.
 
 - Foo.

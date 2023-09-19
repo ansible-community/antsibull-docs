@@ -28,6 +28,12 @@ class AnsibleRoleEntrypoint(p.BaseModel):
     short_description: t.Optional[str] = None
 
 
+class AnsibleRequirementsAnchor(p.BaseModel):
+    fqcn: str
+    plugin_type: str
+    role_entrypoint: t.Optional[str] = None
+
+
 class AnsibleAttribute(p.BaseModel):
     fqcn: str
     plugin_type: str
