@@ -13,19 +13,21 @@ import typing as t
 from urllib.parse import quote as _urllib_quote
 
 from docutils import nodes
-from docutils.nodes import Element
-from sphinx import addnodes, domains
-from sphinx.builders import Builder
+from sphinx import addnodes
 from sphinx.domains.std import StandardDomain
-from sphinx.environment import BuildEnvironment
-from sphinx.locale import _
 from sphinx.util import logging
 from sphinx.util.docutils import SphinxDirective
 from sphinx.util.nodes import make_id
 
-from antsibull_docs.utils.rst import massage_rst_label
+from antsibull_docs.rst_labels import (
+    get_attribute_ref,
+    get_option_ref,
+    get_requirements_ref,
+    get_return_value_ref,
+)
 
 from .directive_helper import YAMLDirective
+from .domains import AnsibleDomain
 from .nodes import ansible_attribute, ansible_option, ansible_return_value, link_button
 from .schemas.ansible_links import AnsibleLinks
 from .schemas.ansible_plugin import (
@@ -90,51 +92,6 @@ class _Links(YAMLDirective[AnsibleLinks]):
             item.append(nodes.inline("", "", refnode))
             node.append(item)
         return [node]
-
-
-class AnsibleDomain(domains.Domain):
-    name = "ansible"
-
-    object_types: dict[str, domains.ObjType] = {
-        "plugin": domains.ObjType(_("plugin"), "plugin", searchprio=-1),
-        "role_entrypoint": domains.ObjType(
-            _("role entrypoint"), "role_entrypoint", searchprio=-1
-        ),
-    }
-
-    @property
-    def objects(self) -> dict[tuple[str, str], tuple[str, str]]:
-        return self.data.setdefault(
-            "objects", {}
-        )  # (objtype, name) -> docname, labelid
-
-    def note_object(
-        self, objtype: str, name: str, labelid: str, location: t.Any = None
-    ) -> None:
-        if (objtype, name) in self.objects:
-            docname = self.objects[objtype, name][0]
-            logger.warning(
-                f"Duplicate {objtype} description of {name}, other instance in {docname}",
-                location=location,
-            )
-        self.objects[objtype, name] = (self.env.docname, labelid)
-
-    def merge_domaindata(self, docnames: list[str], otherdata: dict) -> None:
-        """Merge in data regarding *docnames* from a different domaindata
-        inventory (coming from a subprocess in parallel builds).
-        """
-
-    def resolve_any_xref(
-        self,
-        env: BuildEnvironment,
-        fromdocname: str,
-        builder: Builder,
-        target: str,
-        node: addnodes.pending_xref,
-        contnode: Element,
-    ) -> list[tuple[str, Element]]:
-        """Resolve the pending_xref *node* with the given *target*."""
-        return []
 
 
 class _Plugin(YAMLDirective[AnsiblePlugin]):
@@ -240,16 +197,12 @@ class _RequirementsAnchor(YAMLDirective[AnsibleRequirementsAnchor]):
         title = titles[0]
         self.state.document.note_explicit_target(title)
         std = t.cast(StandardDomain, self.env.get_domain("std"))
-        rst_id = (
-            f"ansible_collections.{content.fqcn}_{content.plugin_type}_requirements"
+        rst_id = get_requirements_ref(
+            content.fqcn, content.plugin_type, content.role_entrypoint
         )
         plugin_name = _plugin_name(content.fqcn, content.plugin_type)
         ref_title = f"Requirements of the {plugin_name}"
         if content.role_entrypoint is not None and content.plugin_type == "role":
-            rst_id = (
-                f"ansible_collections.{content.fqcn}_role"
-                f"-{content.role_entrypoint}_requirements"
-            )
             ref_title = f"{ref_title}, {content.role_entrypoint} entrypoint"
         std.note_hyperlink_target(
             rst_id,
@@ -269,9 +222,8 @@ class _Attribute(YAMLDirective[AnsibleAttribute]):
 
     def _run(self, content_str: str, content: AnsibleAttribute) -> list[nodes.Node]:
         html_id = f"attribute-{_percent_encode(content.name)}"
-        rst_id = (
-            f"ansible_collections.{content.fqcn}_{content.plugin_type}"
-            f"__attribute-{content.name}"
+        rst_id = get_attribute_ref(
+            content.fqcn, content.plugin_type, content.role_entrypoint, content.name
         )
         node = ansible_attribute(
             "", content.name, classes=["ansible-option-title"], ids=[html_id]
@@ -308,17 +260,16 @@ def _compile_ids(
     role_entrypoint: str | None,
     full_keys: list[list[str]],
     prefix_type: str,
+    get_ref: t.Callable[[str, str, str | None, list[str]], str],
 ) -> tuple[dict[str, tuple[str, str, str]], list[str]]:
-    rst_id_prefix = f"ansible_collections.{fqcn}_{plugin_type}__{prefix_type}-"
     html_id_prefix = f"{prefix_type}-"
     if role_entrypoint is not None:
-        rst_id_prefix += f"{role_entrypoint}__"
         html_id_prefix += f"{role_entrypoint}--"
     rst_ids = {}
     html_ids = []
     for full_key in full_keys:
         html_id = html_id_prefix + "/".join([_percent_encode(k) for k in full_key])
-        rst_id = rst_id_prefix + "/".join([massage_rst_label(k) for k in full_key])
+        rst_id = get_ref(fqcn, plugin_type, role_entrypoint, full_key)
         html_ids.append(html_id)
         rst_ids[rst_id] = (html_id, ".".join(full_key), ".".join(full_key[1:]))
     return rst_ids, _make_unique(html_ids)
@@ -334,6 +285,7 @@ class _Option(YAMLDirective[AnsibleOption]):
             content.role_entrypoint,
             content.full_keys,
             "parameter",
+            get_option_ref,
         )
         node = ansible_option(
             "",
@@ -391,6 +343,7 @@ class _ReturnValue(YAMLDirective[AnsibleReturnValue]):
             content.role_entrypoint,
             content.full_keys,
             "return",
+            get_return_value_ref,
         )
         node = ansible_return_value(
             "",
@@ -445,6 +398,5 @@ def setup_directives(app):
     """
     Setup directives for a Sphinx app object.
     """
-    app.add_domain(AnsibleDomain)
     for name, directive in DIRECTIVES.items():
         app.add_directive(name, directive)
