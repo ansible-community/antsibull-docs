@@ -8922,7 +8922,7 @@
        "support": "full"
       },
       "until": {
-       "description": "Denotes if this action objeys until/retry/poll keywords",
+       "description": "Denotes if this action obeys until/retry/poll keywords",
        "support": "full"
       }
      },
@@ -10049,7 +10049,7 @@
        "default": "status",
        "description": [
         "If V(status), obtain the status.",
-        "If V(cleanup), clean up the async job cache (by default in C(~/.ansible_async/)) for the specified job O(jid)."
+        "If V(cleanup), clean up the async job cache (by default in C(~/.ansible_async/)) for the specified job O(jid), without waiting for it to finish."
        ],
        "type": "str"
       }
@@ -10064,7 +10064,7 @@
      "version_added": "0.5",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n---\n- name: Asynchronous yum task\n  ansible.builtin.yum:\n    name: docker-io\n    state: present\n  async: 1000\n  poll: 0\n  register: yum_sleeper\n\n- name: Wait for asynchronous job to end\n  ansible.builtin.async_status:\n    jid: '{{ yum_sleeper.ansible_job_id }}'\n  register: job_result\n  until: job_result.finished\n  retries: 100\n  delay: 10\n",
+    "examples": "\n---\n- name: Asynchronous yum task\n  ansible.builtin.yum:\n    name: docker-io\n    state: present\n  async: 1000\n  poll: 0\n  register: yum_sleeper\n\n- name: Wait for asynchronous job to end\n  ansible.builtin.async_status:\n    jid: '{{ yum_sleeper.ansible_job_id }}'\n  register: job_result\n  until: job_result.finished\n  retries: 100\n  delay: 10\n\n- name: Clean up async file\n  ansible.builtin.async_status:\n    jid: '{{ yum_sleeper.ansible_job_id }}'\n    mode: cleanup\n",
     "metadata": null,
     "return": {
      "ansible_job_id": {
@@ -10141,7 +10141,7 @@
       "When using 'with_*' loops be aware that if you do not set a unique mark the block will be overwritten on each iteration.",
       "As of Ansible 2.3, the O(dest) option has been changed to O(path) as default, but O(dest) still works as well.",
       "Option O(ignore:follow) has been removed in Ansible 2.5, because this module modifies the contents of the file so O(ignore:follow=no) does not make sense.",
-      "When more then one block should be handled in one file you must change the O(marker) per task."
+      "When more than one block should be handled in one file you must change the O(marker) per task."
      ],
      "options": {
       "append_newline": {
@@ -14283,7 +14283,7 @@
        "support": "full"
       },
       "until": {
-       "description": "Denotes if this action objeys until/retry/poll keywords",
+       "description": "Denotes if this action obeys until/retry/poll keywords",
        "support": "full"
       }
      },
@@ -14484,7 +14484,7 @@
        "support": "full"
       },
       "until": {
-       "description": "Denotes if this action objeys until/retry/poll keywords",
+       "description": "Denotes if this action obeys until/retry/poll keywords",
        "support": "full"
       }
      },
@@ -14601,7 +14601,7 @@
        "support": "full"
       },
       "until": {
-       "description": "Denotes if this action objeys until/retry/poll keywords",
+       "description": "Denotes if this action obeys until/retry/poll keywords",
        "support": "full"
       }
      },
@@ -14768,7 +14768,7 @@
        "support": "full"
       },
       "until": {
-       "description": "Denotes if this action objeys until/retry/poll keywords",
+       "description": "Denotes if this action obeys until/retry/poll keywords",
        "support": "full"
       }
      },
@@ -14890,7 +14890,7 @@
        "support": "full"
       },
       "until": {
-       "description": "Denotes if this action objeys until/retry/poll keywords",
+       "description": "Denotes if this action obeys until/retry/poll keywords",
        "support": "full"
       }
      },
@@ -15073,7 +15073,7 @@
        "support": "full"
       },
       "until": {
-       "description": "Denotes if this action objeys until/retry/poll keywords",
+       "description": "Denotes if this action obeys until/retry/poll keywords",
        "support": "full"
       }
      },
@@ -15204,7 +15204,7 @@
        "support": "full"
       },
       "until": {
-       "description": "Denotes if this action objeys until/retry/poll keywords",
+       "description": "Denotes if this action obeys until/retry/poll keywords",
        "support": "full"
       }
      },
@@ -16337,7 +16337,7 @@
        "support": "full"
       },
       "until": {
-       "description": "Denotes if this action objeys until/retry/poll keywords",
+       "description": "Denotes if this action obeys until/retry/poll keywords",
        "support": "full"
       }
      },
@@ -17971,7 +17971,7 @@
        "support": "full"
       },
       "until": {
-       "description": "Denotes if this action objeys until/retry/poll keywords",
+       "description": "Denotes if this action obeys until/retry/poll keywords",
        "support": "full"
       }
      },
@@ -18094,7 +18094,7 @@
        "support": "full"
       },
       "until": {
-       "description": "Denotes if this action objeys until/retry/poll keywords",
+       "description": "Denotes if this action obeys until/retry/poll keywords",
        "support": "full"
       }
      },
