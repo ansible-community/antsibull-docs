@@ -24,7 +24,7 @@ ns2.col.foo connection -- Foo connection \ :ansopt:`ns2.col.foo#connection:bar`\
 .. Collection note
 
 .. note::
-    This connection plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
+    This connection plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ui/repo/published/ns2/col/>`_ (version 2.1.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.

@@ -24,7 +24,7 @@ ns2.col.foo lookup -- Look up some foo \ :ansopt:`ns2.col.foo#lookup:bar`\
 .. Collection note
 
 .. note::
-    This lookup plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
+    This lookup plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ui/repo/published/ns2/col/>`_ (version 2.1.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
