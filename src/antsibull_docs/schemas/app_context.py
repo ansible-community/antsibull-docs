@@ -18,7 +18,7 @@ from antsibull_core.schemas.validators import convert_bool
 DOC_PARSING_BACKEND_CHOICES_F = p.Field("auto", regex="^(auto|ansible-core-2\\.13)$")
 
 
-DEFAULT_COLLECTION_URL_TRANSFORM = "https://galaxy.ansible.com/{namespace}/{name}"
+DEFAULT_COLLECTION_URL_TRANSFORM = "https://galaxy.ansible.com/ui/repo/published/{namespace}/{name}/"
 DEFAULT_COLLECTION_INSTALL_CMD = "ansible-galaxy collection install {namespace}.{name}"
 
 
