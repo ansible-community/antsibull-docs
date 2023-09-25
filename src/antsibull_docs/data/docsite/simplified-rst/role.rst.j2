@@ -25,12 +25,12 @@ This role is part of ``ansible-core`` and included in all Ansible
 installations.
 {% else %}
 This role is part of the `@{collection}@ collection <@{ collection | collection_url }@>`_{% if collection_version %} (version @{ collection_version }@){% endif %}.
-{%   if for_official_docsite %}
 
+{%   if for_official_docsite %}
 You might already have this collection installed if you are using the ``ansible`` package.
+{%   endif %}
 It is not included in ``ansible-core``.
 To check whether it is installed, run :code:`ansible-galaxy collection list`.
-{%   endif %}
 
 To install it use: @{ collection | collection_install | rst_code }@.
 

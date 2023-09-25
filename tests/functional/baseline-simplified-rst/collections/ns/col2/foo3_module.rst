@@ -6,11 +6,14 @@ ns.col2.foo3 module -- Foo III
 
 This module is part of the `ns.col2 collection <https://galaxy.ansible.com/ns/col2>`_ (version 0.0.1).
 
+It is not included in ``ansible-core``.
+To check whether it is installed, run ``ansible-galaxy collection list``.
+
 To install it, use: :code:`ansible-galaxy collection install ns.col2`.
 You need further requirements to be able to use this module,
 see `Requirements <ansible_collections.ns.col2.foo3_module_requirements_>`_ for details.
 
-To use it in a playbook, specify: :code:`ns.col2.foo3`.
+To use it in a playbook, specify: ``ns.col2.foo3``.
 
 
 .. contents::

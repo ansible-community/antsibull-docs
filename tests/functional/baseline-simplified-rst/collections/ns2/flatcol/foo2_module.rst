@@ -6,9 +6,12 @@ ns2.flatcol.foo2 module -- Another foo
 
 This module is part of the `ns2.flatcol collection <https://galaxy.ansible.com/ns2/flatcol>`_.
 
+It is not included in ``ansible-core``.
+To check whether it is installed, run ``ansible-galaxy collection list``.
+
 To install it, use: :code:`ansible-galaxy collection install ns2.flatcol`.
 
-To use it in a playbook, specify: :code:`ns2.flatcol.foo2`.
+To use it in a playbook, specify: ``ns2.flatcol.foo2``.
 
 
 .. contents::

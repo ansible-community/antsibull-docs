@@ -29,19 +29,21 @@ This {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% 
 is part of ``ansible-core`` and included in all Ansible
 installations. In most cases, you can use the short
 {% if plugin_type == 'module' %}module{% else %}plugin{% endif %} name
-``@{ plugin_name.rsplit('.', 1)[-1] }@`` even without specifying the ``collections:`` keyword.
-However, we recommend you use the FQCN for easy linking to the
-{% if plugin_type == 'module' %}module{% else %}plugin{% endif %}
+``@{ plugin_name.rsplit('.', 1)[-1] }@``{% if plugin_type == 'module' %} even without specifying the `collections keyword
+<https://docs.ansible.com/ansible/latest/collections_guide/collections_using_playbooks.html#using-collections-in-playbooks>`__{% endif %}.
+However, we recommend you use the `Fully Qualified Collection Name (FQCN)
+<https://docs.ansible.com/ansible/latest/reference_appendices/glossary.html#term-Fully-Qualified-Collection-Name-FQCN>`__
+``@{ plugin_name }@`` for easy linking to the {% if plugin_type == 'module' %}module{% else %}plugin{% endif %}
 documentation and to avoid conflicting with other collections that may have
 the same {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %} name.
 {% else %}
 This {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %} is part of the `@{collection}@ collection <@{ collection | collection_url }@>`_{% if collection_version %} (version @{ collection_version }@){% endif %}.
-{%   if for_official_docsite %}
 
+{%   if for_official_docsite %}
 You might already have this collection installed if you are using the ``ansible`` package.
-It is not included in ``ansible-core``.
-To check whether it is installed, run :code:`ansible-galaxy collection list`.
 {%   endif %}
+It is not included in ``ansible-core``.
+To check whether it is installed, run ``ansible-galaxy collection list``.
 
 To install it, use: @{ collection | collection_install | rst_code }@.
 {%   if doc['requirements'] %}
@@ -49,7 +51,7 @@ You need further requirements to be able to use this {% if plugin_type == 'modul
 see `Requirements <ansible_collections.@{plugin_name}@_@{plugin_type}@_requirements_>`_ for details.
 {%   endif %}
 
-To use it in a playbook, specify: :code:`@{plugin_name}@`.
+To use it in a playbook, specify: ``@{plugin_name}@``.
 {% endif %}
 
 {% if doc['version_added'] is still_relevant(collection=doc['version_added_collection'] or collection) -%}

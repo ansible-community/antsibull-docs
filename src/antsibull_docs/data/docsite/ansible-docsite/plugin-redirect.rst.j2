@@ -28,8 +28,9 @@
 .. note::
     This redirect is part of ``ansible-core`` and included in all Ansible
     installations. In most cases, you can use the short module name
-    @{ plugin_name.rsplit('.', 1)[-1] }@ even without specifying the ``collections:`` keyword.
-    Despite that, we recommend you use the FQCN for easy linking to the module
+    :code:`@{ plugin_name.rsplit('.', 1)[-1] }@`{% if plugin_type == 'module' %} even without specifying the :ref:`collections keyword <collections_keyword>`{% endif %}.
+    Despite that, we recommend you use the :term:`Fully Qualified Collection Name (FQCN)` :code:`@{ plugin_name }@` for easy linking to the
+    {% if plugin_type == 'module' %}module{% else %}plugin{% endif %}
     documentation and to avoid conflicting with other collections that may have
     the same module name.
 {% else %}
