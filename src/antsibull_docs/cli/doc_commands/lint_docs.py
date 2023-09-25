@@ -18,6 +18,10 @@ from ...collection_links import lint_collection_links
 from ...jinja2.environment import OutputFormat
 from ...lint_extra_docs import lint_collection_extra_docs_files
 from ...lint_plugin_docs import lint_collection_plugin_docs, lint_core_plugin_docs
+from ...schemas.app_context import (
+    DEFAULT_COLLECTION_INSTALL_CMD,
+    DEFAULT_COLLECTION_URL_TRANSFORM,
+)
 from ...utils.collection_name_transformer import CollectionNameTransformer
 
 mlog = log.fields(mod=__name__)
@@ -55,11 +59,11 @@ def lint_collection_docs() -> int:
     if plugin_docs:
         flog.notice("Linting plugin docs")
         collection_url = CollectionNameTransformer(
-            app_ctx.collection_url, "https://galaxy.ansible.com/{namespace}/{name}"
+            app_ctx.collection_url, DEFAULT_COLLECTION_URL_TRANSFORM
         )
         collection_install = CollectionNameTransformer(
             app_ctx.collection_install,
-            "ansible-galaxy collection install {namespace}.{name}",
+            DEFAULT_COLLECTION_INSTALL_CMD,
         )
         errors.extend(
             lint_collection_plugin_docs(
@@ -106,11 +110,11 @@ def lint_core_docs() -> int:
 
     flog.notice("Linting plugin docs")
     collection_url = CollectionNameTransformer(
-        app_ctx.collection_url, "https://galaxy.ansible.com/{namespace}/{name}"
+        app_ctx.collection_url, DEFAULT_COLLECTION_URL_TRANSFORM
     )
     collection_install = CollectionNameTransformer(
         app_ctx.collection_install,
-        "ansible-galaxy collection install {namespace}.{name}",
+        DEFAULT_COLLECTION_INSTALL_CMD,
     )
     errors = lint_core_plugin_docs(
         collection_url=collection_url,

@@ -40,6 +40,10 @@ from ...process_docs import (
     get_plugin_contents,
     normalize_all_plugin_info,
 )
+from ...schemas.app_context import (
+    DEFAULT_COLLECTION_INSTALL_CMD,
+    DEFAULT_COLLECTION_URL_TRANSFORM,
+)
 from ...utils.collection_name_transformer import CollectionNameTransformer
 from ...write_docs.collections import output_extra_docs, output_indexes
 from ...write_docs.hierarchy import (
@@ -250,11 +254,11 @@ def generate_docs_for_all_collections(  # noqa: C901
     collection_namespaces = get_collection_namespaces(collection_to_plugin_info.keys())
 
     collection_url = CollectionNameTransformer(
-        app_ctx.collection_url, "https://galaxy.ansible.com/{namespace}/{name}"
+        app_ctx.collection_url, DEFAULT_COLLECTION_URL_TRANSFORM
     )
     collection_install = CollectionNameTransformer(
         app_ctx.collection_install,
-        "ansible-galaxy collection install {namespace}.{name}",
+        DEFAULT_COLLECTION_INSTALL_CMD,
     )
 
     filename_generator = FilenameGenerator(
