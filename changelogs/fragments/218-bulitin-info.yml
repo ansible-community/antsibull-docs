@@ -1,0 +1,3 @@
+minor_changes:
+  - "Improve the info box for ``ansible.builtin`` plugins and modules to explain FQCN and link to the ``collection`` keyword docs (https://github.com/ansible-community/antsibull-docs/pull/218)."
+  - "Improve the info box for modules, plugins, and roles in collections to show note that they are not included in ``ansible-core`` and show instructions on how to check whether the collection is installed (https://github.com/ansible-community/antsibull-docs/pull/218)."
