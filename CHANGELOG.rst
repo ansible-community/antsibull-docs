@@ -5,6 +5,59 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v2.4.0
+======
+
+Release Summary
+---------------
+
+Bugfix and feature release. Improves support for other builders than ``html``.
+
+There will be a follow-up release after `Ansible Galaxy <https://galaxy.ansible.com/>`__
+switched to the new ``galaxy_ng`` codebase, which is scheduled for September 30th.
+That release will only adjust the URLs to Galaxy, except potentially bugfixes.
+
+
+Minor Changes
+-------------
+
+- Add basic support for other HTML based Sphinx builders such as ``epub`` and ``singlehtml`` (https://github.com/ansible-community/antsibull-docs/pull/201).
+- Adjust default RST output to work better with Spinx's LaTeX builder (https://github.com/ansible-community/antsibull-docs/pull/195).
+- Allow specifying wildcards for the collection names for the ``collections`` subcommand if ``--use-current`` is specified (https://github.com/ansible-community/antsibull-docs/pull/219).
+- Antsibull-docs now depends on antsibull-core >= 2.1.0 (https://github.com/ansible-community/antsibull-docs/pull/209).
+- Create collection links with a custom directive. This makes them compatible with builders other than the HTML builder (https://github.com/ansible-community/antsibull-docs/pull/200).
+- Fix indent for nested options and return values with Spinx's LaTeX builder (https://github.com/ansible-community/antsibull-docs/pull/198).
+- Improve linting of option and return value names in semantic markup with respect to array stubs: forbid array stubs for dictionaries if the dictionary is not the last part of the option (https://github.com/ansible-community/antsibull-docs/pull/208).
+- Improve the info box for ``ansible.builtin`` plugins and modules to explain FQCN and link to the ``collection`` keyword docs (https://github.com/ansible-community/antsibull-docs/pull/218).
+- Improve the info box for modules, plugins, and roles in collections to show note that they are not included in ``ansible-core`` and show instructions on how to check whether the collection is installed (https://github.com/ansible-community/antsibull-docs/pull/218).
+- Insert the antsibull-docs version as a comment or metadata into the generated files (https://github.com/ansible-community/antsibull-docs/pull/205).
+- Make sure that the antsibull Sphinx extension contains the correct version (same as antsibull-docs itself) and licensing information (GPL-3.0-or-later), and that the version is kept up-to-date for new releases (https://github.com/ansible-community/antsibull-docs/pull/202).
+- Move roles from templates and structural styling from stylesheet to antsibull Sphinx extension. This makes sure that HTML tags such as ``<strong>`` and ``<em>`` are used for bold and italic texts, and that the same formattings are used for the LaTeX builder (https://github.com/ansible-community/antsibull-docs/pull/199).
+- Support multiple filters in ``ansible-doc`` of ansible-core 2.16 and later. This makes building docsites and linting more efficient when documentation for more than one and less than all installed collections needs to be queried (https://github.com/ansible-community/antsibull-docs/issues/193, https://github.com/ansible-community/antsibull-docs/pull/213).
+- The ``current`` subcommand now has a ``--skip-ansible-builtin`` option which skips building documentation for ``ansible.builtin`` (https://github.com/ansible-community/antsibull-docs/pull/215).
+- Use same colors for LaTeX builder's output as for HTML builder's output (https://github.com/ansible-community/antsibull-docs/pull/199).
+
+Deprecated Features
+-------------------
+
+- The ``--use-html-blobs`` feature that inserts HTML blobs for the options and return value tables for the ``ansible-docsite`` output format is deprecated and will be removed soon. The HTML tables cause several features to break, such as references to options and return values. If you think this feature needs to stay, please create an issue in the `antsibull-docs repository <https://github.com/ansible-community/antsibull-docs/issues/>`__ and provide good reasons for it (https://github.com/ansible-community/antsibull-docs/pull/217).
+
+Bugfixes
+--------
+
+- Document and ensure that the ``collection`` subcommand with `--use-current`` can only be used with collection names (https://github.com/ansible-community/antsibull-docs/pull/214).
+- Fix FQCN detection (https://github.com/ansible-community/antsibull-docs/pull/214).
+- The ``collection`` subcommand claimed to support paths to directories, which was never supported. Removed the mention of paths from the help, and added validation (https://github.com/ansible-community/antsibull-docs/pull/214).
+- The ``plugin`` subcommand claimed to support paths to plugin files, which was never supported. Removed the mention of paths from the help (https://github.com/ansible-community/antsibull-docs/pull/214).
+- When running ``antsibull-docs --help``, the correct program name is now shown for the ``--version`` option (https://github.com/ansible-community/antsibull-docs/pull/209).
+- When running ``antsibull-docs --version``, the correct version is now shown also for editable installs and other installs that do not allow ``importlib.metadata`` to show the correct version (https://github.com/ansible-community/antsibull-docs/pull/209).
+- When using the ``action_group`` or ``platform`` attributes in a role, a RST symbol was used that was not defined (https://github.com/ansible-community/antsibull-docs/pull/206).
+
+Known Issues
+------------
+
+- When using Sphinx builders other than HTML and LaTeX, the indentation for nested options and return values is missing (https://github.com/ansible-community/antsibull-docs/pull/195).
+
 v2.3.1
 ======
 

@@ -1,2 +1,0 @@
-minor_changes:
-  - "Add basic support for other HTML based Sphinx builders such as ``epub`` and ``singlehtml`` (https://github.com/ansible-community/antsibull-docs/pull/201)."

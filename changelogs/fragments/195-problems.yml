@@ -1,2 +1,0 @@
-known_issues:
-  - "When using Sphinx builders other than HTML and LaTeX, the indentation for nested options and return values is missing (https://github.com/ansible-community/antsibull-docs/pull/195)."

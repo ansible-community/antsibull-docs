@@ -1,2 +1,0 @@
-minor_changes:
-  - "Improve linting of option and return value names in semantic markup with respect to array stubs: forbid array stubs for dictionaries if the dictionary is not the last part of the option (https://github.com/ansible-community/antsibull-docs/pull/208)."

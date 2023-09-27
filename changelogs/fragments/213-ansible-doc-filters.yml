@@ -1,2 +1,0 @@
-minor_changes:
-  - "Support multiple filters in ``ansible-doc`` of ansible-core 2.16 and later. This makes building docsites and linting more efficient when documentation for more than one and less than all installed collections needs to be queried (https://github.com/ansible-community/antsibull-docs/issues/193, https://github.com/ansible-community/antsibull-docs/pull/213)."

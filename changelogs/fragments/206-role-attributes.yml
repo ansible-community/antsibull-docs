@@ -1,2 +1,0 @@
-bugfixes:
-  - "When using the ``action_group`` or ``platform`` attributes in a role, a RST symbol was used that was not defined (https://github.com/ansible-community/antsibull-docs/pull/206)."

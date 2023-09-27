@@ -1,2 +1,0 @@
-minor_changes:
-  - "Fix indent for nested options and return values with Spinx's LaTeX builder (https://github.com/ansible-community/antsibull-docs/pull/198)."
