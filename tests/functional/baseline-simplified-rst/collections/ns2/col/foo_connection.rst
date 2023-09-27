@@ -6,9 +6,12 @@ ns2.col.foo connection -- Foo connection \ :literal:`bar` (`link <parameter-bar_
 
 This connection plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
 
+It is not included in ``ansible-core``.
+To check whether it is installed, run ``ansible-galaxy collection list``.
+
 To install it, use: :code:`ansible-galaxy collection install ns2.col`.
 
-To use it in a playbook, specify: :code:`ns2.col.foo`.
+To use it in a playbook, specify: ``ns2.col.foo``.
 
 New in ns2.col 1.2.0
 

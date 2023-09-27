@@ -58,20 +58,20 @@
     is part of ``ansible-core`` and included in all Ansible
     installations. In most cases, you can use the short
     {% if plugin_type == 'module' %}module{% else %}plugin{% endif %} name
-    ``@{ plugin_name.rsplit('.', 1)[-1] }@`` even without specifying the ``collections:`` keyword.
-    However, we recommend you use the FQCN for easy linking to the
+    :code:`@{ plugin_name.rsplit('.', 1)[-1] }@`{% if plugin_type == 'module' %} even without specifying the :ref:`collections keyword <collections_keyword>`{% endif %}.
+    However, we recommend you use the :term:`Fully Qualified Collection Name (FQCN)` :code:`@{ plugin_name }@` for easy linking to the
     {% if plugin_type == 'module' %}module{% else %}plugin{% endif %}
     documentation and to avoid conflicting with other collections that may have
     the same {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %} name.
 {% else %}
 .. note::
     This {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %} is part of the `@{collection}@ collection <@{ collection | collection_url }@>`_{% if collection_version %} (version @{ collection_version }@){% endif %}.
-{%   if for_official_docsite %}
 
+{%   if for_official_docsite %}
     You might already have this collection installed if you are using the ``ansible`` package.
+{%   endif %}
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
-{%   endif %}
 
     To install it, use: @{ collection | collection_install | rst_code }@.
 {%   if doc['requirements'] %}
