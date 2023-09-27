@@ -234,7 +234,9 @@ def bump(session: nox.Session):
                 "or two positional arguments must be provided."
             )
     install(session, "antsibull-changelog", "hatch")
-    session.run("hatch", "version", version)
+    current_version = session.run("hatch", "version", silent=True).strip()
+    if version != current_version:
+        session.run("hatch", "version", version)
     if len(session.posargs) > 1:
         fragment = session.run(
             "python",
