@@ -1,0 +1,2 @@
+minor_changes:
+  - "Allow specifying wildcards for the collection names for the ``collections`` subcommand if ``--use-current`` is specified (https://github.com/ansible-community/antsibull-docs/pull/219)."

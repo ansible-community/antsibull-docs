@@ -19,7 +19,7 @@ from packaging.version import Version as PypiVer
 from ..constants import DOCUMENTABLE_PLUGINS
 from . import AnsibleCollectionMetadata, _get_environment
 from .ansible_doc import get_collection_metadata
-from .fqcn import get_fqcn_parts
+from .fqcn import get_fqcn_parts, is_collection_name, is_wildcard_collection_name
 
 if t.TYPE_CHECKING:
     from antsibull_core.venv import FakeVenvRunner, VenvRunner
@@ -82,6 +82,57 @@ def _get_ansible_doc_filters(
     return []
 
 
+def _get_matcher(wildcard: str) -> t.Callable[[str], bool]:
+    namespace, collection = wildcard.split(".", 1)
+
+    if namespace == "*":
+        if collection == "*":
+            return lambda collection_name: True
+        postfix = f".{collection}"
+        return lambda collection_name: collection_name.endswith(postfix)
+
+    if collection == "*":
+        prefix = f"{namespace}."
+        return lambda collection_name: collection_name.startswith(prefix)
+
+    return lambda collection_name: collection_name == wildcard
+
+
+def _limit_by_wildcards(
+    collection_metadata: dict[str, AnsibleCollectionMetadata],
+    collection_names: list[str],
+) -> tuple[dict[str, AnsibleCollectionMetadata], list[str]]:
+    wildcard_matchers: dict[str, t.Callable[[str], bool]] = {}
+    wildcard_counters: dict[str, int] = {}
+    for wildcard in collection_names:
+        wildcard_matchers[wildcard] = _get_matcher(wildcard)
+        wildcard_counters[wildcard] = 0
+
+    ret_collection_metadata = {}
+    ret_collection_names = []
+
+    for collection_name, collection_data in collection_metadata.items():
+        found = False
+        for wildcard, matcher in wildcard_matchers.items():
+            if matcher(collection_name):
+                wildcard_counters[wildcard] += 1
+                found = True
+        if not found:
+            if collection_name == "ansible.builtin":
+                ret_collection_metadata[collection_name] = collection_data
+            continue
+        ret_collection_metadata[collection_name] = collection_data
+        ret_collection_names.append(collection_name)
+
+    for wildcard, count in wildcard_counters.items():
+        if count == 0:
+            raise RuntimeError(
+                f"{wildcard} does not match any of the collections"
+                f" in {', '.join(sorted(collection_metadata))}"
+            )
+    return ret_collection_metadata, ret_collection_names
+
+
 async def get_ansible_plugin_info(
     venv: VenvRunner | FakeVenvRunner,
     ansible_core_version: PypiVer,
@@ -121,13 +172,26 @@ async def get_ansible_plugin_info(
         collection_dir, keep_current_collections_path=fetch_all_installed, venv=venv
     )
 
+    has_wildcards = collection_names is not None and any(
+        is_wildcard_collection_name(cn) and not is_collection_name(cn)
+        for cn in collection_names
+    )
+
+    flog.debug("Retrieving collection metadata")
+    collection_metadata = await get_collection_metadata(
+        venv, env, None if has_wildcards else collection_names
+    )
+
+    if has_wildcards:
+        flog.debug("Restricting collection list by wildcards")
+        collection_metadata, collection_names = _limit_by_wildcards(
+            collection_metadata, collection_names or []
+        )
+
     flog.debug("Retrieving and loading plugin documentation")
     ansible_doc_output = await _call_ansible_doc(
         venv, env, *_get_ansible_doc_filters(ansible_core_version, collection_names)
     )
-
-    flog.debug("Retrieving collection metadata")
-    collection_metadata = await get_collection_metadata(venv, env, collection_names)
 
     flog.debug("Processing plugin documentation")
     plugin_map: MutableMapping[str, MutableMapping[str, t.Any]] = {}

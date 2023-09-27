@@ -35,7 +35,11 @@ from antsibull_core.filesystem import UnableToCheck, writable_via_acls  # noqa: 
 import antsibull_docs  # noqa: E402
 
 from ..constants import DOCUMENTABLE_PLUGINS  # noqa: E402
-from ..docs_parsing.fqcn import is_collection_name, is_fqcn  # noqa: E402
+from ..docs_parsing.fqcn import (  # noqa: E402
+    is_collection_name,
+    is_fqcn,
+    is_wildcard_collection_name,
+)
 from ..schemas.app_context import DocsAppContext  # noqa: E402
 from .doc_commands import (  # noqa: E402
     collection,
@@ -154,6 +158,8 @@ def _normalize_collection_options(args: argparse.Namespace) -> None:
 
     for collection_name in args.collections:
         if not is_collection_name(collection_name):
+            if args.use_current and is_wildcard_collection_name(collection_name):
+                continue
             raise InvalidArgumentError(
                 f"The collection, {collection_name}, is not a valid collection name."
             )
@@ -444,7 +450,9 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         dest="collections",
         help="One or more collections to document. No paths or URLs are"
         " supported. Collections are assumed to exist on Galaxy, or be"
-        " installed locally when --use-current is used.",
+        " installed locally when --use-current is used. When --use-current"
+        " is used, the wildcard '*' can be used for the namespace, the"
+        " collection name, or both ('foo.*', '*.bar', '*.*').",
     )
 
     #

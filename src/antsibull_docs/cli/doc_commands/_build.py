@@ -164,7 +164,10 @@ def generate_docs_for_all_collections(  # noqa: C901
 
     _validate_options(collection_names, exclude_collection_names, use_html_blobs)
 
-    if collection_names is not None and "ansible.builtin" not in collection_names:
+    if collection_names is not None and all(
+        ab not in collection_names
+        for ab in ("ansible.builtin", "ansible.*", "*.builtin", "*.*")
+    ):
         exclude_collection_names = ["ansible.builtin"]
 
     app_ctx = app_context.app_ctx.get()
