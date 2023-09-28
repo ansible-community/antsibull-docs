@@ -45,7 +45,7 @@ Deprecated Features
 Bugfixes
 --------
 
-- Document and ensure that the ``collection`` subcommand with `--use-current`` can only be used with collection names (https://github.com/ansible-community/antsibull-docs/pull/214).
+- Document and ensure that the ``collection`` subcommand with ``--use-current`` can only be used with collection names (https://github.com/ansible-community/antsibull-docs/pull/214).
 - Fix FQCN detection (https://github.com/ansible-community/antsibull-docs/pull/214).
 - The ``collection`` subcommand claimed to support paths to directories, which was never supported. Removed the mention of paths from the help, and added validation (https://github.com/ansible-community/antsibull-docs/pull/214).
 - The ``plugin`` subcommand claimed to support paths to plugin files, which was never supported. Removed the mention of paths from the help (https://github.com/ansible-community/antsibull-docs/pull/214).

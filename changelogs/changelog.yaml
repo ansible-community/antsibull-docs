@@ -608,7 +608,7 @@ releases:
   2.4.0:
     changes:
       bugfixes:
-      - Document and ensure that the ``collection`` subcommand with `--use-current``
+      - Document and ensure that the ``collection`` subcommand with ``--use-current``
         can only be used with collection names (https://github.com/ansible-community/antsibull-docs/pull/214).
       - Fix FQCN detection (https://github.com/ansible-community/antsibull-docs/pull/214).
       - The ``collection`` subcommand claimed to support paths to directories, which
