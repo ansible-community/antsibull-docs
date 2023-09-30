@@ -700,3 +700,15 @@ releases:
     - 218-bulitin-info.yml
     - 219-collection-wildcards.yml
     release_date: '2023-09-27'
+  2.5.0:
+    changes:
+      minor_changes:
+      - The default collection URL template has been changed from ``https://galaxy.ansible.com/{namespace}/{name}``
+        to ``https://galaxy.ansible.com/ui/repo/published/{namespace}/{name}/`` to
+        adjust for the Galaxy codebase change on September 30th, 2023 (https://github.com/ansible-community/antsibull-docs/issues/147,
+        https://github.com/ansible-community/antsibull-docs/pull/220).
+      release_summary: Release to support the updated Ansible Galaxy codebase.
+    fragments:
+    - 2.5.0.yml
+    - 220-collection_url-template.yml
+    release_date: '2023-09-30'

@@ -5,6 +5,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v2.5.0
+======
+
+Release Summary
+---------------
+
+Release to support the updated Ansible Galaxy codebase.
+
+Minor Changes
+-------------
+
+- The default collection URL template has been changed from ``https://galaxy.ansible.com/{namespace}/{name}`` to ``https://galaxy.ansible.com/ui/repo/published/{namespace}/{name}/`` to adjust for the Galaxy codebase change on September 30th, 2023 (https://github.com/ansible-community/antsibull-docs/issues/147, https://github.com/ansible-community/antsibull-docs/pull/220).
+
 v2.4.0
 ======
 
