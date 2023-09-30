@@ -18,6 +18,12 @@ from antsibull_core.schemas.validators import convert_bool
 DOC_PARSING_BACKEND_CHOICES_F = p.Field("auto", regex="^(auto|ansible-core-2\\.13)$")
 
 
+DEFAULT_COLLECTION_URL_TRANSFORM = (
+    "https://galaxy.ansible.com/ui/repo/published/{namespace}/{name}/"
+)
+DEFAULT_COLLECTION_INSTALL_CMD = "ansible-galaxy collection install {namespace}.{name}"
+
+
 class DocsAppContext(CoreAppContext):
     # These are already defined in CoreConfigModel, but deprecated and will be removed in
     # antsibull-core 3.0.0
@@ -29,10 +35,10 @@ class DocsAppContext(CoreAppContext):
     use_html_blobs: p.StrictBool = False
 
     collection_url: dict[str, str] = {
-        "*": "https://galaxy.ansible.com/{namespace}/{name}",
+        "*": DEFAULT_COLLECTION_URL_TRANSFORM,
     }
     collection_install: dict[str, str] = {
-        "*": "ansible-galaxy collection install {namespace}.{name}",
+        "*": DEFAULT_COLLECTION_INSTALL_CMD,
     }
 
     # pylint: disable-next=unused-private-member

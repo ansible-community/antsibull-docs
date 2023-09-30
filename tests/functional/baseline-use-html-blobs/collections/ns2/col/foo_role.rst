@@ -22,7 +22,7 @@ ns2.col.foo role -- Foo role
 .. Collection note
 
 .. note::
-    This role is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
+    This role is part of the `ns2.col collection <https://galaxy.ansible.com/ui/repo/published/ns2/col/>`_ (version 2.1.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.

@@ -24,7 +24,7 @@ ns2.col.foo vars -- Load foo \ :ansopt:`ns2.col.foo#vars:bar`\
 .. Collection note
 
 .. note::
-    This vars plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
+    This vars plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ui/repo/published/ns2/col/>`_ (version 2.1.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.

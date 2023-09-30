@@ -18,7 +18,7 @@ ns2.col.is_bar test
 .. Collection note
 
 .. note::
-    This redirect is part of the `ns2.col collection <https://galaxy.ansible.com/ns2/col>`_ (version 2.1.0).
+    This redirect is part of the `ns2.col collection <https://galaxy.ansible.com/ui/repo/published/ns2/col/>`_ (version 2.1.0).
 
     To use it in a playbook, specify: :code:`ns2.col.is_bar`.
 

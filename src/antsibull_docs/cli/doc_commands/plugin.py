@@ -29,6 +29,10 @@ from ...docs_parsing.fqcn import get_fqcn_parts
 from ...jinja2 import FilenameGenerator, OutputFormat
 from ...jinja2.environment import doc_environment
 from ...process_docs import normalize_plugin_info
+from ...schemas.app_context import (
+    DEFAULT_COLLECTION_INSTALL_CMD,
+    DEFAULT_COLLECTION_URL_TRANSFORM,
+)
 from ...utils.collection_name_transformer import CollectionNameTransformer
 from ...write_docs.plugins import write_plugin_rst
 
@@ -118,11 +122,11 @@ def generate_plugin_docs(
 
     # Setup the jinja environment
     collection_url = CollectionNameTransformer(
-        app_ctx.collection_url, "https://galaxy.ansible.com/{namespace}/{name}"
+        app_ctx.collection_url, DEFAULT_COLLECTION_URL_TRANSFORM
     )
     collection_install = CollectionNameTransformer(
         app_ctx.collection_install,
-        "ansible-galaxy collection install {namespace}.{name}",
+        DEFAULT_COLLECTION_INSTALL_CMD,
     )
     env = doc_environment(
         collection_url=collection_url,

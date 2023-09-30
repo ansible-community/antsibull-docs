@@ -25,4 +25,4 @@ The errors were:
           extra fields not permitted (type=value_error.extra)
 
 
-File a bug with the `ns.col2 collection <https://galaxy.ansible.com/ns/col2>`_ in order to have it corrected.
+File a bug with the `ns.col2 collection <https://galaxy.ansible.com/ui/repo/published/ns/col2/>`_ in order to have it corrected.
