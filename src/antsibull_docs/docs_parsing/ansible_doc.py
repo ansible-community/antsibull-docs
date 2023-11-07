@@ -10,6 +10,8 @@ from __future__ import annotations
 import json
 import os
 import re
+import shlex
+import textwrap
 import typing as t
 from collections.abc import Mapping
 
@@ -87,10 +89,18 @@ async def _call_ansible_galaxy_collection_list(
     venv: VenvRunner | FakeVenvRunner,
     env: dict[str, str],
 ) -> Mapping[str, t.Any]:
-    p = await venv.async_log_run(
-        ["ansible-galaxy", "collection", "list", "--format", "json"],
-        env=env,
-    )
+    try:
+        p = await venv.async_log_run(
+            ["ansible-galaxy", "collection", "list", "--format", "json"],
+            env=env,
+        )
+    except CalledProcessError as exc:
+        if exc.returncode and exc.returncode > 0:
+            raise RuntimeError(
+                f"The command\n| {shlex.join(exc.cmd)}\nreturned exit status {exc.returncode}"
+                f" with error output:\n{textwrap.indent(exc.stderr, '| ')}"
+            ) from exc
+        raise
     return json.loads(_filter_non_json_lines(p.stdout)[0])
 
 
@@ -156,5 +166,6 @@ async def get_ansible_core_version(
         return PypiVer(metadata.version)
     except CalledProcessError as exc:
         raise ValueError(
-            f"Cannot retrieve ansible-core version from `ansible --version`: {exc}"
+            f"Cannot retrieve ansible-core version from `ansible --version`: {exc};"
+            f" error output:\n{textwrap.indent(exc.stderr, '| ')}"
         ) from exc
