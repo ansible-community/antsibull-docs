@@ -8,11 +8,14 @@
 from __future__ import annotations
 
 import json
+import shlex
+import textwrap
 import typing as t
 from collections.abc import Mapping, MutableMapping
 
 import semantic_version as semver
 from antsibull_core.logging import log
+from antsibull_core.subprocess_util import CalledProcessError
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
 from packaging.version import Version as PypiVer
 
@@ -33,10 +36,24 @@ async def _call_ansible_doc(
     env: dict[str, str],
     *parameters: str,
 ) -> Mapping[str, t.Any]:
-    p = await venv.async_log_run(
-        ["ansible-doc", "-vvv", "--metadata-dump", "--no-fail-on-errors", *parameters],
-        env=env,
-    )
+    try:
+        p = await venv.async_log_run(
+            [
+                "ansible-doc",
+                "-vvv",
+                "--metadata-dump",
+                "--no-fail-on-errors",
+                *parameters,
+            ],
+            env=env,
+        )
+    except CalledProcessError as exc:
+        if exc.returncode and exc.returncode > 0:
+            raise RuntimeError(
+                f"The command\n| {shlex.join(exc.cmd)}\nreturned exit status {exc.returncode}"
+                f" with error output:\n{textwrap.indent(exc.stderr, '| ')}"
+            ) from exc
+        raise
     return json.loads(_filter_non_json_lines(p.stdout)[0])
 
 
