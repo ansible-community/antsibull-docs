@@ -89,7 +89,7 @@ def generate_docs() -> int:
                 list(app_ctx.extra["collection"]),
                 collection_version,
                 tmp_dir,
-                galaxy_server=app_ctx.galaxy_url,
+                galaxy_server=str(app_ctx.galaxy_url),
                 collection_cache=app_ctx.collection_cache,
             )
         )

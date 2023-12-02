@@ -7,7 +7,7 @@
 """Schemas for the plugin DOCUMENTATION data."""
 
 
-import pydantic as p
+from antsibull_docs._pydantic_compat import v1 as p
 
 from .base import BaseModel
 from .plugin import (

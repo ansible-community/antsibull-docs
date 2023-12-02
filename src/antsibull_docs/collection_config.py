@@ -15,8 +15,8 @@ import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context
 from antsibull_core.logging import log
 from antsibull_core.yaml import load_yaml_file
-from pydantic import Extra
-from pydantic.error_wrappers import ValidationError, display_errors
+
+from antsibull_docs._pydantic_compat import v1
 
 from .schemas.collection_config import CollectionConfig
 
@@ -51,7 +51,7 @@ async def load_collection_config(
         if os.path.isfile(config_path):
             try:
                 return CollectionConfig.parse_obj(load_yaml_file(config_path))
-            except ValidationError:
+            except v1.ValidationError:
                 pass
         return CollectionConfig.parse_obj({})
     finally:
@@ -100,7 +100,7 @@ def lint_collection_config(collection_path: str) -> list[tuple[str, int, int, st
     result: list[tuple[str, int, int, str]] = []
 
     for cls in (CollectionConfig,):
-        cls.__config__.extra = Extra.forbid  # type: ignore[attr-defined]
+        cls.__config__.extra = v1.Extra.forbid  # type: ignore[attr-defined]
 
     try:
         config_path = os.path.join(collection_path, "docs", "docsite", "config.yml")
@@ -110,10 +110,15 @@ def lint_collection_config(collection_path: str) -> list[tuple[str, int, int, st
         config_data = load_yaml_file(config_path)
         try:
             CollectionConfig.parse_obj(config_data)
-        except ValidationError as exc:
+        except v1.ValidationError as exc:
             for error in exc.errors():
                 result.append(
-                    (config_path, 0, 0, display_errors([error]).replace("\n ", ":"))
+                    (
+                        config_path,
+                        0,
+                        0,
+                        v1.error_wrappers.display_errors([error]).replace("\n ", ":"),
+                    )
                 )
 
         return result

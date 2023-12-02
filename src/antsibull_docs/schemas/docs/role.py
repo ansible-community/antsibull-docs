@@ -13,7 +13,7 @@
 import typing as t
 from collections.abc import Mapping
 
-import pydantic as p
+from antsibull_docs._pydantic_compat import v1 as p
 
 from .base import (
     COLLECTION_NAME_F,

@@ -125,9 +125,9 @@ import abc
 import typing as t
 from collections.abc import Mapping
 
-import pydantic as p
 from antsibull_core.yaml import load_yaml_bytes
 
+from antsibull_docs._pydantic_compat import v1 as p
 from antsibull_docs.vendored.ansible import (  # type: ignore[import]
     check_type_bits,
     check_type_bool,

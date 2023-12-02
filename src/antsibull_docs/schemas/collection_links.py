@@ -11,7 +11,7 @@
 
 import typing as t
 
-import pydantic as p
+from antsibull_docs._pydantic_compat import v1 as p
 
 _SENTINEL = object()
 
