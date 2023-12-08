@@ -1207,6 +1207,7 @@
                 "version_added": "historical",
                 "version_added_collection": "ansible.builtin"
             },
+            "examples_format": "yaml",
             "examples": "",
             "metadata": null,
             "return_": {}

@@ -47,6 +47,7 @@
                 "version_added": "1.9",
                 "version_added_collection": "ansible.builtin"
             },
+            "examples_format": "yaml",
             "examples": "# test 'status' to know how to respond\n{{ (taskresults is changed }}\n",
             "metadata": null,
             "return_": {

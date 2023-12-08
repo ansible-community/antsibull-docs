@@ -9,6 +9,7 @@
 # to initialize the attributes when data is loaded into them.
 # pyre-ignore-all-errors[13]
 
+import re
 import typing as t
 
 import pydantic as p
@@ -31,6 +32,8 @@ from .base import (
 )
 
 _SENTINEL = object()
+
+_EXAMPLES_FMT_RE = re.compile(r"^# fmt:\s+(\S+)")
 
 
 class OptionCliSchema(BaseModel):
@@ -207,6 +210,16 @@ class PluginDocSchema(BaseModel):
 
 class PluginExamplesSchema(BaseModel):
     examples: str = ""
+    examples_format: str = "yaml"
+
+    @p.root_validator(pre=True)
+    # pylint:disable=no-self-argument
+    def extract_examples_format(cls, values):
+        if isinstance(values.get("examples"), str):
+            fmt_match = _EXAMPLES_FMT_RE.match(values["examples"].lstrip())
+            if fmt_match:
+                values["examples_format"] = fmt_match.group(1)
+        return values
 
     @p.validator("examples", pre=True)
     # pylint:disable=no-self-argument

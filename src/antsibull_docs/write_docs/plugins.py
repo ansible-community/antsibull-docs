@@ -236,6 +236,7 @@ def create_plugin_rst(
                 plugin_name=plugin_name,
                 doc=plugin_record["doc"],
                 examples=plugin_record["examples"],
+                examples_format=plugin_record["examples_format"],
                 returndocs=plugin_record["return"],
                 nonfatal_errors=nonfatal_errors,
                 edit_on_github_url=edit_on_github_url,

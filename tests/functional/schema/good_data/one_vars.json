@@ -70,7 +70,7 @@
             "version_added": "2.4",
             "version_added_collection": "foo.bar"
         },
-        "examples": null,
+        "examples": " # fmt: ini\n[foo]\nbar = bam",
         "metadata": {
             "status": [
                 "preview"
