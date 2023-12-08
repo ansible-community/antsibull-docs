@@ -212,14 +212,13 @@ class PluginExamplesSchema(BaseModel):
     examples: str = ""
     examples_format: str = "yaml"
 
-    @p.root_validator(pre=True)
+    @p.validator("examples_format", always=True)
     # pylint:disable=no-self-argument
-    def extract_examples_format(cls, values):
-        if isinstance(values.get("examples"), str):
-            fmt_match = _EXAMPLES_FMT_RE.match(values["examples"].lstrip())
-            if fmt_match:
-                values["examples_format"] = fmt_match.group(1)
-        return values
+    def extract_examples_format(cls, value: t.Any, values: dict[str, t.Any]):
+        if isinstance(examples := values.get("examples"), str):
+            if fmt_match := _EXAMPLES_FMT_RE.match(examples.lstrip()):
+                value = fmt_match.group(1)
+        return value
 
     @p.validator("examples", pre=True)
     # pylint:disable=no-self-argument
