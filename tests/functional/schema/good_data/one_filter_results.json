@@ -111,6 +111,7 @@
                 "version_added": "1.9",
                 "version_added_collection": "ansible.builtin"
             },
+            "examples_format": "yaml",
             "examples": "# set first 10 volumes rw, rest as dp\nvolume_mode: \"{{ (item|int < 11)|ternary('rw', 'dp') }}\"\n\n# choose correct vpc subnet id, note that vars as values are evaluated even if not returned\nvpc_subnet_id: \"{{ (ec2_subnet_type == 'public') | ternary(ec2_vpc_public_subnet_id, ec2_vpc_private_subnet_id) }}\"\n\n- name: service-foo, use systemd module unless upstart is present, then use old service module\n  service:\n    state: restarted\n    enabled: yes\n    use: \"{{ (ansible_service_mgr == 'upstart') | ternary('service', 'systemd') }}\"\n",
             "metadata": null,
             "return_": {

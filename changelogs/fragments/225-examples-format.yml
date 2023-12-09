@@ -1,0 +1,2 @@
+bugfixes:
+  - "When ``EXAMPLES`` has the format specified by ``# fmt: <format>``, this value is used to determine the code block type (https://github.com/ansible-community/antsibull-docs/pull/225)."

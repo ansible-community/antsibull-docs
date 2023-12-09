@@ -223,6 +223,7 @@
                 "version_added": "historical",
                 "version_added_collection": "foo.bar"
             },
+            "examples_format": "yaml",
             "examples": "",
             "metadata": {
                 "status": [
