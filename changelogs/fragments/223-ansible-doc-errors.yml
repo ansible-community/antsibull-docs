@@ -1,2 +1,0 @@
-minor_changes:
-  - "Improve error messages when calls to ``ansible-doc`` fail (https://github.com/ansible-community/antsibull-docs/pull/223)."

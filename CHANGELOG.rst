@@ -5,6 +5,24 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v2.6.0
+======
+
+Release Summary
+---------------
+
+Fix parsing of ``EXAMPLES`` and improve error message
+
+Minor Changes
+-------------
+
+- Improve error messages when calls to ``ansible-doc`` fail (https://github.com/ansible-community/antsibull-docs/pull/223).
+
+Bugfixes
+--------
+
+- When ``EXAMPLES`` has the format specified by ``# fmt: <format>``, this value is used to determine the code block type (https://github.com/ansible-community/antsibull-docs/pull/225).
+
 v2.5.0
 ======
 
