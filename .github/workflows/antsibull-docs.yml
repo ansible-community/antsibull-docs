@@ -62,7 +62,7 @@ jobs:
           ref: ${{ matrix.antsibull_docs_parser_ref }}
 
       - name: Set up Python ${{ matrix.python }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
 
@@ -164,7 +164,7 @@ jobs:
           path: antsibull-docs-parser
 
       - name: Set up Python 3.11
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -220,7 +220,7 @@ jobs:
           path: antsibull-docs-parser
 
       - name: Set up Python 3.11
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
