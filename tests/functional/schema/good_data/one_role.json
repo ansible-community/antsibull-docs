@@ -77,7 +77,17 @@
                     }
                 },
                 "short_description": "Do account key rollover",
+                "todo": [
+                    "something",
+                    "something else"
+                ],
                 "version_added": "0.1.0"
+            },
+            "other": {
+                "author": "Felix Fontein (@felixfontein)",
+                "description": "This is a one-paragraph description",
+                "short_description": "Do nothing",
+                "todo": "something"
             }
         },
         "path": "/path/to/ansible_collections/felixfontein/acme"
