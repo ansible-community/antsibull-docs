@@ -26,6 +26,7 @@ from .base import (
     SeeAlsoLinkSchema,
     SeeAlsoModSchema,
     SeeAlsoRefSchema,
+    list_from_scalars,
 )
 
 _SENTINEL = object()
@@ -68,6 +69,16 @@ class RoleEntrypointSchema(BaseModel):
     ] = {}
 
     options: dict[str, RoleOptionsSchema] = {}
+
+    @p.validator(
+        "author",
+        "description",
+        "todo",
+        pre=True,
+    )
+    # pylint:disable=no-self-argument
+    def list_from_scalars(cls, obj):
+        return list_from_scalars(obj)
 
 
 class RoleSchema(BaseModel):
