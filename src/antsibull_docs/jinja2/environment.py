@@ -17,6 +17,7 @@ from ..utils.collection_name_transformer import CollectionNameTransformer
 from . import FilenameGenerator, OutputFormat
 from .filters import (
     collection_name,
+    column_width,
     documented_type,
     extract_options_from_list,
     html_ify,
@@ -152,6 +153,7 @@ def doc_environment(
     env.filters["antsibull_to_json"] = to_json
     env.filters["antsibull_to_ini_value"] = to_ini_value
     env.filters["collection_name"] = collection_name
+    env.filters["column_width"] = column_width
     env.filters["plugin_shortname"] = plugin_shortname
     env.filters["suboption_depth"] = suboption_depth
     env.filters["rst_format"] = rst_format

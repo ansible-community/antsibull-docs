@@ -18,8 +18,8 @@ To use it in a playbook, specify: :code:`ns.col2.bar`.
    :depth: 2
 
 
-Entry point ``baz`` -- Bar role, baz entrypoint
------------------------------------------------
+Entry point ``baz`` -- Bar role, baz entrypoint テストロール
+------------------------------------------------------------
 
 
 

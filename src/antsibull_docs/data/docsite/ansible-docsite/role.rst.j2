@@ -36,7 +36,7 @@
 {% endif -%}
 
 @{ title }@
-@{ '+' * title|length }@
+@{ '+' * title|column_width }@
 
 .. Collection note
 
@@ -74,7 +74,7 @@
 {%   endif -%}
 
 @{ title }@
-@{ '-' * title|length }@
+@{ '-' * title|column_width }@
 
 .. version_added
 

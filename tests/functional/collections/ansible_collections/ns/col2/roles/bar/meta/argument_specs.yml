@@ -15,6 +15,6 @@ argument_specs:
       - module: ns2.col.foobarbaz
         # does not exist
   baz:
-    short_description: Bar role, baz entrypoint
+    short_description: Bar role, baz entrypoint テストロール
     description:
       - This is the baz entrypoint of the bar role.

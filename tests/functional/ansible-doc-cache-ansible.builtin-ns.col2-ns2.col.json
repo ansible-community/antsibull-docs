@@ -23226,7 +23226,7 @@
       "description": [
        "This is the baz entrypoint of the bar role."
       ],
-      "short_description": "Bar role, baz entrypoint"
+      "short_description": "Bar role, baz entrypoint \u30c6\u30b9\u30c8\u30ed\u30fc\u30eb"
      },
      "main": {
       "author": [

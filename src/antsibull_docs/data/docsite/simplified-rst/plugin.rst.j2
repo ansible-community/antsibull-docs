@@ -22,7 +22,7 @@
 {% endif -%}
 
 @{ title }@
-@{ '+' * title|length }@
+@{ '+' * title|column_width }@
 
 {% if collection == 'ansible.builtin' -%}
 This {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %}
