@@ -9,7 +9,7 @@
 {% set title = plugin_name ~ ' ' ~ plugin_type -%}
 
 @{ title }@
-@{ '+' * title|length }@
+@{ '+' * title|column_width }@
 
 {% if collection == 'ansible.builtin' -%}
 - This redirect is part of ``ansible-core`` and included in all Ansible

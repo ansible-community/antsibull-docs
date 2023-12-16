@@ -7,7 +7,7 @@
 .. Created with antsibull-docs @{ antsibull_docs_version }@
 
 @{ plugin_name }@
-@{ '+' * plugin_name|length }@
+@{ '+' * plugin_name|column_width }@
 
 {% if collection == 'ansible.builtin' -%}
 This module was part of ``ansible-core`` and was included in all Ansible installations.

@@ -32,7 +32,7 @@
 .. _plugins_in_@{collection_name}@:
 
 @{collection_name.title()}@
-@{ '=' * (collection_name | length) }@
+@{ '=' * (collection_name | column_width) }@
 
 {% if collection_version %}
 Collection version @{ collection_version }@
@@ -104,7 +104,7 @@ Communication
 
 {% for section in extra_docs_sections %}
 @{section.title}@
-@{ '-' * (section.title | length) }@
+@{ '-' * (section.title | column_width) }@
 
 {%   if section.toctree %}
 .. toctree::
@@ -137,7 +137,7 @@ Modules
 ~~~~~~~
 {%   else %}
 @{ category | capitalize }@ Plugins
-@{ '~' * ((category | length) + 8) }@
+@{ '~' * ((category | column_width) + 8) }@
 {%   endif %}
 
 @{   list_plugins(category) }@

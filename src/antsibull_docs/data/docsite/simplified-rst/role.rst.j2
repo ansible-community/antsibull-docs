@@ -18,7 +18,7 @@
 {% endif -%}
 
 @{ title }@
-@{ '+' * title|length }@
+@{ '+' * title|column_width }@
 
 {% if collection == 'ansible.builtin' -%}
 This role is part of ``ansible-core`` and included in all Ansible
@@ -50,7 +50,7 @@ To use it in a playbook, specify: :code:`@{plugin_name}@`.
 {%   endif -%}
 
 @{ title }@
-@{ '-' * title|length }@
+@{ '-' * title|column_width }@
 
 {%   if ep_doc['version_added'] is still_relevant(collection=collection) -%}
 New in @{ version_added_rst(ep_doc['version_added'], collection) }@

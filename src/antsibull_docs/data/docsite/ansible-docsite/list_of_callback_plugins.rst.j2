@@ -12,13 +12,13 @@
 .. _list_of_@{ callback_type }@_callback_plugins:
 
 Index of all @{ callback_type | capitalize }@ Callback Plugins
-=============@{ '=' * (callback_type | length) }@=================
+=============@{ '=' * (callback_type | column_width) }@=================
 
 See :ref:`list_of_callback_plugins` for the list of *all* callback plugins.
 
 {% for collection_name, plugins in per_collection_plugins.items() | sort %}
 @{ collection_name }@
-@{ '-' * (collection_name | length) }@
+@{ '-' * (collection_name | column_width) }@
 
 {%   for plugin_name, plugin_desc in plugins.items() | sort %}
 * :ansplugin:`@{ collection_name }@.@{ plugin_name }@#callback` -- @{ plugin_desc | rst_ify(plugin_fqcn=collection_name ~ '.' ~ plugin_name, plugin_type='callback') }@

@@ -37,8 +37,8 @@ ns.col2.bar role -- Bar role
 
 .. Entry point title
 
-Entry point ``baz`` -- Bar role, baz entrypoint
------------------------------------------------
+Entry point ``baz`` -- Bar role, baz entrypoint テストロール
+------------------------------------------------------------
 
 .. version_added
 

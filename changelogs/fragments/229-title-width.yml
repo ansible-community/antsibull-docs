@@ -1,0 +1,2 @@
+bugfixes:
+  - "Make sure that title underlines have the correct width for wide Unicode characters (https://github.com/ansible-community/antsibull-docs/issues/228, https://github.com/ansible-community/antsibull-docs/pull/229)."

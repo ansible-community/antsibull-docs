@@ -16,7 +16,7 @@
 {% set title = 'Collections in the ' ~ (namespace | title) ~ ' Namespace' | rst_ify -%}
 
 @{ title }@
-@{ '=' * title|length }@
+@{ '=' * title|column_width }@
 
 {% if for_official_docsite %}
 These are the collections with docs hosted on `docs.ansible.com <https://docs.ansible.com/>`_ in the **@{ namespace }@** namespace.
