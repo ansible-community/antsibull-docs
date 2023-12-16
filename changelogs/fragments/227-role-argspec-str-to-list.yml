@@ -1,0 +1,2 @@
+bugfixes:
+  - "For role argument specs, allow ``author``, ``description``, and ``todo`` to be a string instead of a list of strings, similarly as with ansible-doc and with modules and plugins (https://github.com/ansible-community/antsibull-docs/pull/227)."
