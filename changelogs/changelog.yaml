@@ -725,3 +725,17 @@ releases:
     - 223-ansible-doc-errors.yml
     - 225-examples-format.yml
     release_date: '2023-12-09'
+  2.6.1:
+    changes:
+      bugfixes:
+      - For role argument specs, allow ``author``, ``description``, and ``todo`` to
+        be a string instead of a list of strings, similarly as with ansible-doc and
+        with modules and plugins (https://github.com/ansible-community/antsibull-docs/pull/227).
+      - Make sure that title underlines have the correct width for wide Unicode characters
+        (https://github.com/ansible-community/antsibull-docs/issues/228, https://github.com/ansible-community/antsibull-docs/pull/229).
+      release_summary: Bugfix release.
+    fragments:
+    - 2.6.1.yml
+    - 227-role-argspec-str-to-list.yml
+    - 229-title-width.yml
+    release_date: '2023-12-17'

@@ -5,6 +5,20 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
+v2.6.1
+======
+
+Release Summary
+---------------
+
+Bugfix release.
+
+Bugfixes
+--------
+
+- For role argument specs, allow ``author``, ``description``, and ``todo`` to be a string instead of a list of strings, similarly as with ansible-doc and with modules and plugins (https://github.com/ansible-community/antsibull-docs/pull/227).
+- Make sure that title underlines have the correct width for wide Unicode characters (https://github.com/ansible-community/antsibull-docs/issues/228, https://github.com/ansible-community/antsibull-docs/pull/229).
+
 v2.6.0
 ======
 
