@@ -21,6 +21,12 @@
 ns2.col.foo2 module -- Another foo
 ++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.foo2
+  plugin_type: module
+  short_description: "Another foo"
+
 .. Collection note
 
 .. note::
@@ -82,17 +88,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-bar"></div>
 
-      .. _ansible_collections.ns2.col.foo2_module__parameter-bar:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **bar**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+        fqcn: ns2.col.foo2
+        plugin_type: module
+        name: "bar"
+        full_keys:
+          - ["bar"]
 
       .. ansible-option-type-line::
 
@@ -137,17 +140,12 @@ Attributes
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="attribute-action_group"></div>
 
-      .. _ansible_collections.ns2.col.foo2_module__attribute-action_group:
+      .. ansible-attribute::
 
-      .. rst-class:: ansible-option-title
-
-      **action_group**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#attribute-action_group" title="Permalink to this attribute"></a>
+        fqcn: ns2.col.foo2
+        plugin_type: module
+        name: "action_group"
 
       .. raw:: html
 
@@ -179,17 +177,12 @@ Attributes
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="attribute-check_mode"></div>
 
-      .. _ansible_collections.ns2.col.foo2_module__attribute-check_mode:
+      .. ansible-attribute::
 
-      .. rst-class:: ansible-option-title
-
-      **check_mode**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#attribute-check_mode" title="Permalink to this attribute"></a>
+        fqcn: ns2.col.foo2
+        plugin_type: module
+        name: "check_mode"
 
       .. raw:: html
 
@@ -221,17 +214,12 @@ Attributes
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="attribute-diff_mode"></div>
 
-      .. _ansible_collections.ns2.col.foo2_module__attribute-diff_mode:
+      .. ansible-attribute::
 
-      .. rst-class:: ansible-option-title
-
-      **diff_mode**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#attribute-diff_mode" title="Permalink to this attribute"></a>
+        fqcn: ns2.col.foo2
+        plugin_type: module
+        name: "diff_mode"
 
       .. raw:: html
 
@@ -263,17 +251,12 @@ Attributes
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="attribute-platform"></div>
 
-      .. _ansible_collections.ns2.col.foo2_module__attribute-platform:
+      .. ansible-attribute::
 
-      .. rst-class:: ansible-option-title
-
-      **platform**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#attribute-platform" title="Permalink to this attribute"></a>
+        fqcn: ns2.col.foo2
+        plugin_type: module
+        name: "platform"
 
       .. raw:: html
 
@@ -347,17 +330,14 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-bar"></div>
 
-      .. _ansible_collections.ns2.col.foo2_module__return-bar:
+      .. ansible-return-value::
 
-      .. rst-class:: ansible-option-title
-
-      **bar**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#return-bar" title="Permalink to this return value"></a>
+        fqcn: ns2.col.foo2
+        plugin_type: module
+        name: "bar"
+        full_keys:
+          - ["bar"]
 
       .. ansible-option-type-line::
 

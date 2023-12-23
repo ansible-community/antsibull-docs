@@ -21,6 +21,12 @@
 ns2.col.foo test -- Is something a foo \ :ansopt:`ns2.col.foo#test:bar`\ 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.foo
+  plugin_type: test
+  short_description: "Is something a foo \\ :ansopt:`ns2.col.foo#test:bar`\\ "
+
 .. Collection note
 
 .. note::
@@ -79,9 +85,9 @@ This describes the input of the test, the value before ``is ns2.col.foo`` or ``i
   <tbody>
   <tr class="row-even">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-_input"></div>
-      <p class="ansible-option-title"><strong>Input</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-_input" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---_input"></div>
+      <strong class="ansible-option-title">Input</strong>
+      <a class="ansibleOptionLink" href="#parameter---_input" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">dictionary</span>
         / <span class="ansible-option-required">required</span>
@@ -119,9 +125,9 @@ examples: ``input is ns2.col.foo(key1=value1, key2=value2, ...)`` and ``input is
   <tbody>
   <tr class="row-even">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
-      <p class="ansible-option-title"><strong>bar</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---bar"></div>
+      <strong class="ansible-option-title">bar</strong>
+      <a class="ansibleOptionLink" href="#parameter---bar" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">string</span>
       </p>
@@ -179,7 +185,7 @@ Return Value
   <tr class="row-even">
     <td><div class="ansible-option-cell">
       <div class="ansibleOptionAnchor" id="return-_value"></div>
-      <p class="ansible-option-title"><strong>Return value</strong></p>
+      <strong class="ansible-option-title">Return value</strong>
       <a class="ansibleOptionLink" href="#return-_value" title="Permalink to this return value"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">boolean</span>

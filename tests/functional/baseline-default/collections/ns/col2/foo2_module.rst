@@ -20,6 +20,12 @@
 ns.col2.foo2 module -- Foo two
 ++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns.col2.foo2
+  plugin_type: module
+  short_description: "Foo two"
+
 .. Collection note
 
 .. note::
@@ -62,10 +68,14 @@ Synopsis
 
 .. Requirements
 
-.. _ansible_collections.ns.col2.foo2_module_requirements:
-
 Requirements
 ------------
+
+.. ansible-requirements-anchor::
+
+  fqcn: ns.col2.foo2
+  plugin_type: module
+
 The below requirements are needed on the host that executes this module.
 
 - Foo.
@@ -94,17 +104,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-bar"></div>
 
-      .. _ansible_collections.ns.col2.foo2_module__parameter-bar:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **bar**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+        fqcn: ns.col2.foo2
+        plugin_type: module
+        name: "bar"
+        full_keys:
+          - ["bar"]
 
       .. ansible-option-type-line::
 
@@ -130,17 +137,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-foo"></div>
 
-      .. _ansible_collections.ns.col2.foo2_module__parameter-foo:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **foo**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-foo" title="Permalink to this option"></a>
+        fqcn: ns.col2.foo2
+        plugin_type: module
+        name: "foo"
+        full_keys:
+          - ["foo"]
 
       .. ansible-option-type-line::
 
@@ -164,17 +168,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-subfoo"></div>
 
-      .. _ansible_collections.ns.col2.foo2_module__parameter-subfoo:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **subfoo**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-subfoo" title="Permalink to this option"></a>
+        fqcn: ns.col2.foo2
+        plugin_type: module
+        name: "subfoo"
+        full_keys:
+          - ["subfoo"]
 
       .. ansible-option-type-line::
 
@@ -198,21 +199,18 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-subfoo/BaZ"></div>
 
       .. raw:: latex
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.ns.col2.foo2_module__parameter-subfoo/baz:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **BaZ**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-subfoo/BaZ" title="Permalink to this option"></a>
+        fqcn: ns.col2.foo2
+        plugin_type: module
+        name: "BaZ"
+        full_keys:
+          - ["subfoo", "BaZ"]
 
       .. ansible-option-type-line::
 
@@ -240,21 +238,18 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-subfoo/foo"></div>
 
       .. raw:: latex
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.ns.col2.foo2_module__parameter-subfoo/foo:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **foo**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-subfoo/foo" title="Permalink to this option"></a>
+        fqcn: ns.col2.foo2
+        plugin_type: module
+        name: "foo"
+        full_keys:
+          - ["subfoo", "foo"]
 
       .. ansible-option-type-line::
 
@@ -308,17 +303,12 @@ Attributes
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="attribute-check_mode"></div>
 
-      .. _ansible_collections.ns.col2.foo2_module__attribute-check_mode:
+      .. ansible-attribute::
 
-      .. rst-class:: ansible-option-title
-
-      **check_mode**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#attribute-check_mode" title="Permalink to this attribute"></a>
+        fqcn: ns.col2.foo2
+        plugin_type: module
+        name: "check_mode"
 
       .. raw:: html
 
@@ -350,17 +340,12 @@ Attributes
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="attribute-diff_mode"></div>
 
-      .. _ansible_collections.ns.col2.foo2_module__attribute-diff_mode:
+      .. ansible-attribute::
 
-      .. rst-class:: ansible-option-title
-
-      **diff_mode**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#attribute-diff_mode" title="Permalink to this attribute"></a>
+        fqcn: ns.col2.foo2
+        plugin_type: module
+        name: "diff_mode"
 
       .. raw:: html
 
@@ -392,17 +377,12 @@ Attributes
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="attribute-platform"></div>
 
-      .. _ansible_collections.ns.col2.foo2_module__attribute-platform:
+      .. ansible-attribute::
 
-      .. rst-class:: ansible-option-title
-
-      **platform**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#attribute-platform" title="Permalink to this attribute"></a>
+        fqcn: ns.col2.foo2
+        plugin_type: module
+        name: "platform"
 
       .. raw:: html
 
@@ -499,17 +479,14 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-bar"></div>
 
-      .. _ansible_collections.ns.col2.foo2_module__return-bar:
+      .. ansible-return-value::
 
-      .. rst-class:: ansible-option-title
-
-      **bar**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#return-bar" title="Permalink to this return value"></a>
+        fqcn: ns.col2.foo2
+        plugin_type: module
+        name: "bar"
+        full_keys:
+          - ["bar"]
 
       .. ansible-option-type-line::
 

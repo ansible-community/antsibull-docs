@@ -21,6 +21,12 @@
 ns2.col.foo inventory -- The foo inventory \ :ansopt:`ns2.col.foo#inventory:bar`\ 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.foo
+  plugin_type: inventory
+  short_description: "The foo inventory \\ :ansopt:`ns2.col.foo#inventory:bar`\\ "
+
 .. Collection note
 
 .. note::
@@ -83,17 +89,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-bar"></div>
 
-      .. _ansible_collections.ns2.col.foo_inventory__parameter-bar:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **bar**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+        fqcn: ns2.col.foo
+        plugin_type: inventory
+        name: "bar"
+        full_keys:
+          - ["bar"]
 
       .. ansible-option-type-line::
 

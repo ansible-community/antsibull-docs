@@ -18,6 +18,7 @@ __author_email__ = "felix@fontein.de"
 
 from .assets import setup_assets
 from .directives import setup_directives
+from .domains import setup_domains
 from .nodes import setup_nodes
 from .roles import setup_roles
 
@@ -39,6 +40,9 @@ def setup(app):
 
     # Add directives
     setup_directives(app)
+
+    # Add domains
+    setup_domains(app)
 
     return {
         "parallel_read_safe": True,

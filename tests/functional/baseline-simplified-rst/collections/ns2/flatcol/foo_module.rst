@@ -48,10 +48,10 @@ Parameters
   <tbody>
   <tr>
     <td colspan="2" valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
-      <div class="ansibleOptionAnchor" id="parameter-baz"></div>
-      <p style="display: inline;"><strong>bar</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---bar"></div>
+      <div class="ansibleOptionAnchor" id="parameter---baz"></div>
+      <strong>bar</strong>
+      <a class="ansibleOptionLink" href="#parameter---bar" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;"><span style="color: darkgreen; white-space: normal;">aliases: baz</span></p>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">list</span>
@@ -66,9 +66,9 @@ Parameters
   </tr>
   <tr>
     <td colspan="2" valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-foo"></div>
-      <p style="display: inline;"><strong>foo</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-foo" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---foo"></div>
+      <strong>foo</strong>
+      <a class="ansibleOptionLink" href="#parameter---foo" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
         / <span style="color: red;">required</span>
@@ -80,10 +80,10 @@ Parameters
   </tr>
   <tr>
     <td colspan="2" valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-subfoo"></div>
-      <div class="ansibleOptionAnchor" id="parameter-subbaz"></div>
-      <p style="display: inline;"><strong>subfoo</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-subfoo" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---subfoo"></div>
+      <div class="ansibleOptionAnchor" id="parameter---subbaz"></div>
+      <strong>subfoo</strong>
+      <a class="ansibleOptionLink" href="#parameter---subfoo" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;"><span style="color: darkgreen; white-space: normal;">aliases: subbaz</span></p>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">dictionary</span>
@@ -97,12 +97,12 @@ Parameters
   <tr>
     <td></td>
     <td valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-subfoo/foo"></div>
-      <div class="ansibleOptionAnchor" id="parameter-subbaz/foo"></div>
-      <div class="ansibleOptionAnchor" id="parameter-subfoo/bam"></div>
-      <div class="ansibleOptionAnchor" id="parameter-subbaz/bam"></div>
-      <p style="display: inline;"><strong>foo</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-subfoo/foo" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---subfoo/foo"></div>
+      <div class="ansibleOptionAnchor" id="parameter---subbaz/foo"></div>
+      <div class="ansibleOptionAnchor" id="parameter---subfoo/bam"></div>
+      <div class="ansibleOptionAnchor" id="parameter---subbaz/bam"></div>
+      <strong>foo</strong>
+      <a class="ansibleOptionLink" href="#parameter---subfoo/foo" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;"><span style="color: darkgreen; white-space: normal;">aliases: bam</span></p>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
@@ -163,8 +163,8 @@ The following are the fields unique to this module:
   <tr>
     <td valign="top">
       <div class="ansibleOptionAnchor" id="return-bar"></div>
-      <p style="display: inline;"><strong>bar</strong></p>
-      <a class="ansibleOptionLink" href="#return-bar" title="Permalink to this return value"></a>
+      <strong>bar</strong>
+      <a class="ansibleOptionLink" href="#return-bar" title="Permalink to this return value"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>

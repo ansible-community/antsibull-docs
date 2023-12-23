@@ -20,6 +20,12 @@
 ns2.flatcol.foo module -- Do some foo \ :ansopt:`ns2.flatcol.foo#module:bar`\ 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.flatcol.foo
+  plugin_type: module
+  short_description: "Do some foo \\ :ansopt:`ns2.flatcol.foo#module:bar`\\ "
+
 .. Collection note
 
 .. note::
@@ -83,19 +89,15 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-bar"></div>
-        <div class="ansibleOptionAnchor" id="parameter-baz"></div>
 
-      .. _ansible_collections.ns2.flatcol.foo_module__parameter-bar:
-      .. _ansible_collections.ns2.flatcol.foo_module__parameter-baz:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **bar**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+        fqcn: ns2.flatcol.foo
+        plugin_type: module
+        name: "bar"
+        full_keys:
+          - ["bar"]
+          - ["baz"]
 
       .. ansible-option-type-line::
 
@@ -125,17 +127,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-foo"></div>
 
-      .. _ansible_collections.ns2.flatcol.foo_module__parameter-foo:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **foo**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-foo" title="Permalink to this option"></a>
+        fqcn: ns2.flatcol.foo
+        plugin_type: module
+        name: "foo"
+        full_keys:
+          - ["foo"]
 
       .. ansible-option-type-line::
 
@@ -159,19 +158,15 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-subfoo"></div>
-        <div class="ansibleOptionAnchor" id="parameter-subbaz"></div>
 
-      .. _ansible_collections.ns2.flatcol.foo_module__parameter-subbaz:
-      .. _ansible_collections.ns2.flatcol.foo_module__parameter-subfoo:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **subfoo**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-subfoo" title="Permalink to this option"></a>
+        fqcn: ns2.flatcol.foo
+        plugin_type: module
+        name: "subfoo"
+        full_keys:
+          - ["subfoo"]
+          - ["subbaz"]
 
       .. ansible-option-type-line::
 
@@ -200,27 +195,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-subfoo/foo"></div>
-        <div class="ansibleOptionAnchor" id="parameter-subbaz/foo"></div>
-        <div class="ansibleOptionAnchor" id="parameter-subfoo/bam"></div>
-        <div class="ansibleOptionAnchor" id="parameter-subbaz/bam"></div>
 
       .. raw:: latex
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.ns2.flatcol.foo_module__parameter-subbaz/bam:
-      .. _ansible_collections.ns2.flatcol.foo_module__parameter-subbaz/foo:
-      .. _ansible_collections.ns2.flatcol.foo_module__parameter-subfoo/bam:
-      .. _ansible_collections.ns2.flatcol.foo_module__parameter-subfoo/foo:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **foo**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-subfoo/foo" title="Permalink to this option"></a>
+        fqcn: ns2.flatcol.foo
+        plugin_type: module
+        name: "foo"
+        full_keys:
+          - ["subfoo", "foo"]
+          - ["subbaz", "foo"]
+          - ["subfoo", "bam"]
+          - ["subbaz", "bam"]
 
       .. ansible-option-type-line::
 
@@ -310,17 +299,14 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-bar"></div>
 
-      .. _ansible_collections.ns2.flatcol.foo_module__return-bar:
+      .. ansible-return-value::
 
-      .. rst-class:: ansible-option-title
-
-      **bar**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#return-bar" title="Permalink to this return value"></a>
+        fqcn: ns2.flatcol.foo
+        plugin_type: module
+        name: "bar"
+        full_keys:
+          - ["bar"]
 
       .. ansible-option-type-line::
 

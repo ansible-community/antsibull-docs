@@ -21,6 +21,12 @@
 ns2.col.bar test -- Is something a bar
 ++++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.bar
+  plugin_type: test
+  short_description: "Is something a bar"
+
 .. Collection note
 
 .. note::
@@ -82,17 +88,15 @@ This describes the input of the test, the value before ``is ns2.col.bar`` or ``i
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_input"></div>
 
-      .. _ansible_collections.ns2.col.bar_test__parameter-_input:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **Input**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_input" title="Permalink to this option"></a>
+        fqcn: ns2.col.bar
+        plugin_type: test
+        name: "Input"
+        full_keys:
+          - ["_input"]
+        special: input
 
       .. ansible-option-type-line::
 
@@ -165,17 +169,15 @@ Return Value
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-_value"></div>
 
-      .. _ansible_collections.ns2.col.bar_test__return-_value:
+      .. ansible-return-value::
 
-      .. rst-class:: ansible-option-title
-
-      **Return value**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#return-_value" title="Permalink to this return value"></a>
+        fqcn: ns2.col.bar
+        plugin_type: test
+        name: "Return value"
+        full_keys:
+          - ["_value"]
+        special: return-value
 
       .. ansible-option-type-line::
 

@@ -21,6 +21,12 @@
 ns2.col.foo shell -- Foo shell \ :ansopt:`ns2.col.foo#shell:bar`\ 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.foo
+  plugin_type: shell
+  short_description: "Foo shell \\ :ansopt:`ns2.col.foo#shell:bar`\\ "
+
 .. Collection note
 
 .. note::
@@ -81,9 +87,9 @@ Parameters
   <tbody>
   <tr class="row-even">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
-      <p class="ansible-option-title"><strong>bar</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---bar"></div>
+      <strong class="ansible-option-title">bar</strong>
+      <a class="ansibleOptionLink" href="#parameter---bar" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">string</span>
       </p>
@@ -95,9 +101,9 @@ Parameters
   </tr>
   <tr class="row-odd">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-remote_tmp"></div>
-      <p class="ansible-option-title"><strong>remote_tmp</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-remote_tmp" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---remote_tmp"></div>
+      <strong class="ansible-option-title">remote_tmp</strong>
+      <a class="ansibleOptionLink" href="#parameter---remote_tmp" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">string</span>
       </p>

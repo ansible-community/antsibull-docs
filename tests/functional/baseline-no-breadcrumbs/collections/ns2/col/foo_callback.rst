@@ -21,6 +21,12 @@
 ns2.col.foo callback -- Foo output \ :ansopt:`ns2.col.foo#callback:bar`\ 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.foo
+  plugin_type: callback
+  short_description: "Foo output \\ :ansopt:`ns2.col.foo#callback:bar`\\ "
+
 .. Collection note
 
 .. note::
@@ -89,17 +95,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-bar"></div>
 
-      .. _ansible_collections.ns2.col.foo_callback__parameter-bar:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **bar**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+        fqcn: ns2.col.foo
+        plugin_type: callback
+        name: "bar"
+        full_keys:
+          - ["bar"]
 
       .. ansible-option-type-line::
 

@@ -19,6 +19,39 @@ class link_button(nodes.reference):  # pyre-ignore[11]
         self["link_external"] = link_external  # pyre-ignore[16]
 
 
+class ansible_attribute(nodes.strong, nodes.Structural):  # pyre-ignore[11]
+    def __init__(
+        self,
+        rawsource: str,
+        text: str,
+        *children: list[nodes.Node],
+        **attributes,
+    ):
+        nodes.strong.__init__(self, rawsource, text, *children, **attributes)
+
+
+class ansible_option(nodes.strong, nodes.Structural):
+    def __init__(
+        self,
+        rawsource: str,
+        text: str,
+        *children: list[nodes.Node],
+        **attributes,
+    ):
+        nodes.strong.__init__(self, rawsource, text, *children, **attributes)
+
+
+class ansible_return_value(nodes.strong, nodes.Structural):
+    def __init__(
+        self,
+        rawsource: str,
+        text: str,
+        *children: list[nodes.Node],
+        **attributes,
+    ):
+        nodes.strong.__init__(self, rawsource, text, *children, **attributes)
+
+
 def visit_link_button_html(self, node) -> None:
     atts = {
         "class": "ansible-link reference",
@@ -43,3 +76,6 @@ def setup_nodes(app):
     Setup nodes for a Sphinx app object.
     """
     app.add_node(link_button, html=(visit_link_button_html, depart_link_button_html))
+    app.add_node(ansible_attribute)
+    app.add_node(ansible_option)
+    app.add_node(ansible_return_value)

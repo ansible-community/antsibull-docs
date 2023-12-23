@@ -21,6 +21,12 @@
 ns2.col.foo cache -- Foo files \ :ansopt:`ns2.col.foo#cache:bar`\ 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.foo
+  plugin_type: cache
+  short_description: "Foo files \\ :ansopt:`ns2.col.foo#cache:bar`\\ "
+
 .. Collection note
 
 .. note::
@@ -83,17 +89,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_uri"></div>
 
-      .. _ansible_collections.ns2.col.foo_cache__parameter-_uri:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **_uri**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_uri" title="Permalink to this option"></a>
+        fqcn: ns2.col.foo
+        plugin_type: cache
+        name: "_uri"
+        full_keys:
+          - ["_uri"]
 
       .. ansible-option-type-line::
 
@@ -135,17 +138,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-bar"></div>
 
-      .. _ansible_collections.ns2.col.foo_cache__parameter-bar:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **bar**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+        fqcn: ns2.col.foo
+        plugin_type: cache
+        name: "bar"
+        full_keys:
+          - ["bar"]
 
       .. ansible-option-type-line::
 

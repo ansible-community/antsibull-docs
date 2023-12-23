@@ -21,6 +21,12 @@
 ns2.col.foo vars -- Load foo \ :ansopt:`ns2.col.foo#vars:bar`\ 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.foo
+  plugin_type: vars
+  short_description: "Load foo \\ :ansopt:`ns2.col.foo#vars:bar`\\ "
+
 .. Collection note
 
 .. note::
@@ -62,10 +68,14 @@ Synopsis
 
 .. Requirements
 
-.. _ansible_collections.ns2.col.foo_vars_requirements:
-
 Requirements
 ------------
+
+.. ansible-requirements-anchor::
+
+  fqcn: ns2.col.foo
+  plugin_type: vars
+
 The below requirements are needed on the local controller node that executes this vars.
 
 - Enabled in Ansible's configuration.
@@ -94,17 +104,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_valid_extensions"></div>
 
-      .. _ansible_collections.ns2.col.foo_vars__parameter-_valid_extensions:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **_valid_extensions**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_valid_extensions" title="Permalink to this option"></a>
+        fqcn: ns2.col.foo
+        plugin_type: vars
+        name: "_valid_extensions"
+        full_keys:
+          - ["_valid_extensions"]
 
       .. ansible-option-type-line::
 
@@ -150,17 +157,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-bar"></div>
 
-      .. _ansible_collections.ns2.col.foo_vars__parameter-bar:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **bar**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+        fqcn: ns2.col.foo
+        plugin_type: vars
+        name: "bar"
+        full_keys:
+          - ["bar"]
 
       .. ansible-option-type-line::
 

@@ -21,15 +21,15 @@ from antsibull_docs.markup.semantic_helper import (
     parse_plugin_name,
     parse_return_value,
 )
-from antsibull_docs.utils.rst import massage_rst_label
+from antsibull_docs.rst_labels import (
+    get_option_ref,
+    get_plugin_ref,
+    get_return_value_ref,
+)
 
 from .sphinx_helper import extract_explicit_title
 
 logger = logging.getLogger(__name__)
-
-
-def _plugin_ref(plugin_fqcn: str, plugin_type: str) -> str:
-    return f"ansible_collections.{plugin_fqcn}_{plugin_type}"
 
 
 def _create_option_reference(
@@ -40,9 +40,7 @@ def _create_option_reference(
 ) -> str | None:
     if not plugin_fqcn or not plugin_type:
         return None
-    ref = massage_rst_label(option.replace(".", "/"))
-    ep = f"{entrypoint}__" if entrypoint is not None else ""
-    return f"{_plugin_ref(plugin_fqcn, plugin_type)}__parameter-{ep}{ref}"
+    return get_option_ref(plugin_fqcn, plugin_type, entrypoint, option.split("."))
 
 
 def _create_return_value_reference(
@@ -53,9 +51,9 @@ def _create_return_value_reference(
 ) -> str | None:
     if not plugin_fqcn or not plugin_type:
         return None
-    ref = massage_rst_label(return_value.replace(".", "/"))
-    ep = f"{entrypoint}__" if entrypoint is not None else ""
-    return f"{_plugin_ref(plugin_fqcn, plugin_type)}__return-{ep}{ref}"
+    return get_return_value_ref(
+        plugin_fqcn, plugin_type, entrypoint, return_value.split(".")
+    )
 
 
 def _create_ref_or_not(
@@ -277,7 +275,7 @@ def plugin_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
     refnode = addnodes.pending_xref(
         plugin_fqcn, nodes.inline(rawtext, title), **options
     )
-    refnode["reftarget"] = _plugin_ref(plugin_fqcn, plugin_type)
+    refnode["reftarget"] = get_plugin_ref(plugin_fqcn, plugin_type)
 
     return [refnode], []
 

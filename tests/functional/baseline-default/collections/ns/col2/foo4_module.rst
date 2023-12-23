@@ -20,6 +20,12 @@
 ns.col2.foo4 module -- Markup reference linting test
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns.col2.foo4
+  plugin_type: module
+  short_description: "Markup reference linting test"
+
 .. Collection note
 
 .. note::
@@ -78,17 +84,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-correct_array_stubs"></div>
 
-      .. _ansible_collections.ns.col2.foo4_module__parameter-correct_array_stubs:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **correct_array_stubs**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-correct_array_stubs" title="Permalink to this option"></a>
+        fqcn: ns.col2.foo4
+        plugin_type: module
+        name: "correct_array_stubs"
+        full_keys:
+          - ["correct_array_stubs"]
 
       .. ansible-option-type-line::
 
@@ -124,17 +127,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-existing"></div>
 
-      .. _ansible_collections.ns.col2.foo4_module__parameter-existing:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **existing**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-existing" title="Permalink to this option"></a>
+        fqcn: ns.col2.foo4
+        plugin_type: module
+        name: "existing"
+        full_keys:
+          - ["existing"]
 
       .. ansible-option-type-line::
 
@@ -198,17 +198,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-incorrect_array_stubs"></div>
 
-      .. _ansible_collections.ns.col2.foo4_module__parameter-incorrect_array_stubs:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **incorrect_array_stubs**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-incorrect_array_stubs" title="Permalink to this option"></a>
+        fqcn: ns.col2.foo4
+        plugin_type: module
+        name: "incorrect_array_stubs"
+        full_keys:
+          - ["incorrect_array_stubs"]
 
       .. ansible-option-type-line::
 
@@ -242,17 +239,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-not_existing"></div>
 
-      .. _ansible_collections.ns.col2.foo4_module__parameter-not_existing:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **not_existing**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-not_existing" title="Permalink to this option"></a>
+        fqcn: ns.col2.foo4
+        plugin_type: module
+        name: "not_existing"
+        full_keys:
+          - ["not_existing"]
 
       .. ansible-option-type-line::
 

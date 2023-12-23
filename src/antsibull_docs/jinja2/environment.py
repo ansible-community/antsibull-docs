@@ -13,6 +13,7 @@ from collections.abc import Mapping
 from jinja2 import BaseLoader, Environment, FileSystemLoader, PackageLoader
 
 from ..markup.rstify import rst_code, rst_escape
+from ..rst_labels import get_plugin_ref, get_requirements_ref
 from ..utils.collection_name_transformer import CollectionNameTransformer
 from . import FilenameGenerator, OutputFormat
 from .filters import (
@@ -38,7 +39,7 @@ from .tests import still_relevant, test_list
 
 def reference_plugin_rst(plugin_name: str, plugin_type: str) -> str:
     fqcn = f"{plugin_name}"
-    return f"\\ :ref:`{rst_escape(fqcn)} <ansible_collections.{fqcn}_{plugin_type}>`\\ "
+    return f"\\ :ref:`{rst_escape(fqcn)} <{get_plugin_ref(fqcn, plugin_type)}>`\\ "
 
 
 def reference_plugin_rst_simplified(plugin_name: str, plugin_type: str) -> str:
@@ -139,6 +140,8 @@ def doc_environment(
 
     env.globals["reference_plugin_rst"] = make_reference_plugin_rst(output_format)
     env.globals["referable_envvars"] = referable_envvars
+    env.globals["rst_plugin_ref"] = get_plugin_ref
+    env.globals["rst_requirements_ref"] = get_requirements_ref
     env.filters["rst_ify"] = make_rst_ify(output_format)
     env.filters["html_ify"] = html_ify
     env.filters["fmt"] = rst_fmt

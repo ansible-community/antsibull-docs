@@ -45,9 +45,9 @@ Parameters
   <tbody>
   <tr>
     <td valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-correct_array_stubs"></div>
-      <p style="display: inline;"><strong>correct_array_stubs</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-correct_array_stubs" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---correct_array_stubs"></div>
+      <strong>correct_array_stubs</strong>
+      <a class="ansibleOptionLink" href="#parameter---correct_array_stubs" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>
@@ -64,9 +64,9 @@ Parameters
   </tr>
   <tr>
     <td valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-existing"></div>
-      <p style="display: inline;"><strong>existing</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-existing" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---existing"></div>
+      <strong>existing</strong>
+      <a class="ansibleOptionLink" href="#parameter---existing" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>
@@ -97,9 +97,9 @@ Parameters
   </tr>
   <tr>
     <td valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-incorrect_array_stubs"></div>
-      <p style="display: inline;"><strong>incorrect_array_stubs</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-incorrect_array_stubs" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---incorrect_array_stubs"></div>
+      <strong>incorrect_array_stubs</strong>
+      <a class="ansibleOptionLink" href="#parameter---incorrect_array_stubs" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>
@@ -115,9 +115,9 @@ Parameters
   </tr>
   <tr>
     <td valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-not_existing"></div>
-      <p style="display: inline;"><strong>not_existing</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-not_existing" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---not_existing"></div>
+      <strong>not_existing</strong>
+      <a class="ansibleOptionLink" href="#parameter---not_existing" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>

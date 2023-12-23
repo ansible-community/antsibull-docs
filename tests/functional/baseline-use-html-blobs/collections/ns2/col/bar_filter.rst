@@ -21,6 +21,12 @@
 ns2.col.bar filter -- The bar filter
 ++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.bar
+  plugin_type: filter
+  short_description: "The bar filter"
+
 .. Collection note
 
 .. note::
@@ -82,9 +88,9 @@ This describes the input of the filter, the value before ``| ns2.col.bar``.
   <tbody>
   <tr class="row-even">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-_input"></div>
-      <p class="ansible-option-title"><strong>Input</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-_input" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---_input"></div>
+      <strong class="ansible-option-title">Input</strong>
+      <a class="ansibleOptionLink" href="#parameter---_input" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">dictionary</span>
         / <span class="ansible-option-required">required</span>
@@ -122,9 +128,9 @@ example: ``input | ns2.col.bar(positional1, positional2, ...)``
   <tbody>
   <tr class="row-even">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-foo"></div>
-      <p class="ansible-option-title"><strong>foo</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-foo" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---foo"></div>
+      <strong class="ansible-option-title">foo</strong>
+      <a class="ansibleOptionLink" href="#parameter---foo" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">list</span>
         / <span class="ansible-option-elements">elements=dictionary</span>
@@ -138,9 +144,9 @@ example: ``input | ns2.col.bar(positional1, positional2, ...)``
   </tr>
   <tr class="row-odd">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
-      <p class="ansible-option-title"><strong>bar</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---bar"></div>
+      <strong class="ansible-option-title">bar</strong>
+      <a class="ansibleOptionLink" href="#parameter---bar" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">boolean</span>
       </p>
@@ -182,9 +188,9 @@ example: ``input | ns2.col.bar(key1=value1, key2=value2, ...)``
   <tbody>
   <tr class="row-even">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-baz"></div>
-      <p class="ansible-option-title"><strong>baz</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-baz" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---baz"></div>
+      <strong class="ansible-option-title">baz</strong>
+      <a class="ansibleOptionLink" href="#parameter---baz" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">string</span>
       </p>
@@ -269,7 +275,7 @@ Return Value
   <tr class="row-even">
     <td><div class="ansible-option-cell">
       <div class="ansibleOptionAnchor" id="return-_value"></div>
-      <p class="ansible-option-title"><strong>Return value</strong></p>
+      <strong class="ansible-option-title">Return value</strong>
       <a class="ansibleOptionLink" href="#return-_value" title="Permalink to this return value"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">dictionary</span>

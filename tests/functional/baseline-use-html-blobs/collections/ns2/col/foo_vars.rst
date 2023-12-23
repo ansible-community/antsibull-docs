@@ -21,6 +21,12 @@
 ns2.col.foo vars -- Load foo \ :ansopt:`ns2.col.foo#vars:bar`\ 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.foo
+  plugin_type: vars
+  short_description: "Load foo \\ :ansopt:`ns2.col.foo#vars:bar`\\ "
+
 .. Collection note
 
 .. note::
@@ -62,10 +68,14 @@ Synopsis
 
 .. Requirements
 
-.. _ansible_collections.ns2.col.foo_vars_requirements:
-
 Requirements
 ------------
+
+.. ansible-requirements-anchor::
+
+  fqcn: ns2.col.foo
+  plugin_type: vars
+
 The below requirements are needed on the local controller node that executes this vars.
 
 - Enabled in Ansible's configuration.
@@ -92,9 +102,9 @@ Parameters
   <tbody>
   <tr class="row-even">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-_valid_extensions"></div>
-      <p class="ansible-option-title"><strong>_valid_extensions</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-_valid_extensions" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---_valid_extensions"></div>
+      <strong class="ansible-option-title">_valid_extensions</strong>
+      <a class="ansibleOptionLink" href="#parameter---_valid_extensions" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">list</span>
         / <span class="ansible-option-elements">elements=string</span>
@@ -121,9 +131,9 @@ Parameters
   </tr>
   <tr class="row-odd">
     <td><div class="ansible-option-cell">
-      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
-      <p class="ansible-option-title"><strong>bar</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---bar"></div>
+      <strong class="ansible-option-title">bar</strong>
+      <a class="ansibleOptionLink" href="#parameter---bar" title="Permalink to this option"></a>
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">string</span>
       </p>

@@ -21,6 +21,12 @@
 ns2.col.foo become -- Use foo \ :ansopt:`ns2.col.foo#become:bar`\ 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.foo
+  plugin_type: become
+  short_description: "Use foo \\ :ansopt:`ns2.col.foo#become:bar`\\ "
+
 .. Collection note
 
 .. note::
@@ -92,17 +98,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-bar"></div>
 
-      .. _ansible_collections.ns2.col.foo_become__parameter-bar:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **bar**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+        fqcn: ns2.col.foo
+        plugin_type: become
+        name: "bar"
+        full_keys:
+          - ["bar"]
 
       .. ansible-option-type-line::
 
@@ -149,17 +152,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-become_exe"></div>
 
-      .. _ansible_collections.ns2.col.foo_become__parameter-become_exe:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **become_exe**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-become_exe" title="Permalink to this option"></a>
+        fqcn: ns2.col.foo
+        plugin_type: become
+        name: "become_exe"
+        full_keys:
+          - ["become_exe"]
 
       .. ansible-option-type-line::
 
@@ -244,17 +244,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-become_user"></div>
 
-      .. _ansible_collections.ns2.col.foo_become__parameter-become_user:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **become_user**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-become_user" title="Permalink to this option"></a>
+        fqcn: ns2.col.foo
+        plugin_type: become
+        name: "become_user"
+        full_keys:
+          - ["become_user"]
 
       .. ansible-option-type-line::
 

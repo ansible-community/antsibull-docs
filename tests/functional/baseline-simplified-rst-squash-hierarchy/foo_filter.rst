@@ -48,9 +48,9 @@ This describes the input of the filter, the value before ``| ns2.col.foo``.
   <tbody>
   <tr>
     <td valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-_input"></div>
-      <p style="display: inline;"><strong>Input</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-_input" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---_input"></div>
+      <strong>Input</strong>
+      <a class="ansibleOptionLink" href="#parameter---_input" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
         / <span style="color: red;">required</span>
@@ -86,9 +86,9 @@ example: ``input | ns2.col.foo(key1=value1, key2=value2, ...)``
   <tbody>
   <tr>
     <td valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
-      <p style="display: inline;"><strong>bar</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---bar"></div>
+      <strong>bar</strong>
+      <a class="ansibleOptionLink" href="#parameter---bar" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>
@@ -100,9 +100,9 @@ example: ``input | ns2.col.foo(key1=value1, key2=value2, ...)``
   </tr>
   <tr>
     <td valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-foo"></div>
-      <p style="display: inline;"><strong>foo</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-foo" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---foo"></div>
+      <strong>foo</strong>
+      <a class="ansibleOptionLink" href="#parameter---foo" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">list</span>
         / <span style="color: purple;">elements=dictionary</span>
@@ -150,8 +150,8 @@ Return Value
   <tr>
     <td valign="top">
       <div class="ansibleOptionAnchor" id="return-_value"></div>
-      <p style="display: inline;"><strong>Return value</strong></p>
-      <a class="ansibleOptionLink" href="#return-_value" title="Permalink to this return value"></a>
+      <strong>Return value</strong>
+      <a class="ansibleOptionLink" href="#return-_value" title="Permalink to this return value"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>
