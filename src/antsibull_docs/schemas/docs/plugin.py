@@ -12,7 +12,7 @@
 import re
 import typing as t
 
-import pydantic as p
+from antsibull_docs._pydantic_compat import v1 as p
 
 from .base import (
     COLLECTION_NAME_F,

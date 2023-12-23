@@ -16,8 +16,8 @@ import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context
 from antsibull_core.logging import log
 from antsibull_core.yaml import load_yaml_file
-from pydantic import Extra
-from pydantic.error_wrappers import ValidationError, display_errors
+
+from antsibull_docs._pydantic_compat import v1
 
 from .schemas.collection_links import (
     CollectionEditOnGitHub,
@@ -131,7 +131,7 @@ def load(
         ld = {}
     try:
         result = CollectionLinks.parse_obj(ld)
-    except ValidationError:
+    except v1.ValidationError:
         result = CollectionLinks.parse_obj({})
 
     # Parse MANIFEST or galaxy data
@@ -249,7 +249,7 @@ def lint_collection_links(collection_path: str) -> list[tuple[str, int, int, str
         Communication,
         CollectionLinks,
     ):
-        cls.__config__.extra = Extra.forbid  # type: ignore[attr-defined]
+        cls.__config__.extra = v1.Extra.forbid  # type: ignore[attr-defined]
 
     try:
         index_path = os.path.join(collection_path, "docs", "docsite", "links.yml")
@@ -264,10 +264,15 @@ def lint_collection_links(collection_path: str) -> list[tuple[str, int, int, str
                 )
         try:
             CollectionLinks.parse_obj(links_data)
-        except ValidationError as exc:
+        except v1.ValidationError as exc:
             for error in exc.errors():
                 result.append(
-                    (index_path, 0, 0, display_errors([error]).replace("\n ", ":"))
+                    (
+                        index_path,
+                        0,
+                        0,
+                        v1.error_wrappers.display_errors([error]).replace("\n ", ":"),
+                    )
                 )
 
         return result

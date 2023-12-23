@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import typing as t
 
-import pydantic as p
+from antsibull_docs._pydantic_compat import v1 as p
 
 # Ignore Unitialized attribute errors because BaseModel works some magic
 # to initialize the attributes when data is loaded into them.

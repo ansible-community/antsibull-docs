@@ -121,7 +121,7 @@ def generate_docs() -> int:
             retrieve(
                 collections,
                 tmp_dir,
-                galaxy_server=app_ctx.galaxy_url,
+                galaxy_server=str(app_ctx.galaxy_url),
                 ansible_core_source=app_ctx.extra["ansible_core_source"],
                 collection_cache=app_ctx.collection_cache,
                 use_installed_ansible_core=use_installed_ansible_core,

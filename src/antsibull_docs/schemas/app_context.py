@@ -9,13 +9,14 @@
 # to initialize the attributes when data is loaded into them.
 # pyre-ignore-all-errors[13]
 
-
 import pydantic as p
 from antsibull_core.schemas.context import AppContext as CoreAppContext
 from antsibull_core.schemas.validators import convert_bool
 
+from antsibull_docs._pydantic_compat import Field
+
 #: Valid choices for the docs parsing backend
-DOC_PARSING_BACKEND_CHOICES_F = p.Field("auto", regex="^(auto|ansible-core-2\\.13)$")
+DOC_PARSING_BACKEND_CHOICES_F = Field("auto", regex="^(auto|ansible-core-2\\.13)$")
 
 
 DEFAULT_COLLECTION_URL_TRANSFORM = (
@@ -42,6 +43,6 @@ class DocsAppContext(CoreAppContext):
     }
 
     # pylint: disable-next=unused-private-member
-    __convert_docs_bools = p.validator(
+    __convert_docs_bools = p.validator(  # type: ignore
         "breadcrumbs", "indexes", "use_html_blobs", pre=True, allow_reuse=True
     )(convert_bool)

@@ -30,11 +30,13 @@ dependencies = [
     "asyncio-pool",
     "docutils",
     "jinja2 >= 3.0",
-    "packaging",
+    # Support for Version.major
+    "packaging >= 20.0",
     "rstcheck >= 3.0.0, < 7.0.0",
     "sphinx",
-    # pydantic v2 is a major rewrite
-    "pydantic >= 1.0.0, < 2.0.0",
+    # pydantic v2 contains deprecated features that we need for pydantic v1
+    # compat
+    "pydantic >= 1.0.0, < 3.0.0",
     "semantic_version",
     "aiohttp >= 3.0.0",
     "twiggy",

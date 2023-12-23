@@ -12,7 +12,8 @@ from collections.abc import Iterable, Mapping, MutableMapping
 from concurrent.futures import ProcessPoolExecutor
 
 from antsibull_core.logging import log
-from pydantic import ValidationError
+
+from antsibull_docs._pydantic_compat import v1
 
 from . import app_context
 from .docs_parsing.fqcn import get_fqcn_parts
@@ -64,7 +65,7 @@ def normalize_plugin_info(
         try:
             parsed = DOCS_SCHEMAS[plugin_type].parse_obj(plugin_info)  # type: ignore[attr-defined]
             return parsed.dict(by_alias=True), errors
-        except ValidationError as e:
+        except v1.ValidationError as e:
             raise ValueError(str(e))  # pylint:disable=raise-missing-from
 
     new_info: dict[str, t.Any] = {}
@@ -73,7 +74,7 @@ def normalize_plugin_info(
         try:
             schema = DOCS_SCHEMAS[plugin_type][field]  # type: ignore[index]
             field_model = schema.parse_obj({field: plugin_info.get(field)})
-        except ValidationError as e:
+        except v1.ValidationError as e:
             if field == "doc":
                 # We can't recover if there's not a doc field
                 # pydantic exceptions are not picklable (probably due to bugs in the pickle module)

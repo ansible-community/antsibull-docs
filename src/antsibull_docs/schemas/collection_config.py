@@ -9,7 +9,7 @@
 # to initialize the attributes when data is loaded into them.
 # pyre-ignore-all-errors[13]
 
-import pydantic as p
+from antsibull_docs._pydantic_compat import v1 as p
 
 
 class CollectionConfig(p.BaseModel):
