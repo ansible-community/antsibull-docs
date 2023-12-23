@@ -64,8 +64,6 @@ def generate_plugin_docs(
         )
 
     venv = FakeVenvRunner()
-    venv_ansible_doc = venv.get_command("ansible-doc")
-    venv_ansible_doc = venv_ansible_doc.bake("-vvv")
     try:
         ansible_doc_results = venv.log_run(
             ["ansible-doc", "-vvv", "-t", plugin_type, "--json", plugin_name]
