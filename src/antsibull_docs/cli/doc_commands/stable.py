@@ -106,6 +106,8 @@ def generate_docs() -> int:
     flog.notice("Begin generating docs")
 
     app_ctx = app_context.app_ctx.get()
+    lib_ctx = app_context.lib_ctx.get()
+
     use_installed_ansible_core: bool = app_ctx.extra["use_installed_ansible_core"]
 
     # Parse the deps file
@@ -123,9 +125,9 @@ def generate_docs() -> int:
                 ansible_core_version,
                 collections,
                 tmp_dir,
-                galaxy_server=str(app_ctx.galaxy_url),
+                galaxy_server=str(lib_ctx.galaxy_url),
                 ansible_core_source=app_ctx.extra["ansible_core_source"],
-                collection_cache=app_ctx.collection_cache,
+                collection_cache=lib_ctx.collection_cache,
                 use_installed_ansible_core=use_installed_ansible_core,
             )
         )
