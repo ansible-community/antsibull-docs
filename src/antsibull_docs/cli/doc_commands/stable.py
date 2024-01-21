@@ -18,7 +18,7 @@ import asyncio_pool  # type: ignore[import]
 from antsibull_core.ansible_core import get_ansible_core
 from antsibull_core.collections import install_together
 from antsibull_core.dependency_files import DepsFile
-from antsibull_core.galaxy import CollectionDownloader
+from antsibull_core.galaxy import CollectionDownloader, GalaxyContext
 from antsibull_core.logging import log
 from antsibull_core.venv import FakeVenvRunner, VenvRunner
 
@@ -62,6 +62,7 @@ async def retrieve(
 
     lib_ctx = app_context.lib_ctx.get()
     async with aiohttp.ClientSession() as aio_session:
+        context = await GalaxyContext.create(aio_session, galaxy_server=galaxy_server)
         async with asyncio_pool.AioPool(size=lib_ctx.thread_max) as pool:
             if not use_installed_ansible_core:
                 requestors["_ansible_core"] = await pool.spawn(
@@ -76,7 +77,7 @@ async def retrieve(
             downloader = CollectionDownloader(
                 aio_session,
                 collection_dir,
-                galaxy_server=galaxy_server,
+                context=context,
                 collection_cache=collection_cache,
             )
             for collection, version in collections.items():
