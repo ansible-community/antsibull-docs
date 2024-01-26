@@ -2327,6 +2327,7 @@
      "filename": "/ansible/plugins/connection/ssh.py",
      "name": "ssh",
      "notes": [
+      "This plugin is mostly a wrapper to the ``ssh`` CLI utility and the exact behavior of the options depends on this tool. This means that the documentation provided here is subject to be overridden by the CLI tool itself.",
       "Many options default to V(None) here but that only means we do not override the SSH tool's defaults and/or configuration. For example, if you specify the port in this plugin it will override any C(Port) entry in your C(.ssh/config).",
       "The ssh CLI tool uses return code 255 as a 'connection error', this can conflict with commands/tools that also return 255 as an error code and will look like an 'unreachable' condition or 'connection error' to this plugin."
      ],
@@ -2408,7 +2409,7 @@
       },
       "host_key_checking": {
        "default": true,
-       "description": "Determines if SSH should check host keys.",
+       "description": "Determines if SSH should reject or not a connection after checking host keys.",
        "env": [
         {
          "name": "ANSIBLE_HOST_KEY_CHECKING"
@@ -3087,7 +3088,7 @@
         "The operation timeout sets the WS-Man 'Operation timeout' that runs on the managed windows host. The operation timeout specifies how long a command will run on the winRM-service before it sends the message 'WinRMOperationTimeoutError' back to the client. The client (silently) ignores this message and starts a new instance of the operation timeout, waiting for the command to finish (long running commands).",
         "The read timeout sets the client HTTP-request timeout and specifies how long the client (ansible controller) will wait for data from the server to come back over the HTTP-connection (timeout for waiting for in-between messages from the server). When this timer expires, an exception will be thrown and the ansible connection will be terminated with the error message 'Read timed out'",
         "To avoid the above exception to be thrown, the read timeout will be set to 10 seconds higher than the WS-Man operation timeout, thus make the connection more robust on networks with long latency and/or many hops between server and client network wise.",
-        "Setting the difference bewteen the operation and the read timeout to 10 seconds alligns it to the defaults used in the winrm-module and the PSRP-module which also uses 10 seconds (30 seconds for read timeout and 20 seconds for operation timeout)",
+        "Setting the difference between the operation and the read timeout to 10 seconds aligns it to the defaults used in the winrm-module and the PSRP-module which also uses 10 seconds (30 seconds for read timeout and 20 seconds for operation timeout)",
         "Corresponds to the C(operation_timeout_sec) and C(read_timeout_sec) args in pywinrm so avoid setting these vars with this one.",
         "The default value is whatever is set in the installed version of pywinrm."
        ],
@@ -3630,7 +3631,7 @@
        "required": true,
        "type": "string"
       },
-      "begining": {
+      "beginning": {
        "description": "Indicator of the start of a comment block, only available for styles that support multiline comments.",
        "type": "string"
       },
@@ -3953,7 +3954,7 @@
        "type": "raw"
       },
       "morekeys": {
-       "description": "Indicies or keys to extract from the initial result (subkeys/subindices).",
+       "description": "Indices or keys to extract from the initial result (subkeys/subindices).",
        "elements": "dictionary",
        "required": true,
        "type": "list"
@@ -4110,7 +4111,7 @@
      "description": [
       "Converts a YAML documents in a string representation into an equivalent structured Ansible variable.",
       "Ansible internally auto-converts YAML strings into variable structures in most contexts, but by default does not handle 'multi document' YAML files or strings.",
-      "If multiple YAML documents are not supplied, this is the equivalend of using C(from_yaml)."
+      "If multiple YAML documents are not supplied, this is the equivalence of using C(from_yaml)."
      ],
      "filename": "/ansible/plugins/filter/from_yaml_all.yml",
      "name": "from_yaml_all",
@@ -4179,7 +4180,7 @@
     "doc": {
      "collection": "ansible.builtin",
      "description": [
-      "Convert byte or bit figures to more human readable formats."
+      "Convert byte or bit figures to more human-readable formats."
      ],
      "filename": "/ansible/plugins/filter/human_readable.yml",
      "name": "human_redable",
@@ -4211,7 +4212,7 @@
       }
      },
      "positional": "_input, isbits, unit",
-     "short_description": "Make bytes/bits human readable",
+     "short_description": "Make bytes/bits human-readable",
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
     },
@@ -4219,7 +4220,7 @@
     "metadata": null,
     "return": {
      "_value": {
-      "description": "Human readable byte or bit size.",
+      "description": "human-readable byte or bit size.",
       "type": "str"
      }
     }
@@ -4228,13 +4229,13 @@
     "doc": {
      "collection": "ansible.builtin",
      "description": [
-      "Convert a human readable byte or bit string into a number bytes."
+      "Convert a human-readable byte or bit string into a number bytes."
      ],
      "filename": "/ansible/plugins/filter/human_to_bytes.yml",
      "name": "human_to_bytes",
      "options": {
       "_input": {
-       "description": "Human readable description of a number of bytes.",
+       "description": "human-readable description of a number of bytes.",
        "required": true,
        "type": "int"
       },
@@ -4434,7 +4435,7 @@
       }
      },
      "positional": "_input",
-     "short_description": "make a variable's existance mandatory",
+     "short_description": "make a variable's existence mandatory",
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
     },
@@ -4524,7 +4525,8 @@
      "filename": "/ansible/plugins/filter/password_hash.yml",
      "name": "password_hash",
      "notes": [
-      "Algorithms available might be restricted by the system."
+      "Algorithms available might be restricted by the system.",
+      "Algorithms may restrict salt length or content. For example, Blowfish/bcrypt requires a 22-character salt."
      ],
      "options": {
       "_input": {
@@ -4552,8 +4554,8 @@
        "type": "int"
       },
       "salt": {
-       "description": "Secret string that is used for the hashing, if none is provided a random one can be generated.",
-       "type": "int"
+       "description": "Secret string used for the hashing. If none is provided a random one can be generated. Use only numbers and letters (characters matching V([./0-9A-Za-z]+)).",
+       "type": "string"
       }
      },
      "positional": "_input",
@@ -4934,10 +4936,24 @@
        "required": true,
        "type": "int"
       },
+      "count": {
+       "default": 0,
+       "description": "Maximum number of pattern occurrences to replace. If zero, replace all occurrences.",
+       "type": "int",
+       "version_added": "2.17",
+       "version_added_collection": "ansible.builtin"
+      },
       "ignorecase": {
        "default": false,
        "description": "Force the search to be case insensitive if V(True), case sensitive otherwise.",
        "type": "bool"
+      },
+      "mandatory_count": {
+       "default": 0,
+       "description": "Except a certain number of replacements. Raises an error otherwise. If zero, ignore.",
+       "type": "int",
+       "version_added": "2.17",
+       "version_added_collection": "ansible.builtin"
       },
       "multiline": {
        "default": false,
@@ -4950,7 +4966,7 @@
      "version_added": "2.0",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n# whatami => 'able'\nwhatami: \"{{ 'ansible' | regex_replace('^a.*i(.*)$', 'a\\\\1') }}\"\n\n# commalocal => 'localhost, 80'\ncommalocal: \"{{ 'localhost:80' | regex_replace('^(?P<host>.+):(?P<port>\\\\d+)$', '\\\\g<host>, \\\\g<port>') }}\"\n\n# piratecomment => '#CAR\\n#tar\\nfoo\\n#bar\\n'\npiratecomment: \"{{ 'CAR\\ntar\\nfoo\\nbar\\n' | regex_replace('^(.ar)$', '#\\\\1', multiline=True, ignorecase=True) }}\"\n\n# Using inline regex flags instead of passing options to filter\n# See https://docs.python.org/3/library/re.html for more information\n# on inline regex flags\n# piratecomment => '#CAR\\n#tar\\nfoo\\n#bar\\n'\npiratecomment: \"{{ 'CAR\\ntar\\nfoo\\nbar\\n' | regex_replace('(?im)^(.ar)$', '#\\\\1') }}\"\n",
+    "examples": "\n# whatami => 'able'\nwhatami: \"{{ 'ansible' | regex_replace('^a.*i(.*)$', 'a\\\\1') }}\"\n\n# commalocal => 'localhost, 80'\ncommalocal: \"{{ 'localhost:80' | regex_replace('^(?P<host>.+):(?P<port>\\\\d+)$', '\\\\g<host>, \\\\g<port>') }}\"\n\n# piratecomment => '#CAR\\n#tar\\nfoo\\n#bar\\n'\npiratecomment: \"{{ 'CAR\\ntar\\nfoo\\nbar\\n' | regex_replace('^(.ar)$', '#\\\\1', multiline=True, ignorecase=True) }}\"\n\n# Using inline regex flags instead of passing options to filter\n# See https://docs.python.org/3/library/re.html for more information\n# on inline regex flags\n# piratecomment => '#CAR\\n#tar\\nfoo\\n#bar\\n'\npiratecomment: \"{{ 'CAR\\ntar\\nfoo\\nbar\\n' | regex_replace('(?im)^(.ar)$', '#\\\\1') }}\"\n\n# 'foo=bar=baz' => 'foo:bar=baz'\nkey_value: \"{{ 'foo=bar=baz' | regex_replace('=', ':', count=1) }}\"\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -5286,7 +5302,7 @@
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "# for a complete set of features go to  https://strftime.org/\n\n# Display year-month-day\n{{ '%Y-%m-%d' | strftime }}\n# => \"2021-03-19\"\n\n# Display hour:min:sec\n{{ '%H:%M:%S' | strftime }}\n# => \"21:51:04\"\n\n# Use ansible_date_time.epoch fact\n{{ '%Y-%m-%d %H:%M:%S' | strftime(ansible_date_time.epoch) }}\n# => \"2021-03-19 21:54:09\"\n\n# Use arbitrary epoch value\n{{ '%Y-%m-%d' | strftime(0) }}          # => 1970-01-01\n{{ '%Y-%m-%d' | strftime(1441357287) }} # => 2015-09-04\n\n# complex examples\nvars:\n  date1: '2022-11-15T03:23:13.686956868Z'\n  date2: '2021-12-15T16:06:24.400087Z'\n  date_short: '{{ date1|regex_replace(\"([^.]+)(\\.\\d{6})(\\d*)(.+)\", \"\\1\\2\\4\") }}' #shorten microseconds\n  iso8601format: '%Y-%m-%dT%H:%M:%S.%fZ'\n  date_diff_isoed: '{{ (date1|to_datetime(isoformat) - date2|to_datetime(isoformat)).total_seconds() }}'\n",
+    "examples": "# for a complete set of features go to  https://strftime.org/\n\n# Display year-month-day\n{{ '%Y-%m-%d' | strftime }}\n# => \"2021-03-19\"\n\n# Display hour:min:sec\n{{ '%H:%M:%S' | strftime }}\n# => \"21:51:04\"\n\n# Use ansible_date_time.epoch fact\n{{ '%Y-%m-%d %H:%M:%S' | strftime(ansible_date_time.epoch) }}\n# => \"2021-03-19 21:54:09\"\n\n# Use arbitrary epoch value\n{{ '%Y-%m-%d' | strftime(0) }}          # => 1970-01-01\n{{ '%Y-%m-%d' | strftime(1441357287) }} # => 2015-09-04\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -5464,7 +5480,7 @@
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n# Get total amount of seconds between two dates. Default date format is %Y-%m-%d %H:%M:%S but you can pass your own format\nsecsdiff: '{{ ((\"2016-08-14 20:00:12\" | to_datetime) - (\"2015-12-25\" | to_datetime(\"%Y-%m-%d\"))).total_seconds()  }}'\n\n# Get remaining seconds after delta has been calculated. NOTE: This does NOT convert years, days, hours, and so on to seconds. For that, use total_seconds()\n{{ ((\"2016-08-14 20:00:12\" | to_datetime) - (\"2016-08-14 18:00:00\" | to_datetime)).seconds  }}\n# This expression evaluates to \"12\" and not \"132\". Delta is 2 hours, 12 seconds\n\n# get amount of days between two dates. This returns only number of days and discards remaining hours, minutes, and seconds\n{{ ((\"2016-08-14 20:00:12\" | to_datetime) - (\"2015-12-25\" | to_datetime('%Y-%m-%d'))).days  }}\n",
+    "examples": "\n# Get total amount of seconds between two dates. Default date format is %Y-%m-%d %H:%M:%S but you can pass your own format\nsecsdiff: '{{ ((\"2016-08-14 20:00:12\" | to_datetime) - (\"2015-12-25\" | to_datetime(\"%Y-%m-%d\"))).total_seconds()  }}'\n\n# Get remaining seconds after delta has been calculated. NOTE: This does NOT convert years, days, hours, and so on to seconds. For that, use total_seconds()\n{{ ((\"2016-08-14 20:00:12\" | to_datetime) - (\"2016-08-14 18:00:00\" | to_datetime)).seconds  }}\n# This expression evaluates to \"12\" and not \"132\". Delta is 2 hours, 12 seconds\n\n# get amount of days between two dates. This returns only number of days and discards remaining hours, minutes, and seconds\n{{ ((\"2016-08-14 20:00:12\" | to_datetime) - (\"2015-12-25\" | to_datetime('%Y-%m-%d'))).days  }}\n\n# difference between to dotnet (100ns precision) and iso8601 microsecond timestamps\n# the date1_short regex replace will work for any timestamp that has a higher than microsecond precision\n# by cutting off anything more precise than microseconds\nvars:\n  date1: '2022-11-15T03:23:13.6869568Z'\n  date2: '2021-12-15T16:06:24.400087Z'\n  date1_short: '{{ date1|regex_replace(\"([^.]+)(\\.\\d{6})(\\d*)(.+)\", \"\\1\\2\\4\") }}' # shorten to microseconds\n  iso8601format: '%Y-%m-%dT%H:%M:%S.%fZ'\n  date_diff_isoed: '{{ (date1_short|to_datetime(iso8601format) - date2|to_datetime(iso8601format)).total_seconds() }}'\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -5822,7 +5838,7 @@
      "version_added": "1.4",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "# return the unique elements of list1 added to list2\n# list1: [1, 2, 5, 1, 3, 4, 10]\n# list2: [1, 2, 3, 4, 5, 11, 99]\n{{ list1 | union(list2) }}\n# => [1, 2, 5, 1, 3, 4, 10, 11, 99]\n",
+    "examples": "# return the unique elements of list1 added to list2\n# list1: [1, 2, 5, 1, 3, 4, 10]\n# list2: [1, 2, 3, 4, 5, 11, 99]\n{{ list1 | union(list2) }}\n# => [1, 2, 5, 3, 4, 10, 11, 99]\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -6159,7 +6175,7 @@
      "filename": "/ansible/plugins/filter/zip.yml",
      "name": "zip",
      "notes": [
-      "This is mostly a passhtrough to Python's C(zip) function."
+      "This is mostly a passthrough to Python's C(zip) function."
      ],
      "options": {
       "_additional_lists": {
@@ -6204,7 +6220,7 @@
      "filename": "/ansible/plugins/filter/zip_longest.yml",
      "name": "zip_longest",
      "notes": [
-      "This is mostly a passhtrough to Python's C(itertools.zip_longest) function"
+      "This is mostly a passthrough to Python's C(itertools.zip_longest) function"
      ],
      "options": {
       "_additional_lists": {
@@ -6494,7 +6510,8 @@
        "description": [
         "Normally, for performance reasons, vars plugins get executed after the inventory sources complete the base inventory, this option allows for getting vars related to hosts/groups from those plugins.",
         "The host_group_vars (enabled by default) 'vars plugin' is the one responsible for reading host_vars/ and group_vars/ directories.",
-        "This will execute all vars plugins, even those that are not supposed to execute at the 'inventory' stage. See vars plugins docs for details on 'stage'."
+        "This will execute all vars plugins, even those that are not supposed to execute at the 'inventory' stage. See vars plugins docs for details on 'stage'.",
+        "Implicit groups, such as 'all' or 'ungrouped', need to be explicitly defined in any previous inventory to apply the corresponding group_vars"
        ],
        "required": false,
        "type": "boolean",
@@ -6603,7 +6620,7 @@
      "collection": "ansible.builtin",
      "description": [
       "The source provided must be an executable that returns Ansible inventory JSON",
-      "The source must accept C(--list) and C(--host <hostname>) as arguments. C(--host) will only be used if no C(_meta) key is present. This is a performance optimization as the script would be called per host otherwise."
+      "The source must accept C(--list) and C(--host <hostname>) as arguments. C(--host) will only be used if no C(_meta) key is present. This is a performance optimization as the script would be called one additional time per host otherwise."
      ],
      "filename": "/ansible/plugins/inventory/script.py",
      "name": "script",
@@ -6637,7 +6654,7 @@
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": null,
+    "examples": "# fmt: code\n\n### simple bash script\n\n   #!/usr/bin/env bash\n\n   if [ \"$1\" == \"--list\" ]; then\n   cat<<EOF\n   {\n     \"bash_hosts\": {\n       \"hosts\": [\n         \"myhost.domain.com\",\n         \"myhost2.domain.com\"\n       ],\n       \"vars\": {\n         \"host_test\": \"test-value\"\n       }\n     },\n     \"_meta\": {\n       \"hostvars\": {\n         \"myhost.domain.com\": {\n           \"host_specific_test_var\": \"test-value\"\n         }\n       }\n     }\n   }\n   EOF\n   elif [ \"$1\" == \"--host\" ]; then\n     # this should not normally be called by Ansible as we return _meta above\n     if [ \"$2\" == \"myhost.domain.com\" ]; then\n        echo '{\"_meta\": {hostvars\": {\"myhost.domain.com\": {\"host_specific-test_var\": \"test-value\"}}}}'\n     else\n        echo '{\"_meta\": {hostvars\": {}}}'\n     fi\n   else\n     echo \"Invalid option: use --list or --host <hostname>\"\n     exit 1\n   fi\n\n\n### python example with ini config\n\n    #!/usr/bin/env python\n    \"\"\"\n    # ansible_inventory.py\n    \"\"\"\n    import argparse\n    import json\n    import os.path\n    import sys\n    from configparser import ConfigParser\n    from inventories.custom import MyInventoryAPI\n\n    def load_config() -> ConfigParser:\n        cp = ConfigParser()\n        config_file = os.path.expanduser(\"~/.config/ansible_inventory_script.cfg\")\n        cp.read(config_file)\n        if not cp.has_option('DEFAULT', 'namespace'):\n            raise ValueError(\"Missing configuration option: DEFAULT -> namespace\")\n        return cp\n\n\n    def get_api_data(namespace: str, pretty=False) -> str:\n        \"\"\"\n        :param namespace: parameter for our custom api\n        :param pretty: Human redable JSON vs machine readable\n        :return: JSON string\n        \"\"\"\n        found_data = list(MyInventoryAPI(namespace))\n        hostvars = {}\n        data = { '_meta': { 'hostvars': {}},}\n\n        groups = found_data['groups'].keys()\n        for group in groups:\n            groups[group]['hosts'] = found_data[groups].get('host_list', [])\n            if group not in data:\n                data[group] = {}\n            data[group]['hosts'] = found_data[groups].get('host_list', [])\n            data[group]['vars'] = found_data[groups].get('info', [])\n            data[group]['children'] = found_data[group].get('subgroups', [])\n\n        for host_data in found_data['hosts']:\n            for name in host_data.items():\n                # turn info into vars\n                data['_meta'][name] = found_data[name].get('info', {})\n                # set ansible_host if possible\n                if 'address' in found_data[name]:\n                    data[name]['_meta']['ansible_host'] = found_data[name]['address']\n        data['_meta']['hostvars'] = hostvars\n\n        return json.dumps(data, indent=pretty)\n\n    if __name__ == '__main__':\n\n        arg_parser = argparse.ArgumentParser( description=__doc__, prog=__file__)\n        arg_parser.add_argument('--pretty', action='store_true', default=False, help=\"Pretty JSON\")\n        mandatory_options = arg_parser.add_mutually_exclusive_group()\n        mandatory_options.add_argument('--list', action='store', nargs=\"*\", help=\"Get inventory JSON from our API\")\n        mandatory_options.add_argument('--host', action='store',\n                                       help=\"Get variables for specific host, not used but kept for compatability\")\n\n        try:\n            config = load_config()\n            namespace = config.get('DEFAULT', 'namespace')\n\n            args = arg_parser.parse_args()\n            if args.host:\n                print('{\"_meta\":{}}')\n                sys.stderr.write('This script already provides _meta via --list, so this option is really ignored')\n            elif len(args.list) >= 0:\n                print(get_api_data(namespace, args.pretty))\n            else:\n                raise ValueError(\"Valid options are --list or --host <HOSTNAME>\")\n\n        except ValueError:\n            raise\n\n",
     "metadata": null,
     "return": null
    },
@@ -6795,7 +6812,7 @@
     "applies_to": [
      "Task"
     ],
-    "description": "Run a task asynchronously if the C(action) supports this; value is maximum runtime in seconds.",
+    "description": "Run a task asynchronously if the C(action) supports this; the value is the maximum runtime in seconds.",
     "priority": 0,
     "template": "explicit",
     "type": "int"
@@ -6921,7 +6938,7 @@
      "Block",
      "Task"
     ],
-    "description": "Enable debugging tasks based on state of the task result. See :ref:`playbook_debugger`.",
+    "description": "Enable debugging tasks based on the state of the task result. See :ref:`playbook_debugger`.",
     "priority": 0,
     "template": "explicit",
     "type": "string"
@@ -6976,7 +6993,7 @@
      "Block",
      "Task"
     ],
-    "description": "A dictionary that gets converted into environment vars to be provided for the task upon execution. This can ONLY be used with modules. This isn't supported for any other type of plugins nor Ansible itself nor its configuration, it just sets the variables for the code responsible for executing the task. This is not a recommended way to pass in confidential data.",
+    "description": "A dictionary that gets converted into environment vars to be provided for the task upon execution. This can ONLY be used with modules. This is not supported for any other type of plugins nor Ansible itself nor its configuration, it just sets the variables for the code responsible for executing the task. This is not a recommended way to pass in confidential data.",
     "priority": 0,
     "template": "explicit",
     "type": "list"
@@ -7021,7 +7038,7 @@
     "applies_to": [
      "Play"
     ],
-    "description": "Allows you to pass subset options to the  fact gathering plugin controlled by :term:`gather_facts`.",
+    "description": "Allows you to pass subset options to the fact gathering plugin controlled by :term:`gather_facts`.",
     "priority": 0,
     "template": "explicit",
     "type": "list"
@@ -7090,7 +7107,7 @@
     "applies_to": [
      "Task"
     ],
-    "description": "Several keys here allow you to modify/set loop behaviour in a task. See :ref:`loop_control`.",
+    "description": "Several keys here allow you to modify/set loop behavior in a task. See :ref:`loop_control`.",
     "priority": 0,
     "template": "explicit",
     "type": "class"
@@ -7099,7 +7116,7 @@
     "applies_to": [
      "Play"
     ],
-    "description": "can be used to abort the run after a given percentage of hosts in the current batch has failed. This only works on linear or linear derived strategies.",
+    "description": "can be used to abort the run after a given percentage of hosts in the current batch has failed. This only works on linear or linear-derived strategies.",
     "priority": 0,
     "template": "explicit",
     "type": "percent"
@@ -7253,7 +7270,7 @@
      "Block",
      "Task"
     ],
-    "description": "Boolean that will bypass the host loop, forcing the task to attempt to execute on the first host available and afterwards apply any results and facts to all active hosts in the same batch.",
+    "description": "Boolean that will bypass the host loop, forcing the task to attempt to execute on the first host available and afterward apply any results and facts to all active hosts in the same batch.",
     "priority": 0,
     "template": "explicit",
     "type": "bool"
@@ -7271,7 +7288,7 @@
     "applies_to": [
      "Play"
     ],
-    "description": "Allows you to choose the connection plugin to use for the play.",
+    "description": "Allows you to choose the strategy plugin to use for the play. See :ref:`strategy_plugins`.",
     "priority": 0,
     "template": "explicit",
     "type": "string"
@@ -7304,7 +7321,7 @@
      "Block",
      "Task"
     ],
-    "description": "Limit number of concurrent task runs on task, block and playbook level. This is independent of the forks and serial settings, but cannot be set higher than those limits. For example, if forks is set to 10 and the throttle is set to 15, at most 10 hosts will be operated on in parallel.",
+    "description": "Limit the number of concurrent task runs on task, block and playbook level. This is independent of the forks and serial settings, but cannot be set higher than those limits. For example, if forks is set to 10 and the throttle is set to 15, at most 10 hosts will be operated on in parallel.",
     "priority": 0,
     "template": "explicit",
     "type": "int"
@@ -7316,7 +7333,7 @@
      "Block",
      "Task"
     ],
-    "description": "Time limit for task to execute in, if exceeded Ansible will interrupt and fail the task.",
+    "description": "Time limit for the task to execute in, if exceeded Ansible will interrupt and fail the task.",
     "priority": 0,
     "template": "explicit",
     "type": "int"
@@ -7378,33 +7395,32 @@
      "author": "Ansible Core Team",
      "collection": "ansible.builtin",
      "description": [
-      "Retrieves the value of an Ansible configuration setting.",
-      "You can use C(ansible-config list) to see all available settings."
+      "Retrieves the value of an Ansible configuration setting, resolving all sources, from defaults, ansible.cfg, envirionmnet, CLI, and variables, but not keywords.",
+      "The values returned assume the context of the current host or C(inventory_hostname).",
+      "You can use C(ansible-config list) to see the global available settings, add C(-t all) to also show plugin options."
      ],
      "filename": "/ansible/plugins/lookup/config.py",
      "name": "config",
+     "notes": [
+      "Be aware that currently this lookup cannot take keywords nor delegation into account, so for options that support keywords or are affected by delegation, it is at best a good guess or approximation."
+     ],
      "options": {
       "_terms": {
-       "description": "The key(s) to look up",
+       "description": "The option(s) to look up.",
        "required": true
       },
       "on_missing": {
-       "choices": [
-        "error",
-        "skip",
-        "warn"
-       ],
+       "choices": {
+        "error": "Issue an error message and raise fatal signal",
+        "skip": "Silently ignore",
+        "warn": "Issue a warning message and continue"
+       },
        "default": "error",
-       "description": [
-        "action to take if term is missing from config",
-        "Error will raise a fatal error",
-        "Skip will just ignore the term",
-        "Warn will skip over it but issue a warning"
-       ],
+       "description": "Action to take if term is missing from config",
        "type": "string"
       },
       "plugin_name": {
-       "description": "name of the plugin for which you want to retrieve configuration settings.",
+       "description": "The name of the plugin for which you want to retrieve configuration settings.",
        "type": "string",
        "version_added": "2.12",
        "version_added_collection": "ansible.builtin"
@@ -7423,19 +7439,19 @@
         "shell",
         "vars"
        ],
-       "description": "the type of the plugin referenced by 'plugin_name' option.",
+       "description": "The type of the plugin referenced by 'plugin_name' option.",
        "type": "string",
        "version_added": "2.12",
        "version_added_collection": "ansible.builtin"
       },
       "show_origin": {
-       "description": "toggle the display of what configuration subsystem the value came from",
+       "description": "Set this to return what configuration subsystem the value came from (defaults, config file, environment, CLI, or variables).",
        "type": "bool",
        "version_added": "2.16",
        "version_added_collection": "ansible.builtin"
       }
      },
-     "short_description": "Lookup current Ansible configuration values",
+     "short_description": "Display the 'resolved' Ansible option values.",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
     },
@@ -7486,6 +7502,13 @@
       "file": {
        "default": "ansible.csv",
        "description": "name of the CSV/TSV file to open."
+      },
+      "keycol": {
+       "default": 0,
+       "description": "column to search in (0 indexed).",
+       "type": "int",
+       "version_added": "2.17",
+       "version_added_collection": "ansible.builtin"
       }
      },
      "seealso": [
@@ -7535,7 +7558,7 @@
     "return": {
      "_list": {
       "description": [
-       "list of composed dictonaries with key and value"
+       "list of composed dictionaries with key and value"
       ],
       "type": "list"
      }
@@ -8192,24 +8215,24 @@
      "name": "sequence",
      "options": {
       "count": {
-       "default": 0,
        "description": "number of elements in the sequence, this is not to be used with end",
        "type": "integer"
       },
       "end": {
-       "default": 0,
        "description": "number at which to end the sequence, dont use this with count",
        "type": "integer"
       },
       "format": {
+       "default": "%d",
        "description": "return a string with the generated number formatted in"
       },
       "start": {
-       "default": 0,
+       "default": 1,
        "description": "number at which to start the sequence",
        "type": "integer"
       },
       "stride": {
+       "default": 1,
        "description": "increments between sequence numbers, the default is 1 unless the end is less than the start, then it is -1.",
        "type": "integer"
       }
@@ -8491,8 +8514,16 @@
        "version_added_collection": "ansible.builtin"
       },
       "follow_redirects": {
+       "choices": [
+        "urllib2",
+        "all",
+        "yes",
+        "safe",
+        "none",
+        "no"
+       ],
        "default": "urllib2",
-       "description": "String of urllib2, all/yes, safe, none to determine how redirects are followed, see RedirectHandlerFactory for more information",
+       "description": "String of urllib2, all/yes, safe, none to determine how redirects are followed",
        "env": [
         {
          "name": "ANSIBLE_LOOKUP_URL_FOLLOW_REDIRECTS"
@@ -8887,7 +8918,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "details": "While this makes no changes to target systems the 'in memory' inventory will still be altered",
        "support": "partial"
       },
@@ -8986,7 +9017,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -9009,11 +9040,12 @@
      "module": "apt",
      "notes": [
       "Three of the upgrade modes (V(full), V(safe) and its alias V(true)) required C(aptitude) up to 2.3, since 2.4 C(apt-get) is used as a fall-back.",
-      "In most cases, packages installed with apt will start newly installed services by default. Most distributions have mechanisms to avoid this. For example when installing Postgresql-9.5 in Debian 9, creating an excutable shell script (/usr/sbin/policy-rc.d) that throws a return code of 101 will stop Postgresql 9.5 starting up after install. Remove the file or remove its execute permission afterwards.",
-      "The apt-get commandline supports implicit regex matches here but we do not because it can let typos through easier (If you typo C(foo) as C(fo) apt-get would install packages that have \"fo\" in their name with a warning and a prompt for the user. Since we don't have warnings and prompts before installing we disallow this.Use an explicit fnmatch pattern if you want wildcarding)",
+      "In most cases, packages installed with apt will start newly installed services by default. Most distributions have mechanisms to avoid this. For example when installing Postgresql-9.5 in Debian 9, creating an executable shell script (/usr/sbin/policy-rc.d) that throws a return code of 101 will stop Postgresql 9.5 starting up after install. Remove the file or  its execute permission afterward.",
+      "The apt-get commandline supports implicit regex matches here but we do not because it can let typos through easier (If you typo C(foo) as C(fo) apt-get would install packages that have \"fo\" in their name with a warning and a prompt for the user. Since we don't have warnings and prompts before installing, we disallow this.Use an explicit fnmatch pattern if you want wildcarding)",
       "When used with a C(loop:) each package will be processed individually, it is much more efficient to pass the list directly to the O(name) option.",
       "When O(default_release) is used, an implicit priority of 990 is used. This is the same behavior as C(apt-get -t).",
-      "When an exact version is specified, an implicit priority of 1001 is used."
+      "When an exact version is specified, an implicit priority of 1001 is used.",
+      "If the interpreter can't import ``python-apt``/``python3-apt`` the module will check for it in system-owned interpreters as well. If the dependency can't be found, the module will attempt to install it. If the dependency is found or installed, the module will be respawned under the correct interpreter."
      ],
      "options": {
       "allow_change_held_packages": {
@@ -9282,7 +9314,7 @@
      "version_added": "0.0.2",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Install apache httpd  (state=present is optional)\n  ansible.builtin.apt:\n    name: apache2\n    state: present\n\n- name: Update repositories cache and install \"foo\" package\n  ansible.builtin.apt:\n    name: foo\n    update_cache: yes\n\n- name: Remove \"foo\" package\n  ansible.builtin.apt:\n    name: foo\n    state: absent\n\n- name: Install the package \"foo\"\n  ansible.builtin.apt:\n    name: foo\n\n- name: Install a list of packages\n  ansible.builtin.apt:\n    pkg:\n    - foo\n    - foo-tools\n\n- name: Install the version '1.00' of package \"foo\"\n  ansible.builtin.apt:\n    name: foo=1.00\n\n- name: Update the repository cache and update package \"nginx\" to latest version using default release squeeze-backport\n  ansible.builtin.apt:\n    name: nginx\n    state: latest\n    default_release: squeeze-backports\n    update_cache: yes\n\n- name: Install the version '1.18.0' of package \"nginx\" and allow potential downgrades\n  ansible.builtin.apt:\n    name: nginx=1.18.0\n    state: present\n    allow_downgrade: yes\n\n- name: Install zfsutils-linux with ensuring conflicted packages (e.g. zfs-fuse) will not be removed.\n  ansible.builtin.apt:\n    name: zfsutils-linux\n    state: latest\n    fail_on_autoremove: yes\n\n- name: Install latest version of \"openjdk-6-jdk\" ignoring \"install-recommends\"\n  ansible.builtin.apt:\n    name: openjdk-6-jdk\n    state: latest\n    install_recommends: no\n\n- name: Update all packages to their latest version\n  ansible.builtin.apt:\n    name: \"*\"\n    state: latest\n\n- name: Upgrade the OS (apt-get dist-upgrade)\n  ansible.builtin.apt:\n    upgrade: dist\n\n- name: Run the equivalent of \"apt-get update\" as a separate step\n  ansible.builtin.apt:\n    update_cache: yes\n\n- name: Only run \"update_cache=yes\" if the last one is more than 3600 seconds ago\n  ansible.builtin.apt:\n    update_cache: yes\n    cache_valid_time: 3600\n\n- name: Pass options to dpkg on run\n  ansible.builtin.apt:\n    upgrade: dist\n    update_cache: yes\n    dpkg_options: 'force-confold,force-confdef'\n\n- name: Install a .deb package\n  ansible.builtin.apt:\n    deb: /tmp/mypackage.deb\n\n- name: Install the build dependencies for package \"foo\"\n  ansible.builtin.apt:\n    pkg: foo\n    state: build-dep\n\n- name: Install a .deb package from the internet\n  ansible.builtin.apt:\n    deb: https://example.com/python-ppq_0.1-1_all.deb\n\n- name: Remove useless packages from the cache\n  ansible.builtin.apt:\n    autoclean: yes\n\n- name: Remove dependencies that are no longer required\n  ansible.builtin.apt:\n    autoremove: yes\n\n- name: Remove dependencies that are no longer required and purge their configuration files\n  ansible.builtin.apt:\n    autoremove: yes\n    purge: true\n\n- name: Run the equivalent of \"apt-get clean\" as a separate step\n  apt:\n    clean: yes\n",
+    "examples": "\n- name: Install apache httpd  (state=present is optional)\n  ansible.builtin.apt:\n    name: apache2\n    state: present\n\n- name: Update repositories cache and install \"foo\" package\n  ansible.builtin.apt:\n    name: foo\n    update_cache: yes\n\n- name: Remove \"foo\" package\n  ansible.builtin.apt:\n    name: foo\n    state: absent\n\n- name: Install the package \"foo\"\n  ansible.builtin.apt:\n    name: foo\n\n- name: Install a list of packages\n  ansible.builtin.apt:\n    pkg:\n    - foo\n    - foo-tools\n\n- name: Install the version '1.00' of package \"foo\"\n  ansible.builtin.apt:\n    name: foo=1.00\n\n- name: Update the repository cache and update package \"nginx\" to latest version using default release squeeze-backport\n  ansible.builtin.apt:\n    name: nginx\n    state: latest\n    default_release: squeeze-backports\n    update_cache: yes\n\n- name: Install the version '1.18.0' of package \"nginx\" and allow potential downgrades\n  ansible.builtin.apt:\n    name: nginx=1.18.0\n    state: present\n    allow_downgrade: yes\n\n- name: Install zfsutils-linux with ensuring conflicted packages (e.g. zfs-fuse) will not be removed.\n  ansible.builtin.apt:\n    name: zfsutils-linux\n    state: latest\n    fail_on_autoremove: yes\n\n- name: Install latest version of \"openjdk-6-jdk\" ignoring \"install-recommends\"\n  ansible.builtin.apt:\n    name: openjdk-6-jdk\n    state: latest\n    install_recommends: no\n\n- name: Update all packages to their latest version\n  ansible.builtin.apt:\n    name: \"*\"\n    state: latest\n\n- name: Upgrade the OS (apt-get dist-upgrade)\n  ansible.builtin.apt:\n    upgrade: dist\n\n- name: Run the equivalent of \"apt-get update\" as a separate step\n  ansible.builtin.apt:\n    update_cache: yes\n\n- name: Only run \"update_cache=yes\" if the last one is more than 3600 seconds ago\n  ansible.builtin.apt:\n    update_cache: yes\n    cache_valid_time: 3600\n\n- name: Pass options to dpkg on run\n  ansible.builtin.apt:\n    upgrade: dist\n    update_cache: yes\n    dpkg_options: 'force-confold,force-confdef'\n\n- name: Install a .deb package\n  ansible.builtin.apt:\n    deb: /tmp/mypackage.deb\n\n- name: Install the build dependencies for package \"foo\"\n  ansible.builtin.apt:\n    pkg: foo\n    state: build-dep\n\n- name: Install a .deb package from the internet\n  ansible.builtin.apt:\n    deb: https://example.com/python-ppq_0.1-1_all.deb\n\n- name: Remove useless packages from the cache\n  ansible.builtin.apt:\n    autoclean: yes\n\n- name: Remove dependencies that are no longer required\n  ansible.builtin.apt:\n    autoremove: yes\n\n- name: Remove dependencies that are no longer required and purge their configuration files\n  ansible.builtin.apt:\n    autoremove: yes\n    purge: true\n\n- name: Run the equivalent of \"apt-get clean\" as a separate step\n  ansible.builtin.apt:\n    clean: yes\n",
     "metadata": null,
     "return": {
      "cache_update_time": {
@@ -9315,7 +9347,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -9474,7 +9506,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -9656,7 +9688,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "none"
       },
       "diff_mode": {
@@ -9717,7 +9749,7 @@
       "decrypt": {
        "default": true,
        "description": [
-        "This option controls the autodecryption of source files using vault."
+        "This option controls the auto-decryption of source files using vault."
        ],
        "type": "bool",
        "version_added": "2.4",
@@ -9896,7 +9928,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "connection": {
@@ -9984,7 +10016,7 @@
      "version_added": "1.5",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- ansible.builtin.assert: { that: \"ansible_os_family != 'RedHat'\" }\n\n- ansible.builtin.assert:\n    that:\n      - \"'foo' in some_command_result.stdout\"\n      - number_of_the_counting == 3\n\n- name: After version 2.7 both 'msg' and 'fail_msg' can customize failing assertion message\n  ansible.builtin.assert:\n    that:\n      - my_param <= 100\n      - my_param >= 0\n    fail_msg: \"'my_param' must be between 0 and 100\"\n    success_msg: \"'my_param' is between 0 and 100\"\n\n- name: Please use 'msg' when ansible version is smaller than 2.7\n  ansible.builtin.assert:\n    that:\n      - my_param <= 100\n      - my_param >= 0\n    msg: \"'my_param' must be between 0 and 100\"\n\n- name: Use quiet to avoid verbose output\n  ansible.builtin.assert:\n    that:\n      - my_param <= 100\n      - my_param >= 0\n    quiet: true\n",
+    "examples": "\n- name: A single condition can be supplied as string instead of list\n  ansible.builtin.assert:\n    that: \"ansible_os_family != 'RedHat'\"\n\n- name: Use yaml multiline strings to ease escaping\n  ansible.builtin.assert:\n    that:\n      - \"'foo' in some_command_result.stdout\"\n      - number_of_the_counting == 3\n      - >\n        \"reject\" not in some_command_result.stderr\n\n- name: After version 2.7 both 'msg' and 'fail_msg' can customize failing assertion message\n  ansible.builtin.assert:\n    that:\n      - my_param <= 100\n      - my_param >= 0\n    fail_msg: \"'my_param' must be between 0 and 100\"\n    success_msg: \"'my_param' is between 0 and 100\"\n\n- name: Please use 'msg' when ansible version is smaller than 2.7\n  ansible.builtin.assert:\n    that:\n      - my_param <= 100\n      - my_param >= 0\n    msg: \"'my_param' must be between 0 and 100\"\n\n- name: Use quiet to avoid verbose output\n  ansible.builtin.assert:\n    that:\n      - my_param <= 100\n      - my_param >= 0\n    quiet: true\n",
     "metadata": null,
     "return": null
    },
@@ -10008,7 +10040,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "none"
       },
       "diff_mode": {
@@ -10064,7 +10096,7 @@
      "version_added": "0.5",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n---\n- name: Asynchronous yum task\n  ansible.builtin.yum:\n    name: docker-io\n    state: present\n  async: 1000\n  poll: 0\n  register: yum_sleeper\n\n- name: Wait for asynchronous job to end\n  ansible.builtin.async_status:\n    jid: '{{ yum_sleeper.ansible_job_id }}'\n  register: job_result\n  until: job_result.finished\n  retries: 100\n  delay: 10\n\n- name: Clean up async file\n  ansible.builtin.async_status:\n    jid: '{{ yum_sleeper.ansible_job_id }}'\n    mode: cleanup\n",
+    "examples": "\n---\n- name: Asynchronous dnf task\n  ansible.builtin.dnf:\n    name: docker-io\n    state: present\n  async: 1000\n  poll: 0\n  register: dnf_sleeper\n\n- name: Wait for asynchronous job to end\n  ansible.builtin.async_status:\n    jid: '{{ dnf_sleeper.ansible_job_id }}'\n  register: job_result\n  until: job_result.finished\n  retries: 100\n  delay: 10\n\n- name: Clean up async file\n  ansible.builtin.async_status:\n    jid: '{{ dnf_sleeper.ansible_job_id }}'\n    mode: cleanup\n",
     "metadata": null,
     "return": {
      "ansible_job_id": {
@@ -10106,7 +10138,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -10377,7 +10409,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "details": "while the command itself is arbitrary and cannot be subject to the check mode semantics it adds O(creates)/O(removes) options as a workaround",
        "support": "partial"
       },
@@ -10618,7 +10650,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -10707,7 +10739,7 @@
       "decrypt": {
        "default": true,
        "description": [
-        "This option controls the autodecryption of source files using vault."
+        "This option controls the auto-decryption of source files using vault."
        ],
        "type": "bool",
        "version_added": "2.4",
@@ -10800,7 +10832,7 @@
         "If V(true) it will search for O(src) on the managed (remote) node.",
         "O(remote_src) supports recursive copying as of version 2.8.",
         "O(remote_src) only works with O(mode=preserve) as of version 2.6.",
-        "Autodecryption of files does not work when O(remote_src=yes)."
+        "Auto-decryption of files does not work when O(remote_src=yes)."
        ],
        "type": "bool",
        "version_added": "2.0",
@@ -10971,7 +11003,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -11367,7 +11399,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -11495,7 +11527,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "connection": {
@@ -11577,7 +11609,7 @@
      "attributes": {
       "action": {
        "description": "Indicates this has a corresponding action plugin so some parts of the options can be executed on the controller",
-       "details": "In the case of dnf, it has 2 action plugins that use it under the hood, M(ansible.builtin.yum) and M(ansible.builtin.package).",
+       "details": "dnf has 2 action plugins that use it under the hood, M(ansible.builtin.dnf) and M(ansible.builtin.package).",
        "support": "partial"
       },
       "async": {
@@ -11593,7 +11625,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -11763,7 +11795,8 @@
       "install_repoquery": {
        "default": "yes",
        "description": [
-        "This is effectively a no-op in DNF as it is not needed with DNF, but is an accepted parameter for feature parity/compatibility with the M(ansible.builtin.yum) module."
+        "This is effectively a no-op in DNF as it is not needed with DNF.",
+        "This option is deprecated and will be removed in ansible-core 2.20."
        ],
        "type": "bool",
        "version_added": "2.7",
@@ -11902,6 +11935,8 @@
       "use_backend": {
        "choices": [
         "auto",
+        "yum",
+        "yum4",
         "dnf4",
         "dnf5"
        ],
@@ -11942,7 +11977,7 @@
      "attributes": {
       "action": {
        "description": "Indicates this has a corresponding action plugin so some parts of the options can be executed on the controller",
-       "details": "In the case of dnf, it has 2 action plugins that use it under the hood, M(ansible.builtin.yum) and M(ansible.builtin.package).",
+       "details": "dnf5 has 2 action plugins that use it under the hood, M(ansible.builtin.dnf) and M(ansible.builtin.package).",
        "support": "partial"
       },
       "async": {
@@ -11958,7 +11993,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -12100,7 +12135,8 @@
       "install_repoquery": {
        "default": "yes",
        "description": [
-        "This is effectively a no-op in DNF as it is not needed with DNF, but is an accepted parameter for feature parity/compatibility with the M(ansible.builtin.yum) module."
+        "This is effectively a no-op in DNF as it is not needed with DNF.",
+        "This option is deprecated and will be removed in ansible-core 2.20."
        ],
        "type": "bool"
       },
@@ -12218,7 +12254,7 @@
       "validate_certs": {
        "default": "yes",
        "description": [
-        "This is effectively a no-op in the dnf5 module as dnf5 itself handles downloading a https url as the source of the rpm, but is an accepted parameter for feature parity/compatibility with the M(ansible.builtin.yum) module."
+        "This is effectively a no-op in the dnf5 module as dnf5 itself handles downloading a https url as the source of the rpm, but is an accepted parameter for feature parity/compatibility with the M(ansible.builtin.dnf) module."
        ],
        "type": "bool"
       }
@@ -12268,7 +12304,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -12328,7 +12364,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "none"
       },
       "diff_mode": {
@@ -12352,9 +12388,8 @@
      "module": "expect",
      "notes": [
       "If you want to run a command through the shell (say you are using C(<), C(>), C(|), and so on), you must specify a shell in the command such as C(/bin/bash -c \"/path/to/something | grep else\").",
-      "The question, or key, under O(responses) is a python regex match. Case insensitive searches are indicated with a prefix of C(?i).",
+      "Case insensitive searches are indicated with a prefix of C(?i).",
       "The C(pexpect) library used by this module operates with a search window of 2000 bytes, and does not use a multiline regex match. To perform a start of line bound match, use a pattern like ``(?m)^pattern``",
-      "By default, if a question is encountered multiple times, its string response will be repeated. If you need different responses for successive question matches, instead of a string response, use a list of strings as the response. The list functionality is new in 2.1.",
       "The M(ansible.builtin.expect) module is designed for simple scenarios. For more complex needs, consider the use of expect code with the M(ansible.builtin.shell) or M(ansible.builtin.script) modules. (An example is part of the M(ansible.builtin.shell) module documentation).",
       "If the command returns non UTF-8 data, it must be encoded to avoid issues. One option is to pipe the output through C(base64)."
      ],
@@ -12393,7 +12428,9 @@
       },
       "responses": {
        "description": [
-        "Mapping of expected string/regex and string to respond with. If the response is a list, successive matches return successive responses. List functionality is new in 2.1."
+        "Mapping of prompt regular expressions and corresponding answer(s).",
+        "Each key in O(responses) is a Python regex U(https://docs.python.org/3/library/re.html#regular-expression-syntax).",
+        "The value of each key is a string or list of strings. If the value is a string and the prompt is encountered multiple times, the answer will be repeated. Provide the value as a list to give different answers for successive matches."
        ],
        "required": true,
        "type": "dict"
@@ -12403,7 +12440,7 @@
        "description": [
         "Amount of time in seconds to wait for the expected strings. Use V(null) to disable timeout."
        ],
-       "type": "int"
+       "type": "raw"
       }
      },
      "requirements": [
@@ -12422,7 +12459,7 @@
      "version_added": "2.0",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Case insensitive password string match\n  ansible.builtin.expect:\n    command: passwd username\n    responses:\n      (?i)password: \"MySekretPa$$word\"\n  # you don't want to show passwords in your logs\n  no_log: true\n\n- name: Generic question with multiple different responses\n  ansible.builtin.expect:\n    command: /path/to/custom/command\n    responses:\n      Question:\n        - response1\n        - response2\n        - response3\n",
+    "examples": "\n- name: Case insensitive password string match\n  ansible.builtin.expect:\n    command: passwd username\n    responses:\n      (?i)password: \"MySekretPa$$word\"\n  # you don't want to show passwords in your logs\n  no_log: true\n\n- name: Match multiple regular expressions and demonstrate individual and repeated responses\n  ansible.builtin.expect:\n    command: /path/to/custom/command\n    responses:\n      Question:\n        # give a unique response for each of the 3 hypothetical prompts matched\n        - response1\n        - response2\n        - response3\n      # give the same response for every matching prompt\n      \"^Match another prompt$\": \"response\"\n\n- name: Multiple questions with responses\n  ansible.builtin.expect:\n    command: /path/to/custom/command\n    responses:\n        \"Please provide your name\":\n            - \"Anna\"\n        \"Database user\":\n            - \"{{ db_username }}\"\n        \"Database password\":\n            - \"{{ db_password }}\"\n",
     "metadata": null,
     "return": null
    },
@@ -12450,7 +12487,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "connection": {
@@ -12533,7 +12570,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -12642,7 +12679,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -12710,7 +12747,8 @@
        "description": [
         "This flag indicates that filesystem links, if they exist, should be followed.",
         "O(follow=yes) and O(state=link) can modify O(src) when combined with parameters such as O(mode).",
-        "Previous to Ansible 2.5, this was V(false) by default."
+        "Previous to Ansible 2.5, this was V(false) by default.",
+        "While creating a symlink with a non-existent destination, set O(follow) to V(false) to avoid a warning message related to permission issues. The warning message is added to notify the user that we can not set permissions to the non-existent destination."
        ],
        "type": "bool",
        "version_added": "1.8",
@@ -12719,7 +12757,7 @@
       "force": {
        "default": false,
        "description": [
-        "Force the creation of the symlinks in two cases: the source file does not exist (but will appear later); the destination exists and is a file (so, we need to unlink the O(path) file and create symlink to the O(src) file in place of it).\n"
+        "Force the creation of the symlinks in two cases: the source file does not exist (but will appear later); the destination exists and is a file (so, we need to unlink the O(path) file and create a symlink to the O(src) file in place of it).\n"
        ],
        "type": "bool"
       },
@@ -12906,7 +12944,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "details": "since this action does not modify the target it just executes normally during check mode",
        "support": "full"
       },
@@ -12967,6 +13005,14 @@
        ],
        "type": "int",
        "version_added": "2.6",
+       "version_added_collection": "ansible.builtin"
+      },
+      "encoding": {
+       "description": [
+        "When doing a C(contains) search, determine the encoding of the files to be searched."
+       ],
+       "type": "str",
+       "version_added": "2.17",
        "version_added_collection": "ansible.builtin"
       },
       "exact_mode": {
@@ -13173,7 +13219,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "details": "since this action should just query the target system info it always runs in check mode",
        "support": "full"
       },
@@ -13233,7 +13279,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "details": "the changed status will reflect comparison to an empty source file",
        "support": "partial"
       },
@@ -13570,7 +13616,7 @@
      "version_added": "0.6",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Download foo.conf\n  ansible.builtin.get_url:\n    url: http://example.com/path/file.conf\n    dest: /etc/foo.conf\n    mode: '0440'\n\n- name: Download file and force basic auth\n  ansible.builtin.get_url:\n    url: http://example.com/path/file.conf\n    dest: /etc/foo.conf\n    force_basic_auth: yes\n\n- name: Download file with custom HTTP headers\n  ansible.builtin.get_url:\n    url: http://example.com/path/file.conf\n    dest: /etc/foo.conf\n    headers:\n      key1: one\n      key2: two\n\n- name: Download file with check (sha256)\n  ansible.builtin.get_url:\n    url: http://example.com/path/file.conf\n    dest: /etc/foo.conf\n    checksum: sha256:b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c\n\n- name: Download file with check (md5)\n  ansible.builtin.get_url:\n    url: http://example.com/path/file.conf\n    dest: /etc/foo.conf\n    checksum: md5:66dffb5228a211e61d6d7ef4a86f5758\n\n- name: Download file with checksum url (sha256)\n  ansible.builtin.get_url:\n    url: http://example.com/path/file.conf\n    dest: /etc/foo.conf\n    checksum: sha256:http://example.com/path/sha256sum.txt\n\n- name: Download file from a file path\n  ansible.builtin.get_url:\n    url: file:///tmp/afile.txt\n    dest: /tmp/afilecopy.txt\n\n- name: < Fetch file that requires authentication.\n        username/password only available since 2.8, in older versions you need to use url_username/url_password\n  ansible.builtin.get_url:\n    url: http://example.com/path/file.conf\n    dest: /etc/foo.conf\n    username: bar\n    password: '{{ mysecret }}'\n",
+    "examples": "\n- name: Download foo.conf\n  ansible.builtin.get_url:\n    url: http://example.com/path/file.conf\n    dest: /etc/foo.conf\n    mode: '0440'\n\n- name: Download file and force basic auth\n  ansible.builtin.get_url:\n    url: http://example.com/path/file.conf\n    dest: /etc/foo.conf\n    force_basic_auth: yes\n\n- name: Download file with custom HTTP headers\n  ansible.builtin.get_url:\n    url: http://example.com/path/file.conf\n    dest: /etc/foo.conf\n    headers:\n      key1: one\n      key2: two\n\n- name: Download file with check (sha256)\n  ansible.builtin.get_url:\n    url: http://example.com/path/file.conf\n    dest: /etc/foo.conf\n    checksum: sha256:b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c\n\n- name: Download file with check (md5)\n  ansible.builtin.get_url:\n    url: http://example.com/path/file.conf\n    dest: /etc/foo.conf\n    checksum: md5:66dffb5228a211e61d6d7ef4a86f5758\n\n- name: Download file with checksum url (sha256)\n  ansible.builtin.get_url:\n    url: http://example.com/path/file.conf\n    dest: /etc/foo.conf\n    checksum: sha256:http://example.com/path/sha256sum.txt\n\n- name: Download file from a file path\n  ansible.builtin.get_url:\n    url: file:///tmp/a_file.txt\n    dest: /tmp/afilecopy.txt\n\n- name: < Fetch file that requires authentication.\n        username/password only available since 2.8, in older versions you need to use url_username/url_password\n  ansible.builtin.get_url:\n    url: http://example.com/path/file.conf\n    dest: /etc/foo.conf\n    username: bar\n    password: '{{ mysecret }}'\n",
     "metadata": null,
     "return": {
      "backup_file": {
@@ -13687,7 +13733,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -13767,7 +13813,7 @@
         "description": [
          "A list of results or a single result as a list of the fields the db provides",
          "The list elements depend on the database queried, see getent man page for the structure",
-         "Starting at 2.11 it now returns multiple duplicate entries, previouslly it only returned the last one"
+         "Starting at 2.11 it now returns multiple duplicate entries, previously it only returned the last one"
         ],
         "returned": "always",
         "type": "list"
@@ -13783,7 +13829,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -14086,7 +14132,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -14248,7 +14294,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "details": "While this makes no changes to target systems the 'in memory' inventory will still be altered",
        "support": "partial"
       },
@@ -14338,7 +14384,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -14448,7 +14494,7 @@
        "support": "partial"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "connection": {
@@ -14523,7 +14569,7 @@
       },
       {
        "description": "More information related to including and importing playbooks, roles and tasks.",
-       "ref": "playbooks_reuse_includes"
+       "ref": "playbooks_reuse"
       }
      ],
      "short_description": "Import a playbook",
@@ -14565,7 +14611,7 @@
        "support": "partial"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "connection": {
@@ -14651,6 +14697,17 @@
        "required": true,
        "type": "str"
       },
+      "public": {
+       "default": true,
+       "description": [
+        "This option dictates whether the role's C(vars) and C(defaults) are exposed to the play.",
+        "Variables are exposed to the play at playbook parsing time, and available to earlier roles and tasks as well unlike C(include_role).",
+        "The default depends on the configuration option :ref:`default_private_role_vars`."
+       ],
+       "type": "bool",
+       "version_added": "2.17",
+       "version_added_collection": "ansible.builtin"
+      },
       "rolespec_validate": {
        "default": true,
        "description": [
@@ -14690,7 +14747,7 @@
       },
       {
        "description": "More information related to including and importing playbooks, roles and tasks.",
-       "ref": "playbooks_reuse_includes"
+       "ref": "playbooks_reuse"
       }
      ],
      "short_description": "Import a role into a play",
@@ -14732,7 +14789,7 @@
        "support": "partial"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "none"
       },
       "connection": {
@@ -14815,7 +14872,7 @@
       },
       {
        "description": "More information related to including and importing playbooks, roles and tasks.",
-       "ref": "playbooks_reuse_includes"
+       "ref": "playbooks_reuse"
       }
      ],
      "short_description": "Import a task list",
@@ -14855,7 +14912,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "connection": {
@@ -14998,7 +15055,7 @@
       },
       {
        "description": "More information related to including and importing playbooks, roles and tasks.",
-       "ref": "playbooks_reuse_includes"
+       "ref": "playbooks_reuse"
       }
      ],
      "short_description": "Load and execute a role",
@@ -15038,7 +15095,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "none"
       },
       "connection": {
@@ -15126,7 +15183,7 @@
       },
       {
        "description": "More information related to including and importing playbooks, roles and tasks.",
-       "ref": "playbooks_reuse_includes"
+       "ref": "playbooks_reuse"
       }
      ],
      "short_description": "Dynamically include a task list",
@@ -15166,7 +15223,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "connection": {
@@ -15361,7 +15418,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -15485,13 +15542,13 @@
        "description": [
         "This means that the rule only refers to second and further fragments of fragmented packets.",
         "Since there is no way to tell the source or destination ports of such a packet (or ICMP type), such a packet will not match any rules which specify them.",
-        "When the \"!\" argument precedes fragment argument, the rule will only match head fragments, or unfragmented packets."
+        "When the \"!\" argument precedes the fragment argument, the rule will only match head fragments, or unfragmented packets."
        ],
        "type": "str"
       },
       "gateway": {
        "description": [
-        "This specifies the IP address of host to send the cloned packets.",
+        "This specifies the IP address of the host to send the cloned packets.",
         "This option is only valid when O(jump) is set to V(TEE)."
        ],
        "type": "str",
@@ -15500,7 +15557,7 @@
       },
       "gid_owner": {
        "description": [
-        "Specifies the GID or group to use in match by owner rule."
+        "Specifies the GID or group to use in the match by owner rule."
        ],
        "type": "str",
        "version_added": "2.9",
@@ -15508,7 +15565,7 @@
       },
       "goto": {
        "description": [
-        "This specifies that the processing should continue in a user specified chain.",
+        "This specifies that the processing should continue in a user-specified chain.",
         "Unlike the jump argument return will not continue processing in this chain but instead in the chain that called us via jump."
        ],
        "type": "str"
@@ -15544,7 +15601,7 @@
       "jump": {
        "description": [
         "This specifies the target of the rule; i.e., what to do if the packet matches it.",
-        "The target can be a user-defined chain (other than the one this rule is in), one of the special builtin targets which decide the fate of the packet immediately, or an extension (see EXTENSIONS below).",
+        "The target can be a user-defined chain (other than the one this rule is in), one of the special builtin targets that decide the fate of the packet immediately, or an extension (see EXTENSIONS below).",
         "If this option is omitted in a rule (and the goto parameter is not used), then matching the rule will have no effect on the packet's fate, but the counters on the rule will be incremented."
        ],
        "type": "str"
@@ -15594,7 +15651,7 @@
       },
       "log_prefix": {
        "description": [
-        "Specifies a log text for the rule. Only make sense with a LOG jump."
+        "Specifies a log text for the rule. Only makes sense with a LOG jump."
        ],
        "type": "str",
        "version_added": "2.5",
@@ -15604,15 +15661,15 @@
        "default": [],
        "description": [
         "Specifies a match to use, that is, an extension module that tests for a specific property.",
-        "The set of matches make up the condition under which a target is invoked.",
-        "Matches are evaluated first to last if specified as an array and work in short-circuit fashion, i.e. if one extension yields false, evaluation will stop."
+        "The set of matches makes up the condition under which a target is invoked.",
+        "Matches are evaluated first to last if specified as an array and work in short-circuit fashion, i.e. if one extension yields false, the evaluation will stop."
        ],
        "elements": "str",
        "type": "list"
       },
       "match_set": {
        "description": [
-        "Specifies a set name which can be defined by ipset.",
+        "Specifies a set name that can be defined by ipset.",
         "Must be used together with the match_set_flags parameter.",
         "When the V(!) argument is prepended then it inverts the rule.",
         "Uses the iptables set extension."
@@ -15641,9 +15698,9 @@
        "default": false,
        "description": [
         "This parameter controls the running of the list -action of iptables, which is used internally by the module",
-        "Does not affect the actual functionality. Use this if iptables hangs when creating chain or altering policy",
+        "Does not affect the actual functionality. Use this if iptables hang when creating a chain or altering policy",
         "If V(true), then iptables skips the DNS-lookup of the IP addresses in a chain when it uses the list -action",
-        "Listing is used internally for example when setting a policy or creting of a chain"
+        "Listing is used internally for example when setting a policy or creating a chain"
        ],
        "type": "bool",
        "version_added": "2.15",
@@ -15670,7 +15727,7 @@
         "Only built-in chains can have policies.",
         "This parameter requires the O(chain) parameter.",
         "If you specify this parameter, all other parameters will be ignored.",
-        "This parameter is used to set default policy for the given O(chain). Do not confuse this with O(jump) parameter."
+        "This parameter is used to set the default policy for the given O(chain). Do not confuse this with O(jump) parameter."
        ],
        "type": "str",
        "version_added": "2.2",
@@ -15713,6 +15770,7 @@
       "set_dscp_mark": {
        "description": [
         "This allows specifying a DSCP mark to be added to packets. It takes either an integer or hex value.",
+        "If the parameter is set, O(jump) is set to V(DSCP).",
         "Mutually exclusive with O(set_dscp_mark_class)."
        ],
        "type": "str",
@@ -15722,6 +15780,7 @@
       "set_dscp_mark_class": {
        "description": [
         "This allows specifying a predefined DiffServ class which will be translated to the corresponding DSCP mark.",
+        "If the parameter is set, O(jump) is set to V(DSCP).",
         "Mutually exclusive with O(set_dscp_mark)."
        ],
        "type": "str",
@@ -15749,7 +15808,7 @@
       },
       "src_range": {
        "description": [
-        "Specifies the source IP range to match in the iprange module."
+        "Specifies the source IP range to match the iprange module."
        ],
        "type": "str",
        "version_added": "2.8",
@@ -15791,7 +15850,7 @@
        ],
        "default": "filter",
        "description": [
-        "This option specifies the packet matching table which the command should operate on.",
+        "This option specifies the packet matching table on which the command should operate.",
         "If the kernel is configured with automatic module loading, an attempt will be made to load the appropriate module for that table if it is not already there."
        ],
        "type": "str"
@@ -15848,7 +15907,7 @@
       },
       "uid_owner": {
        "description": [
-        "Specifies the UID or username to use in match by owner rule.",
+        "Specifies the UID or username to use in the match by owner rule.",
         "From Ansible 2.6 when the C(!) argument is prepended then the it inverts the rule to apply instead to all users except that one specified."
        ],
        "type": "str",
@@ -15876,7 +15935,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -15967,7 +16026,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -16124,12 +16183,6 @@
         "Specifying O(mode) is the best way to ensure filesystem objects are created with the correct permissions. See CVE-2020-1736 for further details."
        ],
        "type": "raw"
-      },
-      "others": {
-       "description": [
-        "All arguments accepted by the M(ansible.builtin.file) module also work here."
-       ],
-       "type": "str"
       },
       "owner": {
        "description": [
@@ -16301,7 +16354,7 @@
        "support": "partial"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "details": "While these actions don't modify the targets directly they do change possible states of the target within the run",
        "support": "partial"
       },
@@ -16421,7 +16474,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "details": "support depends on the underlying plugin invoked",
        "support": "N/A"
       },
@@ -16442,7 +16495,7 @@
      ],
      "collection": "ansible.builtin",
      "description": [
-      "This modules manages packages on a target without specifying a package manager module (like M(ansible.builtin.yum), M(ansible.builtin.apt), ...). It is convenient to use in an heterogeneous environment of machines without having to create a specific task for each package manager. M(ansible.builtin.package) calls behind the module for the package manager used by the operating system discovered by the module M(ansible.builtin.setup).  If M(ansible.builtin.setup) was not yet run, M(ansible.builtin.package) will run it.",
+      "This modules manages packages on a target without specifying a package manager module (like M(ansible.builtin.dnf), M(ansible.builtin.apt), ...). It is convenient to use in an heterogeneous environment of machines without having to create a specific task for each package manager. M(ansible.builtin.package) calls behind the module for the package manager used by the operating system discovered by the module M(ansible.builtin.setup).  If M(ansible.builtin.setup) was not yet run, M(ansible.builtin.package) will run it.",
       "This module acts as a proxy to the underlying package manager module. While all arguments will be passed to the underlying module, not all modules support the same arguments. This documentation only covers the minimum intersection of module arguments that all packaging modules support.",
       "For Windows targets, use the M(ansible.windows.win_package) module instead."
      ],
@@ -16457,7 +16510,8 @@
        "description": [
         "Package name, or package specifier with version.",
         "Syntax varies with package manager. For example V(name-1.0) or V(name=1.0).",
-        "Package names also vary with package manager; this module will not \"translate\" them per distro. For example V(libyaml-dev), V(libyaml-devel)."
+        "Package names also vary with package manager; this module will not \"translate\" them per distro. For example V(libyaml-dev), V(libyaml-devel).",
+        "To operate on several packages this can accept a comma separated string of packages or a list of packages, depending on the underlying package manager."
        ],
        "required": true
       },
@@ -16471,7 +16525,7 @@
       "use": {
        "default": "auto",
        "description": [
-        "The required package manager module to use (V(yum), V(apt), and so on). The default V(auto) will use existing facts or try to autodetect it.",
+        "The required package manager module to use (V(dnf), V(apt), and so on). The default V(auto) will use existing facts or try to autodetect it.",
         "You should only use this field if the automatic selection is not working for some reason."
        ]
       }
@@ -16491,7 +16545,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -16631,7 +16685,7 @@
        "support": "full"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "connection": {
@@ -16658,7 +16712,7 @@
       "Pauses playbook execution for a set amount of time, or until a prompt is acknowledged. All parameters are optional. The default behavior is to pause with a prompt.",
       "To pause/wait/sleep per host, use the M(ansible.builtin.wait_for) module.",
       "You can use C(ctrl+c) if you wish to advance a pause earlier than it is set to expire or if you need to abort a playbook run entirely. To continue early press C(ctrl+c) and then C(c). To abort a playbook press C(ctrl+c) and then C(a).",
-      "Prompting for a set amount of time is not supported. Pausing playbook execution is interruptable but does not return user input.",
+      "Prompting for a set amount of time is not supported. Pausing playbook execution is interruptible but does not return user input.",
       "The pause module integrates into async/parallelized playbooks without any special considerations (see Rolling Updates). When using pauses with the C(serial) playbook parameter (as in rolling updates) you are only prompted once for the current group of hosts.",
       "This module is also supported for Windows targets."
      ],
@@ -16746,7 +16800,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -16810,7 +16864,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -16834,11 +16888,22 @@
      "has_action": false,
      "module": "pip",
      "notes": [
+      "Python installations marked externally-managed (as defined by PEP668) cannot be updated by pip versions >= 23.0.1 without the use of a virtual environment or setting the O(break_system_packages) option.",
       "The virtualenv (U(http://www.virtualenv.org/)) must be installed on the remote host if the virtualenv parameter is specified and the virtualenv needs to be created.",
       "Although it executes using the Ansible Python interpreter, the pip module shells out to run the actual pip command, so it can use any pip version you specify with O(executable). By default, it uses the pip version for the Ansible Python interpreter. For example, pip3 on python 3, and pip2 or pip on python 2.",
       "The interpreter used by Ansible (see R(ansible_python_interpreter, ansible_python_interpreter)) requires the setuptools package, regardless of the version of pip set with the O(executable) option."
      ],
      "options": {
+      "break_system_packages": {
+       "default": false,
+       "description": [
+        "Allow pip to modify an externally-managed Python installation as defined by PEP 668.",
+        "This is typically required when installing packages outside a virtual environment on modern systems."
+       ],
+       "type": "bool",
+       "version_added": "2.17",
+       "version_added_collection": "ansible.builtin"
+      },
       "chdir": {
        "description": [
         "cd into this directory before running the command"
@@ -16959,7 +17024,7 @@
      "version_added": "0.7",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Install bottle python package\n  ansible.builtin.pip:\n    name: bottle\n\n- name: Install bottle python package on version 0.11\n  ansible.builtin.pip:\n    name: bottle==0.11\n\n- name: Install bottle python package with version specifiers\n  ansible.builtin.pip:\n    name: bottle>0.10,<0.20,!=0.11\n\n- name: Install multi python packages with version specifiers\n  ansible.builtin.pip:\n    name:\n      - django>1.11.0,<1.12.0\n      - bottle>0.10,<0.20,!=0.11\n\n- name: Install python package using a proxy\n  ansible.builtin.pip:\n    name: six\n  environment:\n    http_proxy: 'http://127.0.0.1:8080'\n    https_proxy: 'https://127.0.0.1:8080'\n\n# You do not have to supply '-e' option in extra_args\n- name: Install MyApp using one of the remote protocols (bzr+,hg+,git+,svn+)\n  ansible.builtin.pip:\n    name: svn+http://myrepo/svn/MyApp#egg=MyApp\n\n- name: Install MyApp using one of the remote protocols (bzr+,hg+,git+)\n  ansible.builtin.pip:\n    name: git+http://myrepo/app/MyApp\n\n- name: Install MyApp from local tarball\n  ansible.builtin.pip:\n    name: file:///path/to/MyApp.tar.gz\n\n- name: Install bottle into the specified (virtualenv), inheriting none of the globally installed modules\n  ansible.builtin.pip:\n    name: bottle\n    virtualenv: /my_app/venv\n\n- name: Install bottle into the specified (virtualenv), inheriting globally installed modules\n  ansible.builtin.pip:\n    name: bottle\n    virtualenv: /my_app/venv\n    virtualenv_site_packages: yes\n\n- name: Install bottle into the specified (virtualenv), using Python 2.7\n  ansible.builtin.pip:\n    name: bottle\n    virtualenv: /my_app/venv\n    virtualenv_command: virtualenv-2.7\n\n- name: Install bottle within a user home directory\n  ansible.builtin.pip:\n    name: bottle\n    extra_args: --user\n\n- name: Install specified python requirements\n  ansible.builtin.pip:\n    requirements: /my_app/requirements.txt\n\n- name: Install specified python requirements in indicated (virtualenv)\n  ansible.builtin.pip:\n    requirements: /my_app/requirements.txt\n    virtualenv: /my_app/venv\n\n- name: Install specified python requirements and custom Index URL\n  ansible.builtin.pip:\n    requirements: /my_app/requirements.txt\n    extra_args: -i https://example.com/pypi/simple\n\n- name: Install specified python requirements offline from a local directory with downloaded packages\n  ansible.builtin.pip:\n    requirements: /my_app/requirements.txt\n    extra_args: \"--no-index --find-links=file:///my_downloaded_packages_dir\"\n\n- name: Install bottle for Python 3.3 specifically, using the 'pip3.3' executable\n  ansible.builtin.pip:\n    name: bottle\n    executable: pip3.3\n\n- name: Install bottle, forcing reinstallation if it's already installed\n  ansible.builtin.pip:\n    name: bottle\n    state: forcereinstall\n\n- name: Install bottle while ensuring the umask is 0022 (to ensure other users can use it)\n  ansible.builtin.pip:\n    name: bottle\n    umask: \"0022\"\n  become: True\n",
+    "examples": "\n- name: Install bottle python package\n  ansible.builtin.pip:\n    name: bottle\n\n- name: Install bottle python package on version 0.11\n  ansible.builtin.pip:\n    name: bottle==0.11\n\n- name: Install bottle python package with version specifiers\n  ansible.builtin.pip:\n    name: bottle>0.10,<0.20,!=0.11\n\n- name: Install multi python packages with version specifiers\n  ansible.builtin.pip:\n    name:\n      - django>1.11.0,<1.12.0\n      - bottle>0.10,<0.20,!=0.11\n\n- name: Install python package using a proxy\n  ansible.builtin.pip:\n    name: six\n  environment:\n    http_proxy: 'http://127.0.0.1:8080'\n    https_proxy: 'https://127.0.0.1:8080'\n\n# You do not have to supply '-e' option in extra_args\n- name: Install MyApp using one of the remote protocols (bzr+,hg+,git+,svn+)\n  ansible.builtin.pip:\n    name: svn+http://myrepo/svn/MyApp#egg=MyApp\n\n- name: Install MyApp using one of the remote protocols (bzr+,hg+,git+)\n  ansible.builtin.pip:\n    name: git+http://myrepo/app/MyApp\n\n- name: Install MyApp from local tarball\n  ansible.builtin.pip:\n    name: file:///path/to/MyApp.tar.gz\n\n- name: Install bottle into the specified (virtualenv), inheriting none of the globally installed modules\n  ansible.builtin.pip:\n    name: bottle\n    virtualenv: /my_app/venv\n\n- name: Install bottle into the specified (virtualenv), inheriting globally installed modules\n  ansible.builtin.pip:\n    name: bottle\n    virtualenv: /my_app/venv\n    virtualenv_site_packages: yes\n\n- name: Install bottle into the specified (virtualenv), using Python 2.7\n  ansible.builtin.pip:\n    name: bottle\n    virtualenv: /my_app/venv\n    virtualenv_command: virtualenv-2.7\n\n- name: Install bottle within a user home directory\n  ansible.builtin.pip:\n    name: bottle\n    extra_args: --user\n\n- name: Install specified python requirements\n  ansible.builtin.pip:\n    requirements: /my_app/requirements.txt\n\n- name: Install specified python requirements in indicated (virtualenv)\n  ansible.builtin.pip:\n    requirements: /my_app/requirements.txt\n    virtualenv: /my_app/venv\n\n- name: Install specified python requirements and custom Index URL\n  ansible.builtin.pip:\n    requirements: /my_app/requirements.txt\n    extra_args: -i https://example.com/pypi/simple\n\n- name: Install specified python requirements offline from a local directory with downloaded packages\n  ansible.builtin.pip:\n    requirements: /my_app/requirements.txt\n    extra_args: \"--no-index --find-links=file:///my_downloaded_packages_dir\"\n\n- name: Install bottle for Python 3.3 specifically, using the 'pip3.3' executable\n  ansible.builtin.pip:\n    name: bottle\n    executable: pip3.3\n\n- name: Install bottle, forcing reinstallation if it's already installed\n  ansible.builtin.pip:\n    name: bottle\n    state: forcereinstall\n\n- name: Install bottle while ensuring the umask is 0022 (to ensure other users can use it)\n  ansible.builtin.pip:\n    name: bottle\n    umask: \"0022\"\n  become: True\n\n- name: Run a module inside a virtual environment\n  block:\n    - name: Ensure the virtual environment exists\n      pip:\n        name: psutil\n        virtualenv: \"{{ venv_dir }}\"\n        # On Debian-based systems the correct python*-venv package must be installed to use the `venv` module.\n        virtualenv_command: \"{{ ansible_python_interpreter }} -m venv\"\n\n    - name: Run a module inside the virtual environment\n      wait_for:\n        port: 22\n      vars:\n        # Alternatively, use a block to affect multiple tasks, or use set_fact to affect the remainder of the playbook.\n        ansible_python_interpreter: \"{{ venv_python }}\"\n\n  vars:\n    venv_dir: /tmp/pick-a-better-venv-path\n    venv_python: \"{{ venv_dir }}/bin/python\"\n",
     "metadata": null,
     "return": {
      "cmd": {
@@ -17001,7 +17066,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "none"
       },
       "diff_mode": {
@@ -17101,7 +17166,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -17245,7 +17310,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -17465,7 +17530,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -17537,7 +17602,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "details": "while the script itself is arbitrary and cannot be subject to the check mode semantics it adds O(creates)/O(removes) options as a workaround",
        "support": "partial"
       },
@@ -17613,7 +17678,7 @@
       "decrypt": {
        "default": true,
        "description": [
-        "This option controls the autodecryption of source files using vault."
+        "This option controls the auto-decryption of source files using vault."
        ],
        "type": "bool",
        "version_added": "2.4",
@@ -17678,7 +17743,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "details": "support depends on the underlying plugin invoked",
        "support": "N/A"
       },
@@ -17812,7 +17877,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -17933,7 +17998,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "connection": {
@@ -18060,7 +18125,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "connection": {
@@ -18145,7 +18210,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -18234,7 +18299,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "details": "while the command itself is arbitrary and cannot be subject to the check mode semantics it adds O(creates)/O(removes) options as a workaround",
        "support": "partial"
       },
@@ -18431,7 +18496,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -18507,7 +18572,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -18905,7 +18970,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -19060,7 +19125,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -19078,7 +19143,8 @@
      ],
      "collection": "ansible.builtin",
      "description": [
-      "Controls systemd units (services, timers, and so on) on remote hosts."
+      "Controls systemd units (services, timers, and so on) on remote hosts.",
+      "M(ansible.builtin.systemd) is renamed to M(ansible.builtin.systemd_service) to better reflect the scope of the module. M(ansible.builtin.systemd) is kept as an alias for backward compatibility."
      ],
      "filename": "/ansible/modules/systemd_service.py",
      "has_action": false,
@@ -19086,9 +19152,9 @@
      "notes": [
       "Since 2.4, one of the following options is required O(state), O(enabled), O(masked), O(daemon_reload), (O(daemon_reexec) since 2.8), and all except O(daemon_reload) and (O(daemon_reexec) since 2.8) also require O(name).",
       "Before 2.4 you always required O(name).",
-      "Globs are not supported in name, i.e C(postgres*.service).",
+      "Globs are not supported in name, in other words, C(postgres*.service).",
       "The service names might vary by specific OS/distribution",
-      "The order of execution when having multiple properties is to first enable/disable, then mask/unmask and then deal with service state. It has been reported that systemctl can behave differently depending on the order of operations if you do the same manually."
+      "The order of execution when having multiple properties is to first enable/disable, then mask/unmask and then deal with the service state. It has been reported that systemctl can behave differently depending on the order of operations if you do the same manually."
      ],
      "options": {
       "daemon_reexec": {
@@ -19116,7 +19182,7 @@
       },
       "enabled": {
        "description": [
-        "Whether the unit should start on boot. B(At least one of state and enabled are required.)"
+        "Whether the unit should start on boot. B(At least one of the states and enabled are required.)"
        ],
        "type": "bool"
       },
@@ -19166,7 +19232,7 @@
         "Run systemctl within a given service manager scope, either as the default system scope V(system), the current user's scope V(user), or the scope of all users V(global).",
         "For systemd to work with 'user', the executing user must have its own instance of dbus started and accessible (systemd requirement).",
         "The user dbus process is normally started during normal login, but not during the run of Ansible tasks. Otherwise you will probably get a 'Failed to connect to bus: no such file or directory' error.",
-        "The user must have access, normally given via setting the C(XDG_RUNTIME_DIR) variable, see example below."
+        "The user must have access, normally given via setting the C(XDG_RUNTIME_DIR) variable, see the example below."
        ],
        "type": "str",
        "version_added": "2.7",
@@ -19329,7 +19395,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -19433,7 +19499,7 @@
      "version_added": "2.6",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Make sure apache2 is started\n  ansible.builtin.sysvinit:\n      name: apache2\n      state: started\n      enabled: yes\n\n- name: Make sure apache2 is started on runlevels 3 and 5\n  ansible.builtin.sysvinit:\n      name: apache2\n      state: started\n      enabled: yes\n      runlevels:\n        - 3\n        - 5\n",
+    "examples": "\n- name: Make sure apache2 is started\n  ansible.builtin.sysvinit:\n      name: apache2\n      state: started\n      enabled: yes\n\n- name: Sleep for 5 seconds between stop and start command of badly behaving service\n  ansible.builtin.sysvinit:\n    name: apache2\n    state: restarted\n    sleep: 5\n\n- name: Make sure apache2 is started on runlevels 3 and 5\n  ansible.builtin.sysvinit:\n      name: apache2\n      state: started\n      enabled: yes\n      runlevels:\n        - 3\n        - 5\n",
     "metadata": null,
     "return": {
      "results": {
@@ -19474,7 +19540,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "none"
       },
       "diff_mode": {
@@ -19544,7 +19610,7 @@
      "version_added": "2.3",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Create temporary build directory\n  ansible.builtin.tempfile:\n    state: directory\n    suffix: build\n\n- name: Create temporary file\n  ansible.builtin.tempfile:\n    state: file\n    suffix: temp\n  register: tempfile_1\n\n- name: Use the registered var and the file module to remove the temporary file\n  ansible.builtin.file:\n    path: \"{{ tempfile_1.path }}\"\n    state: absent\n  when: tempfile_1.path is defined\n",
+    "examples": "\n- name: Create temporary build directory\n  ansible.builtin.tempfile:\n    state: directory\n    suffix: build\n\n- name: Create temporary file\n  ansible.builtin.tempfile:\n    state: file\n    suffix: temp\n  register: tempfile_1\n\n- name: Create a temporary file with a specific prefix\n  ansible.builtin.tempfile:\n     state: file\n     suffix: txt\n     prefix: myfile_\n\n- name: Use the registered var and the file module to remove the temporary file\n  ansible.builtin.file:\n    path: \"{{ tempfile_1.path }}\"\n    state: absent\n  when: tempfile_1.path is defined\n",
     "metadata": null,
     "return": {
      "path": {
@@ -19575,7 +19641,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -19874,7 +19940,7 @@
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Template a file to /etc/file.conf\n  ansible.builtin.template:\n    src: /mytemplates/foo.j2\n    dest: /etc/file.conf\n    owner: bin\n    group: wheel\n    mode: '0644'\n\n- name: Template a file, using symbolic modes (equivalent to 0644)\n  ansible.builtin.template:\n    src: /mytemplates/foo.j2\n    dest: /etc/file.conf\n    owner: bin\n    group: wheel\n    mode: u=rw,g=r,o=r\n\n- name: Copy a version of named.conf that is dependent on the OS. setype obtained by doing ls -Z /etc/named.conf on original file\n  ansible.builtin.template:\n    src: named.conf_{{ ansible_os_family }}.j2\n    dest: /etc/named.conf\n    group: named\n    setype: named_conf_t\n    mode: 0640\n\n- name: Create a DOS-style text file from a template\n  ansible.builtin.template:\n    src: config.ini.j2\n    dest: /share/windows/config.ini\n    newline_sequence: '\\r\\n'\n\n- name: Copy a new sudoers file into place, after passing validation with visudo\n  ansible.builtin.template:\n    src: /mine/sudoers\n    dest: /etc/sudoers\n    validate: /usr/sbin/visudo -cf %s\n\n- name: Update sshd configuration safely, avoid locking yourself out\n  ansible.builtin.template:\n    src: etc/ssh/sshd_config.j2\n    dest: /etc/ssh/sshd_config\n    owner: root\n    group: root\n    mode: '0600'\n    validate: /usr/sbin/sshd -t -f %s\n    backup: yes\n",
+    "examples": "\n- name: Template a file to /etc/file.conf\n  ansible.builtin.template:\n    src: /mytemplates/foo.j2\n    dest: /etc/file.conf\n    owner: bin\n    group: wheel\n    mode: '0644'\n\n- name: Template a file, using symbolic modes (equivalent to 0644)\n  ansible.builtin.template:\n    src: /mytemplates/foo.j2\n    dest: /etc/file.conf\n    owner: bin\n    group: wheel\n    mode: u=rw,g=r,o=r\n\n- name: Copy a version of named.conf that is dependent on the OS. setype obtained by doing ls -Z /etc/named.conf on original file\n  ansible.builtin.template:\n    src: named.conf_{{ ansible_os_family }}.j2\n    dest: /etc/named.conf\n    group: named\n    setype: named_conf_t\n    mode: '0640'\n\n- name: Create a DOS-style text file from a template\n  ansible.builtin.template:\n    src: config.ini.j2\n    dest: /share/windows/config.ini\n    newline_sequence: '\\r\\n'\n\n- name: Copy a new sudoers file into place, after passing validation with visudo\n  ansible.builtin.template:\n    src: /mine/sudoers\n    dest: /etc/sudoers\n    validate: /usr/sbin/visudo -cf %s\n\n- name: Update sshd configuration safely, avoid locking yourself out\n  ansible.builtin.template:\n    src: etc/ssh/sshd_config.j2\n    dest: /etc/ssh/sshd_config\n    owner: root\n    group: root\n    mode: '0600'\n    validate: /usr/sbin/sshd -t -f %s\n    backup: yes\n",
     "metadata": null,
     "return": {
      "checksum": {
@@ -19959,7 +20025,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "details": "Not supported for gzipped tar files.",
        "support": "partial"
       },
@@ -20038,7 +20104,7 @@
       "decrypt": {
        "default": true,
        "description": [
-        "This option controls the autodecryption of source files using vault."
+        "This option controls the auto-decryption of source files using vault."
        ],
        "type": "bool",
        "version_added": "2.4",
@@ -20309,7 +20375,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "none"
       },
       "diff_mode": {
@@ -20784,7 +20850,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -21052,7 +21118,7 @@
        "description": [
         "Optionally set the user's shell.",
         "On macOS, before Ansible 2.5, the default shell for non-system users was V(/usr/bin/false). Since Ansible 2.5, the default shell for non-system users on macOS is V(/bin/bash).",
-        "See notes for details on how other operating systems determine the default shell by the underlying tool."
+        "On other operating systems, the default shell is determined by the underlying tool invoked by this module. See Notes for a per platform list of invoked tools."
        ],
        "type": "str"
       },
@@ -21178,7 +21244,7 @@
      "version_added": "0.2",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Add the user 'johnd' with a specific uid and a primary group of 'admin'\n  ansible.builtin.user:\n    name: johnd\n    comment: John Doe\n    uid: 1040\n    group: admin\n\n- name: Add the user 'james' with a bash shell, appending the group 'admins' and 'developers' to the user's groups\n  ansible.builtin.user:\n    name: james\n    shell: /bin/bash\n    groups: admins,developers\n    append: yes\n\n- name: Remove the user 'johnd'\n  ansible.builtin.user:\n    name: johnd\n    state: absent\n    remove: yes\n\n- name: Create a 2048-bit SSH key for user jsmith in ~jsmith/.ssh/id_rsa\n  ansible.builtin.user:\n    name: jsmith\n    generate_ssh_key: yes\n    ssh_key_bits: 2048\n    ssh_key_file: .ssh/id_rsa\n\n- name: Added a consultant whose account you want to expire\n  ansible.builtin.user:\n    name: james18\n    shell: /bin/zsh\n    groups: developers\n    expires: 1422403387\n\n- name: Starting at Ansible 2.6, modify user, remove expiry time\n  ansible.builtin.user:\n    name: james18\n    expires: -1\n\n- name: Set maximum expiration date for password\n  ansible.builtin.user:\n    name: ram19\n    password_expire_max: 10\n\n- name: Set minimum expiration date for password\n  ansible.builtin.user:\n    name: pushkar15\n    password_expire_min: 5\n\n- name: Set number of warning days for password expiration\n  ansible.builtin.user:\n    name: jane157\n    password_expire_warn: 30\n",
+    "examples": "\n- name: Add the user 'johnd' with a specific uid and a primary group of 'admin'\n  ansible.builtin.user:\n    name: johnd\n    comment: John Doe\n    uid: 1040\n    group: admin\n\n- name: Create a user 'johnd' with a home directory\n  ansible.builtin.user:\n    name: johnd\n    create_home: yes\n\n- name: Add the user 'james' with a bash shell, appending the group 'admins' and 'developers' to the user's groups\n  ansible.builtin.user:\n    name: james\n    shell: /bin/bash\n    groups: admins,developers\n    append: yes\n\n- name: Remove the user 'johnd'\n  ansible.builtin.user:\n    name: johnd\n    state: absent\n    remove: yes\n\n- name: Create a 2048-bit SSH key for user jsmith in ~jsmith/.ssh/id_rsa\n  ansible.builtin.user:\n    name: jsmith\n    generate_ssh_key: yes\n    ssh_key_bits: 2048\n    ssh_key_file: .ssh/id_rsa\n\n- name: Added a consultant whose account you want to expire\n  ansible.builtin.user:\n    name: james18\n    shell: /bin/zsh\n    groups: developers\n    expires: 1422403387\n\n- name: Starting at Ansible 2.6, modify user, remove expiry time\n  ansible.builtin.user:\n    name: james18\n    expires: -1\n\n- name: Set maximum expiration date for password\n  ansible.builtin.user:\n    name: ram19\n    password_expire_max: 10\n\n- name: Set minimum expiration date for password\n  ansible.builtin.user:\n    name: pushkar15\n    password_expire_min: 5\n\n- name: Set number of warning days for password expiration\n  ansible.builtin.user:\n    name: jane157\n    password_expire_warn: 30\n",
     "metadata": null,
     "return": {
      "append": {
@@ -21321,7 +21387,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "connection": {
@@ -21369,7 +21435,7 @@
      "version_added": "2.11",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: verify vars needed for this task file are present when included\n  ansible.builtin.validate_argument_spec:\n        argument_spec: '{{required_data}}'\n  vars:\n    required_data:\n        # unlike spec file, just put the options in directly\n        stuff:\n            description: stuff\n            type: str\n            choices: ['who', 'knows', 'what']\n            default: what\n        but:\n            description: i guess we need one\n            type: str\n            required: true\n\n\n- name: verify vars needed for this task file are present when included, with spec from a spec file\n  ansible.builtin.validate_argument_spec:\n        argument_spec: \"{{(lookup('ansible.builtin.file', 'myargspec.yml') | from_yaml )['specname']['options']}}\"\n\n\n- name: verify vars needed for next include and not from inside it, also with params i'll only define there\n  block:\n    - ansible.builtin.validate_argument_spec:\n        argument_spec: \"{{lookup('ansible.builtin.file', 'nakedoptions.yml'}}\"\n        provided_arguments:\n            but: \"that i can define on the include itself, like in it's `vars:` keyword\"\n\n    - name: the include itself\n      vars:\n        stuff: knows\n        but: nobuts!\n",
+    "examples": "\n- name: verify vars needed for this task file are present when included\n  ansible.builtin.validate_argument_spec:\n        argument_spec: '{{ required_data }}'\n  vars:\n    required_data:\n      # unlike spec file, just put the options in directly\n      stuff:\n        description: stuff\n        type: str\n        choices: ['who', 'knows', 'what']\n        default: what\n      but:\n        description: i guess we need one\n        type: str\n        required: true\n\n\n- name: verify vars needed for this task file are present when included, with spec from a spec file\n  ansible.builtin.validate_argument_spec:\n    argument_spec: \"{{ (lookup('ansible.builtin.file', 'myargspec.yml') | from_yaml )['specname']['options'] }}\"\n\n\n- name: verify vars needed for next include and not from inside it, also with params i'll only define there\n  block:\n    - ansible.builtin.validate_argument_spec:\n        argument_spec: \"{{ lookup('ansible.builtin.file', 'nakedoptions.yml') }}\"\n        provided_arguments:\n          but: \"that i can define on the include itself, like in it's `vars:` keyword\"\n\n    - name: the include itself\n      vars:\n        stuff: knows\n        but: nobuts!\n",
     "metadata": null,
     "return": {
      "argument_errors": {
@@ -21413,7 +21479,7 @@
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "none"
       },
       "diff_mode": {
@@ -21630,7 +21696,7 @@
        "support": "none"
       },
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "none"
       },
       "diff_mode": {
@@ -21714,382 +21780,11 @@
      }
     }
    },
-   "ansible.builtin.yum": {
-    "doc": {
-     "attributes": {
-      "action": {
-       "description": "Indicates this has a corresponding action plugin so some parts of the options can be executed on the controller",
-       "details": "In the case of yum, it has 2 action plugins that use it under the hood, M(ansible.builtin.yum) and M(ansible.builtin.package).",
-       "support": "partial"
-      },
-      "async": {
-       "description": "Supports being used with the C(async) keyword",
-       "support": "none"
-      },
-      "bypass_host_loop": {
-       "description": [
-        "Forces a 'global' task that does not execute per host, this bypasses per host templating and serial, throttle and other loop considerations",
-        "Conditionals will work as if C(run_once) is being used, variables used will be from the first available host",
-        "This action will not work normally outside of lockstep strategies"
-       ],
-       "support": "none"
-      },
-      "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
-       "support": "full"
-      },
-      "diff_mode": {
-       "description": "Will return details on what has changed (or possibly needs changing in check_mode), when in diff mode",
-       "support": "full"
-      },
-      "platform": {
-       "description": "Target OS/families that can be operated against",
-       "platforms": "rhel",
-       "support": "N/A"
-      }
-     },
-     "author": [
-      "Ansible Core Team",
-      "Seth Vidal (@skvidal)",
-      "Eduard Snesarev (@verm666)",
-      "Berend De Schouwer (@berenddeschouwer)",
-      "Abhijeet Kasurde (@Akasurde)",
-      "Adam Miller (@maxamillion)"
-     ],
-     "collection": "ansible.builtin",
-     "description": [
-      "Installs, upgrade, downgrades, removes, and lists packages and groups with the I(yum) package manager.",
-      "This module only works on Python 2. If you require Python 3 support see the M(ansible.builtin.dnf) module."
-     ],
-     "filename": "/ansible/modules/yum.py",
-     "has_action": true,
-     "module": "yum",
-     "notes": [
-      "When used with a C(loop:) each package will be processed individually, it is much more efficient to pass the list directly to the O(name) option.",
-      "In versions prior to 1.9.2 this module installed and removed each package given to the yum module separately. This caused problems when packages specified by filename or url had to be installed or removed together. In 1.9.2 this was fixed so that packages are installed in one yum transaction. However, if one of the packages adds a new yum repository that the other packages come from (such as epel-release) then that package needs to be installed in a separate task. This mimics yum's command line behaviour.",
-      "Yum itself has two types of groups.  \"Package groups\" are specified in the rpm itself while \"environment groups\" are specified in a separate file (usually by the distribution).  Unfortunately, this division becomes apparent to ansible users because ansible needs to operate on the group of packages in a single transaction and yum requires groups to be specified in different ways when used in that way.  Package groups are specified as \"@development-tools\" and environment groups are \"@^gnome-desktop-environment\". Use the \"yum group list hidden ids\" command to see which category of group the group you want to install falls into.",
-      "The yum module does not support clearing yum cache in an idempotent way, so it was decided not to implement it, the only method is to use command and call the yum command directly, namely \"command: yum clean all\" https://github.com/ansible/ansible/pull/31450#issuecomment-352889579"
-     ],
-     "options": {
-      "allow_downgrade": {
-       "default": "no",
-       "description": [
-        "Specify if the named package and version is allowed to downgrade a maybe already installed higher version of that package. Note that setting allow_downgrade=True can make this module behave in a non-idempotent way. The task could end up with a set of packages that does not match the complete list of specified packages to install (because dependencies between the downgraded package and others can cause changes to the packages which were in the earlier transaction)."
-       ],
-       "type": "bool",
-       "version_added": "2.4",
-       "version_added_collection": "ansible.builtin"
-      },
-      "autoremove": {
-       "default": "no",
-       "description": [
-        "If V(true), removes all \"leaf\" packages from the system that were originally installed as dependencies of user-installed packages but which are no longer required by any such package. Should be used alone or when O(state) is V(absent)",
-        "NOTE: This feature requires yum >= 3.4.3 (RHEL/CentOS 7+)"
-       ],
-       "type": "bool",
-       "version_added": "2.7",
-       "version_added_collection": "ansible.builtin"
-      },
-      "bugfix": {
-       "default": "no",
-       "description": [
-        "If set to V(true), and O(state=latest) then only installs updates that have been marked bugfix related."
-       ],
-       "type": "bool",
-       "version_added": "2.6",
-       "version_added_collection": "ansible.builtin"
-      },
-      "cacheonly": {
-       "default": "no",
-       "description": [
-        "Tells yum to run entirely from system cache; does not download or update metadata."
-       ],
-       "type": "bool",
-       "version_added": "2.12",
-       "version_added_collection": "ansible.builtin"
-      },
-      "conf_file": {
-       "description": [
-        "The remote yum configuration file to use for the transaction."
-       ],
-       "type": "str",
-       "version_added": "0.6",
-       "version_added_collection": "ansible.builtin"
-      },
-      "disable_excludes": {
-       "description": [
-        "Disable the excludes defined in YUM config files.",
-        "If set to V(all), disables all excludes.",
-        "If set to V(main), disable excludes defined in [main] in yum.conf.",
-        "If set to V(repoid), disable excludes defined for given repo id."
-       ],
-       "type": "str",
-       "version_added": "2.7",
-       "version_added_collection": "ansible.builtin"
-      },
-      "disable_gpg_check": {
-       "default": "no",
-       "description": [
-        "Whether to disable the GPG checking of signatures of packages being installed. Has an effect only if O(state) is V(present) or V(latest)."
-       ],
-       "type": "bool",
-       "version_added": "1.2",
-       "version_added_collection": "ansible.builtin"
-      },
-      "disable_plugin": {
-       "default": [],
-       "description": [
-        "I(Plugin) name to disable for the install/update operation. The disabled plugins will not persist beyond the transaction."
-       ],
-       "elements": "str",
-       "type": "list",
-       "version_added": "2.5",
-       "version_added_collection": "ansible.builtin"
-      },
-      "disablerepo": {
-       "default": [],
-       "description": [
-        "I(Repoid) of repositories to disable for the install/update operation. These repos will not persist beyond the transaction. When specifying multiple repos, separate them with a C(\",\").",
-        "As of Ansible 2.7, this can alternatively be a list instead of C(\",\") separated string"
-       ],
-       "elements": "str",
-       "type": "list",
-       "version_added": "0.9",
-       "version_added_collection": "ansible.builtin"
-      },
-      "download_dir": {
-       "description": [
-        "Specifies an alternate directory to store packages.",
-        "Has an effect only if O(download_only) is specified."
-       ],
-       "type": "str",
-       "version_added": "2.8",
-       "version_added_collection": "ansible.builtin"
-      },
-      "download_only": {
-       "default": "no",
-       "description": [
-        "Only download the packages, do not install them."
-       ],
-       "type": "bool",
-       "version_added": "2.7",
-       "version_added_collection": "ansible.builtin"
-      },
-      "enable_plugin": {
-       "default": [],
-       "description": [
-        "I(Plugin) name to enable for the install/update operation. The enabled plugin will not persist beyond the transaction."
-       ],
-       "elements": "str",
-       "type": "list",
-       "version_added": "2.5",
-       "version_added_collection": "ansible.builtin"
-      },
-      "enablerepo": {
-       "default": [],
-       "description": [
-        "I(Repoid) of repositories to enable for the install/update operation. These repos will not persist beyond the transaction. When specifying multiple repos, separate them with a C(\",\").",
-        "As of Ansible 2.7, this can alternatively be a list instead of C(\",\") separated string"
-       ],
-       "elements": "str",
-       "type": "list",
-       "version_added": "0.9",
-       "version_added_collection": "ansible.builtin"
-      },
-      "exclude": {
-       "default": [],
-       "description": [
-        "Package name(s) to exclude when state=present, or latest"
-       ],
-       "elements": "str",
-       "type": "list",
-       "version_added": "2.0",
-       "version_added_collection": "ansible.builtin"
-      },
-      "install_repoquery": {
-       "default": "yes",
-       "description": [
-        "If repoquery is not available, install yum-utils. If the system is registered to RHN or an RHN Satellite, repoquery allows for querying all channels assigned to the system. It is also required to use the 'list' parameter.",
-        "NOTE: This will run and be logged as a separate yum transation which takes place before any other installation or removal.",
-        "NOTE: This will use the system's default enabled repositories without regard for disablerepo/enablerepo given to the module."
-       ],
-       "required": false,
-       "type": "bool",
-       "version_added": "1.5",
-       "version_added_collection": "ansible.builtin"
-      },
-      "install_weak_deps": {
-       "default": "yes",
-       "description": [
-        "Will also install all packages linked by a weak dependency relation.",
-        "NOTE: This feature requires yum >= 4 (RHEL/CentOS 8+)"
-       ],
-       "type": "bool",
-       "version_added": "2.8",
-       "version_added_collection": "ansible.builtin"
-      },
-      "installroot": {
-       "default": "/",
-       "description": [
-        "Specifies an alternative installroot, relative to which all packages will be installed."
-       ],
-       "type": "str",
-       "version_added": "2.3",
-       "version_added_collection": "ansible.builtin"
-      },
-      "list": {
-       "description": [
-        "Package name to run the equivalent of C(yum list --show-duplicates <package>) against. In addition to listing packages, use can also list the following: V(installed), V(updates), V(available) and V(repos).",
-        "This parameter is mutually exclusive with O(name)."
-       ],
-       "type": "str"
-      },
-      "lock_timeout": {
-       "default": 30,
-       "description": [
-        "Amount of time to wait for the yum lockfile to be freed."
-       ],
-       "required": false,
-       "type": "int",
-       "version_added": "2.8",
-       "version_added_collection": "ansible.builtin"
-      },
-      "name": {
-       "aliases": [
-        "pkg"
-       ],
-       "default": [],
-       "description": [
-        "A package name or package specifier with version, like V(name-1.0).",
-        "Comparison operators for package version are valid here C(>), C(<), C(>=), C(<=). Example - V(name>=1.0)",
-        "If a previous version is specified, the task also needs to turn O(allow_downgrade) on. See the O(allow_downgrade) documentation for caveats with downgrading packages.",
-        "When using O(state=latest), this can be V('*') which means run C(yum -y update).",
-        "You can also pass a url or a local path to an rpm file (using O(state=present)). To operate on several packages this can accept a comma separated string of packages or (as of 2.0) a list of packages."
-       ],
-       "elements": "str",
-       "type": "list"
-      },
-      "releasever": {
-       "description": [
-        "Specifies an alternative release from which all packages will be installed."
-       ],
-       "type": "str",
-       "version_added": "2.7",
-       "version_added_collection": "ansible.builtin"
-      },
-      "security": {
-       "default": "no",
-       "description": [
-        "If set to V(true), and O(state=latest) then only installs updates that have been marked security related."
-       ],
-       "type": "bool",
-       "version_added": "2.4",
-       "version_added_collection": "ansible.builtin"
-      },
-      "skip_broken": {
-       "default": "no",
-       "description": [
-        "Skip all unavailable packages or packages with broken dependencies without raising an error. Equivalent to passing the --skip-broken option."
-       ],
-       "type": "bool",
-       "version_added": "2.3",
-       "version_added_collection": "ansible.builtin"
-      },
-      "sslverify": {
-       "default": "yes",
-       "description": [
-        "Disables SSL validation of the repository server for this transaction.",
-        "This should be set to V(false) if one of the configured repositories is using an untrusted or self-signed certificate."
-       ],
-       "type": "bool",
-       "version_added": "2.13",
-       "version_added_collection": "ansible.builtin"
-      },
-      "state": {
-       "choices": [
-        "absent",
-        "installed",
-        "latest",
-        "present",
-        "removed"
-       ],
-       "description": [
-        "Whether to install (V(present) or V(installed), V(latest)), or remove (V(absent) or V(removed)) a package.",
-        "V(present) and V(installed) will simply ensure that a desired package is installed.",
-        "V(latest) will update the specified package if it's not of the latest available version.",
-        "V(absent) and V(removed) will remove the specified package.",
-        "Default is V(None), however in effect the default action is V(present) unless the O(autoremove) option is enabled for this module, then V(absent) is inferred."
-       ],
-       "type": "str"
-      },
-      "update_cache": {
-       "aliases": [
-        "expire-cache"
-       ],
-       "default": "no",
-       "description": [
-        "Force yum to check if cache is out of date and redownload if needed. Has an effect only if O(state) is V(present) or V(latest)."
-       ],
-       "type": "bool",
-       "version_added": "1.9",
-       "version_added_collection": "ansible.builtin"
-      },
-      "update_only": {
-       "default": "no",
-       "description": [
-        "When using latest, only update installed packages. Do not install packages.",
-        "Has an effect only if O(state) is V(latest)"
-       ],
-       "type": "bool",
-       "version_added": "2.5",
-       "version_added_collection": "ansible.builtin"
-      },
-      "use_backend": {
-       "choices": [
-        "auto",
-        "yum",
-        "yum4",
-        "dnf",
-        "dnf4",
-        "dnf5"
-       ],
-       "default": "auto",
-       "description": [
-        "This module supports V(yum) (as it always has), this is known as C(yum3)/C(YUM3)/C(yum-deprecated) by upstream yum developers. As of Ansible 2.7+, this module also supports C(YUM4), which is the \"new yum\" and it has an V(dnf) backend. As of ansible-core 2.15+, this module will auto select the backend based on the C(ansible_pkg_mgr) fact.",
-        "By default, this module will select the backend based on the C(ansible_pkg_mgr) fact."
-       ],
-       "type": "str",
-       "version_added": "2.7",
-       "version_added_collection": "ansible.builtin"
-      },
-      "validate_certs": {
-       "default": "yes",
-       "description": [
-        "This only applies if using a https url as the source of the rpm. e.g. for localinstall. If set to V(false), the SSL certificates will not be validated.",
-        "This should only set to V(false) used on personally controlled sites using self-signed certificates as it avoids verifying the source site.",
-        "Prior to 2.1 the code worked as if this was set to V(true)."
-       ],
-       "type": "bool",
-       "version_added": "2.1",
-       "version_added_collection": "ansible.builtin"
-      }
-     },
-     "requirements": [
-      "yum"
-     ],
-     "short_description": "Manages packages with the I(yum) package manager",
-     "version_added": "historical",
-     "version_added_collection": "ansible.builtin"
-    },
-    "examples": "\n- name: Install the latest version of Apache\n  ansible.builtin.yum:\n    name: httpd\n    state: latest\n\n- name: Install Apache >= 2.4\n  ansible.builtin.yum:\n    name: httpd>=2.4\n    state: present\n\n- name: Install a list of packages (suitable replacement for 2.11 loop deprecation warning)\n  ansible.builtin.yum:\n    name:\n      - nginx\n      - postgresql\n      - postgresql-server\n    state: present\n\n- name: Install a list of packages with a list variable\n  ansible.builtin.yum:\n    name: \"{{ packages }}\"\n  vars:\n    packages:\n    - httpd\n    - httpd-tools\n\n- name: Remove the Apache package\n  ansible.builtin.yum:\n    name: httpd\n    state: absent\n\n- name: Install the latest version of Apache from the testing repo\n  ansible.builtin.yum:\n    name: httpd\n    enablerepo: testing\n    state: present\n\n- name: Install one specific version of Apache\n  ansible.builtin.yum:\n    name: httpd-2.2.29-1.4.amzn1\n    state: present\n\n- name: Upgrade all packages\n  ansible.builtin.yum:\n    name: '*'\n    state: latest\n\n- name: Upgrade all packages, excluding kernel & foo related packages\n  ansible.builtin.yum:\n    name: '*'\n    state: latest\n    exclude: kernel*,foo*\n\n- name: Install the nginx rpm from a remote repo\n  ansible.builtin.yum:\n    name: http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm\n    state: present\n\n- name: Install nginx rpm from a local file\n  ansible.builtin.yum:\n    name: /usr/local/src/nginx-release-centos-6-0.el6.ngx.noarch.rpm\n    state: present\n\n- name: Install the 'Development tools' package group\n  ansible.builtin.yum:\n    name: \"@Development tools\"\n    state: present\n\n- name: Install the 'Gnome desktop' environment group\n  ansible.builtin.yum:\n    name: \"@^gnome-desktop-environment\"\n    state: present\n\n- name: List ansible packages and register result to print with debug later\n  ansible.builtin.yum:\n    list: ansible\n  register: result\n\n- name: Install package with multiple repos enabled\n  ansible.builtin.yum:\n    name: sos\n    enablerepo: \"epel,ol7_latest\"\n\n- name: Install package with multiple repos disabled\n  ansible.builtin.yum:\n    name: sos\n    disablerepo: \"epel,ol7_latest\"\n\n- name: Download the nginx package but do not install it\n  ansible.builtin.yum:\n    name:\n      - nginx\n    state: latest\n    download_only: true\n",
-    "metadata": null,
-    "return": null
-   },
    "ansible.builtin.yum_repository": {
     "doc": {
      "attributes": {
       "check_mode": {
-       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
        "support": "full"
       },
       "diff_mode": {
@@ -22178,7 +21873,7 @@
       },
       "description": {
        "description": [
-        "A human readable string describing the repository. This option corresponds to the \"name\" property in the repo file.",
+        "A human-readable string describing the repository. This option corresponds to the \"name\" property in the repo file.",
         "This parameter is only required if O(state) is set to V(present)."
        ],
        "type": "str"
@@ -24017,7 +23712,7 @@
      "collection": "ansible.builtin",
      "description": [
       "Tests if task required changes to complete",
-      "This test checks for the existance of a C(changed) key in the input dictionary and that it is V(True) if present"
+      "This test checks for the existence of a C(changed) key in the input dictionary and that it is V(True) if present"
      ],
      "filename": "/ansible/plugins/test/change.yml",
      "name": "changed",
@@ -24050,7 +23745,7 @@
      "collection": "ansible.builtin",
      "description": [
       "Tests if task required changes to complete",
-      "This test checks for the existance of a C(changed) key in the input dictionary and that it is V(True) if present"
+      "This test checks for the existence of a C(changed) key in the input dictionary and that it is V(True) if present"
      ],
      "filename": "/ansible/plugins/test/changed.yml",
      "name": "changed",
@@ -24100,7 +23795,7 @@
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "# simple expression\n{{ listofthings is contains('this') }}\n\n# as a selector\n- action: module=doessomething\n  when: lacp_groups|selectattr('interfaces', 'contains', 'em1')|first).master\n  vars:\n    lacp_groups:\n      - master: lacp0\n        network: 10.65.100.0/24\n        gateway: 10.65.100.1\n        dns4:\n          - 10.65.100.10\n          - 10.65.100.11\n        interfaces:\n          - em1\n          - em2\n\n      - master: lacp1\n        network: 10.65.120.0/24\n        gateway: 10.65.120.1\n        dns4:\n          - 10.65.100.10\n          - 10.65.100.11\n        interfaces:\n            - em3\n            - em4\n",
+    "examples": "# simple expression\n{{ listofthings is contains('this') }}\n\n# as a selector\n- action: module=doessomething\n  when: (lacp_groups|selectattr('interfaces', 'contains', 'em1')|first).master\n  vars:\n    lacp_groups:\n      - master: lacp0\n        network: 10.65.100.0/24\n        gateway: 10.65.100.1\n        dns4:\n          - 10.65.100.10\n          - 10.65.100.11\n        interfaces:\n          - em1\n          - em2\n\n      - master: lacp1\n        network: 10.65.120.0/24\n        gateway: 10.65.120.1\n        dns4:\n          - 10.65.100.10\n          - 10.65.100.11\n        interfaces:\n            - em3\n            - em4\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -24175,7 +23870,7 @@
      "collection": "ansible.builtin",
      "description": [
       "Tests if task finished in failure, opposite of C(succeeded).",
-      "This test checks for the existance of a C(failed) key in the input dictionary and that it is V(True) if present.",
+      "This test checks for the existence of a C(failed) key in the input dictionary and that it is V(True) if present.",
       "Tasks that get skipped or not executed due to other failures (syntax, templating, unreachable host, etc) do not return a 'failed' status."
      ],
      "filename": "/ansible/plugins/test/failed.yml",
@@ -24209,7 +23904,7 @@
      "collection": "ansible.builtin",
      "description": [
       "Tests if task finished in failure, opposite of C(succeeded).",
-      "This test checks for the existance of a C(failed) key in the input dictionary and that it is V(True) if present.",
+      "This test checks for the existence of a C(failed) key in the input dictionary and that it is V(True) if present.",
       "Tasks that get skipped or not executed due to other failures (syntax, templating, unreachable host, etc) do not return a 'failed' status."
      ],
      "filename": "/ansible/plugins/test/failure.yml",
@@ -24305,8 +24000,8 @@
      "author": "Ansible Core",
      "collection": "ansible.builtin",
      "description": [
-      "Used to test if an async task has finished, it will aslo work with normal tasks but will issue a warning.",
-      "This test checks for the existance of a C(finished) key in the input dictionary and that it is V(1) if present"
+      "Used to test if an async task has finished, it will also work with normal tasks but will issue a warning.",
+      "This test checks for the existence of a C(finished) key in the input dictionary and that it is V(1) if present"
      ],
      "filename": "/ansible/plugins/test/finished.yml",
      "name": "finished",
@@ -24325,7 +24020,7 @@
     "metadata": null,
     "return": {
      "_value": {
-      "description": "Returns V(True) if the aysnc task has finished, V(False) otherwise.",
+      "description": "Returns V(True) if the async task has finished, V(False) otherwise.",
       "type": "boolean"
      }
     }
@@ -24620,7 +24315,7 @@
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "big: [1,2,3,4,5]\nsml: [3,4]\nissmallinbig: '{{ big is superset(small) }}'\n",
+    "examples": "big: [1,2,3,4,5]\nsmall: [3,4]\nissmallinbig: '{{ big is superset(small) }}'\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -24706,7 +24401,7 @@
       },
       "ignorecase": {
        "default": false,
-       "description": "Use case insenstive matching.",
+       "description": "Use case insensitive matching.",
        "type": "boolean"
       },
       "multiline": {
@@ -24800,7 +24495,7 @@
      "collection": "ansible.builtin",
      "description": [
       "Tests if task was able to reach the host for execution",
-      "This test checks for the existance of a C(unreachable) key in the input dictionary and that it is V(False) if present"
+      "This test checks for the existence of a C(unreachable) key in the input dictionary and that it is V(False) if present"
      ],
      "filename": "/ansible/plugins/test/reachable.yml",
      "name": "reachable",
@@ -24841,7 +24536,7 @@
       },
       "ignorecase": {
        "default": false,
-       "description": "Use case insenstive matching.",
+       "description": "Use case insensitive matching.",
        "type": "boolean"
       },
       "match_type": {
@@ -24927,7 +24622,7 @@
       },
       "ignorecase": {
        "default": false,
-       "description": "Use case insenstive matching.",
+       "description": "Use case insensitive matching.",
        "type": "boolean"
       },
       "multiline": {
@@ -24961,7 +24656,7 @@
      "collection": "ansible.builtin",
      "description": [
       "Tests if task was skipped",
-      "This test checks for the existance of a C(skipped) key in the input dictionary and that it is V(True) if present"
+      "This test checks for the existence of a C(skipped) key in the input dictionary and that it is V(True) if present"
      ],
      "filename": "/ansible/plugins/test/skip.yml",
      "name": "skipped",
@@ -24994,7 +24689,7 @@
      "collection": "ansible.builtin",
      "description": [
       "Tests if task was skipped",
-      "This test checks for the existance of a C(skipped) key in the input dictionary and that it is V(True) if present"
+      "This test checks for the existence of a C(skipped) key in the input dictionary and that it is V(True) if present"
      ],
      "filename": "/ansible/plugins/test/skipped.yml",
      "name": "skipped",
@@ -25024,7 +24719,7 @@
      "collection": "ansible.builtin",
      "description": [
       "Used to check if an async task has started, will also work with non async tasks but will issue a warning.",
-      "This test checks for the existance of a C(started) key in the input dictionary and that it is V(1) if present"
+      "This test checks for the existence of a C(started) key in the input dictionary and that it is V(1) if present"
      ],
      "filename": "/ansible/plugins/test/started.yml",
      "name": "started",
@@ -25097,7 +24792,7 @@
      "collection": "ansible.builtin",
      "description": [
       "Tests if task finished successfully, opposite of C(failed).",
-      "This test checks for the existance of a C(failed) key in the input dictionary and that it is V(False) if present"
+      "This test checks for the existence of a C(failed) key in the input dictionary and that it is V(False) if present"
      ],
      "filename": "/ansible/plugins/test/succeeded.yml",
      "name": "success",
@@ -25131,7 +24826,7 @@
      "collection": "ansible.builtin",
      "description": [
       "Tests if task finished successfully, opposite of C(failed).",
-      "This test checks for the existance of a C(failed) key in the input dictionary and that it is V(False) if present"
+      "This test checks for the existence of a C(failed) key in the input dictionary and that it is V(False) if present"
      ],
      "filename": "/ansible/plugins/test/success.yml",
      "name": "success",
@@ -25165,7 +24860,7 @@
      "collection": "ansible.builtin",
      "description": [
       "Tests if task finished successfully, opposite of C(failed).",
-      "This test checks for the existance of a C(failed) key in the input dictionary and that it is V(False) if present"
+      "This test checks for the existence of a C(failed) key in the input dictionary and that it is V(False) if present"
      ],
      "filename": "/ansible/plugins/test/successful.yml",
      "name": "success",
@@ -25219,7 +24914,7 @@
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "big: [1,2,3,4,5]\nsml: [3,4]\nissmallinbig: '{{ big is superset(small) }}'\n",
+    "examples": "big: [1,2,3,4,5]\nsmall: [3,4]\nissmallinbig: '{{ big is superset(small) }}'\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -25269,7 +24964,7 @@
      "collection": "ansible.builtin",
      "description": [
       "Tests if task was not able to reach the host for execution",
-      "This test checks for the existance of a C(unreachable) key in the input dictionary and that it's value is V(True)"
+      "This test checks for the existence of a C(unreachable) key in the input dictionary and that it's value is V(True)"
      ],
      "filename": "/ansible/plugins/test/unreachable.yml",
      "name": "unreachable",

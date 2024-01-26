@@ -452,7 +452,7 @@
     "applies_to": [
      "Task"
     ],
-    "description": "Run a task asynchronously if the C(action) supports this; value is maximum runtime in seconds.",
+    "description": "Run a task asynchronously if the C(action) supports this; the value is the maximum runtime in seconds.",
     "priority": 0,
     "template": "explicit",
     "type": "int"
@@ -578,7 +578,7 @@
      "Block",
      "Task"
     ],
-    "description": "Enable debugging tasks based on state of the task result. See :ref:`playbook_debugger`.",
+    "description": "Enable debugging tasks based on the state of the task result. See :ref:`playbook_debugger`.",
     "priority": 0,
     "template": "explicit",
     "type": "string"
@@ -633,7 +633,7 @@
      "Block",
      "Task"
     ],
-    "description": "A dictionary that gets converted into environment vars to be provided for the task upon execution. This can ONLY be used with modules. This isn't supported for any other type of plugins nor Ansible itself nor its configuration, it just sets the variables for the code responsible for executing the task. This is not a recommended way to pass in confidential data.",
+    "description": "A dictionary that gets converted into environment vars to be provided for the task upon execution. This can ONLY be used with modules. This is not supported for any other type of plugins nor Ansible itself nor its configuration, it just sets the variables for the code responsible for executing the task. This is not a recommended way to pass in confidential data.",
     "priority": 0,
     "template": "explicit",
     "type": "list"
@@ -678,7 +678,7 @@
     "applies_to": [
      "Play"
     ],
-    "description": "Allows you to pass subset options to the  fact gathering plugin controlled by :term:`gather_facts`.",
+    "description": "Allows you to pass subset options to the fact gathering plugin controlled by :term:`gather_facts`.",
     "priority": 0,
     "template": "explicit",
     "type": "list"
@@ -747,7 +747,7 @@
     "applies_to": [
      "Task"
     ],
-    "description": "Several keys here allow you to modify/set loop behaviour in a task. See :ref:`loop_control`.",
+    "description": "Several keys here allow you to modify/set loop behavior in a task. See :ref:`loop_control`.",
     "priority": 0,
     "template": "explicit",
     "type": "class"
@@ -756,7 +756,7 @@
     "applies_to": [
      "Play"
     ],
-    "description": "can be used to abort the run after a given percentage of hosts in the current batch has failed. This only works on linear or linear derived strategies.",
+    "description": "can be used to abort the run after a given percentage of hosts in the current batch has failed. This only works on linear or linear-derived strategies.",
     "priority": 0,
     "template": "explicit",
     "type": "percent"
@@ -910,7 +910,7 @@
      "Block",
      "Task"
     ],
-    "description": "Boolean that will bypass the host loop, forcing the task to attempt to execute on the first host available and afterwards apply any results and facts to all active hosts in the same batch.",
+    "description": "Boolean that will bypass the host loop, forcing the task to attempt to execute on the first host available and afterward apply any results and facts to all active hosts in the same batch.",
     "priority": 0,
     "template": "explicit",
     "type": "bool"
@@ -928,7 +928,7 @@
     "applies_to": [
      "Play"
     ],
-    "description": "Allows you to choose the connection plugin to use for the play.",
+    "description": "Allows you to choose the strategy plugin to use for the play. See :ref:`strategy_plugins`.",
     "priority": 0,
     "template": "explicit",
     "type": "string"
@@ -961,7 +961,7 @@
      "Block",
      "Task"
     ],
-    "description": "Limit number of concurrent task runs on task, block and playbook level. This is independent of the forks and serial settings, but cannot be set higher than those limits. For example, if forks is set to 10 and the throttle is set to 15, at most 10 hosts will be operated on in parallel.",
+    "description": "Limit the number of concurrent task runs on task, block and playbook level. This is independent of the forks and serial settings, but cannot be set higher than those limits. For example, if forks is set to 10 and the throttle is set to 15, at most 10 hosts will be operated on in parallel.",
     "priority": 0,
     "template": "explicit",
     "type": "int"
@@ -973,7 +973,7 @@
      "Block",
      "Task"
     ],
-    "description": "Time limit for task to execute in, if exceeded Ansible will interrupt and fail the task.",
+    "description": "Time limit for the task to execute in, if exceeded Ansible will interrupt and fail the task.",
     "priority": 0,
     "template": "explicit",
     "type": "int"
