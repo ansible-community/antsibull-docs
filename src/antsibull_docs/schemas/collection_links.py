@@ -70,9 +70,9 @@ class MailingList(p.BaseModel):
             url = str(values.get("url"))
             if url.startswith(GOOGLE_GROUPS_PREFIX):
                 name = url[len(GOOGLE_GROUPS_PREFIX) :]
-                values[
-                    "subscribe"
-                ] = f"{name}+subscribe@googlegroups.com?subject=subscribe"
+                values["subscribe"] = (
+                    f"{name}+subscribe@googlegroups.com?subject=subscribe"
+                )
 
         return values
 

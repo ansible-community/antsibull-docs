@@ -47,6 +47,7 @@ class _Links(YAMLDirective[AnsibleLinks]):
     def _run(self, content_str: str, content: AnsibleLinks) -> list[nodes.Node]:
         node = nodes.bullet_list(content_str, classes=["ansible-links"])
         for entry in content.data:
+            refnode: link_button | addnodes.pending_xref
             if entry.url is not None:
                 refnode = link_button(
                     "", entry.title, link_external=entry.external, refuri=entry.url

@@ -89,9 +89,11 @@ def ansible_doc_cache():
         root, *others = env["ANSIBLE_COLLECTIONS_PATH"].split(":")
         filename = os.path.join(
             os.path.dirname(__file__),
-            "ansible-galaxy-cache-all-others.json"
-            if others
-            else "ansible-galaxy-cache-all.json",
+            (
+                "ansible-galaxy-cache-all-others.json"
+                if others
+                else "ansible-galaxy-cache-all.json"
+            ),
         )
         with open(filename, encoding="utf-8") as f:
             data = json.load(f)

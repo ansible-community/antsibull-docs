@@ -108,11 +108,13 @@ def guess_relative_filename(
         if plugin_type == "module" and collection_name == "ansible.builtin"
         else
         # Modules in collections:
-        "plugins/modules"
-        if plugin_type == "module"
-        else
-        # Plugins in ansible-core or collections:
-        "plugins/" + plugin_type
+        (
+            "plugins/modules"
+            if plugin_type == "module"
+            else
+            # Plugins in ansible-core or collections:
+            "plugins/" + plugin_type
+        )
     )
     # Guess path inside collection tree
     return f"{plugin_dir}/{plugin_short_name}.py"
