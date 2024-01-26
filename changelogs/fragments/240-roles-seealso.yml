@@ -1,0 +1,2 @@
+bugfixes:
+  - "Fix schema for ``seealso`` in role entrypoints. Plugin references now work (https://github.com/ansible-community/antsibull-docs/issues/237, https://github.com/ansible-community/antsibull-docs/pull/240)."

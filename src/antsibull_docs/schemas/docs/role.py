@@ -23,9 +23,7 @@ from .base import (
     BaseModel,
     DeprecationSchema,
     OptionsSchema,
-    SeeAlsoLinkSchema,
-    SeeAlsoModSchema,
-    SeeAlsoRefSchema,
+    SeeAlsoSchemaT,
     list_from_scalars,
 )
 
@@ -60,7 +58,7 @@ class RoleEntrypointSchema(BaseModel):
     deprecated: DeprecationSchema = p.Field({})
     notes: list[str] = []
     requirements: list[str] = []
-    seealso: list[t.Union[SeeAlsoModSchema, SeeAlsoRefSchema, SeeAlsoLinkSchema]] = []
+    seealso: list[SeeAlsoSchemaT] = []
     todo: list[str] = []
     version_added: str = "historical"
     attributes: dict[
