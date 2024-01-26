@@ -688,11 +688,11 @@ def _lint_collection_plugin_docs(
         get_ansible_plugin_info(
             venv,
             collections_dir,
-            collection_names=[collection_name]
-            if validate_collections_refs == "self"
-            else collections
-            if validate_collections_refs == "dependent"
-            else None,
+            collection_names=(
+                [collection_name]
+                if validate_collections_refs == "self"
+                else collections if validate_collections_refs == "dependent" else None
+            ),
             fetch_all_installed=validate_collections_refs == "all",
         )
     )
