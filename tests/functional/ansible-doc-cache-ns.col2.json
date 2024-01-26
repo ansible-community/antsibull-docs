@@ -1044,6 +1044,10 @@
        },
        {
         "module": "ns2.col.foobarbaz"
+       },
+       {
+        "plugin": "ns2.col.foo",
+        "plugin_type": "lookup"
        }
       ],
       "short_description": "Bar role"
