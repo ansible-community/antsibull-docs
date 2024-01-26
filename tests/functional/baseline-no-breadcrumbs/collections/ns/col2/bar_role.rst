@@ -111,6 +111,8 @@ See Also
        The official documentation on the **ns2.col.foo** module.
    \ :ref:`ns2.col.foobarbaz <ansible_collections.ns2.col.foobarbaz_module>`\ 
        The official documentation on the **ns2.col.foobarbaz** module.
+   \ :ref:`ns2.col.foo <ansible_collections.ns2.col.foo_lookup>`\  lookup plugin
+       The official documentation on the **ns2.col.foo** lookup plugin.
 
 Authors
 ^^^^^^^

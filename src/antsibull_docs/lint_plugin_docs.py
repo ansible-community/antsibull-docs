@@ -505,7 +505,7 @@ class _MarkupValidator:
                 self._validate_plugin_fqcn(None, entry["module"], "module", entry_key)
             if "plugin" in entry and "plugin_type" in entry:
                 self._validate_plugin_fqcn(
-                    None, entry["plugin"], entry["plugin_type"], key
+                    None, entry["plugin"], entry["plugin_type"], entry_key
                 )
 
     def __init__(
