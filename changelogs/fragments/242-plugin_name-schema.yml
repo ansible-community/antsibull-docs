@@ -1,2 +1,0 @@
-bugfixes:
-  - "Support new ``ansible-doc --json`` output field ``plugin_name`` (https://github.com/ansible-community/antsibull-docs/pull/242)."
