@@ -619,6 +619,7 @@ class DocSchema(BaseModel):
     collection: str = REQUIRED_COLLECTION_NAME_OR_EMPTY_STR_F
     description: list[str]
     name: str
+    plugin_name: str
     short_description: str
     aliases: list[str] = []
     author: list[str] = []
