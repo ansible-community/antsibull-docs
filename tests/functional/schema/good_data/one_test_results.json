@@ -40,6 +40,7 @@
                     }
                 },
                 "positional": [],
+                "plugin_name": "",
                 "requirements": [],
                 "seealso": [],
                 "short_description": "check if task required changes",

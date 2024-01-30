@@ -655,6 +655,7 @@
                         "version_added_collection": ""
                     }
                 },
+                "plugin_name": "",
                 "requirements": [
                     "boto3",
                     "botocore"

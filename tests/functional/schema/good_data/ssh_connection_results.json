@@ -1200,6 +1200,7 @@
                         "version_added_collection": "ansible.builtin"
                     }
                 },
+                "plugin_name": "",
                 "requirements": [],
                 "seealso": [],
                 "short_description": "connect via ssh client binary",

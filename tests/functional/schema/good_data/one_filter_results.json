@@ -104,6 +104,7 @@
                     "true_val",
                     "false_val"
                 ],
+                "plugin_name": "",
                 "requirements": [],
                 "seealso": [],
                 "short_description": "Ternary operation filter",

@@ -18,6 +18,7 @@
                 "name": "free",
                 "notes": [],
                 "options": {},
+                "plugin_name": "",
                 "requirements": [],
                 "seealso": [],
                 "short_description": "Executes tasks without waiting for all hosts",

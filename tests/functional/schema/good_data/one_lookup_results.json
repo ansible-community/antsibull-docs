@@ -266,6 +266,7 @@
                     }
                 },
                 "positional": [],
+                "plugin_name": "",
                 "requirements": [
                     "python-consul python library U(https://python-consul.readthedocs.io/en/latest/#installation)"
                 ],
