@@ -103,6 +103,7 @@
                         "version_added_collection": "foo.bar"
                     }
                 },
+                "plugin_name": "",
                 "requirements": [
                     "whitelist in configuration"
                 ],

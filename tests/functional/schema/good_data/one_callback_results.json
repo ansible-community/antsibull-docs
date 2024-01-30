@@ -15,6 +15,7 @@
                 "name": "aws_resource_actions",
                 "notes": [],
                 "options": {},
+                "plugin_name": "",
                 "requirements": [
                     "whitelisting in configuration - see examples section below for details."
                 ],
