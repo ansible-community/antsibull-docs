@@ -13,10 +13,10 @@ from collections.abc import Callable
 from typing import TYPE_CHECKING, Any
 
 import pydantic as p
-import pydantic.version
 from packaging.version import Version
+from pydantic.version import VERSION as PYDANTIC_VERSION
 
-pydantic_version = Version(p.version.VERSION)
+pydantic_version = Version(PYDANTIC_VERSION)
 HAS_PYDANTIC_V2 = pydantic_version.major == 2
 
 if TYPE_CHECKING or HAS_PYDANTIC_V2:
@@ -51,7 +51,7 @@ def Field(*args: Any, **kwargs: Any) -> Any:
                     value = transform(value)
                 kwargs[new_key] = value
                 del kwargs[key]
-    return pydantic.Field(*args, **kwargs)
+    return p.Field(*args, **kwargs)
 
 
 __all__ = ("pydantic_version", "HAS_PYDANTIC_V2", "Field", "v1")
