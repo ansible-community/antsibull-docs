@@ -5,27 +5,6 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 .. contents:: Topics
 
 
-v2.6.2
-======
-
-Release Summary
----------------
-
-Bugfix release to adapt to ``ansible-docs --json`` schema changes
-
-Minor Changes
--------------
-
-- Explicitly set up Galaxy context instead of relying on deprecated functionality (https://github.com/ansible-community/antsibull-docs/pull/234).
-
-Bugfixes
---------
-
-- Fix schema for ``seealso`` in role entrypoints. Plugin references now work (https://github.com/ansible-community/antsibull-docs/issues/237, https://github.com/ansible-community/antsibull-docs/pull/240).
-- Make error reporting for invalid references in ``plugin`` ``seealso`` entries more precise (https://github.com/ansible-community/antsibull-docs/pull/240).
-- Support new ``ansible-doc --json`` output field ``plugin_name`` (https://github.com/ansible-community/antsibull-docs/pull/242).
-- Use certain fields from library context instead of app context that are deprecated in the app context and are removed from antsibull-core 3.0.0 (https://github.com/ansible-community/antsibull-docs/pull/233).
-
 v2.6.1
 ======
 
