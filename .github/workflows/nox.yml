@@ -65,6 +65,7 @@ jobs:
         with:
           repository: ansible-community/antsibull-core
           path: antsibull-core
+          ref: stable-2
       - name: Check out dependent project antsibull-docs-parser
         uses: actions/checkout@v4
         with:

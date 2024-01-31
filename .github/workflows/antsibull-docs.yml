@@ -39,8 +39,10 @@ jobs:
         include:
           - options: '--use-current --use-html-blobs --no-breadcrumbs community.crypto community.docker'
             python: '3.9'
+            antsibull_core_ref: stable-2
           - options: '--use-current --output-format simplified-rst community.crypto community.docker'
             python: '3.10'
+            antsibull_core_ref: stable-2
 
     steps:
       - name: Check out antsibull-docs
