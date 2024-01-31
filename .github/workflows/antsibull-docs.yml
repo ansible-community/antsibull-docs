@@ -32,7 +32,7 @@ jobs:
         python:
           - '3.11'
         antsibull_core_ref:
-          - main
+          # - main
           - "stable-2"
         antsibull_docs_parser_ref:
           - main
@@ -157,6 +157,7 @@ jobs:
         with:
           repository: ansible-community/antsibull-core
           path: antsibull-core
+          ref: stable-2
 
       - name: Check out dependent project antsibull-docs-parser
         uses: actions/checkout@v4
@@ -213,6 +214,7 @@ jobs:
         with:
           repository: ansible-community/antsibull-core
           path: antsibull-core
+          ref: stable-2
 
       - name: Check out dependent project antsibull-docs-parser
         uses: actions/checkout@v4
