@@ -32,17 +32,15 @@ jobs:
         python:
           - '3.11'
         antsibull_core_ref:
-          # - main
+          - main
           - "stable-2"
         antsibull_docs_parser_ref:
           - main
         include:
           - options: '--use-current --use-html-blobs --no-breadcrumbs community.crypto community.docker'
             python: '3.9'
-            antsibull_core_ref: stable-2
           - options: '--use-current --output-format simplified-rst community.crypto community.docker'
             python: '3.10'
-            antsibull_core_ref: stable-2
 
     steps:
       - name: Check out antsibull-docs
@@ -159,7 +157,6 @@ jobs:
         with:
           repository: ansible-community/antsibull-core
           path: antsibull-core
-          ref: stable-2
 
       - name: Check out dependent project antsibull-docs-parser
         uses: actions/checkout@v4
@@ -216,7 +213,6 @@ jobs:
         with:
           repository: ansible-community/antsibull-core
           path: antsibull-core
-          ref: stable-2
 
       - name: Check out dependent project antsibull-docs-parser
         uses: actions/checkout@v4
