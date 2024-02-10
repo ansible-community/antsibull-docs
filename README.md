@@ -19,10 +19,7 @@ Script that is here:
 
 This also includes a [Sphinx extension](https://www.sphinx-doc.org/en/master/) `sphinx_antsibull_ext` which provides a minimal CSS file to render the output of `antsibull-docs` correctly.
 
-You can find a list of changes in [the antsibull-docs changelog](./CHANGELOG.rst).
-
-Unless otherwise noted in the code, it is licensed under the terms of the GNU
-General Public License v3 or, at your option, later.
+You can find a list of changes in [the antsibull-docs changelog](./CHANGELOG.md).
 
 antsibull-docs is covered by the [Ansible Code of Conduct](https://docs.ansible.com/ansible/latest/community/code_of_conduct.html).
 
@@ -38,7 +35,7 @@ If you are interested in library support for interpreting Ansible markup, please
 
 ## Using the Sphinx extension
 
-Include it in your Sphinx configuration ``conf.py``::
+Include it in your Sphinx configuration ``conf.py``:
 
 ```
 # Add it to 'extensions':
@@ -126,3 +123,13 @@ nox
    * Bumps the version to `<version>.post0`;
    * Adds the changed file to git and run `git commit -m 'Post-release version bump.'`;
 4. Run `git push --follow-tags` to the appropriate remotes and create a GitHub release.
+
+## License
+
+Unless otherwise noted in the code, it is licensed under the terms of the GNU
+General Public License v3 or, at your option, later. See
+[LICENSES/GPL-3.0-or-later.txt](https://github.com/ansible-community/antsibull-docs/tree/main/LICENSE)
+for a copy of the license.
+
+The repository follows the [REUSE Specification](https://reuse.software/spec/) for declaring copyright and
+licensing information. The only exception are changelog fragments in ``changelog/fragments/``.
