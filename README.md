@@ -37,7 +37,7 @@ If you are interested in library support for interpreting Ansible markup, please
 
 Include it in your Sphinx configuration ``conf.py``:
 
-```
+```python
 # Add it to 'extensions':
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'notfound.extension', 'sphinx_antsibull_ext']
 ```
@@ -48,14 +48,14 @@ The CSS file [sphinx_antsibull_ext/antsibull-minimal.css](https://github.com/ans
 
 Use the script `build.sh` in `sphinx_antsibull_ext/css/` to build the `.css` file from the `.scss` file:
 
-```
+```console
 cd sphinx_antsibull_ext/css/
 ./build-css.sh
 ```
 
 For this to work, you need to make sure that `sassc` and `postcss` are on your path and that the autoprefixer and nanocss modules are installed:
 
-```
+```console
 # Debian:
 apt-get install sassc
 
@@ -97,7 +97,7 @@ To run specific tests:
 
 To create a more complete local development env:
 
-``` console
+```console
 git clone https://github.com/ansible-community/antsibull-core.git
 git clone https://github.com/ansible-community/antsibull-docs-parser.git
 git clone https://github.com/ansible-community/antsibull-docs.git

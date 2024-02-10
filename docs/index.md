@@ -26,7 +26,7 @@ The main CLI tool, `antsibull-docs`, has multiple subcommands:
 
 The `sphinx_antsibull_ext` [Sphinx extension](https://www.sphinx-doc.org/en/master/) provides minimal CSS and several roles used by the written RST files to render the documentation correctly. To use it, include it in your Sphinx configuration ``conf.py``:
 
-```
+```python
 # Add it to 'extensions':
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'notfound.extension', 'sphinx_antsibull_ext']
 ```
