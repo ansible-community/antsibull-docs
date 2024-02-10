@@ -141,6 +141,8 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           directory: antsibull-docs
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   build-stable:
     name: 'Build stable docsite'
@@ -197,6 +199,8 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           directory: antsibull-docs
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   build-devel:
     name: 'Build devel docsite'
@@ -253,3 +257,5 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           directory: antsibull-docs
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
