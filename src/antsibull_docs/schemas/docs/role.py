@@ -65,6 +65,7 @@ class RoleEntrypointSchema(BaseModel):
         str,
         t.Union[AttributeSchema, AttributeSchemaActionGroup, AttributeSchemaPlatform],
     ] = {}
+    examples: str = ""
 
     options: dict[str, RoleOptionsSchema] = {}
 

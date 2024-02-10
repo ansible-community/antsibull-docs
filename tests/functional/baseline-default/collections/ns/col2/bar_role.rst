@@ -68,6 +68,14 @@ Synopsis
 .. Seealso
 
 
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    An example.
+
+
 
 
 .. Entry point title
@@ -113,6 +121,7 @@ See Also
        The official documentation on the **ns2.col.foobarbaz** module.
    \ :ref:`ns2.col.foo <ansible_collections.ns2.col.foo_lookup>`\  lookup plugin
        The official documentation on the **ns2.col.foo** lookup plugin.
+
 
 Authors
 ^^^^^^^

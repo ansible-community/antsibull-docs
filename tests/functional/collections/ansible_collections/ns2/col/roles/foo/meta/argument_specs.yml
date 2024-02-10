@@ -42,3 +42,9 @@ argument_specs:
           I don't know
           of any
           alternative.
+    examples: |-
+      - name: Use role
+        include_role: ns2.col.foo
+        vars:
+          foo_param_1: foobar
+          foo_param_2: 23

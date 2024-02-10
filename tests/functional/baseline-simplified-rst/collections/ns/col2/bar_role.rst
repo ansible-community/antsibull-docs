@@ -33,6 +33,14 @@ Synopsis
 
 
 
+Examples
+--------
+
+.. code-block:: yaml
+
+    An example.
+
+
 
 
 Entry point ``main`` -- Bar role
@@ -61,6 +69,7 @@ See Also
 * \ `ns2.col.foo <foo_lookup.rst>`__\  lookup plugin
 
   The official documentation on the **ns2.col.foo** lookup plugin.
+
 
 Authors
 ^^^^^^^

@@ -238,6 +238,18 @@ See Also
    \ :ref:`ns2.col.foo <ansible_collections.ns2.col.foo_module>`\ 
        The official documentation on the **ns2.col.foo** module.
 
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    - name: Use role
+      include_role: ns2.col.foo
+      vars:
+        foo_param_1: foobar
+        foo_param_2: 23
+
+
 Authors
 ^^^^^^^
 
