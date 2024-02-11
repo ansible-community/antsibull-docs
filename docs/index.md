@@ -18,7 +18,7 @@ antsibull-docs is covered by the [Ansible Code of Conduct](https://docs.ansible.
 
 The main CLI tool, `antsibull-docs`, has multiple subcommands:
 
-* The `devel` and `stable` subcommands are used for building the official Ansible docsites at https://docs.ansible.com/ansible/devel/ and https://docs.ansible.com/ansible/latest/.
+* The `devel` and `stable` subcommands are used for building the official Ansible docsites at [docs.ansible.com/ansible/devel](https://docs.ansible.com/ansible/devel/) and [docs.ansible.com/ansible/latest](https://docs.ansible.com/ansible/latest/).
 * The `current` and `collection` subcommands are used for building docsites for individual collections.
 * The `plugin` and `collection-plugins` subcommands are used for rendering documentation for individual (or all) plugins, modules, or roles.
 * The `lint-collection-docs` and `lint-core-docs` subcommands are used for linting collection and ansible-core documentation.

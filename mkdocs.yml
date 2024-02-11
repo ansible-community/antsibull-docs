@@ -30,3 +30,4 @@ markdown_extensions:
 nav:
   - antsibull-docs: index.md
   - Creating a collection docsite: collection-docs.md
+  - Official Ansible docsite: package-docs.md
