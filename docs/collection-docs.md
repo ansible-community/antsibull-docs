@@ -242,3 +242,14 @@ If you want to see this in action, you can take a look at the community.crypto c
 
 * [Workflow for building documentation on push to `main` and `stable-*` branches](https://github.com/ansible-collections/community.crypto/blob/main/.github/workflows/docs-push.yml)
 * [Workflow for PR documentation](https://github.com/ansible-collections/community.crypto/blob/main/.github/workflows/docs-pr.yml)
+
+## Generating RST files for inclusion in the collection repository
+
+Some collections include RST files for every module, plugin, and role they include in `docs/`. Traditionally, `collection_prep_add_docs` from the [ansible-network/collection_prep GitHub repository](https://github.com/ansible-network/collection_prep) was used for this, which [appears to be unmaintained](https://github.com/ansible-network/collection_prep/issues/91).
+
+antsibull-docs now can also generate such files with the `collection-plugins` subcommand. This can be done as follows:
+```console
+$ cd ~/collections/ansible_collections/community/crypto
+$ antsibull-docs collection-plugins --dest-dir docs/ --output-format simplified-rst --use-current --fqcn-plugin-names community.crypto
+```
+It is not clear to me why some collections chose to include these RST files in their repository. I would recommend not to do that, but instead provide a rendered docsite. If users want to read documentation using only the installed collection, they have a better experience using the `ansible-doc` command line tool, or building a HTML version of the docsite themselves and looking at it in a browser.
