@@ -28,4 +28,5 @@ markdown_extensions:
       anchor_linenums: true
   - pymdownx.superfences
 nav:
-  - index.md
+  - antsibull-docs: index.md
+  - Creating a collection docsite: collection-docs.md

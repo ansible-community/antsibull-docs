@@ -4,11 +4,13 @@ GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://w
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
-# antsibull-docs -- Building Ansible documentation
+# antsibull-docs – Building Ansible documentation
 
 [![Discuss on Matrix at #docs:ansible.com](https://img.shields.io/matrix/docs:ansible.com.svg?server_fqdn=ansible-accounts.ems.host&label=Discuss%20on%20Matrix%20at%20%23docs:ansible.com&logo=matrix)](https://matrix.to/#/#docs:ansible.com)
 
-This package provides tooling for building Ansible documentation. It mainly consists of a CLI tool, `antsibull-docs`, and a Sphinx extension. The main output format are [reStructured Text (RST)](https://en.wikipedia.org/wiki/ReStructuredText) files for consumption by [Sphinx](https://en.wikipedia.org/wiki/Sphinx_\(documentation_generator\)).
+This package provides tooling for validating and building Ansible documentation. It mainly consists of a CLI tool, `antsibull-docs`, and a Sphinx extension. The main output format are [reStructured Text (RST)](https://en.wikipedia.org/wiki/ReStructuredText) files for consumption by [Sphinx](https://en.wikipedia.org/wiki/Sphinx_\(documentation_generator\)).
+
+**Collection maintainers and authors should look at the [Creating a collection docsite](collection-docs.md) section of this docsite.**
 
 antsibull-docs is covered by the [Ansible Code of Conduct](https://docs.ansible.com/ansible/latest/community/code_of_conduct.html).
 
@@ -20,7 +22,9 @@ The main CLI tool, `antsibull-docs`, has multiple subcommands:
 * The `current` and `collection` subcommands are used for building docsites for individual collections.
 * The `plugin` and `collection-plugins` subcommands are used for rendering documentation for individual (or all) plugins, modules, or roles.
 * The `lint-collection-docs` and `lint-core-docs` subcommands are used for linting collection and ansible-core documentation.
+  The former is described in more detail in [Creating a collection docsite](collection-docs.md).
 * The `sphinx-init` subcommmand is used for setting up a Sphinx-based collection docsite.
+  This is described in more detail in [Creating a collection docsite](collection-docs.md).
 
 ## Using the Sphinx extension
 
