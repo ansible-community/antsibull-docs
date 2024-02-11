@@ -313,3 +313,9 @@ def install_env(session: nox.Session):
         external=True,
         editable=True,
     )
+
+
+@nox.session
+def mkdocs(session: nox.Session):
+    session.install("-r", "docs-requirements.txt")
+    session.run("mkdocs", *(session.posargs or ["build"]))
