@@ -193,7 +193,7 @@ See Also
 Examples
 --------
 
-.. code-block:: yaml+jinja
+.. code-block:: @{ ep_doc['examples_format'] | rst_format(for_sphinx=true) }@
 
 @{     ep_doc['examples'] | indent(4, True) }@
 
