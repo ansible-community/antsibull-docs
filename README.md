@@ -11,15 +11,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
 [![Build CSS testing badge](https://github.com/ansible-community/antsibull-docs/workflows/Build%20CSS/badge.svg?event=push&branch=main)](https://github.com/ansible-community/antsibull-docs/actions?query=workflow%3A%22Build+CSS%22+branch%3Amain)
 [![Codecov badge](https://img.shields.io/codecov/c/github/ansible-community/antsibull-docs)](https://codecov.io/gh/ansible-community/antsibull-docs)
 
-Tooling for building Ansible documentation.
+Tooling for building Ansible documentation. This is mainly the ``antsibull-docs`` script and the [Sphinx extension](https://www.sphinx-doc.org/en/master/) ``sphinx_antsibull_ext``. Please check out the [documentation](https://ansible.readthedocs.io/projects/antsibull-docs/) for more information.
 
-Script that is here:
-
-* antsibull-docs - Extracts documentation from ansible plugins
-
-This also includes a [Sphinx extension](https://www.sphinx-doc.org/en/master/) `sphinx_antsibull_ext` which provides a minimal CSS file to render the output of `antsibull-docs` correctly.
-
-You can find a list of changes in [the antsibull-docs changelog](./CHANGELOG.md).
+You can find a list of changes in [the antsibull-docs changelog](https://github.com/ansible-community/antsibull-docs/blob/main/CHANGELOG.md).
 
 antsibull-docs is covered by the [Ansible Code of Conduct](https://docs.ansible.com/ansible/latest/community/code_of_conduct.html).
 
@@ -32,36 +26,6 @@ The current major version is 2.x.y. Development for 2.x.y occurs on the `main` b
 We explicitly exclude code compatibility. **antsibull-docs is not supposed to be used as a library.** The only exception are potential dependencies with other antsibull projects (currently there are none). If you want to use a certain part of antsibull-docs as a library, please create an issue so we can discuss whether we add a stable interface for **parts** of the Python code. We do not promise that this will actually happen though.
 
 If you are interested in library support for interpreting Ansible markup, please take a look at [the antsibull-docs-parser project](https://github.com/ansible-community/antsibull-docs-parser).
-
-## Using the Sphinx extension
-
-Include it in your Sphinx configuration ``conf.py``:
-
-```python
-# Add it to 'extensions':
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'notfound.extension', 'sphinx_antsibull_ext']
-```
-
-## Updating the CSS file for the Sphinx extension
-
-The CSS file [sphinx_antsibull_ext/antsibull-minimal.css](https://github.com/ansible-community/antsibull-docs/blob/main/sphinx_antsibull_ext/antsibull-minimal.css) is built from [sphinx_antsibull_ext/css/antsibull-minimal.scss](https://github.com/ansible-community/antsibull-docs/blob/main/sphinx_antsibull_ext/src/antsibull-minimal.scss) using [SASS](https://sass-lang.com/) and [postcss](https://postcss.org/) using [autoprefixer](https://github.com/postcss/autoprefixer) and [cssnano](https://cssnano.co/).
-
-Use the script `build.sh` in `sphinx_antsibull_ext/css/` to build the `.css` file from the `.scss` file:
-
-```console
-cd sphinx_antsibull_ext/css/
-./build-css.sh
-```
-
-For this to work, you need to make sure that `sassc` and `postcss` are on your path and that the autoprefixer and nanocss modules are installed:
-
-```console
-# Debian:
-apt-get install sassc
-
-# PostCSS, autoprefixer and cssnano require nodejs/npm:
-npm install -g autoprefixer cssnano postcss postcss-cli
-```
 
 ## Development
 
@@ -107,6 +71,27 @@ python3 -m venv venv
 pip install -e '.[dev]' -e ../antsibull-core -e ../antsibull-docs-parser
 [...]
 nox
+```
+
+## Updating the CSS file for the Sphinx extension
+
+The CSS file [sphinx_antsibull_ext/antsibull-minimal.css](https://github.com/ansible-community/antsibull-docs/blob/main/sphinx_antsibull_ext/antsibull-minimal.css) is built from [sphinx_antsibull_ext/css/antsibull-minimal.scss](https://github.com/ansible-community/antsibull-docs/blob/main/sphinx_antsibull_ext/src/antsibull-minimal.scss) using [SASS](https://sass-lang.com/) and [postcss](https://postcss.org/) using [autoprefixer](https://github.com/postcss/autoprefixer) and [cssnano](https://cssnano.co/).
+
+Use the script `build.sh` in `sphinx_antsibull_ext/css/` to build the `.css` file from the `.scss` file:
+
+```console
+cd sphinx_antsibull_ext/css/
+./build-css.sh
+```
+
+For this to work, you need to make sure that `sassc` and `postcss` are on your path and that the autoprefixer and nanocss modules are installed:
+
+```console
+# Debian:
+apt-get install sassc
+
+# PostCSS, autoprefixer and cssnano require nodejs/npm:
+npm install -g autoprefixer cssnano postcss postcss-cli
 ```
 
 ## Creating a new release:
