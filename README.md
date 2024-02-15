@@ -11,7 +11,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 [![Build CSS testing badge](https://github.com/ansible-community/antsibull-docs/workflows/Build%20CSS/badge.svg?event=push&branch=main)](https://github.com/ansible-community/antsibull-docs/actions?query=workflow%3A%22Build+CSS%22+branch%3Amain)
 [![Codecov badge](https://img.shields.io/codecov/c/github/ansible-community/antsibull-docs)](https://codecov.io/gh/ansible-community/antsibull-docs)
 
-Tooling for building Ansible documentation. This is mainly the ``antsibull-docs`` script and the [Sphinx extension](https://www.sphinx-doc.org/en/master/) ``sphinx_antsibull_ext``. Please check out the [documentation](https://ansible.readthedocs.io/projects/antsibull-docs/) for more information.
+Tooling for building Ansible documentation. This is mainly the `antsibull-docs` command and the [Sphinx extension](https://www.sphinx-doc.org/en/master/), ``sphinx_antsibull_ext``. Please check out the [documentation](https://ansible.readthedocs.io/projects/antsibull-docs/) for more information.
 
 You can find a list of changes in [the antsibull-docs changelog](https://github.com/ansible-community/antsibull-docs/blob/main/CHANGELOG.md).
 
