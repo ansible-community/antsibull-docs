@@ -60,9 +60,11 @@ name = "Maxwell G"
 email = "maxwell@gtmx.me"
 
 [project.urls]
+"Documentation" = "https://ansible.readthedocs.io/projects/antsibull-docs/"
 "Source code" = "https://github.com/ansible-community/antsibull-docs"
 "Code of Conduct" = "https://docs.ansible.com/ansible/latest/community/code_of_conduct.html"
 "Bug tracker" = "https://github.com/ansible-community/antsibull-docs/issues"
+"Changelog" = "https://github.com/ansible-community/antsibull-docs/tree/main/CHANGELOG.md"
 
 [project.scripts]
 antsibull-docs = "antsibull_docs.cli.antsibull_docs:main"

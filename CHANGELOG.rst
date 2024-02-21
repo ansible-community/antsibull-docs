@@ -4,7 +4,6 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
-
 v2.7.0
 ======
 
@@ -82,7 +81,6 @@ Bugfix and feature release. Improves support for other builders than ``html``.
 There will be a follow-up release after `Ansible Galaxy <https://galaxy.ansible.com/>`__
 switched to the new ``galaxy_ng`` codebase, which is scheduled for September 30th.
 That release will only adjust the URLs to Galaxy, except potentially bugfixes.
-
 
 Minor Changes
 -------------
