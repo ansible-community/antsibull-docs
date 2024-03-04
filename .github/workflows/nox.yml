@@ -44,7 +44,7 @@ jobs:
           repository: ansible-community/antsibull-docs-parser
           path: antsibull-docs-parser
       - name: Setup nox
-        uses: wntrblm/nox@2023.04.22
+        uses: wntrblm/nox@2024.03.02
         with:
           python-versions: "3.11"
       - run: |
@@ -70,7 +70,7 @@ jobs:
           repository: ansible-community/antsibull-docs-parser
           path: antsibull-docs-parser
       - name: Setup nox
-        uses: wntrblm/nox@2023.04.22
+        uses: wntrblm/nox@2024.03.02
         with:
           python-versions: "3.9, 3.10, 3.11"
       - name: Run unit tests
