@@ -210,6 +210,58 @@ table.ansible-option-table {
     color: green;
   }
 
+  .ansible-attribute-support-na {
+  }
+
+  .ansibleOptionLink {
+    display: inline-block;
+
+    &::after {
+      content: "🔗";
+      opacity: 0;
+    }
+  }
+
+  p {
+    margin: 0 0 8px;
+  }
+
+  tr:hover .ansibleOptionLink::after {
+    opacity: 1;
+  }
+
+  td {
+    padding: 0 !important;
+    white-space: normal;
+
+    > div.ansible-option-cell  {
+      padding: 8px 16px;
+      border-top: 1px solid #000000;
+    }
+  }
+
+  td:first-child {
+    height: inherit;
+    display: flex;
+    flex-direction: row;
+
+    > div.ansible-option-cell {
+      height: inherit;
+      flex: 1 0 auto;
+      white-space: nowrap;
+      max-width: 100%;
+    }
+  }
+
+  .ansible-option-indent {
+    margin-left: 2em;
+    border-right: 1px solid #000000;
+  }
+
+  .ansible-attribute-support-label {
+    display: none;
+  }
+
   @media (prefers-color-scheme: dark) {
     thead tr {
       background-color: #48484b;
@@ -276,59 +328,10 @@ table.ansible-option-table {
     .ansible-attribute-support-full {
       color: #00cc00;
     }
-  }
 
-
-  .ansible-attribute-support-na {
-  }
-
-  .ansibleOptionLink {
-    display: inline-block;
-
-    &::after {
-      content: "🔗";
-      opacity: 0;
+    .ansible-option-indent {
+      border-right: 1px solid #656569;
     }
-  }
-
-  p {
-    margin: 0 0 8px;
-  }
-
-  tr:hover .ansibleOptionLink::after {
-    opacity: 1;
-  }
-
-  td {
-    padding: 0 !important;
-    white-space: normal;
-
-    > div.ansible-option-cell  {
-      padding: 8px 16px;
-      border-top: 1px solid #000000;
-    }
-  }
-
-  td:first-child {
-    height: inherit;
-    display: flex;
-    flex-direction: row;
-
-    > div.ansible-option-cell {
-      height: inherit;
-      flex: 1 0 auto;
-      white-space: nowrap;
-      max-width: 100%;
-    }
-  }
-
-  .ansible-option-indent {
-    margin-left: 2em;
-    border-right: 1px solid #000000;
-  }
-
-  .ansible-attribute-support-label {
-    display: none;
   }
 }
 
