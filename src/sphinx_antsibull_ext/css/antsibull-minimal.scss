@@ -210,6 +210,75 @@ table.ansible-option-table {
     color: green;
   }
 
+  @media (prefers-color-scheme: dark) {
+    thead tr {
+      background-color: #48484b;
+    }
+
+    tbody {
+      .row-odd td {
+        background-color: #242426 !important;
+      }
+  
+      .row-even td {
+        background-color: #1c1c1e !important;
+      }
+    }
+
+    td, th {
+      border-color: #656569 !important;
+    }
+    
+    .ansible-option-type {
+      color: #ff93ff;
+    }
+
+    .ansible-option-elements {
+      color: #ff93ff;
+    }
+    
+    .ansible-option-aliases {
+      color: #71d471;
+    }
+
+    .ansible-option-versionadded {
+      color: #71d471;
+    }
+    
+    .ansible-option-required {
+      color: #ff8282;
+    } 
+
+    .ansible-option-default, .ansible-option-choices-default-mark {
+      color: #adadff;
+    }
+  
+    .ansible-option-default-bold {
+      color: #adadff;
+    }
+  
+    .ansible-option-sample {
+      color: #adadff;
+    }
+  
+    .ansible-option-sample-bold {
+      color: white;
+    }
+  
+    .ansible-attribute-support-none {
+      color: #ff8282;
+    }
+  
+    .ansible-attribute-support-partial {
+      color: #b6b600;
+    }
+  
+    .ansible-attribute-support-full {
+      color: #00cc00;
+    }
+  }
+
+
   .ansible-attribute-support-na {
   }
 
