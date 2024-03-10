@@ -40,3 +40,12 @@ jobs:
         run: |
           ./build.sh
         working-directory: ./src/sphinx_antsibull_ext/css
+
+      - name: Make sure no files were changed
+        run: |
+          CHANGED="$(git status --porcelain=v1 --untracked=normal)"
+          if [ "${CHANGED}" != "" ]; then
+            echo "Found changed files:"
+            echo "${CHANGED}"
+            exit 1
+          fi
