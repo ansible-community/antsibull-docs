@@ -115,6 +115,7 @@
        ]
       }
      },
+     "plugin_name": "ansible.builtin.runas",
      "short_description": "Run As user",
      "version_added": "2.8",
      "version_added_collection": "ansible.builtin"
@@ -294,6 +295,7 @@
        ]
       }
      },
+     "plugin_name": "ansible.builtin.su",
      "short_description": "Substitute User",
      "version_added": "2.8",
      "version_added_collection": "ansible.builtin"
@@ -447,6 +449,7 @@
        ]
       }
      },
+     "plugin_name": "ansible.builtin.sudo",
      "short_description": "Substitute User DO",
      "version_added": "2.8",
      "version_added_collection": "ansible.builtin"
@@ -586,6 +589,7 @@
        ]
       }
      },
+     "plugin_name": "ns2.col.foo",
      "short_description": "Use foo O(bar)",
      "version_added": "historical",
      "version_added_collection": "ns2.col"
@@ -655,6 +659,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.jsonfile",
      "short_description": "JSON formatted files.",
      "version_added": "1.9",
      "version_added_collection": "ansible.builtin"
@@ -674,6 +679,7 @@
      ],
      "filename": "/ansible/plugins/cache/memory.py",
      "name": "memory",
+     "plugin_name": "ansible.builtin.memory",
      "short_description": "RAM backed, non persistent",
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
@@ -715,6 +721,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ns2.col.foo",
      "short_description": "Foo files O(bar)",
      "version_added": "1.9.0",
      "version_added_collection": "ns2.col"
@@ -918,6 +925,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.default",
      "requirements": [
       "set as stdout in configuration"
      ],
@@ -1039,6 +1047,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.junit",
      "requirements": [
       "enable in configuration"
      ],
@@ -1112,6 +1121,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.minimal",
      "short_description": "minimal Ansible screen output",
      "type": "stdout",
      "version_added": "historical",
@@ -1129,6 +1139,7 @@
      ],
      "filename": "/ansible/plugins/callback/oneline.py",
      "name": "oneline",
+     "plugin_name": "ansible.builtin.oneline",
      "short_description": "oneline Ansible screen output",
      "type": "stdout",
      "version_added": "historical",
@@ -1167,6 +1178,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.tree",
      "requirements": [
       "invoked in the command line"
      ],
@@ -1193,6 +1205,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ns2.col.foo",
      "short_description": "Foo output O(bar)",
      "type": "stdout",
      "version_added": "0.0.1",
@@ -1213,6 +1226,7 @@
      ],
      "filename": "ansible_collections/ns2/col/plugins/cliconf/foo.py",
      "name": "foo",
+     "plugin_name": "ns2.col.foo",
      "short_description": "Foo router CLI config"
     },
     "examples": null,
@@ -1264,6 +1278,7 @@
        ]
       }
      },
+     "plugin_name": "ansible.builtin.local",
      "short_description": "execute on controller",
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
@@ -1827,6 +1842,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.paramiko_ssh",
      "short_description": "Run tasks via Python SSH (paramiko)",
      "version_added": "0.1",
      "version_added_collection": "ansible.builtin"
@@ -2305,6 +2321,7 @@
        ]
       }
      },
+     "plugin_name": "ansible.builtin.psrp",
      "requirements": [
       "pypsrp>=0.4.0 (Python library)"
      ],
@@ -3061,6 +3078,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.ssh",
      "short_description": "connect via SSH client binary",
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
@@ -3311,6 +3329,7 @@
        ]
       }
      },
+     "plugin_name": "ansible.builtin.winrm",
      "requirements": [
       "pywinrm (python library)"
      ],
@@ -3362,6 +3381,7 @@
        ]
       }
      },
+     "plugin_name": "ns2.col.foo",
      "short_description": "Foo connection O(bar)",
      "version_added": "1.2.0",
      "version_added_collection": "ns2.col"
@@ -3390,6 +3410,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ansible.builtin.b64decode",
      "positional": "_input",
      "short_description": "Decode a base64 string",
      "version_added": "historical",
@@ -3420,6 +3441,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ansible.builtin.b64encode",
      "positional": "_input",
      "short_description": "Encode a string as base64",
      "version_added": "historical",
@@ -3453,6 +3475,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.basename",
      "seealso": [
       {
        "plugin": "ansible.builtin.dirname",
@@ -3487,6 +3510,7 @@
        "type": "raw"
       }
      },
+     "plugin_name": "ansible.builtin.bool",
      "positional": "_input",
      "short_description": "cast into a boolean",
      "version_added": "historical",
@@ -3516,6 +3540,7 @@
        "type": "raw"
       }
      },
+     "plugin_name": "ansible.builtin.checksum",
      "positional": "_input",
      "short_description": "checksum of input data",
      "version_added": "1.9",
@@ -3550,6 +3575,7 @@
        "type": "int"
       }
      },
+     "plugin_name": "ansible.builtin.combinations",
      "positional": "_input, set_size",
      "short_description": "combinations from the elements of a list",
      "version_added": "historical",
@@ -3603,6 +3629,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.combine",
      "positional": "_input, _dicts",
      "short_description": "combine two dictionaries",
      "version_added": "2.0",
@@ -3680,6 +3707,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ansible.builtin.comment",
      "positional": "_input, style",
      "short_description": "comment out a string",
      "version_added": "historical",
@@ -3711,6 +3739,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ansible.builtin.commonpath",
      "seealso": [
       {
        "plugin": "ansible.builtin.basename",
@@ -3762,6 +3791,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.dict2items",
      "positional": "_input, key_name, value_name",
      "seealso": [
       {
@@ -3805,6 +3835,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ansible.builtin.difference",
      "seealso": [
       {
        "plugin": "ansible.builtin.intersect",
@@ -3855,6 +3886,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.dirname",
      "seealso": [
       {
        "plugin": "ansible.builtin.basename",
@@ -3890,6 +3922,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.expanduser",
      "short_description": "Returns a path with C(~) translation.",
      "version_added": "1.5",
      "version_added_collection": "ansible.builtin"
@@ -3919,6 +3952,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.expandvars",
      "short_description": "expand environment variables",
      "version_added": "1.5",
      "version_added_collection": "ansible.builtin"
@@ -3960,6 +3994,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ansible.builtin.extract",
      "positional": "_input, container, morekeys",
      "short_description": "extract a value based on an index or key",
      "version_added": "2.1",
@@ -3990,6 +4025,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ansible.builtin.fileglob",
      "positional": "_input",
      "short_description": "explode a path glob to matching files"
     },
@@ -4027,6 +4063,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.flatten",
      "positional": "_input, levels, skip_nulls",
      "short_description": "flatten lists within a list",
      "version_added": "2.5",
@@ -4060,6 +4097,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ansible.builtin.from_json",
      "short_description": "Convert JSON string into variable structure",
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
@@ -4092,6 +4130,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ansible.builtin.from_yaml",
      "short_description": "Convert YAML string into variable structure",
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
@@ -4126,6 +4165,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ansible.builtin.from_yaml_all",
      "short_description": "Convert a series of YAML documents into a variable structure",
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
@@ -4162,6 +4202,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ansible.builtin.hash",
      "positional": "_input",
      "short_description": "hash of input data",
      "version_added": "1.9",
@@ -4211,6 +4252,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.human_readable",
      "positional": "_input, isbits, unit",
      "short_description": "Make bytes/bits human-readable",
      "version_added": "historical",
@@ -4259,6 +4301,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.human_to_bytes",
      "positional": "_input, default_unit, isbits",
      "short_description": "Get bytes from string",
      "version_added": "historical",
@@ -4295,6 +4338,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ansible.builtin.intersect",
      "seealso": [
       {
        "plugin": "ansible.builtin.difference",
@@ -4356,6 +4400,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.items2dict",
      "positional": "_input, key_name, value_name",
      "seealso": [
       {
@@ -4400,6 +4445,7 @@
        "type": "float"
       }
      },
+     "plugin_name": "ansible.builtin.log",
      "positional": "_input, base",
      "short_description": "log of (math operation)",
      "version_added": "1.9",
@@ -4434,6 +4480,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.mandatory",
      "positional": "_input",
      "short_description": "make a variable's existence mandatory",
      "version_added": "historical",
@@ -4467,6 +4514,7 @@
        "type": "raw"
       }
      },
+     "plugin_name": "ansible.builtin.md5",
      "positional": "_input",
      "short_description": "MD5 hash of input data",
      "version_added": "historical",
@@ -4497,6 +4545,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.normpath",
      "seealso": [
       {
        "plugin": "ansible.builtin.basename",
@@ -4558,6 +4607,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ansible.builtin.password_hash",
      "positional": "_input",
      "short_description": "convert input password into password_hash",
      "version_added": "historical",
@@ -4590,6 +4640,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ansible.builtin.path_join",
      "positional": "_input",
      "short_description": "Join one or more path components",
      "version_added": "2.10",
@@ -4625,6 +4676,7 @@
        "type": "int"
       }
      },
+     "plugin_name": "ansible.builtin.permutations",
      "positional": "_input, list_size",
      "short_description": "permutations from the elements of a list",
      "version_added": "historical",
@@ -4662,6 +4714,7 @@
        "type": "float"
       }
      },
+     "plugin_name": "ansible.builtin.pow",
      "positional": "_input, _power",
      "short_description": "power of (math operation)",
      "version_added": "1.9",
@@ -4705,6 +4758,7 @@
        "type": "int"
       }
      },
+     "plugin_name": "ansible.builtin.product",
      "positional": "_input, _additional_lists, repeat",
      "short_description": "cartesian product of lists",
      "version_added": "historical",
@@ -4738,6 +4792,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.quote",
      "positional": "_input",
      "short_description": "shell quoting",
      "version_added": "2.10",
@@ -4780,6 +4835,7 @@
        "type": "int"
       }
      },
+     "plugin_name": "ansible.builtin.random",
      "positional": "_input, start, step, seed",
      "short_description": "random number or list item",
      "version_added": "2.6",
@@ -4811,6 +4867,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.realpath",
      "short_description": "Turn path into real path",
      "version_added": "1.8",
      "version_added_collection": "ansible.builtin"
@@ -4851,6 +4908,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.regex_escape",
      "positional": "_input, re_type",
      "short_description": "escape regex chars",
      "version_added": "2.8",
@@ -4894,6 +4952,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.regex_findall",
      "positional": "_input, _regex",
      "short_description": "extract all regex matches from string",
      "version_added": "2.0",
@@ -4961,6 +5020,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.regex_replace",
      "positional": "_input, _regex_match, _regex_replace",
      "short_description": "replace a string via regex",
      "version_added": "2.0",
@@ -5007,6 +5067,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.regex_search",
      "positional": "_input, _regex",
      "short_description": "extract regex match from string",
      "version_added": "2.0",
@@ -5048,6 +5109,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.rekey_on_member",
      "positional": "_input, '_key', duplicates",
      "short_description": "Rekey a list of dicts into a dict using a member",
      "version_added": "2.13",
@@ -5082,6 +5144,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.relpath",
      "positional": "_input, start",
      "short_description": "Make a path relative",
      "version_added": "1.7",
@@ -5116,6 +5179,7 @@
        "type": "float"
       }
      },
+     "plugin_name": "ansible.builtin.root",
      "positional": "_input, base",
      "short_description": "root of (math operation)",
      "version_added": "1.9",
@@ -5149,6 +5213,7 @@
        "type": "raw"
       }
      },
+     "plugin_name": "ansible.builtin.sha1",
      "positional": "_input",
      "short_description": "SHA-1 hash of input data",
      "version_added": "historical",
@@ -5183,6 +5248,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.shuffle",
      "positional": "_input",
      "short_description": "randomize a list",
      "version_added": "2.6",
@@ -5221,6 +5287,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.split",
      "positional": "_input, _split_string",
      "short_description": "split a string into a list",
      "version_added": 2.11,
@@ -5252,6 +5319,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.splitext",
      "positional": "_input",
      "short_description": "split a path into root and file extension",
      "version_added": "2.0",
@@ -5294,15 +5362,18 @@
       "utc": {
        "default": false,
        "description": "Whether time supplied is in UTC.",
-       "type": "bool"
+       "type": "bool",
+       "version_added": "2.14",
+       "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.strftime",
      "positional": "_input, second, utc",
      "short_description": "date formating",
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "# for a complete set of features go to  https://strftime.org/\n\n# Display year-month-day\n{{ '%Y-%m-%d' | strftime }}\n# => \"2021-03-19\"\n\n# Display hour:min:sec\n{{ '%H:%M:%S' | strftime }}\n# => \"21:51:04\"\n\n# Use ansible_date_time.epoch fact\n{{ '%Y-%m-%d %H:%M:%S' | strftime(ansible_date_time.epoch) }}\n# => \"2021-03-19 21:54:09\"\n\n# Use arbitrary epoch value\n{{ '%Y-%m-%d' | strftime(0) }}          # => 1970-01-01\n{{ '%Y-%m-%d' | strftime(1441357287) }} # => 2015-09-04\n",
+    "examples": "# for a complete set of features go to  https://strftime.org/\n\n# Display year-month-day\n{{ '%Y-%m-%d' | strftime }}\n# => \"2021-03-19\"\n\n# Display hour:min:sec\n{{ '%H:%M:%S' | strftime }}\n# => \"21:51:04\"\n\n# Use ansible_date_time.epoch fact\n{{ '%Y-%m-%d %H:%M:%S' | strftime(ansible_date_time.epoch) }}\n# => \"2021-03-19 21:54:09\"\n\n# Use arbitrary epoch value\n{{ '%Y-%m-%d' | strftime(0) }}          # => 1970-01-01\n{{ '%Y-%m-%d' | strftime(seconds=1441357287, utc=true) }} # => 2015-09-04\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -5337,6 +5408,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.subelements",
      "positional": "_input, _subelement, skip_missing",
      "short_description": "returns a product of a list and its elements",
      "version_added": "2.7",
@@ -5374,6 +5446,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ansible.builtin.symmetric_difference",
      "seealso": [
       {
        "plugin": "ansible.builtin.difference",
@@ -5439,6 +5512,7 @@
        "type": "any"
       }
      },
+     "plugin_name": "ansible.builtin.ternary",
      "positional": "true_val, false_val",
      "short_description": "Ternary operation filter",
      "version_added": "1.9",
@@ -5475,6 +5549,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.to_datetime",
      "positional": "_input",
      "short_description": "Get C(datetime) from string",
      "version_added": "2.4",
@@ -5560,6 +5635,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.to_json",
      "short_description": "Convert variable to JSON string",
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
@@ -5629,6 +5705,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.to_nice_json",
      "short_description": "Convert variable to 'nicely formatted' JSON string",
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
@@ -5673,6 +5750,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.to_nice_yaml",
      "positional": "_input",
      "short_description": "Convert variable to YAML string",
      "version_added": "historical",
@@ -5707,6 +5785,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.to_uuid",
      "positional": "_input, namespace",
      "short_description": "namespaced UUID generator",
      "version_added": "2.9",
@@ -5751,6 +5830,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.to_yaml",
      "positional": "_input",
      "short_description": "Convert variable to YAML string",
      "version_added": "historical",
@@ -5781,6 +5861,7 @@
        "type": "any"
       }
      },
+     "plugin_name": "ansible.builtin.type_debug",
      "short_description": "show input data type",
      "version_added": "2.3",
      "version_added_collection": "ansible.builtin"
@@ -5816,6 +5897,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ansible.builtin.union",
      "seealso": [
       {
        "plugin": "ansible.builtin.difference",
@@ -5863,6 +5945,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ansible.builtin.unique",
      "seealso": [
       {
        "plugin": "ansible.builtin.difference",
@@ -5920,6 +6003,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ansible.builtin.unvault",
      "positional": "secret",
      "short_description": "Open an Ansible Vault",
      "version_added": "2.12",
@@ -5950,6 +6034,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.urldecode",
      "positional": "_input",
      "short_description": "Decode percent-encoded sequences",
      "version_added": "2.4",
@@ -5996,6 +6081,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.urlsplit",
      "positional": "_input, query",
      "short_description": "get components from URL",
      "version_added": "2.4",
@@ -6054,6 +6140,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.vault",
      "positional": "secret",
      "short_description": "vault your secrets",
      "version_added": "2.12",
@@ -6084,6 +6171,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.win_basename",
      "seealso": [
       {
        "plugin": "ansible.builtin.win_dirname",
@@ -6119,6 +6207,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.win_dirname",
      "seealso": [
       {
        "plugin": "ansible.builtin.win_basename",
@@ -6154,6 +6243,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.win_splitdrive",
      "short_description": "Split a Windows path by the drive letter",
      "version_added": "2.0",
      "version_added_collection": "ansible.builtin"
@@ -6196,6 +6286,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.zip",
      "positional": "_input, _additional_lists",
      "short_description": "combine list elements",
      "version_added": "2.3",
@@ -6240,6 +6331,7 @@
        "type": "any"
       }
      },
+     "plugin_name": "ansible.builtin.zip_longest",
      "positional": "_input, _additional_lists",
      "short_description": "combine list elements, with filler",
      "version_added": "2.3",
@@ -6295,6 +6387,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ns2.col.bar",
      "positional": "foo, bar",
      "short_description": "The bar filter",
      "version_added": "2.0.0",
@@ -6334,6 +6427,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ns2.col.foo",
      "short_description": "The foo filter O(bar)",
      "version_added": "1.3.0",
      "version_added_collection": "ns2.col"
@@ -6359,6 +6453,7 @@
      ],
      "filename": "/ansible/plugins/inventory/advanced_host_list.py",
      "name": "advanced_host_list",
+     "plugin_name": "ansible.builtin.advanced_host_list",
      "short_description": "Parses a 'host list' with ranges",
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
@@ -6379,6 +6474,7 @@
      ],
      "filename": "/ansible/plugins/inventory/auto.py",
      "name": "auto",
+     "plugin_name": "ansible.builtin.auto",
      "short_description": "Loads and executes an inventory plugin specified in a YAML config",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
@@ -6519,6 +6615,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.constructed",
      "short_description": "Uses Jinja2 to construct vars and groups based on existing inventory.",
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
@@ -6560,6 +6657,7 @@
        "required": true
       }
      },
+     "plugin_name": "ansible.builtin.generator",
      "short_description": "Uses Jinja2 to construct hosts and groups from patterns",
      "version_added": "2.6",
      "version_added_collection": "ansible.builtin"
@@ -6577,6 +6675,7 @@
      ],
      "filename": "/ansible/plugins/inventory/host_list.py",
      "name": "host_list",
+     "plugin_name": "ansible.builtin.host_list",
      "short_description": "Parses a 'host list' string",
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
@@ -6607,6 +6706,7 @@
       "Enabled in configuration by default.",
       "Consider switching to YAML format for inventory sources to avoid confusion on the actual type of a variable. The YAML inventory plugin processes variable values consistently and correctly."
      ],
+     "plugin_name": "ansible.builtin.ini",
      "short_description": "Uses an Ansible INI file as inventory source.",
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
@@ -6650,6 +6750,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.script",
      "short_description": "Executes an inventory script that returns JSON",
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
@@ -6670,6 +6771,7 @@
      "notes": [
       "Requires one of the following python libraries: 'toml', 'tomli', or 'tomllib'\n"
      ],
+     "plugin_name": "ansible.builtin.toml",
      "short_description": "Uses a specific TOML file as an inventory source.",
      "version_added": "2.8",
      "version_added_collection": "ansible.builtin"
@@ -6724,6 +6826,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ansible.builtin.yaml",
      "short_description": "Uses a specific YAML file as an inventory source.",
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
@@ -6746,6 +6849,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ns2.col.foo",
      "short_description": "The foo inventory O(bar)",
      "version_added": "0.5.0",
      "version_added_collection": "ns2.col"
@@ -6770,7 +6874,8 @@
    },
    "action": {
     "applies_to": [
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "The 'action' to execute for a task, it normally translates into a C(module) or action plugin.",
     "priority": 0,
@@ -6791,7 +6896,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Force any un-handled task errors on any host to propagate to all hosts and end the play.",
     "priority": 0,
@@ -6800,7 +6906,8 @@
    },
    "args": {
     "applies_to": [
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "A secondary way to add arguments into a task. Takes a dictionary in which keys map to options and values.",
     "priority": 0,
@@ -6810,7 +6917,8 @@
    "async": {
     "alias": "async",
     "applies_to": [
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Run a task asynchronously if the C(action) supports this; the value is the maximum runtime in seconds.",
     "priority": 0,
@@ -6822,7 +6930,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Boolean that controls if privilege escalation is used or not on :term:`Task` execution. Implemented by the become plugin. See :ref:`become_plugins`.",
     "priority": 0,
@@ -6834,7 +6943,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Path to the executable used to elevate privileges. Implemented by the become plugin. See :ref:`become_plugins`.",
     "priority": 0,
@@ -6846,7 +6956,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "A string of flag(s) to pass to the privilege escalation program when :term:`become` is True.",
     "priority": 0,
@@ -6858,7 +6969,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Which method of privilege escalation to use (such as sudo or su).",
     "priority": 0,
@@ -6870,7 +6982,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "User that you 'become' after using privilege escalation. The remote/login user must have permissions to become this user.",
     "priority": 0,
@@ -6888,7 +7001,8 @@
    },
    "changed_when": {
     "applies_to": [
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Conditional expression that overrides the task's normal 'changed' status.",
     "priority": 0,
@@ -6900,7 +7014,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "A boolean that controls if a task is executed in 'check' mode. See :ref:`check_mode_dry`.",
     "priority": 0,
@@ -6912,7 +7027,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "List of collection namespaces to search for modules, plugins, and roles. See :ref:`collections_using_playbook`\n\n.. note::\n\n    Tasks within a role do not inherit the value of ``collections`` from the play. To have a role search a list of collections, use the ``collections`` keyword in ``meta/main.yml`` within a role.\n",
     "priority": 100,
@@ -6924,7 +7040,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Allows you to change the connection plugin used for tasks to execute on the target. See :ref:`using_connection`.",
     "priority": 0,
@@ -6936,7 +7053,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Enable debugging tasks based on the state of the task result. See :ref:`playbook_debugger`.",
     "priority": 0,
@@ -6945,7 +7063,8 @@
    },
    "delay": {
     "applies_to": [
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Number of seconds to delay between retries. This setting is only used in combination with :term:`until`.",
     "priority": 0,
@@ -6956,7 +7075,8 @@
     "applies_to": [
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Boolean that allows you to apply facts to a delegated host instead of inventory_hostname.",
     "priority": 0,
@@ -6967,7 +7087,8 @@
     "applies_to": [
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Host to execute task instead of the target (inventory_hostname). Connection vars from the delegated host will also be used for the task.",
     "priority": 0,
@@ -6979,7 +7100,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Toggle to make tasks return 'diff' information or not.",
     "priority": 0,
@@ -6991,7 +7113,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "A dictionary that gets converted into environment vars to be provided for the task upon execution. This can ONLY be used with modules. This is not supported for any other type of plugins nor Ansible itself nor its configuration, it just sets the variables for the code responsible for executing the task. This is not a recommended way to pass in confidential data.",
     "priority": 0,
@@ -7009,7 +7132,8 @@
    },
    "failed_when": {
     "applies_to": [
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Conditional expression that overrides the task's normal 'failed' status.",
     "priority": 0,
@@ -7075,7 +7199,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Boolean that allows you to ignore task failures and continue with play. It does not affect connection errors.",
     "priority": 0,
@@ -7087,7 +7212,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Boolean that allows you to ignore task failures due to an unreachable host and continue with the play. This does not affect other task errors (see :term:`ignore_errors`) but is useful for groups of volatile/ephemeral hosts.",
     "priority": 0,
@@ -7096,7 +7222,8 @@
    },
    "loop": {
     "applies_to": [
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Takes a list for the task to iterate over, saving each list element into the ``item`` variable (configurable via loop_control)",
     "priority": 0,
@@ -7105,7 +7232,8 @@
    },
    "loop_control": {
     "applies_to": [
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Several keys here allow you to modify/set loop behavior in a task. See :ref:`loop_control`.",
     "priority": 0,
@@ -7126,7 +7254,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Specifies default parameter values for modules.",
     "priority": 0,
@@ -7138,7 +7267,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Identifier. Can be used for documentation, or in tasks/handlers.",
     "priority": 0,
@@ -7150,7 +7280,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Boolean that controls information disclosure.",
     "priority": 0,
@@ -7160,7 +7291,8 @@
    "notify": {
     "applies_to": [
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "List of handlers to notify when the task returns a 'changed=True' status.",
     "priority": 0,
@@ -7178,7 +7310,8 @@
    },
    "poll": {
     "applies_to": [
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Sets the polling interval in seconds for async tasks (default 10s).",
     "priority": 0,
@@ -7190,7 +7323,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Used to override the default port used in a connection.",
     "priority": 0,
@@ -7217,7 +7351,8 @@
    },
    "register": {
     "applies_to": [
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Name of variable that will contain task status and module return data.",
     "priority": 0,
@@ -7229,7 +7364,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "User used to log into the target via the connection plugin.",
     "priority": 0,
@@ -7247,7 +7383,8 @@
    },
    "retries": {
     "applies_to": [
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Number of retries before giving up in a :term:`until` loop. This setting is only used in combination with :term:`until`.",
     "priority": 0,
@@ -7268,7 +7405,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Boolean that will bypass the host loop, forcing the task to attempt to execute on the first host available and afterward apply any results and facts to all active hosts in the same batch.",
     "priority": 0,
@@ -7298,7 +7436,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Tags applied to the task or included tasks, this allows selecting subsets of tasks from the command line.",
     "priority": 0,
@@ -7319,7 +7458,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Limit the number of concurrent task runs on task, block and playbook level. This is independent of the forks and serial settings, but cannot be set higher than those limits. For example, if forks is set to 10 and the throttle is set to 15, at most 10 hosts will be operated on in parallel.",
     "priority": 0,
@@ -7331,7 +7471,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Time limit for the task to execute in, if exceeded Ansible will interrupt and fail the task.",
     "priority": 0,
@@ -7340,7 +7481,8 @@
    },
    "until": {
     "applies_to": [
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "This keyword implies a ':term:`retries` loop' that will go on until the condition supplied here is met or we hit the :term:`retries` limit.",
     "priority": 0,
@@ -7352,7 +7494,8 @@
      "Play",
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Dictionary/map of variables",
     "priority": 100,
@@ -7381,7 +7524,8 @@
     "applies_to": [
      "Role",
      "Block",
-     "Task"
+     "Task",
+     "Handler"
     ],
     "description": "Conditional expression, determines if an iteration of a task is run or not.",
     "priority": 0,
@@ -7451,6 +7595,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.config",
      "short_description": "Display the 'resolved' Ansible option values.",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
@@ -7511,6 +7656,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.csvfile",
      "seealso": [
       {
        "description": "Search paths used for relative files.",
@@ -7549,6 +7695,7 @@
        "required": true
       }
      },
+     "plugin_name": "ansible.builtin.dict",
      "short_description": "returns key/value pair items from dictionaries",
      "version_added": "1.5",
      "version_added_collection": "ansible.builtin"
@@ -7591,6 +7738,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.env",
      "short_description": "Read the value of environment variables",
      "version_added": "0.9",
      "version_added_collection": "ansible.builtin"
@@ -7637,6 +7785,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.file",
      "seealso": [
       {
        "description": "Search paths used for relative files.",
@@ -7680,6 +7829,7 @@
        "required": true
       }
      },
+     "plugin_name": "ansible.builtin.fileglob",
      "seealso": [
       {
        "description": "Search paths used for relative files.",
@@ -7745,6 +7895,7 @@
        "type": "boolean"
       }
      },
+     "plugin_name": "ansible.builtin.first_found",
      "seealso": [
       {
        "description": "Search paths used for relative paths/files.",
@@ -7783,6 +7934,7 @@
        "required": true
       }
      },
+     "plugin_name": "ansible.builtin.indexed_items",
      "short_description": "rewrites lists to return 'indexed items'",
      "version_added": "1.3",
      "version_added_collection": "ansible.builtin"
@@ -7862,6 +8014,7 @@
        "description": "Type of the file. 'properties' refers to the Java properties files."
       }
      },
+     "plugin_name": "ansible.builtin.ini",
      "seealso": [
       {
        "description": "Search paths used for relative files.",
@@ -7899,6 +8052,7 @@
      "notes": [
       "this is only worth for 'hostname patterns' it is easier to loop over the group/group_names variables otherwise."
      ],
+     "plugin_name": "ansible.builtin.inventory_hostnames",
      "short_description": "list of inventory hosts matching a host pattern",
      "version_added": "1.3",
      "version_added_collection": "ansible.builtin"
@@ -7932,6 +8086,7 @@
        "required": true
       }
      },
+     "plugin_name": "ansible.builtin.items",
      "short_description": "list of items",
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
@@ -7967,6 +8122,7 @@
        "required": true
       }
      },
+     "plugin_name": "ansible.builtin.lines",
      "short_description": "read lines from command",
      "version_added": "0.9",
      "version_added_collection": "ansible.builtin"
@@ -7992,6 +8148,7 @@
      ],
      "filename": "/ansible/plugins/lookup/list.py",
      "name": "list",
+     "plugin_name": "ansible.builtin.list",
      "short_description": "simply returns what it is given.",
      "version_added": "2.0",
      "version_added_collection": "ansible.builtin"
@@ -8022,6 +8179,7 @@
        "required": true
       }
      },
+     "plugin_name": "ansible.builtin.nested",
      "short_description": "composes a list with nested elements of other lists",
      "version_added": "1.1",
      "version_added_collection": "ansible.builtin"
@@ -8121,6 +8279,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.password",
      "short_description": "retrieve or generate a random password, stored in a file",
      "version_added": "1.1",
      "version_added_collection": "ansible.builtin"
@@ -8158,6 +8317,7 @@
        "required": true
       }
      },
+     "plugin_name": "ansible.builtin.pipe",
      "short_description": "read output from a command",
      "version_added": "0.9",
      "version_added_collection": "ansible.builtin"
@@ -8184,6 +8344,7 @@
      ],
      "filename": "/ansible/plugins/lookup/random_choice.py",
      "name": "random_choice",
+     "plugin_name": "ansible.builtin.random_choice",
      "short_description": "return random element from list",
      "version_added": "1.1",
      "version_added_collection": "ansible.builtin"
@@ -8237,6 +8398,7 @@
        "type": "integer"
       }
      },
+     "plugin_name": "ansible.builtin.sequence",
      "short_description": "generate a list based on a number sequence",
      "version_added": "1.0",
      "version_added_collection": "ansible.builtin"
@@ -8276,6 +8438,7 @@
        ]
       }
      },
+     "plugin_name": "ansible.builtin.subelements",
      "short_description": "traverse nested key from a list of dictionaries",
      "version_added": "1.4",
      "version_added_collection": "ansible.builtin"
@@ -8358,6 +8521,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.template",
      "seealso": [
       {
        "description": "Search paths used for relative templates.",
@@ -8396,6 +8560,7 @@
        "required": true
       }
      },
+     "plugin_name": "ansible.builtin.together",
      "short_description": "merges lists into synchronized list",
      "version_added": "1.3",
      "version_added_collection": "ansible.builtin"
@@ -8428,6 +8593,7 @@
        "required": true
       }
      },
+     "plugin_name": "ansible.builtin.unvault",
      "seealso": [
       {
        "description": "Search paths used for relative files.",
@@ -8769,6 +8935,7 @@
        "type": "boolean"
       }
      },
+     "plugin_name": "ansible.builtin.url",
      "short_description": "return contents from URL",
      "version_added": "1.9",
      "version_added_collection": "ansible.builtin"
@@ -8798,6 +8965,7 @@
        "required": true
       }
      },
+     "plugin_name": "ansible.builtin.varnames",
      "short_description": "Lookup matching variable names",
      "version_added": "2.8",
      "version_added_collection": "ansible.builtin"
@@ -8834,6 +9002,7 @@
        ]
       }
      },
+     "plugin_name": "ansible.builtin.vars",
      "short_description": "Lookup templated value of variables",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
@@ -8872,6 +9041,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ns2.col.foo",
      "short_description": "Look up some foo O(bar)",
      "version_added": "1.0.0",
      "version_added_collection": "ns2.col"
@@ -9000,6 +9170,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.add_host",
      "seealso": [
       {
        "module": "ansible.builtin.group_by"
@@ -9305,6 +9476,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.apt",
      "requirements": [
       "python-apt (python 2)",
       "python3-apt (python 3)",
@@ -9440,6 +9612,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.apt_key",
      "requirements": [
       "gpg"
      ],
@@ -9623,6 +9796,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.apt_repository",
      "requirements": [
       "python-apt (python 2)",
       "python3-apt (python 3)",
@@ -9885,6 +10059,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.assemble",
      "seealso": [
       {
        "module": "ansible.builtin.copy"
@@ -10001,6 +10176,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ansible.builtin.assert",
      "seealso": [
       {
        "module": "ansible.builtin.debug"
@@ -10086,6 +10262,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.async_status",
      "seealso": [
       {
        "description": "Detailed information on how to use asynchronous actions and polling.",
@@ -10397,6 +10574,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.blockinfile",
      "short_description": "Insert/update/remove a text block surrounded by marker lines",
      "version_added": "2.0",
      "version_added_collection": "ansible.builtin"
@@ -10537,6 +10715,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.command",
      "seealso": [
       {
        "module": "ansible.builtin.raw"
@@ -10898,6 +11077,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.copy",
      "seealso": [
       {
        "module": "ansible.builtin.assemble"
@@ -11186,6 +11366,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.cron",
      "requirements": [
       "cron (any 'vixie cron' conformant variant, like cronie)"
      ],
@@ -11365,6 +11546,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ansible.builtin.deb822_repository",
      "requirements": [
       "python3-debian / python-debian"
      ],
@@ -11491,6 +11673,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.debconf",
      "requirements": [
       "debconf",
       "debconf-utils"
@@ -11588,6 +11771,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.debug",
      "seealso": [
       {
        "module": "ansible.builtin.assert"
@@ -11682,6 +11866,17 @@
        ],
        "type": "bool",
        "version_added": "2.4",
+       "version_added_collection": "ansible.builtin"
+      },
+      "best": {
+       "description": [
+        "When set to V(true), either use a package with the highest version available or fail.",
+        "When set to V(false), if the latest version cannot be installed go with the lower version.",
+        "Default is set by the operating system distribution."
+       ],
+       "required": false,
+       "type": "bool",
+       "version_added": "2.17",
        "version_added_collection": "ansible.builtin"
       },
       "bugfix": {
@@ -11850,9 +12045,9 @@
        "type": "list"
       },
       "nobest": {
-       "default": "no",
        "description": [
-        "Set best option to False, so that transactions are not limited to best candidates only."
+        "This is the opposite of the O(best) option kept for backwards compatibility.",
+        "Since ansible-core 2.17 the default value is set by the operating system distribution."
        ],
        "required": false,
        "type": "bool",
@@ -11959,6 +12154,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.dnf",
      "requirements": [
       "python >= 2.6",
       "python-dnf",
@@ -12037,6 +12233,17 @@
         "If V(true), removes all \"leaf\" packages from the system that were originally installed as dependencies of user-installed packages but which are no longer required by any such package. Should be used alone or when O(state) is V(absent)"
        ],
        "type": "bool"
+      },
+      "best": {
+       "description": [
+        "When set to V(true), either use a package with the highest version available or fail.",
+        "When set to V(false), if the latest version cannot be installed go with the lower version.",
+        "Default is set by the operating system distribution."
+       ],
+       "required": false,
+       "type": "bool",
+       "version_added": "2.17",
+       "version_added_collection": "ansible.builtin"
       },
       "bugfix": {
        "default": "no",
@@ -12183,9 +12390,9 @@
        "type": "list"
       },
       "nobest": {
-       "default": "no",
        "description": [
-        "Set best option to False, so that transactions are not limited to best candidates only."
+        "This is the opposite of the O(best) option kept for backwards compatibility.",
+        "Since ansible-core 2.17 the default value is set by the operating system distribution."
        ],
        "required": false,
        "type": "bool"
@@ -12259,6 +12466,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.dnf5",
      "requirements": [
       "python3",
       "python3-libdnf5"
@@ -12352,6 +12560,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.dpkg_selections",
      "short_description": "Dpkg package selection selections",
      "version_added": "2.0",
      "version_added_collection": "ansible.builtin"
@@ -12443,6 +12652,7 @@
        "type": "raw"
       }
      },
+     "plugin_name": "ansible.builtin.expect",
      "requirements": [
       "python >= 2.6",
       "pexpect >= 3.3"
@@ -12531,6 +12741,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.fail",
      "seealso": [
       {
        "module": "ansible.builtin.assert"
@@ -12659,6 +12870,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.fetch",
      "seealso": [
       {
        "module": "ansible.builtin.copy"
@@ -12902,6 +13114,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.file",
      "seealso": [
       {
        "module": "ansible.builtin.assemble"
@@ -13145,6 +13358,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.find",
      "seealso": [
       {
        "module": "ansible.windows.win_find"
@@ -13267,6 +13481,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.gather_facts",
      "short_description": "Gathers facts about remote hosts",
      "version_added": 2.8,
      "version_added_collection": "ansible.builtin"
@@ -13604,6 +13819,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.get_url",
      "seealso": [
       {
        "module": "ansible.builtin.uri"
@@ -13800,6 +14016,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.getent",
      "short_description": "A wrapper to the unix getent utility",
      "version_added": "1.8",
      "version_added_collection": "ansible.builtin"
@@ -14080,6 +14297,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.git",
      "requirements": [
       "git>=1.7.1 (the command line tool)"
      ],
@@ -14220,6 +14438,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.group",
      "requirements": [
       "groupadd",
       "groupdel",
@@ -14367,6 +14586,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.group_by",
      "seealso": [
       {
        "module": "ansible.builtin.add_host"
@@ -14452,6 +14672,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.hostname",
      "requirements": [
       "hostname"
      ],
@@ -14554,6 +14775,7 @@
        ]
       }
      },
+     "plugin_name": "ansible.builtin.import_playbook",
      "seealso": [
       {
        "module": "ansible.builtin.import_role"
@@ -14732,6 +14954,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.import_role",
      "seealso": [
       {
        "module": "ansible.builtin.import_playbook"
@@ -14857,6 +15080,7 @@
        ]
       }
      },
+     "plugin_name": "ansible.builtin.import_tasks",
      "seealso": [
       {
        "module": "ansible.builtin.import_playbook"
@@ -15040,6 +15264,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.include_role",
      "seealso": [
       {
        "module": "ansible.builtin.import_playbook"
@@ -15168,6 +15393,7 @@
        ]
       }
      },
+     "plugin_name": "ansible.builtin.include_tasks",
      "seealso": [
       {
        "module": "ansible.builtin.import_playbook"
@@ -15377,6 +15603,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.include_vars",
      "seealso": [
       {
        "module": "ansible.builtin.set_fact"
@@ -15670,7 +15897,7 @@
       "match_set": {
        "description": [
         "Specifies a set name that can be defined by ipset.",
-        "Must be used together with the match_set_flags parameter.",
+        "Must be used together with the O(match_set_flags) parameter.",
         "When the V(!) argument is prepended then it inverts the rule.",
         "Uses the iptables set extension."
        ],
@@ -15683,12 +15910,15 @@
         "src",
         "dst",
         "src,dst",
-        "dst,src"
+        "dst,src",
+        "dst,dst",
+        "src,src"
        ],
        "description": [
         "Specifies the necessary flags for the match_set parameter.",
-        "Must be used together with the match_set parameter.",
-        "Uses the iptables set extension."
+        "Must be used together with the O(match_set) parameter.",
+        "Uses the iptables set extension.",
+        "Choices V(dst,dst) and V(src,src) added in version 2.17."
        ],
        "type": "str",
        "version_added": "2.11",
@@ -15923,6 +16153,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.iptables",
      "short_description": "Modify iptables rules",
      "version_added": "2.0",
      "version_added_collection": "ansible.builtin"
@@ -16014,6 +16245,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.known_hosts",
      "short_description": "Add or remove a host from the C(known_hosts) file",
      "version_added": "1.9",
      "version_added_collection": "ansible.builtin"
@@ -16296,6 +16528,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.lineinfile",
      "seealso": [
       {
        "module": "ansible.builtin.blockinfile"
@@ -16438,6 +16671,7 @@
        "required": true
       }
      },
+     "plugin_name": "ansible.builtin.meta",
      "seealso": [
       {
        "module": "ansible.builtin.assert"
@@ -16530,6 +16764,7 @@
        ]
       }
      },
+     "plugin_name": "ansible.builtin.package",
      "requirements": [
       "Whatever is required for the package plugins specific for each system."
      ],
@@ -16613,6 +16848,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.package_facts",
      "requirements": [
       "For 'portage' support it requires the C(qlist) utility, which is part of 'app-portage/portage-utils'.",
       "For Debian-based systems C(python-apt) package must be installed on targeted hosts.",
@@ -16751,6 +16987,7 @@
        ]
       }
      },
+     "plugin_name": "ansible.builtin.pause",
      "short_description": "Pause playbook execution",
      "version_added": "0.8",
      "version_added_collection": "ansible.builtin"
@@ -16837,6 +17074,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.ping",
      "seealso": [
       {
        "module": "ansible.netcommon.net_ping"
@@ -17015,6 +17253,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.pip",
      "requirements": [
       "pip",
       "virtualenv",
@@ -17124,6 +17363,7 @@
        "required": true
       }
      },
+     "plugin_name": "ansible.builtin.raw",
      "seealso": [
       {
        "module": "ansible.builtin.command"
@@ -17280,6 +17520,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.reboot",
      "seealso": [
       {
        "module": "ansible.windows.win_reboot"
@@ -17351,7 +17592,8 @@
         "If specified, only content after this match will be replaced/removed.",
         "Can be used in combination with O(before).",
         "Uses Python regular expressions; see U(https://docs.python.org/3/library/re.html).",
-        "Uses DOTALL, which means the V(.) special character I(can match newlines)."
+        "Uses DOTALL, which means the V(.) special character I(can match newlines).",
+        "Does not use MULTILINE, so V(^) and V($) will only match the beginning and end of the file."
        ],
        "type": "str",
        "version_added": "2.4",
@@ -17383,7 +17625,8 @@
         "If specified, only content before this match will be replaced/removed.",
         "Can be used in combination with O(after).",
         "Uses Python regular expressions; see U(https://docs.python.org/3/library/re.html).",
-        "Uses DOTALL, which means the V(.) special character I(can match newlines)."
+        "Uses DOTALL, which means the V(.) special character I(can match newlines).",
+        "Does not use MULTILINE, so V(^) and V($) will only match the beginning and end of the file."
        ],
        "type": "str",
        "version_added": "2.4",
@@ -17518,11 +17761,12 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.replace",
      "short_description": "Replace all instances of a particular string in a file using a back-referenced regular expression",
      "version_added": "1.6",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Replace old hostname with new hostname (requires Ansible >= 2.4)\n  ansible.builtin.replace:\n    path: /etc/hosts\n    regexp: '(\\s+)old\\.host\\.name(\\s+.*)?$'\n    replace: '\\1new.host.name\\2'\n\n- name: Replace after the expression till the end of the file (requires Ansible >= 2.4)\n  ansible.builtin.replace:\n    path: /etc/apache2/sites-available/default.conf\n    after: 'NameVirtualHost [*]'\n    regexp: '^(.+)$'\n    replace: '# \\1'\n\n- name: Replace before the expression till the begin of the file (requires Ansible >= 2.4)\n  ansible.builtin.replace:\n    path: /etc/apache2/sites-available/default.conf\n    before: '# live site config'\n    regexp: '^(.+)$'\n    replace: '# \\1'\n\n# Prior to Ansible 2.7.10, using before and after in combination did the opposite of what was intended.\n# see https://github.com/ansible/ansible/issues/31354 for details.\n- name: Replace between the expressions (requires Ansible >= 2.4)\n  ansible.builtin.replace:\n    path: /etc/hosts\n    after: '<VirtualHost [*]>'\n    before: '</VirtualHost>'\n    regexp: '^(.+)$'\n    replace: '# \\1'\n\n- name: Supports common file attributes\n  ansible.builtin.replace:\n    path: /home/jdoe/.ssh/known_hosts\n    regexp: '^old\\.host\\.name[^\\n]*\\n'\n    owner: jdoe\n    group: jdoe\n    mode: '0644'\n\n- name: Supports a validate command\n  ansible.builtin.replace:\n    path: /etc/apache/ports\n    regexp: '^(NameVirtualHost|Listen)\\s+80\\s*$'\n    replace: '\\1 127.0.0.1:8080'\n    validate: '/usr/sbin/apache2ctl -f %s -t'\n\n- name: Short form task (in ansible 2+) necessitates backslash-escaped sequences\n  ansible.builtin.replace: path=/etc/hosts regexp='\\\\b(localhost)(\\\\d*)\\\\b' replace='\\\\1\\\\2.localdomain\\\\2 \\\\1\\\\2'\n\n- name: Long form task does not\n  ansible.builtin.replace:\n    path: /etc/hosts\n    regexp: '\\b(localhost)(\\d*)\\b'\n    replace: '\\1\\2.localdomain\\2 \\1\\2'\n\n- name: Explicitly specifying positional matched groups in replacement\n  ansible.builtin.replace:\n    path: /etc/ssh/sshd_config\n    regexp: '^(ListenAddress[ ]+)[^\\n]+$'\n    replace: '\\g<1>0.0.0.0'\n\n- name: Explicitly specifying named matched groups\n  ansible.builtin.replace:\n    path: /etc/ssh/sshd_config\n    regexp: '^(?P<dctv>ListenAddress[ ]+)(?P<host>[^\\n]+)$'\n    replace: '#\\g<dctv>\\g<host>\\n\\g<dctv>0.0.0.0'\n",
+    "examples": "\n- name: Replace old hostname with new hostname (requires Ansible >= 2.4)\n  ansible.builtin.replace:\n    path: /etc/hosts\n    regexp: '(\\s+)old\\.host\\.name(\\s+.*)?$'\n    replace: '\\1new.host.name\\2'\n\n- name: Replace after the expression till the end of the file (requires Ansible >= 2.4)\n  ansible.builtin.replace:\n    path: /etc/apache2/sites-available/default.conf\n    after: 'NameVirtualHost [*]'\n    regexp: '^(.+)$'\n    replace: '# \\1'\n\n- name: Replace before the expression from the beginning of the file (requires Ansible >= 2.4)\n  ansible.builtin.replace:\n    path: /etc/apache2/sites-available/default.conf\n    before: '# live site config'\n    regexp: '^(.+)$'\n    replace: '# \\1'\n\n# Prior to Ansible 2.7.10, using before and after in combination did the opposite of what was intended.\n# see https://github.com/ansible/ansible/issues/31354 for details.\n# Note (?m) which turns on MULTILINE mode so ^ matches any line's beginning\n- name: Replace between the expressions (requires Ansible >= 2.4)\n  ansible.builtin.replace:\n    path: /etc/hosts\n    after: '(?m)^<VirtualHost [*]>'\n    before: '(?m)^</VirtualHost>'\n    regexp: '^(.+)$'\n    replace: '# \\1'\n\n- name: Supports common file attributes\n  ansible.builtin.replace:\n    path: /home/jdoe/.ssh/known_hosts\n    regexp: '^old\\.host\\.name[^\\n]*\\n'\n    owner: jdoe\n    group: jdoe\n    mode: '0644'\n\n- name: Supports a validate command\n  ansible.builtin.replace:\n    path: /etc/apache/ports\n    regexp: '^(NameVirtualHost|Listen)\\s+80\\s*$'\n    replace: '\\1 127.0.0.1:8080'\n    validate: '/usr/sbin/apache2ctl -f %s -t'\n\n- name: Short form task (in ansible 2+) necessitates backslash-escaped sequences\n  ansible.builtin.replace: path=/etc/hosts regexp='\\\\b(localhost)(\\\\d*)\\\\b' replace='\\\\1\\\\2.localdomain\\\\2 \\\\1\\\\2'\n\n- name: Long form task does not\n  ansible.builtin.replace:\n    path: /etc/hosts\n    regexp: '\\b(localhost)(\\d*)\\b'\n    replace: '\\1\\2.localdomain\\2 \\1\\2'\n\n- name: Explicitly specifying positional matched groups in replacement\n  ansible.builtin.replace:\n    path: /etc/ssh/sshd_config\n    regexp: '^(ListenAddress[ ]+)[^\\n]+$'\n    replace: '\\g<1>0.0.0.0'\n\n- name: Explicitly specifying named matched groups\n  ansible.builtin.replace:\n    path: /etc/ssh/sshd_config\n    regexp: '^(?P<dctv>ListenAddress[ ]+)(?P<host>[^\\n]+)$'\n    replace: '#\\g<dctv>\\g<host>\\n\\g<dctv>0.0.0.0'\n",
     "metadata": null,
     "return": null
    },
@@ -17590,6 +17834,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.rpm_key",
      "short_description": "Adds or removes a gpg key from the rpm db",
      "version_added": "1.3",
      "version_added_collection": "ansible.builtin"
@@ -17707,6 +17952,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.script",
      "seealso": [
       {
        "module": "ansible.builtin.shell"
@@ -17860,6 +18106,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.service",
      "seealso": [
       {
        "module": "ansible.windows.win_service"
@@ -17908,6 +18155,7 @@
       "When accessing the RV(ansible_facts.services) facts collected by this module, it is recommended to not use \"dot notation\" because services can have a C(-) character in their name which would result in invalid \"dot notation\", such as C(ansible_facts.services.zuul-gateway). It is instead recommended to using the string value of the service name as the key in order to obtain the fact data value like C(ansible_facts.services['zuul-gateway'])",
       "AIX SRC was added in version 2.11."
      ],
+     "plugin_name": "ansible.builtin.service_facts",
      "requirements": [
       "Any of the following supported init systems: systemd, sysv, upstart, openrc, AIX SRC"
      ],
@@ -18079,6 +18327,7 @@
        "required": true
       }
      },
+     "plugin_name": "ansible.builtin.set_fact",
      "seealso": [
       {
        "module": "ansible.builtin.include_vars"
@@ -18198,6 +18447,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.set_stats",
      "short_description": "Define and display stats for the current ansible run",
      "version_added": "2.3",
      "version_added_collection": "ansible.builtin"
@@ -18287,6 +18537,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.setup",
      "short_description": "Gathers facts about remote hosts",
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
@@ -18402,6 +18653,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.shell",
      "seealso": [
       {
        "module": "ansible.builtin.command"
@@ -18536,6 +18788,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.slurp",
      "seealso": [
       {
        "module": "ansible.builtin.fetch"
@@ -18675,6 +18928,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.stat",
      "seealso": [
       {
        "module": "ansible.builtin.file"
@@ -19110,6 +19364,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.subversion",
      "requirements": [
       "subversion (the command line tool with C(svn) entrypoint)"
      ],
@@ -19251,6 +19506,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.systemd_service",
      "requirements": [
       "A system managed by systemd."
      ],
@@ -19492,6 +19748,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.sysvinit",
      "requirements": [
       "That the service managed has a corresponding init script."
      ],
@@ -19598,6 +19855,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.tempfile",
      "seealso": [
       {
        "module": "ansible.builtin.file"
@@ -19925,6 +20183,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.template",
      "seealso": [
       {
        "module": "ansible.builtin.copy"
@@ -20278,6 +20537,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.unarchive",
      "seealso": [
       {
        "module": "community.general.archive"
@@ -20769,6 +21029,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.uri",
      "seealso": [
       {
        "module": "ansible.builtin.get_url"
@@ -21229,6 +21490,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.user",
      "seealso": [
       {
        "module": "ansible.posix.authorized_key"
@@ -21431,6 +21693,7 @@
        ]
       }
      },
+     "plugin_name": "ansible.builtin.validate_argument_spec",
      "short_description": "Validate role argument specs.",
      "version_added": "2.11",
      "version_added_collection": "ansible.builtin"
@@ -21633,6 +21896,7 @@
        "type": "int"
       }
      },
+     "plugin_name": "ansible.builtin.wait_for",
      "seealso": [
       {
        "module": "ansible.builtin.wait_for_connection"
@@ -21754,6 +22018,7 @@
        "type": "int"
       }
      },
+     "plugin_name": "ansible.builtin.wait_for_connection",
      "seealso": [
       {
        "module": "ansible.builtin.wait_for"
@@ -22277,6 +22542,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ansible.builtin.yum_repository",
      "short_description": "Add or remove YUM repositories",
      "version_added": "2.1",
      "version_added_collection": "ansible.builtin"
@@ -22367,6 +22633,7 @@
        "type": "dict"
       }
      },
+     "plugin_name": "ns.col2.foo",
      "requirements": "Foo.",
      "seealso": {
       "foo": "bar"
@@ -22456,6 +22723,7 @@
        "type": "dict"
       }
      },
+     "plugin_name": "ns.col2.foo2",
      "requirements": "Foo.",
      "seealso": [
       {
@@ -22559,6 +22827,7 @@
        "type": "dict"
       }
      },
+     "plugin_name": "ns.col2.foo3",
      "requirements": "Foo.",
      "short_description": "Foo III"
     },
@@ -22667,6 +22936,7 @@
        ]
       }
      },
+     "plugin_name": "ns.col2.foo4",
      "short_description": "Markup reference linting test"
     },
     "examples": null,
@@ -22746,6 +23016,7 @@
        "version_added_collection": "ns2.col"
       }
      },
+     "plugin_name": "ns2.col.foo",
      "requirements": [
       "Foo on remote."
      ],
@@ -22832,6 +23103,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ns2.col.foo2",
      "short_description": "Another foo"
     },
     "examples": "\n- name: Do some foo\n  ns2.col.foo2:\n    bar: foo\n",
@@ -22894,6 +23166,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ns2.col.sub.foo3",
      "short_description": "A sub-foo"
     },
     "examples": "\n- name: Do some foobar\n  ns2.col.sub.foo3:\n    bar: baz\n",
@@ -22969,6 +23242,7 @@
        "version_added_collection": "ns2.flatcol"
       }
      },
+     "plugin_name": "ns2.flatcol.foo",
      "short_description": "Do some foo O(bar)",
      "version_added": "2.0.0",
      "version_added_collection": "ns2.flatcol"
@@ -23010,6 +23284,7 @@
        "type": "str"
       }
      },
+     "plugin_name": "ns2.flatcol.sub.foo2",
      "short_description": "Another foo"
     },
     "examples": "\n- name: Do some foo\n  ns2.flatcol.foo2:\n    bar: foo\n",
@@ -23191,6 +23466,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.cmd",
      "short_description": "Windows Command Prompt",
      "version_added": "2.8",
      "version_added_collection": "ansible.builtin"
@@ -23274,6 +23550,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.powershell",
      "short_description": "Windows PowerShell",
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
@@ -23462,6 +23739,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.sh",
      "short_description": "POSIX shell (/bin/sh)",
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
@@ -23511,6 +23789,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ns2.col.foo",
      "short_description": "Foo shell O(bar)",
      "version_added": "1.0.0",
      "version_added_collection": "ns2.col"
@@ -23530,6 +23809,7 @@
      ],
      "filename": "/ansible/plugins/strategy/debug.py",
      "name": "debug",
+     "plugin_name": "ansible.builtin.debug",
      "short_description": "Executes tasks in interactive debug session.",
      "version_added": "2.1",
      "version_added_collection": "ansible.builtin"
@@ -23548,6 +23828,7 @@
      ],
      "filename": "/ansible/plugins/strategy/free.py",
      "name": "free",
+     "plugin_name": "ansible.builtin.free",
      "short_description": "Executes tasks without waiting for all hosts",
      "version_added": "2.0",
      "version_added_collection": "ansible.builtin"
@@ -23565,6 +23846,7 @@
      ],
      "filename": "/ansible/plugins/strategy/host_pinned.py",
      "name": "host_pinned",
+     "plugin_name": "ansible.builtin.host_pinned",
      "short_description": "Executes tasks on each host without interruption",
      "version_added": "2.7",
      "version_added_collection": "ansible.builtin"
@@ -23585,6 +23867,7 @@
      "notes": [
       "This was the default Ansible behaviour before 'strategy plugins' were introduced in 2.0."
      ],
+     "plugin_name": "ansible.builtin.linear",
      "short_description": "Executes tasks in a linear fashion",
      "version_added": "2.0",
      "version_added_collection": "ansible.builtin"
@@ -23602,6 +23885,7 @@
      ],
      "filename": "ansible_collections/ns2/col/plugins/strategy/foo.py",
      "name": "foo",
+     "plugin_name": "ns2.col.foo",
      "short_description": "Executes tasks in foo",
      "version_added": "1.1.0",
      "version_added_collection": "ns2.col"
@@ -23632,6 +23916,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.abs",
      "short_description": "is the path absolute",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
@@ -23663,6 +23948,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ansible.builtin.all",
      "short_description": "are all conditions in a list true",
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
@@ -23694,6 +23980,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ansible.builtin.any",
      "short_description": "is any conditions in a list true",
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
@@ -23727,6 +24014,7 @@
        "type": "dictionary"
       }
      },
+     "plugin_name": "ansible.builtin.change",
      "short_description": "did the task require changes",
      "version_added": "1.9",
      "version_added_collection": "ansible.builtin"
@@ -23760,6 +24048,7 @@
        "type": "dictionary"
       }
      },
+     "plugin_name": "ansible.builtin.changed",
      "short_description": "did the task require changes",
      "version_added": "1.9",
      "version_added_collection": "ansible.builtin"
@@ -23795,6 +24084,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ansible.builtin.contains",
      "short_description": "does the list contain this element",
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
@@ -23823,6 +24113,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.directory",
      "short_description": "does the path resolve to an existing directory",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
@@ -23852,11 +24143,12 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.exists",
      "short_description": "does the path exist, follow symlinks",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "vars:\n  my_etc_hosts_exists: \"{{ '/etc/hosts' is exist }}\"\n  list_of_local_files_to_copy_to_remote: \"{{ list_of_all_possible_files | select('exists') }}\"\n",
+    "examples": "vars:\n  my_etc_hosts_exists: \"{{ '/etc/hosts' is exists }}\"\n  list_of_local_files_to_copy_to_remote: \"{{ list_of_all_possible_files | select('exists') }}\"\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -23886,6 +24178,7 @@
        "type": "dictionary"
       }
      },
+     "plugin_name": "ansible.builtin.failed",
      "short_description": "did the task fail",
      "version_added": "1.9",
      "version_added_collection": "ansible.builtin"
@@ -23920,6 +24213,7 @@
        "type": "dictionary"
       }
      },
+     "plugin_name": "ansible.builtin.failure",
      "short_description": "did the task fail",
      "version_added": "1.9",
      "version_added_collection": "ansible.builtin"
@@ -23955,6 +24249,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.falsy",
      "short_description": "Pythonic false",
      "version_added": "2.10",
      "version_added_collection": "ansible.builtin"
@@ -23986,6 +24281,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.file",
      "short_description": "does the path resolve to an existing file",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
@@ -24016,6 +24312,7 @@
        "type": "dictionary"
       }
      },
+     "plugin_name": "ansible.builtin.finished",
      "short_description": "Did async task finish",
      "version_added": "1.9",
      "version_added_collection": "ansible.builtin"
@@ -24049,6 +24346,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.is_abs",
      "short_description": "is the path absolute",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
@@ -24077,6 +24375,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.is_dir",
      "short_description": "does the path resolve to an existing directory",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
@@ -24108,6 +24407,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.is_file",
      "short_description": "does the path resolve to an existing file",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
@@ -24139,6 +24439,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.is_link",
      "short_description": "does the path reference existing symbolic link",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
@@ -24170,6 +24471,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.is_mount",
      "short_description": "does the path resolve to mount point",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
@@ -24205,6 +24507,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.is_same_file",
      "short_description": "compares two paths to see if they resolve to the same filesystem object",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
@@ -24237,6 +24540,7 @@
        "type": "raw"
       }
      },
+     "plugin_name": "ansible.builtin.isnan",
      "short_description": "is this not a number (NaN)",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
@@ -24276,6 +24580,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ansible.builtin.issubset",
      "short_description": "is the list a subset of this other list",
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
@@ -24315,6 +24620,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ansible.builtin.issuperset",
      "short_description": "is the list a superset of this other list",
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
@@ -24346,6 +24652,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.link",
      "short_description": "does the path reference existing symbolic link",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
@@ -24375,6 +24682,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.link_exists",
      "short_description": "does the path exist, no follow",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
@@ -24419,6 +24727,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ansible.builtin.match",
      "short_description": "Does string match regular expression from the start"
     },
     "examples": "url: \"https://example.com/users/foo/resources/bar\"\nfoundmatch: url is match(\"https://example.com/users/.*/resources\")\nnomatch: url is match(\"/users/.*/resources\")\n",
@@ -24448,6 +24757,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.mount",
      "short_description": "does the path resolve to mount point",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
@@ -24480,6 +24790,7 @@
        "type": "raw"
       }
      },
+     "plugin_name": "ansible.builtin.nan",
      "short_description": "is this not a number (NaN)",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
@@ -24510,6 +24821,7 @@
        "type": "dictionary"
       }
      },
+     "plugin_name": "ansible.builtin.reachable",
      "short_description": "Task did not end due to unreachable host",
      "version_added": "1.9",
      "version_added_collection": "ansible.builtin"
@@ -24563,6 +24875,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ansible.builtin.regex",
      "short_description": "Does string match regular expression from the start"
     },
     "examples": "url: \"https://example.com/users/foo/resources/bar\"\nfoundmatch: url is regex(\"example\\.com/\\w+/foo\")\n",
@@ -24596,6 +24909,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ansible.builtin.same_file",
      "short_description": "compares two paths to see if they resolve to the same filesystem object",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
@@ -24640,6 +24954,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ansible.builtin.search",
      "short_description": "Does string match a regular expression"
     },
     "examples": "url: \"https://example.com/users/foo/resources/bar\"\nfoundmatch: url is search(\"https://example.com/users/.*/resources\")\nalsomatch: url is search(\"users/.*/resources\")\n",
@@ -24671,6 +24986,7 @@
        "type": "dictionary"
       }
      },
+     "plugin_name": "ansible.builtin.skip",
      "short_description": "Was task skipped",
      "version_added": "1.9",
      "version_added_collection": "ansible.builtin"
@@ -24704,6 +25020,7 @@
        "type": "dictionary"
       }
      },
+     "plugin_name": "ansible.builtin.skipped",
      "short_description": "Was task skipped",
      "version_added": "1.9",
      "version_added_collection": "ansible.builtin"
@@ -24734,6 +25051,7 @@
        "type": "dictionary"
       }
      },
+     "plugin_name": "ansible.builtin.started",
      "short_description": "Was async task started",
      "version_added": "1.9",
      "version_added_collection": "ansible.builtin"
@@ -24773,6 +25091,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ansible.builtin.subset",
      "short_description": "is the list a subset of this other list",
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
@@ -24807,6 +25126,7 @@
        "type": "dictionary"
       }
      },
+     "plugin_name": "ansible.builtin.succeeded",
      "short_description": "check task success",
      "version_added": "1.9",
      "version_added_collection": "ansible.builtin"
@@ -24841,6 +25161,7 @@
        "type": "dictionary"
       }
      },
+     "plugin_name": "ansible.builtin.success",
      "short_description": "check task success",
      "version_added": "1.9",
      "version_added_collection": "ansible.builtin"
@@ -24875,6 +25196,7 @@
        "type": "dictionary"
       }
      },
+     "plugin_name": "ansible.builtin.successful",
      "short_description": "check task success",
      "version_added": "1.9",
      "version_added_collection": "ansible.builtin"
@@ -24914,6 +25236,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ansible.builtin.superset",
      "short_description": "is the list a superset of this other list",
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
@@ -24949,6 +25272,7 @@
        "type": "bool"
       }
      },
+     "plugin_name": "ansible.builtin.truthy",
      "short_description": "Pythonic true",
      "version_added": "2.10",
      "version_added_collection": "ansible.builtin"
@@ -24979,6 +25303,7 @@
        "type": "dictionary"
       }
      },
+     "plugin_name": "ansible.builtin.unreachable",
      "short_description": "Did task end due to the host was unreachable",
      "version_added": "1.9",
      "version_added_collection": "ansible.builtin"
@@ -25014,6 +25339,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ansible.builtin.uri",
      "short_description": "is the string a valid URI",
      "version_added": "2.14",
      "version_added_collection": "ansible.builtin"
@@ -25048,6 +25374,7 @@
        "type": "list"
       }
      },
+     "plugin_name": "ansible.builtin.url",
      "short_description": "is the string a valid URL",
      "version_added": "2.14",
      "version_added_collection": "ansible.builtin"
@@ -25077,6 +25404,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ansible.builtin.urn",
      "short_description": "is the string a valid URN",
      "version_added": "2.14",
      "version_added_collection": "ansible.builtin"
@@ -25106,6 +25434,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ansible.builtin.vault_encrypted",
      "short_description": "Is this an encrypted vault",
      "version_added": "2.10",
      "version_added_collection": "ansible.builtin"
@@ -25190,6 +25519,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ansible.builtin.version",
      "short_description": "compare version strings",
      "version_added": "1.6",
      "version_added_collection": "ansible.builtin"
@@ -25274,6 +25604,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ansible.builtin.version_compare",
      "short_description": "compare version strings",
      "version_added": "1.6",
      "version_added_collection": "ansible.builtin"
@@ -25305,6 +25636,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ns2.col.bar",
      "short_description": "Is something a bar"
     },
     "examples": "is_path_bar: \"{{ '/etc/hosts' is ns2.col.bar }}}\"\n",
@@ -25336,6 +25668,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ns2.col.foo",
      "short_description": "Is something a foo O(bar)"
     },
     "examples": "\nsome_var: \"{{ {'a': 1} is ns2.col.foo }}\"\n",
@@ -25365,6 +25698,7 @@
        "type": "path"
       }
      },
+     "plugin_name": "ns2.col.is_bar",
      "short_description": "Is something a bar"
     },
     "examples": "is_path_bar: \"{{ '/etc/hosts' is ns2.col.bar }}}\"\n",
@@ -25444,6 +25778,7 @@
        "version_added_collection": "ansible.builtin"
       }
      },
+     "plugin_name": "ansible.builtin.host_group_vars",
      "requirements": [
       "Enabled in configuration"
      ],
@@ -25492,6 +25827,7 @@
        "type": "string"
       }
      },
+     "plugin_name": "ns2.col.foo",
      "requirements": [
       "Enabled in Ansible's configuration."
      ],
