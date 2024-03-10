@@ -48,5 +48,6 @@ jobs:
           if [ "${CHANGED}" != "" ]; then
             echo "Found changed files:"
             echo "${CHANGED}"
+            echo "In case you changed the SCSS source files, you need to run './build.sh' (after running 'npm install') in src/sphinx_antsibull_ext/css"
             exit 1
           fi
