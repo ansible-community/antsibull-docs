@@ -48,7 +48,7 @@ jobs:
         with:
           python-versions: "3.12"
       - run: |
-          nox -v -e lint
+          nox -e lint
   nox-test:
     runs-on: ubuntu-latest
     defaults:
