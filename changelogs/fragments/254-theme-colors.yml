@@ -1,0 +1,2 @@
+minor_changes:
+  - "The colors used by the CSS provided by the Antsibull Sphinx extension can now be overridden (https://github.com/ansible-community/antsibull-docs/pull/254)."
