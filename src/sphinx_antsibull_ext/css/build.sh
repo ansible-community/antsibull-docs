@@ -34,3 +34,6 @@ build_css() {
 }
 
 build_css antsibull-minimal
+build_css colors-default
+
+grep -Fq '/* INSERT COLOR SCHEME HERE */' ../antsibull-minimal.css || (echo -e "\nERROR: Placeholder not found!" ; exit 1)

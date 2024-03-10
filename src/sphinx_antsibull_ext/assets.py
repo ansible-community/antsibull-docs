@@ -12,6 +12,7 @@ from __future__ import annotations
 import os
 import pkgutil
 
+from sphinx.config import ENUM
 from sphinx.util.osutil import ensuredir
 
 BUILDER_FILES = {
@@ -53,6 +54,39 @@ for _builder_name, _alias in _BUILDER_ALIASES.items():
     if _builder_name not in BUILDER_FILES and _alias in BUILDER_FILES:
         BUILDER_FILES[_builder_name] = BUILDER_FILES[_alias]
 
+_AVAILABLE_COLOR_SCHEMES = [
+    "none",
+    "default",
+]
+
+
+def get_color_scheme_content(color_scheme: str) -> bytes:
+    if color_scheme == "none":
+        return b""
+
+    filename = f"colors-{color_scheme}.css"
+    data = pkgutil.get_data("sphinx_antsibull_ext", filename)
+    if data is not None:
+        return data
+    raise RuntimeError(
+        f"Internal error: cannot find {filename} in sphinx_antsibull_ext package"
+    )
+
+
+def substitue_color_scheme(data: bytes, color_scheme: str) -> bytes:
+    return data.replace(
+        b"/* INSERT COLOR SCHEME HERE */", get_color_scheme_content(color_scheme)
+    )
+
+
+def get_color_scheme(app) -> str:
+    color_scheme = app.config.antsibull_ext_color_scheme
+    if color_scheme not in _AVAILABLE_COLOR_SCHEMES:
+        schemes = ", ".join(_AVAILABLE_COLOR_SCHEMES)
+        msg = f"Color scheme {color_scheme!r} is not available. Use one of {schemes}."
+        raise RuntimeError(f"Antsibull Sphinx extension: {msg}")
+    return color_scheme
+
 
 def _copy_asset_files(app):
     """
@@ -64,6 +98,9 @@ def _copy_asset_files(app):
             raise RuntimeError(
                 f"Internal error: cannot find {file} in sphinx_antsibull_ext package"
             )
+        if file == "antsibull-minimal.css":
+            data = substitue_color_scheme(data, color_scheme=get_color_scheme(app))
+
         path = os.path.join(app.outdir, directory) if directory else app.outdir
         ensuredir(path)
         destination = os.path.join(path, file)
@@ -100,6 +137,14 @@ def setup_assets(app):
     """
     Setup assets for a Sphinx app object.
     """
+    # Add CSS related options
+    app.add_config_value(
+        "antsibull_ext_color_scheme",
+        default="default",
+        rebuild="",
+        types=ENUM(*_AVAILABLE_COLOR_SCHEMES),
+    )
+
     # Copy assets
     app.connect("builder-inited", _copy_asset_files_inited)
     app.connect("build-finished", _copy_asset_files_finished)

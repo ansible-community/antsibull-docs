@@ -37,7 +37,7 @@ jobs:
         antsibull_docs_parser_ref:
           - main
         include:
-          - options: '--use-current --use-html-blobs --no-breadcrumbs community.crypto community.docker'
+          - options: '--use-current --use-html-blobs --no-breadcrumbs community.crypto community.docker --extra-conf antsibull_ext_color_scheme=none'
             python: '3.9'
           - options: '--use-current --output-format simplified-rst community.crypto community.docker'
             python: '3.11'
