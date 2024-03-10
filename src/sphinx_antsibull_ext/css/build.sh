@@ -3,16 +3,16 @@
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-SASS=${SASS_COMPILER:-$(which sass)}
-POSTCSS=${POSTCSS:-$(which postcss)}
+SASS=${SASS_COMPILER:-node_modules/.bin/sass}
+POSTCSS=${POSTCSS:-node_modules/.bin/postcss}
 
-if [ "${SASS}" == "" ]; then
-    echo "Need 'sass' on path. You can install sass with 'npm install sass'."
+if [ ! -x "${SASS}" ]; then
+    echo "${SASS} is not executable. Did you run 'npm install'?"
     exit -1
 fi
 
-if [ "${POSTCSS}" == "" ]; then
-    echo "Need 'postcss' on path. You can install postcss and the required plugins with 'npm install autoprefixer cssnano postcss postcss-cli'."
+if [ ! -x "${POSTCSS}" ]; then
+    echo "${POSTCSS} is not executable. Did you run 'npm install'?"
     exit -1
 fi
 
