@@ -47,8 +47,12 @@ jobs:
         uses: wntrblm/nox@2024.03.02
         with:
           python-versions: "3.12"
-      - run: |
-          nox -e lint
+      - name: Set up environments
+        run: |
+          nox -v -e lint --install-only
+      - name: Run linters
+        run: |
+          nox -v -e lint --reuse-existing-virtualenvs --no-install
   nox-test:
     runs-on: ubuntu-latest
     defaults:
@@ -73,12 +77,15 @@ jobs:
         uses: wntrblm/nox@2024.03.02
         with:
           python-versions: "3.9, 3.10, 3.11, 3.12"
+      - name: Set up environments
+        run: |
+          nox -v -e test coverage --install-only
       - name: Run unit tests
         run: |
-          nox -v -e test
+          nox -v -e test --reuse-existing-virtualenvs --no-install
       - name: Report coverage
         run: |
-          nox -v -e coverage
+          nox -v -e coverage --reuse-existing-virtualenvs --no-install
       - name: Upload coverage
         uses: codecov/codecov-action@v3
         with:
