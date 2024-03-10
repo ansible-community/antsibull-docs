@@ -1,0 +1,4 @@
+# Copyright (c) Ansible and contributors
+# GNU General Public License v3.0+ (see https://www.gnu.org/licenses/gpl-3.0.txt)
+
+/node_modules

@@ -84,14 +84,10 @@ cd sphinx_antsibull_ext/css/
 ./build-css.sh
 ```
 
-For this to work, you need to make sure that `sassc` and `postcss` are on your path and that the autoprefixer and nanocss modules are installed:
+For this to work, you need to install some Node.js dependencies:
 
 ```console
-# Debian:
-apt-get install sassc
-
-# PostCSS, autoprefixer and cssnano require nodejs/npm:
-npm install -g autoprefixer cssnano postcss postcss-cli
+npm clean-install
 ```
 
 ## Creating a new release:
