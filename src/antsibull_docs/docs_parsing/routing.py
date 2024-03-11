@@ -369,7 +369,7 @@ def _remove_redirect_duplicates(
                 # remove this plugin's docs and generate a redirect stub instead.
                 a = plugin_record.get("doc")
                 b = plugin_map[destination].get("doc")
-                if a and b and compare_all_but(a, b, ["filename"]):
+                if a and b and compare_all_but(a, b, ["filename", "plugin_name"]):
                     del plugin_map[plugin_name]
 
 
@@ -389,7 +389,7 @@ def _remove_other_duplicates(
         if full_name and full_name != plugin_name and full_name in plugin_map:
             a = plugin_record.get("doc")
             b = plugin_map[full_name].get("doc")
-            if a and b and compare_all_but(a, b, ["name", "filename"]):
+            if a and b and compare_all_but(a, b, ["name", "filename", "plugin_name"]):
                 del plugin_map[plugin_name]
                 if plugin_name not in plugin_routing:
                     plugin_routing[plugin_name] = {}

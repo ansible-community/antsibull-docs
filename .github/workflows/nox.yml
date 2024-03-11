@@ -46,9 +46,9 @@ jobs:
       - name: Setup nox
         uses: wntrblm/nox@2024.03.02
         with:
-          python-versions: "3.11"
+          python-versions: "3.12"
       - run: |
-          nox -v -e lint
+          nox -e lint
   nox-test:
     runs-on: ubuntu-latest
     defaults:
@@ -72,7 +72,7 @@ jobs:
       - name: Setup nox
         uses: wntrblm/nox@2024.03.02
         with:
-          python-versions: "3.9, 3.10, 3.11"
+          python-versions: "3.9, 3.10, 3.11, 3.12"
       - name: Run unit tests
         run: |
           nox -v -e test
