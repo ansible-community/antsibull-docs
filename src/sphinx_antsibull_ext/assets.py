@@ -57,6 +57,7 @@ for _builder_name, _alias in _BUILDER_ALIASES.items():
 _AVAILABLE_COLOR_SCHEMES = [
     "none",
     "default",
+    "default-autodark"
 ]
 
 
