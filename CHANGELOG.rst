@@ -4,6 +4,27 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.8.0
+======
+
+Release Summary
+---------------
+
+Bugfix and feature release.
+
+Minor Changes
+-------------
+
+- Add support for "dark mode" to the option table styling (https://github.com/ansible-community/antsibull-docs/pull/253, https://github.com/ansible-community/antsibull-docs/pull/258).
+- Add support for the latest antsibull-core v3 pre-release, ``3.0.0a1`` (https://github.com/ansible-community/antsibull-docs/pull/250).
+- Declare support for Python 3.12 (https://github.com/ansible-community/antsibull-docs/pull/255).
+- The colors used by the CSS provided by the Antsibull Sphinx extension can now be overridden (https://github.com/ansible-community/antsibull-docs/pull/254).
+
+Bugfixes
+--------
+
+- Fix duplicate docs detection (for aliases) for latest ansible-core devel (https://github.com/ansible-community/antsibull-docs/pull/257).
+
 v2.7.0
 ======
 

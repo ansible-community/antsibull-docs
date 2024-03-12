@@ -760,3 +760,23 @@ releases:
     - 240-roles-seealso.yml
     - 242-plugin_name-schema.yml
     release_date: '2024-01-31'
+  2.8.0:
+    changes:
+      bugfixes:
+      - Fix duplicate docs detection (for aliases) for latest ansible-core devel (https://github.com/ansible-community/antsibull-docs/pull/257).
+      minor_changes:
+      - Add support for "dark mode" to the option table styling (https://github.com/ansible-community/antsibull-docs/pull/253,
+        https://github.com/ansible-community/antsibull-docs/pull/258).
+      - Add support for the latest antsibull-core v3 pre-release, ``3.0.0a1`` (https://github.com/ansible-community/antsibull-docs/pull/250).
+      - Declare support for Python 3.12 (https://github.com/ansible-community/antsibull-docs/pull/255).
+      - The colors used by the CSS provided by the Antsibull Sphinx extension can
+        now be overridden (https://github.com/ansible-community/antsibull-docs/pull/254).
+      release_summary: Bugfix and feature release.
+    fragments:
+    - 2.8.0.yml
+    - 250-core-3.0.0a1.yaml
+    - 253-darkmode-support-to-option-tables.yaml
+    - 254-theme-colors.yml
+    - 255-python-3.12.yml
+    - 257-duplicates.yml
+    release_date: '2024-03-12'

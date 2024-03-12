@@ -1,2 +1,0 @@
-bugfixes:
-  - "Fix duplicate docs detection (for aliases) for latest ansible-core devel (https://github.com/ansible-community/antsibull-docs/pull/257)."

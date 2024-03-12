@@ -1,140 +1,165 @@
 # antsibull\-docs \-\- Ansible Documentation Build Scripts Release Notes
 
 **Topics**
-- <a href="#v2-7-0">v2\.7\.0</a>
+- <a href="#v2-8-0">v2\.8\.0</a>
   - <a href="#release-summary">Release Summary</a>
   - <a href="#minor-changes">Minor Changes</a>
   - <a href="#bugfixes">Bugfixes</a>
-- <a href="#v2-6-1">v2\.6\.1</a>
+- <a href="#v2-7-0">v2\.7\.0</a>
   - <a href="#release-summary-1">Release Summary</a>
-  - <a href="#bugfixes-1">Bugfixes</a>
-- <a href="#v2-6-0">v2\.6\.0</a>
-  - <a href="#release-summary-2">Release Summary</a>
   - <a href="#minor-changes-1">Minor Changes</a>
+  - <a href="#bugfixes-1">Bugfixes</a>
+- <a href="#v2-6-1">v2\.6\.1</a>
+  - <a href="#release-summary-2">Release Summary</a>
   - <a href="#bugfixes-2">Bugfixes</a>
-- <a href="#v2-5-0">v2\.5\.0</a>
+- <a href="#v2-6-0">v2\.6\.0</a>
   - <a href="#release-summary-3">Release Summary</a>
   - <a href="#minor-changes-2">Minor Changes</a>
-- <a href="#v2-4-0">v2\.4\.0</a>
+  - <a href="#bugfixes-3">Bugfixes</a>
+- <a href="#v2-5-0">v2\.5\.0</a>
   - <a href="#release-summary-4">Release Summary</a>
   - <a href="#minor-changes-3">Minor Changes</a>
+- <a href="#v2-4-0">v2\.4\.0</a>
+  - <a href="#release-summary-5">Release Summary</a>
+  - <a href="#minor-changes-4">Minor Changes</a>
   - <a href="#deprecated-features">Deprecated Features</a>
-  - <a href="#bugfixes-3">Bugfixes</a>
+  - <a href="#bugfixes-4">Bugfixes</a>
   - <a href="#known-issues">Known Issues</a>
 - <a href="#v2-3-1">v2\.3\.1</a>
-  - <a href="#release-summary-5">Release Summary</a>
-  - <a href="#bugfixes-4">Bugfixes</a>
-- <a href="#v2-3-0">v2\.3\.0</a>
   - <a href="#release-summary-6">Release Summary</a>
-  - <a href="#minor-changes-4">Minor Changes</a>
   - <a href="#bugfixes-5">Bugfixes</a>
-- <a href="#v2-2-0">v2\.2\.0</a>
+- <a href="#v2-3-0">v2\.3\.0</a>
   - <a href="#release-summary-7">Release Summary</a>
   - <a href="#minor-changes-5">Minor Changes</a>
   - <a href="#bugfixes-6">Bugfixes</a>
-- <a href="#v2-1-0">v2\.1\.0</a>
+- <a href="#v2-2-0">v2\.2\.0</a>
   - <a href="#release-summary-8">Release Summary</a>
   - <a href="#minor-changes-6">Minor Changes</a>
   - <a href="#bugfixes-7">Bugfixes</a>
-- <a href="#v2-0-0">v2\.0\.0</a>
+- <a href="#v2-1-0">v2\.1\.0</a>
   - <a href="#release-summary-9">Release Summary</a>
-  - <a href="#major-changes">Major Changes</a>
   - <a href="#minor-changes-7">Minor Changes</a>
-  - <a href="#breaking-changes--porting-guide">Breaking Changes / Porting Guide</a>
   - <a href="#bugfixes-8">Bugfixes</a>
-- <a href="#v1-11-0">v1\.11\.0</a>
+- <a href="#v2-0-0">v2\.0\.0</a>
   - <a href="#release-summary-10">Release Summary</a>
+  - <a href="#major-changes">Major Changes</a>
   - <a href="#minor-changes-8">Minor Changes</a>
-- <a href="#v1-10-0">v1\.10\.0</a>
-  - <a href="#release-summary-11">Release Summary</a>
-  - <a href="#major-changes-1">Major Changes</a>
-  - <a href="#minor-changes-9">Minor Changes</a>
+  - <a href="#breaking-changes--porting-guide">Breaking Changes / Porting Guide</a>
   - <a href="#bugfixes-9">Bugfixes</a>
-- <a href="#v1-9-0">v1\.9\.0</a>
+- <a href="#v1-11-0">v1\.11\.0</a>
+  - <a href="#release-summary-11">Release Summary</a>
+  - <a href="#minor-changes-9">Minor Changes</a>
+- <a href="#v1-10-0">v1\.10\.0</a>
   - <a href="#release-summary-12">Release Summary</a>
+  - <a href="#major-changes-1">Major Changes</a>
   - <a href="#minor-changes-10">Minor Changes</a>
-- <a href="#v1-8-2">v1\.8\.2</a>
-  - <a href="#release-summary-13">Release Summary</a>
   - <a href="#bugfixes-10">Bugfixes</a>
-- <a href="#v1-8-1">v1\.8\.1</a>
+- <a href="#v1-9-0">v1\.9\.0</a>
+  - <a href="#release-summary-13">Release Summary</a>
+  - <a href="#minor-changes-11">Minor Changes</a>
+- <a href="#v1-8-2">v1\.8\.2</a>
   - <a href="#release-summary-14">Release Summary</a>
   - <a href="#bugfixes-11">Bugfixes</a>
-- <a href="#v1-8-0">v1\.8\.0</a>
+- <a href="#v1-8-1">v1\.8\.1</a>
   - <a href="#release-summary-15">Release Summary</a>
-  - <a href="#minor-changes-11">Minor Changes</a>
   - <a href="#bugfixes-12">Bugfixes</a>
-- <a href="#v1-7-4">v1\.7\.4</a>
+- <a href="#v1-8-0">v1\.8\.0</a>
   - <a href="#release-summary-16">Release Summary</a>
+  - <a href="#minor-changes-12">Minor Changes</a>
   - <a href="#bugfixes-13">Bugfixes</a>
-- <a href="#v1-7-3">v1\.7\.3</a>
+- <a href="#v1-7-4">v1\.7\.4</a>
   - <a href="#release-summary-17">Release Summary</a>
   - <a href="#bugfixes-14">Bugfixes</a>
-- <a href="#v1-7-2">v1\.7\.2</a>
+- <a href="#v1-7-3">v1\.7\.3</a>
   - <a href="#release-summary-18">Release Summary</a>
   - <a href="#bugfixes-15">Bugfixes</a>
-- <a href="#v1-7-1">v1\.7\.1</a>
+- <a href="#v1-7-2">v1\.7\.2</a>
   - <a href="#release-summary-19">Release Summary</a>
   - <a href="#bugfixes-16">Bugfixes</a>
-- <a href="#v1-7-0">v1\.7\.0</a>
+- <a href="#v1-7-1">v1\.7\.1</a>
   - <a href="#release-summary-20">Release Summary</a>
-  - <a href="#minor-changes-12">Minor Changes</a>
   - <a href="#bugfixes-17">Bugfixes</a>
-- <a href="#v1-6-1">v1\.6\.1</a>
+- <a href="#v1-7-0">v1\.7\.0</a>
   - <a href="#release-summary-21">Release Summary</a>
-  - <a href="#bugfixes-18">Bugfixes</a>
-- <a href="#v1-6-0">v1\.6\.0</a>
-  - <a href="#release-summary-22">Release Summary</a>
   - <a href="#minor-changes-13">Minor Changes</a>
+  - <a href="#bugfixes-18">Bugfixes</a>
+- <a href="#v1-6-1">v1\.6\.1</a>
+  - <a href="#release-summary-22">Release Summary</a>
   - <a href="#bugfixes-19">Bugfixes</a>
-- <a href="#v1-5-0">v1\.5\.0</a>
+- <a href="#v1-6-0">v1\.6\.0</a>
   - <a href="#release-summary-23">Release Summary</a>
   - <a href="#minor-changes-14">Minor Changes</a>
   - <a href="#bugfixes-20">Bugfixes</a>
-- <a href="#v1-4-0">v1\.4\.0</a>
+- <a href="#v1-5-0">v1\.5\.0</a>
   - <a href="#release-summary-24">Release Summary</a>
   - <a href="#minor-changes-15">Minor Changes</a>
   - <a href="#bugfixes-21">Bugfixes</a>
-- <a href="#v1-3-0">v1\.3\.0</a>
+- <a href="#v1-4-0">v1\.4\.0</a>
   - <a href="#release-summary-25">Release Summary</a>
   - <a href="#minor-changes-16">Minor Changes</a>
   - <a href="#bugfixes-22">Bugfixes</a>
-- <a href="#v1-2-2">v1\.2\.2</a>
+- <a href="#v1-3-0">v1\.3\.0</a>
   - <a href="#release-summary-26">Release Summary</a>
+  - <a href="#minor-changes-17">Minor Changes</a>
   - <a href="#bugfixes-23">Bugfixes</a>
-- <a href="#v1-2-1">v1\.2\.1</a>
+- <a href="#v1-2-2">v1\.2\.2</a>
   - <a href="#release-summary-27">Release Summary</a>
   - <a href="#bugfixes-24">Bugfixes</a>
-- <a href="#v1-2-0">v1\.2\.0</a>
+- <a href="#v1-2-1">v1\.2\.1</a>
   - <a href="#release-summary-28">Release Summary</a>
-  - <a href="#minor-changes-17">Minor Changes</a>
   - <a href="#bugfixes-25">Bugfixes</a>
-- <a href="#v1-1-0">v1\.1\.0</a>
+- <a href="#v1-2-0">v1\.2\.0</a>
   - <a href="#release-summary-29">Release Summary</a>
   - <a href="#minor-changes-18">Minor Changes</a>
-- <a href="#v1-0-1">v1\.0\.1</a>
-  - <a href="#release-summary-30">Release Summary</a>
   - <a href="#bugfixes-26">Bugfixes</a>
-- <a href="#v1-0-0">v1\.0\.0</a>
-  - <a href="#release-summary-31">Release Summary</a>
-  - <a href="#major-changes-2">Major Changes</a>
+- <a href="#v1-1-0">v1\.1\.0</a>
+  - <a href="#release-summary-30">Release Summary</a>
   - <a href="#minor-changes-19">Minor Changes</a>
-- <a href="#v0-1-0">v0\.1\.0</a>
+- <a href="#v1-0-1">v1\.0\.1</a>
+  - <a href="#release-summary-31">Release Summary</a>
+  - <a href="#bugfixes-27">Bugfixes</a>
+- <a href="#v1-0-0">v1\.0\.0</a>
   - <a href="#release-summary-32">Release Summary</a>
+  - <a href="#major-changes-2">Major Changes</a>
+  - <a href="#minor-changes-20">Minor Changes</a>
+- <a href="#v0-1-0">v0\.1\.0</a>
+  - <a href="#release-summary-33">Release Summary</a>
 
-<a id="v2-7-0"></a>
-## v2\.7\.0
+<a id="v2-8-0"></a>
+## v2\.8\.0
 
 <a id="release-summary"></a>
 ### Release Summary
 
-Bugfix and refactoring release\.
+Bugfix and feature release\.
 
 <a id="minor-changes"></a>
 ### Minor Changes
 
-* Explicitly set up Galaxy context instead of relying on deprecated functionality \([https\://github\.com/ansible\-community/antsibull\-docs/pull/234](https\://github\.com/ansible\-community/antsibull\-docs/pull/234)\)\.
+* Add support for \"dark mode\" to the option table styling \([https\://github\.com/ansible\-community/antsibull\-docs/pull/253](https\://github\.com/ansible\-community/antsibull\-docs/pull/253)\, [https\://github\.com/ansible\-community/antsibull\-docs/pull/258](https\://github\.com/ansible\-community/antsibull\-docs/pull/258)\)\.
+* Add support for the latest antsibull\-core v3 pre\-release\, <code>3\.0\.0a1</code> \([https\://github\.com/ansible\-community/antsibull\-docs/pull/250](https\://github\.com/ansible\-community/antsibull\-docs/pull/250)\)\.
+* Declare support for Python 3\.12 \([https\://github\.com/ansible\-community/antsibull\-docs/pull/255](https\://github\.com/ansible\-community/antsibull\-docs/pull/255)\)\.
+* The colors used by the CSS provided by the Antsibull Sphinx extension can now be overridden \([https\://github\.com/ansible\-community/antsibull\-docs/pull/254](https\://github\.com/ansible\-community/antsibull\-docs/pull/254)\)\.
 
 <a id="bugfixes"></a>
+### Bugfixes
+
+* Fix duplicate docs detection \(for aliases\) for latest ansible\-core devel \([https\://github\.com/ansible\-community/antsibull\-docs/pull/257](https\://github\.com/ansible\-community/antsibull\-docs/pull/257)\)\.
+
+<a id="v2-7-0"></a>
+## v2\.7\.0
+
+<a id="release-summary-1"></a>
+### Release Summary
+
+Bugfix and refactoring release\.
+
+<a id="minor-changes-1"></a>
+### Minor Changes
+
+* Explicitly set up Galaxy context instead of relying on deprecated functionality \([https\://github\.com/ansible\-community/antsibull\-docs/pull/234](https\://github\.com/ansible\-community/antsibull\-docs/pull/234)\)\.
+
+<a id="bugfixes-1"></a>
 ### Bugfixes
 
 * Fix schema for <code>seealso</code> in role entrypoints\. Plugin references now work \([https\://github\.com/ansible\-community/antsibull\-docs/issues/237](https\://github\.com/ansible\-community/antsibull\-docs/issues/237)\, [https\://github\.com/ansible\-community/antsibull\-docs/pull/240](https\://github\.com/ansible\-community/antsibull\-docs/pull/240)\)\.
@@ -145,12 +170,12 @@ Bugfix and refactoring release\.
 <a id="v2-6-1"></a>
 ## v2\.6\.1
 
-<a id="release-summary-1"></a>
+<a id="release-summary-2"></a>
 ### Release Summary
 
 Bugfix release\.
 
-<a id="bugfixes-1"></a>
+<a id="bugfixes-2"></a>
 ### Bugfixes
 
 * For role argument specs\, allow <code>author</code>\, <code>description</code>\, and <code>todo</code> to be a string instead of a list of strings\, similarly as with ansible\-doc and with modules and plugins \([https\://github\.com/ansible\-community/antsibull\-docs/pull/227](https\://github\.com/ansible\-community/antsibull\-docs/pull/227)\)\.
@@ -159,17 +184,17 @@ Bugfix release\.
 <a id="v2-6-0"></a>
 ## v2\.6\.0
 
-<a id="release-summary-2"></a>
+<a id="release-summary-3"></a>
 ### Release Summary
 
 Fix parsing of <code>EXAMPLES</code> and improve error message
 
-<a id="minor-changes-1"></a>
+<a id="minor-changes-2"></a>
 ### Minor Changes
 
 * Improve error messages when calls to <code>ansible\-doc</code> fail \([https\://github\.com/ansible\-community/antsibull\-docs/pull/223](https\://github\.com/ansible\-community/antsibull\-docs/pull/223)\)\.
 
-<a id="bugfixes-2"></a>
+<a id="bugfixes-3"></a>
 ### Bugfixes
 
 * When <code>EXAMPLES</code> has the format specified by <code>\# fmt\: \<format\></code>\, this value is used to determine the code block type \([https\://github\.com/ansible\-community/antsibull\-docs/pull/225](https\://github\.com/ansible\-community/antsibull\-docs/pull/225)\)\.
@@ -177,12 +202,12 @@ Fix parsing of <code>EXAMPLES</code> and improve error message
 <a id="v2-5-0"></a>
 ## v2\.5\.0
 
-<a id="release-summary-3"></a>
+<a id="release-summary-4"></a>
 ### Release Summary
 
 Release to support the updated Ansible Galaxy codebase\.
 
-<a id="minor-changes-2"></a>
+<a id="minor-changes-3"></a>
 ### Minor Changes
 
 * The default collection URL template has been changed from <code>https\://galaxy\.ansible\.com/\{namespace\}/\{name\}</code> to <code>https\://galaxy\.ansible\.com/ui/repo/published/\{namespace\}/\{name\}/</code> to adjust for the Galaxy codebase change on September 30th\, 2023 \([https\://github\.com/ansible\-community/antsibull\-docs/issues/147](https\://github\.com/ansible\-community/antsibull\-docs/issues/147)\, [https\://github\.com/ansible\-community/antsibull\-docs/pull/220](https\://github\.com/ansible\-community/antsibull\-docs/pull/220)\)\.
@@ -190,7 +215,7 @@ Release to support the updated Ansible Galaxy codebase\.
 <a id="v2-4-0"></a>
 ## v2\.4\.0
 
-<a id="release-summary-4"></a>
+<a id="release-summary-5"></a>
 ### Release Summary
 
 Bugfix and feature release\. Improves support for other builders than <code>html</code>\.
@@ -199,7 +224,7 @@ There will be a follow\-up release after [Ansible Galaxy](https\://galaxy\.ansib
 switched to the new <code>galaxy\_ng</code> codebase\, which is scheduled for September 30th\.
 That release will only adjust the URLs to Galaxy\, except potentially bugfixes\.
 
-<a id="minor-changes-3"></a>
+<a id="minor-changes-4"></a>
 ### Minor Changes
 
 * Add basic support for other HTML based Sphinx builders such as <code>epub</code> and <code>singlehtml</code> \([https\://github\.com/ansible\-community/antsibull\-docs/pull/201](https\://github\.com/ansible\-community/antsibull\-docs/pull/201)\)\.
@@ -223,7 +248,7 @@ That release will only adjust the URLs to Galaxy\, except potentially bugfixes\.
 
 * The <code>\-\-use\-html\-blobs</code> feature that inserts HTML blobs for the options and return value tables for the <code>ansible\-docsite</code> output format is deprecated and will be removed soon\. The HTML tables cause several features to break\, such as references to options and return values\. If you think this feature needs to stay\, please create an issue in the [antsibull\-docs repository](https\://github\.com/ansible\-community/antsibull\-docs/issues/) and provide good reasons for it \([https\://github\.com/ansible\-community/antsibull\-docs/pull/217](https\://github\.com/ansible\-community/antsibull\-docs/pull/217)\)\.
 
-<a id="bugfixes-3"></a>
+<a id="bugfixes-4"></a>
 ### Bugfixes
 
 * Document and ensure that the <code>collection</code> subcommand with <code>\-\-use\-current</code> can only be used with collection names \([https\://github\.com/ansible\-community/antsibull\-docs/pull/214](https\://github\.com/ansible\-community/antsibull\-docs/pull/214)\)\.
@@ -242,12 +267,12 @@ That release will only adjust the URLs to Galaxy\, except potentially bugfixes\.
 <a id="v2-3-1"></a>
 ## v2\.3\.1
 
-<a id="release-summary-5"></a>
+<a id="release-summary-6"></a>
 ### Release Summary
 
 Bugfix release with a CSS fix for the Sphinx extension\.
 
-<a id="bugfixes-4"></a>
+<a id="bugfixes-5"></a>
 ### Bugfixes
 
 * Fix antsibull Sphinx extension CSS so that the option/return value anchors for module/plugin/role documentation can also be used on WebKit\-based browsers such as Gnome Web and Safari \([https\://github\.com/ansible\-community/antsibull\-docs/issues/188](https\://github\.com/ansible\-community/antsibull\-docs/issues/188)\, [https\://github\.com/ansible\-community/antsibull\-docs/pull/189](https\://github\.com/ansible\-community/antsibull\-docs/pull/189)\)\.
@@ -255,12 +280,12 @@ Bugfix release with a CSS fix for the Sphinx extension\.
 <a id="v2-3-0"></a>
 ## v2\.3\.0
 
-<a id="release-summary-6"></a>
+<a id="release-summary-7"></a>
 ### Release Summary
 
 Bugfix and feature release\.
 
-<a id="minor-changes-4"></a>
+<a id="minor-changes-5"></a>
 ### Minor Changes
 
 * Add a <code>\:ansplugin\:</code> role to the Sphinx extension\. This allows to reference a module\, plugin\, or role with the <code>fqcn\#type</code> syntax from semantic markup instead of having to manually compose a <code>ansible\_collections\.\{fqcn\}\_\{type\}</code> label\. An explicit reference title can also be provided with the <code>title \<fqcn\#type\></code> syntax similar to the <code>\:ref\:</code> role \([https\://github\.com/ansible\-community/antsibull\-docs/pull/180](https\://github\.com/ansible\-community/antsibull\-docs/pull/180)\)\.
@@ -270,7 +295,7 @@ Bugfix and feature release\.
 * Use Dart sass compiler instead of sassc to compile CSS for Sphinx extension \([https\://github\.com/ansible\-community/antsibull\-docs/issues/185](https\://github\.com/ansible\-community/antsibull\-docs/issues/185)\, [https\://github\.com/ansible\-community/antsibull\-docs/pull/186](https\://github\.com/ansible\-community/antsibull\-docs/pull/186)\)\.
 * When parsing errors happen in the Sphinx extension\, the extension now emits error messages during the build process in addition to error markup \([https\://github\.com/ansible\-community/antsibull\-docs/pull/187](https\://github\.com/ansible\-community/antsibull\-docs/pull/187)\)\.
 
-<a id="bugfixes-5"></a>
+<a id="bugfixes-6"></a>
 ### Bugfixes
 
 * Consider module/plugin aliases when linting references to other modules and plugins \([https\://github\.com/ansible\-community/antsibull\-docs/pull/184](https\://github\.com/ansible\-community/antsibull\-docs/pull/184)\)\.
@@ -280,18 +305,18 @@ Bugfix and feature release\.
 <a id="v2-2-0"></a>
 ## v2\.2\.0
 
-<a id="release-summary-7"></a>
+<a id="release-summary-8"></a>
 ### Release Summary
 
 Bugfix and feature release improving rendering and linting\.
 
-<a id="minor-changes-5"></a>
+<a id="minor-changes-6"></a>
 ### Minor Changes
 
 * Collection docs linter \- also validate <code>seealso</code> module and plugin destinations \([https\://github\.com/ansible\-community/antsibull\-docs/issues/168](https\://github\.com/ansible\-community/antsibull\-docs/issues/168)\, [https\://github\.com/ansible\-community/antsibull\-docs/pull/171](https\://github\.com/ansible\-community/antsibull\-docs/pull/171)\)\.
 * When linting collection plugin docs\, make sure that array stubs <code>\[\.\.\.\]</code> are used when referencing sub\-options or sub\-return values inside lists\, and are not used outside lists and dictionaries \([https\://github\.com/ansible\-community/antsibull\-docs/pull/173](https\://github\.com/ansible\-community/antsibull\-docs/pull/173)\)\.
 
-<a id="bugfixes-6"></a>
+<a id="bugfixes-7"></a>
 ### Bugfixes
 
 * Fix the way the Sphinx extension creates nodes for options and return values so they look identical for internal references\, external \(intersphinx\) references\, and unresolved references \([https\://github\.com/ansible\-community/antsibull\-docs/pull/175](https\://github\.com/ansible\-community/antsibull\-docs/pull/175)\)\.
@@ -302,12 +327,12 @@ Bugfix and feature release improving rendering and linting\.
 <a id="v2-1-0"></a>
 ## v2\.1\.0
 
-<a id="release-summary-8"></a>
+<a id="release-summary-9"></a>
 ### Release Summary
 
 Feature and bugfix release with many improvements related to semantic markup and validation\.
 
-<a id="minor-changes-6"></a>
+<a id="minor-changes-7"></a>
 ### Minor Changes
 
 * Add option <code>\-\-disallow\-unknown\-collection\-refs</code> to disallow references to other collections than the one covered by <code>\-\-validate\-collection\-refs</code> \([https\://github\.com/ansible\-community/antsibull\-docs/pull/157](https\://github\.com/ansible\-community/antsibull\-docs/pull/157)\)\.
@@ -319,7 +344,7 @@ Feature and bugfix release with many improvements related to semantic markup and
 * When linting semantic markup in collection docs\, also accept aliases when checking <code>O\(\)</code> values \([https\://github\.com/ansible\-community/antsibull\-docs/pull/155](https\://github\.com/ansible\-community/antsibull\-docs/pull/155)\)\.
 * When refering to markup in multi\-paragraph texts\, like <code>description</code>\, now includes the paragraph number in error messages \([https\://github\.com/ansible\-community/antsibull\-docs/pull/163](https\://github\.com/ansible\-community/antsibull\-docs/pull/163)\)\.
 
-<a id="bugfixes-7"></a>
+<a id="bugfixes-8"></a>
 ### Bugfixes
 
 * Allow role entrypoint deprecations without having to specify the collection the role is removed from \([https\://github\.com/ansible\-community/antsibull\-docs/pull/156](https\://github\.com/ansible\-community/antsibull\-docs/pull/156)\)\.
@@ -329,7 +354,7 @@ Feature and bugfix release with many improvements related to semantic markup and
 <a id="v2-0-0"></a>
 ## v2\.0\.0
 
-<a id="release-summary-9"></a>
+<a id="release-summary-10"></a>
 ### Release Summary
 
 Major new release that drops support for older Python and Ansible/ansible\-base/ansible\-core versions\.
@@ -339,7 +364,7 @@ Major new release that drops support for older Python and Ansible/ansible\-base/
 
 * Change pyproject build backend from <code>poetry\-core</code> to <code>hatchling</code>\. <code>pip install antsibull\-docs</code> works exactly the same as before\, but some users may be affected depending on how they build/install the project \([https\://github\.com/ansible\-community/antsibull\-docs/pull/115](https\://github\.com/ansible\-community/antsibull\-docs/pull/115)\)\.
 
-<a id="minor-changes-7"></a>
+<a id="minor-changes-8"></a>
 ### Minor Changes
 
 * Allow to use the currently installed ansible\-core version for the <code>devel</code> and <code>stable</code> subcommands \([https\://github\.com/ansible\-community/antsibull\-docs/pull/121](https\://github\.com/ansible\-community/antsibull\-docs/pull/121)\)\.
@@ -360,7 +385,7 @@ Major new release that drops support for older Python and Ansible/ansible\-base/
 * No longer supports Ansible 2\.9\, ansible\-base 2\.10\, and ansible\-core 2\.11 and 2\.12\. The minimum required ansible\-core version is 2\.13\. This allows for simpler and more efficient docs parsing and information retrieval \([https\://github\.com/ansible\-community/antsibull\-docs/pull/120](https\://github\.com/ansible\-community/antsibull\-docs/pull/120)\)\.
 * The <code>ansible\-doc</code> and <code>ansible\-internal</code> values for <code>doc\_parsing\_backend</code> in the configuration file have been removed\. Change the value to <code>auto</code> for best compatibility \([https\://github\.com/ansible\-community/antsibull\-docs/pull/120](https\://github\.com/ansible\-community/antsibull\-docs/pull/120)\)\.
 
-<a id="bugfixes-8"></a>
+<a id="bugfixes-9"></a>
 ### Bugfixes
 
 * Bump version range of antsibull\-docs requirement written by <code>sphinx\-init</code> subcommand to <code>\>\= 2\.0\.0a2\, \< 3\.0\.0</code>\. Previously\, this was set to <code>\>\=2\.0\.0\, \<3\.0\.0</code> which could not be satisfied \([https\://github\.com/ansible\-community/antsibull\-docs/pull/149](https\://github\.com/ansible\-community/antsibull\-docs/pull/149)\)\.
@@ -369,12 +394,12 @@ Major new release that drops support for older Python and Ansible/ansible\-base/
 <a id="v1-11-0"></a>
 ## v1\.11\.0
 
-<a id="release-summary-10"></a>
+<a id="release-summary-11"></a>
 ### Release Summary
 
 Feature release\.
 
-<a id="minor-changes-8"></a>
+<a id="minor-changes-9"></a>
 ### Minor Changes
 
 * Add support for semantic markup in roles \([https\://github\.com/ansible\-community/antsibull\-docs/pull/113](https\://github\.com/ansible\-community/antsibull\-docs/pull/113)\)\.
@@ -385,7 +410,7 @@ Feature release\.
 <a id="v1-10-0"></a>
 ## v1\.10\.0
 
-<a id="release-summary-11"></a>
+<a id="release-summary-12"></a>
 ### Release Summary
 
 Bugfix and feature release\.
@@ -395,13 +420,13 @@ Bugfix and feature release\.
 
 * Support new semantic markup in documentation \([https\://github\.com/ansible\-community/antsibull\-docs/pull/4](https\://github\.com/ansible\-community/antsibull\-docs/pull/4)\)\.
 
-<a id="minor-changes-9"></a>
+<a id="minor-changes-10"></a>
 ### Minor Changes
 
 * Add a note about the ordering of positional and named parameter to the plugin page\. Also mention positional and keyword parameters for lookups \([https\://github\.com/ansible\-community/antsibull\-docs/pull/101](https\://github\.com/ansible\-community/antsibull\-docs/pull/101)\)\.
 * Update schema for roles argument spec to allow specifying attributes on the entrypoint level\. These are now also rendered when present \([https\://github\.com/ansible\-community/antsibull\-docs/pull/103](https\://github\.com/ansible\-community/antsibull\-docs/pull/103)\)\.
 
-<a id="bugfixes-9"></a>
+<a id="bugfixes-10"></a>
 ### Bugfixes
 
 * Explicitly declare the <code>sh</code> dependency and limit it to before 2\.0\.0\. Also explicitly declare the dependencies on <code>pydantic</code>\, <code>semantic\_version</code>\, <code>aiohttp</code>\, <code>twiggy</code>\, and <code>PyYAML</code> \([https\://github\.com/ansible\-community/antsibull\-docs/pull/99](https\://github\.com/ansible\-community/antsibull\-docs/pull/99)\)\.
@@ -410,12 +435,12 @@ Bugfix and feature release\.
 <a id="v1-9-0"></a>
 ## v1\.9\.0
 
-<a id="release-summary-12"></a>
+<a id="release-summary-13"></a>
 ### Release Summary
 
 Feature release\.
 
-<a id="minor-changes-10"></a>
+<a id="minor-changes-11"></a>
 ### Minor Changes
 
 * Improve build script generated by <code>antsibull\-docs sphinx\-init</code> to change to the directory where the script is located\, instead of hardcoding the script\'s path\. This also fixed the existing bug that the path was not quoted \([https\://github\.com/ansible\-community/antsibull\-docs/issues/91](https\://github\.com/ansible\-community/antsibull\-docs/issues/91)\, [https\://github\.com/ansible\-community/antsibull\-docs/pull/92](https\://github\.com/ansible\-community/antsibull\-docs/pull/92)\)\.
@@ -423,19 +448,6 @@ Feature release\.
 
 <a id="v1-8-2"></a>
 ## v1\.8\.2
-
-<a id="release-summary-13"></a>
-### Release Summary
-
-Bugfix release\.
-
-<a id="bugfixes-10"></a>
-### Bugfixes
-
-* Fix the new options <code>\-\-extra\-html\-context</code> and <code>\-\-extra\-html\-theme\-options</code> of the <code>sphinx\-init</code> subcommand \([https\://github\.com/ansible\-community/antsibull\-docs/pull/86](https\://github\.com/ansible\-community/antsibull\-docs/pull/86)\)\.
-
-<a id="v1-8-1"></a>
-## v1\.8\.1
 
 <a id="release-summary-14"></a>
 ### Release Summary
@@ -445,17 +457,30 @@ Bugfix release\.
 <a id="bugfixes-11"></a>
 ### Bugfixes
 
+* Fix the new options <code>\-\-extra\-html\-context</code> and <code>\-\-extra\-html\-theme\-options</code> of the <code>sphinx\-init</code> subcommand \([https\://github\.com/ansible\-community/antsibull\-docs/pull/86](https\://github\.com/ansible\-community/antsibull\-docs/pull/86)\)\.
+
+<a id="v1-8-1"></a>
+## v1\.8\.1
+
+<a id="release-summary-15"></a>
+### Release Summary
+
+Bugfix release\.
+
+<a id="bugfixes-12"></a>
+### Bugfixes
+
 * When creating toctrees for breadcrumbs\, place subtree for a plugin type in the plugin type\'s section \([https\://github\.com/ansible\-community/antsibull\-docs/pull/83](https\://github\.com/ansible\-community/antsibull\-docs/pull/83)\)\.
 
 <a id="v1-8-0"></a>
 ## v1\.8\.0
 
-<a id="release-summary-15"></a>
+<a id="release-summary-16"></a>
 ### Release Summary
 
 Feature and bugfix release\.
 
-<a id="minor-changes-11"></a>
+<a id="minor-changes-12"></a>
 ### Minor Changes
 
 * Add new options <code>\-\-project</code>\, <code>\-\-copyright</code>\, <code>\-\-title</code>\, <code>\-\-html\-short\-title</code>\, <code>\-\-extra\-conf</code>\, <code>\-\-extra\-html\-context</code>\, and <code>\-\-extra\-html\-theme\-options</code> to the <code>sphinx\-init</code> subcommand to allow to customize the generated <code>conf\.py</code> Sphinx configuration \([https\://github\.com/ansible\-community/antsibull\-docs/pull/77](https\://github\.com/ansible\-community/antsibull\-docs/pull/77)\)\.
@@ -467,28 +492,13 @@ Feature and bugfix release\.
 * The default <code>index\.rst</code> created by <code>antsibull\-docs sphinx\-init</code> includes the new environment variable index \([https\://github\.com/ansible\-community/antsibull\-docs/pull/80](https\://github\.com/ansible\-community/antsibull\-docs/pull/80)\)\.
 * Use correct markup \(<code>envvar</code> role\) for environment variables\. Compile an index of all environment variables used by plugins \([https\://github\.com/ansible\-community/antsibull\-docs/pull/73](https\://github\.com/ansible\-community/antsibull\-docs/pull/73)\)\.
 
-<a id="bugfixes-12"></a>
+<a id="bugfixes-13"></a>
 ### Bugfixes
 
 * Make sure that <code>build\.sh</code> created by the <code>sphinx\-init</code> subcommand sets proper permissions for antsibull\-docs on the <code>temp\-rst</code> directory it creates \([https\://github\.com/ansible\-community/antsibull\-docs/pull/79](https\://github\.com/ansible\-community/antsibull\-docs/pull/79)\)\.
 
 <a id="v1-7-4"></a>
 ## v1\.7\.4
-
-<a id="release-summary-16"></a>
-### Release Summary
-
-Bugfix release\.
-
-<a id="bugfixes-13"></a>
-### Bugfixes
-
-* Removed <code>sphinx</code> restriction in <code>requirements\.txt</code> file created by <code>antsibull\-docs sphinx\-init</code> since the bug in <code>sphinx\-rtd\-theme</code> has been fixed \([https\://github\.com/ansible\-community/antsibull\-docs/pull/69](https\://github\.com/ansible\-community/antsibull\-docs/pull/69)\)\.
-* The license header for the template for the <code>rst/index\.rst</code> file created by <code>antsibull\-docs sphinx\-init</code> was commented incorrectly and thus showed up in the templated file \([https\://github\.com/ansible\-community/antsibull\-docs/pull/67](https\://github\.com/ansible\-community/antsibull\-docs/pull/67)\)\.
-* When using <code>\-\-squash\-hierarchy</code>\, do not mention the list of collections on the collection\'s index page \([https\://github\.com/ansible\-community/antsibull\-docs/pull/72](https\://github\.com/ansible\-community/antsibull\-docs/pull/72)\)\.
-
-<a id="v1-7-3"></a>
-## v1\.7\.3
 
 <a id="release-summary-17"></a>
 ### Release Summary
@@ -498,10 +508,12 @@ Bugfix release\.
 <a id="bugfixes-14"></a>
 ### Bugfixes
 
-* Fix rendering of the <code>action\_group</code> attribute \([https\://github\.com/ansible\-community/antsibull\-docs/pull/62](https\://github\.com/ansible\-community/antsibull\-docs/pull/62)\)\.
+* Removed <code>sphinx</code> restriction in <code>requirements\.txt</code> file created by <code>antsibull\-docs sphinx\-init</code> since the bug in <code>sphinx\-rtd\-theme</code> has been fixed \([https\://github\.com/ansible\-community/antsibull\-docs/pull/69](https\://github\.com/ansible\-community/antsibull\-docs/pull/69)\)\.
+* The license header for the template for the <code>rst/index\.rst</code> file created by <code>antsibull\-docs sphinx\-init</code> was commented incorrectly and thus showed up in the templated file \([https\://github\.com/ansible\-community/antsibull\-docs/pull/67](https\://github\.com/ansible\-community/antsibull\-docs/pull/67)\)\.
+* When using <code>\-\-squash\-hierarchy</code>\, do not mention the list of collections on the collection\'s index page \([https\://github\.com/ansible\-community/antsibull\-docs/pull/72](https\://github\.com/ansible\-community/antsibull\-docs/pull/72)\)\.
 
-<a id="v1-7-2"></a>
-## v1\.7\.2
+<a id="v1-7-3"></a>
+## v1\.7\.3
 
 <a id="release-summary-18"></a>
 ### Release Summary
@@ -511,10 +523,10 @@ Bugfix release\.
 <a id="bugfixes-15"></a>
 ### Bugfixes
 
-* Fix <code>version\_added</code> processing for ansible\.builtin 0\.x to represent this as <code>Ansible 0\.x</code> instead of <code>ansible\-core 0\.x</code> \([https\://github\.com/ansible\-community/antsibull\-docs/pull/61](https\://github\.com/ansible\-community/antsibull\-docs/pull/61)\)\.
+* Fix rendering of the <code>action\_group</code> attribute \([https\://github\.com/ansible\-community/antsibull\-docs/pull/62](https\://github\.com/ansible\-community/antsibull\-docs/pull/62)\)\.
 
-<a id="v1-7-1"></a>
-## v1\.7\.1
+<a id="v1-7-2"></a>
+## v1\.7\.2
 
 <a id="release-summary-19"></a>
 ### Release Summary
@@ -524,17 +536,30 @@ Bugfix release\.
 <a id="bugfixes-16"></a>
 ### Bugfixes
 
+* Fix <code>version\_added</code> processing for ansible\.builtin 0\.x to represent this as <code>Ansible 0\.x</code> instead of <code>ansible\-core 0\.x</code> \([https\://github\.com/ansible\-community/antsibull\-docs/pull/61](https\://github\.com/ansible\-community/antsibull\-docs/pull/61)\)\.
+
+<a id="v1-7-1"></a>
+## v1\.7\.1
+
+<a id="release-summary-20"></a>
+### Release Summary
+
+Bugfix release\.
+
+<a id="bugfixes-17"></a>
+### Bugfixes
+
 * Prevent crash during <code>stable</code> docsite build when <code>\_python</code> entry is present in deps file \([https\://github\.com/ansible\-community/antsibull\-docs/pull/57](https\://github\.com/ansible\-community/antsibull\-docs/pull/57)\)\.
 
 <a id="v1-7-0"></a>
 ## v1\.7\.0
 
-<a id="release-summary-20"></a>
+<a id="release-summary-21"></a>
 ### Release Summary
 
 Bugfix and feature release\.
 
-<a id="minor-changes-12"></a>
+<a id="minor-changes-13"></a>
 ### Minor Changes
 
 * Add <code>\-\-intersphinx</code> option to the <code>sphinx\-init</code> subcommand to allow adding additional <code>intersphinx\_mapping</code> entries to <code>conf\.py</code> \([https\://github\.com/ansible\-community/antsibull\-docs/issues/35](https\://github\.com/ansible\-community/antsibull\-docs/issues/35)\, [https\://github\.com/ansible\-community/antsibull\-docs/pull/44](https\://github\.com/ansible\-community/antsibull\-docs/pull/44)\)\.
@@ -545,7 +570,7 @@ Bugfix and feature release\.
 * Use <code>ansible \-\-version</code> to figure out ansible\-core version when ansible\-core is not installed for the same Python interpreter / venv that is used for antsibull\-docs \([https\://github\.com/ansible\-community/antsibull\-docs/pull/50](https\://github\.com/ansible\-community/antsibull\-docs/pull/50)\)\.
 * Use code formatting for all values\, such as choice entries\, defaults\, and samples \([https\://github\.com/ansible\-community/antsibull\-docs/issues/38](https\://github\.com/ansible\-community/antsibull\-docs/issues/38)\, [https\://github\.com/ansible\-community/antsibull\-docs/pull/42](https\://github\.com/ansible\-community/antsibull\-docs/pull/42)\)\.
 
-<a id="bugfixes-17"></a>
+<a id="bugfixes-18"></a>
 ### Bugfixes
 
 * Avoid long aliases list to make left column too wide \([https\://github\.com/ansible\-collections/amazon\.aws/issues/1101](https\://github\.com/ansible\-collections/amazon\.aws/issues/1101)\, [https\://github\.com/ansible\-community/antsibull\-docs/pull/54](https\://github\.com/ansible\-community/antsibull\-docs/pull/54)\)\.
@@ -554,12 +579,12 @@ Bugfix and feature release\.
 <a id="v1-6-1"></a>
 ## v1\.6\.1
 
-<a id="release-summary-21"></a>
+<a id="release-summary-22"></a>
 ### Release Summary
 
 Bugfix release for ansible\-core 2\.14\.
 
-<a id="bugfixes-18"></a>
+<a id="bugfixes-19"></a>
 ### Bugfixes
 
 * Fix formulation of top\-level <code>version\_added</code> \([https\://github\.com/ansible\-community/antsibull\-docs/pull/43](https\://github\.com/ansible\-community/antsibull\-docs/pull/43)\)\.
@@ -567,19 +592,19 @@ Bugfix release for ansible\-core 2\.14\.
 <a id="v1-6-0"></a>
 ## v1\.6\.0
 
-<a id="release-summary-22"></a>
+<a id="release-summary-23"></a>
 ### Release Summary
 
 Bugfix and feature release\.
 
-<a id="minor-changes-13"></a>
+<a id="minor-changes-14"></a>
 ### Minor Changes
 
 * Allow to specify choices as dictionary instead of list \([https\://github\.com/ansible\-community/antsibull\-docs/pull/36](https\://github\.com/ansible\-community/antsibull\-docs/pull/36)\)\.
 * Use JSON serializer to format choices \([https\://github\.com/ansible\-community/antsibull\-docs/pull/37](https\://github\.com/ansible\-community/antsibull\-docs/pull/37)\)\.
 * Use special serializer to format INI values in examples \([https\://github\.com/ansible\-community/antsibull\-docs/pull/37](https\://github\.com/ansible\-community/antsibull\-docs/pull/37)\)\.
 
-<a id="bugfixes-19"></a>
+<a id="bugfixes-20"></a>
 ### Bugfixes
 
 * Avoid collection names with <code>\_</code> in them appear wrongly escaped in the HTML output \([https\://github\.com/ansible\-community/antsibull\-docs/pull/41](https\://github\.com/ansible\-community/antsibull\-docs/pull/41)\)\.
@@ -590,25 +615,6 @@ Bugfix and feature release\.
 <a id="v1-5-0"></a>
 ## v1\.5\.0
 
-<a id="release-summary-23"></a>
-### Release Summary
-
-Feature and bugfix release\.
-
-<a id="minor-changes-14"></a>
-### Minor Changes
-
-* Detect filter and test plugin aliases and avoid them being emitted multiple times\. Instead insert redirects so that stub pages will be created \([https\://github\.com/ansible\-community/antsibull\-docs/pull/33](https\://github\.com/ansible\-community/antsibull\-docs/pull/33)\)\.
-* Replace <code>ansible\.builtin</code> with <code>ansible\-core</code>\, <code>ansible\-base</code>\, or <code>Ansible</code> in version added collection names\. Also write <code>\<collection\_name\> \<version\></code> instead of <code>\<version\> of \<collection\_name\></code> \([https\://github\.com/ansible\-community/antsibull\-docs/pull/34](https\://github\.com/ansible\-community/antsibull\-docs/pull/34)\)\.
-
-<a id="bugfixes-20"></a>
-### Bugfixes
-
-* Fix escaping of collection names in version added statements\, and fix collection names for roles options \([https\://github\.com/ansible\-community/antsibull\-docs/pull/34](https\://github\.com/ansible\-community/antsibull\-docs/pull/34)\)\.
-
-<a id="v1-4-0"></a>
-## v1\.4\.0
-
 <a id="release-summary-24"></a>
 ### Release Summary
 
@@ -617,17 +623,16 @@ Feature and bugfix release\.
 <a id="minor-changes-15"></a>
 ### Minor Changes
 
-* The <code>sphinx\-init</code> subcommand now also creates an <code>antsibull\-docs\.cfg</code> file and moves configuration settings from CLI flags in <code>build\.sh</code> to this configuration file \([https\://github\.com/ansible\-community/antsibull\-docs/pull/26](https\://github\.com/ansible\-community/antsibull\-docs/pull/26)\)\.
-* There are two new options for explicitly specified configuration files named <code>collection\_url</code> and <code>collection\_install</code>\. These allow to override the URLs pointing to collections \(default link to galaxy\.ansible\.com\)\, and the commands to install collections \(use <code>ansible\-galaxy collection install</code> by default\)\. This can be useful when documenting \(internal\) collections that are not available on Ansible Galaxy\. The default <code>antsibull\-docs\.cfg</code> generated by the <code>sphinx\-init</code> subcommand shows how this can be configured \([https\://github\.com/ansible\-community/antsibull\-docs/issues/15](https\://github\.com/ansible\-community/antsibull\-docs/issues/15)\, [https\://github\.com/ansible\-community/antsibull\-docs/pull/26](https\://github\.com/ansible\-community/antsibull\-docs/pull/26)\)\.
-* When generating plugin error pages\, or showing non\-fatal errors in plugins or roles\, link to the collection\'s issue tracker instead of the collection\'s URL if available \([https\://github\.com/ansible\-community/antsibull\-docs/pull/29](https\://github\.com/ansible\-community/antsibull\-docs/pull/29)\)\.
+* Detect filter and test plugin aliases and avoid them being emitted multiple times\. Instead insert redirects so that stub pages will be created \([https\://github\.com/ansible\-community/antsibull\-docs/pull/33](https\://github\.com/ansible\-community/antsibull\-docs/pull/33)\)\.
+* Replace <code>ansible\.builtin</code> with <code>ansible\-core</code>\, <code>ansible\-base</code>\, or <code>Ansible</code> in version added collection names\. Also write <code>\<collection\_name\> \<version\></code> instead of <code>\<version\> of \<collection\_name\></code> \([https\://github\.com/ansible\-community/antsibull\-docs/pull/34](https\://github\.com/ansible\-community/antsibull\-docs/pull/34)\)\.
 
 <a id="bugfixes-21"></a>
 ### Bugfixes
 
-* Make handling of bad documentation more robust when certain values are <code>None</code> while the keys are present \([https\://github\.com/ansible\-community/antsibull\-docs/pull/32](https\://github\.com/ansible\-community/antsibull\-docs/pull/32)\)\.
+* Fix escaping of collection names in version added statements\, and fix collection names for roles options \([https\://github\.com/ansible\-community/antsibull\-docs/pull/34](https\://github\.com/ansible\-community/antsibull\-docs/pull/34)\)\.
 
-<a id="v1-3-0"></a>
-## v1\.3\.0
+<a id="v1-4-0"></a>
+## v1\.4\.0
 
 <a id="release-summary-25"></a>
 ### Release Summary
@@ -637,32 +642,39 @@ Feature and bugfix release\.
 <a id="minor-changes-16"></a>
 ### Minor Changes
 
+* The <code>sphinx\-init</code> subcommand now also creates an <code>antsibull\-docs\.cfg</code> file and moves configuration settings from CLI flags in <code>build\.sh</code> to this configuration file \([https\://github\.com/ansible\-community/antsibull\-docs/pull/26](https\://github\.com/ansible\-community/antsibull\-docs/pull/26)\)\.
+* There are two new options for explicitly specified configuration files named <code>collection\_url</code> and <code>collection\_install</code>\. These allow to override the URLs pointing to collections \(default link to galaxy\.ansible\.com\)\, and the commands to install collections \(use <code>ansible\-galaxy collection install</code> by default\)\. This can be useful when documenting \(internal\) collections that are not available on Ansible Galaxy\. The default <code>antsibull\-docs\.cfg</code> generated by the <code>sphinx\-init</code> subcommand shows how this can be configured \([https\://github\.com/ansible\-community/antsibull\-docs/issues/15](https\://github\.com/ansible\-community/antsibull\-docs/issues/15)\, [https\://github\.com/ansible\-community/antsibull\-docs/pull/26](https\://github\.com/ansible\-community/antsibull\-docs/pull/26)\)\.
+* When generating plugin error pages\, or showing non\-fatal errors in plugins or roles\, link to the collection\'s issue tracker instead of the collection\'s URL if available \([https\://github\.com/ansible\-community/antsibull\-docs/pull/29](https\://github\.com/ansible\-community/antsibull\-docs/pull/29)\)\.
+
+<a id="bugfixes-22"></a>
+### Bugfixes
+
+* Make handling of bad documentation more robust when certain values are <code>None</code> while the keys are present \([https\://github\.com/ansible\-community/antsibull\-docs/pull/32](https\://github\.com/ansible\-community/antsibull\-docs/pull/32)\)\.
+
+<a id="v1-3-0"></a>
+## v1\.3\.0
+
+<a id="release-summary-26"></a>
+### Release Summary
+
+Feature and bugfix release\.
+
+<a id="minor-changes-17"></a>
+### Minor Changes
+
 * Ensure that values for <code>default</code>\, <code>choices</code>\, and <code>sample</code> use the types specified for the option / return value \([https\://github\.com/ansible\-community/antsibull\-docs/pull/19](https\://github\.com/ansible\-community/antsibull\-docs/pull/19)\)\.
 * If a plugin or module has requirements listed\, add a disclaimer next to the installation line at the top that further requirements are needed \([https\://github\.com/ansible\-community/antsibull\-docs/issues/23](https\://github\.com/ansible\-community/antsibull\-docs/issues/23)\, [https\://github\.com/ansible\-community/antsibull\-docs/pull/24](https\://github\.com/ansible\-community/antsibull\-docs/pull/24)\)\.
 * Show the \'you might already have this collection installed if you are using the <code>ansible</code> package\' disclaimer for plugins only for official docsite builds \(subcommands <code>devel</code> and <code>stable</code>\)\. Also include this disclaimer for roles on official docsite builds \([https\://github\.com/ansible\-community/antsibull\-docs/pull/25](https\://github\.com/ansible\-community/antsibull\-docs/pull/25)\)\.
 * Use <code>true</code> and <code>false</code> for booleans instead of <code>yes</code> and <code>no</code> \([https\://github\.com/ansible\-community/community\-topics/issues/116](https\://github\.com/ansible\-community/community\-topics/issues/116)\, [https\://github\.com/ansible\-community/antsibull\-docs/pull/19](https\://github\.com/ansible\-community/antsibull\-docs/pull/19)\)\.
 * When processing formatting directives\, make sure to properly escape all other text for RST respectively HTML instead of including it verbatim \([https\://github\.com/ansible\-community/antsibull\-docs/issues/21](https\://github\.com/ansible\-community/antsibull\-docs/issues/21)\, [https\://github\.com/ansible\-community/antsibull\-docs/pull/22](https\://github\.com/ansible\-community/antsibull\-docs/pull/22)\)\.
 
-<a id="bugfixes-22"></a>
+<a id="bugfixes-23"></a>
 ### Bugfixes
 
 * Improve indentation of HTML blocks for tables to avoid edge cases which generate invalid RST \([https\://github\.com/ansible\-community/antsibull\-docs/pull/22](https\://github\.com/ansible\-community/antsibull\-docs/pull/22)\)\.
 
 <a id="v1-2-2"></a>
 ## v1\.2\.2
-
-<a id="release-summary-26"></a>
-### Release Summary
-
-Bugfix release\.
-
-<a id="bugfixes-23"></a>
-### Bugfixes
-
-* Fix rstcheck\-core support \([https\://github\.com/ansible\-community/antsibull\-docs/pull/20](https\://github\.com/ansible\-community/antsibull\-docs/pull/20)\)\.
-
-<a id="v1-2-1"></a>
-## v1\.2\.1
 
 <a id="release-summary-27"></a>
 ### Release Summary
@@ -672,25 +684,38 @@ Bugfix release\.
 <a id="bugfixes-24"></a>
 ### Bugfixes
 
+* Fix rstcheck\-core support \([https\://github\.com/ansible\-community/antsibull\-docs/pull/20](https\://github\.com/ansible\-community/antsibull\-docs/pull/20)\)\.
+
+<a id="v1-2-1"></a>
+## v1\.2\.1
+
+<a id="release-summary-28"></a>
+### Release Summary
+
+Bugfix release\.
+
+<a id="bugfixes-25"></a>
+### Bugfixes
+
 * Do not escape <code>\<</code>\, <code>\></code>\, <code>\&</code>\, and <code>\'</code> in JSONified defaults and examples as the [Jinja2 tojson filter](https\://jinja\.palletsprojects\.com/en/2\.11\.x/templates/\#tojson) does\. Also improve formatting by making sure <code>\,</code> is followed by a space \([https\://github\.com/ansible\-community/antsibull\-docs/pull/18](https\://github\.com/ansible\-community/antsibull\-docs/pull/18)\)\.
 * The collection filter was ignored when parsing the <code>ansible\-galaxy collection list</code> output for the docs build \([https\://github\.com/ansible\-community/antsibull\-docs/issues/16](https\://github\.com/ansible\-community/antsibull\-docs/issues/16)\, [https\://github\.com/ansible\-community/antsibull\-docs/pull/17](https\://github\.com/ansible\-community/antsibull\-docs/pull/17)\)\.
 
 <a id="v1-2-0"></a>
 ## v1\.2\.0
 
-<a id="release-summary-28"></a>
+<a id="release-summary-29"></a>
 ### Release Summary
 
 Feature and bugfix release\.
 
-<a id="minor-changes-17"></a>
+<a id="minor-changes-18"></a>
 ### Minor Changes
 
 * Support plugin <code>seealso</code> from the [semantic markup specification](https\://hackmd\.io/VjN60QSoRSSeRfvGmOH1lQ\?both) \([https\://github\.com/ansible\-community/antsibull\-docs/pull/8](https\://github\.com/ansible\-community/antsibull\-docs/pull/8)\)\.
 * The <code>lint\-collection\-docs</code> subcommand has a new boolean flag <code>\-\-plugin\-docs</code> which renders the plugin docs to RST and validates them with rstcheck\. This can be used as a lighter version of rendering the docsite in CI \([https\://github\.com/ansible\-community/antsibull\-docs/pull/12](https\://github\.com/ansible\-community/antsibull\-docs/pull/12)\)\.
 * The files in the source repository now follow the [REUSE Specification](https\://reuse\.software/spec/)\. The only exceptions are changelog fragments in <code>changelogs/fragments/</code> \([https\://github\.com/ansible\-community/antsibull\-docs/pull/14](https\://github\.com/ansible\-community/antsibull\-docs/pull/14)\)\.
 
-<a id="bugfixes-25"></a>
+<a id="bugfixes-26"></a>
 ### Bugfixes
 
 * Make sure that <code>\_input</code> does not show up twice for test or filter arguments when the plugin mentions it in <code>positional</code> \([https\://github\.com/ansible\-community/antsibull\-docs/pull/10](https\://github\.com/ansible\-community/antsibull\-docs/pull/10)\)\.
@@ -699,12 +724,12 @@ Feature and bugfix release\.
 <a id="v1-1-0"></a>
 ## v1\.1\.0
 
-<a id="release-summary-29"></a>
+<a id="release-summary-30"></a>
 ### Release Summary
 
 Feature release with support for ansible\-core 2\.14\'s sidecar docs feature\.
 
-<a id="minor-changes-18"></a>
+<a id="minor-changes-19"></a>
 ### Minor Changes
 
 * If lookup plugins have a single return value starting with <code>\_</code>\, that return value is now labelled <code>Return value</code> \([https\://github\.com/ansible\-community/antsibull\-docs/pull/6](https\://github\.com/ansible\-community/antsibull\-docs/pull/6)\)\.
@@ -716,12 +741,12 @@ Feature release with support for ansible\-core 2\.14\'s sidecar docs feature\.
 <a id="v1-0-1"></a>
 ## v1\.0\.1
 
-<a id="release-summary-30"></a>
+<a id="release-summary-31"></a>
 ### Release Summary
 
 Bugfix release\.
 
-<a id="bugfixes-26"></a>
+<a id="bugfixes-27"></a>
 ### Bugfixes
 
 * Make sure that aliases of module/plugin options and return values that result in identical RST labels under docutil\'s normalization are only emitted once \([https\://github\.com/ansible\-community/antsibull\-docs/pull/7](https\://github\.com/ansible\-community/antsibull\-docs/pull/7)\)\.
@@ -730,7 +755,7 @@ Bugfix release\.
 <a id="v1-0-0"></a>
 ## v1\.0\.0
 
-<a id="release-summary-31"></a>
+<a id="release-summary-32"></a>
 ### Release Summary
 
 First stable release\.
@@ -740,7 +765,7 @@ First stable release\.
 
 * From version 1\.0\.0 on\, antsibull\-docs is sticking to semantic versioning and aims at providing no backwards compatibility breaking changes <strong>to the command line API \(antsibull\-docs\)</strong> during a major release cycle\. We explicitly exclude code compatibility\. <strong>antsibull\-docs is not supposed to be used as a library\,</strong> and when used as a library it might not conform to semantic versioning \([https\://github\.com/ansible\-community/antsibull\-docs/pull/2](https\://github\.com/ansible\-community/antsibull\-docs/pull/2)\)\.
 
-<a id="minor-changes-19"></a>
+<a id="minor-changes-20"></a>
 ### Minor Changes
 
 * Only mention \'These are the collections with docs hosted on docs\.ansible\.com\' for <code>stable</code> and <code>devel</code> subcommands \([https\://github\.com/ansible\-community/antsibull\-docs/pull/3](https\://github\.com/ansible\-community/antsibull\-docs/pull/3)\)\.
@@ -749,7 +774,7 @@ First stable release\.
 <a id="v0-1-0"></a>
 ## v0\.1\.0
 
-<a id="release-summary-32"></a>
+<a id="release-summary-33"></a>
 ### Release Summary
 
 Initial release\. The <code>antsibull\-docs</code> tool is compatible to the one from antsibull 0\.43\.0\.

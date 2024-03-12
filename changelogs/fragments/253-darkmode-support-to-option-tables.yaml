@@ -1,3 +1,0 @@
----
-minor_changes:
-  - Add support for "dark mode" to the option table styling (https://github.com/ansible-community/antsibull-docs/pull/253, https://github.com/ansible-community/antsibull-docs/pull/258).
