@@ -35,10 +35,11 @@ The `sphinx_antsibull_ext` [Sphinx extension](https://www.sphinx-doc.org/en/mast
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'notfound.extension', 'sphinx_antsibull_ext']
 ```
 
-It is possible to configure the color scheme used by the extension using the `antsibull_ext_color_scheme` configuration. Currently, two values are supported:
+It is possible to configure the color scheme used by the extension using the `antsibull_ext_color_scheme` configuration. Currently, three values are supported:
 
 1. `default`: the default colors.
-2. `none`: define no colors. You can use this if you want to override all colors by your own definition and thus have no need for the default colors to be included.
+2. `default-autodark`: the default colors with dark mode support.
+3. `none`: define no colors. You can use this if you want to override all colors by your own definition and thus have no need for the default colors to be included.
 
 The default color scheme can be found in [src/sphinx_antsibull_ext/css/colors-default.scss](https://github.com/ansible-community/antsibull-docs/blob/main/src/sphinx_antsibull_ext/css/colors-default.scss). See the [MDN page on using CSS custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties) for information on how the color definitions work.
 
