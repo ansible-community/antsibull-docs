@@ -1,0 +1,36 @@
+// Copyright (c) Ansible and contributors
+// GNU General Public License v3.0+ (see https://www.gnu.org/licenses/gpl-3.0.txt)
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+@mixin colors {
+  // Links
+  --antsibull-links-background: #5bbdbf;
+  --antsibull-links-background-active: #91d9db;
+  --antsibull-links-focus-outline: #204748;
+  --antsibull-links-text: white;
+
+  // Tables
+  --antsibull-table-background-header: #6AB0DE;
+  --antsibull-table-background-even: #E7F2FA;
+  --antsibull-table-background-odd: #FFFFFF;
+  --antsibull-table-border: #000000;
+
+  // Narrow width "table" view that's no longer a table
+  --antsibull-narrowtable-background: #E7F2FA;
+
+  // Options
+  --antsibull-option-type: purple;
+  --antsibull-option-elements: purple;
+  --antsibull-option-required: red;
+  --antsibull-option-version-added: darkgreen;
+  --antsibull-option-aliases: darkgreen;
+  --antsibull-option-default: blue;
+  --antsibull-option-sample: blue;
+  --antsibull-option-sample-header: black;
+
+  // Attribute support
+  --antsibull-attribute-support-none: red;
+  --antsibull-attribute-support-partial: #a5a500;
+  --antsibull-attribute-support-full: green;
+  --antsibull-attribute-support-na: inherit;
+}

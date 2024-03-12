@@ -58,6 +58,7 @@ _AVAILABLE_COLOR_SCHEMES = [
     "none",
     "default",
     "default-autodark",
+    "default-dark",
 ]
 
 
