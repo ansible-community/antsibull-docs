@@ -5,6 +5,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
 # antsibull-docs -- Ansible Documentation Build Scripts
+[![Discuss on Matrix at #antsibull:ansible.com](https://img.shields.io/matrix/antsibull:ansible.com.svg?server_fqdn=ansible-accounts.ems.host&label=Discuss%20on%20Matrix%20at%20%23antsibull:ansible.com&logo=matrix)](https://matrix.to/#/#antsibull:ansible.com)
 [![Discuss on Matrix at #docs:ansible.com](https://img.shields.io/matrix/docs:ansible.com.svg?server_fqdn=ansible-accounts.ems.host&label=Discuss%20on%20Matrix%20at%20%23docs:ansible.com&logo=matrix)](https://matrix.to/#/#docs:ansible.com)
 [![Nox badge](https://github.com/ansible-community/antsibull-docs/actions/workflows/nox.yml/badge.svg)](https://github.com/ansible-community/antsibull-docs/actions/workflows/nox.yml)
 [![Build docs testing badge](https://github.com/ansible-community/antsibull-docs/workflows/antsibull-docs%20tests/badge.svg?event=push&branch=main)](https://github.com/ansible-community/antsibull-docs/actions?query=workflow%3A%22antsibull-docs+tests%22+branch%3Amain)
