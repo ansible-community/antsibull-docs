@@ -243,7 +243,7 @@ def bump(session: nox.Session):
                 "or two positional arguments must be provided."
             )
     # Needs newer antsibull-changelog for hatch version auto-detection support
-    install(session, "antsibull-changelog[toml] >= 0.24.0", "hatch")
+    install(session, "antsibull-changelog[toml] >= 0.26.0", "hatch")
     current_version = session.run("hatch", "version", silent=True).strip()
     if version != current_version:
         session.run("hatch", "version", version)
