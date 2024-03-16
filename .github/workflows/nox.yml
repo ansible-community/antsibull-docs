@@ -23,11 +23,25 @@ env:
   FORCE_COLOR: "1"
 
 jobs:
-  nox-lint:
+  nox:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: antsibull-docs
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - session: test
+            python-versions: "3.9, 3.10, 3.11, 3.12"
+            codecov: true
+            packages: ""
+
+          - session: lint
+            python-versions: "3.12"
+            codecov: false
+            packages: ""
+    name: "Run nox ${{ matrix.session }} session"
     steps:
       - name: Check out antsibull-docs
         uses: actions/checkout@v4
@@ -43,52 +57,29 @@ jobs:
         with:
           repository: ansible-community/antsibull-docs-parser
           path: antsibull-docs-parser
+      - name: Install extra packages
+        if: "matrix.packages != ''"
+        run: |
+          sudo apt-get install -y ${{ matrix.packages }}
       - name: Setup nox
         uses: wntrblm/nox@2024.03.02
         with:
-          python-versions: "3.12"
-      - name: Set up environments
+          python-versions: "${{ matrix.python-versions }}"
+      - name: Set up nox environments
         run: |
-          nox -v -e lint --install-only
-      - name: Run linters
+          OTHER_ANTSIBULL_MODE=git nox -v -e "${{ matrix.session }}" ${{ matrix.codecov && 'coverage' || '' }} --install-only
+      - name: "Run nox -e ${{ matrix.session }}"
         run: |
-          nox -v -e lint --reuse-existing-virtualenvs --no-install
-  nox-test:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: antsibull-docs
-    steps:
-      - name: Check out antsibull-docs
-        uses: actions/checkout@v4
-        with:
-          path: antsibull-docs
-      - name: Check out dependent project antsibull-core
-        uses: actions/checkout@v4
-        with:
-          repository: ansible-community/antsibull-core
-          path: antsibull-core
-      - name: Check out dependent project antsibull-docs-parser
-        uses: actions/checkout@v4
-        with:
-          repository: ansible-community/antsibull-docs-parser
-          path: antsibull-docs-parser
-      - name: Setup nox
-        uses: wntrblm/nox@2024.03.02
-        with:
-          python-versions: "3.9, 3.10, 3.11, 3.12"
-      - name: Set up environments
-        run: |
-          nox -v -e test coverage --install-only
-      - name: Run unit tests
-        run: |
-          nox -v -e test --reuse-existing-virtualenvs --no-install
+          OTHER_ANTSIBULL_MODE=git nox -v -e "${{ matrix.session }}" --reuse-existing-virtualenvs --no-install
       - name: Report coverage
+        if: ${{ matrix.codecov }}
         run: |
           nox -v -e coverage --reuse-existing-virtualenvs --no-install
       - name: Upload coverage
+        if: ${{ matrix.codecov }}
         uses: codecov/codecov-action@v3
         with:
           directory: antsibull-docs
+          name: "${{ matrix.session }}"
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
