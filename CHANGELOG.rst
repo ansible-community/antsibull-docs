@@ -4,6 +4,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.9.0
+======
+
+Release Summary
+---------------
+
+Maintenance release.
+
+Minor Changes
+-------------
+
+- Add support for the antsibull-core v3 (https://github.com/ansible-community/antsibull-docs/pull/261).
+
 v2.8.0
 ======
 
