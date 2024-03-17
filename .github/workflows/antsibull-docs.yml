@@ -138,9 +138,9 @@ jobs:
         working-directory: antsibull-docs
 
       - name: Upload coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
-          directory: antsibull-docs
+          working-directory: antsibull-docs
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
@@ -196,9 +196,9 @@ jobs:
         working-directory: antsibull-docs
 
       - name: Upload coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
-          directory: antsibull-docs
+          working-directory: antsibull-docs
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
@@ -254,8 +254,8 @@ jobs:
         working-directory: antsibull-docs
 
       - name: Upload coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
-          directory: antsibull-docs
+          working-directory: antsibull-docs
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
