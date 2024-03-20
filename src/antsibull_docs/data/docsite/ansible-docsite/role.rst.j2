@@ -189,6 +189,16 @@ See Also
 {%     endfor %}
 {%   endif %}
 
+{%   if ep_doc['examples'] -%}
+Examples
+--------
+
+.. code-block:: @{ ep_doc['examples_format'] | rst_format(for_sphinx=true) }@
+
+@{     ep_doc['examples'] | indent(4, True) }@
+
+{%   endif %}
+
 {%   if ep_doc['author'] -%}
 Authors
 ^^^^^^^

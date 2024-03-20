@@ -1867,6 +1867,7 @@
       "description": [
        "This is the baz entrypoint of the bar role."
       ],
+      "examples": "An example.",
       "short_description": "Bar role, baz entrypoint \u30c6\u30b9\u30c8\u30ed\u30fc\u30eb"
      },
      "main": {
@@ -1920,6 +1921,7 @@
        "This is the foo role.",
        "If you set O(foo_param_1) while O(foo_param_2=3), this might behave funny."
       ],
+      "examples": "- name: Use role\n  include_role: ns2.col.foo\n  vars:\n    foo_param_1: foobar\n    foo_param_2: 23",
       "options": {
        "foo_param_1": {
         "description": [
