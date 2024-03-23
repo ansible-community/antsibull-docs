@@ -110,12 +110,16 @@
       :ansible-option-default-bold:`Default:` :ansible-option-default:`@{ value['default'] | antsibull_to_json | rst_escape(escape_ending_whitespace=true) | indent(6, blank=true) }@`
 {%   endif %}
 {#   Configuration #}
-{%   if plugin_type != 'module' and plugin_type != 'role' and (value['ini'] or value['env'] or value['vars'] or value['cli']) %}
+{%   if plugin_type != 'role' and (value['ini'] or value['env'] or value['vars'] or value['cli']) %}
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-configuration:`Configuration:`
 
+{%     if plugin_type == 'module' and value['env'] %}
+      The below environment variable{% if value['env'] | length > 1 %}s{% endif %} will be used on the host that executes this module.
+
+{%     endif %}
 {%     if value['ini'] %}
       - INI {% if value['ini'] | length == 1 %}entry{% else %}entries{% endif %}:
 {%       for ini in value['ini'] %}
@@ -143,7 +147,7 @@
 {%       endif %}
 @{       deprecates_rst(env['deprecated'], collection, 8, role_entrypoint=role_entrypoint) }@
 {%     endfor %}
-{%     for myvar in value['vars'] %}
+{%     for myvar in value['vars'] | default([]) %}
       - Variable: @{ myvar['name'] | rst_escape }@
 {%       if myvar['version_added'] is still_relevant(collection=myvar['version_added_collection'] or collection) %}
 
@@ -151,7 +155,7 @@
 {%       endif %}
 @{       deprecates_rst(myvar['deprecated'], collection, 8, role_entrypoint=role_entrypoint) }@
 {%     endfor %}
-{%     for kw in value['keyword'] %}
+{%     for kw in value['keyword'] | default([]) %}
       - Keyword: @{ kw['name'] | rst_escape }@
 {%       if kw['version_added'] is still_relevant(collection=kw['version_added_collection'] or collection) %}
 
@@ -159,7 +163,7 @@
 {%       endif %}
 @{       deprecates_rst(kw['deprecated'], collection, 8, role_entrypoint=role_entrypoint) }@
 {%     endfor %}
-{%     for mycli in value['cli'] %}
+{%     for mycli in value['cli'] | default([]) %}
       - CLI argument: @{ mycli['option'] | rst_escape }@
 {%       if mycli['version_added'] is still_relevant(collection=mycli['version_added_collection'] or collection) %}
 
@@ -239,8 +243,11 @@
       <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-value literal notranslate ansible-option-default">@{ value['default'] | antsibull_to_json | escape | indent(6, blank=true) }@</code></p>
 {%   endif %}
 {#   Configuration #}
-{%   if plugin_type != 'module' and plugin_type != 'role' and (value['ini'] or value['env'] or value['vars'] or value['cli']) %}
+{%   if plugin_type != 'role' and (value['ini'] or value['env'] or value['vars'] or value['cli']) %}
       <p class="ansible-option-line"><strong class="ansible-option-configuration">Configuration:</strong></p>
+{%     if plugin_type == 'module' and value['env'] %}
+      <p>The below environment variable{% if value['env'] | length > 1 %}s{% endif %} will be used on the host that executes this module.</p>
+{%     endif %}
       <ul class="simple">
 {%     if value['ini'] %}
       <li>
@@ -268,7 +275,7 @@
 @{       deprecates_html(env['deprecated'], collection, role_entrypoint=role_entrypoint) }@
       </li>
 {%     endfor %}
-{%     for myvar in value['vars'] %}
+{%     for myvar in value['vars'] | default([]) %}
       <li>
         <p>Variable: @{ myvar['name'] | escape }@</p>
 {%       if myvar['version_added'] is still_relevant(collection=myvar['version_added_collection'] or collection) %}
@@ -277,7 +284,7 @@
 @{       deprecates_html(myvar['deprecated'], collection, role_entrypoint=role_entrypoint) }@
       </li>
 {%     endfor %}
-{%     for kw in value['keyword'] %}
+{%     for kw in value['keyword'] | default([]) %}
       <li>
         <p>Keyword: @{ kw['name'] | escape }@</p>
 {%       if kw['version_added'] is still_relevant(collection=kw['version_added_collection'] or collection) %}
@@ -286,7 +293,7 @@
 @{       deprecates_html(kw['deprecated'], collection, role_entrypoint=role_entrypoint) }@
       </li>
 {%     endfor %}
-{%     for mycli in value['cli'] %}
+{%     for mycli in value['cli'] | default([]) %}
       <li>
         <p>CLI argument: @{ mycli['option'] | escape }@</p>
 {%       if mycli['version_added'] is still_relevant(collection=mycli['version_added_collection'] or collection) %}
