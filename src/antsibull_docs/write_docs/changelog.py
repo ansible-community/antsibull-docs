@@ -46,31 +46,39 @@ async def write_changelog(
     flog = mlog.fields(func="write_changelog")
     flog.debug("Enter")
 
-    paths = PathsConfig.force_collection(collection_metadata.path)
+    try:
+        paths = PathsConfig.force_collection(collection_metadata.path)
 
-    collection_details = CollectionDetails(paths)
-    collection_details.namespace, collection_details.name = collection_name.split(
-        ".", 1
-    )
-    collection_details.version = collection_metadata.version
-    collection_details.flatmap = collection_metadata.docs_config.flatmap
+        collection_details = CollectionDetails(paths)
+        collection_details.namespace, collection_details.name = collection_name.split(
+            ".", 1
+        )
+        collection_details.version = collection_metadata.version
+        collection_details.flatmap = collection_metadata.docs_config.flatmap
 
-    config = ChangelogConfig.default(paths, collection_details)
-    config.title = collection_name.title()
-    config.use_fqcn = True
-    config.mention_ancestor = True
-    config.flatmap = collection_metadata.docs_config.flatmap
+        config = ChangelogConfig.default(paths, collection_details)
+        config.title = collection_name.title()
+        config.use_fqcn = True
+        config.mention_ancestor = True
+        config.flatmap = collection_metadata.docs_config.flatmap
 
-    changes = load_changes(config)
+        changes = load_changes(config)
 
-    generator = ChangelogGenerator(config, changes)
+        generator = ChangelogGenerator(config, changes)
 
-    renderer = create_document_renderer(output_format.changelog_format)
-    generator.generate(renderer)
+        renderer = create_document_renderer(output_format.changelog_format)
+        generator.generate(renderer)
 
-    changelog_contents = renderer.render()
-    for warning in renderer.get_warnings():
-        flog.warning(warning)
+        changelog_contents = renderer.render()
+        for warning in renderer.get_warnings():
+            flog.warning(warning)
+    except Exception as exc:  # pylint: disable=broad-exception-caught
+        flog.warning(f"Error while processing changelog for {collection_name}: {exc}")
+        changelog_contents = f"""
+The changelog of {collection_name} could not be rendered::
+
+  {exc}
+"""
 
     changelog_file = os.path.join(
         collection_dir, f"changelog{output_format.output_extension}"

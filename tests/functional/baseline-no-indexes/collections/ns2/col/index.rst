@@ -66,6 +66,13 @@ Communication
 .. toctree::
     :maxdepth: 1
 
+Changelog
+---------
+
+.. toctree::
+    :maxdepth: 1
+
+    changelog
 
 Guides
 ------

@@ -70,7 +70,7 @@ def generate_plugin_docs(
         )
     except CalledProcessError as exc:
         err_msg = []
-        formatted_exception = traceback.format_exception(None, exc, exc.__traceback__)
+        formatted_exception = traceback.format_exception(exc)
         err_msg.append(
             f"Exception while parsing documentation for {plugin_type} plugin:"
             f" {plugin_name}.  Will not document this plugin."
