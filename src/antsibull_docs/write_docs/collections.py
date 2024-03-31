@@ -117,7 +117,7 @@ async def write_plugin_lists(
         collection_communication=link_data.communication,
         for_official_docsite=for_official_docsite,
         squash_hierarchy=squash_hierarchy,
-        has_changelog=collection_meta.docs_config.include_changelog,
+        has_changelog=collection_meta.docs_config.changelog.write_changelog,
     )
 
     index_file = os.path.join(dest_dir, f"index{output_format.output_extension}")

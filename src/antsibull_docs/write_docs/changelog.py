@@ -110,7 +110,7 @@ async def output_changelogs(
     async with asyncio_pool.AioPool(size=lib_ctx.thread_max) as pool:
         for collection_name in collection_to_plugin_info:
             metadata = collection_metadata[collection_name]
-            if not metadata.docs_config.include_changelog:
+            if not metadata.docs_config.changelog.write_changelog:
                 continue
 
             namespace, collection = collection_name.split(".", 1)
