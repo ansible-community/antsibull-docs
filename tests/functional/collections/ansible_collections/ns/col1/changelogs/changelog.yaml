@@ -1,0 +1,109 @@
+---
+# Copyright (c) Ansible Project
+# GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+ancestor: 1.0.2
+releases:
+  2.0.0:
+    changes:
+      bugfixes:
+      - reverse lookup - fix bug in error message.
+      release_summary: We're happy to release 2.0.0 with a new plugin!
+    fragments:
+    - 2.0.0.rst
+    - fix-doc.yml
+    release_date: '2020-04-30'
+  2.0.0-1:
+    plugins:
+      lookup:
+      - description: reverse magic
+        name: reverse
+        namespace: null
+    release_date: '2020-04-29'
+  2.1.0:
+    changes:
+      release_summary: Bob was there, too!
+    fragments:
+    - v2.1.0.rst
+    release_date: '2020-05-01'
+  2.1.0-beta:
+    plugins:
+      lookup:
+      - description: Bob was there, too
+        name: bob
+        namespace: null
+    release_date: '2020-04-30'
+  2.1.0-beta-2:
+    changes:
+      bugfixes:
+      - bob lookup - forgot to check whether ``Bob`` was already there.
+    fragments:
+    - bob-exists.yml
+    release_date: '2020-05-01'
+  2.2.0:
+    changes:
+      bugfixes:
+      - Renamed ``master`` git branch to ``main``.
+      minor_changes:
+      - "And a final complex reStructuredText fragment.\n\nThe way to import a PowerShell
+        or C# module util from a collection has changed in the Ansible 2.9 release.
+        In Ansible\n2.8 a util was imported with the following syntax:\n\n.. code-block::
+        powershell\n\n    #AnsibleRequires -CSharpUtil AnsibleCollections.namespace_name.collection_name.util_filename\n
+        \   #AnsibleRequires -PowerShell AnsibleCollections.namespace_name.collection_name.util_filename\n\nIn
+        Ansible 2.9 this was changed to:\n\n.. code-block:: powershell\n\n    #AnsibleRequires
+        -CSharpUtil ansible_collections.namespace_name.collection_name.plugins.module_utils.util_filename\n
+        \   #AnsibleRequires -PowerShell ansible_collections.namespace_name.collection_name.plugins.module_utils.util_filename\n\nThe
+        change in the collection import name also requires any C# util namespaces
+        to be updated with the newer name\nformat. This is more verbose but is designed
+        to make sure we avoid plugin name conflicts across separate plugin types\nand
+        to standardise how imports work in PowerShell with how Python modules work.\n"
+      - 'This is an example of a longer reStructuredText fragment.
+
+
+        Ansible 2.9 handles "unsafe" data more robustly, ensuring that data marked
+        "unsafe" is not templated. In previous versions, Ansible recursively marked
+        all data returned by the direct use of ``lookup()`` as "unsafe", but only
+        marked structured data returned by indirect lookups using ``with_X`` style
+        loops as "unsafe" if the returned elements were strings. Ansible 2.9 treats
+        these two approaches consistently.
+
+
+        As a result, if you use ``with_dict`` to return keys with templatable values,
+        your templates may no longer work as expected in Ansible 2.9.
+
+
+        To allow the old behavior, switch from using ``with_X`` to using ``loop``
+        with a filter as described at :ref:`migrating_to_loop`.
+
+        '
+      - "This is an example of a more complex reStructuredText fragment.\n\nModule
+        and module_utils files can now use relative imports to include other module_utils
+        files.\nThis is useful for shortening long import lines, especially in collections.\n\nExample
+        of using a relative import in collections:\n\n.. code-block:: python\n\n  #
+        File: ansible_collections/my_namespace/my_collection/plugins/modules/my_module.py\n
+        \ # Old way to use an absolute import to import module_utils from the collection:\n
+        \ from ansible_collections.my_namespace.my_collection.plugins.module_utils
+        import my_util\n  # New way using a relative import:\n  from ..module_utils
+        import my_util\n\nModules and module_utils shipped with Ansible can use relative
+        imports as well but the savings\nare smaller:\n\n.. code-block:: python\n\n
+        \ # File: ansible/modules/system/ping.py\n  # Old way to use an absolute import
+        to import module_utils from core:\n  from ansible.module_utils.basic import
+        AnsibleModule\n  # New way using a relative import:\n  from ...module_utils.basic
+        import AnsibleModule\n\nEach single dot (``.``) represents one level of the
+        tree (equivalent to ``../`` in filesystem relative links).\n\n.. seealso::
+        `The Python Relative Import Docs <https://www.python.org/dev/peps/pep-0328/#guido-s-decision>`_
+        go into more detail of how to write relative imports.\n"
+      release_summary: Testing long changelog fragments. Nothing else in this release.
+        Ignore the fragment contents!
+    fragments:
+    - 2.2.0.yml
+    - master-main.yml
+    - something-long.yml
+    release_date: '2020-05-27'
+  2.3.0-pre:
+    changes:
+      release_summary: Just testing with pre-releases.
+    fragments:
+    - 2.3.0-pre.yml
+    release_date: '2020-06-27'

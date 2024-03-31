@@ -24,6 +24,10 @@ A short description.
 
 
 
+Changelog
+---------
+
+`Ns.Col1 Release Notes <changelog.rst>`_
 
 
 Plugin Index
