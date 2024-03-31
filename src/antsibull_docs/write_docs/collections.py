@@ -24,7 +24,7 @@ from ..extra_docs import CollectionExtraDocsInfoT
 from ..jinja2 import FilenameGenerator, OutputFormat
 from ..jinja2.environment import doc_environment, get_template_filename
 from ..utils.collection_name_transformer import CollectionNameTransformer
-from . import CollectionInfoT, _render_template
+from . import CollectionInfoT, _get_collection_dir, _render_template
 
 mlog = log.fields(mod=__name__)
 
@@ -119,9 +119,6 @@ async def write_plugin_lists(
         squash_hierarchy=squash_hierarchy,
     )
 
-    # This is only safe because we made sure that the top of the directory tree we're writing to
-    # (docs/docsite/rst) is only writable by us.
-    os.makedirs(dest_dir, mode=0o755, exist_ok=True)
     index_file = os.path.join(dest_dir, f"index{output_format.output_extension}")
 
     await write_file(index_file, index_contents)
@@ -183,25 +180,16 @@ async def output_indexes(
     writers = []
     lib_ctx = app_context.lib_ctx.get()
 
-    if not squash_hierarchy:
-        collection_toplevel = os.path.join(dest_dir, "collections")
-        flog.fields(
-            toplevel=collection_toplevel, exists=os.path.isdir(collection_toplevel)
-        ).debug("collection_toplevel exists?")
-        # This is only safe because we made sure that the top of the directory tree we're writing to
-        # (docs/docsite/rst) is only writable by us.
-        os.makedirs(collection_toplevel, mode=0o755, exist_ok=True)
-    else:
-        collection_toplevel = dest_dir
-
     async with asyncio_pool.AioPool(size=lib_ctx.thread_max) as pool:
         for collection_name, plugin_maps in collection_to_plugin_info.items():
-            if not squash_hierarchy:
-                collection_dir = os.path.join(
-                    collection_toplevel, *(collection_name.split("."))
-                )
-            else:
-                collection_dir = collection_toplevel
+            namespace, collection = collection_name.split(".", 1)
+            collection_dir = _get_collection_dir(
+                dest_dir,
+                namespace,
+                collection,
+                squash_hierarchy=squash_hierarchy,
+                create_if_not_exists=True,
+            )
             writers.append(
                 await pool.spawn(
                     write_plugin_lists(
@@ -246,19 +234,16 @@ async def output_extra_docs(
     writers = []
     lib_ctx = app_context.lib_ctx.get()
 
-    if not squash_hierarchy:
-        collection_toplevel = os.path.join(dest_dir, "collections")
-    else:
-        collection_toplevel = dest_dir
-
     async with asyncio_pool.AioPool(size=lib_ctx.thread_max) as pool:
         for collection_name, (dummy, documents) in extra_docs_data.items():
-            if not squash_hierarchy:
-                collection_dir = os.path.join(
-                    collection_toplevel, *(collection_name.split("."))
-                )
-            else:
-                collection_dir = collection_toplevel
+            namespace, collection = collection_name.split(".", 1)
+            collection_dir = _get_collection_dir(
+                dest_dir,
+                namespace,
+                collection,
+                squash_hierarchy=squash_hierarchy,
+                create_if_not_exists=True,
+            )
             for source_path, rel_path in documents:
                 full_path = os.path.join(collection_dir, rel_path)
                 os.makedirs(os.path.dirname(full_path), mode=0o755, exist_ok=True)
