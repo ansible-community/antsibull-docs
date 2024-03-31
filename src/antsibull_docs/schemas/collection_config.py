@@ -20,3 +20,6 @@ class CollectionConfig(p.BaseModel):
     # List of environment variables that are defined by `.. envvar::` directives
     # in the extra docsite RST files.
     envvar_directives: list[str] = []
+
+    # Whether to include the collection's changelog (added in version 2.10.0)
+    include_changelog: bool = False

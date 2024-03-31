@@ -102,6 +102,16 @@ Communication
 .. toctree::
     :maxdepth: 1
 
+{% if has_changelog %}
+Changelog
+---------
+
+.. toctree::
+    :maxdepth: 1
+
+    changelog
+{% endif %}
+
 {% for section in extra_docs_sections %}
 @{section.title}@
 @{ '-' * (section.title | column_width) }@

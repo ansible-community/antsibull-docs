@@ -10,29 +10,45 @@ from __future__ import annotations
 
 from enum import Enum
 
+from antsibull_changelog.config import TextFormat
+
 
 class OutputFormat(Enum):
     def __init__(
-        self, output_format: str, template_extension: str, output_extension: str
+        self,
+        output_format: str,
+        template_extension: str,
+        output_extension: str,
+        changelog_format: TextFormat,
     ):
         self._output_format = output_format
         self._template_extension = template_extension
         self._output_extension = output_extension
+        self._changelog_format = changelog_format
 
-    ANSIBLE_DOCSITE = ("ansible-docsite", ".rst.j2", ".rst")
-    SIMPLIFIED_RST = ("simplified-rst", ".rst.j2", ".rst")
+    ANSIBLE_DOCSITE = (
+        "ansible-docsite",
+        ".rst.j2",
+        ".rst",
+        TextFormat.RESTRUCTURED_TEXT,
+    )
+    SIMPLIFIED_RST = ("simplified-rst", ".rst.j2", ".rst", TextFormat.RESTRUCTURED_TEXT)
 
     @property
-    def output_format(self):
+    def output_format(self) -> str:
         return self._output_format
 
     @property
-    def template_extension(self):
+    def template_extension(self) -> str:
         return self._template_extension
 
     @property
-    def output_extension(self):
+    def output_extension(self) -> str:
         return self._output_extension
+
+    @property
+    def changelog_format(self) -> TextFormat:
+        return self._changelog_format
 
     @classmethod
     def parse(cls, output_format: str) -> OutputFormat:

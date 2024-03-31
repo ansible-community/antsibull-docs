@@ -46,6 +46,7 @@ Communication
 - Mailing list: `Ansible Project List <https://groups.google.com/g/ansible-project>`__.
   (`Subscribe <mailto:ansible-project+subscribe@googlegroups.com?subject=subscribe>`__)
 
+
 Guides
 ------
 
