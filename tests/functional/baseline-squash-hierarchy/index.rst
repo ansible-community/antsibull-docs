@@ -82,7 +82,6 @@ Guides
 
     docsite/filter_guide
 
-
 Plugin Index
 ------------
 

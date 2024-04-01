@@ -40,7 +40,6 @@ Changelog
 
     changelog
 
-
 Plugin Index
 ------------
 

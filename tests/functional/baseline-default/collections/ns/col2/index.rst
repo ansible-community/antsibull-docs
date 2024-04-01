@@ -33,8 +33,6 @@ Description
 .. toctree::
     :maxdepth: 1
 
-
-
 Plugin Index
 ------------
 

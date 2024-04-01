@@ -85,8 +85,8 @@ Changelog
 ---------
 
 `@{ collection_name.title() }@ Release Notes <changelog.rst>`_
-{% endif %}
 
+{% endif %}
 {% for section in extra_docs_sections %}
 @{section.title}@
 @{ '-' * (section.title | column_width) }@
@@ -102,7 +102,6 @@ Changelog
 {%   endif %}
 
 {% endfor %}
-
 Plugin Index
 ------------
 

@@ -41,7 +41,6 @@ Changelog
 
     changelog
 
-
 Plugin Index
 ------------
 

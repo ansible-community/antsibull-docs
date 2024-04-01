@@ -56,7 +56,6 @@ Guides
 
 * `<docsite/filter_guide.rst>`_
 
-
 Plugin Index
 ------------
 
