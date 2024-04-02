@@ -1,2 +1,2 @@
 minor_changes:
-  - "It is now possible to render the collection's changelog as part of the collection's docsite by using the ``changelog`` option in ``docs/docsite/config.yml`` (https://github.com/ansible-community/antsibull-docs/issues/31, https://github.com/ansible-community/antsibull-docs/pull/267)."
+  - "It is now possible to render the collection changelog as part of the collection docsite by using the ``changelog`` option in ``docs/docsite/config.yml`` (https://github.com/ansible-community/antsibull-docs/issues/31, https://github.com/ansible-community/antsibull-docs/pull/267)."

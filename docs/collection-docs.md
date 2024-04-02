@@ -145,7 +145,7 @@ changelog:
   write_changelog: false
 ```
 
-Most collections only want to use `envvar_directives` and `changelog`. The `flatmap` option was mainly needed for older versions of community.general and community.network and should only be used for legacy collections and not for new ones.
+Most collections should use `envvar_directives` and `changelog` only. The `flatmap` option applies to older versions of community.general and community.network and should be used for legacy collections only, not for new ones.
 
 ## Adding extra documentation
 
