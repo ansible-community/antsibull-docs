@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 
+import os
 from collections.abc import Mapping, Sequence
 
 from antsibull_core.logging import log
@@ -36,3 +37,36 @@ def _render_template(_template: Template, _name: str, **kwargs) -> str:
         )
     except Exception as exc:
         raise RuntimeError(f"Error while rendering {_name}") from exc
+
+
+def _get_collection_dir(
+    dest_dir: str,
+    namespace: str,
+    collection: str,
+    /,
+    squash_hierarchy: bool = False,
+    create_if_not_exists: bool = False,
+):
+    """
+    Compose collection directory.
+
+    :arg dest_dir: Destination directory for the plugin data.  For instance,
+        :file:`ansible-checkout/docs/docsite/rst/`.  The directory structure underneath this
+        directory will be created if needed.
+    :arg namespace: The collection's namespace.
+    :arg collection: The collection's name.
+    :kwarg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
+                             Undefined behavior if documentation for multiple collections are
+                             created.
+    :kwarg create_if_not_exists: If set to ``True``, the directory will be created if it does
+                                 not exist. The ``dest_dir`` is assumed to exist.
+    """
+    if squash_hierarchy:
+        return dest_dir
+
+    collection_dir = os.path.join(dest_dir, "collections", namespace, collection)
+    if create_if_not_exists:
+        # This is dangerous but the code that takes dest_dir from the user checks
+        # permissions on it to make it as safe as possible.
+        os.makedirs(collection_dir, mode=0o755, exist_ok=True)
+    return collection_dir

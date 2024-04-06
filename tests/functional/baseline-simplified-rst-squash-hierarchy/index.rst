@@ -46,11 +46,15 @@ Communication
 - Mailing list: `Ansible Project List <https://groups.google.com/g/ansible-project>`__.
   (`Subscribe <mailto:ansible-project+subscribe@googlegroups.com?subject=subscribe>`__)
 
+Changelog
+---------
+
+`Ns2.Col Release Notes <changelog.rst>`_
+
 Guides
 ------
 
 * `<docsite/filter_guide.rst>`_
-
 
 Plugin Index
 ------------

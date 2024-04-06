@@ -66,6 +66,14 @@ Communication
 .. toctree::
     :maxdepth: 1
 
+Changelog
+---------
+
+.. toctree::
+    :maxdepth: 1
+
+    changelog
+
 Guides
 ------
 
@@ -73,7 +81,6 @@ Guides
     :maxdepth: 1
 
     docsite/filter_guide
-
 
 Plugin Index
 ------------

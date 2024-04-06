@@ -26,6 +26,7 @@ classifiers = [
 requires-python = ">=3.9"
 dependencies = [
     "ansible-pygments",
+    "antsibull-changelog >= 0.24.0",
     "antsibull-core >= 2.1.0, < 4.0.0",
     "antsibull-docs-parser >= 1.0.0, < 2.0.0",
     "asyncio-pool",
@@ -72,7 +73,6 @@ antsibull-docs = "antsibull_docs.cli.antsibull_docs:main"
 
 [project.optional-dependencies]
 codeqa = [
-    "antsibull-changelog",
     "flake8 >= 3.8.0",
     "pylint >= 2.17.2",
     "reuse",

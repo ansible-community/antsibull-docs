@@ -57,6 +57,11 @@ jobs:
         with:
           repository: ansible-community/antsibull-docs-parser
           path: antsibull-docs-parser
+      - name: Check out dependent project antsibull-changelog
+        uses: actions/checkout@v4
+        with:
+          repository: ansible-community/antsibull-changelog
+          path: antsibull-changelog
       - name: Install extra packages
         if: "matrix.packages != ''"
         run: |

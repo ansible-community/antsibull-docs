@@ -24,7 +24,7 @@ from ..docs_parsing import AnsibleCollectionMetadata
 from ..jinja2 import FilenameGenerator, OutputFormat
 from ..jinja2.environment import doc_environment, get_template_filename
 from ..utils.collection_name_transformer import CollectionNameTransformer
-from . import _render_template
+from . import _get_collection_dir, _render_template
 
 mlog = log.fields(mod=__name__)
 
@@ -104,15 +104,13 @@ async def write_stub_rst(
     if path_override is not None:
         plugin_file = path_override
     else:
-        if squash_hierarchy:
-            collection_dir = dest_dir
-        else:
-            collection_dir = os.path.join(
-                dest_dir, "collections", namespace, collection
-            )
-            # This is dangerous but the code that takes dest_dir from the user checks
-            # permissions on it to make it as safe as possible.
-            os.makedirs(collection_dir, mode=0o755, exist_ok=True)
+        collection_dir = _get_collection_dir(
+            dest_dir,
+            namespace,
+            collection,
+            squash_hierarchy=squash_hierarchy,
+            create_if_not_exists=True,
+        )
 
         plugin_file = os.path.join(
             collection_dir,

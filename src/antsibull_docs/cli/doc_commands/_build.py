@@ -45,6 +45,7 @@ from ...schemas.app_context import (
     DEFAULT_COLLECTION_URL_TRANSFORM,
 )
 from ...utils.collection_name_transformer import CollectionNameTransformer
+from ...write_docs.changelog import output_changelogs
 from ...write_docs.collections import output_extra_docs, output_indexes
 from ...write_docs.hierarchy import (
     output_collection_index,
@@ -144,7 +145,8 @@ def generate_docs_for_all_collections(  # noqa: C901
                                      with ``collection_names``.
     :kwarg create_indexes: Whether to create the collection, namespace, and plugin indexes. By
                            default, they are created.
-    :kwarg create_collection_indexes: Whether to create the per-collection plugin index.
+    :kwarg create_collection_indexes: Whether to create the per-collection plugin index and other
+                                      global docs.
     :kwarg add_extra_docs: Whether to add extra docs.
     :kwarg add_redirect_stubs: Whether to create redirect stub files.
     :kwarg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
@@ -340,6 +342,17 @@ def generate_docs_for_all_collections(  # noqa: C901
                 breadcrumbs=breadcrumbs,
                 for_official_docsite=for_official_docsite,
                 referable_envvars=referable_envvars,
+            )
+        )
+        flog.notice("Finished writing indexes")
+
+        asyncio.run(
+            output_changelogs(
+                collection_to_plugin_info,
+                dest_dir,
+                collection_metadata=collection_metadata,
+                squash_hierarchy=squash_hierarchy,
+                output_format=output_format,
             )
         )
         flog.notice("Finished writing indexes")

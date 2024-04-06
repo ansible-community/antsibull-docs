@@ -124,6 +124,29 @@ The `sphinx-init` subcommand has quite a few configuration options:
 * `--intersphinx` can be used to add intersphinx config entries to allow to use RST references to more external documentation. Refer to the [intersphinx documentation](https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html) for more information.
 * `--project`, `--copyright`, `--title`, `--html-short-title`, `--extra-conf`, `--extra-html-context`, and `--extra-html-theme-options` can be used to add specific configuration entries to the Sphinx configuration `conf.py`.
 
+## Configuring the docsite
+
+Generally, configuration is done with a `docs/docsite/config.yml` YAML file. The format and options are as follows:
+```yaml
+---
+# Whether the collection uses flatmapping to flatten subdirectories in
+# `plugins/*/`.
+flatmap: false
+
+# List of environment variables that are defined by `.. envvar::` directives
+# in the extra docsite RST files.
+envvar_directives: []
+
+# Changelog configuration (added in antsibull-docs 2.10.0)
+changelog:
+  # Whether to write the changelog (taken from changelogs/changelog.yaml, see the
+  # antsibull-changelog documentation for more information) and link to it from the
+  # collection's index page.
+  write_changelog: false
+```
+
+Most collections should use `envvar_directives` and `changelog` only. The `flatmap` option applies to older versions of community.general and community.network and should be used for legacy collections only, not for new ones.
+
 ## Adding extra documentation
 
 It is possible to add extra documentation in RST format to the docsite. This can for example be used to provide scenario guides. On the [community.crypto docsite](https://ansible-collections.github.io/community.crypto/branch/main/), there are for example some how-tos in the "Scenario Guides" section.

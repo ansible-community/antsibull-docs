@@ -33,6 +33,13 @@ A short description.
 .. toctree::
     :maxdepth: 1
 
+Changelog
+---------
+
+.. toctree::
+    :maxdepth: 1
+
+    changelog
 
 Plugin Index
 ------------
