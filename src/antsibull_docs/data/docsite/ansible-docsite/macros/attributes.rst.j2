@@ -6,7 +6,7 @@
 
 {% from 'macros/version_added.rst.j2' import version_added_rst %}
 
-{% macro in_rst(attributes, role_entrypoint=None) %}
+{% macro in_rst(attributes, attribute_html_prefix='', role_entrypoint=None) %}
 .. tabularcolumns:: \X{2}{10}\X{3}{10}\X{5}{10}
 
 .. list-table::
@@ -24,7 +24,7 @@
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="attribute-@{ attribute | e }@"></div>
+        <div class="ansibleOptionAnchor" id="attribute-@{ parameter_html_prefix }@@{ attribute | e }@"></div>
 
       .. _@{ rst_attribute_ref(plugin_name, plugin_type, role_entrypoint=role_entrypoint, attribute=attribute) }@:
 
@@ -34,7 +34,7 @@
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#attribute-@{ attribute | e }@" title="Permalink to this attribute"></a>
+        <a class="ansibleOptionLink" href="#attribute-@{ parameter_html_prefix }@@{ attribute | e }@" title="Permalink to this attribute"></a>
 
       .. raw:: html
 
