@@ -69,7 +69,7 @@ class SimplifiedRSTLinkProvider(LinkProvider):
     ) -> t.Optional[str]:
         if current_plugin:
             ref = massage_rst_label("/".join(name))
-            ep = f"{entrypoint}__" if entrypoint is not None else ""
+            ep = f"{entrypoint}--" if entrypoint is not None else ""
             prefix = "return" if what == "retval" else "parameter"
             return f"{prefix}-{ep}{ref}_"
         return self.plugin_link(plugin)
@@ -83,7 +83,7 @@ class SimplifiedRSTFormatter(_PlainRSTFormatter):
     ) -> str:
         plugin = part.plugin
         if url and url.endswith("_"):
-            plugin_text = f" (`link <{url}>`_)"
+            plugin_text = f" (`link <#{url[:-1]}>`_)"
         elif plugin:
             plugin_result = [plugin.type]
             if plugin.type not in ("module", "role", "playbook"):

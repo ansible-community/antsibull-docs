@@ -36,7 +36,7 @@
 {% endif %}
 
 {% for full_key in value['full_keys_rst'] %}
-      .. _ansible_collections.@{plugin_name}@_@{plugin_type}@__return-{% for part in full_key %}@{ part }@{% if not loop.last %}/{% endif %}{% endfor %}:
+      .. _@{ rst_return_value_ref(plugin_name, plugin_type, role_entrypoint=role_entrypoint, return_value=full_key) }@:
 {% endfor %}
 
       .. rst-class:: ansible-option-title

@@ -39,7 +39,7 @@ Synopsis
 ^^^^^^^^
 
 - This is the foo role.
-- If you set \ :literal:`foo\_param\_1` (`link <parameter-main__foo_param_1_>`_)\  while \ :literal:`foo\_param\_2=3` (`link <parameter-main__foo_param_2_>`_)\ , this might behave funny.
+- If you set \ :literal:`foo\_param\_1` (`link <#parameter-main--foo_param_1>`_)\  while \ :literal:`foo\_param\_2=3` (`link <#parameter-main--foo_param_2>`_)\ , this might behave funny.
 
 
 Parameters
@@ -102,7 +102,7 @@ Attributes
     - Support
     - Description
 
-  * - .. _ansible_collections.ns2.col.foo_role__attribute-check_mode:
+  * - .. _ansible_collections.ns2.col.foo_role__attribute-main__check_mode:
 
       **check_mode**
 
@@ -115,7 +115,7 @@ Attributes
 
 
 
-  * - .. _ansible_collections.ns2.col.foo_role__attribute-platform:
+  * - .. _ansible_collections.ns2.col.foo_role__attribute-main__platform:
 
       **platform**
 

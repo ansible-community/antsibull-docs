@@ -26,8 +26,8 @@ Synopsis
 
 - Does some foo on the remote host.
 - A broken reference \ :ref:`asdfasdfoobarTHISDOESNOTEXIST <asdfasdfoobarTHISDOESNOTEXIST>`\ .
-- The option \ :literal:`foo` (`link <parameter-foo_>`_)\  exists, but \ :literal:`foobar` (`link <parameter-foobar_>`_)\  does not.
-- The return value \ :literal:`bar` (`link <return-bar_>`_)\  exists, but \ :literal:`barbaz` (`link <return-barbaz_>`_)\  does not.
+- The option \ :literal:`foo` (`link <#parameter-foo>`_)\  exists, but \ :literal:`foobar` (`link <#parameter-foobar>`_)\  does not.
+- The return value \ :literal:`bar` (`link <#return-bar>`_)\  exists, but \ :literal:`barbaz` (`link <#return-barbaz>`_)\  does not.
 - Again existing: \ :literal:`foo=1` (of module `ns.col2.foo <foo_module.rst>`__)\ , \ :literal:`bar=2` (of module `ns.col2.foo <foo_module.rst>`__)\ 
 - Again not existing: \ :literal:`foobar=1` (of module `ns.col2.foo <foo_module.rst>`__)\ , \ :literal:`barbaz=2` (of module `ns.col2.foo <foo_module.rst>`__)\ 
 
