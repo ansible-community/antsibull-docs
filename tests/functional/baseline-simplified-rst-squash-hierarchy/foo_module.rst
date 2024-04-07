@@ -1,7 +1,7 @@
 
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
-ns2.col.foo module -- Do some foo \ :literal:`bar` (`link <parameter-bar_>`_)\ 
+ns2.col.foo module -- Do some foo \ :literal:`bar` (`link <#parameter-bar>`_)\ 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 This module is part of the `ns2.col collection <https://galaxy.ansible.com/ui/repo/published/ns2/col/>`_ (version 2.1.0).
@@ -199,7 +199,7 @@ See Also
   Another foo.
 * \ `ns2.col.foo <foo_lookup.rst>`__\  lookup plugin
 
-  Look up some foo \ :literal:`bar` (`link <parameter-bar_>`_)\ .
+  Look up some foo \ :literal:`bar` (`link <#parameter-bar>`_)\ .
 * \ `ansible.builtin.service <service_module.rst>`__\ 
 
   The service module.

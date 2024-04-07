@@ -1,7 +1,7 @@
 
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
-ns2.col.foo lookup -- Look up some foo \ :literal:`bar` (`link <parameter-bar_>`_)\ 
+ns2.col.foo lookup -- Look up some foo \ :literal:`bar` (`link <#parameter-bar>`_)\ 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 This lookup plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ui/repo/published/ns2/col/>`_ (version 2.1.0).
