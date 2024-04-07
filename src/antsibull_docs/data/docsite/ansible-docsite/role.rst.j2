@@ -130,9 +130,9 @@ Parameters
 ^^^^^^^^^^
 
 {%     if use_html_blobs %}
-@{       parameters_html(ep_doc['options'] | dictsort, suboption_key='options', parameter_html_prefix=entry_point ~ '--', parameter_rst_prefix=entry_point ~ '__', role_entrypoint=entry_point) }@
+@{       parameters_html(ep_doc['options'] | dictsort, suboption_key='options', parameter_html_prefix=entry_point ~ '--', role_entrypoint=entry_point) }@
 {%     else %}
-@{       parameters_rst(ep_doc['options'] | dictsort, suboption_key='options', parameter_html_prefix=entry_point ~ '--', parameter_rst_prefix=entry_point ~ '__', role_entrypoint=entry_point) }@
+@{       parameters_rst(ep_doc['options'] | dictsort, suboption_key='options', parameter_html_prefix=entry_point ~ '--', role_entrypoint=entry_point) }@
 {%     endif %}
 {%   endif %}
 

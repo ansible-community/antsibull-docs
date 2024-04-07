@@ -13,7 +13,13 @@ from collections.abc import Mapping
 from jinja2 import BaseLoader, Environment, FileSystemLoader, PackageLoader
 
 from ..markup.rstify import rst_code, rst_escape
-from ..rst_labels import get_plugin_ref, get_requirements_ref
+from ..rst_labels import (
+    get_attribute_ref,
+    get_option_ref,
+    get_plugin_ref,
+    get_requirements_ref,
+    get_return_value_ref,
+)
 from ..utils.collection_name_transformer import CollectionNameTransformer
 from . import FilenameGenerator, OutputFormat
 from .filters import (
@@ -142,6 +148,9 @@ def doc_environment(
     env.globals["referable_envvars"] = referable_envvars
     env.globals["rst_plugin_ref"] = get_plugin_ref
     env.globals["rst_requirements_ref"] = get_requirements_ref
+    env.globals["rst_attribute_ref"] = get_attribute_ref
+    env.globals["rst_option_ref"] = get_option_ref
+    env.globals["rst_return_value_ref"] = get_return_value_ref
     env.filters["rst_ify"] = make_rst_ify(output_format)
     env.filters["html_ify"] = html_ify
     env.filters["fmt"] = rst_fmt

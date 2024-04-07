@@ -150,7 +150,7 @@ Aliases: @{ ', '.join(doc['aliases'] | sort) }@
 .. Requirements
 
 {% if doc['requirements'] -%}
-.. _ansible_collections.@{plugin_name}@_@{plugin_type}@_requirements:
+.. _@{ rst_requirements_ref(plugin_name, plugin_type) }@:
 
 Requirements
 ------------

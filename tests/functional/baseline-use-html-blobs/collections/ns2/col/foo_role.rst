@@ -145,7 +145,7 @@ Attributes
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="attribute-check_mode"></div>
 
-      .. _ansible_collections.ns2.col.foo_role__attribute-check_mode:
+      .. _ansible_collections.ns2.col.foo_role__attribute-main__check_mode:
 
       .. rst-class:: ansible-option-title
 
@@ -187,7 +187,7 @@ Attributes
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="attribute-platform"></div>
 
-      .. _ansible_collections.ns2.col.foo_role__attribute-platform:
+      .. _ansible_collections.ns2.col.foo_role__attribute-main__platform:
 
       .. rst-class:: ansible-option-title
 

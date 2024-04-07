@@ -10,7 +10,7 @@
 {% from 'macros/deprecates.rst.j2' import in_html as deprecates_html with context %}
 {% from 'macros/version_added.rst.j2' import version_added_rst, version_added_html %}
 
-{% macro in_rst(elements, suboption_key='suboptions', parameter_html_prefix='', parameter_rst_prefix='', role_entrypoint=None) %}
+{% macro in_rst(elements, suboption_key='suboptions', parameter_html_prefix='', role_entrypoint=None) %}
 .. tabularcolumns:: \X{1}{3}\X{2}{3}
 
 .. list-table::
@@ -38,7 +38,7 @@
 {% endif %}
 
 {% for full_key in value['full_keys_rst'] %}
-      .. _ansible_collections.@{plugin_name}@_@{plugin_type}@__parameter-@{ parameter_rst_prefix }@{% for part in full_key %}@{ part }@{% if not loop.last %}/{% endif %}{% endfor %}:
+      .. _@{ rst_option_ref(plugin_name, plugin_type, role_entrypoint=role_entrypoint, option=full_key) }@:
 {% endfor %}
 
       .. rst-class:: ansible-option-title
@@ -180,7 +180,7 @@
 
 {##################################################################################################################}
 
-{% macro in_html(elements, suboption_key='suboptions', parameter_html_prefix='', parameter_rst_prefix='', role_entrypoint=None) %}
+{% macro in_html(elements, suboption_key='suboptions', parameter_html_prefix='', role_entrypoint=None) %}
 .. raw:: html
 
   <table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">

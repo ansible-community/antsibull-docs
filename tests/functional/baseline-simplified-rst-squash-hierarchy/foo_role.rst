@@ -102,7 +102,7 @@ Attributes
     - Support
     - Description
 
-  * - .. _ansible_collections.ns2.col.foo_role__attribute-check_mode:
+  * - .. _ansible_collections.ns2.col.foo_role__attribute-main__check_mode:
 
       **check_mode**
 
@@ -115,7 +115,7 @@ Attributes
 
 
 
-  * - .. _ansible_collections.ns2.col.foo_role__attribute-platform:
+  * - .. _ansible_collections.ns2.col.foo_role__attribute-main__platform:
 
       **platform**
 
