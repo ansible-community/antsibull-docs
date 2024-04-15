@@ -4,6 +4,25 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.10.0
+=======
+
+Release Summary
+---------------
+
+Bugfix and feature release.
+
+Minor Changes
+-------------
+
+- It is now possible to render the collection changelog as part of the collection docsite by using the ``changelog`` option in ``docs/docsite/config.yml`` (https://github.com/ansible-community/antsibull-docs/issues/31, https://github.com/ansible-community/antsibull-docs/pull/267).
+
+Bugfixes
+--------
+
+- Fix internal links to options and return values in simplified RST output (https://github.com/ansible-community/antsibull-docs/pull/269).
+- Include role in role attribute references (https://github.com/ansible-community/antsibull-docs/pull/269).
+
 v2.9.0
 ======
 

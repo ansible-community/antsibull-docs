@@ -524,6 +524,21 @@ releases:
     - 166-envvars.yml
     - 2.1.0.yml
     release_date: '2023-06-14'
+  2.10.0:
+    changes:
+      bugfixes:
+      - Fix internal links to options and return values in simplified RST output (https://github.com/ansible-community/antsibull-docs/pull/269).
+      - Include role in role attribute references (https://github.com/ansible-community/antsibull-docs/pull/269).
+      minor_changes:
+      - It is now possible to render the collection changelog as part of the collection
+        docsite by using the ``changelog`` option in ``docs/docsite/config.yml`` (https://github.com/ansible-community/antsibull-docs/issues/31,
+        https://github.com/ansible-community/antsibull-docs/pull/267).
+      release_summary: Bugfix and feature release.
+    fragments:
+    - 2.10.0.yml
+    - 267-changelog.yml
+    - 269-refs.yml
+    release_date: '2024-04-15'
   2.2.0:
     changes:
       bugfixes:
