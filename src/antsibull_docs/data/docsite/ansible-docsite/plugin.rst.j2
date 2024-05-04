@@ -50,6 +50,14 @@
 @{ title }@
 @{ '+' * title|column_width }@
 
+.. ansible-plugin::
+
+  fqcn: @{ plugin_name }@
+  plugin_type: @{ plugin_type }@
+{% if doc['short_description'] %}
+  short_description: @{ doc['short_description'] | rst_ify | antsibull_to_json }@
+{% endif %}
+
 .. Collection note
 
 {% if collection == 'ansible.builtin' -%}
@@ -150,10 +158,14 @@ Aliases: @{ ', '.join(doc['aliases'] | sort) }@
 .. Requirements
 
 {% if doc['requirements'] -%}
-.. _@{ rst_requirements_ref(plugin_name, plugin_type) }@:
-
 Requirements
 ------------
+
+.. ansible-requirements-anchor::
+
+  fqcn: @{ plugin_name }@
+  plugin_type: @{ plugin_type }@
+
 {%   if plugin_type in ('module', 'module_util') %}
 The below requirements are needed on the host that executes this @{ plugin_type }@.
 {%   else %}
@@ -178,9 +190,9 @@ Terms
 -----
 
 {%   if use_html_blobs %}
-@{     parameters_html([['Terms', doc['options']['_terms']]], suboption_key='suboptions') }@
+@{     parameters_html([['Terms', doc['options']['_terms']]], suboption_key='suboptions', special='terms') }@
 {%   else %}
-@{     parameters_rst([['Terms', doc['options']['_terms']]], suboption_key='suboptions') }@
+@{     parameters_rst([['Terms', doc['options']['_terms']]], suboption_key='suboptions', special='terms') }@
 {%   endif %}
 
 {% endif %}
@@ -200,9 +212,9 @@ This describes the input of the test, the value before ``is @{plugin_name}@`` or
 {%   endif %}
 
 {%   if use_html_blobs %}
-@{     parameters_html([['Input', doc['options']['_input']]], suboption_key='suboptions') }@
+@{     parameters_html([['Input', doc['options']['_input']]], suboption_key='suboptions', special='input') }@
 {%   else %}
-@{     parameters_rst([['Input', doc['options']['_input']]], suboption_key='suboptions') }@
+@{     parameters_rst([['Input', doc['options']['_input']]], suboption_key='suboptions', special='input') }@
 {%   endif %}
 
 {% endif %}
@@ -224,9 +236,9 @@ examples: ``input is @{plugin_name}@(positional1, positional2, ...)`` and ``inpu
 {%   endif %}
 
 {%   if use_html_blobs %}
-@{     parameters_html(doc['options'] | extract_options_from_list(doc['positional'], options_to_ignore=['_input']), suboption_key='suboptions') }@
+@{     parameters_html(doc['options'] | extract_options_from_list(doc['positional'], options_to_ignore=['_input']), suboption_key='suboptions', special='positional') }@
 {%   else %}
-@{     parameters_rst(doc['options'] | extract_options_from_list(doc['positional'], options_to_ignore=['_input']), suboption_key='suboptions') }@
+@{     parameters_rst(doc['options'] | extract_options_from_list(doc['positional'], options_to_ignore=['_input']), suboption_key='suboptions', special='positional') }@
 {%   endif %}
 
 {% endif %}
@@ -350,9 +362,9 @@ Returned Facts
 Facts returned by this module are added/updated in the ``hostvars`` host facts and can be referenced by name just like any other host fact. They do not need to be registered in order to use them.
 
 {%   if use_html_blobs %}
-@{     return_docs_html(returnfacts | dictsort) }@
+@{     return_docs_html(returnfacts | dictsort, special='facts') }@
 {%   else %}
-@{     return_docs_rst(returnfacts | dictsort) }@
+@{     return_docs_rst(returnfacts | dictsort, special='facts') }@
 {%   endif %}
 {% endif %}
 
@@ -371,9 +383,9 @@ Return Value
 
 {%   if plugin_type in ['lookup', 'filter', 'test'] and returndocs | length == 1 and (returndocs | first).startswith('_') %}
 {%     if use_html_blobs %}
-@{       return_docs_html([['Return value', returndocs.values() | first]]) }@
+@{       return_docs_html([['Return value', returndocs.values() | first]], special='return-value') }@
 {%     else %}
-@{       return_docs_rst([['Return value', returndocs.values() | first]]) }@
+@{       return_docs_rst([['Return value', returndocs.values() | first]], special='return-value') }@
 {%     endif %}
 {%   else %}
 {%     if use_html_blobs %}

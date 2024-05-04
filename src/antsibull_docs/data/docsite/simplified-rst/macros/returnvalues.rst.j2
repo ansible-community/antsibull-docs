@@ -30,8 +30,8 @@
 {%   for full_key in value['full_keys'] %}
       <div class="ansibleOptionAnchor" id="return-{% for part in full_key %}@{ part | urlencode }@{% if not loop.last %}/{% endif %}{% endfor %}"></div>
 {%   endfor %}
-      <p style="display: inline;"><strong>@{ key | escape }@</strong></p>
-      <a class="ansibleOptionLink" href="#return-{% for part in value['full_key'] %}@{ part | urlencode }@{% if not loop.last %}/{% endif %}{% endfor %}" title="Permalink to this return value"></a>
+      <strong>@{ key | escape }@</strong>
+      <a class="ansibleOptionLink" href="#return-{% for part in value['full_keys'][0] %}@{ part | urlencode }@{% if not loop.last %}/{% endif %}{% endfor %}" title="Permalink to this return value"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">@{ value['type'] | documented_type }@</span>
 {%   if value['type'] == 'list' and value['elements'] is not none %}

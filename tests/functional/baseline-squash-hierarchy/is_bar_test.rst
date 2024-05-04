@@ -15,6 +15,11 @@
 ns2.col.is_bar test
 +++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.is_bar
+  plugin_type: test
+
 .. Collection note
 
 .. note::

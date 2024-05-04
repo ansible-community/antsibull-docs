@@ -47,9 +47,9 @@ Parameters
   <tbody>
   <tr>
     <td valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
-      <p style="display: inline;"><strong>bar</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---bar"></div>
+      <strong>bar</strong>
+      <a class="ansibleOptionLink" href="#parameter---bar" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">integer</span>
       </p>
@@ -61,9 +61,9 @@ Parameters
   </tr>
   <tr>
     <td valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-host"></div>
-      <p style="display: inline;"><strong>host</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-host" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---host"></div>
+      <strong>host</strong>
+      <a class="ansibleOptionLink" href="#parameter---host" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>

@@ -19,6 +19,12 @@
 ns2.col.foo role -- Foo role
 ++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.foo
+  plugin_type: role
+  short_description: "Foo role"
+
 .. Collection note
 
 .. note::
@@ -40,6 +46,12 @@ ns2.col.foo role -- Foo role
 
 Entry point ``main`` -- Foo role
 --------------------------------
+
+.. ansible-role-entrypoint::
+
+  fqcn: ns2.col.foo
+  entrypoint: main
+  short_description: "Foo role"
 
 .. version_added
 
@@ -91,17 +103,15 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-main--foo_param_1"></div>
 
-      .. _ansible_collections.ns2.col.foo_role__parameter-main__foo_param_1:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **foo_param_1**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-main--foo_param_1" title="Permalink to this option"></a>
+        fqcn: ns2.col.foo
+        plugin_type: role
+        role_entrypoint: "main"
+        name: "foo_param_1"
+        full_keys:
+          - ["foo_param_1"]
 
       .. ansible-option-type-line::
 
@@ -130,17 +140,15 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-main--foo_param_2"></div>
 
-      .. _ansible_collections.ns2.col.foo_role__parameter-main__foo_param_2:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **foo_param_2**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-main--foo_param_2" title="Permalink to this option"></a>
+        fqcn: ns2.col.foo
+        plugin_type: role
+        role_entrypoint: "main"
+        name: "foo_param_2"
+        full_keys:
+          - ["foo_param_2"]
 
       .. ansible-option-type-line::
 
@@ -190,17 +198,13 @@ Attributes
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="attribute-check_mode"></div>
 
-      .. _ansible_collections.ns2.col.foo_role__attribute-main__check_mode:
+      .. ansible-attribute::
 
-      .. rst-class:: ansible-option-title
-
-      **check_mode**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#attribute-check_mode" title="Permalink to this attribute"></a>
+        fqcn: ns2.col.foo
+        plugin_type: role
+        role_entrypoint: "main"
+        name: "check_mode"
 
       .. raw:: html
 
@@ -232,17 +236,13 @@ Attributes
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="attribute-platform"></div>
 
-      .. _ansible_collections.ns2.col.foo_role__attribute-main__platform:
+      .. ansible-attribute::
 
-      .. rst-class:: ansible-option-title
-
-      **platform**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#attribute-platform" title="Permalink to this attribute"></a>
+        fqcn: ns2.col.foo
+        plugin_type: role
+        role_entrypoint: "main"
+        name: "platform"
 
       .. raw:: html
 

@@ -21,6 +21,12 @@
 ns2.col.foo connection -- Foo connection \ :ansopt:`ns2.col.foo#connection:bar`\ 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.foo
+  plugin_type: connection
+  short_description: "Foo connection \\ :ansopt:`ns2.col.foo#connection:bar`\\ "
+
 .. Collection note
 
 .. note::
@@ -83,17 +89,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-bar"></div>
 
-      .. _ansible_collections.ns2.col.foo_connection__parameter-bar:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **bar**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+        fqcn: ns2.col.foo
+        plugin_type: connection
+        name: "bar"
+        full_keys:
+          - ["bar"]
 
       .. ansible-option-type-line::
 
@@ -120,17 +123,14 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-host"></div>
 
-      .. _ansible_collections.ns2.col.foo_connection__parameter-host:
+      .. ansible-option::
 
-      .. rst-class:: ansible-option-title
-
-      **host**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-host" title="Permalink to this option"></a>
+        fqcn: ns2.col.foo
+        plugin_type: connection
+        name: "host"
+        full_keys:
+          - ["host"]
 
       .. ansible-option-type-line::
 

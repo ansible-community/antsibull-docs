@@ -8,7 +8,7 @@
 {% from 'macros/deprecates.rst.j2' import in_html as deprecates_html with context %}
 {% from 'macros/version_added.rst.j2' import version_added_html %}
 
-{% macro in_html(elements, suboption_key='suboptions', parameter_html_prefix='', role_entrypoint=None) %}
+{% macro in_html(elements, suboption_key='suboptions', role_entrypoint=None) %}
 .. raw:: html
 
   <table style="width: 100%;">
@@ -29,10 +29,10 @@
 {%   endfor %}
     <td{% if table_depth > loop.depth %} colspan="@{ table_depth - loop.depth0 }@"{% endif %} valign="top">
 {%   for full_key in value['full_keys'] %}
-      <div class="ansibleOptionAnchor" id="parameter-@{ parameter_html_prefix }@{% for part in full_key %}@{ part | urlencode }@{% if not loop.last %}/{% endif %}{% endfor %}"></div>
+      <div class="ansibleOptionAnchor" id="parameter-{% if entry_point is not none %}@{ entry_point }@--{% endif %}{% for part in full_key %}@{ part | urlencode }@{% if not loop.last %}/{% endif %}{% endfor %}"></div>
 {%   endfor %}
-      <p style="display: inline;"><strong>@{ key | escape }@</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-@{ parameter_html_prefix }@{% for part in value['full_key'] %}@{ part | urlencode }@{% if not loop.last %}/{% endif %}{% endfor %}" title="Permalink to this option"></a>
+      <strong>@{ key | escape }@</strong>
+      <a class="ansibleOptionLink" href="#parameter-{% if entry_point is not none %}@{ entry_point }@--{% endif %}{% for part in value['full_keys'][0] %}@{ part | urlencode }@{% if not loop.last %}/{% endif %}{% endfor %}" title="Permalink to this option"> </a>
 {%   if value['aliases'] %}
       <p style="font-size: small; margin-bottom: 0;"><span style="color: darkgreen; white-space: normal;">aliases: @{ value['aliases']|join(', ') }@</span></p>
 {%   endif %}

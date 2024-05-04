@@ -15,6 +15,11 @@
 ns2.col.foo_redirect module
 +++++++++++++++++++++++++++
 
+.. ansible-plugin::
+
+  fqcn: ns2.col.foo_redirect
+  plugin_type: module
+
 .. Collection note
 
 .. note::

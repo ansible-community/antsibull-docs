@@ -12,13 +12,11 @@ from collections import defaultdict
 from collections.abc import Mapping, MutableMapping
 
 from .docs_parsing.routing import CollectionRoutingT
-from .utils.rst import massage_rst_label
 
 
-def add_full_key(
+def add_full_keys(
     options_data: Mapping[str, t.Any],
     suboption_entry: str,
-    _full_key: list[str] | None = None,
     _full_keys: list[list[str]] | None = None,
 ) -> None:
     """
@@ -28,13 +26,11 @@ def add_full_key(
     a deeply nested structure, for instance.)  They describe each entry into the dict.  When
     constructing documentation which uses that, it can be useful to know the hierarchy leads to
     that entry (for instance, to make a target for an html href).  This function adds that
-    information to a ``full_key`` field on the suboptions' entry.
+    information to a ``full_keys`` field on the suboptions' entry.
 
     :arg options_data: The documentation data which is going to be analyzed and updated.
     :arg suboption_entry: The name of the suboptions key in the data.  For options data, this is
         ``suboptions``.  For returndocs, it is ``contains``.
-    :kwarg _full_key: This is a recursive function.  After we pass the first level of nesting,
-        ``_full_key`` is set to record the names of the upper levels of the hierarchy.
     :kwarg _full_keys: This is a recursive function.  After we pass the first level of nesting,
         ``_full_keys`` is a list of sets to record the names of the upper levels of the hierarchy,
         including all aliases for all names involved.
@@ -42,31 +38,23 @@ def add_full_key(
     .. warning:: This function operates by side-effect.  The options_data dictionay is modified
         directly.
     """
-    if _full_key is None:
-        _full_key = []
     if _full_keys is None:
         _full_keys = [[]]
 
     for key, entry in options_data.items():
         # Make sure that "full key" is contained
-        full_key_k = _full_key + [key]
         full_keys_k = [fk + [key] for fk in _full_keys]
         if "aliases" in entry:
             for alias in entry["aliases"]:
                 full_keys_k.extend([fk + [alias] for fk in _full_keys])
-        entry["full_key"] = full_key_k
         entry["full_keys"] = full_keys_k
-        entry["full_keys_rst"] = sorted(
-            {tuple(massage_rst_label(p) for p in fk) for fk in full_keys_k}
-        )
 
         # Process suboptions
         suboptions = entry.get(suboption_entry)
         if suboptions:
-            add_full_key(
+            add_full_keys(
                 suboptions,
                 suboption_entry=suboption_entry,
-                _full_key=full_key_k,
                 _full_keys=full_keys_k,
             )
 
@@ -126,7 +114,7 @@ def augment_docs(
     The additional data is calculated from the existing data and then added to the data.
     Current Augmentations:
 
-    * ``full_key`` allows displaying nested suboptions and return dicts.
+    * ``full_keys`` allows displaying nested suboptions and return dicts.
     * In see-alsos that reference to modules or plugins but that have no description,
       automatically insert the destination's short_description (if available)
 
@@ -145,9 +133,9 @@ def augment_docs(
         # Now augment all plugin records
         for plugin_name, plugin_record in plugin_map.items():
             if plugin_record.get("return"):
-                add_full_key(plugin_record["return"], "contains")
+                add_full_keys(plugin_record["return"], "contains")
             if plugin_record.get("doc"):
-                add_full_key(plugin_record["doc"]["options"], "suboptions")
+                add_full_keys(plugin_record["doc"]["options"], "suboptions")
                 if plugin_record["doc"].get("seealso"):
                     _add_seealso(plugin_record["doc"]["seealso"], plugin_info)
                 _add_aliases(
@@ -155,4 +143,4 @@ def augment_docs(
                 )
             if plugin_record.get("entry_points"):
                 for entry_point in plugin_record["entry_points"].values():
-                    add_full_key(entry_point["options"], "options")
+                    add_full_keys(entry_point["options"], "options")

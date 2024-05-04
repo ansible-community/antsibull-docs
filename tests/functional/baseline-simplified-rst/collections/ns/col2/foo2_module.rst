@@ -61,9 +61,9 @@ Parameters
   <tbody>
   <tr>
     <td colspan="2" valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-bar"></div>
-      <p style="display: inline;"><strong>bar</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---bar"></div>
+      <strong>bar</strong>
+      <a class="ansibleOptionLink" href="#parameter---bar" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">list</span>
         / <span style="color: purple;">elements=integer</span>
@@ -76,9 +76,9 @@ Parameters
   </tr>
   <tr>
     <td colspan="2" valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-foo"></div>
-      <p style="display: inline;"><strong>foo</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-foo" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---foo"></div>
+      <strong>foo</strong>
+      <a class="ansibleOptionLink" href="#parameter---foo" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>
@@ -89,9 +89,9 @@ Parameters
   </tr>
   <tr>
     <td colspan="2" valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-subfoo"></div>
-      <p style="display: inline;"><strong>subfoo</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-subfoo" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---subfoo"></div>
+      <strong>subfoo</strong>
+      <a class="ansibleOptionLink" href="#parameter---subfoo" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">dictionary</span>
       </p>
@@ -103,9 +103,9 @@ Parameters
   <tr>
     <td></td>
     <td valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-subfoo/BaZ"></div>
-      <p style="display: inline;"><strong>BaZ</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-subfoo/BaZ" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---subfoo/BaZ"></div>
+      <strong>BaZ</strong>
+      <a class="ansibleOptionLink" href="#parameter---subfoo/BaZ" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">integer</span>
       </p>
@@ -117,9 +117,9 @@ Parameters
   <tr>
     <td></td>
     <td valign="top">
-      <div class="ansibleOptionAnchor" id="parameter-subfoo/foo"></div>
-      <p style="display: inline;"><strong>foo</strong></p>
-      <a class="ansibleOptionLink" href="#parameter-subfoo/foo" title="Permalink to this option"></a>
+      <div class="ansibleOptionAnchor" id="parameter---subfoo/foo"></div>
+      <strong>foo</strong>
+      <a class="ansibleOptionLink" href="#parameter---subfoo/foo" title="Permalink to this option"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
         / <span style="color: red;">required</span>
@@ -251,8 +251,8 @@ The following are the fields unique to this module:
   <tr>
     <td valign="top">
       <div class="ansibleOptionAnchor" id="return-bar"></div>
-      <p style="display: inline;"><strong>bar</strong></p>
-      <a class="ansibleOptionLink" href="#return-bar" title="Permalink to this return value"></a>
+      <strong>bar</strong>
+      <a class="ansibleOptionLink" href="#return-bar" title="Permalink to this return value"> </a>
       <p style="font-size: small; margin-bottom: 0;">
         <span style="color: purple;">string</span>
       </p>
