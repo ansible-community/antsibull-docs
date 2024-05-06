@@ -4,6 +4,25 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.11.0
+=======
+
+Release Summary
+---------------
+
+Feature and bugfix release.
+
+Minor Changes
+-------------
+
+- Support examples for role entrypoints (https://github.com/ansible-community/antsibull-docs/pull/244).
+
+Bugfixes
+--------
+
+- Fix handling of ``choices`` that are dictionaries for ``type=list`` (https://github.com/ansible-community/antsibull-docs/pull/276).
+- Fix handling of ``default`` for ``type=list`` if ``choices`` is present (https://github.com/ansible-community/antsibull-docs/pull/276).
+
 v2.10.0
 =======
 
