@@ -47,6 +47,34 @@ options:
                 type: str
                 required: true
 
+    manager:
+        description:
+          - The package manager(s) used by the system so we can query the package information.
+            This is a list and can support multiple package managers per system, since version 2.8.
+          - The 'portage' and 'pkg' options were added in version 2.8.
+          - The 'apk' option was added in version 2.11.
+          - The 'pkg_info' option was added in version 2.13.
+          - Aliases were added in 2.18, to support using C(auto={{ansible_facts['pkg_mgr']}})
+        default: ['auto']
+        choices:
+            auto: Depending on O(strategy), will match the first or all package managers provided, in order
+            rpm: For RPM based distros, requires RPM Python bindings, not installed by default on Suse (python3-rpm)
+            yum: Alias to rpm
+            dnf: Alias to rpm
+            dnf5: Alias to rpm
+            zypper: Alias to rpm
+            apt: For DEB based distros, C(python-apt) package must be installed on targeted hosts
+            portage: Handles ebuild packages, it requires the C(qlist) utility, which is part of 'app-portage/portage-utils'
+            pkg: libpkg front end (FreeBSD)
+            pkg5: Alias to pkg
+            pkgng: Alias to pkg
+            pacman: Archlinux package manager/builder
+            apk: Alpine Linux package manager
+            pkg_info: OpenBSD package manager
+            openbsd_pkg: Alias to pkg_info
+        type: list
+        elements: str
+
 requirements:
     - Foo on remote.
 
