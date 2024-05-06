@@ -67,7 +67,7 @@
 @{     choices_html(value['choices'], value['default'], role_entrypoint=role_entrypoint) }@
 {%   endif %}
 {#   Show default value, when multiple choice or no choices #}
-{%   if value['default'] is not none and value['default'] not in value['choices'] %}
+{%   if value['default'] is list or (value['default'] is not none and value['default'] not in value['choices']) %}
       <p style="margin-top: 8px;"><b style="color: blue;">Default:</b> <code style="color: blue;">@{ value['default'] | antsibull_to_json | escape | indent(6, blank=true) }@</code></p>
 {%   endif %}
 {#   Configuration #}

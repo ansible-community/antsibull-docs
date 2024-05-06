@@ -126,6 +126,89 @@ Parameters
   </tr>
   <tr class="row-even">
     <td><div class="ansible-option-cell">
+      <div class="ansibleOptionAnchor" id="parameter-manager"></div>
+      <p class="ansible-option-title"><strong>manager</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-manager" title="Permalink to this option"></a>
+      <p class="ansible-option-type-line">
+        <span class="ansible-option-type">list</span>
+        / <span class="ansible-option-elements">elements=string</span>
+      </p>
+    </div></td>
+    <td><div class="ansible-option-cell">
+      <p>The package manager(s) used by the system so we can query the package information. This is a list and can support multiple package managers per system, since version 2.8.</p>
+      <p>The &#x27;portage&#x27; and &#x27;pkg&#x27; options were added in version 2.8.</p>
+      <p>The &#x27;apk&#x27; option was added in version 2.11.</p>
+      <p>The &#x27;pkg_info&#x27; option was added in version 2.13.</p>
+      <p>Aliases were added in 2.18, to support using <code class='docutils literal notranslate'>auto={{ansible_facts[&#x27;pkg_mgr&#x27;]}}</code></p>
+      <p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+      <ul class="simple">
+        <li>
+          <p><code class="ansible-value literal notranslate ansible-option-choices-entry">&#34;apk&#34;</code>:
+          Alpine Linux package manager</p>
+        </li>
+        <li>
+          <p><code class="ansible-value literal notranslate ansible-option-choices-entry">&#34;apt&#34;</code>:
+          For DEB based distros, <code class='docutils literal notranslate'>python-apt</code> package must be installed on targeted hosts</p>
+        </li>
+        <li>
+          <p><code class="ansible-value literal notranslate ansible-option-default-bold"><strong>&#34;auto&#34;</strong></code> <span class="ansible-option-choices-default-mark">(default)</span>:
+          Depending on <code class="ansible-option literal notranslate"><strong>strategy</strong></code>, will match the first or all package managers provided, in order</p>
+        </li>
+        <li>
+          <p><code class="ansible-value literal notranslate ansible-option-choices-entry">&#34;dnf&#34;</code>:
+          Alias to rpm</p>
+        </li>
+        <li>
+          <p><code class="ansible-value literal notranslate ansible-option-choices-entry">&#34;dnf5&#34;</code>:
+          Alias to rpm</p>
+        </li>
+        <li>
+          <p><code class="ansible-value literal notranslate ansible-option-choices-entry">&#34;openbsd_pkg&#34;</code>:
+          Alias to pkg_info</p>
+        </li>
+        <li>
+          <p><code class="ansible-value literal notranslate ansible-option-choices-entry">&#34;pacman&#34;</code>:
+          Archlinux package manager/builder</p>
+        </li>
+        <li>
+          <p><code class="ansible-value literal notranslate ansible-option-choices-entry">&#34;pkg&#34;</code>:
+          libpkg front end (FreeBSD)</p>
+        </li>
+        <li>
+          <p><code class="ansible-value literal notranslate ansible-option-choices-entry">&#34;pkg5&#34;</code>:
+          Alias to pkg</p>
+        </li>
+        <li>
+          <p><code class="ansible-value literal notranslate ansible-option-choices-entry">&#34;pkg_info&#34;</code>:
+          OpenBSD package manager</p>
+        </li>
+        <li>
+          <p><code class="ansible-value literal notranslate ansible-option-choices-entry">&#34;pkgng&#34;</code>:
+          Alias to pkg</p>
+        </li>
+        <li>
+          <p><code class="ansible-value literal notranslate ansible-option-choices-entry">&#34;portage&#34;</code>:
+          Handles ebuild packages, it requires the <code class='docutils literal notranslate'>qlist</code> utility, which is part of &#x27;app-portage/portage-utils&#x27;</p>
+        </li>
+        <li>
+          <p><code class="ansible-value literal notranslate ansible-option-choices-entry">&#34;rpm&#34;</code>:
+          For RPM based distros, requires RPM Python bindings, not installed by default on Suse (python3-rpm)</p>
+        </li>
+        <li>
+          <p><code class="ansible-value literal notranslate ansible-option-choices-entry">&#34;yum&#34;</code>:
+          Alias to rpm</p>
+        </li>
+        <li>
+          <p><code class="ansible-value literal notranslate ansible-option-choices-entry">&#34;zypper&#34;</code>:
+          Alias to rpm</p>
+        </li>
+      </ul>
+
+      <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-value literal notranslate ansible-option-default">[&#34;auto&#34;]</code></p>
+    </div></td>
+  </tr>
+  <tr class="row-odd">
+    <td><div class="ansible-option-cell">
       <div class="ansibleOptionAnchor" id="parameter-subfoo"></div>
       <p class="ansible-option-title"><strong>subfoo</strong></p>
       <a class="ansibleOptionLink" href="#parameter-subfoo" title="Permalink to this option"></a>
@@ -138,7 +221,7 @@ Parameters
       <p>Some recursive foo.</p>
     </div></td>
   </tr>
-  <tr class="row-odd">
+  <tr class="row-even">
     <td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
       <div class="ansibleOptionAnchor" id="parameter-subfoo/foo"></div>
       <p class="ansible-option-title"><strong>foo</strong></p>

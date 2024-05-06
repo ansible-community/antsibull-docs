@@ -103,7 +103,7 @@
 @{     choices_rst(value['choices'], value['default'], role_entrypoint=role_entrypoint) }@
 {%   endif %}
 {# Show default value, when multiple choice or no choices #}
-{%   if value['default'] is not none and value['default'] not in value['choices'] %}
+{%   if value['default'] is list or (value['default'] is not none and value['default'] not in value['choices']) %}
 
       .. rst-class:: ansible-option-line
 
@@ -235,7 +235,7 @@
 @{     choices_html(value['choices'], value['default'], role_entrypoint=role_entrypoint) }@
 {%   endif %}
 {#   Show default value, when multiple choice or no choices #}
-{%   if value['default'] is not none and value['default'] not in value['choices'] %}
+{%   if value['default'] is list or (value['default'] is not none and value['default'] not in value['choices']) %}
       <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-value literal notranslate ansible-option-default">@{ value['default'] | antsibull_to_json | escape | indent(6, blank=true) }@</code></p>
 {%   endif %}
 {#   Configuration #}
