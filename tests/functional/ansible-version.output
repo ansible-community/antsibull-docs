@@ -1,9 +1,9 @@
-ansible [core 2.17.0.dev0] (devel f1ded0f417) last updated 2024/03/10 17:40:38 (GMT +200)
+ansible [core 2.18.0.dev0] (devel 8ad68f12ee) last updated 2024/05/09 21:54:38 (GMT +200)
   config file = None
   configured module search path = ['<<<<<HOME>>>>>/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
   ansible python module location = <<<<<ANSIBLE>>>>>
   ansible collection location = <<<<<COLLECTIONS>>>>>
   executable location = <<<<<HOME>>>>>/.local/bin/ansible
-  python version = 3.11.8 (main, Feb 12 2024, 14:50:05) [GCC 13.2.1 20230801] (/usr/bin/python)
+  python version = 3.12.3 (main, Apr 23 2024, 09:16:07) [GCC 13.2.1 20240417] (/usr/bin/python)
   jinja version = 3.1.3
   libyaml = True

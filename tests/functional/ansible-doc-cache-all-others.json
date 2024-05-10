@@ -1521,8 +1521,7 @@
       "proxy_command": {
        "default": "",
        "description": [
-        "Proxy information for running the connection via a jumphost",
-        "Also this plugin will scan 'ssh_args', 'ssh_extra_args' and 'ssh_common_args' from the 'ssh' plugin settings for proxy information if set."
+        "Proxy information for running the connection via a jumphost."
        ],
        "env": [
         {
@@ -1639,107 +1638,6 @@
         },
         {
          "name": "ansible_paramiko_user"
-        }
-       ]
-      },
-      "ssh_args": {
-       "default": "",
-       "deprecated": {
-        "alternatives": "proxy_command",
-        "collection_name": "ansible.builtin",
-        "version": "2.18",
-        "why": "In favor of the \"proxy_command\" option."
-       },
-       "description": "Only used in parsing ProxyCommand for use in this plugin.",
-       "env": [
-        {
-         "name": "ANSIBLE_SSH_ARGS"
-        }
-       ],
-       "ini": [
-        {
-         "key": "ssh_args",
-         "section": "ssh_connection"
-        }
-       ],
-       "type": "string",
-       "vars": [
-        {
-         "name": "ansible_ssh_args",
-         "version_added": "2.7",
-         "version_added_collection": "ansible.builtin"
-        }
-       ]
-      },
-      "ssh_common_args": {
-       "cli": [
-        {
-         "name": "ssh_common_args"
-        }
-       ],
-       "default": "",
-       "deprecated": {
-        "alternatives": "proxy_command",
-        "collection_name": "ansible.builtin",
-        "version": "2.18",
-        "why": "In favor of the \"proxy_command\" option."
-       },
-       "description": "Only used in parsing ProxyCommand for use in this plugin.",
-       "env": [
-        {
-         "name": "ANSIBLE_SSH_COMMON_ARGS",
-         "version_added": "2.7",
-         "version_added_collection": "ansible.builtin"
-        }
-       ],
-       "ini": [
-        {
-         "key": "ssh_common_args",
-         "section": "ssh_connection",
-         "version_added": "2.7",
-         "version_added_collection": "ansible.builtin"
-        }
-       ],
-       "type": "string",
-       "vars": [
-        {
-         "name": "ansible_ssh_common_args"
-        }
-       ]
-      },
-      "ssh_extra_args": {
-       "cli": [
-        {
-         "name": "ssh_extra_args"
-        }
-       ],
-       "default": "",
-       "deprecated": {
-        "alternatives": "proxy_command",
-        "collection_name": "ansible.builtin",
-        "version": "2.18",
-        "why": "In favor of the \"proxy_command\" option."
-       },
-       "description": "Only used in parsing ProxyCommand for use in this plugin.",
-       "env": [
-        {
-         "name": "ANSIBLE_SSH_EXTRA_ARGS",
-         "version_added": "2.7",
-         "version_added_collection": "ansible.builtin"
-        }
-       ],
-       "ini": [
-        {
-         "key": "ssh_extra_args",
-         "section": "ssh_connection",
-         "version_added": "2.7",
-         "version_added_collection": "ansible.builtin"
-        }
-       ],
-       "type": "string",
-       "vars": [
-        {
-         "name": "ansible_ssh_extra_args"
         }
        ]
       },
@@ -2323,7 +2221,7 @@
      },
      "plugin_name": "ansible.builtin.psrp",
      "requirements": [
-      "pypsrp>=0.4.0 (Python library)"
+      "pypsrp>=0.4.0, <1.0.0 (Python library)"
      ],
      "short_description": "Run tasks over Microsoft PowerShell Remoting Protocol",
      "version_added": "2.7",
@@ -2726,40 +2624,6 @@
         }
        ]
       },
-      "scp_if_ssh": {
-       "default": "smart",
-       "deprecated": {
-        "alternatives": "O(ssh_transfer_method)",
-        "collection_name": "ansible.builtin",
-        "version": "2.17",
-        "why": "In favor of the O(ssh_transfer_method) option."
-       },
-       "description": [
-        "Preferred method to use when transferring files over SSH.",
-        "When set to V(smart), Ansible will try them until one succeeds or they all fail.",
-        "If set to V(True), it will force 'scp', if V(False) it will use 'sftp'.",
-        "For OpenSSH >=9.0 you must add an additional option to enable scp (C(scp_extra_args=\"-O\"))",
-        "This setting will overridden by O(ssh_transfer_method) if set."
-       ],
-       "env": [
-        {
-         "name": "ANSIBLE_SCP_IF_SSH"
-        }
-       ],
-       "ini": [
-        {
-         "key": "scp_if_ssh",
-         "section": "ssh_connection"
-        }
-       ],
-       "vars": [
-        {
-         "name": "ansible_scp_if_ssh",
-         "version_added": "2.7",
-         "version_added_collection": "ansible.builtin"
-        }
-       ]
-      },
       "sftp_batch_mode": {
        "default": true,
        "description": "TODO: write it",
@@ -2952,18 +2816,14 @@
        ]
       },
       "ssh_transfer_method": {
-       "choices": [
-        "sftp",
-        "scp",
-        "piped",
-        "smart"
-       ],
-       "description": [
-        "Preferred method to use when transferring files over ssh",
-        "Setting to 'smart' (default) will try them in order, until one succeeds or they all fail",
-        "For OpenSSH >=9.0 you must add an additional option to enable scp (scp_extra_args=\"-O\")",
-        "Using 'piped' creates an ssh pipe with C(dd) on either side to copy the data"
-       ],
+       "choices": {
+        "piped": "Creates an SSH pipe with C(dd) on either side to copy the data.",
+        "scp": "Deprecated in OpenSSH. For OpenSSH >=9.0 you must add an additional option to enable scp C(scp_extra_args=\"-O\").",
+        "sftp": "This is the most reliable way to copy things with SSH.",
+        "smart": "Tries each method in order (sftp > scp > piped), until one succeeds or they all fail."
+       },
+       "default": "smart",
+       "description": "Preferred method to use when transferring files over ssh",
        "env": [
         {
          "name": "ANSIBLE_SSH_TRANSFER_METHOD"
@@ -3399,28 +3259,28 @@
      "description": [
       "Base64 decoding function.",
       "The return value is a string.",
-      "Trying to store a binary blob in a string most likely corrupts the binary. To base64 decode a binary blob, use the ``base64`` command  and pipe the encoded data through standard input. For example, in the ansible.builtin.shell`` module, ``cmd=\"base64 --decode > myfile.bin\" stdin=\"{{ encoded }}\"``."
+      "Trying to store a binary blob in a string most likely corrupts the binary. To Base64 decode a binary blob, use the I(base64) command and pipe the encoded data through standard input. For example, in the M(ansible.builtin.shell) module, ``cmd=\"base64 --decode > myfile.bin\" stdin=\"{{ encoded }}\"``."
      ],
      "filename": "/ansible/plugins/filter/b64decode.yml",
      "name": "b64decode",
      "options": {
       "_input": {
-       "description": "A base64 string to decode.",
+       "description": "A Base64 string to decode.",
        "required": true,
        "type": "string"
       }
      },
      "plugin_name": "ansible.builtin.b64decode",
      "positional": "_input",
-     "short_description": "Decode a base64 string",
+     "short_description": "Decode a Base64 string",
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "# b64 decode a string\nlola: \"{{ 'bG9sYQ==' | b64decode }}\"\n\n# b64 decode the content of 'b64stuff' variable\nstuff: \"{{ b64stuff | b64decode }}\"\n",
+    "examples": "# Base64 decode a string\nlola: \"{{ 'bG9sYQ==' | b64decode }}\"\n\n# Base64 decode the content of 'b64stuff' variable\nstuff: \"{{ b64stuff | b64decode }}\"\n",
     "metadata": null,
     "return": {
      "_value": {
-      "description": "The contents of the base64 encoded string.",
+      "description": "The contents of the Base64 encoded string.",
       "type": "string"
      }
     }
@@ -3443,15 +3303,15 @@
      },
      "plugin_name": "ansible.builtin.b64encode",
      "positional": "_input",
-     "short_description": "Encode a string as base64",
+     "short_description": "Encode a string as Base64",
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "# b64 encode a string\nb64lola: \"{{ 'lola'| b64encode }}\"\n\n# b64 encode the content of 'stuff' variable\nb64stuff: \"{{ stuff | b64encode }}\"\n",
+    "examples": "# Base64 encode a string\nb64lola: \"{{ 'lola'| b64encode }}\"\n\n# Base64 encode the content of 'stuff' variable\nb64stuff: \"{{ stuff | b64encode }}\"\n",
     "metadata": null,
     "return": {
      "_value": {
-      "description": "A base64 encoded string.",
+      "description": "A Base64 encoded string.",
       "type": "string"
      }
     }
@@ -4588,7 +4448,8 @@
         "md5",
         "blowfish",
         "sha256",
-        "sha512"
+        "sha512",
+        "bcrypt"
        ],
        "default": "sha512",
        "description": "Hashing algorithm to use.",
@@ -4977,7 +4838,8 @@
      "filename": "/ansible/plugins/filter/regex_replace.yml",
      "name": "regex_replace",
      "notes": [
-      "Maps to Python's C(re.sub)."
+      "Maps to Python's C(re.sub).",
+      "The substring matched by the group is accessible via the symbolic group name or the ``\\{number}`` special sequence. See examples section."
      ],
      "options": {
       "_input": {
@@ -5044,7 +4906,8 @@
      "filename": "/ansible/plugins/filter/regex_search.yml",
      "name": "regex_search",
      "notes": [
-      "Maps to Python's C(re.search)."
+      "Maps to Python's C(re.search).",
+      "The substring matched by the group is accessible via the symbolic group name or the ``\\{number}`` special sequence. See examples section."
      ],
      "options": {
       "_input": {
@@ -5073,7 +4936,7 @@
      "version_added": "2.0",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n# db => 'database42'\ndb: \"{{ 'server1/database42' | regex_search('database[0-9]+') }}\"\n\n# Using inline regex flags instead of passing options to filter\n# See https://docs.python.org/3/library/re.html for more information\n# on inline regex flags\n# server => 'sErver1'\ndb: \"{{ 'sErver1/database42' | regex_search('(?i)server([0-9]+)') }}\"\n\n# drinkat => 'BAR'\ndrinkat: \"{{ 'foo\\nBAR' | regex_search('^bar', multiline=True, ignorecase=True) }}\"\n",
+    "examples": "\n# db => 'database42'\ndb: \"{{ 'server1/database42' | regex_search('database[0-9]+') }}\"\n\n# Using inline regex flags instead of passing options to filter\n# See https://docs.python.org/3/library/re.html for more information\n# on inline regex flags\n# server => 'sErver1'\ndb: \"{{ 'sErver1/database42' | regex_search('(?i)server([0-9]+)') }}\"\n\n# drinkat => 'BAR'\ndrinkat: \"{{ 'foo\\nBAR' | regex_search('^bar', multiline=True, ignorecase=True) }}\"\n\n# Extracts server and database id from a string using number\n# (the substring matched by the group is accessible via the \\number special sequence)\ndb: \"{{ 'server1/database42' | regex_search('server([0-9]+)/database([0-9]+)', '\\\\1', '\\\\2') }}\"\n# => ['1', '42']\n\n# Extracts dividend and divisor from a division\n# (the substring matched by the group is accessible via the symbolic group name)\ndb: \"{{ '21/42' | regex_search('(?P<dividend>[0-9]+)/(?P<divisor>[0-9]+)', '\\\\g<dividend>', '\\\\g<divisor>') }}\"\n# => ['21', '42']\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -5531,12 +5394,14 @@
     "doc": {
      "collection": "ansible.builtin",
      "description": [
-      "Using the input string attempt to create a matching Python C(datetime) object."
+      "Using the input string attempt to create a matching Python C(datetime) object.",
+      "Adding or Subtracting two datetime objects will result in a Python C(timedelta) object."
      ],
      "filename": "/ansible/plugins/filter/to_datetime.yml",
      "name": "to_datetime",
      "notes": [
-      "For a full list of format codes for working with Python date format strings, see L(the Python documentation, https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior)."
+      "For a full list of format codes for working with Python date format strings, see L(the Python documentation, https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior).",
+      "The timedelta object produced by the difference of two datetimes store the days, seconds, and microseconds of the delta. This results in the C(seconds) attribute being the total seconds of the minutes and hours of that delta. See L(datatime.timedelta, https://docs.python.org/3/library/datetime.html#timedelta-objects) for more information about how a timedelta works."
      ],
      "options": {
       "_input": {
@@ -5555,7 +5420,7 @@
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n# Get total amount of seconds between two dates. Default date format is %Y-%m-%d %H:%M:%S but you can pass your own format\nsecsdiff: '{{ ((\"2016-08-14 20:00:12\" | to_datetime) - (\"2015-12-25\" | to_datetime(\"%Y-%m-%d\"))).total_seconds()  }}'\n\n# Get remaining seconds after delta has been calculated. NOTE: This does NOT convert years, days, hours, and so on to seconds. For that, use total_seconds()\n{{ ((\"2016-08-14 20:00:12\" | to_datetime) - (\"2016-08-14 18:00:00\" | to_datetime)).seconds  }}\n# This expression evaluates to \"12\" and not \"132\". Delta is 2 hours, 12 seconds\n\n# get amount of days between two dates. This returns only number of days and discards remaining hours, minutes, and seconds\n{{ ((\"2016-08-14 20:00:12\" | to_datetime) - (\"2015-12-25\" | to_datetime('%Y-%m-%d'))).days  }}\n\n# difference between to dotnet (100ns precision) and iso8601 microsecond timestamps\n# the date1_short regex replace will work for any timestamp that has a higher than microsecond precision\n# by cutting off anything more precise than microseconds\nvars:\n  date1: '2022-11-15T03:23:13.6869568Z'\n  date2: '2021-12-15T16:06:24.400087Z'\n  date1_short: '{{ date1|regex_replace(\"([^.]+)(\\.\\d{6})(\\d*)(.+)\", \"\\1\\2\\4\") }}' # shorten to microseconds\n  iso8601format: '%Y-%m-%dT%H:%M:%S.%fZ'\n  date_diff_isoed: '{{ (date1_short|to_datetime(iso8601format) - date2|to_datetime(iso8601format)).total_seconds() }}'\n",
+    "examples": "\n# Get total amount of seconds between two dates. Default date format is %Y-%m-%d %H:%M:%S but you can pass your own format\nsecsdiff: '{{ ((\"2016-08-14 20:00:12\" | to_datetime) - (\"2015-12-25\" | to_datetime(\"%Y-%m-%d\"))).total_seconds()  }}'\n\n# Get remaining seconds after delta has been calculated. NOTE: This does NOT convert years and days to seconds. For that, use total_seconds()\n{{ ((\"2016-08-14 20:00:12\" | to_datetime) - (\"2016-08-14 18:00:00\" | to_datetime)).seconds  }}\n# This expression evaluates to \"7212\". Delta is 2 hours, 12 seconds\n\n# get amount of days between two dates. This returns only number of days and discards remaining hours, minutes, and seconds\n{{ ((\"2016-08-14 20:00:12\" | to_datetime) - (\"2015-12-25\" | to_datetime('%Y-%m-%d'))).days  }}\n\n# difference between to dotnet (100ns precision) and iso8601 microsecond timestamps\n# the date1_short regex replace will work for any timestamp that has a higher than microsecond precision\n# by cutting off anything more precise than microseconds\nvars:\n  date1: '2022-11-15T03:23:13.6869568Z'\n  date2: '2021-12-15T16:06:24.400087Z'\n  date1_short: '{{ date1|regex_replace(\"([^.]+)(\\.\\d{6})(\\d*)(.+)\", \"\\1\\2\\4\") }}' # shorten to microseconds\n  iso8601format: '%Y-%m-%dT%H:%M:%S.%fZ'\n  date_diff_isoed: '{{ (date1_short|to_datetime(iso8601format) - date2|to_datetime(iso8601format)).total_seconds() }}'\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -5662,7 +5527,7 @@
      "name": "to_nice_json",
      "notes": [
       "Both O(vault_to_text) and O(preprocess_unsafe) defaulted to V(False) between Ansible 2.9 and 2.12.",
-      "These parameters to C(json.dumps) will be ignored, they are overridden for internal use: I(cls), I(default), I(indent), I(separators), I(sort_keys)."
+      "These parameters to C(json.dumps) will be ignored, they are overridden for internal use: I(cls), I(default), I(separators)."
      ],
      "options": {
       "_input": {
@@ -5685,6 +5550,11 @@
        "description": "Escapes all non ASCII characters.",
        "type": "bool"
       },
+      "indent": {
+       "default": 4,
+       "description": "Specifies an indentation level. Passed to an underlying C(json.dumps) call.",
+       "type": "int"
+      },
       "preprocess_unsafe": {
        "default": true,
        "description": "Toggle to represent unsafe values directly in JSON or create a unsafe object in JSON.",
@@ -5695,6 +5565,11 @@
       "skipkeys": {
        "default": false,
        "description": "If V(True), keys that are not basic Python types will be skipped.",
+       "type": "bool"
+      },
+      "sort_keys": {
+       "default": true,
+       "description": "Affects sorting of dictionary keys. Passed to an underlying C(json.dumps) call.",
        "type": "bool"
       },
       "vault_to_text": {
@@ -6292,7 +6167,7 @@
      "version_added": "2.3",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n# two => [[1, \"a\"], [2, \"b\"], [3, \"c\"], [4, \"d\"], [5, \"e\"], [6, \"f\"]]\ntwo: \"{{ [1,2,3,4,5,6] | zip(['a','b','c','d','e','f']) }}\"\n\n# three => [ [ 1, \"a\", \"d\" ], [ 2, \"b\", \"e\" ], [ 3, \"c\", \"f\" ] ]\nthree: \"{{ [1,2,3] | zip(['a','b','c'], ['d','e','f']) }}\"\n\n# shorter => [[1, \"a\"], [2, \"b\"], [3, \"c\"]]\nshorter: \"{{ [1,2,3] | zip(['a','b','c','d','e','f']) }}\"\n\n# compose dict from lists of keys and values\nmydcit: \"{{ dict(keys_list | zip(values_list)) }}\"\n",
+    "examples": "\n# two => [[1, \"a\"], [2, \"b\"], [3, \"c\"], [4, \"d\"], [5, \"e\"], [6, \"f\"]]\ntwo: \"{{ [1,2,3,4,5,6] | zip(['a','b','c','d','e','f']) }}\"\n\n# three => [ [ 1, \"a\", \"d\" ], [ 2, \"b\", \"e\" ], [ 3, \"c\", \"f\" ] ]\nthree: \"{{ [1,2,3] | zip(['a','b','c'], ['d','e','f']) }}\"\n\n# shorter => [[1, \"a\"], [2, \"b\"], [3, \"c\"]]\nshorter: \"{{ [1,2,3] | zip(['a','b','c','d','e','f']) }}\"\n\n# compose dict from lists of keys and values\nmydict: \"{{ dict(keys_list | zip(values_list)) }}\"\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -7667,7 +7542,7 @@
      "version_added": "1.5",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name:  Match 'Li' on the first column, return the second column (0 based index)\n  ansible.builtin.debug: msg=\"The atomic number of Lithium is {{ lookup('ansible.builtin.csvfile', 'Li file=elements.csv delimiter=,') }}\"\n\n- name: msg=\"Match 'Li' on the first column, but return the 3rd column (columns start counting after the match)\"\n  ansible.builtin.debug: msg=\"The atomic mass of Lithium is {{ lookup('ansible.builtin.csvfile', 'Li file=elements.csv delimiter=, col=2') }}\"\n\n- name: Define Values From CSV File, this reads file in one go, but you could also use col= to read each in it's own lookup.\n  ansible.builtin.set_fact:\n    loop_ip: \"{{ csvline[0] }}\"\n    int_ip: \"{{ csvline[1] }}\"\n    int_mask: \"{{ csvline[2] }}\"\n    int_name: \"{{ csvline[3] }}\"\n    local_as: \"{{ csvline[4] }}\"\n    neighbor_as: \"{{ csvline[5] }}\"\n    neigh_int_ip: \"{{ csvline[6] }}\"\n  vars:\n    csvline: \"{{ lookup('ansible.builtin.csvfile', bgp_neighbor_ip, file='bgp_neighbors.csv', delimiter=',') }}\"\n  delegate_to: localhost\n",
+    "examples": "\n- name:  Match 'Li' on the first column, return the second column (0 based index)\n  ansible.builtin.debug: msg=\"The atomic number of Lithium is {{ lookup('ansible.builtin.csvfile', 'Li file=elements.csv delimiter=,') }}\"\n\n- name: msg=\"Match 'Li' on the first column, but return the 3rd column (columns start counting after the match)\"\n  ansible.builtin.debug: msg=\"The atomic mass of Lithium is {{ lookup('ansible.builtin.csvfile', 'Li file=elements.csv delimiter=, col=2') }}\"\n\n# Contents of bgp_neighbors.csv\n# 127.0.0.1,10.0.0.1,24,nones,lola,pepe,127.0.0.2\n# 128.0.0.1,10.1.0.1,20,notes,lolita,pepito,128.0.0.2\n# 129.0.0.1,10.2.0.1,23,nines,aayush,pepete,129.0.0.2\n\n- name: Define values from CSV file, this reads file in one go, but you could also use col= to read each in it's own lookup.\n  ansible.builtin.set_fact:\n    '{{ columns[item|int] }}': \"{{ csvline }}\"\n  vars:\n    csvline: \"{{ lookup('csvfile', bgp_neighbor_ip, file='bgp_neighbors.csv', delimiter=',', col=item) }}\"\n    columns: ['loop_ip', 'int_ip', 'int_mask', 'int_name', 'local_as', 'neighbour_as', 'neight_int_ip']\n    bgp_neighbor_ip: '127.0.0.1'\n  loop: '{{ range(columns|length|int) }}'\n  delegate_to: localhost\n  delegate_facts: true\n\n# Contents of people.csv\n# # Last,First,Email,Extension\n# Smith,Jane,jsmith@example.com,1234\n\n- name: Specify the column (by keycol) in which the string should be searched\n  assert:\n    that:\n    - lookup('ansible.builtin.csvfile', 'Jane', file='people.csv', delimiter=',', col=0, keycol=1) == \"Smith\"\n",
     "metadata": null,
     "return": {
      "_raw": {
@@ -8680,14 +8555,14 @@
        "version_added_collection": "ansible.builtin"
       },
       "follow_redirects": {
-       "choices": [
-        "urllib2",
-        "all",
-        "yes",
-        "safe",
-        "none",
-        "no"
-       ],
+       "choices": {
+        "all": "Will follow all redirects.",
+        "no": "(DEPRECATED, removed in 2.22) alias of V(none).",
+        "none": "Will not follow any redirects.",
+        "safe": "Only redirects doing GET or HEAD requests will be followed.",
+        "urllib2": "Defer to urllib2 behavior (As of writing this follows HTTP redirects).",
+        "yes": "(DEPRECATED, removed in 2.22) alias of V(all)."
+       },
        "default": "urllib2",
        "description": "String of urllib2, all/yes, safe, none to determine how redirects are followed",
        "env": [
@@ -9415,7 +9290,8 @@
         "pkg"
        ],
        "description": [
-        "A list of package names, like V(foo), or package specifier with version, like V(foo=1.0) or V(foo>=1.0). Name wildcards (fnmatch) like V(apt*) and version wildcards like V(foo=1.0*) are also supported."
+        "A list of package names, like V(foo), or package specifier with version, like V(foo=1.0) or V(foo>=1.0). Name wildcards (fnmatch) like V(apt*) and version wildcards like V(foo=1.0*) are also supported.",
+        "Do not use single or double quotes around the version when referring to the package name with a specific version, such as V(foo=1.0) or V(foo>=1.0)."
        ],
        "elements": "str",
        "type": "list"
@@ -10252,7 +10128,9 @@
       },
       "check_mode": {
        "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
-       "support": "none"
+       "support": "full",
+       "version_added": "2.17",
+       "version_added_collection": "ansible.builtin"
       },
       "diff_mode": {
        "description": "Will return details on what has changed (or possibly needs changing in check_mode), when in diff mode",
@@ -11683,9 +11561,10 @@
         "answer"
        ],
        "description": [
-        "Value to set the configuration to."
+        "Value to set the configuration to.",
+        "After Ansible 2.17, C(value) is of type 'raw'."
        ],
-       "type": "str"
+       "type": "raw"
       },
       "vtype": {
        "choices": [
@@ -11703,7 +11582,8 @@
        "description": [
         "The type of the value supplied.",
         "It is highly recommended to add C(no_log=True) to task while specifying O(vtype=password).",
-        "V(seen) was added in Ansible 2.2."
+        "V(seen) was added in Ansible 2.2.",
+        "After Ansible 2.17, user can specify C(value) as a list, if C(vtype) is set as V(multiselect)."
        ],
        "type": "str"
       }
@@ -12191,8 +12071,7 @@
      },
      "plugin_name": "ansible.builtin.dnf",
      "requirements": [
-      "python >= 2.6",
-      "python-dnf",
+      "python3-dnf",
       "for the autoremove option you need dnf >= 2.0.1\""
      ],
      "short_description": "Manages packages with the I(dnf) package manager",
@@ -12321,8 +12200,9 @@
       "disable_plugin": {
        "default": [],
        "description": [
-        "This is currently a no-op as dnf5 itself does not implement this feature.",
-        "I(Plugin) name to disable for the install/update operation. The disabled plugins will not persist beyond the transaction."
+        "I(Plugin) name to disable for the install/update operation. The disabled plugins will not persist beyond the transaction.",
+        "O(disable_plugin) takes precedence in case a plugin is listed in both O(enable_plugin) and O(disable_plugin).",
+        "Requires python3-libdnf5 5.2.0.0+."
        ],
        "elements": "str",
        "type": "list"
@@ -12352,8 +12232,9 @@
       "enable_plugin": {
        "default": [],
        "description": [
-        "This is currently a no-op as dnf5 itself does not implement this feature.",
-        "I(Plugin) name to enable for the install/update operation. The enabled plugin will not persist beyond the transaction."
+        "I(Plugin) name to enable for the install/update operation. The enabled plugin will not persist beyond the transaction.",
+        "O(disable_plugin) takes precedence in case a plugin is listed in both O(enable_plugin) and O(disable_plugin).",
+        "Requires python3-libdnf5 5.2.0.0+."
        ],
        "elements": "str",
        "type": "list"
@@ -12503,7 +12384,6 @@
      },
      "plugin_name": "ansible.builtin.dnf5",
      "requirements": [
-      "python3",
       "python3-libdnf5"
      ],
      "short_description": "Manages packages with the I(dnf5) package manager",
@@ -14196,12 +14076,17 @@
        "version_added": "0.7",
        "version_added_collection": "ansible.builtin"
       },
-      "gpg_whitelist": {
+      "gpg_allowlist": {
+       "aliases": [
+        "gpg_whitelist"
+       ],
        "default": [],
        "description": [
         "A list of trusted GPG fingerprints to compare to the fingerprint of the GPG-signed commit.",
         "Only used when O(verify_commit=yes).",
-        "Use of this feature requires Git 2.6+ due to its reliance on git's C(--raw) flag to C(verify-commit) and C(verify-tag)."
+        "Use of this feature requires Git 2.6+ due to its reliance on git's C(--raw) flag to C(verify-commit) and C(verify-tag).",
+        "Alias O(gpg_allowlist) is added in version 2.17.",
+        "Alias O(gpg_whitelist) is deprecated and will be removed in version 2.21."
        ],
        "elements": "str",
        "type": "list",
@@ -16659,7 +16544,7 @@
       },
       "until": {
        "description": "Denotes if this action obeys until/retry/poll keywords",
-       "support": "full"
+       "support": "none"
       }
      },
      "author": [
@@ -16779,7 +16664,7 @@
        "description": [
         "Package name, or package specifier with version.",
         "Syntax varies with package manager. For example V(name-1.0) or V(name=1.0).",
-        "Package names also vary with package manager; this module will not \"translate\" them per distro. For example V(libyaml-dev), V(libyaml-devel).",
+        "Package names also vary with package manager; this module will not \"translate\" them per distribution. For example V(libyaml-dev), V(libyaml-devel).",
         "To operate on several packages this can accept a comma separated string of packages or a list of packages, depending on the underlying package manager."
        ],
        "required": true
@@ -16794,8 +16679,9 @@
       "use": {
        "default": "auto",
        "description": [
-        "The required package manager module to use (V(dnf), V(apt), and so on). The default V(auto) will use existing facts or try to autodetect it.",
-        "You should only use this field if the automatic selection is not working for some reason."
+        "The required package manager module to use (V(dnf), V(apt), and so on). The default V(auto) will use existing facts or try to auto-detect it.",
+        "You should only use this field if the automatic selection is not working for some reason.",
+        "Since version 2.17 you can use the C(ansible_package_use) variable to override the automatic detection, but this option still takes precedence."
        ]
       }
      },
@@ -16846,37 +16732,44 @@
      "module": "package_facts",
      "options": {
       "manager": {
-       "choices": [
-        "auto",
-        "rpm",
-        "apt",
-        "portage",
-        "pkg",
-        "pacman",
-        "apk",
-        "pkg_info"
-       ],
+       "choices": {
+        "apk": "Alpine Linux package manager",
+        "apt": "For DEB based distros, C(python-apt) package must be installed on targeted hosts",
+        "auto": "Depending on O(strategy), will match the first or all package managers provided, in order",
+        "dnf": "Alias to rpm",
+        "dnf5": "Alias to rpm",
+        "openbsd_pkg": "Alias to pkg_info",
+        "pacman": "Archlinux package manager/builder",
+        "pkg": "libpkg front end (FreeBSD)",
+        "pkg5": "Alias to pkg",
+        "pkg_info": "OpenBSD package manager",
+        "pkgng": "Alias to pkg",
+        "portage": "Handles ebuild packages, it requires the C(qlist) utility, which is part of 'app-portage/portage-utils'",
+        "rpm": "For RPM based distros, requires RPM Python bindings, not installed by default on Suse (python3-rpm)",
+        "yum": "Alias to rpm",
+        "zypper": "Alias to rpm"
+       },
        "default": [
         "auto"
        ],
        "description": [
-        "The package manager used by the system so we can query the package information.",
-        "Since 2.8 this is a list and can support multiple package managers per system.",
+        "The package manager(s) used by the system so we can query the package information. This is a list and can support multiple package managers per system, since version 2.8.",
         "The 'portage' and 'pkg' options were added in version 2.8.",
         "The 'apk' option was added in version 2.11.",
-        "The 'pkg_info' option was added in version 2.13."
+        "The 'pkg_info' option was added in version 2.13.",
+        "Aliases were added in 2.18, to support using C(auto={{ansible_facts['pkg_mgr']}})"
        ],
        "elements": "str",
        "type": "list"
       },
       "strategy": {
-       "choices": [
-        "first",
-        "all"
-       ],
+       "choices": {
+        "all": "returns information for all supported and available package managers on the system.",
+        "first": "returns only information for the first supported package manager available."
+       },
        "default": "first",
        "description": [
-        "This option controls how the module queries the package managers on the system. V(first) means it will return only information for the first supported package manager available. V(all) will return information for all supported and available package managers on the system."
+        "This option controls how the module queries the package managers on the system."
        ],
        "type": "str",
        "version_added": "2.8",
@@ -16885,9 +16778,7 @@
      },
      "plugin_name": "ansible.builtin.package_facts",
      "requirements": [
-      "For 'portage' support it requires the C(qlist) utility, which is part of 'app-portage/portage-utils'.",
-      "For Debian-based systems C(python-apt) package must be installed on targeted hosts.",
-      "For SUSE-based systems C(python3-rpm) package must be installed on targeted hosts. This package is required because SUSE does not include RPM Python bindings by default."
+      "See details per package manager in the O(manager) option."
      ],
      "short_description": "Package information as facts",
      "version_added": "2.5",
@@ -18198,7 +18089,7 @@
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Populate service facts\n  ansible.builtin.service_facts:\n\n- name: Print service facts\n  ansible.builtin.debug:\n    var: ansible_facts.services\n",
+    "examples": "\n- name: Populate service facts\n  ansible.builtin.service_facts:\n\n- name: Print service facts\n  ansible.builtin.debug:\n    var: ansible_facts.services\n\n- name: show names of existing systemd services, sometimes systemd knows about services that were never installed\n  debug: msg={{ existing_systemd_services | map(attribute='name') }}\n  vars:\n     known_systemd_services: \"{{ ansible_facts['services'].values() | selectattr('source', 'equalto', 'systemd') }}\"\n     existing_systemd_services: \"{{ known_systemd_services | rejectattr('status', 'equalto', 'not-found') }}\"\n\n- name: restart systemd service if it exists\n  service:\n    state: restarted\n    name: ntpd.service\n  when: ansible_facts['services']['ntpd.service']['status'] | default('not-found') != 'not-found'\n\n",
     "metadata": null,
     "return": {
      "ansible_facts": {
@@ -18555,7 +18446,7 @@
       "gather_subset": {
        "default": "all",
        "description": [
-        "If supplied, restrict the additional facts collected to the given subset. Possible values: V(all), V(all_ipv4_addresses), V(all_ipv6_addresses), V(apparmor), V(architecture), V(caps), V(chroot),V(cmdline), V(date_time), V(default_ipv4), V(default_ipv6), V(devices), V(distribution), V(distribution_major_version), V(distribution_release), V(distribution_version), V(dns), V(effective_group_ids), V(effective_user_id), V(env), V(facter), V(fips), V(hardware), V(interfaces), V(is_chroot), V(iscsi), V(kernel), V(local), V(lsb), V(machine), V(machine_id), V(mounts), V(network), V(ohai), V(os_family), V(pkg_mgr), V(platform), V(processor), V(processor_cores), V(processor_count), V(python), V(python_version), V(real_user_id), V(selinux), V(service_mgr), V(ssh_host_key_dsa_public), V(ssh_host_key_ecdsa_public), V(ssh_host_key_ed25519_public), V(ssh_host_key_rsa_public), V(ssh_host_pub_keys), V(ssh_pub_keys), V(system), V(system_capabilities), V(system_capabilities_enforced), V(user), V(user_dir), V(user_gecos), V(user_gid), V(user_id), V(user_shell), V(user_uid), V(virtual), V(virtualization_role), V(virtualization_type). Can specify a list of values to specify a larger subset. Values can also be used with an initial C(!) to specify that that specific subset should not be collected.  For instance: V(!hardware,!network,!virtual,!ohai,!facter). If V(!all) is specified then only the min subset is collected. To avoid collecting even the min subset, specify V(!all,!min). To collect only specific facts, use V(!all,!min), and specify the particular fact subsets. Use the filter parameter if you do not want to display some collected facts."
+        "If supplied, restrict the additional facts collected to the given subset. Possible values: V(all), V(all_ipv4_addresses), V(all_ipv6_addresses), V(apparmor), V(architecture), V(caps), V(chroot),V(cmdline), V(date_time), V(default_ipv4), V(default_ipv6), V(devices), V(distribution), V(distribution_major_version), V(distribution_release), V(distribution_version), V(dns), V(effective_group_ids), V(effective_user_id), V(env), V(facter), V(fips), V(hardware), V(interfaces), V(is_chroot), V(iscsi), V(kernel), V(local), V(lsb), V(machine), V(machine_id), V(mounts), V(network), V(ohai), V(os_family), V(pkg_mgr), V(platform), V(processor), V(processor_cores), V(processor_count), V(python), V(python_version), V(real_user_id), V(selinux), V(service_mgr), V(ssh_host_key_dsa_public), V(ssh_host_key_ecdsa_public), V(ssh_host_key_ed25519_public), V(ssh_host_key_rsa_public), V(ssh_host_pub_keys), V(ssh_pub_keys), V(system), V(system_capabilities), V(system_capabilities_enforced), V(systemd), V(user), V(user_dir), V(user_gecos), V(user_gid), V(user_id), V(user_shell), V(user_uid), V(virtual), V(virtualization_role), V(virtualization_type). Can specify a list of values to specify a larger subset. Values can also be used with an initial C(!) to specify that that specific subset should not be collected.  For instance: V(!hardware,!network,!virtual,!ohai,!facter). If V(!all) is specified then only the min subset is collected. To avoid collecting even the min subset, specify V(!all,!min). To collect only specific facts, use V(!all,!min), and specify the particular fact subsets. Use the filter parameter if you do not want to display some collected facts."
        ],
        "elements": "str",
        "type": "list",
@@ -19440,10 +19331,10 @@
      "has_action": false,
      "module": "systemd_service",
      "notes": [
-      "Since 2.4, one of the following options is required O(state), O(enabled), O(masked), O(daemon_reload), (O(daemon_reexec) since 2.8), and all except O(daemon_reload) and (O(daemon_reexec) since 2.8) also require O(name).",
+      "O(state), O(enabled), O(masked) requires O(name).",
       "Before 2.4 you always required O(name).",
       "Globs are not supported in name, in other words, C(postgres*.service).",
-      "The service names might vary by specific OS/distribution",
+      "The service names might vary by specific OS/distribution.",
       "The order of execution when having multiple properties is to first enable/disable, then mask/unmask and then deal with the service state. It has been reported that systemctl can behave differently depending on the order of operations if you do the same manually."
      ],
      "options": {
@@ -19472,7 +19363,8 @@
       },
       "enabled": {
        "description": [
-        "Whether the unit should start on boot. B(At least one of the states and enabled are required.)"
+        "Whether the unit should start on boot. B(At least one of state and enabled are required.)",
+        "If set, requires O(name)."
        ],
        "type": "bool"
       },
@@ -19486,7 +19378,8 @@
       },
       "masked": {
        "description": [
-        "Whether the unit should be masked or not, a masked unit is impossible to start."
+        "Whether the unit should be masked or not. A masked unit is impossible to start.",
+        "If set, requires O(name)."
        ],
        "type": "bool"
       },
@@ -19536,7 +19429,8 @@
         "stopped"
        ],
        "description": [
-        "V(started)/V(stopped) are idempotent actions that will not run commands unless necessary. V(restarted) will always bounce the unit. V(reloaded) will always reload and if the service is not running at the moment of the reload, it is started."
+        "V(started)/V(stopped) are idempotent actions that will not run commands unless necessary. V(restarted) will always bounce the unit. V(reloaded) will always reload and if the service is not running at the moment of the reload, it is started.",
+        "If set, requires O(name)."
        ],
        "type": "str"
       }
@@ -20801,17 +20695,17 @@
        "type": "path"
       },
       "follow_redirects": {
-       "choices": [
-        "all",
-        "no",
-        "none",
-        "safe",
-        "urllib2",
-        "yes"
-       ],
+       "choices": {
+        "all": "Will follow all redirects.",
+        "no": "(DEPRECATED, removed in 2.22) alias of V(none).",
+        "none": "Will not follow any redirects.",
+        "safe": "Only redirects doing GET or HEAD requests will be followed.",
+        "urllib2": "Defer to urllib2 behavior (As of writing this follows HTTP redirects).",
+        "yes": "(DEPRECATED, removed in 2.22) alias of V(all)."
+       },
        "default": "safe",
        "description": [
-        "Whether or not the URI module should follow redirects. V(all) will follow all redirects. V(safe) will follow only \"safe\" redirects, where \"safe\" means that the client is only doing a GET or HEAD on the URI to which it is being redirected. V(none) will not follow any redirects. Note that V(true) and V(false) choices are accepted for backwards compatibility, where V(true) is the equivalent of V(all) and V(false) is the equivalent of V(safe). V(true) and V(false) are deprecated and will be removed in some future version of Ansible."
+        "Whether or not the URI module should follow redirects."
        ],
        "type": "str"
       },
@@ -22119,7 +22013,8 @@
        "description": [
         "If set to V(true) Yum will download packages and metadata from this repo in parallel, if possible.",
         "In ansible-core 2.11, 2.12, and 2.13 the default value is V(true).",
-        "This option has been deprecated in RHEL 8. If you're using one of the versions listed above, you can set this option to None to avoid passing an unknown configuration option."
+        "This option has been removed in RHEL 8. If you're using one of the versions listed above, you can set this option to None to avoid passing an unknown configuration option.",
+        "This parameter is deprecated as it has been removed on systems supported by ansible-core and will be removed in ansible-core 2.22."
        ],
        "type": "bool"
       },
@@ -22159,9 +22054,19 @@
        ],
        "type": "str"
       },
+      "countme": {
+       "default": null,
+       "description": [
+        "Whether a special flag should be added to a randomly chosen metalink/mirrorlist query each week. This allows the repository owner to estimate the number of systems consuming it."
+       ],
+       "type": "bool",
+       "version_added": "2.18",
+       "version_added_collection": "ansible.builtin"
+      },
       "deltarpm_metadata_percentage": {
        "description": [
-        "When the relative size of deltarpm metadata vs pkgs is larger than this, deltarpm metadata is not downloaded from the repo. Note that you can give values over V(100), so V(200) means that the metadata is required to be half the size of the packages. Use V(0) to turn off this check, and always download metadata."
+        "When the relative size of deltarpm metadata vs pkgs is larger than this, deltarpm metadata is not downloaded from the repo. Note that you can give values over V(100), so V(200) means that the metadata is required to be half the size of the packages. Use V(0) to turn off this check, and always download metadata.",
+        "This parameter is deprecated as it has no effect with dnf as an underlying package manager and will be removed in ansible-core 2.22."
        ],
        "type": "str"
       },
@@ -22193,9 +22098,13 @@
        "type": "bool"
       },
       "exclude": {
+       "aliases": [
+        "excludepkgs"
+       ],
        "description": [
         "List of packages to exclude from updates or installs. This should be a space separated list. Shell globs using wildcards (for example V(*) and V(?)) are allowed.",
-        "The list can also be a regular YAML array."
+        "The list can also be a regular YAML array.",
+        "excludepkgs alias was added in ansible-core 2.18"
        ],
        "elements": "str",
        "type": "list"
@@ -22219,7 +22128,8 @@
       },
       "gpgcakey": {
        "description": [
-        "A URL pointing to the ASCII-armored CA key file for the repository."
+        "A URL pointing to the ASCII-armored CA key file for the repository.",
+        "This parameter is deprecated as it has no effect with dnf as an underlying package manager and will be removed in ansible-core 2.22."
        ],
        "type": "str"
       },
@@ -22255,7 +22165,8 @@
         "Determines how upstream HTTP caches are instructed to handle any HTTP downloads that Yum does.",
         "V(all) means that all HTTP downloads should be cached.",
         "V(packages) means that only RPM package downloads should be cached (but not repository metadata downloads).",
-        "V(none) means that no HTTP downloads should be cached."
+        "V(none) means that no HTTP downloads should be cached.",
+        "This parameter is deprecated as it has no effect with dnf as an underlying package manager and will be removed in ansible-core 2.22."
        ],
        "type": "str"
       },
@@ -22290,7 +22201,8 @@
       },
       "keepalive": {
        "description": [
-        "This tells yum whether or not HTTP/1.1 keepalive should be used with this repository. This can improve transfer speeds by using one connection when downloading multiple files from a repository."
+        "This tells yum whether or not HTTP/1.1 keepalive should be used with this repository. This can improve transfer speeds by using one connection when downloading multiple files from a repository.",
+        "This parameter is deprecated as it has no effect with dnf as an underlying package manager and will be removed in ansible-core 2.22."
        ],
        "type": "bool"
       },
@@ -22301,7 +22213,7 @@
        ],
        "description": [
         "Either V(1) or V(0). Determines whether or not yum keeps the cache of headers and packages after successful installation.",
-        "This parameter is deprecated and will be removed in version 2.20."
+        "This parameter is deprecated as it is only valid in the main configuration and will be removed in ansible-core 2.20."
        ],
        "type": "str"
       },
@@ -22325,7 +22237,8 @@
         "V(read-only:past) - Commands that only care about past information are filtered from metadata expiring. Eg. C(yum history) info (if history needs to lookup anything about a previous transaction, then by definition the remote package was available in the past).",
         "V(read-only:present) - Commands that are balanced between past and future. Eg. C(yum list yum).",
         "V(read-only:future) - Commands that are likely to result in running other commands which will require the latest metadata. Eg. C(yum check-update).",
-        "Note that this option does not override \"yum clean expire-cache\"."
+        "Note that this option does not override \"yum clean expire-cache\".",
+        "This parameter is deprecated as it has no effect with dnf as an underlying package manager and will be removed in ansible-core 2.22."
        ],
        "type": "str"
       },
@@ -22346,7 +22259,8 @@
       "mirrorlist_expire": {
        "description": [
         "Time (in seconds) after which the mirrorlist locally cached will expire.",
-        "Default value is 6 hours."
+        "Default value is 6 hours.",
+        "This parameter is deprecated as it has no effect with dnf as an underlying package manager and will be removed in ansible-core 2.22."
        ],
        "type": "str"
       },
@@ -22401,7 +22315,8 @@
       },
       "protect": {
        "description": [
-        "Protect packages from updates from other repositories."
+        "Protect packages from updates from other repositories.",
+        "This parameter is deprecated as it has no effect with dnf as an underlying package manager and will be removed in ansible-core 2.22."
        ],
        "type": "bool"
       },
@@ -22488,7 +22403,8 @@
       "ssl_check_cert_permissions": {
        "description": [
         "Whether yum should check the permissions on the paths for the certificates on the repository (both remote and local).",
-        "If we can't read any of the files then yum will force O(skip_if_unavailable) to be V(true). This is most useful for non-root processes which use yum on repos that have client cert files which are readable only by root."
+        "If we can't read any of the files then yum will force O(skip_if_unavailable) to be V(true). This is most useful for non-root processes which use yum on repos that have client cert files which are readable only by root.",
+        "This parameter is deprecated as it has no effect with dnf as an underlying package manager and will be removed in ansible-core 2.22."
        ],
        "type": "bool"
       },
@@ -22554,7 +22470,8 @@
       },
       "ui_repoid_vars": {
        "description": [
-        "When a repository id is displayed, append these yum variables to the string if they are used in the O(baseurl)/etc. Variables are appended in the order listed (and found)."
+        "When a repository id is displayed, append these yum variables to the string if they are used in the O(baseurl)/etc. Variables are appended in the order listed (and found).",
+        "This parameter is deprecated as it has no effect with dnf as an underlying package manager and will be removed in ansible-core 2.22."
        ],
        "type": "str"
       },
