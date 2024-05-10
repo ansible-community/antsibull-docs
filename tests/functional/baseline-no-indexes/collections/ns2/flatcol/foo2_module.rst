@@ -2,6 +2,7 @@
 .. Document meta
 
 :orphan:
+:github_url: https://github.com/ansible-collections/community.REPO_NAME/edit/main/plugins/modules/sub/foo2.py?description=%23%23%23%23%23%20SUMMARY%0A%3C!---%20Your%20description%20here%20--%3E%0A%0A%0A%23%23%23%23%23%20ISSUE%20TYPE%0A-%20Docs%20Pull%20Request%0A%0A%2Blabel:%20docsite_pr
 
 .. |antsibull-internal-nbsp| unicode:: 0xA0
     :trim:
@@ -221,6 +222,17 @@ Authors
 
 
 .. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. ansible-links::
+
+  - title: "Report an issue"
+    url: "https://github.com/ansible-collections/community.REPO_NAME/issues/new/choose"
+    external: true
+  - title: Communication
+    ref: communication_for_ns2.flatcol
 
 
 .. Parsing errors

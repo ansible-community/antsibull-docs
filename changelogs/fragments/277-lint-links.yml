@@ -1,0 +1,2 @@
+minor_changes:
+  - "The ``lint-collection-docs`` subcommand will now complain about unchanged default values in ``docs/docsite/links.yml`` taken from the `community collection template <https://github.com/ansible-collections/collection_template/>`__ (https://github.com/ansible-community/antsibull-docs/issues/273, https://github.com/ansible-community/antsibull-docs/pull/277)."

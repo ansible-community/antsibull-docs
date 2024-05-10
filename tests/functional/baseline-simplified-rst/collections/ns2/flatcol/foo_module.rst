@@ -191,4 +191,8 @@ Authors
 
 
 
+Collection links
+~~~~~~~~~~~~~~~~
+
+* `Report an issue <https://github.com/ansible-collections/community.REPO\_NAME/issues/new/choose>`__
 
