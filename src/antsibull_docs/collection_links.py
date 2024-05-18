@@ -229,6 +229,40 @@ async def load_collections_links(
     return result
 
 
+def _check_default_values(
+    parsed_data: CollectionLinks,
+    index_path: str,
+    result: list[tuple[str, int, int, str]],
+) -> None:
+    # Check for default values from https://github.com/ansible-collections/collection_template/
+    default_repo_url = "ansible-collections/community.REPO_NAME"
+    default_issue_url = (
+        "https://github.com/ansible-collections/community.REPO_NAME/issues/new/choose"
+    )
+    if (
+        parsed_data.edit_on_github
+        and parsed_data.edit_on_github.repository == default_repo_url
+    ):
+        result.append(
+            (
+                index_path,
+                0,
+                0,
+                f"edit_on_github.repository is {default_repo_url!r}, this must be adjusted!",
+            )
+        )
+    for idx, el in enumerate(parsed_data.extra_links):
+        if el.url == default_issue_url:
+            result.append(
+                (
+                    index_path,
+                    0,
+                    0,
+                    f"extra_links[{idx}].url is {default_issue_url!r}, this must be adjusted!",
+                )
+            )
+
+
 def lint_collection_links(collection_path: str) -> list[tuple[str, int, int, str]]:
     """Given a path, lint links data.
 
@@ -263,7 +297,8 @@ def lint_collection_links(collection_path: str) -> list[tuple[str, int, int, str
                     (index_path, 0, 0, f"The key '{forbidden_key}' must not be used")
                 )
         try:
-            CollectionLinks.parse_obj(links_data)
+            parsed_data = CollectionLinks.parse_obj(links_data)
+            _check_default_values(parsed_data, index_path, result)
         except v1.ValidationError as exc:
             for error in exc.errors():
                 result.append(

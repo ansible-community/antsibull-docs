@@ -869,6 +869,8 @@ TEST_CASES = [
         {},
         3,
         [
+            "docs/docsite/links.yml:0:0: edit_on_github.repository is 'ansible-collections/community.REPO_NAME', this must be adjusted!",
+            "docs/docsite/links.yml:0:0: extra_links[0].url is 'https://github.com/ansible-collections/community.REPO_NAME/issues/new/choose', this must be adjusted!",
             "plugins/modules/sub/foo2.py:0:0: DOCUMENTATION -> description[2]: O(ns2.flatcol.foo#role:main:foo_param_1): there is no role ns2.flatcol.foo",
             "plugins/modules/sub/foo2.py:0:0: DOCUMENTATION -> description[2]: O(ns2.flatcol.foo#role:main:foo_param_2=42): there is no role ns2.flatcol.foo",
             "plugins/modules/sub/foo2.py:0:0: DOCUMENTATION -> options -> bar -> description[2]: O(ns2.flatcol.foo#role:main:foo_param_1): there is no role ns2.flatcol.foo",
