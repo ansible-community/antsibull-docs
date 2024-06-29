@@ -287,18 +287,24 @@ async def load_collection_routing(
     collection_name: str, collection_metadata: AnsibleCollectionMetadata
 ) -> dict[str, dict[str, dict[str, t.Any]]]:
     """
-    Load plugin routing for a collection.
+    Load plugin routing for a collection, and populate the private plugins lists
+    in collection metadata.
     """
     meta_runtime = load_meta_runtime(collection_name, collection_metadata)
     plugin_routing_out: dict[str, dict[str, dict[str, t.Any]]] = {}
     plugin_routing_in = meta_runtime.get("plugin_routing") or {}
+    private_plugins: dict[str, list[str]] = {}
+    collection_metadata.private_plugins = private_plugins
     for plugin_type in DOCUMENTABLE_PLUGINS:
         plugin_type_id = "modules" if plugin_type == "module" else plugin_type
         plugin_type_routing = plugin_routing_in.get(plugin_type_id) or {}
-        plugin_routing_out[plugin_type] = {
-            f"{collection_name}.{plugin_name}": process_dates(plugin_record)
-            for plugin_name, plugin_record in plugin_type_routing.items()
-        }
+        plugin_routing_out[plugin_type] = {}
+        private_plugins[plugin_type] = []
+        for plugin_name, plugin_record in plugin_type_routing.items():
+            fqcn = f"{collection_name}.{plugin_name}"
+            plugin_routing_out[plugin_type][fqcn] = process_dates(plugin_record)
+            if plugin_record.get("private", False):
+                private_plugins[plugin_type].append(plugin_name)
 
     if collection_name == "ansible.builtin":
         # ansible-core has a special directory structure we currently do not want

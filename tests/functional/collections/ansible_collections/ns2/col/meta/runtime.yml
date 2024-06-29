@@ -18,6 +18,9 @@ plugin_routing:
       deprecation:
         removal_version: 5.0.0
         warning_text: It will be gone
+  lookup:
+    bar:
+      private: true
   modules:
     foo_redirect:
       redirect: ns2.col.foo
