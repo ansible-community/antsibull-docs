@@ -1,2 +1,3 @@
 bugfixes:
   - "Render errors as code blocks of language ``text`` instead of using the default lexer (https://github.com/ansible-community/antsibull-docs/pull/289)."
+  - "Improve rendering of empty or broken changelogs (https://github.com/ansible-community/antsibull-docs/pull/289)."
