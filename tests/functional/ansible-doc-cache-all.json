@@ -22629,7 +22629,8 @@
       "The option O(foo) exists, but O(foobar) does not.",
       "The return value RV(bar) exists, but RV(barbaz) does not.",
       "Again existing: O(ns.col2.foo#module:foo=1), RV(ns.col2.foo#module:bar=2)",
-      "Again not existing: O(ns.col2.foo#module:foobar=1), RV(ns.col2.foo#module:barbaz=2)"
+      "Again not existing: O(ns.col2.foo#module:foobar=1), RV(ns.col2.foo#module:barbaz=2)",
+      "C() I() B() C() U() L(,) R(,) V() O() RV() E()"
      ],
      "filename": "ansible_collections/ns/col2/plugins/modules/foo2.py",
      "has_action": false,
