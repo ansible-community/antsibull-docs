@@ -427,7 +427,7 @@ There were some errors parsing the documentation for this plugin.  Please file a
 
 The errors were:
 
-* ::
+* .. code-block:: text
 
         Unable to normalize foo3: return due to: 2 validation errors for PluginReturnSchema
         return -> bar -> type
