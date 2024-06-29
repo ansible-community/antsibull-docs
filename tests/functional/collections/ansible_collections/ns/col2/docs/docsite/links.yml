@@ -21,5 +21,7 @@ communication:
       network: true
   mailing_lists:
     - Ansible Project List
+  forums:
+    - topic: foo
 
 bla:

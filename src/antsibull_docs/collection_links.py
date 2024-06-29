@@ -70,6 +70,12 @@ _ANSIBLE_CORE_METADATA = {
                 "url": "https://groups.google.com/g/ansible-project",
             }
         ],
+        "forums": [
+            {
+                "topic": "Ansible Forum",
+                "url": "https://forum.ansible.com/c/help/6/none",
+            }
+        ],
     },
 }
 
