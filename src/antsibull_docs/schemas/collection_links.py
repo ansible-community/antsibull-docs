@@ -77,15 +77,24 @@ class MailingList(p.BaseModel):
         return values
 
 
+class Forum(p.BaseModel):
+    topic: str
+    url: str
+
+
 class Communication(p.BaseModel):
     irc_channels: list[IRCChannel] = []
     matrix_rooms: list[MatrixRoom] = []
     mailing_lists: list[MailingList] = []
+    forums: list[Forum] = []
 
     @property
     def empty(self):
         return (
-            not self.irc_channels and not self.matrix_rooms and not self.mailing_lists
+            not self.irc_channels
+            and not self.matrix_rooms
+            and not self.mailing_lists
+            and not self.forums
         )
 
 
