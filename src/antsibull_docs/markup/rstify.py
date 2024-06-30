@@ -46,8 +46,14 @@ class AnsibleDocsiteFormatter(_AntsibullRSTFormatter):
     def format_env_variable(self, part: dom.EnvVariablePart) -> str:
         envvar = part.name.split("=", 1)[0].strip()
         if envvar in self._referable_envvars:
-            return f"\\ :ansenvvarref:`{_rst_escape(part.name, True)}`\\ "
-        return f"\\ :ansenvvar:`{_rst_escape(part.name, True)}`\\ "
+            text = _rst_escape(
+                part.name, escape_ending_whitespace=True, must_not_be_empty=True
+            )
+            return f"\\ :ansenvvarref:`{text}`\\ "
+        text = _rst_escape(
+            part.name, escape_ending_whitespace=True, must_not_be_empty=True
+        )
+        return f"\\ :ansenvvar:`{text}`\\ "
 
 
 class SimplifiedRSTLinkProvider(LinkProvider):

@@ -55,6 +55,7 @@ Synopsis
 - The return value \ :ansretval:`ns.col2.foo2#module:bar`\  exists, but \ :ansretval:`ns.col2.foo2#module:barbaz`\  does not.
 - Again existing: \ :ansopt:`ns.col2.foo#module:foo=1`\ , \ :ansretval:`ns.col2.foo#module:bar=2`\ 
 - Again not existing: \ :ansopt:`ns.col2.foo#module:foobar=1`\ , \ :ansretval:`ns.col2.foo#module:barbaz=2`\ 
+- \ :literal:`\ `\  \ :emphasis:`\ `\  \ :strong:`\ `\  \ :literal:`\ `\  \ \   \ :ref:`\  <>`\  \ :ansval:`\ `\  \ :ansopt:`ns.col2.foo2#module:`\  \ :ansretval:`ns.col2.foo2#module:`\  \ :ansenvvar:`\ `\ 
 
 
 .. Aliases
