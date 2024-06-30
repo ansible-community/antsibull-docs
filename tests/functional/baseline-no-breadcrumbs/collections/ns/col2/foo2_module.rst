@@ -56,6 +56,11 @@ Synopsis
 - Again existing: \ :ansopt:`ns.col2.foo#module:foo=1`\ , \ :ansretval:`ns.col2.foo#module:bar=2`\ 
 - Again not existing: \ :ansopt:`ns.col2.foo#module:foobar=1`\ , \ :ansretval:`ns.col2.foo#module:barbaz=2`\ 
 - \ :literal:`\ `\  \ :emphasis:`\ `\  \ :strong:`\ `\  \ :literal:`\ `\  \ \   \ :ref:`\  <>`\  \ :ansval:`\ `\  \ :ansopt:`ns.col2.foo2#module:`\  \ :ansretval:`ns.col2.foo2#module:`\  \ :ansenvvar:`\ `\ 
+- Foo bar baz. Bamm - Bar baz
+  bam bum.
+  Bumm - Foo bar
+  baz bam!
+
 
 
 .. Aliases
@@ -122,6 +127,12 @@ Parameters
       Bar.
 
       Some \ :ansopt:`ns.col2.foo2#module:broken markup`\ .
+
+      Foo bar baz. Bamm - Bar baz
+      bam bum.
+      Bumm - Foo bar
+      baz bam!
+
 
 
       .. raw:: html
@@ -384,6 +395,12 @@ Attributes
 
       Will return details on what has changed (or possibly needs changing in check\_mode), when in diff mode
 
+      Foo bar baz. Bamm - Bar baz
+      bam bum.
+      Bumm - Foo bar
+      baz bam!
+
+
 
       .. raw:: html
 
@@ -419,6 +436,12 @@ Attributes
 
       Sometimes our markup is \ :strong:`ERROR while parsing`\ : While parsing "B(broken." at index 25: Cannot find closing ")" after last parameter\ 
 
+      Foo bar baz. Bamm - Bar baz
+      bam bum.
+      Bumm - Foo bar
+      baz bam!
+
+
 
       .. raw:: html
 
@@ -438,6 +461,15 @@ Attributes
 
 
 .. Notes
+
+Notes
+-----
+
+.. note::
+   - Foo bar baz. Bamm - Bar baz
+     bam bum.
+     Bumm - Foo bar
+     baz bam!
 
 
 .. Seealso
@@ -462,7 +494,11 @@ See Also
    \ :ref:`ansible.builtin.linear <ansible_collections.ansible.builtin.linear_strategy>`\  strategy plugin
        The linear strategy plugin.
    \ :ref:`ansible.builtin.foobarbaz <ansible_collections.ansible.builtin.foobarbaz_strategy>`\  strategy plugin
-       A non-existing stragey plugin
+       Foo bar baz. Bamm - Bar baz
+       bam bum.
+       Bumm - Foo bar
+       baz bam!
+
 
 .. Examples
 

@@ -66,15 +66,15 @@ DEPRECATED
 {%     else %}
 :Removed in: a future release
 {%     endif %}
-:Why: @{ ep_doc['deprecated']['why'] | rst_ify(role_entrypoint=entry_point) | indent(6) }@
-:Alternative: @{ ep_doc['deprecated']['alternative'] | rst_ify(role_entrypoint=entry_point) | indent(14) }@
+:Why: @{ ep_doc['deprecated']['why'] | rst_ify(role_entrypoint=entry_point) | rst_indent(6) }@
+:Alternative: @{ ep_doc['deprecated']['alternative'] | rst_ify(role_entrypoint=entry_point) | rst_indent(14) }@
 {%   endif %}
 
 Synopsis
 ^^^^^^^^
 
 {%   for desc in ep_doc['description'] -%}
-- @{ desc | rst_ify(role_entrypoint=entry_point) | indent(width=2) }@
+- @{ desc | rst_ify(role_entrypoint=entry_point) | rst_indent(width=2) }@
 {%   endfor %}
 
 {%   if ep_doc['requirements'] -%}
@@ -83,7 +83,7 @@ Requirements
 The below requirements are needed on the remote host and/or the local controller node.
 
 {%     for req in ep_doc['requirements'] %}
-- @{ req | rst_ify(role_entrypoint=entry_point) | indent(width=2) }@
+- @{ req | rst_ify(role_entrypoint=entry_point) | rst_indent(width=2) }@
 {%     endfor %}
 
 {%   endif %}
@@ -109,7 +109,7 @@ Notes
 ^^^^^
 
 {%     for note in ep_doc['notes'] %}
-- @{ note | rst_ify(role_entrypoint=entry_point) | indent(width=2) }@
+- @{ note | rst_ify(role_entrypoint=entry_point) | rst_indent(width=2) }@
 {%     endfor %}
 {%   endif %}
 
@@ -121,7 +121,7 @@ See Also
 {%       if item.module is defined and item.description %}
 * @{ reference_plugin_rst(item['module'], 'module') }@
 
-  @{ item['description'] | rst_ify(role_entrypoint=entry_point) | indent(2) }@
+  @{ item['description'] | rst_ify(role_entrypoint=entry_point) | rst_indent(2) }@
 {%       elif item.module is defined %}
 * @{ reference_plugin_rst(item['module'], 'module') }@
 
@@ -129,7 +129,7 @@ See Also
 {%       elif item.plugin is defined and item.plugin_type is defined and item.description %}
 * @{ reference_plugin_rst(item['plugin'], item['plugin_type']) }@ @{ item['plugin_type'] }@ plugin
 
-  @{ item['description'] | rst_ify(role_entrypoint=entry_point) | indent(2) }@
+  @{ item['description'] | rst_ify(role_entrypoint=entry_point) | rst_indent(2) }@
 {%       elif item.plugin is defined and item.plugin_type is defined %}
 * @{ reference_plugin_rst(item['plugin'], item['plugin_type']) }@ @{ item['plugin_type'] }@ plugin
 
@@ -137,11 +137,11 @@ See Also
 {%       elif item.name is defined and item.link is defined and item.description %}
 * `@{ item['name'] }@ <@{ item['link'] }@>`_
 
-   @{ item['description'] | rst_ify(role_entrypoint=entry_point) | indent(2) }@
+   @{ item['description'] | rst_ify(role_entrypoint=entry_point) | rst_indent(2) }@
 {%       elif item.ref is defined and item.description %}
 * :ref:`@{ item['ref'] }@`
 
-  @{ item['description'] | rst_ify(role_entrypoint=entry_point) | indent(2) }@
+  @{ item['description'] | rst_ify(role_entrypoint=entry_point) | rst_indent(2) }@
 {%       endif %}
 {%     endfor %}
 {%   endif %}

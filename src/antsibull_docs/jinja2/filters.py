@@ -256,3 +256,33 @@ def rst_format(fmt: str, for_sphinx: bool = False) -> str:
 
 def column_width(string: str) -> int:
     return _column_width(string)
+
+
+def rst_indent(
+    value: str, width: t.Union[int, str], first: bool = False, blank: bool = False
+) -> str:
+    """Return a copy of the string with each line indented.
+
+    :param width: Number of spaces, or a string, to indent by.
+    :param first: Do not skip indenting the first line.
+    :param blank: Do not skip indenting empty lines.
+    """
+    if isinstance(width, str):
+        indent = width
+    else:
+        indent = " " * width
+
+    # The "\n" makes sure we handle an empty input or an input ending with a newline correctly
+    lines = (value + "\n").splitlines()
+
+    # Remove trailing whitespace
+    lines = [line.lstrip() for line in lines]
+
+    if blank:
+        rv = ("\n" + indent).join(lines)
+    else:
+        rv = lines.pop(0)
+        if lines:
+            rv += "\n" + "\n".join(indent + line if line else line for line in lines)
+
+    return indent + rv if first else rv

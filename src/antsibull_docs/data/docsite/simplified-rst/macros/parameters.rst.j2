@@ -55,7 +55,7 @@
 {#   description #}
     <td valign="top">
 {%   for desc in value['description'] %}
-      <p>@{ desc | html_ify(role_entrypoint=role_entrypoint) | indent(6, blank=true) }@</p>
+      <p>@{ desc | html_ify(role_entrypoint=role_entrypoint) | rst_indent(6, blank=true) }@</p>
 {%   endfor %}
 {#   default / choices #}
 {%   if value['type'] == 'bool' %}
@@ -68,7 +68,7 @@
 {%   endif %}
 {#   Show default value, when multiple choice or no choices #}
 {%   if value['default'] is list or (value['default'] is not none and value['default'] not in value['choices']) %}
-      <p style="margin-top: 8px;"><b style="color: blue;">Default:</b> <code style="color: blue;">@{ value['default'] | antsibull_to_json | escape | indent(6, blank=true) }@</code></p>
+      <p style="margin-top: 8px;"><b style="color: blue;">Default:</b> <code style="color: blue;">@{ value['default'] | antsibull_to_json | escape | rst_indent(6, blank=true) }@</code></p>
 {%   endif %}
 {#   Configuration #}
 {%   if plugin_type != 'module' and plugin_type != 'role' and (value['ini'] or value['env'] or value['vars'] or value['cli']) %}

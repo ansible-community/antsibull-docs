@@ -13,7 +13,7 @@
       - :ansible-option-choices-entry:`@{ choice | antsibull_to_json | rst_escape(escape_ending_whitespace=true) }@`\ :
 {%       endif %}
 {%       for par in desc %}
-        @{ par | rst_ify(role_entrypoint=role_entrypoint) | indent(8) }@
+        @{ par | rst_ify(role_entrypoint=role_entrypoint) | rst_indent(8) }@
 
 {%       endfor %}
 {%     endfor %}
@@ -39,9 +39,9 @@
 {%       else %}
           <p><code class="ansible-value literal notranslate ansible-option-choices-entry">@{ choice | antsibull_to_json | escape }@</code>:
 {%       endif %}
-          @{ desc | first | default('') | html_ify(role_entrypoint=role_entrypoint) | indent(10, blank=true) }@</p>
+          @{ desc | first | default('') | html_ify(role_entrypoint=role_entrypoint) | rst_indent(10, blank=true) }@</p>
 {%       for line in desc[1:] %}
-          <p>@{ line | html_ify(role_entrypoint=role_entrypoint) | indent(10, blank=true) }@</p>
+          <p>@{ line | html_ify(role_entrypoint=role_entrypoint) | rst_indent(10, blank=true) }@</p>
 {%       endfor %}
         </li>
 {%     endfor %}

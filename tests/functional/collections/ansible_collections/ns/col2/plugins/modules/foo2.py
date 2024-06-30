@@ -22,6 +22,19 @@ description:
     - "Again existing: O(ns.col2.foo#module:foo=1), RV(ns.col2.foo#module:bar=2)"
     - "Again not existing: O(ns.col2.foo#module:foobar=1), RV(ns.col2.foo#module:barbaz=2)"
     - C() I() B() C() U() L(,) R(,) V() O() RV() E()
+    - >
+      Foo bar baz.
+      Bamm - Bar baz
+             bam bum.
+      Bumm - Foo bar
+             baz bam!
+notes:
+    - >
+      Foo bar baz.
+      Bamm - Bar baz
+             bam bum.
+      Bumm - Foo bar
+             baz bam!
 options:
     foo:
         description: The foo source.
@@ -30,6 +43,12 @@ options:
         description:
           - Bar.
           - Some O(broken markup).
+          - >
+            Foo bar baz.
+            Bamm - Bar baz
+                   bam bum.
+            Bumm - Foo bar
+                   baz bam!
         type: list
         elements: int
     subfoo:
@@ -55,13 +74,26 @@ attributes:
         description: Can run in check_mode and return changed status prediction without modifying target
         support: full
     diff_mode:
-        description: Will return details on what has changed (or possibly needs changing in check_mode), when in diff mode
+        description:
+          - Will return details on what has changed (or possibly needs changing in check_mode), when in diff mode
+          - >
+            Foo bar baz.
+            Bamm - Bar baz
+                   bam bum.
+            Bumm - Foo bar
+                   baz bam!
         support: full
     platform:
         description: Target OS/families that can be operated against
         details:
           - The module M(boo) is not using an FQCN.
           - Sometimes our markup is B(broken.
+          - >
+            Foo bar baz.
+            Bamm - Bar baz
+                   bam bum.
+            Bumm - Foo bar
+                   baz bam!
         support: N/A
         platforms: posix
 
@@ -83,7 +115,12 @@ seealso:
       description: The linear strategy plugin.
     - plugin: ansible.builtin.foobarbaz
       plugin_type: strategy
-      description: A non-existing stragey plugin
+      description: >
+        Foo bar baz.
+        Bamm - Bar baz
+               bam bum.
+        Bumm - Foo bar
+               baz bam!
 """
 
 EXAMPLES = """

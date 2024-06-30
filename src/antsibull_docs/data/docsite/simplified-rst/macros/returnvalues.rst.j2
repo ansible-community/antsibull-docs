@@ -45,10 +45,10 @@
 {#   description #}
     <td valign="top">
 {%   for desc in value['description'] %}
-      <p>@{ desc | html_ify(role_entrypoint=role_entrypoint) | indent(6, blank=true) }@</p>
+      <p>@{ desc | html_ify(role_entrypoint=role_entrypoint) | rst_indent(6, blank=true) }@</p>
 {%   endfor %}
 {%   if value['returned'] %}
-      <p style="margin-top: 8px;"><b>Returned:</b> @{ value['returned'] | html_ify(role_entrypoint=role_entrypoint) | indent(6, blank=true) }@</p>
+      <p style="margin-top: 8px;"><b>Returned:</b> @{ value['returned'] | html_ify(role_entrypoint=role_entrypoint) | rst_indent(6, blank=true) }@</p>
 {%   endif %}
 {#   Show possible choices and highlight details #}
 {%   if value['choices'] %}
@@ -56,7 +56,7 @@
 @{     choices_html(value['choices'], has_no_default=True, role_entrypoint=role_entrypoint) }@
 {%   endif %}
 {%   if value['sample'] is not none %}
-      <p style="margin-top: 8px; color: blue; word-wrap: break-word; word-break: break-all;"><b style="color: black;">Sample:</b> <code>@{ value['sample'] | antsibull_to_json | escape | indent(6, blank=true) }@</code></p>
+      <p style="margin-top: 8px; color: blue; word-wrap: break-word; word-break: break-all;"><b style="color: black;">Sample:</b> <code>@{ value['sample'] | antsibull_to_json | escape | rst_indent(6, blank=true) }@</code></p>
 {%   endif %}
     </td>
   </tr>
