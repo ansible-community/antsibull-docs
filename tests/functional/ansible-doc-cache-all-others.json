@@ -4167,7 +4167,7 @@
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n# size => 1234803098\nsize: '{{ \"1.15 GB\" | human_to_bytes }}'\n\n# size => 1234803098\nsize: '{{ \"1.15\" | human_to_bytes(default_unit=\"G\") }}'\n\n# this is an error, wants bits, got bytes\nERROR: '{{ \"1.15 GB\" | human_to_bytes(isbits=true) }}'\n",
+    "examples": "\n# size => 1234803098\nsize: '{{ \"1.15 GB\" | human_to_bytes }}'\n\n# size => 1234803098\nsize: '{{ \"1.15\" | human_to_bytes(default_unit=\"G\") }}'\n\n# this is an error, wants bits, got bytes\nERROR: '{{ \"1.15 GB\" | human_to_bytes(isbits=true) }}'\n\n# size => 2684354560\nsize: '{{ \"2.5 gigabyte\" | human_to_bytes }}'\n\n# size => 1234803098\nsize: '{{ \"1 Gigabyte\" | human_to_bytes }}'\n\n# this is an error, because gigggabyte is not a valid unit\nsize: '{{ \"1 gigggabyte\" | human_to_bytes }}'\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -5188,7 +5188,7 @@
      "version_added": "2.0",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n# gobble => [ '/etc/make', 'conf' ]\ngobble: \"{{ '/etc/make.conf' | splitext }}\"\n\n# file_n_ext => [ 'ansible', 'cfg' ]\nfile_n_ext: \"{{ 'ansible.cfg' | splitext }}\"\n\n# hoax => ['/etc/hoasdf', '']\nhoax: '{{ \"/etc//hoasdf/\" | splitext }}'\n",
+    "examples": "\n# gobble => [ '/etc/make', '.conf' ]\ngobble: \"{{ '/etc/make.conf' | splitext }}\"\n\n# file_n_ext => [ 'ansible', '.cfg' ]\nfile_n_ext: \"{{ 'ansible.cfg' | splitext }}\"\n\n# hoax => [ '/etc/hoasdf', '' ]\nhoax: \"{{ '/etc/hoasdf' | splitext }}\"\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -6107,7 +6107,9 @@
      "author": "ansible core team",
      "collection": "ansible.builtin",
      "description": [
-      "Returns a list with the first component being the drive letter and the second, the rest of the path."
+      "Returns a list with the first component being the drive letter and the second, the rest of the path.",
+      "If the path contains a drive letter, drive will contain everything up to and including the colon.",
+      "If the path contains a UNC (Universal Naming Convention) path, drive will contain the host name and share, up to but not including the fourth separator."
      ],
      "filename": "/ansible/plugins/filter/win_splitdrive.yml",
      "name": "win_splitdrive",
@@ -6123,11 +6125,14 @@
      "version_added": "2.0",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n# To get the last name of a file Windows path, like ['C', '\\Users\\asdf\\foo.txt'] out of 'C:\\Users\\asdf\\foo.txt'\n{{ mypath | win_splitdrive }}\n\n# just the drive letter\n{{ mypath | win_splitdrive | first }}\n\n# path w/o drive letter\n{{ mypath | win_splitdrive | last }}\n",
+    "examples": "\n# To get the last name of a file Windows path, like ['C:', '\\Users\\asdf\\foo.txt'] out of 'C:\\Users\\asdf\\foo.txt'\n{{ mypath | win_splitdrive }}\n\n# To get path from UNC (Universal Naming Convention) path, like ['//host/computer', '/dir/a'] out of '//host/computer/dir/a'\n\n# just the drive letter, like ['C:'] out of 'C:\\Users\\asdf\\foo.txt'\n{{ mypath | win_splitdrive | first }}\n\n# path w/o drive letter, like ['\\Users\\asdf\\foo.txt'] out of 'C:\\Users\\asdf\\foo.txt'\n{{ mypath | win_splitdrive | last }}\n\n# just the hostname and share, like ['//host/computer'] out of '//host/computer/dir/a'\n{{ mypath | win_splitdrive | first }}\n\n# path w/o hostname and share, like ['/dir/a'] out of '//host/computer/dir/a'\n{{ mypath | win_splitdrive | last }}\n",
     "metadata": null,
     "return": {
      "_value": {
-      "description": "List in which the first element is the drive letter and the second the rest of the path.",
+      "description": [
+       "List in which the first element is the drive letter with colon and the second the rest of the path.",
+       "In case of UNC path, first element is the hostname and share and the second the rest of the path."
+      ],
       "elements": "str",
       "type": "list"
      }
@@ -7349,7 +7354,7 @@
      "Task",
      "Handler"
     ],
-    "description": "Time limit for the task to execute in, if exceeded Ansible will interrupt and fail the task.",
+    "description": "Time limit for the task action to execute in, if exceeded, Ansible will interrupt the process. Timeout does not include templating or looping.",
     "priority": 0,
     "template": "explicit",
     "type": "int"
@@ -9865,7 +9870,7 @@
       "ignore_hidden": {
        "default": false,
        "description": [
-        "A boolean that controls if files that start with a '.' will be included or not."
+        "A boolean that controls if files that start with a C(.) will be included or not."
        ],
        "type": "bool",
        "version_added": "2.0",
@@ -9962,7 +9967,7 @@
       "validate": {
        "description": [
         "The validation command to run before copying into place.",
-        "The path to the file to validate is passed in via '%s' which must be present as in the sshd example below.",
+        "The path to the file to validate is passed in by C(%s) which must be present as in the sshd example below.",
         "The command is passed securely so shell features like expansion and pipes won't work."
        ],
        "type": "str",
@@ -10055,7 +10060,7 @@
        ],
        "description": [
         "The customized message used for a failing assertion.",
-        "This argument was called 'msg' before Ansible 2.7, now it is renamed to 'fail_msg' with alias 'msg'."
+        "This argument was called O(msg) before Ansible 2.7, now it is renamed to O(fail_msg) with alias O(msg)."
        ],
        "type": "str",
        "version_added": "2.7",
@@ -10080,7 +10085,7 @@
       },
       "that": {
        "description": [
-        "A list of string expressions of the same form that can be passed to the 'when' statement."
+        "A list of string expressions of the same form that can be passed to the C(when) statement."
        ],
        "elements": "str",
        "required": true,
@@ -10103,7 +10108,7 @@
      "version_added": "1.5",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: A single condition can be supplied as string instead of list\n  ansible.builtin.assert:\n    that: \"ansible_os_family != 'RedHat'\"\n\n- name: Use yaml multiline strings to ease escaping\n  ansible.builtin.assert:\n    that:\n      - \"'foo' in some_command_result.stdout\"\n      - number_of_the_counting == 3\n      - >\n        \"reject\" not in some_command_result.stderr\n\n- name: After version 2.7 both 'msg' and 'fail_msg' can customize failing assertion message\n  ansible.builtin.assert:\n    that:\n      - my_param <= 100\n      - my_param >= 0\n    fail_msg: \"'my_param' must be between 0 and 100\"\n    success_msg: \"'my_param' is between 0 and 100\"\n\n- name: Please use 'msg' when ansible version is smaller than 2.7\n  ansible.builtin.assert:\n    that:\n      - my_param <= 100\n      - my_param >= 0\n    msg: \"'my_param' must be between 0 and 100\"\n\n- name: Use quiet to avoid verbose output\n  ansible.builtin.assert:\n    that:\n      - my_param <= 100\n      - my_param >= 0\n    quiet: true\n",
+    "examples": "\n- name: A single condition can be supplied as string instead of list\n  ansible.builtin.assert:\n    that: \"ansible_os_family != 'RedHat'\"\n\n- name: Use yaml multiline strings to ease escaping\n  ansible.builtin.assert:\n    that:\n      - \"'foo' in some_command_result.stdout\"\n      - number_of_the_counting == 3\n      - >\n        \"reject\" not in some_command_result.stderr\n\n- name: After version 2.7 both O(msg) and O(fail_msg) can customize failing assertion message\n  ansible.builtin.assert:\n    that:\n      - my_param <= 100\n      - my_param >= 0\n    fail_msg: \"'my_param' must be between 0 and 100\"\n    success_msg: \"'my_param' is between 0 and 100\"\n\n- name: Please use O(msg) when ansible version is smaller than 2.7\n  ansible.builtin.assert:\n    that:\n      - my_param <= 100\n      - my_param >= 0\n    msg: \"'my_param' must be between 0 and 100\"\n\n- name: Use quiet to avoid verbose output\n  ansible.builtin.assert:\n    that:\n      - my_param <= 100\n      - my_param >= 0\n    quiet: true\n",
     "metadata": null,
     "return": null
    },
@@ -10260,7 +10265,7 @@
      "has_action": false,
      "module": "blockinfile",
      "notes": [
-      "When using 'with_*' loops be aware that if you do not set a unique mark the block will be overwritten on each iteration.",
+      "When using C(with_*) loops be aware that if you do not set a unique mark the block will be overwritten on each iteration.",
       "As of Ansible 2.3, the O(dest) option has been changed to O(path) as default, but O(dest) still works as well.",
       "Option O(ignore:follow) has been removed in Ansible 2.5, because this module modifies the contents of the file so O(ignore:follow=no) does not make sense.",
       "When more than one block should be handled in one file you must change the O(marker) per task."
@@ -10354,7 +10359,7 @@
        "default": "# {mark} ANSIBLE MANAGED BLOCK",
        "description": [
         "The marker line template.",
-        "C({mark}) will be replaced with the values in O(marker_begin) (default=\"BEGIN\") and O(marker_end) (default=\"END\").",
+        "C({mark}) will be replaced with the values in O(marker_begin) (default=C(BEGIN)) and O(marker_end) (default=C(END)).",
         "Using a custom marker without the C({mark}) variable may result in the block being repeatedly inserted on subsequent playbook runs.",
         "Multi-line markers are not supported and will result in the block being repeatedly inserted on subsequent playbook runs.",
         "A newline is automatically appended by the module to O(marker_begin) and O(marker_end)."
@@ -10589,7 +10594,7 @@
       "free_form": {
        "description": [
         "The command module takes a free form string as a command to run.",
-        "There is no actual parameter named 'free form'."
+        "There is no actual parameter named C(free_form)."
        ]
       },
       "removes": {
@@ -10841,7 +10846,7 @@
        "description": [
         "Remote absolute path where the file should be copied to.",
         "If O(src) is a directory, this must be a directory too.",
-        "If O(dest) is a non-existent path and if either O(dest) ends with \"/\" or O(src) is a directory, O(dest) is created.",
+        "If O(dest) is a non-existent path and if either O(dest) ends with C(/) or O(src) is a directory, O(dest) is created.",
         "If O(dest) is a relative path, the starting directory is determined by the remote host.",
         "If O(src) and O(dest) are files, the parent directory of O(dest) is not created and the task fails if it does not already exist."
        ],
@@ -10921,7 +10926,7 @@
        "description": [
         "Influence whether O(src) needs to be transferred or already is present remotely.",
         "If V(false), it will search for O(src) on the controller node.",
-        "If V(true) it will search for O(src) on the managed (remote) node.",
+        "If V(true), it will search for O(src) on the managed (remote) node.",
         "O(remote_src) supports recursive copying as of version 2.8.",
         "O(remote_src) only works with O(mode=preserve) as of version 2.6.",
         "Auto-decryption of files does not work when O(remote_src=yes)."
@@ -10964,7 +10969,7 @@
        "description": [
         "Local path to a file to copy to the remote server.",
         "This can be absolute or relative.",
-        "If path is a directory, it is copied recursively. In this case, if path ends with \"/\", only inside contents of that directory are copied to destination. Otherwise, if it does not end with \"/\", the directory itself with all contents is copied. This behavior is similar to the C(rsync) command line tool."
+        "If path is a directory, it is copied recursively. In this case, if path ends with C(/), only inside contents of that directory are copied to destination. Otherwise, if it does not end with C(/), the directory itself with all contents is copied. This behavior is similar to the C(rsync) command line tool."
        ],
        "type": "path"
       },
@@ -11119,9 +11124,9 @@
      "collection": "ansible.builtin",
      "description": [
       "Use this module to manage crontab and environment variables entries. This module allows you to create environment variables and named crontab entries, update, or delete them.",
-      "When crontab jobs are managed: the module includes one line with the description of the crontab entry C(\"#Ansible: <name>\") corresponding to the \"name\" passed to the module, which is used by future ansible/module calls to find/check the state. The \"name\" parameter should be unique, and changing the \"name\" value will result in a new cron task being created (or a different one being removed).",
-      "When environment variables are managed, no comment line is added, but, when the module needs to find/check the state, it uses the \"name\" parameter to find the environment variable definition line.",
-      "When using symbols such as %, they must be properly escaped."
+      "When crontab jobs are managed: the module includes one line with the description of the crontab entry C(\"#Ansible: <name>\") corresponding to the O(name) passed to the module, which is used by future ansible/module calls to find/check the state. The O(name) parameter should be unique, and changing the O(name) value will result in a new cron task being created (or a different one being removed).",
+      "When environment variables are managed, no comment line is added, but, when the module needs to find/check the state, it uses the O(name) parameter to find the environment variable definition line.",
+      "When using symbols such as C(%), they must be properly escaped."
      ],
      "filename": "/ansible/modules/cron.py",
      "has_action": false,
@@ -11138,9 +11143,9 @@
        "description": [
         "If specified, uses this file instead of an individual user's crontab. The assumption is that this file is exclusively managed by the module, do not use if the file contains multiple entries, NEVER use for /etc/crontab.",
         "If this is a relative path, it is interpreted with respect to C(/etc/cron.d).",
-        "Many linux distros expect (and some require) the filename portion to consist solely of upper- and lower-case letters, digits, underscores, and hyphens.",
-        "Using this parameter requires you to specify the O(user) as well, unless O(state) is not V(present).",
-        "Either this parameter or O(name) is required"
+        "Many Linux distros expect (and some require) the filename portion to consist solely of upper- and lower-case letters, digits, underscores, and hyphens.",
+        "Using this parameter requires you to specify the O(user) as well, unless O(state=absent).",
+        "Either this parameter or O(name) is required."
        ],
        "type": "path"
       },
@@ -11205,7 +11210,7 @@
         "value"
        ],
        "description": [
-        "The command to execute or, if env is set, the value of environment variable.",
+        "The command to execute or, if O(env) is set, the value of environment variable.",
         "The command should not contain line breaks.",
         "Required if O(state=present)."
        ],
@@ -11227,7 +11232,7 @@
       },
       "name": {
        "description": [
-        "Description of a crontab entry or, if env is set, the name of environment variable.",
+        "Description of a crontab entry or, if O(env) is set, the name of environment variable.",
         "This parameter is always required as of ansible-core 2.12."
        ],
        "required": true,
@@ -11296,36 +11301,36 @@
      "author": "Ansible Core Team (@ansible)",
      "collection": "ansible.builtin",
      "description": [
-      "Add and remove deb822 formatted repositories in Debian based distributions"
+      "Add and remove deb822 formatted repositories in Debian based distributions."
      ],
      "filename": "/ansible/modules/deb822_repository.py",
      "has_action": false,
      "module": "deb822_repository",
      "notes": [
-      "This module will not automatically update caches, call the apt module based on the changed state."
+      "This module will not automatically update caches, call the M(ansible.builtin.apt) module based on the changed state."
      ],
      "options": {
       "allow_downgrade_to_insecure": {
        "description": [
-        "Allow downgrading a package that was previously authenticated but is no longer authenticated"
+        "Allow downgrading a package that was previously authenticated but is no longer authenticated."
        ],
        "type": "bool"
       },
       "allow_insecure": {
        "description": [
-        "Allow insecure repositories"
+        "Allow insecure repositories."
        ],
        "type": "bool"
       },
       "allow_weak": {
        "description": [
-        "Allow repositories signed with a key using a weak digest algorithm"
+        "Allow repositories signed with a key using a weak digest algorithm."
        ],
        "type": "bool"
       },
       "architectures": {
        "description": [
-        "Architectures to search within repository"
+        "Architectures to search within repository."
        ],
        "elements": "str",
        "type": "list"
@@ -11350,7 +11355,7 @@
       },
       "components": {
        "description": [
-        "Components specify different sections of one distribution version present in a Suite."
+        "Components specify different sections of one distribution version present in a C(Suite)."
        ],
        "elements": "str",
        "type": "list"
@@ -11369,7 +11374,7 @@
       },
       "inrelease_path": {
        "description": [
-        "Determines the path to the InRelease file, relative to the normal position of an InRelease file."
+        "Determines the path to the C(InRelease) file, relative to the normal position of an C(InRelease) file."
        ],
        "type": "str"
       },
@@ -11383,7 +11388,7 @@
       "mode": {
        "default": "0644",
        "description": [
-        "The octal mode for newly created files in sources.list.d."
+        "The octal mode for newly created files in C(sources.list.d)."
        ],
        "type": "raw"
       },
@@ -11396,7 +11401,7 @@
       },
       "pdiffs": {
        "description": [
-        "Controls if APT should try to use PDiffs to update old indexes instead of downloading the new indexes entirely"
+        "Controls if APT should try to use C(PDiffs) to update old indexes instead of downloading the new indexes entirely."
        ],
        "type": "bool"
       },
@@ -11419,7 +11424,7 @@
       },
       "suites": {
        "description": [
-        "Suite can specify an exact path in relation to the URI(s) provided, in which case the Components: must be omitted and suite must end with a slash (C(/)). Alternatively, it may take the form of a distribution version (e.g. a version codename like disco or artful). If the suite does not specify a path, at least one component must be present."
+        "Suite can specify an exact path in relation to the URI(s) provided, in which case the Components: must be omitted and suite must end with a slash (C(/)). Alternatively, it may take the form of a distribution version (for example a version codename like C(disco) or C(artful)). If the suite does not specify a path, at least one component must be present."
        ],
        "elements": "str",
        "type": "list"
@@ -11433,7 +11438,7 @@
       },
       "trusted": {
        "description": [
-        "Decides if a source is considered trusted or if warnings should be raised before e.g. packages are installed from this source."
+        "Decides if a source is considered trusted or if warnings should be raised before, for example packages are installed from this source."
        ],
        "type": "bool"
       },
@@ -11446,7 +11451,7 @@
         "deb"
        ],
        "description": [
-        "Which types of packages to look for from a given source; either binary V(deb) or source code V(deb-src)"
+        "Which types of packages to look for from a given source; either binary V(deb) or source code V(deb-src)."
        ],
        "elements": "str",
        "type": "list"
@@ -11521,12 +11526,12 @@
      "notes": [
       "This module requires the command line debconf tools.",
       "Several questions have to be answered (depending on the package). Use 'debconf-show <package>' on any Debian or derivative with the package installed to see questions/settings available.",
-      "Some distros will always record tasks involving the setting of passwords as changed. This is due to debconf-get-selections masking passwords.",
+      "Some distros will always record tasks involving the setting of passwords as changed. This is due to C(debconf-get-selections) masking passwords.",
       "It is highly recommended to add C(no_log=True) to the task while handling sensitive information using this module.",
-      "The debconf module does not reconfigure packages, it just updates the debconf database. An additional step is needed (typically with C(notify) if debconf makes a change) to reconfigure the package and apply the changes. debconf is extensively used for pre-seeding configuration prior to installation rather than modifying configurations. So, while dpkg-reconfigure does use debconf data, it is not always authoritative and you may need to check how your package is handled.",
-      "Also note dpkg-reconfigure is a 3-phase process. It invokes the control scripts from the C(/var/lib/dpkg/info) directory with the C(<package>.prerm  reconfigure <version>), C(<package>.config reconfigure <version>) and C(<package>.postinst control <version>) arguments.",
-      "The main issue is that the C(<package>.config reconfigure) step for many packages will first reset the debconf database (overriding changes made by this module) by checking the on-disk configuration. If this is the case for your package then dpkg-reconfigure will effectively ignore changes made by debconf.",
-      "However as dpkg-reconfigure only executes the C(<package>.config) step if the file exists, it is possible to rename it to C(/var/lib/dpkg/info/<package>.config.ignore) before executing C(dpkg-reconfigure -f noninteractive <package>) and then restore it. This seems to be compliant with Debian policy for the .config file."
+      "The M(ansible.builtin.debconf) module does not reconfigure packages, it just updates the debconf database. An additional step is needed (typically with C(notify) if debconf makes a change) to reconfigure the package and apply the changes. C(debconf) is extensively used for pre-seeding configuration prior to installation rather than modifying configurations. So, while C(dpkg-reconfigure) does use debconf data, it is not always authoritative and you may need to check how your package is handled.",
+      "Also note C(dpkg-reconfigure) is a 3-phase process. It invokes the control scripts from the C(/var/lib/dpkg/info) directory with the C(<package>.prerm  reconfigure <version>), C(<package>.config reconfigure <version>) and C(<package>.postinst control <version>) arguments.",
+      "The main issue is that the C(<package>.config reconfigure) step for many packages will first reset the debconf database (overriding changes made by this module) by checking the on-disk configuration. If this is the case for your package then C(dpkg-reconfigure) will effectively ignore changes made by debconf.",
+      "However as C(dpkg-reconfigure) only executes the C(<package>.config) step if the file exists, it is possible to rename it to C(/var/lib/dpkg/info/<package>.config.ignore) before executing C(dpkg-reconfigure -f noninteractive <package>) and then restore it. This seems to be compliant with Debian policy for the .config file."
      ],
      "options": {
       "name": {
@@ -11552,7 +11557,7 @@
       "unseen": {
        "default": false,
        "description": [
-        "Do not set 'seen' flag when pre-seeding."
+        "Do not set C(seen) flag when pre-seeding."
        ],
        "type": "bool"
       },
@@ -11562,7 +11567,7 @@
        ],
        "description": [
         "Value to set the configuration to.",
-        "After Ansible 2.17, C(value) is of type 'raw'."
+        "After Ansible 2.17, C(value) is of type C(raw)."
        ],
        "type": "raw"
       },
@@ -11654,7 +11659,7 @@
      "collection": "ansible.builtin",
      "description": [
       "This module prints statements during execution and can be useful for debugging variables or expressions without necessarily halting the playbook.",
-      "Useful for debugging together with the 'when:' directive.",
+      "Useful for debugging together with the C(when:) directive.",
       "This module is also supported for Windows targets."
      ],
      "filename": "/ansible/modules/debug.py",
@@ -11751,14 +11756,15 @@
      "has_action": true,
      "module": "dnf",
      "notes": [
-      "When used with a C(loop:) each package will be processed individually, it is much more efficient to pass the list directly to the I(name) option.",
-      "Group removal doesn't work if the group was installed with Ansible because upstream dnf's API doesn't properly mark groups as installed, therefore upon removal the module is unable to detect that the group is installed (https://bugzilla.redhat.com/show_bug.cgi?id=1620324)"
+      "When used with a C(loop:) each package will be processed individually, it is much more efficient to pass the list directly to the O(name) option.",
+      "Group removal doesn't work if the group was installed with Ansible because upstream dnf's API doesn't properly mark groups as installed, therefore upon removal the module is unable to detect that the group is installed U(https://bugzilla.redhat.com/show_bug.cgi?id=1620324).",
+      "While O(use_backend=yum) and the ability to call the action plugin as M(ansible.builtin.yum) are provided for syntax compatibility, the YUM backend was removed in ansible-core 2.17 because the required libraries are not available for any supported version of Python. If you rely on this functionality, use an older version of Ansible."
      ],
      "options": {
       "allow_downgrade": {
        "default": "no",
        "description": [
-        "Specify if the named package and version is allowed to downgrade a maybe already installed higher version of that package. Note that setting allow_downgrade=True can make this module behave in a non-idempotent way. The task could end up with a set of packages that does not match the complete list of specified packages to install (because dependencies between the downgraded package and others can cause changes to the packages which were in the earlier transaction)."
+        "Specify if the named package and version is allowed to downgrade a maybe already installed higher version of that package. Note that setting O(allow_downgrade=true) can make this module behave in a non-idempotent way. The task could end up with a set of packages that does not match the complete list of specified packages to install (because dependencies between the downgraded package and others can cause changes to the packages which were in the earlier transaction)."
        ],
        "type": "bool",
        "version_added": "2.7",
@@ -11767,7 +11773,7 @@
       "allowerasing": {
        "default": "no",
        "description": [
-        "If V(true) it allows  erasing  of  installed  packages to resolve dependencies."
+        "If V(true) it allows erasing of installed packages to resolve dependencies."
        ],
        "required": false,
        "type": "bool",
@@ -11777,7 +11783,7 @@
       "autoremove": {
        "default": "no",
        "description": [
-        "If V(true), removes all \"leaf\" packages from the system that were originally installed as dependencies of user-installed packages but which are no longer required by any such package. Should be used alone or when O(state) is V(absent)"
+        "If V(true), removes all \"leaf\" packages from the system that were originally installed as dependencies of user-installed packages but which are no longer required by any such package. Should be used alone or when O(state=absent)."
        ],
        "type": "bool",
        "version_added": "2.4",
@@ -11823,7 +11829,7 @@
        "description": [
         "Disable the excludes defined in DNF config files.",
         "If set to V(all), disables all excludes.",
-        "If set to V(main), disable excludes defined in [main] in dnf.conf.",
+        "If set to V(main), disable excludes defined in C([main]) in C(dnf.conf).",
         "If set to V(repoid), disable excludes defined for given repo id."
        ],
        "type": "str",
@@ -11833,7 +11839,7 @@
       "disable_gpg_check": {
        "default": "no",
        "description": [
-        "Whether to disable the GPG checking of signatures of packages being installed. Has an effect only if O(state) is V(present) or V(latest).",
+        "Whether to disable the GPG checking of signatures of packages being installed. Has an effect only if O(state=present) or O(state=latest).",
         "This setting affects packages installed from a repository as well as \"local\" packages installed from the filesystem or a URL."
        ],
        "type": "bool"
@@ -11841,7 +11847,7 @@
       "disable_plugin": {
        "default": [],
        "description": [
-        "I(Plugin) name to disable for the install/update operation. The disabled plugins will not persist beyond the transaction."
+        "C(Plugin) name to disable for the install/update operation. The disabled plugins will not persist beyond the transaction."
        ],
        "elements": "str",
        "type": "list",
@@ -11851,7 +11857,7 @@
       "disablerepo": {
        "default": [],
        "description": [
-        "I(Repoid) of repositories to disable for the install/update operation. These repos will not persist beyond the transaction. When specifying multiple repos, separate them with a \",\"."
+        "C(Repoid) of repositories to disable for the install/update operation. These repos will not persist beyond the transaction. When specifying multiple repos, separate them with a C(,)."
        ],
        "elements": "str",
        "type": "list"
@@ -11877,7 +11883,7 @@
       "enable_plugin": {
        "default": [],
        "description": [
-        "I(Plugin) name to enable for the install/update operation. The enabled plugin will not persist beyond the transaction."
+        "C(Plugin) name to enable for the install/update operation. The enabled plugin will not persist beyond the transaction."
        ],
        "elements": "str",
        "type": "list",
@@ -11887,7 +11893,7 @@
       "enablerepo": {
        "default": [],
        "description": [
-        "I(Repoid) of repositories to enable for the install/update operation. These repos will not persist beyond the transaction. When specifying multiple repos, separate them with a \",\"."
+        "C(Repoid) of repositories to enable for the install/update operation. These repos will not persist beyond the transaction. When specifying multiple repos, separate them with a \",\"."
        ],
        "elements": "str",
        "type": "list"
@@ -11895,7 +11901,7 @@
       "exclude": {
        "default": [],
        "description": [
-        "Package name(s) to exclude when state=present, or latest. This can be a list or a comma separated string."
+        "Package name(s) to exclude when O(state=present), or latest. This can be a list or a comma separated string."
        ],
        "elements": "str",
        "type": "list",
@@ -11990,7 +11996,7 @@
       "skip_broken": {
        "default": "no",
        "description": [
-        "Skip all unavailable packages or packages with broken dependencies without raising an error. Equivalent to passing the --skip-broken option."
+        "Skip all unavailable packages or packages with broken dependencies without raising an error. Equivalent to passing the C(--skip-broken) option."
        ],
        "type": "bool",
        "version_added": "2.7",
@@ -12016,7 +12022,7 @@
        ],
        "description": [
         "Whether to install (V(present), V(latest)), or remove (V(absent)) a package.",
-        "Default is V(None), however in effect the default action is V(present) unless the O(autoremove) option is enabled for this module, then V(absent) is inferred."
+        "Default is V(None), however in effect the default action is V(present) unless the O(autoremove=true), then V(absent) is inferred."
        ],
        "type": "str"
       },
@@ -12026,7 +12032,7 @@
        ],
        "default": "no",
        "description": [
-        "Force dnf to check if cache is out of date and redownload if needed. Has an effect only if O(state) is V(present) or V(latest)."
+        "Force dnf to check if cache is out of date and redownload if needed. Has an effect only if O(state=present) or O(state=latest)."
        ],
        "type": "bool",
        "version_added": "2.7",
@@ -12036,23 +12042,24 @@
        "default": "no",
        "description": [
         "When using latest, only update installed packages. Do not install packages.",
-        "Has an effect only if O(state) is V(latest)"
+        "Has an effect only if O(state=present) or O(state=latest)."
        ],
        "type": "bool",
        "version_added": "2.7",
        "version_added_collection": "ansible.builtin"
       },
       "use_backend": {
-       "choices": [
-        "auto",
-        "yum",
-        "yum4",
-        "dnf4",
-        "dnf5"
-       ],
+       "choices": {
+        "auto": "Automatically select the backend based on the C(ansible_facts.pkg_mgr) fact.",
+        "dnf": "M(ansible.builtin.dnf)",
+        "dnf4": "Alias for V(dnf)",
+        "dnf5": "M(ansible.builtin.dnf5)",
+        "yum": "Alias for V(auto) (see Notes)",
+        "yum4": "Alias for V(dnf)"
+       },
        "default": "auto",
        "description": [
-        "By default, this module will select the backend based on the C(ansible_pkg_mgr) fact."
+        "Backend module to use."
        ],
        "type": "str",
        "version_added": 2.15,
@@ -12061,7 +12068,7 @@
       "validate_certs": {
        "default": "yes",
        "description": [
-        "This only applies if using a https url as the source of the rpm. e.g. for localinstall. If set to V(false), the SSL certificates will not be validated.",
+        "This only applies if using a https url as the source of the rpm. For example, for localinstall. If set to V(false), the SSL certificates will not be validated.",
         "This should only set to V(false) used on personally controlled sites using self-signed certificates as it avoids verifying the source site."
        ],
        "type": "bool",
@@ -12071,8 +12078,7 @@
      },
      "plugin_name": "ansible.builtin.dnf",
      "requirements": [
-      "python3-dnf",
-      "for the autoremove option you need dnf >= 2.0.1\""
+      "python3-dnf"
      ],
      "short_description": "Manages packages with the I(dnf) package manager",
      "version_added": 1.9,
@@ -12129,7 +12135,7 @@
       "allow_downgrade": {
        "default": "no",
        "description": [
-        "Specify if the named package and version is allowed to downgrade a maybe already installed higher version of that package. Note that setting allow_downgrade=True can make this module behave in a non-idempotent way. The task could end up with a set of packages that does not match the complete list of specified packages to install (because dependencies between the downgraded package and others can cause changes to the packages which were in the earlier transaction)."
+        "Specify if the named package and version is allowed to downgrade a maybe already installed higher version of that package. Note that setting O(allow_downgrade=true) can make this module behave in a non-idempotent way. The task could end up with a set of packages that does not match the complete list of specified packages to install (because dependencies between the downgraded package and others can cause changes to the packages which were in the earlier transaction)."
        ],
        "type": "bool"
       },
@@ -12144,7 +12150,7 @@
       "autoremove": {
        "default": "no",
        "description": [
-        "If V(true), removes all \"leaf\" packages from the system that were originally installed as dependencies of user-installed packages but which are no longer required by any such package. Should be used alone or when O(state) is V(absent)"
+        "If V(true), removes all \"leaf\" packages from the system that were originally installed as dependencies of user-installed packages but which are no longer required by any such package. Should be used alone or when O(state=absent)."
        ],
        "type": "bool"
       },
@@ -12184,7 +12190,7 @@
        "description": [
         "Disable the excludes defined in DNF config files.",
         "If set to V(all), disables all excludes.",
-        "If set to V(main), disable excludes defined in [main] in dnf.conf.",
+        "If set to V(main), disable excludes defined in C([main]) in C(dnf.conf).",
         "If set to V(repoid), disable excludes defined for given repo id."
        ],
        "type": "str"
@@ -12210,7 +12216,7 @@
       "disablerepo": {
        "default": [],
        "description": [
-        "I(Repoid) of repositories to disable for the install/update operation. These repos will not persist beyond the transaction. When specifying multiple repos, separate them with a \",\"."
+        "I(Repoid) of repositories to disable for the install/update operation. These repos will not persist beyond the transaction. When specifying multiple repos, separate them with a C(,)."
        ],
        "elements": "str",
        "type": "list"
@@ -12242,7 +12248,7 @@
       "enablerepo": {
        "default": [],
        "description": [
-        "I(Repoid) of repositories to enable for the install/update operation. These repos will not persist beyond the transaction. When specifying multiple repos, separate them with a \",\"."
+        "I(Repoid) of repositories to enable for the install/update operation. These repos will not persist beyond the transaction. When specifying multiple repos, separate them with a C(,)."
        ],
        "elements": "str",
        "type": "list"
@@ -12250,7 +12256,7 @@
       "exclude": {
        "default": [],
        "description": [
-        "Package name(s) to exclude when state=present, or latest. This can be a list or a comma separated string."
+        "Package name(s) to exclude when O(state=present) or O(state=latest). This can be a list or a comma separated string."
        ],
        "elements": "str",
        "type": "list"
@@ -12298,7 +12304,7 @@
        ],
        "default": [],
        "description": [
-        "A package name or package specifier with version, like C(name-1.0). When using state=latest, this can be '*' which means run: dnf -y update. You can also pass a url or a local path to an rpm file. To operate on several packages this can accept a comma separated string of packages or a list of packages.",
+        "A package name or package specifier with version, like C(name-1.0). When using O(state=latest), this can be C(*) which means run: C(dnf -y update). You can also pass a url or a local path to an rpm file. To operate on several packages this can accept a comma separated string of packages or a list of packages.",
         "Comparison operators for package version are valid here C(>), C(<), C(>=), C(<=). Example - C(name >= 1.0). Spaces around the operator are required.",
         "You can also pass an absolute path for a binary which is provided by the package to install. See examples for more information."
        ],
@@ -12330,7 +12336,7 @@
       "skip_broken": {
        "default": "no",
        "description": [
-        "Skip all unavailable packages or packages with broken dependencies without raising an error. Equivalent to passing the --skip-broken option."
+        "Skip all unavailable packages or packages with broken dependencies without raising an error. Equivalent to passing the C(--skip-broken) option."
        ],
        "type": "bool"
       },
@@ -12352,7 +12358,7 @@
        ],
        "description": [
         "Whether to install (V(present), V(latest)), or remove (V(absent)) a package.",
-        "Default is V(None), however in effect the default action is V(present) unless the V(autoremove) option is enabled for this module, then V(absent) is inferred."
+        "Default is V(None), however in effect the default action is V(present) unless the O(autoremove=true), then V(absent) is inferred."
        ],
        "type": "str"
       },
@@ -12362,7 +12368,7 @@
        ],
        "default": "no",
        "description": [
-        "Force dnf to check if cache is out of date and redownload if needed. Has an effect only if O(state) is V(present) or V(latest)."
+        "Force dnf to check if cache is out of date and redownload if needed. Has an effect only if O(state=present) or O(state=latest)."
        ],
        "type": "bool"
       },
@@ -12370,7 +12376,7 @@
        "default": "no",
        "description": [
         "When using latest, only update installed packages. Do not install packages.",
-        "Has an effect only if O(state) is V(latest)"
+        "Has an effect only if O(state=present) or O(state=latest)."
        ],
        "type": "bool"
       },
@@ -12445,7 +12451,7 @@
      ],
      "collection": "ansible.builtin",
      "description": [
-      "Change dpkg package selection state via --get-selections and --set-selections."
+      "Change dpkg package selection state via C(--get-selections) and C(--set-selections)."
      ],
      "filename": "/ansible/modules/dpkg_selections.py",
      "has_action": false,
@@ -12512,8 +12518,8 @@
      "module": "expect",
      "notes": [
       "If you want to run a command through the shell (say you are using C(<), C(>), C(|), and so on), you must specify a shell in the command such as C(/bin/bash -c \"/path/to/something | grep else\").",
-      "Case insensitive searches are indicated with a prefix of C(?i).",
-      "The C(pexpect) library used by this module operates with a search window of 2000 bytes, and does not use a multiline regex match. To perform a start of line bound match, use a pattern like ``(?m)^pattern``",
+      "Case insensitive searches are indicated with a prefix of C((?i)).",
+      "The C(pexpect) library used by this module operates with a search window of 2000 bytes, and does not use a multiline regex match. To perform a start of line bound match, use a pattern like C((?m)^pattern).",
       "The M(ansible.builtin.expect) module is designed for simple scenarios. For more complex needs, consider the use of expect code with the M(ansible.builtin.shell) or M(ansible.builtin.script) modules. (An example is part of the M(ansible.builtin.shell) module documentation).",
       "If the command returns non UTF-8 data, it must be encoded to avoid issues. One option is to pipe the output through C(base64)."
      ],
@@ -12740,7 +12746,7 @@
       "dest": {
        "description": [
         "A directory to save the file into.",
-        "For example, if the O(dest) directory is C(/backup) a O(src) file named C(/etc/profile) on host C(host.example.com), would be saved into C(/backup/host.example.com/etc/profile). The host name is based on the inventory name."
+        "For example, if O(dest=/backup), then O(src=/etc/profile) on host C(host.example.com), would save the file into C(/backup/host.example.com/etc/profile). The host name is based on the inventory name."
        ],
        "required": true
       },
@@ -12875,7 +12881,7 @@
         "This flag indicates that filesystem links, if they exist, should be followed.",
         "O(follow=yes) and O(state=link) can modify O(src) when combined with parameters such as O(mode).",
         "Previous to Ansible 2.5, this was V(false) by default.",
-        "While creating a symlink with a non-existent destination, set O(follow) to V(false) to avoid a warning message related to permission issues. The warning message is added to notify the user that we can not set permissions to the non-existent destination."
+        "While creating a symlink with a non-existent destination, set O(follow=false) to avoid a warning message related to permission issues. The warning message is added to notify the user that we can not set permissions to the non-existent destination."
        ],
        "type": "bool",
        "version_added": "1.8",
@@ -13120,7 +13126,7 @@
       "contains": {
        "description": [
         "A regular expression or pattern which should be matched against the file content.",
-        "If O(read_whole_file) is V(false) it matches against the beginning of the line (uses V(re.match(\\))). If O(read_whole_file) is V(true), it searches anywhere for that pattern (uses V(re.search(\\))).",
+        "If O(read_whole_file=false) it matches against the beginning of the line (uses V(re.match(\\))). If O(read_whole_file=true), it searches anywhere for that pattern (uses V(re.search(\\))).",
         "Works only when O(file_type) is V(file)."
        ],
        "type": "str"
@@ -13128,7 +13134,7 @@
       "depth": {
        "description": [
         "Set the maximum number of levels to descend into.",
-        "Setting recurse to V(false) will override this value, which is effectively depth 1.",
+        "Setting O(recurse=false) will override this value, which is effectively depth 1.",
         "Default is unlimited depth."
        ],
        "type": "int",
@@ -13137,7 +13143,7 @@
       },
       "encoding": {
        "description": [
-        "When doing a C(contains) search, determine the encoding of the files to be searched."
+        "When doing a O(contains) search, determine the encoding of the files to be searched."
        ],
        "type": "str",
        "version_added": "2.17",
@@ -13175,7 +13181,7 @@
        "default": "file",
        "description": [
         "Type of file to select.",
-        "The 'link' and 'any' choices were added in Ansible 2.3."
+        "The V(link) and V(any) choices were added in Ansible 2.3."
        ],
        "type": "str"
       },
@@ -13200,10 +13206,21 @@
        ],
        "type": "bool"
       },
+      "limit": {
+       "description": [
+        "Limit the maximum number of matching paths returned. After finding this many, the find action will stop looking.",
+        "Matches are made from the top, down (i.e. shallowest directory first).",
+        "If not set, or set to v(null), it will do unlimited matches.",
+        "Default is unlimited matches."
+       ],
+       "type": "int",
+       "version_added": "2.18",
+       "version_added_collection": "ansible.builtin"
+      },
       "mode": {
        "description": [
         "Choose objects matching a specified permission. This value is restricted to modes that can be applied using the python C(os.chmod) function.",
-        "The mode can be provided as an octal such as V(\"0644\") or as symbolic such as V(u=rw,g=r,o=r)"
+        "The mode can be provided as an octal such as V(\"0644\") or as symbolic such as V(u=rw,g=r,o=r)."
        ],
        "type": "raw",
        "version_added": "2.16",
@@ -13283,7 +13300,7 @@
      "version_added": "2.0",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Recursively find /tmp files older than 2 days\n  ansible.builtin.find:\n    paths: /tmp\n    age: 2d\n    recurse: yes\n\n- name: Recursively find /tmp files older than 4 weeks and equal or greater than 1 megabyte\n  ansible.builtin.find:\n    paths: /tmp\n    age: 4w\n    size: 1m\n    recurse: yes\n\n- name: Recursively find /var/tmp files with last access time greater than 3600 seconds\n  ansible.builtin.find:\n    paths: /var/tmp\n    age: 3600\n    age_stamp: atime\n    recurse: yes\n\n- name: Find /var/log files equal or greater than 10 megabytes ending with .old or .log.gz\n  ansible.builtin.find:\n    paths: /var/log\n    patterns: '*.old,*.log.gz'\n    size: 10m\n\n# Note that YAML double quotes require escaping backslashes but yaml single quotes do not.\n- name: Find /var/log files equal or greater than 10 megabytes ending with .old or .log.gz via regex\n  ansible.builtin.find:\n    paths: /var/log\n    patterns: \"^.*?\\\\.(?:old|log\\\\.gz)$\"\n    size: 10m\n    use_regex: yes\n\n- name: Find /var/log all directories, exclude nginx and mysql\n  ansible.builtin.find:\n    paths: /var/log\n    recurse: no\n    file_type: directory\n    excludes: 'nginx,mysql'\n\n# When using patterns that contain a comma, make sure they are formatted as lists to avoid splitting the pattern\n- name: Use a single pattern that contains a comma formatted as a list\n  ansible.builtin.find:\n    paths: /var/log\n    file_type: file\n    use_regex: yes\n    patterns: ['^_[0-9]{2,4}_.*.log$']\n\n- name: Use multiple patterns that contain a comma formatted as a YAML list\n  ansible.builtin.find:\n    paths: /var/log\n    file_type: file\n    use_regex: yes\n    patterns:\n      - '^_[0-9]{2,4}_.*.log$'\n      - '^[a-z]{1,5}_.*log$'\n\n",
+    "examples": "\n- name: Recursively find /tmp files older than 2 days\n  ansible.builtin.find:\n    paths: /tmp\n    age: 2d\n    recurse: yes\n\n- name: Recursively find /tmp files older than 4 weeks and equal or greater than 1 megabyte\n  ansible.builtin.find:\n    paths: /tmp\n    age: 4w\n    size: 1m\n    recurse: yes\n\n- name: Recursively find /var/tmp files with last access time greater than 3600 seconds\n  ansible.builtin.find:\n    paths: /var/tmp\n    age: 3600\n    age_stamp: atime\n    recurse: yes\n\n- name: Find /var/log files equal or greater than 10 megabytes ending with .old or .log.gz\n  ansible.builtin.find:\n    paths: /var/log\n    patterns: '*.old,*.log.gz'\n    size: 10m\n\n# Note that YAML double quotes require escaping backslashes but yaml single quotes do not.\n- name: Find /var/log files equal or greater than 10 megabytes ending with .old or .log.gz via regex\n  ansible.builtin.find:\n    paths: /var/log\n    patterns: \"^.*?\\\\.(?:old|log\\\\.gz)$\"\n    size: 10m\n    use_regex: yes\n\n- name: Find /var/log all directories, exclude nginx and mysql\n  ansible.builtin.find:\n    paths: /var/log\n    recurse: no\n    file_type: directory\n    excludes: 'nginx,mysql'\n\n# When using patterns that contain a comma, make sure they are formatted as lists to avoid splitting the pattern\n- name: Use a single pattern that contains a comma formatted as a list\n  ansible.builtin.find:\n    paths: /var/log\n    file_type: file\n    use_regex: yes\n    patterns: ['^_[0-9]{2,4}_.*.log$']\n\n- name: Use multiple patterns that contain a comma formatted as a YAML list\n  ansible.builtin.find:\n    paths: /var/log\n    file_type: file\n    use_regex: yes\n    patterns:\n      - '^_[0-9]{2,4}_.*.log$'\n      - '^[a-z]{1,5}_.*log$'\n\n- name: Find file containing \"wally\" without necessarily reading all files\n  ansible.builtin.find:\n    paths: /var/log\n    file_type: file\n    contains: wally\n    read_whole_file: true\n    patterns: \"^.*\\\\.log$\"\n    use_regex: true\n    recurse: true\n    limit: 1\n",
     "metadata": null,
     "return": {
      "examined": {
@@ -13383,7 +13400,7 @@
      "notes": [
       "This is mostly a wrapper around other fact gathering modules.",
       "Options passed into this action must be supported by all the underlying fact modules configured.",
-      "If using C(gather_timeout) and parallel execution, it will limit the total execution time of modules that do not accept C(gather_timeout) themselves.",
+      "If using O(ignore:gather_timeout) and parallel execution, it will limit the total execution time of modules that do not accept O(ignore:gather_timeout) themselves.",
       "Facts returned by each module will be merged, conflicts will favor 'last merged'. Order is not guaranteed, when doing parallel gathering on multiple modules."
      ],
      "options": {
@@ -13391,7 +13408,8 @@
        "description": [
         "A toggle that controls if the fact modules are executed in parallel or serially and in order. This can guarantee the merge order of module facts at the expense of performance.",
         "By default it will be true if more than one fact module is used.",
-        "For low cost/delay fact modules parallelism overhead might end up meaning the whole process takes longer. Test your specific case to see if it is a speed improvement or not."
+        "For low cost/delay fact modules parallelism overhead might end up meaning the whole process takes longer. Test your specific case to see if it is a speed improvement or not.",
+        "The C(ansible_facts_parallel) variable can be used to set this option, overriding the default, but not the direct assignment of the option in the task."
        ],
        "type": "bool"
       }
@@ -13429,7 +13447,7 @@
      "collection": "ansible.builtin",
      "description": [
       "Downloads files from HTTP, HTTPS, or FTP to the remote server. The remote server I(must) have direct access to the remote resource.",
-      "By default, if an environment variable C(<protocol>_proxy) is set on the target host, requests will be sent through that proxy. This behaviour can be overridden by setting a variable for this task (see R(setting the environment,playbooks_environment)), or by using the use_proxy option.",
+      "By default, if an environment variable E(<protocol>_proxy) is set on the target host, requests will be sent through that proxy. This behaviour can be overridden by setting a variable for this task (see R(setting the environment,playbooks_environment)), or by using the use_proxy option.",
       "HTTP redirects can redirect from HTTP to HTTPS so you should be sure that your proxy environment for both protocols is correct.",
       "From Ansible 2.4 when run with C(--check), it will do a HEAD request to validate the URL but will not download the entire file or verify it against hashes and will report incorrect changed status.",
       "For Windows targets, use the M(ansible.windows.win_get_url) module instead."
@@ -13467,11 +13485,12 @@
       "checksum": {
        "default": "",
        "description": [
-        "If a checksum is passed to this parameter, the digest of the destination file will be calculated after it is downloaded to ensure its integrity and verify that the transfer completed successfully. Format: <algorithm>:<checksum|url>, e.g. checksum=\"sha256:D98291AC[...]B6DC7B97\", checksum=\"sha256:http://example.com/path/sha256sum.txt\"",
+        "If a checksum is passed to this parameter, the digest of the destination file will be calculated after it is downloaded to ensure its integrity and verify that the transfer completed successfully. Format: <algorithm>:<checksum|url>, for example C(checksum=\"sha256:D98291AC[...]B6DC7B97\", C(checksum=\"sha256:http://example.com/path/sha256sum.txt\").",
         "If you worry about portability, only the sha1 algorithm is available on all platforms and python versions.",
-        "The Python ``hashlib`` module is responsible for providing the available algorithms. The choices vary based on Python version and OpenSSL version.",
-        "On systems running in FIPS compliant mode, the ``md5`` algorithm may be unavailable.",
-        "Additionally, if a checksum is passed to this parameter, and the file exist under the O(dest) location, the C(destination_checksum) would be calculated, and if checksum equals C(destination_checksum), the file download would be skipped (unless O(force) is V(true)). If the checksum does not equal C(destination_checksum), the destination file is deleted."
+        "The Python C(hashlib) module is responsible for providing the available algorithms. The choices vary based on Python version and OpenSSL version.",
+        "On systems running in FIPS compliant mode, the C(md5) algorithm may be unavailable.",
+        "Additionally, if a checksum is passed to this parameter, and the file exist under the O(dest) location, the C(destination_checksum) would be calculated, and if checksum equals C(destination_checksum), the file download would be skipped (unless O(force=true)). If the checksum does not equal C(destination_checksum), the destination file is deleted.",
+        "If the checksum URL requires username and password, O(url_username) and O(url_password) are used to download the checksum file."
        ],
        "type": "str",
        "version_added": "2.0",
@@ -13479,10 +13498,10 @@
       },
       "ciphers": {
        "description": [
-        "SSL/TLS Ciphers to use for the request",
-        "When a list is provided, all ciphers are joined in order with V(:)",
+        "SSL/TLS Ciphers to use for the request.",
+        "When a list is provided, all ciphers are joined in order with C(:).",
         "See the L(OpenSSL Cipher List Format,https://www.openssl.org/docs/manmaster/man1/openssl-ciphers.html#CIPHER-LIST-FORMAT) for more details.",
-        "The available ciphers is dependent on the Python and OpenSSL/LibreSSL versions"
+        "The available ciphers is dependent on the Python and OpenSSL/LibreSSL versions."
        ],
        "elements": "str",
        "type": "list",
@@ -13510,7 +13529,7 @@
       "decompress": {
        "default": true,
        "description": [
-        "Whether to attempt to decompress gzip content-encoded responses"
+        "Whether to attempt to decompress gzip content-encoded responses."
        ],
        "type": "bool",
        "version_added": "2.14",
@@ -13632,9 +13651,9 @@
       "tmp_dest": {
        "description": [
         "Absolute path of where temporary file is downloaded to.",
-        "When run on Ansible 2.5 or greater, path defaults to ansible's remote_tmp setting",
+        "When run on Ansible 2.5 or greater, path defaults to ansible's C(remote_tmp) setting.",
         "When run on Ansible prior to 2.5, it defaults to E(TMPDIR), E(TEMP) or E(TMP) env variables or a platform specific value.",
-        "U(https://docs.python.org/3/library/tempfile.html#tempfile.tempdir)"
+        "U(https://docs.python.org/3/library/tempfile.html#tempfile.tempdir)."
        ],
        "type": "path",
        "version_added": "2.1",
@@ -13664,7 +13683,7 @@
       },
       "url": {
        "description": [
-        "HTTP, HTTPS, or FTP URL in the form (http|https|ftp)://[user[:pass]]@host.domain[:port]/path"
+        "HTTP, HTTPS, or FTP URL in the form C((http|https|ftp)://[user[:pass]]@host.domain[:port]/path)."
        ],
        "required": true,
        "type": "str"
@@ -13700,7 +13719,7 @@
        "description": [
         "Use GSSAPI to perform the authentication, typically this is for Kerberos or Kerberos through Negotiate authentication.",
         "Requires the Python library L(gssapi,https://github.com/pythongssapi/python-gssapi) to be installed.",
-        "Credentials for GSSAPI can be specified with O(url_username)/O(url_password) or with the GSSAPI env var C(KRB5CCNAME) that specified a custom Kerberos credential cache.",
+        "Credentials for GSSAPI can be specified with O(url_username)/O(url_password) or with the GSSAPI env var E(KRB5CCNAME) that specified a custom Kerberos credential cache.",
         "NTLM authentication is I(not) supported even if the GSSAPI mech for NTLM has been installed."
        ],
        "type": "bool",
@@ -13710,9 +13729,9 @@
       "use_netrc": {
        "default": true,
        "description": [
-        "Determining whether to use credentials from ``~/.netrc`` file",
-        "By default .netrc is used with Basic authentication headers",
-        "When set to False, .netrc credentials are ignored"
+        "Determining whether to use credentials from C(~/.netrc) file.",
+        "By default C(.netrc) is used with Basic authentication headers.",
+        "When V(false), C(.netrc) credentials are ignored."
        ],
        "type": "bool",
        "version_added": "2.14",
@@ -13986,15 +14005,15 @@
      "has_action": false,
      "module": "git",
      "notes": [
-      "If the task seems to be hanging, first verify remote host is in C(known_hosts). SSH will prompt user to authorize the first contact with a remote host.  To avoid this prompt, one solution is to use the option accept_hostkey. Another solution is to add the remote host public key in C(/etc/ssh/ssh_known_hosts) before calling the git module, with the following command: ssh-keyscan -H remote_host.com >> /etc/ssh/ssh_known_hosts."
+      "If the task seems to be hanging, first verify remote host is in C(known_hosts). SSH will prompt user to authorize the first contact with a remote host.  To avoid this prompt, one solution is to use the option accept_hostkey. Another solution is to add the remote host public key in C(/etc/ssh/ssh_known_hosts) before calling the git module, with the following command: C(ssh-keyscan -H remote_host.com >> /etc/ssh/ssh_known_hosts)."
      ],
      "options": {
       "accept_hostkey": {
        "default": "no",
        "description": [
-        "Will ensure or not that \"-o StrictHostKeyChecking=no\" is present as an ssh option.",
+        "Will ensure or not that C(-o StrictHostKeyChecking=no) is present as an ssh option.",
         "Be aware that this disables a protection against MITM attacks.",
-        "Those using OpenSSH >= 7.5 might want to set O(ssh_opts) to V(StrictHostKeyChecking=accept-new) instead, it does not remove the MITM issue but it does restrict it to the first attempt."
+        "Those using OpenSSH >= 7.5 might want to use O(accept_newhostkey) or set O(ssh_opts) to V(StrictHostKeyChecking=accept-new) instead, it does not remove the MITM issue but it does restrict it to the first attempt."
        ],
        "type": "bool",
        "version_added": "1.5",
@@ -14003,7 +14022,7 @@
       "accept_newhostkey": {
        "default": "no",
        "description": [
-        "As of OpenSSH 7.5, \"-o StrictHostKeyChecking=accept-new\" can be used which is safer and will only accepts host keys which are not present or are the same. if V(true), ensure that \"-o StrictHostKeyChecking=accept-new\" is present as an ssh option."
+        "As of OpenSSH 7.5, C(-o StrictHostKeyChecking=accept-new) can be used which is safer and will only accepts host keys which are not present or are the same. If V(true), ensure that C(-o StrictHostKeyChecking=accept-new) is present as an ssh option."
        ],
        "type": "bool",
        "version_added": "2.12",
@@ -14096,7 +14115,7 @@
       "key_file": {
        "description": [
         "Specify an optional private key file path, on the target host, to use for the checkout.",
-        "This ensures 'IdentitiesOnly=yes' is present in O(ssh_opts)."
+        "This ensures C(IdentitiesOnly=yes) is present in O(ssh_opts)."
        ],
        "type": "path",
        "version_added": "1.5",
@@ -14113,7 +14132,7 @@
       },
       "reference": {
        "description": [
-        "Reference repository (see \"git clone --reference ...\")."
+        "Reference repository (see C(git clone --reference ...))."
        ],
        "type": "str",
        "version_added": "1.4",
@@ -14166,8 +14185,8 @@
         "Options git will pass to ssh when used as protocol, it works via C(git)'s E(GIT_SSH)/E(GIT_SSH_COMMAND) environment variables.",
         "For older versions it appends E(GIT_SSH_OPTS) (specific to this module) to the variables above or via a wrapper script.",
         "Other options can add to this list, like O(key_file) and O(accept_hostkey).",
-        "An example value could be \"-o StrictHostKeyChecking=no\" (although this particular option is better set by O(accept_hostkey)).",
-        "The module ensures that 'BatchMode=yes' is always present to avoid prompts."
+        "An example value could be C(-o StrictHostKeyChecking=no) (although this particular option is better set by O(accept_hostkey)).",
+        "The module ensures that C(BatchMode=yes) is always present to avoid prompts."
        ],
        "type": "str",
        "version_added": "1.5",
@@ -14176,7 +14195,7 @@
       "track_submodules": {
        "default": "no",
        "description": [
-        "If V(true), submodules will track the latest commit on their master branch (or other branch specified in .gitmodules).  If V(false), submodules will be kept at the revision specified by the main project. This is equivalent to specifying the C(--remote) flag to git submodule update."
+        "If V(true), submodules will track the latest commit on their master branch (or other branch specified in C(.gitmodules)).  If V(false), submodules will be kept at the revision specified by the main project. This is equivalent to specifying the C(--remote) flag to git submodule update."
        ],
        "type": "bool",
        "version_added": "1.8",
@@ -14299,7 +14318,7 @@
        "default": false,
        "description": [
         "Whether to delete a group even if it is the primary group of a user.",
-        "Only applicable on platforms which implement a --force flag on the group deletion command."
+        "Only applicable on platforms which implement a C(--force) flag on the group deletion command."
        ],
        "type": "bool",
        "version_added": "2.15",
@@ -14585,7 +14604,7 @@
        "description": [
         "Which strategy to use to update the hostname.",
         "If not set we try to autodetect, but this can be problematic, particularly with containers as they can present misleading information.",
-        "Note that 'systemd' should be specified for RHEL/EL/CentOS 7+. Older distributions should use 'redhat'."
+        "Note that V(systemd) should be specified for RHEL/EL/CentOS 7+. Older distributions should use V(redhat)."
        ],
        "type": "str",
        "version_added": "2.9",
@@ -15435,7 +15454,7 @@
       "dir": {
        "description": [
         "The directory name from which the variables should be loaded.",
-        "If the path is relative and the task is inside a role, it will look inside the role's vars/ subdirectory.",
+        "If the path is relative and the task is inside a role, it will look inside the role's C(vars/) subdirectory.",
         "If the path is relative and not inside a role, it will be parsed relative to the playbook."
        ],
        "type": "path",
@@ -15459,7 +15478,7 @@
       "file": {
        "description": [
         "The file name from which variables should be loaded.",
-        "If the path is relative, it will look for the file in vars/ subdirectory of a role or relative to playbook."
+        "If the path is relative, it will look for the file in C(vars/) subdirectory of a role or relative to playbook."
        ],
        "type": "path",
        "version_added": "2.2",
@@ -15475,8 +15494,8 @@
       },
       "free-form": {
        "description": [
-        "This module allows you to specify the 'file' option directly without any other options.",
-        "There is no 'free-form' option, this is just an indicator, see example below."
+        "This module allows you to specify the O(file) option directly without any other options.",
+        "There is no O(ignore:free-form) option, this is just an indicator, see example below."
        ]
       },
       "hash_behaviour": {
@@ -15516,7 +15535,7 @@
       "name": {
        "description": [
         "The name of a variable into which assign the included vars.",
-        "If omitted (null) they will be made top level vars."
+        "If omitted (V(null)) they will be made top level vars."
        ],
        "type": "str",
        "version_added": "2.2",
@@ -15696,7 +15715,7 @@
       "gateway": {
        "description": [
         "This specifies the IP address of the host to send the cloned packets.",
-        "This option is only valid when O(jump) is set to V(TEE)."
+        "This option is only valid when O(jump=TEE)."
        ],
        "type": "str",
        "version_added": "2.8",
@@ -15719,7 +15738,7 @@
       },
       "icmp_type": {
        "description": [
-        "This allows specification of the ICMP type, which can be a numeric ICMP type, type/code pair, or one of the ICMP type names shown by the command 'iptables -p icmp -h'"
+        "This allows specification of the ICMP type, which can be a numeric ICMP type, type/code pair, or one of the ICMP type names shown by the command C(iptables -p icmp -h)."
        ],
        "type": "str",
        "version_added": "2.2",
@@ -15790,7 +15809,7 @@
        "description": [
         "Logging level according to the syslogd-defined priorities.",
         "The value can be strings or numbers from 1-8.",
-        "This parameter is only applicable if O(jump) is set to V(LOG)."
+        "This parameter is only applicable if O(jump=LOG)."
        ],
        "type": "str",
        "version_added": "2.8",
@@ -15809,7 +15828,7 @@
        "description": [
         "Specifies a match to use, that is, an extension module that tests for a specific property.",
         "The set of matches makes up the condition under which a target is invoked.",
-        "Matches are evaluated first to last if specified as an array and work in short-circuit fashion, i.e. if one extension yields false, the evaluation will stop."
+        "Matches are evaluated first to last if specified as an array and work in short-circuit fashion, in other words if one extension yields false, the evaluation will stop."
        ],
        "elements": "str",
        "type": "list"
@@ -15847,10 +15866,10 @@
       "numeric": {
        "default": false,
        "description": [
-        "This parameter controls the running of the list -action of iptables, which is used internally by the module",
-        "Does not affect the actual functionality. Use this if iptables hang when creating a chain or altering policy",
-        "If V(true), then iptables skips the DNS-lookup of the IP addresses in a chain when it uses the list -action",
-        "Listing is used internally for example when setting a policy or creating a chain"
+        "This parameter controls the running of the list -action of iptables, which is used internally by the module.",
+        "Does not affect the actual functionality. Use this if iptables hang when creating a chain or altering policy.",
+        "If V(true), then iptables skips the DNS-lookup of the IP addresses in a chain when it uses the list -action.",
+        "Listing is used internally for example when setting a policy or creating a chain."
        ],
        "type": "bool",
        "version_added": "2.15",
@@ -15896,7 +15915,7 @@
       },
       "reject_with": {
        "description": [
-        "Specifies the error packet type to return while rejecting. It implies \"jump: REJECT\"."
+        "Specifies the error packet type to return while rejecting. It implies C(jump=REJECT)."
        ],
        "type": "str",
        "version_added": "2.1",
@@ -16032,7 +16051,7 @@
       },
       "to_destination": {
        "description": [
-        "This specifies a destination address to use with C(DNAT).",
+        "This specifies a destination address to use with O(ctstate=DNAT).",
         "Without this, the destination address is never altered."
        ],
        "type": "str",
@@ -16048,7 +16067,7 @@
       },
       "to_source": {
        "description": [
-        "This specifies a source address to use with C(SNAT).",
+        "This specifies a source address to use with O(ctstate=SNAT).",
         "Without this, the source address is never altered."
        ],
        "type": "str",
@@ -16104,7 +16123,7 @@
      ],
      "collection": "ansible.builtin",
      "description": [
-      "The M(ansible.builtin.known_hosts) module lets you add or remove a host keys from the C(known_hosts) file.",
+      "The M(ansible.builtin.known_hosts) module lets you add or remove host keys from the C(known_hosts) file.",
       "Starting at Ansible 2.2, multiple entries per host are allowed, but only one for each key type supported by ssh. This is useful if you're going to want to use the M(ansible.builtin.git) module over ssh, for example.",
       "If you have a very large number of host keys to manage, you will find the M(ansible.builtin.template) module more useful."
      ],
@@ -16137,7 +16156,7 @@
         "host"
        ],
        "description": [
-        "The host to add or remove (must match a host specified in key). It will be converted to lowercase so that ssh-keygen can find it.",
+        "The host to add or remove (must match a host specified in key). It will be converted to lowercase so that C(ssh-keygen) can find it.",
         "Must match with <hostname> or <ip> present in key attribute.",
         "For custom SSH port, O(name) needs to specify port as well. See example section."
        ],
@@ -16159,8 +16178,8 @@
        ],
        "default": "present",
        "description": [
-        "V(present) to add the host key.",
-        "V(absent) to remove it."
+        "V(present) to add host keys.",
+        "V(absent) to remove host keys."
        ],
        "type": "str"
       }
@@ -16754,9 +16773,9 @@
        ],
        "description": [
         "The package manager(s) used by the system so we can query the package information. This is a list and can support multiple package managers per system, since version 2.8.",
-        "The 'portage' and 'pkg' options were added in version 2.8.",
-        "The 'apk' option was added in version 2.11.",
-        "The 'pkg_info' option was added in version 2.13.",
+        "The V(portage) and V(pkg) options were added in version 2.8.",
+        "The V(apk) option was added in version 2.11.",
+        "The V(pkg_info)' option was added in version 2.13.",
         "Aliases were added in 2.18, to support using C(auto={{ansible_facts['pkg_mgr']}})"
        ],
        "elements": "str",
@@ -16882,7 +16901,7 @@
      "has_action": true,
      "module": "pause",
      "notes": [
-      "Starting in 2.2,  if you specify 0 or negative for minutes or seconds, it will wait for 1 second, previously it would wait indefinitely.",
+      "Starting in 2.2, if you specify 0 or negative for minutes or seconds, it will wait for 1 second, previously it would wait indefinitely.",
       "User input is not captured or echoed, regardless of echo setting, when minutes or seconds is specified."
      ],
      "options": {
@@ -16890,7 +16909,7 @@
        "default": "yes",
        "description": [
         "Controls whether or not keyboard input is shown when typing.",
-        "Only has effect if O(seconds=None) and O(minutes=None)."
+        "Only has effect if neither O(seconds) nor O(minutes) are set."
        ],
        "type": "bool",
        "version_added": 2.5,
@@ -16904,7 +16923,7 @@
       "prompt": {
        "description": [
         "Optional text to use for the prompt message.",
-        "User input is only returned if O(seconds=None) and O(minutes=None), otherwise this is just a custom message before playbook execution is paused."
+        "User input is only returned if O(seconds) and O(minutes) are both not specified, otherwise this is just a custom message before playbook execution is paused."
        ]
       },
       "seconds": {
@@ -17061,7 +17080,7 @@
       "break_system_packages": {
        "default": false,
        "description": [
-        "Allow pip to modify an externally-managed Python installation as defined by PEP 668.",
+        "Allow C(pip) to modify an externally-managed Python installation as defined by PEP 668.",
         "This is typically required when installing packages outside a virtual environment on modern systems."
        ],
        "type": "bool",
@@ -17070,7 +17089,7 @@
       },
       "chdir": {
        "description": [
-        "cd into this directory before running the command"
+        "cd into this directory before running the command."
        ],
        "type": "path",
        "version_added": "1.3",
@@ -17087,10 +17106,10 @@
       },
       "executable": {
        "description": [
-        "The explicit executable or pathname for the pip executable, if different from the Ansible Python interpreter. For example V(pip3.3), if there are both Python 2.7 and 3.3 installations in the system and you want to run pip for the Python 3.3 installation.",
+        "The explicit executable or pathname for the C(pip) executable, if different from the Ansible Python interpreter. For example V(pip3.3), if there are both Python 2.7 and 3.3 installations in the system and you want to run pip for the Python 3.3 installation.",
         "Mutually exclusive with O(virtualenv) (added in 2.1).",
         "Does not affect the Ansible Python interpreter.",
-        "The setuptools package must be installed for both the Ansible Python interpreter and for the version of Python specified by this option."
+        "The C(setuptools) package must be installed for both the Ansible Python interpreter and for the version of Python specified by this option."
        ],
        "type": "path",
        "version_added": "1.3",
@@ -17098,7 +17117,7 @@
       },
       "extra_args": {
        "description": [
-        "Extra arguments passed to pip."
+        "Extra arguments passed to C(pip)."
        ],
        "type": "str",
        "version_added": "1.0",
@@ -17114,7 +17133,7 @@
       },
       "requirements": {
        "description": [
-        "The path to a pip requirements file, which should be local to the remote system. File can be specified as a relative path if using the chdir option."
+        "The path to a pip requirements file, which should be local to the remote system. File can be specified as a relative path if using the O(chdir) option."
        ],
        "type": "str"
       },
@@ -17127,14 +17146,14 @@
        ],
        "default": "present",
        "description": [
-        "The state of module",
-        "The 'forcereinstall' option is only available in Ansible 2.1 and above."
+        "The state of module.",
+        "The V(forcereinstall) option is only available in Ansible 2.1 and above."
        ],
        "type": "str"
       },
       "umask": {
        "description": [
-        "The system umask to apply before installing the pip package. This is useful, for example, when installing on systems that have a very restrictive umask by default (e.g., \"0077\") and you want to pip install packages which are to be used by all users. Note that this requires you to specify desired umask mode as an octal string, (e.g., \"0022\")."
+        "The system umask to apply before installing the pip package. This is useful, for example, when installing on systems that have a very restrictive umask by default (e.g., C(0077)) and you want to C(pip install) packages which are to be used by all users. Note that this requires you to specify desired umask mode as an octal string, (e.g., C(0022))."
        ],
        "type": "str",
        "version_added": "2.1",
@@ -17148,7 +17167,7 @@
       },
       "virtualenv": {
        "description": [
-        "An optional path to a I(virtualenv) directory to install into. It cannot be specified together with the 'executable' parameter (added in 2.1). If the virtualenv does not exist, it will be created before installing packages. The optional virtualenv_site_packages, virtualenv_command, and virtualenv_python options affect the creation of the virtualenv."
+        "An optional path to a I(virtualenv) directory to install into. It cannot be specified together with the O(executable) parameter (added in 2.1). If the virtualenv does not exist, it will be created before installing packages. The optional O(virtualenv_site_packages), O(virtualenv_command), and O(virtualenv_python) options affect the creation of the virtualenv."
        ],
        "type": "path"
       },
@@ -17172,7 +17191,7 @@
       "virtualenv_site_packages": {
        "default": "no",
        "description": [
-        "Whether the virtual environment will inherit packages from the global site-packages directory.  Note that if this setting is changed on an already existing virtual environment it will not have any effect, the environment must be deleted and newly created."
+        "Whether the virtual environment will inherit packages from the global C(site-packages) directory. Note that if this setting is changed on an already existing virtual environment it will not have any effect, the environment must be deleted and newly created."
        ],
        "type": "bool",
        "version_added": "1.0",
@@ -17692,7 +17711,7 @@
      "version_added": "1.6",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Replace old hostname with new hostname (requires Ansible >= 2.4)\n  ansible.builtin.replace:\n    path: /etc/hosts\n    regexp: '(\\s+)old\\.host\\.name(\\s+.*)?$'\n    replace: '\\1new.host.name\\2'\n\n- name: Replace after the expression till the end of the file (requires Ansible >= 2.4)\n  ansible.builtin.replace:\n    path: /etc/apache2/sites-available/default.conf\n    after: 'NameVirtualHost [*]'\n    regexp: '^(.+)$'\n    replace: '# \\1'\n\n- name: Replace before the expression from the beginning of the file (requires Ansible >= 2.4)\n  ansible.builtin.replace:\n    path: /etc/apache2/sites-available/default.conf\n    before: '# live site config'\n    regexp: '^(.+)$'\n    replace: '# \\1'\n\n# Prior to Ansible 2.7.10, using before and after in combination did the opposite of what was intended.\n# see https://github.com/ansible/ansible/issues/31354 for details.\n# Note (?m) which turns on MULTILINE mode so ^ matches any line's beginning\n- name: Replace between the expressions (requires Ansible >= 2.4)\n  ansible.builtin.replace:\n    path: /etc/hosts\n    after: '(?m)^<VirtualHost [*]>'\n    before: '(?m)^</VirtualHost>'\n    regexp: '^(.+)$'\n    replace: '# \\1'\n\n- name: Supports common file attributes\n  ansible.builtin.replace:\n    path: /home/jdoe/.ssh/known_hosts\n    regexp: '^old\\.host\\.name[^\\n]*\\n'\n    owner: jdoe\n    group: jdoe\n    mode: '0644'\n\n- name: Supports a validate command\n  ansible.builtin.replace:\n    path: /etc/apache/ports\n    regexp: '^(NameVirtualHost|Listen)\\s+80\\s*$'\n    replace: '\\1 127.0.0.1:8080'\n    validate: '/usr/sbin/apache2ctl -f %s -t'\n\n- name: Short form task (in ansible 2+) necessitates backslash-escaped sequences\n  ansible.builtin.replace: path=/etc/hosts regexp='\\\\b(localhost)(\\\\d*)\\\\b' replace='\\\\1\\\\2.localdomain\\\\2 \\\\1\\\\2'\n\n- name: Long form task does not\n  ansible.builtin.replace:\n    path: /etc/hosts\n    regexp: '\\b(localhost)(\\d*)\\b'\n    replace: '\\1\\2.localdomain\\2 \\1\\2'\n\n- name: Explicitly specifying positional matched groups in replacement\n  ansible.builtin.replace:\n    path: /etc/ssh/sshd_config\n    regexp: '^(ListenAddress[ ]+)[^\\n]+$'\n    replace: '\\g<1>0.0.0.0'\n\n- name: Explicitly specifying named matched groups\n  ansible.builtin.replace:\n    path: /etc/ssh/sshd_config\n    regexp: '^(?P<dctv>ListenAddress[ ]+)(?P<host>[^\\n]+)$'\n    replace: '#\\g<dctv>\\g<host>\\n\\g<dctv>0.0.0.0'\n",
+    "examples": "\n- name: Replace old hostname with new hostname (requires Ansible >= 2.4)\n  ansible.builtin.replace:\n    path: /etc/hosts\n    regexp: '(\\s+)old\\.host\\.name(\\s+.*)?$'\n    replace: '\\1new.host.name\\2'\n\n- name: Replace after the expression till the end of the file (requires Ansible >= 2.4)\n  ansible.builtin.replace:\n    path: /etc/apache2/sites-available/default.conf\n    after: 'NameVirtualHost [*]'\n    regexp: '^(.+)$'\n    replace: '# \\1'\n\n- name: Replace before the expression from the beginning of the file (requires Ansible >= 2.4)\n  ansible.builtin.replace:\n    path: /etc/apache2/sites-available/default.conf\n    before: '# live site config'\n    regexp: '^(.+)$'\n    replace: '# \\1'\n\n# Prior to Ansible 2.7.10, using before and after in combination did the opposite of what was intended.\n# see https://github.com/ansible/ansible/issues/31354 for details.\n# Note (?m) which turns on MULTILINE mode so ^ matches any line's beginning\n- name: Replace between the expressions (requires Ansible >= 2.4)\n  ansible.builtin.replace:\n    path: /etc/hosts\n    after: '(?m)^<VirtualHost [*]>'\n    before: '</VirtualHost>'\n    regexp: '^(.+)$'\n    replace: '# \\1'\n\n- name: Supports common file attributes\n  ansible.builtin.replace:\n    path: /home/jdoe/.ssh/known_hosts\n    regexp: '^old\\.host\\.name[^\\n]*\\n'\n    owner: jdoe\n    group: jdoe\n    mode: '0644'\n\n- name: Supports a validate command\n  ansible.builtin.replace:\n    path: /etc/apache/ports\n    regexp: '^(NameVirtualHost|Listen)\\s+80\\s*$'\n    replace: '\\1 127.0.0.1:8080'\n    validate: '/usr/sbin/apache2ctl -f %s -t'\n\n- name: Short form task (in ansible 2+) necessitates backslash-escaped sequences\n  ansible.builtin.replace: path=/etc/hosts regexp='\\\\b(localhost)(\\\\d*)\\\\b' replace='\\\\1\\\\2.localdomain\\\\2 \\\\1\\\\2'\n\n- name: Long form task does not\n  ansible.builtin.replace:\n    path: /etc/hosts\n    regexp: '\\b(localhost)(\\d*)\\b'\n    replace: '\\1\\2.localdomain\\2 \\1\\2'\n\n- name: Explicitly specifying positional matched groups in replacement\n  ansible.builtin.replace:\n    path: /etc/ssh/sshd_config\n    regexp: '^(ListenAddress[ ]+)[^\\n]+$'\n    replace: '\\g<1>0.0.0.0'\n\n- name: Explicitly specifying named matched groups\n  ansible.builtin.replace:\n    path: /etc/ssh/sshd_config\n    regexp: '^(?P<dctv>ListenAddress[ ]+)(?P<host>[^\\n]+)$'\n    replace: '#\\g<dctv>\\g<host>\\n\\g<dctv>0.0.0.0'\n",
     "metadata": null,
     "return": null
    },
@@ -17718,7 +17737,7 @@
      ],
      "collection": "ansible.builtin",
      "description": [
-      "Adds or removes (rpm --import) a gpg key to your rpm database."
+      "Adds or removes C(rpm --import) a gpg key to your rpm database."
      ],
      "filename": "/ansible/modules/rpm_key.py",
      "has_action": false,
@@ -21227,6 +21246,15 @@
        ],
        "type": "str"
       },
+      "password_expire_account_disable": {
+       "description": [
+        "Number of days after a password expires until the account is disabled.",
+        "Currently supported on AIX, Linux, NetBSD, OpenBSD."
+       ],
+       "type": "int",
+       "version_added": "2.18",
+       "version_added_collection": "ansible.builtin"
+      },
       "password_expire_max": {
        "description": [
         "Maximum number of days between password change.",
@@ -21435,7 +21463,7 @@
      "version_added": "0.2",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Add the user 'johnd' with a specific uid and a primary group of 'admin'\n  ansible.builtin.user:\n    name: johnd\n    comment: John Doe\n    uid: 1040\n    group: admin\n\n- name: Create a user 'johnd' with a home directory\n  ansible.builtin.user:\n    name: johnd\n    create_home: yes\n\n- name: Add the user 'james' with a bash shell, appending the group 'admins' and 'developers' to the user's groups\n  ansible.builtin.user:\n    name: james\n    shell: /bin/bash\n    groups: admins,developers\n    append: yes\n\n- name: Remove the user 'johnd'\n  ansible.builtin.user:\n    name: johnd\n    state: absent\n    remove: yes\n\n- name: Create a 2048-bit SSH key for user jsmith in ~jsmith/.ssh/id_rsa\n  ansible.builtin.user:\n    name: jsmith\n    generate_ssh_key: yes\n    ssh_key_bits: 2048\n    ssh_key_file: .ssh/id_rsa\n\n- name: Added a consultant whose account you want to expire\n  ansible.builtin.user:\n    name: james18\n    shell: /bin/zsh\n    groups: developers\n    expires: 1422403387\n\n- name: Starting at Ansible 2.6, modify user, remove expiry time\n  ansible.builtin.user:\n    name: james18\n    expires: -1\n\n- name: Set maximum expiration date for password\n  ansible.builtin.user:\n    name: ram19\n    password_expire_max: 10\n\n- name: Set minimum expiration date for password\n  ansible.builtin.user:\n    name: pushkar15\n    password_expire_min: 5\n\n- name: Set number of warning days for password expiration\n  ansible.builtin.user:\n    name: jane157\n    password_expire_warn: 30\n",
+    "examples": "\n- name: Add the user 'johnd' with a specific uid and a primary group of 'admin'\n  ansible.builtin.user:\n    name: johnd\n    comment: John Doe\n    uid: 1040\n    group: admin\n\n- name: Create a user 'johnd' with a home directory\n  ansible.builtin.user:\n    name: johnd\n    create_home: yes\n\n- name: Add the user 'james' with a bash shell, appending the group 'admins' and 'developers' to the user's groups\n  ansible.builtin.user:\n    name: james\n    shell: /bin/bash\n    groups: admins,developers\n    append: yes\n\n- name: Remove the user 'johnd'\n  ansible.builtin.user:\n    name: johnd\n    state: absent\n    remove: yes\n\n- name: Create a 2048-bit SSH key for user jsmith in ~jsmith/.ssh/id_rsa\n  ansible.builtin.user:\n    name: jsmith\n    generate_ssh_key: yes\n    ssh_key_bits: 2048\n    ssh_key_file: .ssh/id_rsa\n\n- name: Added a consultant whose account you want to expire\n  ansible.builtin.user:\n    name: james18\n    shell: /bin/zsh\n    groups: developers\n    expires: 1422403387\n\n- name: Starting at Ansible 2.6, modify user, remove expiry time\n  ansible.builtin.user:\n    name: james18\n    expires: -1\n\n- name: Set maximum expiration date for password\n  ansible.builtin.user:\n    name: ram19\n    password_expire_max: 10\n\n- name: Set minimum expiration date for password\n  ansible.builtin.user:\n    name: pushkar15\n    password_expire_min: 5\n\n- name: Set number of warning days for password expiration\n  ansible.builtin.user:\n    name: jane157\n    password_expire_warn: 30\n\n- name: Set number of days after password expires until account is disabled\n  ansible.builtin.user:\n    name: jimholden2016\n    password_expire_account_disable: 15\n",
     "metadata": null,
     "return": {
      "append": {

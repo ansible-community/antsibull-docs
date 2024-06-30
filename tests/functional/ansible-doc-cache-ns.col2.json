@@ -623,7 +623,7 @@
      "Task",
      "Handler"
     ],
-    "description": "Time limit for the task to execute in, if exceeded Ansible will interrupt and fail the task.",
+    "description": "Time limit for the task action to execute in, if exceeded, Ansible will interrupt the process. Timeout does not include templating or looping.",
     "priority": 0,
     "template": "explicit",
     "type": "int"
