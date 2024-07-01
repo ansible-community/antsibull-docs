@@ -311,6 +311,85 @@ def _create_lookup(
     return lookup
 
 
+class _ValidationWalker(dom.NoopWalker):
+    def __init__(self, markup_validator: "_MarkupValidator", key: str):
+        self.markup_validator = markup_validator
+        self.errors = markup_validator.errors
+        self.key = key
+
+    def _error(self, part: dom.AnyPart, message: str) -> None:
+        self.errors.append(f"{self.key}: {part.source}: {message}")
+
+    def process_error(self, part: dom.ErrorPart) -> None:
+        self.errors.append(f"{self.key}: Markup error: {part.message}")
+
+    def process_bold(self, part: dom.BoldPart) -> None:
+        if not part.text:
+            self._error(part, "empty markup parameter")
+
+    def process_code(self, part: dom.CodePart) -> None:
+        if not part.text:
+            self._error(part, "empty markup parameter")
+
+    def process_horizontal_line(self, part: dom.HorizontalLinePart) -> None:
+        pass
+
+    def process_italic(self, part: dom.ItalicPart) -> None:
+        if not part.text:
+            self._error(part, "empty markup parameter")
+
+    def process_link(self, part: dom.LinkPart) -> None:
+        if not part.text:
+            self._error(part, "empty link title")
+        if not part.url.strip():
+            self._error(part, "empty URL")
+
+    def process_module(self, part: dom.ModulePart) -> None:
+        self.markup_validator._validate_module(  # pylint:disable=protected-access
+            part, self.key
+        )
+
+    def process_rst_ref(self, part: dom.RSTRefPart) -> None:
+        if not part.text:
+            self._error(part, "empty reference title")
+        if not part.ref.strip():
+            self._error(part, "empty reference")
+
+    def process_url(self, part: dom.URLPart) -> None:
+        if not part.url.strip():
+            self._error(part, "empty URL")
+
+    def process_text(self, part: dom.TextPart) -> None:
+        pass
+
+    def process_env_variable(self, part: dom.EnvVariablePart) -> None:
+        if not part.name.strip():
+            self._error(part, "empty environment variable")
+
+    def process_option_name(self, part: dom.OptionNamePart) -> None:
+        if not part.name:
+            self._error(part, "empty option name")
+        self.markup_validator._validate_option_name(  # pylint:disable=protected-access
+            part, self.key
+        )
+
+    def process_option_value(self, part: dom.OptionValuePart) -> None:
+        if not part.value:
+            self._error(part, "empty value")
+
+    def process_plugin(self, part: dom.PluginPart) -> None:
+        self.markup_validator._validate_plugin(  # pylint:disable=protected-access
+            part, self.key
+        )
+
+    def process_return_value(self, part: dom.ReturnValuePart) -> None:
+        if not part.name:
+            self._error(part, "empty return value name")
+        self.markup_validator._validate_return_value(  # pylint:disable=protected-access
+            part, self.key
+        )
+
+
 class _MarkupValidator:
     errors: list[str]
 
@@ -472,29 +551,13 @@ class _MarkupValidator:
             only_classic_markup=False,
         )
         for paragraph in parsed_paragraphs:
-            for par_elem in paragraph:
-                if par_elem.type == dom.PartType.ERROR:
-                    error_elem = t.cast(dom.ErrorPart, par_elem)
-                    self.errors.append(f"{key}: Markup error: {error_elem.message}")
-                if (
-                    self._disallow_semantic_markup
-                    and par_elem.type not in _CLASSICAL_MARKUP
-                ):
-                    self.errors.append(
-                        f"{key}: Found semantic markup: {par_elem.source}"
-                    )
-                if par_elem.type == dom.PartType.OPTION_NAME:
-                    self._validate_option_name(
-                        t.cast(dom.OptionNamePart, par_elem), key
-                    )
-                if par_elem.type == dom.PartType.RETURN_VALUE:
-                    self._validate_return_value(
-                        t.cast(dom.ReturnValuePart, par_elem), key
-                    )
-                if par_elem.type == dom.PartType.MODULE:
-                    self._validate_module(t.cast(dom.ModulePart, par_elem), key)
-                if par_elem.type == dom.PartType.PLUGIN:
-                    self._validate_plugin(t.cast(dom.PluginPart, par_elem), key)
+            dom.walk(paragraph, _ValidationWalker(self, key))
+            if self._disallow_semantic_markup:
+                for par_elem in paragraph:
+                    if par_elem.type not in _CLASSICAL_MARKUP:
+                        self.errors.append(
+                            f"{key}: Found semantic markup: {par_elem.source}"
+                        )
 
     def _check_seealso(self, seealso: list[t.Any], key: str):
         for index, entry in enumerate(seealso):
