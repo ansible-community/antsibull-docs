@@ -75,8 +75,8 @@ DEPRECATED
 {% if doc['deprecated']['removed_from_collection'] and doc['deprecated']['removed_from_collection'] != collection %}
              of @{ doc['deprecated']['removed_from_collection'] | rst_ify }@
 {% endif %}
-:Why: @{ doc['deprecated']['why'] | rst_ify | indent(6) }@
-:Alternative: @{ doc['deprecated']['alternative'] | rst_ify | indent(14) }@
+:Why: @{ doc['deprecated']['why'] | rst_ify | rst_indent(6) }@
+:Alternative: @{ doc['deprecated']['alternative'] | rst_ify | rst_indent(14) }@
 {% endif %}
 
 {% if plugin_type == 'callback' %}
@@ -96,7 +96,7 @@ Synopsis
 --------
 
 {%   for desc in doc['description'] -%}
-- @{ desc | rst_ify | indent(width=2) }@
+- @{ desc | rst_ify | rst_indent(width=2) }@
 {%   endfor %}
 
 {% if doc['has_action'] %}
@@ -119,7 +119,7 @@ The below requirements are needed on the local controller node that executes thi
 {%   endif %}
 
 {%   for req in doc['requirements'] %}
-- @{ req | rst_ify | indent(width=2) }@
+- @{ req | rst_ify | rst_indent(width=2) }@
 {%   endfor %}
 
 {% endif %}
@@ -218,7 +218,7 @@ Notes
 {%   endif %}
 {%   if doc['notes'] %}
 {%     for note in doc['notes'] %}
-- @{ note | rst_ify | indent(width=2) }@
+- @{ note | rst_ify | rst_indent(width=2) }@
 {%     endfor %}
 {%   endif %}
 {% endif %}
@@ -231,7 +231,7 @@ See Also
 {%   if item.module is defined and item.description %}
 * @{ reference_plugin_rst(item['module'], 'module') }@
 
-  @{ item['description'] | rst_ify | indent(2) }@
+  @{ item['description'] | rst_ify | rst_indent(2) }@
 {%   elif item.module is defined %}
 * @{ reference_plugin_rst(item['module'], 'module') }@
 
@@ -239,7 +239,7 @@ See Also
 {%   elif item.plugin is defined and item.plugin_type is defined and item.description %}
 * @{ reference_plugin_rst(item['plugin'], item['plugin_type']) }@ @{ item['plugin_type'] }@ plugin
 
-  @{ item['description'] | rst_ify | indent(2) }@
+  @{ item['description'] | rst_ify | rst_indent(2) }@
 {%   elif item.plugin is defined and item.plugin_type is defined %}
 * @{ reference_plugin_rst(item['plugin'], item['plugin_type']) }@ @{ item['plugin_type'] }@ plugin
 
@@ -247,11 +247,11 @@ See Also
 {%   elif item.name is defined and item.link is defined and item.description %}
 * `@{ item['name'] }@ <@{ item['link'] }@>`_
 
-  @{ item['description'] | rst_ify | indent(2) }@
+  @{ item['description'] | rst_ify | rst_indent(2) }@
 {%   elif item.ref is defined and item.description %}
 * :ref:`@{ item['ref'] }@`
 
-  @{ item['description'] | rst_ify | indent(2) }@
+  @{ item['description'] | rst_ify | rst_indent(2) }@
 {%   endif %}
 {% endfor %}
 {% endif %}

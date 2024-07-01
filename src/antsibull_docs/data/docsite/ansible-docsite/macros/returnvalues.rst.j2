@@ -74,14 +74,14 @@
         {% for i in range(1, loop.depth) %}<div class="ansible-option-indent-desc"></div>{% endfor %}<div class="ansible-option-cell">
 
 {%   for desc in value['description'] %}
-      @{ desc | rst_ify(role_entrypoint=role_entrypoint) | indent(6) }@
+      @{ desc | rst_ify(role_entrypoint=role_entrypoint) | rst_indent(6) }@
 
 {%   endfor %}
 {%   if value['returned'] %}
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-returned-bold:`Returned:` @{ value['returned'] | rst_ify(role_entrypoint=role_entrypoint) | indent(6) }@
+      :ansible-option-returned-bold:`Returned:` @{ value['returned'] | rst_ify(role_entrypoint=role_entrypoint) | rst_indent(6) }@
 {%   endif %}
 {#   Show possible choices and highlight details #}
 {%   if value['choices'] %}
@@ -97,7 +97,7 @@
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`@{ value['sample'] | antsibull_to_json | rst_escape(escape_ending_whitespace=true) | indent(6, blank=true) }@`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`@{ value['sample'] | antsibull_to_json | rst_escape(escape_ending_whitespace=true) | rst_indent(6, blank=true) }@`
 {%   endif %}
 
 
@@ -147,10 +147,10 @@
 {#   description #}
     <td>{% for i in range(1, loop.depth) %}<div class="ansible-option-indent-desc"></div>{% endfor %}<div class="ansible-option-cell">
 {%   for desc in value['description'] %}
-      <p>@{ desc | html_ify(role_entrypoint=role_entrypoint) | indent(6, blank=true) }@</p>
+      <p>@{ desc | html_ify(role_entrypoint=role_entrypoint) | rst_indent(6, blank=true) }@</p>
 {%   endfor %}
 {%   if value['returned'] %}
-      <p class="ansible-option-line"><strong class="ansible-option-returned-bold">Returned:</strong> @{ value['returned'] | html_ify(role_entrypoint=role_entrypoint) | indent(6, blank=true) }@</p>
+      <p class="ansible-option-line"><strong class="ansible-option-returned-bold">Returned:</strong> @{ value['returned'] | html_ify(role_entrypoint=role_entrypoint) | rst_indent(6, blank=true) }@</p>
 {%   endif %}
 {#   Show possible choices and highlight details #}
 {%   if value['choices'] %}
@@ -158,7 +158,7 @@
 @{     choices_html(value['choices'], has_no_default=True, role_entrypoint=role_entrypoint) }@
 {%   endif %}
 {%   if value['sample'] is not none %}
-      <p class="ansible-option-line ansible-option-sample"><strong class="ansible-option-sample-bold">Sample:</strong> <code class="ansible-value literal notranslate ansible-option-sample">@{ value['sample'] | antsibull_to_json | escape | indent(6, blank=true) }@</code></p>
+      <p class="ansible-option-line ansible-option-sample"><strong class="ansible-option-sample-bold">Sample:</strong> <code class="ansible-value literal notranslate ansible-option-sample">@{ value['sample'] | antsibull_to_json | escape | rst_indent(6, blank=true) }@</code></p>
 {%   endif %}
     </div></td>
   </tr>

@@ -20,9 +20,9 @@ Removed in: a future release
 {%     endif %}
 
 
-@{ ('Why: ' ~ data['why'] | rst_ify(role_entrypoint=role_entrypoint)) | indent(indent, first=true) }@
+@{ ('Why: ' ~ data['why'] | rst_ify(role_entrypoint=role_entrypoint)) | rst_indent(indent, first=true) }@
 
-@{ ('Alternative: ' ~ data['alternative'] | rst_ify(role_entrypoint=role_entrypoint)) | indent(indent, first=true) }@
+@{ ('Alternative: ' ~ data['alternative'] | rst_ify(role_entrypoint=role_entrypoint)) | rst_indent(indent, first=true) }@
 
 {%   endif %}
 {% endmacro %}
@@ -42,7 +42,7 @@ Removed in: a future release
  of @{ data['removed_from_collection'] | html_ify(role_entrypoint=role_entrypoint) }@
 {%-    endif -%}
   </p>
-  <p>@{ 'Why: ' ~ data['why'] | html_ify(role_entrypoint=role_entrypoint) | indent(2, blank=true) }@</p>
-  <p>@{ 'Alternative: ' ~ data['alternative'] | html_ify(role_entrypoint=role_entrypoint) | indent(2, blank=true) }@</p>
+  <p>@{ 'Why: ' ~ data['why'] | html_ify(role_entrypoint=role_entrypoint) | rst_indent(2, blank=true) }@</p>
+  <p>@{ 'Alternative: ' ~ data['alternative'] | html_ify(role_entrypoint=role_entrypoint) | rst_indent(2, blank=true) }@</p>
 {%   endif %}
 {% endmacro %}

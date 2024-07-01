@@ -86,7 +86,7 @@
         {% for i in range(1, loop.depth) %}<div class="ansible-option-indent-desc"></div>{% endfor %}<div class="ansible-option-cell">
 
 {%   for desc in value['description'] %}
-      @{ desc | replace('\n', '\n    ') | rst_ify(role_entrypoint=role_entrypoint) | indent(6) }@
+      @{ desc | replace('\n', '\n    ') | rst_ify(role_entrypoint=role_entrypoint) | rst_indent(6) }@
 
 {%   endfor %}
 {#   default / choices #}
@@ -107,7 +107,7 @@
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`@{ value['default'] | antsibull_to_json | rst_escape(escape_ending_whitespace=true) | indent(6, blank=true) }@`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`@{ value['default'] | antsibull_to_json | rst_escape(escape_ending_whitespace=true) | rst_indent(6, blank=true) }@`
 {%   endif %}
 {#   Configuration #}
 {%   if plugin_type != 'module' and plugin_type != 'role' and (value['ini'] or value['env'] or value['vars'] or value['cli']) %}
@@ -126,7 +126,7 @@
 {%        if value['default'] is none %}
           @{ ini['key'] }@ = VALUE
 {%        else %}
-          @{ ini['key'] }@ = @{ value['default'] | antsibull_to_ini_value | indent(10, blank=true) }@
+          @{ ini['key'] }@ = @{ value['default'] | antsibull_to_ini_value | rst_indent(10, blank=true) }@
 {%        endif %}
 
 {%         if ini['version_added'] is still_relevant(collection=ini['version_added_collection'] or collection) %}
@@ -223,7 +223,7 @@
 {#   description #}
     <td>{% for i in range(1, loop.depth) %}<div class="ansible-option-indent-desc"></div>{% endfor %}<div class="ansible-option-cell">
 {%   for desc in value['description'] %}
-      <p>@{ desc | html_ify(role_entrypoint=role_entrypoint) | indent(6, blank=true) }@</p>
+      <p>@{ desc | html_ify(role_entrypoint=role_entrypoint) | rst_indent(6, blank=true) }@</p>
 {%   endfor %}
 {#   default / choices #}
 {%   if value['type'] == 'bool' %}
@@ -236,7 +236,7 @@
 {%   endif %}
 {#   Show default value, when multiple choice or no choices #}
 {%   if value['default'] is list or (value['default'] is not none and value['default'] not in value['choices']) %}
-      <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-value literal notranslate ansible-option-default">@{ value['default'] | antsibull_to_json | escape | indent(6, blank=true) }@</code></p>
+      <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-value literal notranslate ansible-option-default">@{ value['default'] | antsibull_to_json | escape | rst_indent(6, blank=true) }@</code></p>
 {%   endif %}
 {#   Configuration #}
 {%   if plugin_type != 'module' and plugin_type != 'role' and (value['ini'] or value['env'] or value['vars'] or value['cli']) %}

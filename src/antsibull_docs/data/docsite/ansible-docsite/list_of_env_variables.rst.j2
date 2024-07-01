@@ -22,7 +22,7 @@ Environment variables used by the ansible-core configuration are documented in :
 .. envvar:: @{ env_var.name }@
 
 {%   for paragraph in env_var.description or [] %}
-    @{ paragraph | replace('\n', '\n    ') | rst_ify(plugin_fqcn='', plugin_type='') | indent(4) }@
+    @{ paragraph | replace('\n', '\n    ') | rst_ify(plugin_fqcn='', plugin_type='') | rst_indent(4) }@
 
 {%   endfor %}
     *Used by:*

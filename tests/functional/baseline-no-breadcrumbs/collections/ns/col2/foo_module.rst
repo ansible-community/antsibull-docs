@@ -22,7 +22,7 @@ The documentation for the module plugin, ns.col2.foo,  was malformed.
 
 The errors were:
 
-* ::
+* .. code-block:: text
 
         6 validation errors for ModuleDocSchema
         doc -> short_description
