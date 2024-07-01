@@ -317,29 +317,32 @@ class _ValidationWalker(dom.NoopWalker):
         self.errors = markup_validator.errors
         self.key = key
 
+    def _error(self, part: dom.AnyPart, message: str) -> None:
+        self.errors.append(f"{self.key}: {part.source}: {message}")
+
     def process_error(self, part: dom.ErrorPart) -> None:
         self.errors.append(f"{self.key}: Markup error: {part.message}")
 
     def process_bold(self, part: dom.BoldPart) -> None:
         if not part.text:
-            self.errors.append(f"{self.key}: {part.source}: empty markup parameter")
+            self._error(part, "empty markup parameter")
 
     def process_code(self, part: dom.CodePart) -> None:
         if not part.text:
-            self.errors.append(f"{self.key}: {part.source}: empty markup parameter")
+            self._error(part, "empty markup parameter")
 
     def process_horizontal_line(self, part: dom.HorizontalLinePart) -> None:
         pass
 
     def process_italic(self, part: dom.ItalicPart) -> None:
         if not part.text:
-            self.errors.append(f"{self.key}: {part.source}: empty markup parameter")
+            self._error(part, "empty markup parameter")
 
     def process_link(self, part: dom.LinkPart) -> None:
         if not part.text:
-            self.errors.append(f"{self.key}: {part.source}: empty link title")
+            self._error(part, "empty link title")
         if not part.url.strip():
-            self.errors.append(f"{self.key}: {part.source}: empty URL")
+            self._error(part, "empty URL")
 
     def process_module(self, part: dom.ModulePart) -> None:
         self.markup_validator._validate_module(  # pylint:disable=protected-access
@@ -348,31 +351,31 @@ class _ValidationWalker(dom.NoopWalker):
 
     def process_rst_ref(self, part: dom.RSTRefPart) -> None:
         if not part.text:
-            self.errors.append(f"{self.key}: {part.source}: empty reference title")
+            self._error(part, "empty reference title")
         if not part.ref.strip():
-            self.errors.append(f"{self.key}: {part.source}: empty reference")
+            self._error(part, "empty reference")
 
     def process_url(self, part: dom.URLPart) -> None:
         if not part.url.strip():
-            self.errors.append(f"{self.key}: {part.source}: empty URL")
+            self._error(part, "empty URL")
 
     def process_text(self, part: dom.TextPart) -> None:
         pass
 
     def process_env_variable(self, part: dom.EnvVariablePart) -> None:
         if not part.name.strip():
-            self.errors.append(f"{self.key}: {part.source}: empty environment variable")
+            self._error(part, "empty environment variable")
 
     def process_option_name(self, part: dom.OptionNamePart) -> None:
         if not part.name:
-            self.errors.append(f"{self.key}: {part.source}: empty option name")
+            self._error(part, "empty option name")
         self.markup_validator._validate_option_name(  # pylint:disable=protected-access
             part, self.key
         )
 
     def process_option_value(self, part: dom.OptionValuePart) -> None:
         if not part.value:
-            self.errors.append(f"{self.key}: {part.source}: empty value")
+            self._error(part, "empty value")
 
     def process_plugin(self, part: dom.PluginPart) -> None:
         self.markup_validator._validate_plugin(  # pylint:disable=protected-access
@@ -381,7 +384,7 @@ class _ValidationWalker(dom.NoopWalker):
 
     def process_return_value(self, part: dom.ReturnValuePart) -> None:
         if not part.name:
-            self.errors.append(f"{self.key}: {part.source}: empty return value name")
+            self._error(part, "empty return value name")
         self.markup_validator._validate_return_value(  # pylint:disable=protected-access
             part, self.key
         )
