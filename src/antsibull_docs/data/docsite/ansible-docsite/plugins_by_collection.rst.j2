@@ -80,6 +80,9 @@ Description
 Communication
 -------------
 
+{%   for forum in collection_communication.forums %}
+- Forum: `@{ forum.topic | rst_escape }@ <@{ forum.url | rst_escape }@>`__.
+{%   endfor %}
 {%   for matrix_room in collection_communication.matrix_rooms %}
 - Matrix room :literal:`@{ matrix_room.room | rst_escape(escape_ending_whitespace=true) }@`: `@{ matrix_room.topic | rst_escape }@ <https://matrix.to/#/@{ matrix_room.room | rst_escape }@>`__.
 {%   endfor %}
