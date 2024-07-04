@@ -14,9 +14,9 @@
 {%       else %}
           <p><code>@{ choice | antsibull_to_json | escape }@</code>:
 {%       endif %}
-          @{ desc | first | default('') | html_ify(role_entrypoint=role_entrypoint) | indent(10, blank=true) }@</p>
+          @{ desc | first | default('') | html_ify(role_entrypoint=role_entrypoint) | rst_indent(10, blank=true) }@</p>
 {%       for line in desc[1:] %}
-          <p>@{ line | html_ify(role_entrypoint=role_entrypoint) | indent(10, blank=true) }@</p>
+          <p>@{ line | html_ify(role_entrypoint=role_entrypoint) | rst_indent(10, blank=true) }@</p>
 {%       endfor %}
         </li>
 {%     endfor %}

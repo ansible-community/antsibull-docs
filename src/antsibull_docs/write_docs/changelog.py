@@ -64,18 +64,23 @@ async def write_changelog(
 
         changes = load_changes(config)
 
-        generator = ChangelogGenerator(config, changes)
+        if not changes.has_release:
+            changelog_contents = f"The changelog of {collection_name} is empty."
+        else:
+            generator = ChangelogGenerator(config, changes)
 
-        renderer = create_document_renderer(output_format.changelog_format)
-        generator.generate(renderer)
+            renderer = create_document_renderer(output_format.changelog_format)
+            generator.generate(renderer)
 
-        changelog_contents = renderer.render()
-        for warning in renderer.get_warnings():
-            flog.warning(warning)
+            changelog_contents = renderer.render()
+            for warning in renderer.get_warnings():
+                flog.warning(warning)
     except Exception as exc:  # pylint: disable=broad-exception-caught
         flog.warning(f"Error while processing changelog for {collection_name}: {exc}")
         changelog_contents = f"""
-The changelog of {collection_name} could not be rendered::
+The changelog of {collection_name} could not be rendered:
+
+.. code-block:: text
 
   {exc}
 """

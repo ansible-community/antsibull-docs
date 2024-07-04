@@ -10,7 +10,7 @@
 
 {% macro list_plugins(plugin_type) %}
 {%   for name, desc in plugin_maps[plugin_type].items() | sort %}
-* `@{ name }@ @{ plugin_type }@ <@{ get_plugin_filename(collection_name ~ '.' ~ name, plugin_type) }@>`_ -- @{ desc | rst_ify(plugin_fqcn=collection_name ~ '.' ~ name, plugin_type=plugin_type) | indent(width=2) }@
+* `@{ name }@ @{ plugin_type }@ <@{ get_plugin_filename(collection_name ~ '.' ~ name, plugin_type) }@>`_ -- @{ desc | rst_ify(plugin_fqcn=collection_name ~ '.' ~ name, plugin_type=plugin_type) | rst_indent(width=2) }@
 {%   endfor %}
 {% endmacro %}
 
@@ -37,7 +37,7 @@ Description
 **Author@{ 's' if (collection_authors | length) > 1 else '' }@:**
 
 {%     for author in collection_authors %}
-* @{ author | indent(2) }@
+* @{ author | rst_indent(2) }@
 {%     endfor %}
 {%   endif %}
 
