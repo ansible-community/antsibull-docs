@@ -276,13 +276,15 @@ def rst_indent(
     lines = (value + "\n").splitlines()
 
     # Remove trailing whitespace
-    lines = [line.lstrip() for line in lines]
+    stripped_lines = [line.lstrip() for line in lines]
 
     if blank:
-        rv = ("\n" + indent).join(lines)
+        rv = ("\n" + indent).join(stripped_lines)
     else:
-        rv = lines.pop(0)
-        if lines:
-            rv += "\n" + "\n".join(indent + line if line else line for line in lines)
+        rv = stripped_lines.pop(0)
+        if stripped_lines:
+            rv += "\n" + "\n".join(
+                indent + line if line else line for line in stripped_lines
+            )
 
     return indent + rv if first else rv
