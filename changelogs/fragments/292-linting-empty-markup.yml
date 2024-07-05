@@ -1,2 +1,0 @@
-minor_changes:
-  - "The collection docs linter now reports empty markup, like ``I()``, ``L(,https://example.com)`` (https://github.com/ansible-community/antsibull-docs/pull/292)."

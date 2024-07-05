@@ -1,4 +1,0 @@
-bugfixes:
-  - "Improve handling of empty markup parameters for RST (https://github.com/ansible-community/antsibull-docs/pull/290)."
-minor_changes:
-  - "Bump minimum dependency of ``antsibull-docs-parser`` to 1.0.2 or newer (https://github.com/ansible-community/antsibull-docs/pull/290)."

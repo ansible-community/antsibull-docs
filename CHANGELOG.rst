@@ -4,6 +4,30 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.12.0
+=======
+
+Release Summary
+---------------
+
+Bugfix and feature release.
+
+Minor Changes
+-------------
+
+- Allow to mention forums in the Communication section of collection links (https://github.com/ansible-community/antsibull-docs/pull/288).
+- Bump minimum dependency of ``antsibull-docs-parser`` to 1.0.2 or newer (https://github.com/ansible-community/antsibull-docs/pull/290).
+- The ``lint-collection-docs`` subcommand will now complain about unchanged default values in ``docs/docsite/links.yml`` taken from the `community collection template <https://github.com/ansible-collections/collection_template/>`__ (https://github.com/ansible-community/antsibull-docs/issues/273, https://github.com/ansible-community/antsibull-docs/pull/277).
+- The collection docs linter now reports empty markup, like ``I()``, ``L(,https://example.com)`` (https://github.com/ansible-community/antsibull-docs/pull/292).
+
+Bugfixes
+--------
+
+- Improve handling of empty markup parameters for RST (https://github.com/ansible-community/antsibull-docs/pull/290).
+- Improve rendering of empty or broken changelogs (https://github.com/ansible-community/antsibull-docs/pull/289).
+- Remove leading spaces in paragraphs to avoid unintended RST blockquotes (https://github.com/ansible-community/antsibull-docs/pull/289).
+- Render errors as code blocks of language ``text`` instead of using the default lexer (https://github.com/ansible-community/antsibull-docs/pull/289).
+
 v2.11.0
 =======
 
