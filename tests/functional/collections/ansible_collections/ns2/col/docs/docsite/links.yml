@@ -23,3 +23,7 @@ communication:
   mailing_lists:
     - topic: Ansible Project List
       url: https://groups.google.com/g/ansible-project
+      subscribe: ansible-project+subscribe@googlegroups.com?subject=subscribe
+  forums:
+    - topic: Ansible Forum
+      url: https://forum.ansible.com/

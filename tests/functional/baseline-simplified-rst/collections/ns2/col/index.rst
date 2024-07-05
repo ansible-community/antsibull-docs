@@ -40,6 +40,7 @@ Collection links
 Communication
 -------------
 
+- Forum: `Ansible Forum <https://forum.ansible.com/>`__.
 - Matrix room :literal:`#users:ansible.im`: `General usage and support questions <https://matrix.to/#/#users:ansible.im>`__.
 - IRC channel :literal:`#ansible` (Libera network):
   `General usage and support questions <https://web.libera.chat/?channel=#ansible>`__.
