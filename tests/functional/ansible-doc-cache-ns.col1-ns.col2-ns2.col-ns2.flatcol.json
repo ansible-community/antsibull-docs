@@ -1078,6 +1078,39 @@
    }
   },
   "lookup": {
+   "ns2.col.bar": {
+    "doc": {
+     "author": "Felix Fontein (@felixfontein)",
+     "collection": "ns2.col",
+     "description": [
+      "This one is private."
+     ],
+     "filename": "ansible_collections/ns2/col/plugins/lookup/bar.py",
+     "name": "bar",
+     "options": {
+      "_terms": {
+       "description": "Something",
+       "elements": "dict",
+       "required": true,
+       "type": "list"
+      }
+     },
+     "short_description": "Look up some bar",
+     "version_added": "1.0.0",
+     "version_added_collection": "ns2.col"
+    },
+    "examples": "\n- name: Look up!\n  ansible.builtin.debug:\n    msg: \"{{ lookup('ns2.col.bar', {}) }}\"\n",
+    "metadata": null,
+    "return": {
+     "_raw": {
+      "description": [
+       "The resulting stuff."
+      ],
+      "elements": "dict",
+      "type": "list"
+     }
+    }
+   },
    "ns2.col.foo": {
     "doc": {
      "author": "Felix Fontein (@felixfontein)",

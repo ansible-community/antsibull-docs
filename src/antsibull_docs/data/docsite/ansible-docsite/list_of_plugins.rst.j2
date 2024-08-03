@@ -41,5 +41,5 @@ Index of all @{ plugin_type | capitalize }@ Plugins
 {%   endfor %}
 
 {% else %}
-No {% if plugin_type == 'module' %}module{% elif plugin_type == 'role' %}role{% else %}@{ plugin_type }@ plugin{% endif %} found.
+No public {% if plugin_type == 'module' %}module{% elif plugin_type == 'role' %}role{% else %}@{ plugin_type }@ plugin{% endif %} found.
 {% endfor %}

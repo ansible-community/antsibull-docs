@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import os
+from collections.abc import Mapping
 
 from antsibull_core.venv import FakeVenvRunner, VenvRunner
 
@@ -89,6 +90,7 @@ class AnsibleCollectionMetadata:
     path: str
     version: str | None
     requires_ansible: str | None
+    private_plugins: Mapping[str, list[str]]  # mapping plugin_type to FQCNs
     docs_config: CollectionConfig
 
     def __init__(
@@ -97,10 +99,12 @@ class AnsibleCollectionMetadata:
         docs_config: CollectionConfig,
         version: str | None = None,
         requires_ansible: str | None = None,
+        private_plugins: Mapping[str, list[str]] | None = None,
     ):
         self.path = path
         self.version = version
         self.requires_ansible = requires_ansible
+        self.private_plugins = private_plugins or {}
         self.docs_config = docs_config
 
     def __repr__(self):
