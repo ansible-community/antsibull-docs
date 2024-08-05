@@ -19,11 +19,6 @@ from .plugin import PluginSchema
 from .positional import PositionalSchema
 from .role import RoleSchema
 
-# Ignore Unitialized attribute errors because BaseModel works some magic
-# to initialize the attributes when data is loaded into them.
-# pyre-ignore-all-errors[13]
-
-
 __all__ = (
     "ANSIBLE_DOC_SCHEMAS",
     "AnsibleDocSchema",

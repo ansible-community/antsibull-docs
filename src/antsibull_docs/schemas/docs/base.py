@@ -4,9 +4,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # SPDX-FileCopyrightText: 2020, Ansible Project
 
-# Ignore Unitialized attribute errors because BaseModel works some magic
-# to initialize the attributes when data is loaded into them.
-# pyre-ignore-all-errors[13]
 """
 Base schemas and supporting validator functions.
 
@@ -370,7 +367,7 @@ class BaseModel(p.BaseModel):
     """BaseModel that has our preferred default config."""
 
     # pydantic Config classes are pure datastructures with no builtin special data
-    Config = LocalConfig  # type: ignore[assignment]  # pyre-ignore[15]
+    Config = LocalConfig  # type: ignore[assignment]
 
 
 class DeprecationSchema(BaseModel):

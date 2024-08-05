@@ -13,10 +13,10 @@ from docutils import nodes
 
 
 # pylint: disable-next=too-many-ancestors
-class link_button(nodes.reference):  # pyre-ignore[11]
+class link_button(nodes.reference):
     def __init__(self, *args, link_external: bool = True, **kwargs):
         super().__init__(*args, **kwargs)
-        self["link_external"] = link_external  # pyre-ignore[16]
+        self["link_external"] = link_external
 
 
 def visit_link_button_html(self, node) -> None:

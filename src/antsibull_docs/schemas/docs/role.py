@@ -6,10 +6,6 @@
 # SPDX-FileCopyrightText: 2021, Ansible Project
 """Schemas for the role documentation data."""
 
-# Ignore Unitialized attribute errors because BaseModel works some magic
-# to initialize the attributes when data is loaded into them.
-# pyre-ignore-all-errors[13]
-
 import typing as t
 from collections.abc import Mapping
 

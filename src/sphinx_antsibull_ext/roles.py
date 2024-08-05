@@ -12,7 +12,7 @@ from __future__ import annotations
 import typing as t
 
 from docutils import nodes
-from docutils.utils import unescape  # pyre-ignore[21]
+from docutils.utils import unescape
 from sphinx import addnodes
 from sphinx.util import logging
 

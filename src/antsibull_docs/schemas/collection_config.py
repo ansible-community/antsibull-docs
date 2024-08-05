@@ -5,10 +5,6 @@
 # SPDX-FileCopyrightText: 2023, Ansible Project
 """Schemas for collection config files."""
 
-# Ignore Unitialized attribute errors because BaseModel works some magic
-# to initialize the attributes when data is loaded into them.
-# pyre-ignore-all-errors[13]
-
 from antsibull_docs._pydantic_compat import v1 as p
 
 

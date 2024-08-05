@@ -5,10 +5,6 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Schemas for the plugin DOCUMENTATION data."""
 
-# Ignore Unitialized attribute errors because BaseModel works some magic
-# to initialize the attributes when data is loaded into them.
-# pyre-ignore-all-errors[13]
-
 import re
 import typing as t
 

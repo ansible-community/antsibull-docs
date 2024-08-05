@@ -5,10 +5,6 @@
 # SPDX-FileCopyrightText: 2022, Ansible Project
 """Extended configuration file format."""
 
-# Ignore Unitialized attribute errors because BaseModel works some magic
-# to initialize the attributes when data is loaded into them.
-# pyre-ignore-all-errors[13]
-
 import pydantic as p
 from antsibull_core.schemas.context import AppContext as CoreAppContext
 from antsibull_core.schemas.validators import convert_bool
