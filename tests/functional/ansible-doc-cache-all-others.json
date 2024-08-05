@@ -765,7 +765,7 @@
       },
       "display_failed_stderr": {
        "default": false,
-       "description": "Toggle to control whether failed and unreachable tasks are displayed to STDERR (vs. STDOUT)",
+       "description": "Toggle to control whether failed and unreachable tasks are displayed to STDERR rather than STDOUT.",
        "env": [
         {
          "name": "ANSIBLE_DISPLAY_FAILED_STDERR"
@@ -784,7 +784,7 @@
       },
       "display_ok_hosts": {
        "default": true,
-       "description": "Toggle to control displaying 'ok' task/host results in a task",
+       "description": "Toggle to control displaying 'ok' task/host results in a task.",
        "env": [
         {
          "name": "ANSIBLE_DISPLAY_OK_HOSTS"
@@ -803,7 +803,7 @@
       },
       "display_skipped_hosts": {
        "default": true,
-       "description": "Toggle to control displaying skipped task/host results in a task",
+       "description": "Toggle to control displaying skipped task/host results in a task.",
        "env": [
         {
          "name": "ANSIBLE_DISPLAY_SKIPPED_HOSTS"
@@ -821,10 +821,10 @@
       "pretty_results": {
        "default": null,
        "description": [
-        "Configure the result format to be more readable",
-        "When O(result_format) is set to V(yaml) this option defaults to V(True), and defaults to V(False) when configured to V(json).",
-        "Setting this option to V(True) will force V(json) and V(yaml) results to always be pretty printed regardless of verbosity.",
-        "When set to V(True) and used with the V(yaml) result format, this option will modify module responses in an attempt to produce a more human friendly output at the expense of correctness, and should not be relied upon to aid in writing variable manipulations or conditionals. For correctness, set this option to V(False) or set O(result_format) to V(json)."
+        "Configure the result format to be more readable.",
+        "When O(result_format) is set to V(yaml) this option defaults to V(true), and defaults to V(false) when configured to V(json).",
+        "Setting this option to V(true) will force V(json) and V(yaml) results to always be pretty printed regardless of verbosity.",
+        "When set to V(true) and used with the V(yaml) result format, this option will modify module responses in an attempt to produce a more human friendly output at the expense of correctness, and should not be relied upon to aid in writing variable manipulations or conditionals. For correctness, set this option to V(false) or set O(result_format) to V(json)."
        ],
        "env": [
         {
@@ -871,7 +871,7 @@
       },
       "show_custom_stats": {
        "default": false,
-       "description": "This adds the custom stats set via the set_stats plugin to the play recap",
+       "description": "This adds the custom stats set via the set_stats plugin to the play recap.",
        "env": [
         {
          "name": "ANSIBLE_SHOW_CUSTOM_STATS"
@@ -888,7 +888,7 @@
       },
       "show_per_host_start": {
        "default": false,
-       "description": "This adds output that shows when a task is started to execute for each host",
+       "description": "This adds output that shows when a task starts to execute for each host.",
        "env": [
         {
          "name": "ANSIBLE_SHOW_PER_HOST_START"
@@ -907,7 +907,9 @@
       },
       "show_task_path_on_failure": {
        "default": false,
-       "description": "When a task fails, display the path to the file containing the failed task and the line number. This information is displayed automatically for every task when running with C(-vv) or greater verbosity.",
+       "description": [
+        "When a task fails, display the path to the file containing the failed task and the line number. This information is displayed automatically for every task when running with C(-vv) or greater verbosity."
+       ],
        "env": [
         {
          "name": "ANSIBLE_SHOW_TASK_PATH_ON_FAILURE"
@@ -1072,10 +1074,10 @@
       "pretty_results": {
        "default": null,
        "description": [
-        "Configure the result format to be more readable",
-        "When O(result_format) is set to V(yaml) this option defaults to V(True), and defaults to V(False) when configured to V(json).",
-        "Setting this option to V(True) will force V(json) and V(yaml) results to always be pretty printed regardless of verbosity.",
-        "When set to V(True) and used with the V(yaml) result format, this option will modify module responses in an attempt to produce a more human friendly output at the expense of correctness, and should not be relied upon to aid in writing variable manipulations or conditionals. For correctness, set this option to V(False) or set O(result_format) to V(json)."
+        "Configure the result format to be more readable.",
+        "When O(result_format) is set to V(yaml) this option defaults to V(true), and defaults to V(false) when configured to V(json).",
+        "Setting this option to V(true) will force V(json) and V(yaml) results to always be pretty printed regardless of verbosity.",
+        "When set to V(true) and used with the V(yaml) result format, this option will modify module responses in an attempt to produce a more human friendly output at the expense of correctness, and should not be relied upon to aid in writing variable manipulations or conditionals. For correctness, set this option to V(false) or set O(result_format) to V(json)."
        ],
        "env": [
         {
@@ -1253,7 +1255,7 @@
        "description": [
         "Pipelining reduces the number of connection operations required to execute a module on the remote server, by executing many Ansible modules without actual file transfers.",
         "This can result in a very significant performance improvement when enabled.",
-        "However this can conflict with privilege escalation (become). For example, when using sudo operations you must first disable 'requiretty' in the sudoers file for the target hosts, which is why this feature is disabled by default."
+        "However this can conflict with privilege escalation (C(become)). For example, when using sudo operations you must first disable C(requiretty) in the sudoers file for the target hosts, which is why this feature is disabled by default."
        ],
        "env": [
         {
@@ -2042,7 +2044,7 @@
        "description": [
         "Pipelining reduces the number of connection operations required to execute a module on the remote server, by executing many Ansible modules without actual file transfers.",
         "This can result in a very significant performance improvement when enabled.",
-        "However this can conflict with privilege escalation (become). For example, when using sudo operations you must first disable 'requiretty' in the sudoers file for the target hosts, which is why this feature is disabled by default."
+        "However this can conflict with privilege escalation (C(become)). For example, when using sudo operations you must first disable C(requiretty) in the sudoers file for the target hosts, which is why this feature is disabled by default."
        ],
        "env": [
         {
@@ -2381,7 +2383,7 @@
        "description": [
         "Pipelining reduces the number of connection operations required to execute a module on the remote server, by executing many Ansible modules without actual file transfers.",
         "This can result in a very significant performance improvement when enabled.",
-        "However this can conflict with privilege escalation (become). For example, when using sudo operations you must first disable 'requiretty' in the sudoers file for the target hosts, which is why this feature is disabled by default."
+        "However this can conflict with privilege escalation (C(become)). For example, when using sudo operations you must first disable C(requiretty) in the sudoers file for the target hosts, which is why this feature is disabled by default."
        ],
        "env": [
         {
@@ -3058,7 +3060,7 @@
        "description": [
         "Pipelining reduces the number of connection operations required to execute a module on the remote server, by executing many Ansible modules without actual file transfers.",
         "This can result in a very significant performance improvement when enabled.",
-        "However this can conflict with privilege escalation (become). For example, when using sudo operations you must first disable 'requiretty' in the sudoers file for the target hosts, which is why this feature is disabled by default."
+        "However this can conflict with privilege escalation (C(become)). For example, when using sudo operations you must first disable C(requiretty) in the sudoers file for the target hosts, which is why this feature is disabled by default."
        ],
        "env": [
         {
@@ -5202,7 +5204,7 @@
     "doc": {
      "collection": "ansible.builtin",
      "description": [
-      "Using Python's C(strftime) function, take a data formating string and a date/time to create a formated date."
+      "Using Python's C(strftime) function, take a data formating string and a date/time to create a formatted date."
      ],
      "filename": "/ansible/plugins/filter/strftime.yml",
      "name": "strftime",
@@ -5644,7 +5646,7 @@
     "doc": {
      "collection": "ansible.builtin",
      "description": [
-      "Use to generate namespeced Universal Unique ID."
+      "Use to generate namespaced Universal Unique ID."
      ],
      "filename": "/ansible/plugins/filter/to_uuid.yml",
      "name": "to_uuid",
@@ -6402,28 +6404,28 @@
         },
         "key": {
          "description": [
-          "The key from input dictionary used to generate groups"
+          "The key from input dictionary used to generate groups."
          ],
          "type": "str"
         },
         "parent_group": {
-         "description": "parent group for keyed group",
+         "description": "parent group for keyed group.",
          "type": "str"
         },
         "prefix": {
          "default": "",
-         "description": "A keyed group name will start with this prefix",
+         "description": "A keyed group name will start with this prefix.",
          "type": "str"
         },
         "separator": {
          "default": "_",
-         "description": "separator used to build the keyed group name",
+         "description": "separator used to build the keyed group name.",
          "type": "str"
         },
         "trailing_separator": {
          "default": true,
          "description": [
-          "Set this option to V(False) to omit the O(keyed_groups[].separator) after the host variable when the value is an empty string.",
+          "Set this option to V(false) to omit the O(keyed_groups[].separator) after the host variable when the value is an empty string.",
           "This option is mutually exclusive with O(keyed_groups[].default_value)."
          ],
          "type": "bool",
@@ -6436,10 +6438,10 @@
       "leading_separator": {
        "default": true,
        "description": [
-        "Use in conjunction with keyed_groups.",
+        "Use in conjunction with O(keyed_groups).",
         "By default, a keyed group that does not have a prefix or a separator provided will have a name that starts with an underscore.",
-        "This is because the default prefix is \"\" and the default separator is \"_\".",
-        "Set this option to False to omit the leading underscore (or other separator) if no prefix is given.",
+        "This is because the default prefix is V(\"\") and the default separator is V(\"_\").",
+        "Set this option to V(false) to omit the leading underscore (or other separator) if no prefix is given.",
         "If the group name is derived from a mapping the separator is still used to concatenate the items.",
         "To not use a separator in the group name at all, set the separator for the keyed group to an empty string instead."
        ],
@@ -6635,7 +6637,7 @@
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "# fmt: code\n\n### simple bash script\n\n   #!/usr/bin/env bash\n\n   if [ \"$1\" == \"--list\" ]; then\n   cat<<EOF\n   {\n     \"bash_hosts\": {\n       \"hosts\": [\n         \"myhost.domain.com\",\n         \"myhost2.domain.com\"\n       ],\n       \"vars\": {\n         \"host_test\": \"test-value\"\n       }\n     },\n     \"_meta\": {\n       \"hostvars\": {\n         \"myhost.domain.com\": {\n           \"host_specific_test_var\": \"test-value\"\n         }\n       }\n     }\n   }\n   EOF\n   elif [ \"$1\" == \"--host\" ]; then\n     # this should not normally be called by Ansible as we return _meta above\n     if [ \"$2\" == \"myhost.domain.com\" ]; then\n        echo '{\"_meta\": {hostvars\": {\"myhost.domain.com\": {\"host_specific-test_var\": \"test-value\"}}}}'\n     else\n        echo '{\"_meta\": {hostvars\": {}}}'\n     fi\n   else\n     echo \"Invalid option: use --list or --host <hostname>\"\n     exit 1\n   fi\n\n\n### python example with ini config\n\n    #!/usr/bin/env python\n    \"\"\"\n    # ansible_inventory.py\n    \"\"\"\n    import argparse\n    import json\n    import os.path\n    import sys\n    from configparser import ConfigParser\n    from inventories.custom import MyInventoryAPI\n\n    def load_config() -> ConfigParser:\n        cp = ConfigParser()\n        config_file = os.path.expanduser(\"~/.config/ansible_inventory_script.cfg\")\n        cp.read(config_file)\n        if not cp.has_option('DEFAULT', 'namespace'):\n            raise ValueError(\"Missing configuration option: DEFAULT -> namespace\")\n        return cp\n\n\n    def get_api_data(namespace: str, pretty=False) -> str:\n        \"\"\"\n        :param namespace: parameter for our custom api\n        :param pretty: Human redable JSON vs machine readable\n        :return: JSON string\n        \"\"\"\n        found_data = list(MyInventoryAPI(namespace))\n        hostvars = {}\n        data = { '_meta': { 'hostvars': {}},}\n\n        groups = found_data['groups'].keys()\n        for group in groups:\n            groups[group]['hosts'] = found_data[groups].get('host_list', [])\n            if group not in data:\n                data[group] = {}\n            data[group]['hosts'] = found_data[groups].get('host_list', [])\n            data[group]['vars'] = found_data[groups].get('info', [])\n            data[group]['children'] = found_data[group].get('subgroups', [])\n\n        for host_data in found_data['hosts']:\n            for name in host_data.items():\n                # turn info into vars\n                data['_meta'][name] = found_data[name].get('info', {})\n                # set ansible_host if possible\n                if 'address' in found_data[name]:\n                    data[name]['_meta']['ansible_host'] = found_data[name]['address']\n        data['_meta']['hostvars'] = hostvars\n\n        return json.dumps(data, indent=pretty)\n\n    if __name__ == '__main__':\n\n        arg_parser = argparse.ArgumentParser( description=__doc__, prog=__file__)\n        arg_parser.add_argument('--pretty', action='store_true', default=False, help=\"Pretty JSON\")\n        mandatory_options = arg_parser.add_mutually_exclusive_group()\n        mandatory_options.add_argument('--list', action='store', nargs=\"*\", help=\"Get inventory JSON from our API\")\n        mandatory_options.add_argument('--host', action='store',\n                                       help=\"Get variables for specific host, not used but kept for compatability\")\n\n        try:\n            config = load_config()\n            namespace = config.get('DEFAULT', 'namespace')\n\n            args = arg_parser.parse_args()\n            if args.host:\n                print('{\"_meta\":{}}')\n                sys.stderr.write('This script already provides _meta via --list, so this option is really ignored')\n            elif len(args.list) >= 0:\n                print(get_api_data(namespace, args.pretty))\n            else:\n                raise ValueError(\"Valid options are --list or --host <HOSTNAME>\")\n\n        except ValueError:\n            raise\n\n",
+    "examples": "# fmt: code\n\n### simple bash script\n\n   #!/usr/bin/env bash\n\n   if [ \"$1\" == \"--list\" ]; then\n   cat<<EOF\n   {\n     \"bash_hosts\": {\n       \"hosts\": [\n         \"myhost.domain.com\",\n         \"myhost2.domain.com\"\n       ],\n       \"vars\": {\n         \"host_test\": \"test-value\"\n       }\n     },\n     \"_meta\": {\n       \"hostvars\": {\n         \"myhost.domain.com\": {\n           \"host_specific_test_var\": \"test-value\"\n         }\n       }\n     }\n   }\n   EOF\n   elif [ \"$1\" == \"--host\" ]; then\n     # this should not normally be called by Ansible as we return _meta above\n     if [ \"$2\" == \"myhost.domain.com\" ]; then\n        echo '{\"_meta\": {hostvars\": {\"myhost.domain.com\": {\"host_specific-test_var\": \"test-value\"}}}}'\n     else\n        echo '{\"_meta\": {hostvars\": {}}}'\n     fi\n   else\n     echo \"Invalid option: use --list or --host <hostname>\"\n     exit 1\n   fi\n\n\n### python example with ini config\n\n    #!/usr/bin/env python\n    \"\"\"\n    # ansible_inventory.py\n    \"\"\"\n    import argparse\n    import json\n    import os.path\n    import sys\n    from configparser import ConfigParser\n    from inventories.custom import MyInventoryAPI\n\n    def load_config() -> ConfigParser:\n        cp = ConfigParser()\n        config_file = os.path.expanduser(\"~/.config/ansible_inventory_script.cfg\")\n        cp.read(config_file)\n        if not cp.has_option('DEFAULT', 'namespace'):\n            raise ValueError(\"Missing configuration option: DEFAULT -> namespace\")\n        return cp\n\n\n    def get_api_data(namespace: str, pretty=False) -> str:\n        \"\"\"\n        :param namespace: parameter for our custom api\n        :param pretty: Human redable JSON vs machine readable\n        :return: JSON string\n        \"\"\"\n        found_data = list(MyInventoryAPI(namespace))\n        hostvars = {}\n        data = { '_meta': { 'hostvars': {}},}\n\n        groups = found_data['groups'].keys()\n        for group in groups:\n            groups[group]['hosts'] = found_data[groups].get('host_list', [])\n            if group not in data:\n                data[group] = {}\n            data[group]['hosts'] = found_data[groups].get('host_list', [])\n            data[group]['vars'] = found_data[groups].get('info', [])\n            data[group]['children'] = found_data[group].get('subgroups', [])\n\n        for host_data in found_data['hosts']:\n            for name in host_data.items():\n                # turn info into vars\n                data['_meta'][name] = found_data[name].get('info', {})\n                # set ansible_host if possible\n                if 'address' in found_data[name]:\n                    data[name]['_meta']['ansible_host'] = found_data[name]['address']\n        data['_meta']['hostvars'] = hostvars\n\n        return json.dumps(data, indent=pretty)\n\n    if __name__ == '__main__':\n\n        arg_parser = argparse.ArgumentParser( description=__doc__, prog=__file__)\n        arg_parser.add_argument('--pretty', action='store_true', default=False, help=\"Pretty JSON\")\n        mandatory_options = arg_parser.add_mutually_exclusive_group()\n        mandatory_options.add_argument('--list', action='store', nargs=\"*\", help=\"Get inventory JSON from our API\")\n        mandatory_options.add_argument('--host', action='store',\n                                       help=\"Get variables for specific host, not used but kept for compatibility\")\n\n        try:\n            config = load_config()\n            namespace = config.get('DEFAULT', 'namespace')\n\n            args = arg_parser.parse_args()\n            if args.host:\n                print('{\"_meta\":{}}')\n                sys.stderr.write('This script already provides _meta via --list, so this option is really ignored')\n            elif len(args.list) >= 0:\n                print(get_api_data(namespace, args.pretty))\n            else:\n                raise ValueError(\"Valid options are --list or --host <HOSTNAME>\")\n\n        except ValueError:\n            raise\n\n",
     "metadata": null,
     "return": null
    },
@@ -7419,7 +7421,7 @@
      "author": "Ansible Core Team",
      "collection": "ansible.builtin",
      "description": [
-      "Retrieves the value of an Ansible configuration setting, resolving all sources, from defaults, ansible.cfg, envirionmnet, CLI, and variables, but not keywords.",
+      "Retrieves the value of an Ansible configuration setting, resolving all sources, from defaults, ansible.cfg, environment, CLI, and variables, but not keywords.",
       "The values returned assume the context of the current host or C(inventory_hostname).",
       "You can use C(ansible-config list) to see the global available settings, add C(-t all) to also show plugin options."
      ],
@@ -7623,7 +7625,7 @@
      "version_added": "0.9",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Basic usage\n  ansible.builtin.debug:\n    msg: \"'{{ lookup('ansible.builtin.env', 'HOME') }}' is the HOME environment variable.\"\n\n- name: Before 2.13, how to set default value if the variable is not defined.\n        This cannot distinguish between USR undefined and USR=''.\n  ansible.builtin.debug:\n    msg: \"{{ lookup('ansible.builtin.env', 'USR')|default('nobody', True) }} is the user.\"\n\n- name: Example how to set default value if the variable is not defined, ignores USR=''\n  ansible.builtin.debug:\n    msg: \"{{ lookup('ansible.builtin.env', 'USR', default='nobody') }} is the user.\"\n\n- name: Set default value to Undefined, if the variable is not defined\n  ansible.builtin.debug:\n    msg: \"{{ lookup('ansible.builtin.env', 'USR', default=Undefined) }} is the user.\"\n\n- name: Set default value to undef(), if the variable is not defined\n  ansible.builtin.debug:\n    msg: \"{{ lookup('ansible.builtin.env', 'USR', default=undef()) }} is the user.\"\n",
+    "examples": "\n- name: Basic usage\n  ansible.builtin.debug:\n    msg: \"'{{ lookup('ansible.builtin.env', 'HOME') }}' is the HOME environment variable.\"\n\n- name: Before 2.13, how to set default value if the variable is not defined\n  ansible.builtin.debug:\n    msg: \"Hello {{ lookup('ansible.builtin.env', 'UNDEFINED_VARIABLE') | default('World', True) }}\"\n\n- name: Example how to set default value if the variable is not defined\n  ansible.builtin.debug:\n    msg: \"Hello {{ lookup('ansible.builtin.env', 'UNDEFINED_VARIABLE', default='World') }}\"\n\n- name: Fail if the variable is not defined by setting default value to 'Undefined'\n  ansible.builtin.debug:\n    msg: \"Hello {{ lookup('ansible.builtin.env', 'UNDEFINED_VARIABLE', default=Undefined) }}\"\n\n- name: Fail if the variable is not defined by setting default value to 'undef()'\n  ansible.builtin.debug:\n    msg: \"Hello {{ lookup('ansible.builtin.env', 'UNDEFINED_VARIABLE', default=undef()) }}\"\n",
     "metadata": null,
     "return": {
      "_list": {
@@ -9058,7 +9060,7 @@
      "notes": [
       "The alias O(host) of the parameter O(name) is only available on Ansible 2.4 and newer.",
       "Since Ansible 2.4, the C(inventory_dir) variable is now set to V(None) instead of the 'global inventory source', because you can now have multiple sources.  An example was added that shows how to partially restore the previous behaviour.",
-      "Though this module does not change the remote host, we do provide 'changed' status as it can be useful for those trying to track inventory changes.",
+      "Though this module does not change the remote host, we do provide C(changed) status as it can be useful for those trying to track inventory changes.",
       "The hosts added will not bypass the C(--limit) from the command line, so both of those need to be in agreement to make them available as play targets. They are still available from hostvars and for delegation as a normal part of the inventory."
      ],
      "options": {
@@ -9126,18 +9128,18 @@
      "module": "apt",
      "notes": [
       "Three of the upgrade modes (V(full), V(safe) and its alias V(true)) required C(aptitude) up to 2.3, since 2.4 C(apt-get) is used as a fall-back.",
-      "In most cases, packages installed with apt will start newly installed services by default. Most distributions have mechanisms to avoid this. For example when installing Postgresql-9.5 in Debian 9, creating an executable shell script (/usr/sbin/policy-rc.d) that throws a return code of 101 will stop Postgresql 9.5 starting up after install. Remove the file or  its execute permission afterward.",
-      "The apt-get commandline supports implicit regex matches here but we do not because it can let typos through easier (If you typo C(foo) as C(fo) apt-get would install packages that have \"fo\" in their name with a warning and a prompt for the user. Since we don't have warnings and prompts before installing, we disallow this.Use an explicit fnmatch pattern if you want wildcarding)",
+      "In most cases, packages installed with I(apt) will start newly installed services by default. Most distributions have mechanisms to avoid this. For example when installing Postgresql-9.5 in Debian 9, creating an executable shell script (/usr/sbin/policy-rc.d) that throws a return code of 101 will stop Postgresql 9.5 starting up after install. Remove the file or its execute permission afterward.",
+      "The C(apt-get) commandline supports implicit regex matches here but we do not because it can let typos through easier (If you typo C(foo) as C(fo) apt-get would install packages that have \"fo\" in their name with a warning and a prompt for the user. Since there are no warnings and prompts before installing, we disallow this. Use an explicit fnmatch pattern if you want wildcarding).",
       "When used with a C(loop:) each package will be processed individually, it is much more efficient to pass the list directly to the O(name) option.",
       "When O(default_release) is used, an implicit priority of 990 is used. This is the same behavior as C(apt-get -t).",
       "When an exact version is specified, an implicit priority of 1001 is used.",
-      "If the interpreter can't import ``python-apt``/``python3-apt`` the module will check for it in system-owned interpreters as well. If the dependency can't be found, the module will attempt to install it. If the dependency is found or installed, the module will be respawned under the correct interpreter."
+      "If the interpreter can't import C(python-apt)/C(python3-apt) the module will check for it in system-owned interpreters as well. If the dependency can't be found, the module will attempt to install it. If the dependency is found or installed, the module will be respawned under the correct interpreter."
      ],
      "options": {
       "allow_change_held_packages": {
        "default": "no",
        "description": [
-        "Allows changing the version of a package which is on the apt hold list"
+        "Allows changing the version of a package which is on the apt hold list."
        ],
        "type": "bool",
        "version_added": "2.13",
@@ -9168,7 +9170,7 @@
        "default": "no",
        "description": [
         "Ignore if packages cannot be authenticated. This is useful for bootstrapping environments that manage their own apt-key setup.",
-        "O(allow_unauthenticated) is only supported with O(state): V(install)/V(present)"
+        "O(allow_unauthenticated) is only supported with O(state): V(install)/V(present)."
        ],
        "type": "bool",
        "version_added": "2.1",
@@ -9187,7 +9189,7 @@
        "default": "no",
        "description": [
         "If V(true), remove unused dependency packages for all module states except V(build-dep). It can also be used as the only option.",
-        "Previous to version 2.4, autoclean was also an alias for autoremove, now it is its own separate command. See documentation for further information."
+        "Previous to version 2.4, O(autoclean) was also an alias for O(autoremove), now it is its own separate command. See documentation for further information."
        ],
        "type": "bool",
        "version_added": "2.1",
@@ -9204,7 +9206,7 @@
       "clean": {
        "default": "no",
        "description": [
-        "Run the equivalent of C(apt-get clean) to clear out the local repository of retrieved package files. It removes everything but the lock file from /var/cache/apt/archives/ and /var/cache/apt/archives/partial/.",
+        "Run the equivalent of C(apt-get clean) to clear out the local repository of retrieved package files. It removes everything but the lock file from C(/var/cache/apt/archives/) and C(/var/cache/apt/archives/partial/).",
         "Can be run as part of the package installation (clean runs before install) or as a separate step."
        ],
        "type": "bool",
@@ -9214,7 +9216,7 @@
       "deb": {
        "description": [
         "Path to a .deb package on the remote machine.",
-        "If :// in the path, ansible will attempt to download deb before installing. (Version added 2.1)",
+        "If C(://) in the path, ansible will attempt to download deb before installing. (Version added 2.1)",
         "Requires the C(xz-utils) package to extract the control file of the deb package to install."
        ],
        "required": false,
@@ -9227,15 +9229,15 @@
         "default-release"
        ],
        "description": [
-        "Corresponds to the C(-t) option for I(apt) and sets pin priorities"
+        "Corresponds to the C(-t) option for I(apt) and sets pin priorities."
        ],
        "type": "str"
       },
       "dpkg_options": {
        "default": "force-confdef,force-confold",
        "description": [
-        "Add dpkg options to apt command. Defaults to '-o \"Dpkg::Options::=--force-confdef\" -o \"Dpkg::Options::=--force-confold\"'",
-        "Options should be supplied as comma separated list"
+        "Add C(dpkg) options to C(apt) command. Defaults to C(-o \"Dpkg::Options::=--force-confdef\" -o \"Dpkg::Options::=--force-confold\").",
+        "Options should be supplied as comma separated list."
        ],
        "type": "str"
       },
@@ -9254,9 +9256,9 @@
       "force": {
        "default": "no",
        "description": [
-        "Corresponds to the C(--force-yes) to I(apt-get) and implies O(allow_unauthenticated=yes) and O(allow_downgrade=yes)",
+        "Corresponds to the C(--force-yes) to C(apt-get) and implies O(allow_unauthenticated=yes) and O(allow_downgrade=yes).",
         "This option will disable checking both the packages' signatures and the certificates of the web servers they are downloaded from.",
-        "This option *is not* the equivalent of passing the C(-f) flag to I(apt-get) on the command line",
+        "This option *is not* the equivalent of passing the C(-f) flag to C(apt-get) on the command line.",
         "**This is a destructive operation with the potential to destroy your system, and it should almost never be used.** Please also see C(man apt-get) for more information."
        ],
        "type": "bool"
@@ -9264,7 +9266,7 @@
       "force_apt_get": {
        "default": "no",
        "description": [
-        "Force usage of apt-get instead of aptitude"
+        "Force usage of apt-get instead of aptitude."
        ],
        "type": "bool",
        "version_added": "2.4",
@@ -9275,7 +9277,7 @@
         "install-recommends"
        ],
        "description": [
-        "Corresponds to the C(--no-install-recommends) option for I(apt). V(true) installs recommended packages.  V(false) does not install recommended packages. By default, Ansible will use the same defaults as the operating system. Suggested packages are never installed."
+        "Corresponds to the C(--no-install-recommends) option for C(apt). V(true) installs recommended packages. V(false) does not install recommended packages. By default, Ansible will use the same defaults as the operating system. Suggested packages are never installed."
        ],
        "type": "bool"
       },
@@ -9313,10 +9315,10 @@
       "policy_rc_d": {
        "default": null,
        "description": [
-        "Force the exit code of /usr/sbin/policy-rc.d.",
-        "For example, if I(policy_rc_d=101) the installed package will not trigger a service start.",
-        "If /usr/sbin/policy-rc.d already exists, it is backed up and restored after the package installation.",
-        "If V(null), the /usr/sbin/policy-rc.d isn't created/changed."
+        "Force the exit code of C(/usr/sbin/policy-rc.d).",
+        "For example, if O(policy_rc_d=101) the installed package will not trigger a service start.",
+        "If C(/usr/sbin/policy-rc.d) already exists, it is backed up and restored after the package installation.",
+        "If V(null), the C(/usr/sbin/policy-rc.d) is not created/changed."
        ],
        "type": "int",
        "version_added": "2.8",
@@ -9402,7 +9404,7 @@
      "version_added": "0.0.2",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Install apache httpd  (state=present is optional)\n  ansible.builtin.apt:\n    name: apache2\n    state: present\n\n- name: Update repositories cache and install \"foo\" package\n  ansible.builtin.apt:\n    name: foo\n    update_cache: yes\n\n- name: Remove \"foo\" package\n  ansible.builtin.apt:\n    name: foo\n    state: absent\n\n- name: Install the package \"foo\"\n  ansible.builtin.apt:\n    name: foo\n\n- name: Install a list of packages\n  ansible.builtin.apt:\n    pkg:\n    - foo\n    - foo-tools\n\n- name: Install the version '1.00' of package \"foo\"\n  ansible.builtin.apt:\n    name: foo=1.00\n\n- name: Update the repository cache and update package \"nginx\" to latest version using default release squeeze-backport\n  ansible.builtin.apt:\n    name: nginx\n    state: latest\n    default_release: squeeze-backports\n    update_cache: yes\n\n- name: Install the version '1.18.0' of package \"nginx\" and allow potential downgrades\n  ansible.builtin.apt:\n    name: nginx=1.18.0\n    state: present\n    allow_downgrade: yes\n\n- name: Install zfsutils-linux with ensuring conflicted packages (e.g. zfs-fuse) will not be removed.\n  ansible.builtin.apt:\n    name: zfsutils-linux\n    state: latest\n    fail_on_autoremove: yes\n\n- name: Install latest version of \"openjdk-6-jdk\" ignoring \"install-recommends\"\n  ansible.builtin.apt:\n    name: openjdk-6-jdk\n    state: latest\n    install_recommends: no\n\n- name: Update all packages to their latest version\n  ansible.builtin.apt:\n    name: \"*\"\n    state: latest\n\n- name: Upgrade the OS (apt-get dist-upgrade)\n  ansible.builtin.apt:\n    upgrade: dist\n\n- name: Run the equivalent of \"apt-get update\" as a separate step\n  ansible.builtin.apt:\n    update_cache: yes\n\n- name: Only run \"update_cache=yes\" if the last one is more than 3600 seconds ago\n  ansible.builtin.apt:\n    update_cache: yes\n    cache_valid_time: 3600\n\n- name: Pass options to dpkg on run\n  ansible.builtin.apt:\n    upgrade: dist\n    update_cache: yes\n    dpkg_options: 'force-confold,force-confdef'\n\n- name: Install a .deb package\n  ansible.builtin.apt:\n    deb: /tmp/mypackage.deb\n\n- name: Install the build dependencies for package \"foo\"\n  ansible.builtin.apt:\n    pkg: foo\n    state: build-dep\n\n- name: Install a .deb package from the internet\n  ansible.builtin.apt:\n    deb: https://example.com/python-ppq_0.1-1_all.deb\n\n- name: Remove useless packages from the cache\n  ansible.builtin.apt:\n    autoclean: yes\n\n- name: Remove dependencies that are no longer required\n  ansible.builtin.apt:\n    autoremove: yes\n\n- name: Remove dependencies that are no longer required and purge their configuration files\n  ansible.builtin.apt:\n    autoremove: yes\n    purge: true\n\n- name: Run the equivalent of \"apt-get clean\" as a separate step\n  ansible.builtin.apt:\n    clean: yes\n",
+    "examples": "\n- name: Install apache httpd (state=present is optional)\n  ansible.builtin.apt:\n    name: apache2\n    state: present\n\n- name: Update repositories cache and install \"foo\" package\n  ansible.builtin.apt:\n    name: foo\n    update_cache: yes\n\n- name: Remove \"foo\" package\n  ansible.builtin.apt:\n    name: foo\n    state: absent\n\n- name: Install the package \"foo\"\n  ansible.builtin.apt:\n    name: foo\n\n- name: Install a list of packages\n  ansible.builtin.apt:\n    pkg:\n    - foo\n    - foo-tools\n\n- name: Install the version '1.00' of package \"foo\"\n  ansible.builtin.apt:\n    name: foo=1.00\n\n- name: Update the repository cache and update package \"nginx\" to latest version using default release squeeze-backport\n  ansible.builtin.apt:\n    name: nginx\n    state: latest\n    default_release: squeeze-backports\n    update_cache: yes\n\n- name: Install the version '1.18.0' of package \"nginx\" and allow potential downgrades\n  ansible.builtin.apt:\n    name: nginx=1.18.0\n    state: present\n    allow_downgrade: yes\n\n- name: Install zfsutils-linux with ensuring conflicted packages (e.g. zfs-fuse) will not be removed.\n  ansible.builtin.apt:\n    name: zfsutils-linux\n    state: latest\n    fail_on_autoremove: yes\n\n- name: Install latest version of \"openjdk-6-jdk\" ignoring \"install-recommends\"\n  ansible.builtin.apt:\n    name: openjdk-6-jdk\n    state: latest\n    install_recommends: no\n\n- name: Update all packages to their latest version\n  ansible.builtin.apt:\n    name: \"*\"\n    state: latest\n\n- name: Upgrade the OS (apt-get dist-upgrade)\n  ansible.builtin.apt:\n    upgrade: dist\n\n- name: Run the equivalent of \"apt-get update\" as a separate step\n  ansible.builtin.apt:\n    update_cache: yes\n\n- name: Only run \"update_cache=yes\" if the last one is more than 3600 seconds ago\n  ansible.builtin.apt:\n    update_cache: yes\n    cache_valid_time: 3600\n\n- name: Pass options to dpkg on run\n  ansible.builtin.apt:\n    upgrade: dist\n    update_cache: yes\n    dpkg_options: 'force-confold,force-confdef'\n\n- name: Install a .deb package\n  ansible.builtin.apt:\n    deb: /tmp/mypackage.deb\n\n- name: Install the build dependencies for package \"foo\"\n  ansible.builtin.apt:\n    pkg: foo\n    state: build-dep\n\n- name: Install a .deb package from the internet\n  ansible.builtin.apt:\n    deb: https://example.com/python-ppq_0.1-1_all.deb\n\n- name: Remove useless packages from the cache\n  ansible.builtin.apt:\n    autoclean: yes\n\n- name: Remove dependencies that are no longer required\n  ansible.builtin.apt:\n    autoremove: yes\n\n- name: Remove dependencies that are no longer required and purge their configuration files\n  ansible.builtin.apt:\n    autoremove: yes\n    purge: true\n\n- name: Run the equivalent of \"apt-get clean\" as a separate step\n  ansible.builtin.apt:\n    clean: yes\n",
     "metadata": null,
     "return": {
      "cache_update_time": {
@@ -9459,11 +9461,11 @@
      "has_action": false,
      "module": "apt_key",
      "notes": [
-      "The apt-key command used by this module has been deprecated. See the L(Debian wiki,https://wiki.debian.org/DebianRepository/UseThirdParty) for details. This module is kept for backwards compatibility for systems that still use apt-key as the main way to manage apt repository keys.",
+      "The C(apt-key) command used by this module has been deprecated. See the L(Debian wiki,https://wiki.debian.org/DebianRepository/UseThirdParty) for details. This module is kept for backwards compatibility for systems that still use C(apt-key) as the main way to manage apt repository keys.",
       "As a sanity check, downloaded key id must match the one specified.",
       "Use full fingerprint (40 characters) key ids to avoid key collisions. To generate a full-fingerprint imported key: C(apt-key adv --list-public-keys --with-fingerprint --with-colons).",
-      "If you specify both the key id and the URL with O(state=present), the task can verify or add the key as needed.",
-      "Adding a new key requires an apt cache update (e.g. using the M(ansible.builtin.apt) module's update_cache option)."
+      "If you specify both the key O(id) and the O(url) with O(state=present), the task can verify or add the key as needed.",
+      "Adding a new key requires an apt cache update (e.g. using the M(ansible.builtin.apt) module's C(update_cache) option)."
      ],
      "options": {
       "data": {
@@ -9482,7 +9484,7 @@
        "description": [
         "The identifier of the key.",
         "Including this allows check mode to correctly report the changed state.",
-        "If specifying a subkey's id be aware that apt-key does not understand how to remove keys via a subkey id.  Specify the primary key's id instead.",
+        "If specifying a subkey's id be aware that apt-key does not understand how to remove keys via a subkey id. Specify the primary key's id instead.",
         "This parameter is required when O(state) is set to V(absent)."
        ],
        "type": "str"
@@ -9632,7 +9634,7 @@
       },
       "filename": {
        "description": [
-        "Sets the name of the source list file in sources.list.d. Defaults to a file name based on the repository source url. The .list extension will be automatically added."
+        "Sets the name of the source list file in C(sources.list.d). Defaults to a file name based on the repository source url. The C(.list) extension will be automatically added."
        ],
        "type": "str",
        "version_added": "2.1",
@@ -9649,7 +9651,7 @@
       },
       "mode": {
        "description": [
-        "The octal mode for newly created files in sources.list.d.",
+        "The octal mode for newly created files in C(sources.list.d).",
         "Default is what system uses (probably 0644)."
        ],
        "type": "raw",
@@ -9680,7 +9682,7 @@
        ],
        "default": "yes",
        "description": [
-        "Run the equivalent of C(apt-get update) when a change occurs.  Cache updates are run after making changes."
+        "Run the equivalent of C(apt-get update) when a change occurs. Cache updates are run after making changes."
        ],
        "type": "bool"
       },
@@ -9821,8 +9823,8 @@
        ],
        "description": [
         "The attributes the resulting filesystem object should have.",
-        "To get supported flags look at the man page for I(chattr) on the target system.",
-        "This string should contain the attributes in the same order as the one displayed by I(lsattr).",
+        "To get supported flags look at the man page for C(chattr) on the target system.",
+        "This string should contain the attributes in the same order as the one displayed by C(lsattr).",
         "The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string."
        ],
        "type": "str",
@@ -9862,7 +9864,7 @@
       },
       "group": {
        "description": [
-        "Name of the group that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the group that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
        ],
        "type": "str"
@@ -9879,7 +9881,7 @@
       "mode": {
        "description": [
         "The permissions the resulting filesystem object should have.",
-        "For those used to I(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.",
+        "For those used to C(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.",
         "Giving Ansible a number without following either of these rules will end up with a decimal number which will have unexpected results.",
         "As of Ansible 1.8, the mode may be specified as a symbolic mode (for example, V(u+rwx) or V(u=rw,g=r,o=r)).",
         "If O(mode) is not specified and the destination filesystem object B(does not) exist, the default C(umask) on the system will be used when setting the mode for the newly created filesystem object.",
@@ -9890,7 +9892,7 @@
       },
       "owner": {
        "description": [
-        "Name of the user that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
         "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
        ],
@@ -10288,8 +10290,8 @@
        ],
        "description": [
         "The attributes the resulting filesystem object should have.",
-        "To get supported flags look at the man page for I(chattr) on the target system.",
-        "This string should contain the attributes in the same order as the one displayed by I(lsattr).",
+        "To get supported flags look at the man page for C(chattr) on the target system.",
+        "This string should contain the attributes in the same order as the one displayed by C(lsattr).",
         "The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string."
        ],
        "type": "str",
@@ -10323,30 +10325,21 @@
       },
       "group": {
        "description": [
-        "Name of the group that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the group that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
        ],
        "type": "str"
       },
       "insertafter": {
-       "choices": [
-        "EOF",
-        "*regex*"
-       ],
-       "default": "EOF",
        "description": [
         "If specified and no begin/ending O(marker) lines are found, the block will be inserted after the last match of specified regular expression.",
         "A special value is available; V(EOF) for inserting the block at the end of the file.",
-        "If specified regular expression has no matches, V(EOF) will be used instead.",
+        "If specified regular expression has no matches or no value is passed, V(EOF) will be used instead.",
         "The presence of the multiline flag (?m) in the regular expression controls whether the match is done line by line or with multiple lines. This behaviour was added in ansible-core 2.14."
        ],
        "type": "str"
       },
       "insertbefore": {
-       "choices": [
-        "BOF",
-        "*regex*"
-       ],
        "description": [
         "If specified and no begin/ending O(marker) lines are found, the block will be inserted before the last match of specified regular expression.",
         "A special value is available; V(BOF) for inserting the block at the beginning of the file.",
@@ -10388,7 +10381,7 @@
       "mode": {
        "description": [
         "The permissions the resulting filesystem object should have.",
-        "For those used to I(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.",
+        "For those used to C(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.",
         "Giving Ansible a number without following either of these rules will end up with a decimal number which will have unexpected results.",
         "As of Ansible 1.8, the mode may be specified as a symbolic mode (for example, V(u+rwx) or V(u=rw,g=r,o=r)).",
         "If O(mode) is not specified and the destination filesystem object B(does not) exist, the default C(umask) on the system will be used when setting the mode for the newly created filesystem object.",
@@ -10399,7 +10392,7 @@
       },
       "owner": {
        "description": [
-        "Name of the user that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
         "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
        ],
@@ -10485,7 +10478,7 @@
       "validate": {
        "description": [
         "The validation command to run before copying the updated file into the final destination.",
-        "A temporary file path is used to validate, passed in through '%s' which must be present as in the examples below.",
+        "A temporary file path is used to validate, passed in through C(%s) which must be present as in the examples below.",
         "Also, the command is passed securely so shell features such as expansion and pipes will not work.",
         "For an example on how to handle more complex validation than what this option provides, see R(handling complex validation,complex_configuration_validation)."
        ],
@@ -10796,8 +10789,8 @@
        ],
        "description": [
         "The attributes the resulting filesystem object should have.",
-        "To get supported flags look at the man page for I(chattr) on the target system.",
-        "This string should contain the attributes in the same order as the one displayed by I(lsattr).",
+        "To get supported flags look at the man page for C(chattr) on the target system.",
+        "This string should contain the attributes in the same order as the one displayed by C(lsattr).",
         "The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string."
        ],
        "type": "str",
@@ -10885,7 +10878,7 @@
       },
       "group": {
        "description": [
-        "Name of the group that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the group that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
        ],
        "type": "str"
@@ -10915,7 +10908,7 @@
       },
       "owner": {
        "description": [
-        "Name of the user that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
         "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
        ],
@@ -10988,7 +10981,7 @@
       "validate": {
        "description": [
         "The validation command to run before copying the updated file into the final destination.",
-        "A temporary file path is used to validate, passed in through '%s' which must be present as in the examples below.",
+        "A temporary file path is used to validate, passed in through C(%s) which must be present as in the examples below.",
         "Also, the command is passed securely so shell features such as expansion and pipes will not work.",
         "For an example on how to handle more complex validation than what this option provides, see R(handling complex validation,complex_configuration_validation)."
        ],
@@ -11131,6 +11124,9 @@
      "filename": "/ansible/modules/cron.py",
      "has_action": false,
      "module": "cron",
+     "notes": [
+      "If you are experiencing permissions issues with cron and MacOS, you should see the official MacOS documentation for further information."
+     ],
      "options": {
       "backup": {
        "default": false,
@@ -12867,8 +12863,8 @@
        ],
        "description": [
         "The attributes the resulting filesystem object should have.",
-        "To get supported flags look at the man page for I(chattr) on the target system.",
-        "This string should contain the attributes in the same order as the one displayed by I(lsattr).",
+        "To get supported flags look at the man page for C(chattr) on the target system.",
+        "This string should contain the attributes in the same order as the one displayed by C(lsattr).",
         "The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string."
        ],
        "type": "str",
@@ -12896,7 +12892,7 @@
       },
       "group": {
        "description": [
-        "Name of the group that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the group that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
        ],
        "type": "str"
@@ -12904,7 +12900,7 @@
       "mode": {
        "description": [
         "The permissions the resulting filesystem object should have.",
-        "For those used to I(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.",
+        "For those used to C(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.",
         "Giving Ansible a number without following either of these rules will end up with a decimal number which will have unexpected results.",
         "As of Ansible 1.8, the mode may be specified as a symbolic mode (for example, V(u+rwx) or V(u=rw,g=r,o=r)).",
         "If O(mode) is not specified and the destination filesystem object B(does not) exist, the default C(umask) on the system will be used when setting the mode for the newly created filesystem object.",
@@ -12935,7 +12931,7 @@
       },
       "owner": {
        "description": [
-        "Name of the user that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
         "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
        ],
@@ -13232,9 +13228,10 @@
         "path"
        ],
        "description": [
-        "List of paths of directories to search. All paths must be fully qualified."
+        "List of paths of directories to search. All paths must be fully qualified.",
+        "From ansible-core 2.18 and onwards, the data type has changed from C(str) to C(path)."
        ],
-       "elements": "str",
+       "elements": "path",
        "required": true,
        "type": "list"
       },
@@ -13465,8 +13462,8 @@
        ],
        "description": [
         "The attributes the resulting filesystem object should have.",
-        "To get supported flags look at the man page for I(chattr) on the target system.",
-        "This string should contain the attributes in the same order as the one displayed by I(lsattr).",
+        "To get supported flags look at the man page for C(chattr) on the target system.",
+        "This string should contain the attributes in the same order as the one displayed by C(lsattr).",
         "The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string."
        ],
        "type": "str",
@@ -13566,7 +13563,7 @@
       },
       "group": {
        "description": [
-        "Name of the group that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the group that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
        ],
        "type": "str"
@@ -13592,7 +13589,7 @@
       "mode": {
        "description": [
         "The permissions the resulting filesystem object should have.",
-        "For those used to I(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.",
+        "For those used to C(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.",
         "Giving Ansible a number without following either of these rules will end up with a decimal number which will have unexpected results.",
         "As of Ansible 1.8, the mode may be specified as a symbolic mode (for example, V(u+rwx) or V(u=rw,g=r,o=r)).",
         "If O(mode) is not specified and the destination filesystem object B(does not) exist, the default C(umask) on the system will be used when setting the mode for the newly created filesystem object.",
@@ -13603,7 +13600,7 @@
       },
       "owner": {
        "description": [
-        "Name of the user that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
         "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
        ],
@@ -14244,7 +14241,7 @@
      "version_added": "0.0.1",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Git checkout\n  ansible.builtin.git:\n    repo: 'https://foosball.example.org/path/to/repo.git'\n    dest: /srv/checkout\n    version: release-0.22\n\n- name: Read-write git checkout from github\n  ansible.builtin.git:\n    repo: git@github.com:mylogin/hello.git\n    dest: /home/mylogin/hello\n\n- name: Just ensuring the repo checkout exists\n  ansible.builtin.git:\n    repo: 'https://foosball.example.org/path/to/repo.git'\n    dest: /srv/checkout\n    update: no\n\n- name: Just get information about the repository whether or not it has already been cloned locally\n  ansible.builtin.git:\n    repo: 'https://foosball.example.org/path/to/repo.git'\n    dest: /srv/checkout\n    clone: no\n    update: no\n\n- name: Checkout a github repo and use refspec to fetch all pull requests\n  ansible.builtin.git:\n    repo: https://github.com/ansible/ansible-examples.git\n    dest: /src/ansible-examples\n    refspec: '+refs/pull/*:refs/heads/*'\n\n- name: Create git archive from repo\n  ansible.builtin.git:\n    repo: https://github.com/ansible/ansible-examples.git\n    dest: /src/ansible-examples\n    archive: /tmp/ansible-examples.zip\n\n- name: Clone a repo with separate git directory\n  ansible.builtin.git:\n    repo: https://github.com/ansible/ansible-examples.git\n    dest: /src/ansible-examples\n    separate_git_dir: /src/ansible-examples.git\n\n- name: Example clone of a single branch\n  ansible.builtin.git:\n    repo: https://github.com/ansible/ansible-examples.git\n    dest: /src/ansible-examples\n    single_branch: yes\n    version: master\n\n- name: Avoid hanging when http(s) password is missing\n  ansible.builtin.git:\n    repo: https://github.com/ansible/could-be-a-private-repo\n    dest: /src/from-private-repo\n  environment:\n    GIT_TERMINAL_PROMPT: 0 # reports \"terminal prompts disabled\" on missing password\n    # or GIT_ASKPASS: /bin/true # for git before version 2.3.0, reports \"Authentication failed\" on missing password\n",
+    "examples": "\n- name: Git checkout\n  ansible.builtin.git:\n    repo: 'https://github.com/ansible/ansible.git'\n    dest: /tmp/checkout\n    version: release-0.22\n\n- name: Read-write git checkout from github\n  ansible.builtin.git:\n    repo: git@github.com:ansible/ansible.git\n    dest: /tmp/checkout\n\n- name: Just ensuring the repo checkout exists\n  ansible.builtin.git:\n    repo: 'https://github.com/ansible/ansible.git'\n    dest: /tmp/checkout\n    update: no\n\n- name: Just get information about the repository whether or not it has already been cloned locally\n  ansible.builtin.git:\n    repo: git@github.com:ansible/ansible.git\n    dest: /tmp/checkout\n    clone: no\n    update: no\n\n- name: Checkout a github repo and use refspec to fetch all pull requests\n  ansible.builtin.git:\n    repo: 'https://github.com/ansible/ansible.git'\n    dest: /tmp/checkout\n    refspec: '+refs/pull/*:refs/heads/*'\n\n- name: Create git archive from repo\n  ansible.builtin.git:\n    repo: git@github.com:ansible/ansible.git\n    dest: /tmp/checkout\n    archive: /tmp/ansible.zip\n\n- name: Clone a repo with separate git directory\n  ansible.builtin.git:\n    repo: 'https://github.com/ansible/ansible.git'\n    dest: /tmp/checkout\n    separate_git_dir: /tmp/repo\n\n- name: Example clone of a single branch\n  ansible.builtin.git:\n    repo: git@github.com:ansible/ansible.git\n    dest: /tmp/checkout\n    single_branch: yes\n    version: master\n\n- name: Avoid hanging when http(s) password is missing\n  ansible.builtin.git:\n    repo: 'https://github.com/ansible/ansible.git'\n    dest: /tmp/checkout\n  environment:\n    GIT_TERMINAL_PROMPT: 0 # reports \"terminal prompts disabled\" on missing password\n    # or GIT_ASKPASS: /bin/true # for git before version 2.3.0, reports \"Authentication failed\" on missing password\n",
     "metadata": null,
     "return": {
      "after": {
@@ -14329,6 +14326,28 @@
         "Optional I(GID) to set for the group."
        ],
        "type": "int"
+      },
+      "gid_max": {
+       "description": [
+        "Sets the GID_MAX value for group creation.",
+        "Overwrites /etc/login.defs default value.",
+        "Currently supported on Linux. Does nothing when used with other platforms.",
+        "Requires O(local) is omitted or V(False)."
+       ],
+       "type": "int",
+       "version_added": "2.18",
+       "version_added_collection": "ansible.builtin"
+      },
+      "gid_min": {
+       "description": [
+        "Sets the GID_MIN value for group creation.",
+        "Overwrites /etc/login.defs default value.",
+        "Currently supported on Linux. Does nothing when used with other platforms.",
+        "Requires O(local) is omitted or V(False)."
+       ],
+       "type": "int",
+       "version_added": "2.18",
+       "version_added_collection": "ansible.builtin"
       },
       "local": {
        "default": false,
@@ -16242,8 +16261,8 @@
        ],
        "description": [
         "The attributes the resulting filesystem object should have.",
-        "To get supported flags look at the man page for I(chattr) on the target system.",
-        "This string should contain the attributes in the same order as the one displayed by I(lsattr).",
+        "To get supported flags look at the man page for C(chattr) on the target system.",
+        "This string should contain the attributes in the same order as the one displayed by C(lsattr).",
         "The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string."
        ],
        "type": "str",
@@ -16291,23 +16310,18 @@
       },
       "group": {
        "description": [
-        "Name of the group that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the group that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
        ],
        "type": "str"
       },
       "insertafter": {
-       "choices": [
-        "EOF",
-        "*regex*"
-       ],
-       "default": "EOF",
        "description": [
         "Used with O(state=present).",
         "If specified, the line will be inserted after the last match of specified regular expression.",
         "If the first match is required, use(firstmatch=yes).",
         "A special value is available; V(EOF) for inserting the line at the end of the file.",
-        "If specified regular expression has no matches, EOF will be used instead.",
+        "If specified regular expression has no matches or no value is passed, V(EOF) will be used instead.",
         "If O(insertbefore) is set, default value V(EOF) will be ignored.",
         "If regular expressions are passed to both O(regexp) and O(insertafter), O(insertafter) is only honored if no match for O(regexp) is found.",
         "May not be used with O(backrefs) or O(insertbefore)."
@@ -16315,10 +16329,6 @@
        "type": "str"
       },
       "insertbefore": {
-       "choices": [
-        "BOF",
-        "*regex*"
-       ],
        "description": [
         "Used with O(state=present).",
         "If specified, the line will be inserted before the last match of specified regular expression.",
@@ -16346,7 +16356,7 @@
       "mode": {
        "description": [
         "The permissions the resulting filesystem object should have.",
-        "For those used to I(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.",
+        "For those used to C(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.",
         "Giving Ansible a number without following either of these rules will end up with a decimal number which will have unexpected results.",
         "As of Ansible 1.8, the mode may be specified as a symbolic mode (for example, V(u+rwx) or V(u=rw,g=r,o=r)).",
         "If O(mode) is not specified and the destination filesystem object B(does not) exist, the default C(umask) on the system will be used when setting the mode for the newly created filesystem object.",
@@ -16357,7 +16367,7 @@
       },
       "owner": {
        "description": [
-        "Name of the user that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
         "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
        ],
@@ -16460,7 +16470,7 @@
       "validate": {
        "description": [
         "The validation command to run before copying the updated file into the final destination.",
-        "A temporary file path is used to validate, passed in through '%s' which must be present as in the examples below.",
+        "A temporary file path is used to validate, passed in through C(%s) which must be present as in the examples below.",
         "Also, the command is passed securely so shell features such as expansion and pipes will not work.",
         "For an example on how to handle more complex validation than what this option provides, see R(handling complex validation,complex_configuration_validation)."
        ],
@@ -16776,7 +16786,7 @@
         "The V(portage) and V(pkg) options were added in version 2.8.",
         "The V(apk) option was added in version 2.11.",
         "The V(pkg_info)' option was added in version 2.13.",
-        "Aliases were added in 2.18, to support using C(auto={{ansible_facts['pkg_mgr']}})"
+        "Aliases were added in 2.18, to support using C(manager={{ansible_facts['pkg_mgr']}})"
        ],
        "elements": "str",
        "type": "list"
@@ -17550,8 +17560,8 @@
        ],
        "description": [
         "The attributes the resulting filesystem object should have.",
-        "To get supported flags look at the man page for I(chattr) on the target system.",
-        "This string should contain the attributes in the same order as the one displayed by I(lsattr).",
+        "To get supported flags look at the man page for C(chattr) on the target system.",
+        "This string should contain the attributes in the same order as the one displayed by C(lsattr).",
         "The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string."
        ],
        "type": "str",
@@ -17588,7 +17598,7 @@
       },
       "group": {
        "description": [
-        "Name of the group that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the group that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
        ],
        "type": "str"
@@ -17596,7 +17606,7 @@
       "mode": {
        "description": [
         "The permissions the resulting filesystem object should have.",
-        "For those used to I(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.",
+        "For those used to C(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.",
         "Giving Ansible a number without following either of these rules will end up with a decimal number which will have unexpected results.",
         "As of Ansible 1.8, the mode may be specified as a symbolic mode (for example, V(u+rwx) or V(u=rw,g=r,o=r)).",
         "If O(mode) is not specified and the destination filesystem object B(does not) exist, the default C(umask) on the system will be used when setting the mode for the newly created filesystem object.",
@@ -17605,15 +17615,9 @@
        ],
        "type": "raw"
       },
-      "others": {
-       "description": [
-        "All arguments accepted by the M(ansible.builtin.file) module also work here."
-       ],
-       "type": "str"
-      },
       "owner": {
        "description": [
-        "Name of the user that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
         "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
        ],
@@ -17699,7 +17703,7 @@
       "validate": {
        "description": [
         "The validation command to run before copying the updated file into the final destination.",
-        "A temporary file path is used to validate, passed in through '%s' which must be present as in the examples below.",
+        "A temporary file path is used to validate, passed in through C(%s) which must be present as in the examples below.",
         "Also, the command is passed securely so shell features such as expansion and pipes will not work.",
         "For an example on how to handle more complex validation than what this option provides, see R(handling complex validation,complex_configuration_validation)."
        ],
@@ -17983,7 +17987,7 @@
       "enabled": {
        "description": [
         "Whether the service should start on boot.",
-        "B(At least one of state and enabled are required.)"
+        "At least one of O(state) and O(enabled) are required."
        ],
        "type": "bool"
       },
@@ -17996,7 +18000,7 @@
       },
       "pattern": {
        "description": [
-        "If the service does not respond to the status command, name a substring to look for as would be found in the output of the I(ps) command as a stand-in for a status result.",
+        "If the service does not respond to the status command, name a substring to look for as would be found in the output of the C(ps) command as a stand-in for a status result.",
         "If the string is found, the service will be assumed to be started.",
         "While using remote hosts with systemd this setting will be ignored."
        ],
@@ -18034,8 +18038,8 @@
         "V(started)/V(stopped) are idempotent actions that will not run commands unless necessary.",
         "V(restarted) will always bounce the service.",
         "V(reloaded) will always reload.",
-        "B(At least one of state and enabled are required.)",
-        "Note that reloaded will start the service if it is not already started, even if your chosen init system wouldn't normally."
+        "At least one of O(state) and O(enabled) are required.",
+        "Note that V(reloaded) will start the service if it is not already started, even if your chosen init system wouldn't normally."
        ],
        "type": "str"
       },
@@ -18043,7 +18047,7 @@
        "default": "auto",
        "description": [
         "The service module actually uses system specific modules, normally through auto detection, this setting can force a specific module.",
-        "Normally it uses the value of the 'ansible_service_mgr' fact and falls back to the old 'service' module when none matching is found.",
+        "Normally it uses the value of the C(ansible_service_mgr) fact and falls back to the C(ansible.legacy.service) module when none matching is found.",
         "The 'old service module' still uses autodetection and in no way does it correspond to the C(service) command."
        ],
        "type": "str",
@@ -18387,7 +18391,7 @@
       "per_host": {
        "default": false,
        "description": [
-        "whether the stats are per host or for all hosts in the run."
+        "Whether the stats are per host or for all hosts in the run."
        ],
        "type": "bool"
       }
@@ -18786,7 +18790,7 @@
      "author": "Bruce Pennypacker (@bpennypacker)",
      "collection": "ansible.builtin",
      "description": [
-      "Retrieves facts for a file similar to the Linux/Unix 'stat' command.",
+      "Retrieves facts for a file similar to the Linux/Unix C(stat) command.",
       "For Windows targets, use the M(ansible.windows.win_stat) module instead."
      ],
      "filename": "/ansible/modules/stat.py",
@@ -18853,7 +18857,7 @@
        ],
        "default": true,
        "description": [
-        "Use file magic and return data about the nature of the file. this uses the 'file' utility found on most Linux/Unix systems.",
+        "Use file magic and return data about the nature of the file. This uses the C(file) utility found on most Linux/Unix systems.",
         "This will add both RV(stat.mimetype) and RV(stat.charset) fields to the return, if possible.",
         "In Ansible 2.3 this option changed from O(mime) to O(get_mime) and the default changed to V(true)."
        ],
@@ -19239,7 +19243,7 @@
       "in_place": {
        "default": "no",
        "description": [
-        "If the directory exists, then the working copy will be checked-out over-the-top using svn checkout --force; if force is specified then existing files with different content are reverted."
+        "If the directory exists, then the working copy will be checked-out over-the-top using C(svn checkout --force); if force is specified then existing files with different content are reverted."
        ],
        "type": "bool",
        "version_added": "2.6",
@@ -19354,7 +19358,7 @@
       "Before 2.4 you always required O(name).",
       "Globs are not supported in name, in other words, C(postgres*.service).",
       "The service names might vary by specific OS/distribution.",
-      "The order of execution when having multiple properties is to first enable/disable, then mask/unmask and then deal with the service state. It has been reported that systemctl can behave differently depending on the order of operations if you do the same manually."
+      "The order of execution when having multiple properties is to first enable/disable, then mask/unmask and then deal with the service state. It has been reported that C(systemctl) can behave differently depending on the order of operations if you do the same manually."
      ],
      "options": {
       "daemon_reexec": {
@@ -19375,14 +19379,14 @@
        ],
        "default": false,
        "description": [
-        "Run daemon-reload before doing any other operations, to make sure systemd has read any changes.",
-        "When set to V(true), runs daemon-reload even if the module does not start or stop anything."
+        "Run C(daemon-reload) before doing any other operations, to make sure systemd has read any changes.",
+        "When set to V(true), runs C(daemon-reload) even if the module does not start or stop anything."
        ],
        "type": "bool"
       },
       "enabled": {
        "description": [
-        "Whether the unit should start on boot. B(At least one of state and enabled are required.)",
+        "Whether the unit should start on boot. At least one of O(state) and O(enabled) are required.",
         "If set, requires O(name)."
        ],
        "type": "bool"
@@ -19431,8 +19435,8 @@
        ],
        "default": "system",
        "description": [
-        "Run systemctl within a given service manager scope, either as the default system scope V(system), the current user's scope V(user), or the scope of all users V(global).",
-        "For systemd to work with 'user', the executing user must have its own instance of dbus started and accessible (systemd requirement).",
+        "Run C(systemctl) within a given service manager scope, either as the default system scope V(system), the current user's scope V(user), or the scope of all users V(global).",
+        "For systemd to work with V(user), the executing user must have its own instance of dbus started and accessible (systemd requirement).",
         "The user dbus process is normally started during normal login, but not during the run of Ansible tasks. Otherwise you will probably get a 'Failed to connect to bus: no such file or directory' error.",
         "The user must have access, normally given via setting the C(XDG_RUNTIME_DIR) variable, see the example below."
        ],
@@ -19624,7 +19628,7 @@
      "module": "sysvinit",
      "notes": [
       "One option other than name is required.",
-      "The service names might vary by specific OS/distribution"
+      "The service names might vary by specific OS/distribution."
      ],
      "options": {
       "arguments": {
@@ -19646,7 +19650,7 @@
       },
       "enabled": {
        "description": [
-        "Whether the service should start on boot. B(At least one of state and enabled are required.)"
+        "Whether the service should start on boot. At least one of O(state) and O(enabled) are required."
        ],
        "type": "bool"
       },
@@ -19664,7 +19668,7 @@
        "description": [
         "A substring to look for as would be found in the output of the I(ps) command as a stand-in for a status result.",
         "If the string is found, the service will be assumed to be running.",
-        "This option is mainly for use with init scripts that don't support the 'status' option."
+        "This option is mainly for use with init scripts that don't support the C(status) option."
        ],
        "type": "str"
       },
@@ -19903,8 +19907,8 @@
        ],
        "description": [
         "The attributes the resulting filesystem object should have.",
-        "To get supported flags look at the man page for I(chattr) on the target system.",
-        "This string should contain the attributes in the same order as the one displayed by I(lsattr).",
+        "To get supported flags look at the man page for C(chattr) on the target system.",
+        "This string should contain the attributes in the same order as the one displayed by C(lsattr).",
         "The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string."
        ],
        "type": "str",
@@ -19982,7 +19986,7 @@
       },
       "group": {
        "description": [
-        "Name of the group that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the group that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
        ],
        "type": "str"
@@ -20000,7 +20004,7 @@
       "mode": {
        "description": [
         "The permissions the resulting filesystem object should have.",
-        "For those used to I(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.",
+        "For those used to C(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.",
         "Giving Ansible a number without following either of these rules will end up with a decimal number which will have unexpected results.",
         "As of Ansible 1.8, the mode may be specified as a symbolic mode (for example, V(u+rwx) or V(u=rw,g=r,o=r)).",
         "If O(mode) is not specified and the destination filesystem object B(does not) exist, the default C(umask) on the system will be used when setting the mode for the newly created filesystem object.",
@@ -20036,7 +20040,7 @@
       },
       "owner": {
        "description": [
-        "Name of the user that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
         "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
        ],
@@ -20106,7 +20110,7 @@
       "validate": {
        "description": [
         "The validation command to run before copying the updated file into the final destination.",
-        "A temporary file path is used to validate, passed in through '%s' which must be present as in the examples below.",
+        "A temporary file path is used to validate, passed in through C(%s) which must be present as in the examples below.",
         "Also, the command is passed securely so shell features such as expansion and pipes will not work.",
         "For an example on how to handle more complex validation than what this option provides, see R(handling complex validation,complex_configuration_validation)."
        ],
@@ -20282,8 +20286,8 @@
        ],
        "description": [
         "The attributes the resulting filesystem object should have.",
-        "To get supported flags look at the man page for I(chattr) on the target system.",
-        "This string should contain the attributes in the same order as the one displayed by I(lsattr).",
+        "To get supported flags look at the man page for C(chattr) on the target system.",
+        "This string should contain the attributes in the same order as the one displayed by C(lsattr).",
         "The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string."
        ],
        "type": "str",
@@ -20350,7 +20354,7 @@
       },
       "group": {
        "description": [
-        "Name of the group that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the group that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
        ],
        "type": "str"
@@ -20396,7 +20400,7 @@
       "mode": {
        "description": [
         "The permissions the resulting filesystem object should have.",
-        "For those used to I(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.",
+        "For those used to C(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.",
         "Giving Ansible a number without following either of these rules will end up with a decimal number which will have unexpected results.",
         "As of Ansible 1.8, the mode may be specified as a symbolic mode (for example, V(u+rwx) or V(u=rw,g=r,o=r)).",
         "If O(mode) is not specified and the destination filesystem object B(does not) exist, the default C(umask) on the system will be used when setting the mode for the newly created filesystem object.",
@@ -20407,7 +20411,7 @@
       },
       "owner": {
        "description": [
-        "Name of the user that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
         "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
        ],
@@ -20619,8 +20623,8 @@
        ],
        "description": [
         "The attributes the resulting filesystem object should have.",
-        "To get supported flags look at the man page for I(chattr) on the target system.",
-        "This string should contain the attributes in the same order as the one displayed by I(lsattr).",
+        "To get supported flags look at the man page for C(chattr) on the target system.",
+        "This string should contain the attributes in the same order as the one displayed by C(lsattr).",
         "The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string."
        ],
        "type": "str",
@@ -20630,8 +20634,8 @@
       "body": {
        "description": [
         "The body of the http request/response to the web service. If O(body_format) is set to V(json) it will take an already formatted JSON string or convert a data structure into JSON.",
-        "If O(body_format) is set to V(form-urlencoded) it will convert a dictionary or list of tuples into an 'application/x-www-form-urlencoded' string. (Added in v2.7)",
-        "If O(body_format) is set to V(form-multipart) it will convert a dictionary into 'multipart/form-multipart' body. (Added in v2.10)"
+        "If O(body_format) is set to V(form-urlencoded) it will convert a dictionary or list of tuples into an C(application/x-www-form-urlencoded) string. (Added in v2.7)",
+        "If O(body_format) is set to V(form-multipart) it will convert a dictionary into C(multipart/form-multipart) body. (Added in v2.10)"
        ],
        "type": "raw"
       },
@@ -20644,9 +20648,9 @@
        ],
        "default": "raw",
        "description": [
-        "The serialization format of the body. When set to V(json), V(form-multipart), or V(form-urlencoded), encodes the body argument, if needed, and automatically sets the Content-Type header accordingly.",
+        "The serialization format of the body. When set to V(json), V(form-multipart), or V(form-urlencoded), encodes the body argument, if needed, and automatically sets the C(Content-Type) header accordingly.",
         "As of v2.3 it is possible to override the C(Content-Type) header, when set to V(json) or V(form-urlencoded) via the O(headers) option.",
-        "The 'Content-Type' header cannot be overridden when using V(form-multipart)",
+        "The C(Content-Type) header cannot be overridden when using V(form-multipart).",
         "V(form-urlencoded) was added in v2.7.",
         "V(form-multipart) was added in v2.10."
        ],
@@ -20656,7 +20660,7 @@
       },
       "ca_path": {
        "description": [
-        "PEM formatted file that contains a CA certificate to be used for validation"
+        "PEM formatted file that contains a CA certificate to be used for validation."
        ],
        "type": "path",
        "version_added": "2.11",
@@ -20667,7 +20671,7 @@
         "SSL/TLS Ciphers to use for the request.",
         "When a list is provided, all ciphers are joined in order with V(:)",
         "See the L(OpenSSL Cipher List Format,https://www.openssl.org/docs/manmaster/man1/openssl-ciphers.html#CIPHER-LIST-FORMAT) for more details.",
-        "The available ciphers is dependent on the Python and OpenSSL/LibreSSL versions"
+        "The available ciphers is dependent on the Python and OpenSSL/LibreSSL versions."
        ],
        "elements": "str",
        "type": "list",
@@ -20677,7 +20681,7 @@
       "client_cert": {
        "description": [
         "PEM formatted certificate chain file to be used for SSL client authentication.",
-        "This file can also include the key as well, and if the key is included, O(client_key) is not required"
+        "This file can also include the key as well, and if the key is included, O(client_key) is not required."
        ],
        "type": "path",
        "version_added": "2.4",
@@ -20701,7 +20705,7 @@
       "decompress": {
        "default": true,
        "description": [
-        "Whether to attempt to decompress gzip content-encoded responses"
+        "Whether to attempt to decompress gzip content-encoded responses."
        ],
        "type": "bool",
        "version_added": "2.14",
@@ -20750,7 +20754,7 @@
       },
       "group": {
        "description": [
-        "Name of the group that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the group that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
        ],
        "type": "str"
@@ -20782,7 +20786,7 @@
       "mode": {
        "description": [
         "The permissions the resulting filesystem object should have.",
-        "For those used to I(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.",
+        "For those used to C(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.",
         "Giving Ansible a number without following either of these rules will end up with a decimal number which will have unexpected results.",
         "As of Ansible 1.8, the mode may be specified as a symbolic mode (for example, V(u+rwx) or V(u=rw,g=r,o=r)).",
         "If O(mode) is not specified and the destination filesystem object B(does not) exist, the default C(umask) on the system will be used when setting the mode for the newly created filesystem object.",
@@ -20793,7 +20797,7 @@
       },
       "owner": {
        "description": [
-        "Name of the user that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
         "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
        ],
@@ -20819,7 +20823,7 @@
        "default": false,
        "description": [
         "Whether or not to return the body of the response as a \"content\" key in the dictionary result no matter it succeeded or failed.",
-        "Independently of this option, if the reported Content-type is \"application/json\", then the JSON is always loaded into a key called RV(ignore:json) in the dictionary results."
+        "Independently of this option, if the reported C(Content-Type) is C(application/json), then the JSON is always loaded into a key called RV(ignore:json) in the dictionary results."
        ],
        "type": "bool"
       },
@@ -20882,7 +20886,7 @@
       },
       "unix_socket": {
        "description": [
-        "Path to Unix domain socket to use for connection"
+        "Path to Unix domain socket to use for connection."
        ],
        "type": "path",
        "version_added": "2.8",
@@ -20912,7 +20916,7 @@
       },
       "url": {
        "description": [
-        "HTTP or HTTPS URL in the form (http|https)://host.domain[:port]/path"
+        "HTTP or HTTPS URL in the form (http|https)://host.domain[:port]/path."
        ],
        "required": true,
        "type": "str"
@@ -20950,9 +20954,9 @@
       "use_netrc": {
        "default": true,
        "description": [
-        "Determining whether to use credentials from ``~/.netrc`` file",
-        "By default .netrc is used with Basic authentication headers",
-        "When set to False, .netrc credentials are ignored"
+        "Determining whether to use credentials from C(~/.netrc) file.",
+        "By default C(.netrc) is used with Basic authentication headers.",
+        "When V(false), C(.netrc) credentials are ignored."
        ],
        "type": "bool",
        "version_added": "2.14",
@@ -21160,7 +21164,7 @@
       "group": {
        "description": [
         "Optionally sets the user's primary group (takes a group name).",
-        "On macOS, this defaults to V('staff')"
+        "On macOS, this defaults to V(staff)."
        ],
        "type": "str"
       },
@@ -21227,7 +21231,7 @@
       "non_unique": {
        "default": false,
        "description": [
-        "Optionally when used with the -u option, this option allows to change the user ID to a non-unique value."
+        "Optionally when used with the C(-u) option, this option allows to change the user ID to a non-unique value."
        ],
        "type": "bool",
        "version_added": "1.1",
@@ -21242,7 +21246,7 @@
         "To create an account with a locked/disabled password on OpenBSD, set this to V('*************').",
         "B(OS X/macOS:) Enter the cleartext password as the value. Be sure to take relevant security precautions.",
         "On macOS, the password specified in the C(password) option will always be set, regardless of whether the user account already exists or not.",
-        "When the password is passed as an argument, the C(user) module will always return changed to C(true) for macOS systems. Since macOS no longer provides access to the hashed passwords directly."
+        "When the password is passed as an argument, the M(ansible.builtin.user) module will always return changed to C(true) for macOS systems. Since macOS no longer provides access to the hashed passwords directly."
        ],
        "type": "str"
       },
@@ -21287,7 +21291,7 @@
         "Lock the password (C(usermod -L), C(usermod -U), C(pw lock)).",
         "Implementation differs by platform. This option does not always mean the user cannot login using other methods.",
         "This option does not disable the user, only lock the password.",
-        "This must be set to V(False) in order to unlock a currently locked password. The absence of this parameter will not unlock a password.",
+        "This must be set to V(false) in order to unlock a currently locked password. The absence of this parameter will not unlock a password.",
         "Currently supported on Linux, FreeBSD, DragonFlyBSD, NetBSD, OpenBSD."
        ],
        "type": "bool",
@@ -21326,7 +21330,7 @@
       },
       "seuser": {
        "description": [
-        "Optionally sets the seuser type (user_u) on selinux enabled systems."
+        "Optionally sets the C(seuser) type C(user_u) on SELinux enabled systems."
        ],
        "type": "str",
        "version_added": "2.1",
@@ -21336,9 +21340,10 @@
        "description": [
         "Optionally set the user's shell.",
         "On macOS, before Ansible 2.5, the default shell for non-system users was V(/usr/bin/false). Since Ansible 2.5, the default shell for non-system users on macOS is V(/bin/bash).",
-        "On other operating systems, the default shell is determined by the underlying tool invoked by this module. See Notes for a per platform list of invoked tools."
+        "On other operating systems, the default shell is determined by the underlying tool invoked by this module. See Notes for a per platform list of invoked tools.",
+        "From Ansible 2.18, the type is changed to I(path) from I(str)."
        ],
-       "type": "str"
+       "type": "path"
       },
       "skeleton": {
        "description": [
@@ -21352,7 +21357,7 @@
       "ssh_key_bits": {
        "description": [
         "Optionally specify number of bits in SSH key to create.",
-        "The default value depends on ssh-keygen."
+        "The default value depends on C(ssh-keygen)."
        ],
        "type": "int",
        "version_added": "0.9",
@@ -21422,11 +21427,33 @@
        ],
        "type": "int"
       },
+      "uid_max": {
+       "description": [
+        "Sets the UID_MAX value for user creation.",
+        "Overwrites /etc/login.defs default value.",
+        "Currently supported on Linux. Does nothing when used with other platforms.",
+        "Requires O(local) is omitted or V(False)."
+       ],
+       "type": "int",
+       "version_added": "2.18",
+       "version_added_collection": "ansible.builtin"
+      },
+      "uid_min": {
+       "description": [
+        "Sets the UID_MIN value for user creation.",
+        "Overwrites /etc/login.defs default value.",
+        "Currently supported on Linux. Does nothing when used with other platforms.",
+        "Requires O(local) is omitted or V(False)."
+       ],
+       "type": "int",
+       "version_added": "2.18",
+       "version_added_collection": "ansible.builtin"
+      },
       "umask": {
        "description": [
         "Sets the umask of the user.",
         "Currently supported on Linux. Does nothing when used with other platforms.",
-        "Requires O(local) is omitted or V(False)."
+        "Requires O(local) is omitted or V(false)."
        ],
        "type": "str",
        "version_added": "2.12",
@@ -21640,13 +21667,13 @@
      "options": {
       "argument_spec": {
        "description": [
-        "A dictionary like AnsibleModule argument_spec. See R(argument spec definition,argument_spec)"
+        "A dictionary like AnsibleModule argument_spec. See R(argument spec definition,argument_spec)."
        ],
        "required": true
       },
       "provided_arguments": {
        "description": [
-        "A dictionary of the arguments that will be validated according to argument_spec"
+        "A dictionary of the arguments that will be validated according to argument_spec."
        ]
       }
      },
@@ -21655,7 +21682,7 @@
      "version_added": "2.11",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: verify vars needed for this task file are present when included\n  ansible.builtin.validate_argument_spec:\n        argument_spec: '{{ required_data }}'\n  vars:\n    required_data:\n      # unlike spec file, just put the options in directly\n      stuff:\n        description: stuff\n        type: str\n        choices: ['who', 'knows', 'what']\n        default: what\n      but:\n        description: i guess we need one\n        type: str\n        required: true\n\n\n- name: verify vars needed for this task file are present when included, with spec from a spec file\n  ansible.builtin.validate_argument_spec:\n    argument_spec: \"{{ (lookup('ansible.builtin.file', 'myargspec.yml') | from_yaml )['specname']['options'] }}\"\n\n\n- name: verify vars needed for next include and not from inside it, also with params i'll only define there\n  block:\n    - ansible.builtin.validate_argument_spec:\n        argument_spec: \"{{ lookup('ansible.builtin.file', 'nakedoptions.yml') }}\"\n        provided_arguments:\n          but: \"that i can define on the include itself, like in it's `vars:` keyword\"\n\n    - name: the include itself\n      vars:\n        stuff: knows\n        but: nobuts!\n",
+    "examples": "\n- name: verify vars needed for this task file are present when included\n  ansible.builtin.validate_argument_spec:\n    argument_spec: '{{ required_data }}'\n  vars:\n    required_data:\n      # unlike spec file, just put the options in directly\n      stuff:\n        description: stuff\n        type: str\n        choices: ['who', 'knows', 'what']\n        default: what\n      but:\n        description: i guess we need one\n        type: str\n        required: true\n\n\n- name: verify vars needed for this task file are present when included, with spec from a spec file\n  ansible.builtin.validate_argument_spec:\n    argument_spec: \"{{ (lookup('ansible.builtin.file', 'myargspec.yml') | from_yaml )['specname']['options'] }}\"\n\n\n- name: verify vars needed for next include and not from inside it, also with params i'll only define there\n  block:\n    - ansible.builtin.validate_argument_spec:\n        argument_spec: \"{{ lookup('ansible.builtin.file', 'nakedoptions.yml') }}\"\n        provided_arguments:\n          but: \"that i can define on the include itself, like in it's `vars:` keyword\"\n\n    - name: the include itself\n      vars:\n        stuff: knows\n        but: nobuts!\n",
     "metadata": null,
     "return": {
      "argument_errors": {
@@ -21939,7 +21966,7 @@
       "Waits for a total of O(timeout) seconds.",
       "Retries the transport connection after a timeout of O(connect_timeout).",
       "Tests the transport connection every O(sleep) seconds.",
-      "This module makes use of internal ansible transport (and configuration) and the ping/win_ping module to guarantee correct end-to-end functioning.",
+      "This module makes use of internal ansible transport (and configuration) and the M(ansible.builtin.ping)/M(ansible.windows.win_ping) modules to guarantee correct end-to-end functioning.",
       "This module is also supported for Windows targets."
      ],
      "filename": "/ansible/modules/wait_for_connection.py",
@@ -22041,7 +22068,7 @@
        "description": [
         "If set to V(true) Yum will download packages and metadata from this repo in parallel, if possible.",
         "In ansible-core 2.11, 2.12, and 2.13 the default value is V(true).",
-        "This option has been removed in RHEL 8. If you're using one of the versions listed above, you can set this option to None to avoid passing an unknown configuration option.",
+        "This option has been removed in RHEL 8. If you're using one of the versions listed above, you can set this option to V(null) to avoid passing an unknown configuration option.",
         "This parameter is deprecated as it has been removed on systems supported by ansible-core and will be removed in ansible-core 2.22."
        ],
        "type": "bool"
@@ -22052,8 +22079,8 @@
        ],
        "description": [
         "The attributes the resulting filesystem object should have.",
-        "To get supported flags look at the man page for I(chattr) on the target system.",
-        "This string should contain the attributes in the same order as the one displayed by I(lsattr).",
+        "To get supported flags look at the man page for C(chattr) on the target system.",
+        "This string should contain the attributes in the same order as the one displayed by C(lsattr).",
         "The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string."
        ],
        "type": "str",
@@ -22106,8 +22133,8 @@
       },
       "description": {
        "description": [
-        "A human-readable string describing the repository. This option corresponds to the \"name\" property in the repo file.",
-        "This parameter is only required if O(state) is set to V(present)."
+        "A human-readable string describing the repository. This option corresponds to the C(name) property in the repo file.",
+        "This parameter is only required if O(state=present)."
        ],
        "type": "str"
       },
@@ -22132,7 +22159,7 @@
        "description": [
         "List of packages to exclude from updates or installs. This should be a space separated list. Shell globs using wildcards (for example V(*) and V(?)) are allowed.",
         "The list can also be a regular YAML array.",
-        "excludepkgs alias was added in ansible-core 2.18"
+        "O(excludepkgs) alias was added in ansible-core 2.18."
        ],
        "elements": "str",
        "type": "list"
@@ -22178,7 +22205,7 @@
       },
       "group": {
        "description": [
-        "Name of the group that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the group that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
        ],
        "type": "str"
@@ -22265,7 +22292,7 @@
         "V(read-only:past) - Commands that only care about past information are filtered from metadata expiring. Eg. C(yum history) info (if history needs to lookup anything about a previous transaction, then by definition the remote package was available in the past).",
         "V(read-only:present) - Commands that are balanced between past and future. Eg. C(yum list yum).",
         "V(read-only:future) - Commands that are likely to result in running other commands which will require the latest metadata. Eg. C(yum check-update).",
-        "Note that this option does not override \"yum clean expire-cache\".",
+        "Note that this option does not override C(yum clean expire-cache).",
         "This parameter is deprecated as it has no effect with dnf as an underlying package manager and will be removed in ansible-core 2.22."
        ],
        "type": "str"
@@ -22295,7 +22322,7 @@
       "mode": {
        "description": [
         "The permissions the resulting filesystem object should have.",
-        "For those used to I(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.",
+        "For those used to C(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.",
         "Giving Ansible a number without following either of these rules will end up with a decimal number which will have unexpected results.",
         "As of Ansible 1.8, the mode may be specified as a symbolic mode (for example, V(u+rwx) or V(u=rw,g=r,o=r)).",
         "If O(mode) is not specified and the destination filesystem object B(does not) exist, the default C(umask) on the system will be used when setting the mode for the newly created filesystem object.",
@@ -22306,7 +22333,7 @@
       },
       "module_hotfixes": {
        "description": [
-        "Disable module RPM filtering and make all RPMs from the repository available. The default is V(None)."
+        "Disable module RPM filtering and make all RPMs from the repository available. The default is V(null)."
        ],
        "type": "bool",
        "version_added": "2.11",
@@ -22322,7 +22349,7 @@
       },
       "owner": {
        "description": [
-        "Name of the user that should own the filesystem object, as would be fed to I(chown).",
+        "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
         "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
        ],
@@ -23492,21 +23519,6 @@
        "version_added": "2.8",
        "version_added_collection": "ansible.builtin"
       },
-      "environment": {
-       "default": [
-        {}
-       ],
-       "description": [
-        "List of dictionaries of environment variables and their values to use when executing commands."
-       ],
-       "elements": "dictionary",
-       "keyword": [
-        {
-         "name": "environment"
-        }
-       ],
-       "type": "list"
-      },
       "remote_tmp": {
        "default": "%TEMP%",
        "description": [
@@ -23575,21 +23587,6 @@
        ],
        "version_added": "2.8",
        "version_added_collection": "ansible.builtin"
-      },
-      "environment": {
-       "default": [
-        {}
-       ],
-       "description": [
-        "List of dictionaries of environment variables and their values to use when executing commands."
-       ],
-       "elements": "dictionary",
-       "keyword": [
-        {
-         "name": "environment"
-        }
-       ],
-       "type": "list"
       },
       "remote_tmp": {
        "default": "%TEMP%",
@@ -23669,7 +23666,7 @@
       "async_dir": {
        "default": "~/.ansible_async",
        "description": [
-        "Directory in which ansible will keep async job information"
+        "Directory in which ansible will keep async job information."
        ],
        "env": [
         {
@@ -23715,21 +23712,6 @@
        "version_added": "2.10",
        "version_added_collection": "ansible.builtin"
       },
-      "environment": {
-       "default": [
-        {}
-       ],
-       "description": [
-        "List of dictionaries of environment variables and their values to use when executing commands."
-       ],
-       "elements": "dictionary",
-       "keyword": [
-        {
-         "name": "environment"
-        }
-       ],
-       "type": "list"
-      },
       "remote_tmp": {
        "default": "~/.ansible/tmp",
        "description": [
@@ -23761,7 +23743,7 @@
         "/tmp"
        ],
        "description": [
-        "List of valid system temporary directories on the managed machine for Ansible to validate O(remote_tmp) against, when specific permissions are needed.  These must be world readable, writable, and executable. This list should only contain directories which the system administrator has pre-created with the proper ownership and permissions otherwise security issues can arise.",
+        "List of valid system temporary directories on the managed machine for Ansible to validate O(remote_tmp) against, when specific permissions are needed. These must be world readable, writable, and executable. This list should only contain directories which the system administrator has pre-created with the proper ownership and permissions otherwise security issues can arise.",
         "When O(remote_tmp) is required to be a system temp dir and it does not match any in the list, the first one from the list will be used instead."
        ],
        "elements": "string",
@@ -24052,11 +24034,11 @@
       }
      },
      "plugin_name": "ansible.builtin.any",
-     "short_description": "is any conditions in a list true",
+     "short_description": "is any condition in a list true",
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "varexpression: \"{{ 3 == 3 }}\"\n# are all statements true?\n{{ [false, booleanvar, varexpression] is any}}\n",
+    "examples": "varexpression: \"{{ 3 == 3 }}\"\n# is any statement true?\n{{ [false, booleanvar, varexpression] is any}}\n",
     "metadata": null,
     "return": {
      "_value": {

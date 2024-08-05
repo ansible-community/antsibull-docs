@@ -30,7 +30,7 @@ Synopsis
 - The return value \ :literal:`bar` (`link <#return-bar>`_)\  exists, but \ :literal:`barbaz` (`link <#return-barbaz>`_)\  does not.
 - Again existing: \ :literal:`foo=1` (of module `ns.col2.foo <foo_module.rst>`__)\ , \ :literal:`bar=2` (of module `ns.col2.foo <foo_module.rst>`__)\ 
 - Again not existing: \ :literal:`foobar=1` (of module `ns.col2.foo <foo_module.rst>`__)\ , \ :literal:`barbaz=2` (of module `ns.col2.foo <foo_module.rst>`__)\ 
-- \ :literal:`\ `\  \ :emphasis:`\ `\  \ :strong:`\ `\  \ :literal:`\ `\  \ \   \ :ref:`\  <>`\  \ :literal:`\ `\  \ :literal:`` (`link <#parameter->`_)\  \ :literal:`` (`link <#return->`_)\  \ :literal:``\ 
+- \ :literal:`\ `\  \ :emphasis:`\ `\  \ :strong:`\ `\  \ :literal:`\ `\    \ :ref:`\  <>`\  \ :literal:`\ `\  \ :literal:`` (`link <#parameter->`_)\  \ :literal:`` (`link <#return->`_)\  \ :literal:``\ 
 - Foo bar baz. Bamm - Bar baz
   bam bum.
   Bumm - Foo bar
