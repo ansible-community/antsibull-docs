@@ -24,7 +24,7 @@ RST_IFY_DATA = {
     "B(bold)": r"\ :strong:`bold`\ ",
     "M(ansible.builtin.yum)": r"\ :ref:`ansible.builtin.yum"
     r" <ansible_collections.ansible.builtin.yum_module>`\ ",
-    "U(https://docs.ansible.com)": r"\ https://docs.ansible.com\ ",
+    "U(https://docs.ansible.com)": r"\ `https://docs.ansible.com <https://docs.ansible.com>`__\ ",
     "L(the user guide,https://docs.ansible.com/user-guide.html)": r"\ `the user guide"
     r" <https://docs.ansible.com/user-guide.html>`__\ ",
     "R(the user guide,user-guide)": r"\ :ref:`the user guide <user-guide>`\ ",
