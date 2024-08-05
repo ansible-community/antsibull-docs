@@ -183,7 +183,7 @@ Notes
 -----
 
 .. note::
-   - Some note. \ :strong:`Something in bold`\ . \ :literal:`And in code`\ . \ :emphasis:`And in italics`\ . An URL: \ https://example.org\ .
+   - Some note. \ :strong:`Something in bold`\ . \ :literal:`And in code`\ . \ :emphasis:`And in italics`\ . An URL: \ `https://example.org <https://example.org>`__\ .
    - And another one. \ `A link <https://example.com>`__\ .
 
 .. Seealso
