@@ -13,8 +13,6 @@ import json
 import os
 import sys
 import traceback
-import typing as t
-from collections.abc import MutableMapping
 
 from antsibull_core.logging import log
 from antsibull_core.subprocess_util import CalledProcessError
@@ -105,18 +103,7 @@ def generate_plugin_docs(
             print(error)
         return 1
 
-    # The cast is needed to make pyre happy. It seems to not being able to
-    # understand that
-    #     dict[str, dict[str, dict[str, typing.Any]]]
-    # is acceptable for
-    #     MutableMapping[str, MutableMapping[str, typing.Any]].
-    augment_docs(
-        t.cast(
-            MutableMapping[str, MutableMapping[str, t.Any]],
-            {plugin_type: {plugin_name: plugin_info}},
-        ),
-        {},
-    )
+    augment_docs({plugin_type: {plugin_name: plugin_info}}, {})
 
     # Setup the jinja environment
     collection_url = CollectionNameTransformer(

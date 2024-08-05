@@ -11,10 +11,6 @@ import typing as t
 
 from antsibull_docs._pydantic_compat import v1 as p
 
-# Ignore Unitialized attribute errors because BaseModel works some magic
-# to initialize the attributes when data is loaded into them.
-# pyre-ignore-all-errors[13]
-
 
 class AnsibleLink(p.BaseModel):
     title: str

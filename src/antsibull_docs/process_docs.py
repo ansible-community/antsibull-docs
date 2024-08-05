@@ -132,7 +132,7 @@ async def normalize_all_plugin_info(
     results = await asyncio.gather(*normalizers.values(), return_exceptions=True)
 
     new_plugin_info: defaultdict[str, MutableMapping[str, t.Any]]
-    new_plugin_info = defaultdict(dict)  # pyre-ignore[9]
+    new_plugin_info = defaultdict(dict)
     nonfatal_errors: PluginErrorsRT = defaultdict(lambda: defaultdict(list))
     for (plugin_type, plugin_name), plugin_record in zip(normalizers, results):
         # Errors which broke doc parsing (and therefore we won't have enough info to

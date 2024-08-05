@@ -36,9 +36,6 @@ class OuterModuleDocSchema(DocSchema):
     has_action: bool = False
 
 
-# Ignore Uninitialized attribute error as BaseModel works some magic to initialize the
-# attributes when data is loaded into them.
-# pyre-ignore[13]
 class ModuleDocSchema(BaseModel):
     doc: OuterModuleDocSchema
 

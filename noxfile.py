@@ -143,48 +143,8 @@ def codeqa(session: nox.Session):
 @nox.session
 def typing(session: nox.Session):
     others = other_antsibull()
-    # pyre does not work when we don't install ourself in editable mode 🙄.
-    install(session, "-e", ".[typing]", *others)
+    install(session, ".[typing]", *others)
     session.run("mypy", "src/antsibull_docs", "src/sphinx_antsibull_ext")
-
-    # Disable pyre for now. It is incompatible with our _pydantic_compat module
-    # and spews type errors across the entire codebase.
-    if False:
-        additional_libraries = []
-        for path in others:
-            if isinstance(path, Path):
-                additional_libraries.extend(("--search-path", str(path / "src")))
-
-        purelib = (
-            session.run(
-                "python",
-                "-c",
-                "import sysconfig; print(sysconfig.get_path('purelib'))",
-                silent=True,
-            )
-            or ""
-        ).strip()
-        platlib = (
-            session.run(
-                "python",
-                "-c",
-                "import sysconfig; print(sysconfig.get_path('platlib'))",
-                silent=True,
-            )
-            or ""
-        ).strip()
-        session.run(
-            "pyre",
-            "--source-directory",
-            "src",
-            "--search-path",
-            purelib,
-            "--search-path",
-            platlib,
-            "--search-path",
-            "stubs/",
-            *additional_libraries,
-        )
 
 
 def check_no_modifications(session: nox.Session) -> None:

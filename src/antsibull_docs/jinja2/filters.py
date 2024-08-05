@@ -14,7 +14,7 @@ import typing as t
 from collections.abc import Mapping, Sequence
 
 from antsibull_core.logging import log
-from docutils.utils import column_width as _column_width  # pyre-ignore[21]
+from docutils.utils import column_width as _column_width
 from jinja2.runtime import Context, Undefined
 from jinja2.utils import pass_context
 

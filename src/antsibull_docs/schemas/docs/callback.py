@@ -29,9 +29,6 @@ class InnerCallbackDocSchema(InnerDocSchema):
     type: str = REQUIRED_CALLBACK_TYPE_F
 
 
-# Ignore Uninitialized attribute error as BaseModel works some magic to initialize the
-# attributes when data is loaded into them.
-# pyre-ignore[13]
 class CallbackDocSchema(BaseModel):
     doc: InnerCallbackDocSchema
 

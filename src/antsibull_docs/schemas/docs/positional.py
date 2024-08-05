@@ -45,9 +45,6 @@ class InnerPositionalDocSchema(InnerDocSchema):
         return values
 
 
-# Ignore Uninitialized attribute error as BaseModel works some magic to initialize the
-# attributes when data is loaded into them.
-# pyre-ignore[13]
 class PositionalDocSchema(BaseModel):
     doc: InnerPositionalDocSchema
 

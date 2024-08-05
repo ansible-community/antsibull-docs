@@ -59,7 +59,7 @@ To run specific tests:
 2. `nox -e lint` to run all linters and formatter;
 3. `nox -e codeqa` to run `flake8`, `pylint`, `reuse lint`, and `antsibull-changelog lint`;
 4. `nox -e formatters` to run `isort` and `black`;
-5. `nox -e typing` to run `mypy` and `pyre`.
+5. `nox -e typing` to run `mypy`.
 
 To create a more complete local development env:
 

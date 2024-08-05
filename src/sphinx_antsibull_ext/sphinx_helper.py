@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import re
 
-from docutils.utils import unescape  # pyre-ignore[21]
+from docutils.utils import unescape
 
 # \x00 means the "<" was backslash-escaped
 _EXPLICIT_TITLE_RE = re.compile(r"^(.+?)\s*(?<!\x00)<(.*?)>$", re.DOTALL)
