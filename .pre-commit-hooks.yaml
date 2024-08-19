@@ -13,3 +13,5 @@
   args:
     - "--plugin-docs"
     - "--skip-rstcheck"
+  additional_dependencies:
+    - ansible-core >= 2.14.0
