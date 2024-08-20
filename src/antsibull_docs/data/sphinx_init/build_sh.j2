@@ -4,11 +4,25 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # Created with antsibull-docs @{ antsibull_docs_version }@
+# cspell: disable cprv
 
 set -e
 
 pushd "$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 trap "{ popd; }" EXIT
+
+# As rsync might be missing in places like RTD build system, we make it optional
+copy_dirs() {
+    local src_dir="$1"
+    local dest_dir="$2"
+
+    # Check if rsync is installed
+    if command -v rsync &> /dev/null; then
+        rsync -cprv --delete-after "$src_dir" "$dest_dir"
+    else
+        cp -pr "$src_dir" "$dest_dir"
+    fi
+}
 
 # Create collection documentation into temporary directory
 rm -rf temp-rst
@@ -53,9 +67,9 @@ antsibull-docs \
 
 # Copy collection documentation into source directory
 {% if squash_hierarchy %}
-rsync -cprv --delete-after temp-rst/ rst/
+copy_dirs temp-rst/ rst/
 {% else %}
-rsync -cprv --delete-after temp-rst/collections/ rst/collections/
+copy_dirs temp-rst/collections/ rst/collections/
 {% endif %}
 
 # Build Sphinx site
