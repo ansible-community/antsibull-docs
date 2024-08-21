@@ -9,9 +9,11 @@
 {# avoids rST "isn't included in any toctree" errors for module docs #}
 :orphan:
 
+{% if antsibull_docs_version %}
 .. meta::
   :antsibull-docs: @{ antsibull_docs_version }@
 
+{% endif %}
 .. _@{ module }@_@{ plugin_type }@_alias_@{ alias }@:
 
 {% if short_description %}
