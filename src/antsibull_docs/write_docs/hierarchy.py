@@ -35,6 +35,7 @@ async def write_collection_list(
     filename_generator: FilenameGenerator,  # pylint: disable=unused-argument
     breadcrumbs: bool = True,
     for_official_docsite: bool = False,
+    add_version: bool = True,
 ) -> None:
     """
     Write an index page listing all of the collections.
@@ -49,6 +50,8 @@ async def write_collection_list(
         disabled.  This will disable breadcrumbs but save on memory usage.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
+    :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
+        the generated files.
     """
     index_contents = _render_template(
         template,
@@ -57,6 +60,7 @@ async def write_collection_list(
         namespaces=namespaces,
         breadcrumbs=breadcrumbs,
         for_official_docsite=for_official_docsite,
+        add_version=add_version,
     )
     index_file = os.path.join(dest_dir, f"index{output_format.output_extension}")
 
@@ -72,6 +76,7 @@ async def write_collection_namespace_index(
     filename_generator: FilenameGenerator,  # pylint: disable=unused-argument
     breadcrumbs: bool = True,
     for_official_docsite: bool = False,
+    add_version: bool = True,
 ) -> None:
     """
     Write an index page listing all of the collections for this namespace.
@@ -86,6 +91,8 @@ async def write_collection_namespace_index(
         be disabled.  This will disable breadcrumbs but save on memory usage.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
+    :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
+        the generated files.
     """
     index_contents = _render_template(
         template,
@@ -94,6 +101,7 @@ async def write_collection_namespace_index(
         collections=collections,
         breadcrumbs=breadcrumbs,
         for_official_docsite=for_official_docsite,
+        add_version=add_version,
     )
     index_file = os.path.join(dest_dir, f"index{output_format.output_extension}")
 
@@ -111,6 +119,7 @@ async def output_collection_index(
     breadcrumbs: bool = True,
     for_official_docsite: bool = False,
     referable_envvars: set[str] | None = None,
+    add_version: bool = True,
 ) -> None:
     """
     Generate top-level collection index page for the collections.
@@ -125,6 +134,8 @@ async def output_collection_index(
         official docsite on docs.ansible.com.
     :kwarg referable_envvars: Optional set of environment variables that can be referenced.
     :kwarg output_format: The output format to use.
+    :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
+        the generated files.
     """
     flog = mlog.fields(func="output_collection_index")
     flog.debug("Enter")
@@ -158,6 +169,7 @@ async def output_collection_index(
         filename_generator,
         breadcrumbs=breadcrumbs,
         for_official_docsite=for_official_docsite,
+        add_version=add_version,
     )
 
     flog.debug("Leave")
@@ -173,6 +185,7 @@ async def output_collection_namespace_indexes(
     breadcrumbs: bool = True,
     for_official_docsite: bool = False,
     referable_envvars: set[str] | None = None,
+    add_version: bool = True,
 ) -> None:
     """
     Generate collection namespace index pages for the collections.
@@ -185,6 +198,8 @@ async def output_collection_namespace_indexes(
         official docsite on docs.ansible.com.
     :kwarg referable_envvars: Optional set of environment variables that can be referenced.
     :kwarg output_format: The output format to use.
+    :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
+        the generated files.
     """
     flog = mlog.fields(func="output_collection_namespace_indexes")
     flog.debug("Enter")
@@ -221,6 +236,7 @@ async def output_collection_namespace_indexes(
                         filename_generator,
                         breadcrumbs=breadcrumbs,
                         for_official_docsite=for_official_docsite,
+                        add_version=add_version,
                     )
                 )
             )

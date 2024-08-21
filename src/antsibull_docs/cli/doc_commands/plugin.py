@@ -45,6 +45,7 @@ def generate_plugin_docs(
     output_path: str,
     output_format: OutputFormat,
     filename_generator: FilenameGenerator,
+    add_antsibull_docs_version: bool,
 ) -> int:
     """
     Render documentation for a locally installed plugin.
@@ -138,6 +139,7 @@ def generate_plugin_docs(
             filename_generator,
             path_override=output_path,
             use_html_blobs=app_ctx.use_html_blobs,
+            add_version=add_antsibull_docs_version,
         )
     )
     flog.debug("Finished writing plugin docs")
@@ -184,4 +186,5 @@ def generate_docs() -> int:
         output_path,
         output_format,
         filename_generator,
+        add_antsibull_docs_version=app_ctx.add_antsibull_docs_version,
     )

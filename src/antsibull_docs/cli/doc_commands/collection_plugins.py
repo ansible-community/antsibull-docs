@@ -51,6 +51,7 @@ def generate_collection_plugins_docs(
         use_html_blobs=app_ctx.use_html_blobs,
         fail_on_error=app_ctx.extra["fail_on_error"],
         include_collection_name_in_plugins=fqcn_plugin_names,
+        add_antsibull_docs_version=app_ctx.add_antsibull_docs_version,
     )
 
 

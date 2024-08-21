@@ -133,6 +133,7 @@ def create_plugin_rst(
     use_html_blobs: bool = False,
     for_official_docsite: bool = False,
     log_errors: bool = True,
+    add_version: bool = True,
 ) -> str:
     """
     Create the rst page for one plugin.
@@ -153,6 +154,8 @@ def create_plugin_rst(
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
     :kwarg log_errors: Default True.  Set to False to avoid errors to be logged.
+    :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
+        the generated files.
     """
     flog = mlog.fields(func="create_plugin_rst")
     flog.debug("Enter")
@@ -199,6 +202,7 @@ def create_plugin_rst(
             collection_communication=collection_links.communication,
             collection_issue_tracker=collection_links.issue_tracker,
             for_official_docsite=for_official_docsite,
+            add_version=add_version,
         )
     else:
         if log_errors and nonfatal_errors:
@@ -226,6 +230,7 @@ def create_plugin_rst(
                 collection_communication=collection_links.communication,
                 collection_issue_tracker=collection_links.issue_tracker,
                 for_official_docsite=for_official_docsite,
+                add_version=add_version,
             )
         else:
             plugin_contents = _render_template(
@@ -246,6 +251,7 @@ def create_plugin_rst(
                 collection_communication=collection_links.communication,
                 collection_issue_tracker=collection_links.issue_tracker,
                 for_official_docsite=for_official_docsite,
+                add_version=add_version,
             )
 
     flog.debug("Leave")
@@ -269,6 +275,7 @@ async def write_plugin_rst(
     squash_hierarchy: bool = False,
     use_html_blobs: bool = False,
     for_official_docsite: bool = False,
+    add_version: bool = True,
 ) -> None:
     """
     Write the rst page for one plugin.
@@ -294,6 +301,8 @@ async def write_plugin_rst(
                          tables instead of using RST tables.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
+    :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
+        the generated files.
     """
     flog = mlog.fields(func="write_plugin_rst")
     flog.debug("Enter")
@@ -312,6 +321,7 @@ async def write_plugin_rst(
         error_tmpl=error_tmpl,
         use_html_blobs=use_html_blobs,
         for_official_docsite=for_official_docsite,
+        add_version=add_version,
     )
 
     if path_override is not None:
@@ -352,6 +362,7 @@ async def output_all_plugin_rst(
     use_html_blobs: bool = False,
     for_official_docsite: bool = False,
     referable_envvars: set[str] | None = None,
+    add_version: bool = True,
 ) -> None:
     """
     Output rst files for each plugin.
@@ -373,6 +384,8 @@ async def output_all_plugin_rst(
         official docsite on docs.ansible.com.
     :kwarg referable_envvars: Optional set of environment variables that can be referenced.
     :kwarg output_format: The output format to use.
+    :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
+        the generated files.
     """
     # Setup the jinja environment
     env = doc_environment(
@@ -415,6 +428,7 @@ async def output_all_plugin_rst(
                                 squash_hierarchy=squash_hierarchy,
                                 use_html_blobs=use_html_blobs,
                                 for_official_docsite=for_official_docsite,
+                                add_version=add_version,
                             )
                         )
                     )

@@ -67,6 +67,7 @@ async def write_plugin_lists(
     breadcrumbs: bool = True,
     for_official_docsite: bool = False,
     squash_hierarchy: bool = False,
+    add_version: bool = True,
 ) -> None:
     """
     Write an index page for each collection.
@@ -85,6 +86,8 @@ async def write_plugin_lists(
         official docsite on docs.ansible.com.
     :kwarg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
         Undefined behavior if documentation for multiple collections are created.
+    :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
+        the generated files.
     """
     flog = mlog.fields(func="write_plugin_lists")
     flog.debug("Enter")
@@ -118,6 +121,7 @@ async def write_plugin_lists(
         for_official_docsite=for_official_docsite,
         squash_hierarchy=squash_hierarchy,
         has_changelog=collection_meta.docs_config.changelog.write_changelog,
+        add_version=add_version,
     )
 
     index_file = os.path.join(dest_dir, f"index{output_format.output_extension}")
@@ -141,6 +145,7 @@ async def output_indexes(
     breadcrumbs: bool = True,
     for_official_docsite: bool = False,
     referable_envvars: set[str] | None = None,
+    add_version: bool = True,
 ) -> None:
     """
     Generate collection-level index pages for the collections.
@@ -159,6 +164,8 @@ async def output_indexes(
         official docsite on docs.ansible.com.
     :kwarg referable_envvars: Optional set of environment variables that can be referenced.
     :kwarg output_format: The output format to use.
+    :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
+        the generated files.
     """
     flog = mlog.fields(func="output_indexes")
     flog.debug("Enter")
@@ -206,6 +213,7 @@ async def output_indexes(
                         breadcrumbs=breadcrumbs,
                         for_official_docsite=for_official_docsite,
                         squash_hierarchy=squash_hierarchy,
+                        add_version=add_version,
                     )
                 )
             )
