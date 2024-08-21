@@ -1,5 +1,5 @@
 
-.. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
+.. Created with antsibull-docs
 
 
 Ns2.Col

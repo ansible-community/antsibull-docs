@@ -1,5 +1,5 @@
 
-.. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
+.. Created with antsibull-docs
 
 ns2.col.bar filter -- The bar filter
 ++++++++++++++++++++++++++++++++++++
