@@ -575,7 +575,13 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     #
     sphinx_init_parser = subparsers.add_parser(
         "sphinx-init",
-        parents=[docs_parser, template_parser, whole_site_parser, output_format_parser],
+        parents=[
+            docs_parser,
+            template_parser,
+            whole_site_parser,
+            insert_version_parser,
+            output_format_parser,
+        ],
         description="Generate a Sphinx site template for a collection docsite",
     )
 

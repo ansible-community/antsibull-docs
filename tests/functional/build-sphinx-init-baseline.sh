@@ -21,6 +21,7 @@ make_baseline() {
 make_baseline baseline-sphinx-init-current --use-current
 make_baseline baseline-sphinx-init-collections ns.col1 ns.col2 ns2.col
 make_baseline baseline-sphinx-init-config ns.col1 --no-indexes --no-breadcrumbs --use-html-blobs --squash-hierarchy --lenient --fail-on-error \
+    --no-add-antsibull-docs-version \
     --index-rst-source test.rst \
     --intersphinx identifier:https://server/path --intersphinx foo:https://bar/baz \
     --sphinx-theme another-theme
