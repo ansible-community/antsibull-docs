@@ -101,7 +101,7 @@ def test(session: nox.Session):
 
 @nox.session
 def coverage(session: nox.Session):
-    install(session, "coverage[toml]", *other_antsibull())
+    install(session, "coverage[toml]")
     combined = map(str, Path().glob(".nox/test*/tmp/.coverage"))
     # Combine the results into a single .coverage file in the root
     session.run("coverage", "combine", "--keep", *combined)
