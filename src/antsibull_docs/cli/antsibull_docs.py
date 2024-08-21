@@ -3,6 +3,9 @@
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 # SPDX-FileCopyrightText: 2020, Ansible Project
+
+# PYTHON_ARGCOMPLETE_OK
+
 """Entrypoint to the antsibull-docs script."""
 
 from __future__ import annotations
@@ -13,6 +16,14 @@ import os.path
 import stat
 import sys
 from collections.abc import Callable
+from importlib import import_module
+
+try:
+    import argcomplete
+
+    HAS_ARGCOMPLETE = True
+except ImportError:
+    HAS_ARGCOMPLETE = False
 
 import twiggy  # type: ignore[import]
 from antsibull_core.logging import initialize_app_logging, log
@@ -41,34 +52,33 @@ from ..docs_parsing.fqcn import (  # noqa: E402
     is_wildcard_collection_name,
 )
 from ..schemas.app_context import DocsAppContext  # noqa: E402
-from .doc_commands import (  # noqa: E402
-    collection,
-    collection_plugins,
-    current,
-    devel,
-    lint_docs,
-    plugin,
-    sphinx_init,
-    stable,
-)
 
 # pylint: enable=wrong-import-position
 
 
 mlog = log.fields(mod=__name__)
 
+
+def _create_loader(module: str, function: str) -> Callable[[], Callable[[], int]]:
+    def load():
+        module_obj = import_module(f"antsibull_docs.cli.doc_commands.{module}")
+        return getattr(module_obj, function)
+
+    return load
+
+
 #: Mapping from command line subcommand names to functions which implement those
 #: The functions need to take a single argument, the processed list of args.
-ARGS_MAP: dict[str, Callable] = {
-    "devel": devel.generate_docs,
-    "stable": stable.generate_docs,
-    "current": current.generate_docs,
-    "collection": collection.generate_docs,
-    "collection-plugins": collection_plugins.generate_docs,
-    "plugin": plugin.generate_docs,
-    "sphinx-init": sphinx_init.site_init,
-    "lint-collection-docs": lint_docs.lint_collection_docs,
-    "lint-core-docs": lint_docs.lint_core_docs,
+ARGS_MAP: dict[str, Callable[[], Callable[[], int]]] = {
+    "devel": _create_loader("devel", "generate_docs"),
+    "stable": _create_loader("stable", "generate_docs"),
+    "current": _create_loader("current", "generate_docs"),
+    "collection": _create_loader("collection", "generate_docs"),
+    "collection-plugins": _create_loader("collection_plugins", "generate_docs"),
+    "plugin": _create_loader("plugin", "generate_docs"),
+    "sphinx-init": _create_loader("sphinx_init", "site_init"),
+    "lint-collection-docs": _create_loader("lint_docs", "lint_collection_docs"),
+    "lint-core-docs": _create_loader("lint_docs", "lint_core_docs"),
 }
 
 #: The filename for the file which lists raw collection names
@@ -714,6 +724,10 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         " that are not covered by --validate-collection-refs.",
     )
 
+    # This must come after all parser setup
+    if HAS_ARGCOMPLETE:
+        argcomplete.autocomplete(parser)
+
     flog.debug("Argument parser setup")
 
     if "--ansible-base-cache" in args:
@@ -794,7 +808,7 @@ def run(args: list[str]) -> int:
         flog.debug("Set logging config")
 
         flog.fields(command=parsed_args.command).info("Action")
-        return ARGS_MAP[parsed_args.command]()
+        return ARGS_MAP[parsed_args.command]()()
 
 
 def main() -> int:
