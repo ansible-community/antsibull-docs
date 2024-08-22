@@ -42,7 +42,12 @@ def other_antsibull(
     if mode is None:
         mode = DEFAULT_MODE
     to_install: list[str | Path] = []
-    args = ("antsibull-changelog", "antsibull-core", "antsibull-docs-parser")
+    args = (
+        "antsibull-changelog",
+        "antsibull-core",
+        "antsibull-docs-parser",
+        "antsibull-docutils",
+    )
     for project in args:
         path = Path("../", project)
         path_exists = path.is_dir()
@@ -115,7 +120,7 @@ def lint(session: nox.Session):
 
 @nox.session
 def formatters(session: nox.Session):
-    install(session, ".[formatters]")
+    install(session, ".[formatters]", *other_antsibull())
     posargs = list(session.posargs)
     if IN_CI:
         posargs.append("--check")

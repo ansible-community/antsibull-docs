@@ -35,23 +35,25 @@ Install and run `nox` to run all tests. That's it for simple contributions!
 `nox` will create virtual environments in `.nox` inside the checked out project
 and install the requirements needed to run the tests there.
 
-
 ---
 
-antsibull-docs depends on the sister antsibull-core and antsibull-docs-parser projects.
-By default, `nox` will install a development version of these projects from
-Github.
-If you're hacking on antsibull-core and/or antsibull-docs-parser alongside antsibull-docs,
-nox will automatically install the projects from `../antsibull-core` and
-`../antsibull-docs-parser` when running tests if those paths exist.
+antsibull-docs depends on the sister antsibull-changelog, antsibull-core, and
+antsibull-docs-parser projects.
+By default, `nox` will install a development version of these projects from Github.
+If you're hacking on antsibull-changelog, antsibull-core, antsibull-docs-parser, and/or
+antsibull-docutils alongside antsibull-docs, nox will automatically install the projects
+from  `../antsibull-changelog`, `../antsibull-core`, `../antsibull-docs-parser`, and
+`../antsibull-docutils` when running tests if those paths exist.
 You can change this behavior through the `OTHER_ANTSIBULL_MODE` env var:
 
 - `OTHER_ANTSIBULL_MODE=auto` — the default behavior described above
-- `OTHER_ANTSIBULL_MODE=local` — install the projects from `../antsibull-core`
-  and `../antsibull-docs-parser`. Fail if those paths don't exist.
+- `OTHER_ANTSIBULL_MODE=local` — install the projects from `../antsibull-changelog`,
+  `../antsibull-core`, `../antsibull-docs-parser`, and `../antsibull-docutils`.
+  Fail if those paths don't exist.
 - `OTHER_ANTSIBULL_MODE=git` — install the projects from the Github main branch
 - `OTHER_ANTSIBULL_MODE=pypi` — install the latest versions from PyPI
 
+---
 
 To run specific tests:
 
@@ -64,13 +66,15 @@ To run specific tests:
 To create a more complete local development env:
 
 ```console
+git clone https://github.com/ansible-community/antsibull-changelog.git
 git clone https://github.com/ansible-community/antsibull-core.git
 git clone https://github.com/ansible-community/antsibull-docs-parser.git
 git clone https://github.com/ansible-community/antsibull-docs.git
+git clone https://github.com/ansible-community/antsibull-docutils.git
 cd antsibull-docs
 python3 -m venv venv
 . ./venv/bin/activate
-pip install -e '.[dev]' -e ../antsibull-core -e ../antsibull-docs-parser
+pip install -e '.[dev]' -e ../antsibull-changelog -e ../antsibull-core -e ../antsibull-docs-parser -e ../antsibull-docutils
 [...]
 nox
 ```
