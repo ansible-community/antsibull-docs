@@ -18,8 +18,8 @@
 
 .. Title
 
-ns2.col.foo module -- Do some foo \ :ansopt:`ns2.col.foo#module:bar`\ 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ns2.col.foo module -- Do some foo :ansopt:`ns2.col.foo#module:bar`
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -55,7 +55,7 @@ Synopsis
 
 - Does some foo on the remote host.
 - Whether foo is magic or not has not yet been determined.
-- \ :ansenvvarref:`FOOBAR1`\ , \ :ansenvvarref:`FOOBAR2`\ , \ :ansenvvar:`FOOBAR3`\ , \ :ansenvvar:`FOOBAR4`\ .
+- :ansenvvarref:`FOOBAR1`\ , :ansenvvarref:`FOOBAR2`\ , :ansenvvar:`FOOBAR3`\ , :ansenvvar:`FOOBAR4`.
 
 
 .. Aliases
@@ -126,9 +126,9 @@ Parameters
 
       A bar.
 
-      Independent from \ :ansopt:`ns2.col.foo#module:foo`\ .
+      Independent from :ansopt:`ns2.col.foo#module:foo`.
 
-      Do not confuse with \ :ansretval:`ns2.col.foo#module:bar`\ .
+      Do not confuse with :ansretval:`ns2.col.foo#module:bar`.
 
 
       .. raw:: html
@@ -204,7 +204,7 @@ Parameters
 
       The 'pkg\_info' option was added in version 2.13.
 
-      Aliases were added in 2.18, to support using \ :literal:`auto={{ansible\_facts['pkg\_mgr']}}`\ 
+      Aliases were added in 2.18, to support using :literal:`auto={{ansible\_facts['pkg\_mgr']}}`
 
 
       .. rst-class:: ansible-option-line
@@ -215,10 +215,10 @@ Parameters
         Alpine Linux package manager
 
       - :ansible-option-choices-entry:`"apt"`\ :
-        For DEB based distros, \ :literal:`python-apt`\  package must be installed on targeted hosts
+        For DEB based distros, :literal:`python-apt` package must be installed on targeted hosts
 
       - :ansible-option-choices-entry-default:`"auto"` :ansible-option-choices-default-mark:`(default)`\ :
-        Depending on \ :ansopt:`strategy`\ , will match the first or all package managers provided, in order
+        Depending on :ansopt:`strategy`\ , will match the first or all package managers provided, in order
 
       - :ansible-option-choices-entry:`"dnf"`\ :
         Alias to rpm
@@ -245,7 +245,7 @@ Parameters
         Alias to pkg
 
       - :ansible-option-choices-entry:`"portage"`\ :
-        Handles ebuild packages, it requires the \ :literal:`qlist`\  utility, which is part of 'app-portage/portage-utils'
+        Handles ebuild packages, it requires the :literal:`qlist` utility, which is part of 'app-portage/portage-utils'
 
       - :ansible-option-choices-entry:`"rpm"`\ :
         For RPM based distros, requires RPM Python bindings, not installed by default on Suse (python3-rpm)
@@ -342,7 +342,7 @@ Parameters
 
       Whatever.
 
-      Also required when \ :ansopt:`ns2.col.foo#module:subfoo`\  is specified when \ :ansopt:`ns2.col.foo#module:foo=bar`\  or \ :ansval:`baz`\ .
+      Also required when :ansopt:`ns2.col.foo#module:subfoo` is specified when :ansopt:`ns2.col.foo#module:foo=bar` or :ansval:`baz`.
 
 
       .. raw:: html
@@ -403,7 +403,7 @@ Attributes
 
         <div class="ansible-option-cell">
 
-      Use \ :literal:`group/ns2.col.foo\_group`\  in \ :literal:`module\_defaults`\  to set defaults for this module.
+      Use :literal:`group/ns2.col.foo\_group` in :literal:`module\_defaults` to set defaults for this module.
 
 
       .. raw:: html
@@ -551,7 +551,7 @@ See Also
    \ :ref:`ns2.col.foo2 <ansible_collections.ns2.col.foo2_module>`\ 
        Another foo.
    \ :ref:`ns2.col.foo <ansible_collections.ns2.col.foo_lookup>`\  lookup plugin
-       Look up some foo \ :ansopt:`ns2.col.foo#module:bar`\ .
+       Look up some foo :ansopt:`ns2.col.foo#module:bar`.
    \ :ref:`ansible.builtin.service <ansible_collections.ansible.builtin.service_module>`\ 
        The service module.
    \ :ref:`ansible.builtin.ssh <ansible_collections.ansible.builtin.ssh_connection>`\  connection plugin
@@ -627,9 +627,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       Some bar.
 
-      Referencing myself as \ :ansretval:`ns2.col.foo#module:bar`\ .
+      Referencing myself as :ansretval:`ns2.col.foo#module:bar`.
 
-      Do not confuse with \ :ansopt:`ns2.col.foo#module:bar`\ .
+      Do not confuse with :ansopt:`ns2.col.foo#module:bar`.
 
 
       .. rst-class:: ansible-option-line

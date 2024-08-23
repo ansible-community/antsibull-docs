@@ -15,9 +15,7 @@ Description
 -----------
 
 This is a description.
-
 With multiple paragraphs.
-
 
 **Author:**
 
@@ -66,7 +64,7 @@ These are the plugins in the ns2.col collection:
 Modules
 ~~~~~~~
 
-* `foo module <foo_module.rst>`_ -- Do some foo \ :literal:`bar` (of module `ns2.col.foo <foo_module.rst>`__)\ 
+* `foo module <foo_module.rst>`_ -- Do some foo :literal:`bar` (of module `ns2.col.foo <foo_module.rst>`__)
 * `foo2 module <foo2_module.rst>`_ -- Another foo
 * `sub.foo3 module <sub.foo3_module.rst>`_ -- A sub-foo
 
@@ -74,19 +72,19 @@ Modules
 Become Plugins
 ~~~~~~~~~~~~~~
 
-* `foo become <foo_become.rst>`_ -- Use foo \ :literal:`bar` (of become plugin `ns2.col.foo <foo_become.rst>`__)\ 
+* `foo become <foo_become.rst>`_ -- Use foo :literal:`bar` (of become plugin `ns2.col.foo <foo_become.rst>`__)
 
 
 Cache Plugins
 ~~~~~~~~~~~~~
 
-* `foo cache <foo_cache.rst>`_ -- Foo files \ :literal:`bar` (of cache plugin `ns2.col.foo <foo_cache.rst>`__)\ 
+* `foo cache <foo_cache.rst>`_ -- Foo files :literal:`bar` (of cache plugin `ns2.col.foo <foo_cache.rst>`__)
 
 
 Callback Plugins
 ~~~~~~~~~~~~~~~~
 
-* `foo callback <foo_callback.rst>`_ -- Foo output \ :literal:`bar` (of callback plugin `ns2.col.foo <foo_callback.rst>`__)\ 
+* `foo callback <foo_callback.rst>`_ -- Foo output :literal:`bar` (of callback plugin `ns2.col.foo <foo_callback.rst>`__)
 
 
 Cliconf Plugins
@@ -98,32 +96,32 @@ Cliconf Plugins
 Connection Plugins
 ~~~~~~~~~~~~~~~~~~
 
-* `foo connection <foo_connection.rst>`_ -- Foo connection \ :literal:`bar` (of connection plugin `ns2.col.foo <foo_connection.rst>`__)\ 
+* `foo connection <foo_connection.rst>`_ -- Foo connection :literal:`bar` (of connection plugin `ns2.col.foo <foo_connection.rst>`__)
 
 
 Filter Plugins
 ~~~~~~~~~~~~~~
 
 * `bar filter <bar_filter.rst>`_ -- The bar filter
-* `foo filter <foo_filter.rst>`_ -- The foo filter \ :literal:`bar` (of filter plugin `ns2.col.foo <foo_filter.rst>`__)\ 
+* `foo filter <foo_filter.rst>`_ -- The foo filter :literal:`bar` (of filter plugin `ns2.col.foo <foo_filter.rst>`__)
 
 
 Inventory Plugins
 ~~~~~~~~~~~~~~~~~
 
-* `foo inventory <foo_inventory.rst>`_ -- The foo inventory \ :literal:`bar` (of inventory plugin `ns2.col.foo <foo_inventory.rst>`__)\ 
+* `foo inventory <foo_inventory.rst>`_ -- The foo inventory :literal:`bar` (of inventory plugin `ns2.col.foo <foo_inventory.rst>`__)
 
 
 Lookup Plugins
 ~~~~~~~~~~~~~~
 
-* `foo lookup <foo_lookup.rst>`_ -- Look up some foo \ :literal:`bar` (of lookup plugin `ns2.col.foo <foo_lookup.rst>`__)\ 
+* `foo lookup <foo_lookup.rst>`_ -- Look up some foo :literal:`bar` (of lookup plugin `ns2.col.foo <foo_lookup.rst>`__)
 
 
 Shell Plugins
 ~~~~~~~~~~~~~
 
-* `foo shell <foo_shell.rst>`_ -- Foo shell \ :literal:`bar` (of shell plugin `ns2.col.foo <foo_shell.rst>`__)\ 
+* `foo shell <foo_shell.rst>`_ -- Foo shell :literal:`bar` (of shell plugin `ns2.col.foo <foo_shell.rst>`__)
 
 
 Strategy Plugins
@@ -136,13 +134,13 @@ Test Plugins
 ~~~~~~~~~~~~
 
 * `bar test <bar_test.rst>`_ -- Is something a bar
-* `foo test <foo_test.rst>`_ -- Is something a foo \ :literal:`bar` (of test plugin `ns2.col.foo <foo_test.rst>`__)\ 
+* `foo test <foo_test.rst>`_ -- Is something a foo :literal:`bar` (of test plugin `ns2.col.foo <foo_test.rst>`__)
 
 
 Vars Plugins
 ~~~~~~~~~~~~
 
-* `foo vars <foo_vars.rst>`_ -- Load foo \ :literal:`bar` (of vars plugin `ns2.col.foo <foo_vars.rst>`__)\ 
+* `foo vars <foo_vars.rst>`_ -- Load foo :literal:`bar` (of vars plugin `ns2.col.foo <foo_vars.rst>`__)
 
 
 Role Index

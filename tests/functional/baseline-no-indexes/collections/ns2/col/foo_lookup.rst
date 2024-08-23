@@ -18,8 +18,8 @@
 
 .. Title
 
-ns2.col.foo lookup -- Look up some foo \ :ansopt:`ns2.col.foo#lookup:bar`\ 
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ns2.col.foo lookup -- Look up some foo :ansopt:`ns2.col.foo#lookup:bar`
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 

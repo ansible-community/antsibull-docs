@@ -189,7 +189,7 @@ Return Value
 
         <div class="ansible-option-cell">
 
-      Returns \ :literal:`true`\  if the path is a bar, \ :literal:`false`\  if it is not a bar.
+      Returns :literal:`true` if the path is a bar, :literal:`false` if it is not a bar.
 
 
       .. rst-class:: ansible-option-line

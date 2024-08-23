@@ -18,8 +18,8 @@
 
 .. Title
 
-ns2.col.foo inventory -- The foo inventory \ :ansopt:`ns2.col.foo#inventory:bar`\ 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ns2.col.foo inventory -- The foo inventory :ansopt:`ns2.col.foo#inventory:bar`
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 

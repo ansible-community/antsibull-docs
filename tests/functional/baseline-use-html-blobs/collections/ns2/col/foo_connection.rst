@@ -18,8 +18,8 @@
 
 .. Title
 
-ns2.col.foo connection -- Foo connection \ :ansopt:`ns2.col.foo#connection:bar`\ 
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ns2.col.foo connection -- Foo connection :ansopt:`ns2.col.foo#connection:bar`
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -51,7 +51,7 @@ Synopsis
 
 .. Description
 
-- This is for the \ :literal:`foo`\  connection.
+- This is for the :literal:`foo` connection.
 
 
 .. Aliases
@@ -145,8 +145,8 @@ Notes
 -----
 
 .. note::
-   - Some note. \ :strong:`Something in bold`\ . \ :literal:`And in code`\ . \ :emphasis:`And in italics`\ . An URL: \ `https://example.org <https://example.org>`__\ .
-   - And another one. \ `A link <https://example.com>`__\ .
+   - Some note. :strong:`Something in bold`. :literal:`And in code`. :emphasis:`And in italics`. An URL: \ `https://example.org <https://example.org>`__.
+   - And another one. \ `A link <https://example.com>`__.
 
 .. Seealso
 

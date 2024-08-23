@@ -20,9 +20,7 @@ Description
 -----------
 
 This is a description.
-
 With multiple paragraphs.
-
 
 **Author:**
 
@@ -93,7 +91,7 @@ These are the plugins in the ns2.col collection:
 Modules
 ~~~~~~~
 
-* :ansplugin:`foo module <ns2.col.foo#module>` -- Do some foo \ :ansopt:`ns2.col.foo#module:bar`\ 
+* :ansplugin:`foo module <ns2.col.foo#module>` -- Do some foo :ansopt:`ns2.col.foo#module:bar`
 * :ansplugin:`foo2 module <ns2.col.foo2#module>` -- Another foo
 * :ansplugin:`sub.foo3 module <ns2.col.sub.foo3#module>` -- A sub-foo
 
@@ -101,19 +99,19 @@ Modules
 Become Plugins
 ~~~~~~~~~~~~~~
 
-* :ansplugin:`foo become <ns2.col.foo#become>` -- Use foo \ :ansopt:`ns2.col.foo#become:bar`\ 
+* :ansplugin:`foo become <ns2.col.foo#become>` -- Use foo :ansopt:`ns2.col.foo#become:bar`
 
 
 Cache Plugins
 ~~~~~~~~~~~~~
 
-* :ansplugin:`foo cache <ns2.col.foo#cache>` -- Foo files \ :ansopt:`ns2.col.foo#cache:bar`\ 
+* :ansplugin:`foo cache <ns2.col.foo#cache>` -- Foo files :ansopt:`ns2.col.foo#cache:bar`
 
 
 Callback Plugins
 ~~~~~~~~~~~~~~~~
 
-* :ansplugin:`foo callback <ns2.col.foo#callback>` -- Foo output \ :ansopt:`ns2.col.foo#callback:bar`\ 
+* :ansplugin:`foo callback <ns2.col.foo#callback>` -- Foo output :ansopt:`ns2.col.foo#callback:bar`
 
 
 Cliconf Plugins
@@ -125,32 +123,32 @@ Cliconf Plugins
 Connection Plugins
 ~~~~~~~~~~~~~~~~~~
 
-* :ansplugin:`foo connection <ns2.col.foo#connection>` -- Foo connection \ :ansopt:`ns2.col.foo#connection:bar`\ 
+* :ansplugin:`foo connection <ns2.col.foo#connection>` -- Foo connection :ansopt:`ns2.col.foo#connection:bar`
 
 
 Filter Plugins
 ~~~~~~~~~~~~~~
 
 * :ansplugin:`bar filter <ns2.col.bar#filter>` -- The bar filter
-* :ansplugin:`foo filter <ns2.col.foo#filter>` -- The foo filter \ :ansopt:`ns2.col.foo#filter:bar`\ 
+* :ansplugin:`foo filter <ns2.col.foo#filter>` -- The foo filter :ansopt:`ns2.col.foo#filter:bar`
 
 
 Inventory Plugins
 ~~~~~~~~~~~~~~~~~
 
-* :ansplugin:`foo inventory <ns2.col.foo#inventory>` -- The foo inventory \ :ansopt:`ns2.col.foo#inventory:bar`\ 
+* :ansplugin:`foo inventory <ns2.col.foo#inventory>` -- The foo inventory :ansopt:`ns2.col.foo#inventory:bar`
 
 
 Lookup Plugins
 ~~~~~~~~~~~~~~
 
-* :ansplugin:`foo lookup <ns2.col.foo#lookup>` -- Look up some foo \ :ansopt:`ns2.col.foo#lookup:bar`\ 
+* :ansplugin:`foo lookup <ns2.col.foo#lookup>` -- Look up some foo :ansopt:`ns2.col.foo#lookup:bar`
 
 
 Shell Plugins
 ~~~~~~~~~~~~~
 
-* :ansplugin:`foo shell <ns2.col.foo#shell>` -- Foo shell \ :ansopt:`ns2.col.foo#shell:bar`\ 
+* :ansplugin:`foo shell <ns2.col.foo#shell>` -- Foo shell :ansopt:`ns2.col.foo#shell:bar`
 
 
 Strategy Plugins
@@ -163,13 +161,13 @@ Test Plugins
 ~~~~~~~~~~~~
 
 * :ansplugin:`bar test <ns2.col.bar#test>` -- Is something a bar
-* :ansplugin:`foo test <ns2.col.foo#test>` -- Is something a foo \ :ansopt:`ns2.col.foo#test:bar`\ 
+* :ansplugin:`foo test <ns2.col.foo#test>` -- Is something a foo :ansopt:`ns2.col.foo#test:bar`
 
 
 Vars Plugins
 ~~~~~~~~~~~~
 
-* :ansplugin:`foo vars <ns2.col.foo#vars>` -- Load foo \ :ansopt:`ns2.col.foo#vars:bar`\ 
+* :ansplugin:`foo vars <ns2.col.foo#vars>` -- Load foo :ansopt:`ns2.col.foo#vars:bar`
 
 
 Role Index

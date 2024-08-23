@@ -12,5 +12,5 @@ Index of all Lookup Plugins
 ns2.col
 -------
 
-* :ansplugin:`ns2.col.foo#lookup` -- Look up some foo \ :ansopt:`ns2.col.foo#lookup:bar`\ 
+* :ansplugin:`ns2.col.foo#lookup` -- Look up some foo :ansopt:`ns2.col.foo#lookup:bar`
 

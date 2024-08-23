@@ -1,8 +1,8 @@
 
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
-ns2.col.foo module -- Do some foo \ :literal:`bar` (`link <#parameter-bar>`_)\ 
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ns2.col.foo module -- Do some foo :literal:`bar` (`link <#parameter-bar>`_)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 This module is part of the `ns2.col collection <https://galaxy.ansible.com/ui/repo/published/ns2/col/>`_ (version 2.1.0).
 
@@ -27,7 +27,7 @@ Synopsis
 
 - Does some foo on the remote host.
 - Whether foo is magic or not has not yet been determined.
-- \ :literal:`FOOBAR1`\ , \ :literal:`FOOBAR2`\ , \ :literal:`FOOBAR3`\ , \ :literal:`FOOBAR4`\ .
+- :literal:`FOOBAR1`\ , :literal:`FOOBAR2`\ , :literal:`FOOBAR3`\ , :literal:`FOOBAR4`.
 
 
 Aliases: foo_redirect
@@ -230,7 +230,7 @@ Attributes
 
 
     - 
-      Use \ :literal:`group/ns2.col.foo\_group`\  in \ :literal:`module\_defaults`\  to set defaults for this module.
+      Use :literal:`group/ns2.col.foo\_group` in :literal:`module\_defaults` to set defaults for this module.
 
 
 
@@ -282,7 +282,7 @@ See Also
   Another foo.
 * \ `ns2.col.foo <foo_lookup.rst>`__\  lookup plugin
 
-  Look up some foo \ :literal:`bar` (`link <#parameter-bar>`_)\ .
+  Look up some foo :literal:`bar` (`link <#parameter-bar>`_).
 * \ `ansible.builtin.service <service_module.rst>`__\ 
 
   The service module.

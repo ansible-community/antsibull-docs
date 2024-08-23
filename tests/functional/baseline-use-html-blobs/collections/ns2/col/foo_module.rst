@@ -18,8 +18,8 @@
 
 .. Title
 
-ns2.col.foo module -- Do some foo \ :ansopt:`ns2.col.foo#module:bar`\ 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ns2.col.foo module -- Do some foo :ansopt:`ns2.col.foo#module:bar`
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -55,7 +55,7 @@ Synopsis
 
 - Does some foo on the remote host.
 - Whether foo is magic or not has not yet been determined.
-- \ :ansenvvarref:`FOOBAR1`\ , \ :ansenvvarref:`FOOBAR2`\ , \ :ansenvvar:`FOOBAR3`\ , \ :ansenvvar:`FOOBAR4`\ .
+- :ansenvvarref:`FOOBAR1`\ , :ansenvvarref:`FOOBAR2`\ , :ansenvvar:`FOOBAR3`\ , :ansenvvar:`FOOBAR4`.
 
 
 .. Aliases
@@ -295,7 +295,7 @@ Attributes
 
         <div class="ansible-option-cell">
 
-      Use \ :literal:`group/ns2.col.foo\_group`\  in \ :literal:`module\_defaults`\  to set defaults for this module.
+      Use :literal:`group/ns2.col.foo\_group` in :literal:`module\_defaults` to set defaults for this module.
 
 
       .. raw:: html
@@ -443,7 +443,7 @@ See Also
    \ :ref:`ns2.col.foo2 <ansible_collections.ns2.col.foo2_module>`\ 
        Another foo.
    \ :ref:`ns2.col.foo <ansible_collections.ns2.col.foo_lookup>`\  lookup plugin
-       Look up some foo \ :ansopt:`ns2.col.foo#module:bar`\ .
+       Look up some foo :ansopt:`ns2.col.foo#module:bar`.
    \ :ref:`ansible.builtin.service <ansible_collections.ansible.builtin.service_module>`\ 
        The service module.
    \ :ref:`ansible.builtin.ssh <ansible_collections.ansible.builtin.ssh_connection>`\  connection plugin

@@ -18,8 +18,8 @@
 
 .. Title
 
-ns2.col.foo cache -- Foo files \ :ansopt:`ns2.col.foo#cache:bar`\ 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ns2.col.foo cache -- Foo files :ansopt:`ns2.col.foo#cache:bar`
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 

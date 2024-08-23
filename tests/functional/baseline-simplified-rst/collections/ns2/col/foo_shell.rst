@@ -1,8 +1,8 @@
 
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
-ns2.col.foo shell -- Foo shell \ :literal:`bar` (`link <#parameter-bar>`_)\ 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ns2.col.foo shell -- Foo shell :literal:`bar` (`link <#parameter-bar>`_)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 This shell plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ui/repo/published/ns2/col/>`_ (version 2.1.0).
 

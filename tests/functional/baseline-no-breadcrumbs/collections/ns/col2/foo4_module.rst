@@ -102,19 +102,19 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      \ :ansopt:`ansible.builtin.iptables#module:tcp\_flags.flags[]`\ 
+      :ansopt:`ansible.builtin.iptables#module:tcp\_flags.flags[]`
 
-      \ :ansopt:`ns2.col.bar#filter:foo`\ 
+      :ansopt:`ns2.col.bar#filter:foo`
 
-      \ :ansopt:`ns2.col.bar#filter:foo[]`\ 
+      :ansopt:`ns2.col.bar#filter:foo[]`
 
-      \ :ansopt:`ext.col.foo#module:foo[baz].bar`\ 
+      :ansopt:`ext.col.foo#module:foo[baz].bar`
 
-      \ :ansretval:`ext.col.foo#module:baz`\ 
+      :ansretval:`ext.col.foo#module:baz`
 
-      \ :ansretval:`ext.col.foo#module:baz[ ]`\ 
+      :ansretval:`ext.col.foo#module:baz[ ]`
 
-      \ :ansretval:`ansible.builtin.stat#module:stat[foo.bar]`\ 
+      :ansretval:`ansible.builtin.stat#module:stat[foo.bar]`
 
 
       .. raw:: html
@@ -148,47 +148,47 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      \ :ref:`ansible.builtin.service <ansible_collections.ansible.builtin.service_module>`\ 
+      :ref:`ansible.builtin.service <ansible_collections.ansible.builtin.service_module>`
 
-      \ :ref:`ansible.builtin.pipe <ansible_collections.ansible.builtin.pipe_lookup>`\ 
+      :ref:`ansible.builtin.pipe <ansible_collections.ansible.builtin.pipe_lookup>`
 
-      \ :ansopt:`ansible.builtin.file#module:state`\ 
+      :ansopt:`ansible.builtin.file#module:state`
 
-      \ :ansretval:`ansible.builtin.stat#module:stat.exists`\ 
+      :ansretval:`ansible.builtin.stat#module:stat.exists`
 
-      \ :ref:`ns2.flatcol.foo <ansible_collections.ns2.flatcol.foo_module>`\ 
+      :ref:`ns2.flatcol.foo <ansible_collections.ns2.flatcol.foo_module>`
 
-      \ :ref:`ns2.flatcol.sub.foo2 <ansible_collections.ns2.flatcol.sub.foo2_module>`\ 
+      :ref:`ns2.flatcol.sub.foo2 <ansible_collections.ns2.flatcol.sub.foo2_module>`
 
-      \ :ansopt:`ns2.flatcol.foo#module:subbaz.bam`\ 
+      :ansopt:`ns2.flatcol.foo#module:subbaz.bam`
 
-      \ :ansretval:`ns2.flatcol.sub.foo2#module:bar`\ 
+      :ansretval:`ns2.flatcol.sub.foo2#module:bar`
 
-      \ :ref:`ns2.col.foo2 <ansible_collections.ns2.col.foo2_module>`\ 
+      :ref:`ns2.col.foo2 <ansible_collections.ns2.col.foo2_module>`
 
-      \ :ref:`ns2.col.foo <ansible_collections.ns2.col.foo_lookup>`\ 
+      :ref:`ns2.col.foo <ansible_collections.ns2.col.foo_lookup>`
 
-      \ :ansopt:`ns2.col.bar#filter:foo[-1]`\ 
+      :ansopt:`ns2.col.bar#filter:foo[-1]`
 
-      \ :ansretval:`ns2.col.bar#test:\_value`\ 
+      :ansretval:`ns2.col.bar#test:\_value`
 
-      \ :ref:`ns.col2.foo2 <ansible_collections.ns.col2.foo2_module>`\ 
+      :ref:`ns.col2.foo2 <ansible_collections.ns.col2.foo2_module>`
 
-      \ :ref:`ns.col2.foo2 <ansible_collections.ns.col2.foo2_module>`\ 
+      :ref:`ns.col2.foo2 <ansible_collections.ns.col2.foo2_module>`
 
-      \ :ansopt:`ns.col2.foo2#module:subfoo.foo`\ 
+      :ansopt:`ns.col2.foo2#module:subfoo.foo`
 
-      \ :ansretval:`ns.col2.foo2#module:bar`\ 
+      :ansretval:`ns.col2.foo2#module:bar`
 
-      \ :ref:`ext.col.foo <ansible_collections.ext.col.foo_module>`\ 
+      :ref:`ext.col.foo <ansible_collections.ext.col.foo_module>`
 
-      \ :ref:`ext.col.bar <ansible_collections.ext.col.bar_lookup>`\ 
+      :ref:`ext.col.bar <ansible_collections.ext.col.bar_lookup>`
 
-      \ :ansopt:`ext.col.foo#module:foo[len(foo)].bar`\ 
+      :ansopt:`ext.col.foo#module:foo[len(foo)].bar`
 
-      \ :ansretval:`ext.col.foo#module:baz[]`\ 
+      :ansretval:`ext.col.foo#module:baz[]`
 
-      \ :ansopt:`ns.col2.foo2#module:subfoo.BaZ`\ 
+      :ansopt:`ns.col2.foo2#module:subfoo.BaZ`
 
 
       .. raw:: html
@@ -222,17 +222,17 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      \ :ansopt:`ansible.builtin.file#module:state[]`\ 
+      :ansopt:`ansible.builtin.file#module:state[]`
 
-      \ :ansretval:`ansible.builtin.stat#module:stat[foo.bar].exists`\ 
+      :ansretval:`ansible.builtin.stat#module:stat[foo.bar].exists`
 
-      \ :ansretval:`ansible.builtin.stat#module:stat.exists[]`\ 
+      :ansretval:`ansible.builtin.stat#module:stat.exists[]`
 
-      \ :ansopt:`ns.col2.foo2#module:subfoo[`\ 
+      :ansopt:`ns.col2.foo2#module:subfoo[`
 
-      \ :ansretval:`ns.col2.foo2#module:bar[]`\ 
+      :ansretval:`ns.col2.foo2#module:bar[]`
 
-      \ :ansopt:`ext.col.foo#module:foo.bar`\ 
+      :ansopt:`ext.col.foo#module:foo.bar`
 
 
       .. raw:: html
@@ -266,67 +266,67 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      \ :ref:`ansible.builtin.foobar <ansible_collections.ansible.builtin.foobar_module>`\ 
+      :ref:`ansible.builtin.foobar <ansible_collections.ansible.builtin.foobar_module>`
 
-      \ :ref:`ansible.builtin.bazbam <ansible_collections.ansible.builtin.bazbam_lookup>`\ 
+      :ref:`ansible.builtin.bazbam <ansible_collections.ansible.builtin.bazbam_lookup>`
 
-      \ :ansopt:`ansible.builtin.file#module:foobarbaz`\ 
+      :ansopt:`ansible.builtin.file#module:foobarbaz`
 
-      \ :ansretval:`ansible.builtin.stat#module:baz.bam[]`\ 
+      :ansretval:`ansible.builtin.stat#module:baz.bam[]`
 
-      \ :ansopt:`ansible.builtin.foobar#module:state`\ 
+      :ansopt:`ansible.builtin.foobar#module:state`
 
-      \ :ansretval:`ansible.builtin.bazbam#module:stat.exists`\ 
+      :ansretval:`ansible.builtin.bazbam#module:stat.exists`
 
-      \ :ref:`ns2.flatcol.foobarbaz <ansible_collections.ns2.flatcol.foobarbaz_module>`\ 
+      :ref:`ns2.flatcol.foobarbaz <ansible_collections.ns2.flatcol.foobarbaz_module>`
 
-      \ :ref:`ns2.flatcol.sub.bazbam <ansible_collections.ns2.flatcol.sub.bazbam_module>`\ 
+      :ref:`ns2.flatcol.sub.bazbam <ansible_collections.ns2.flatcol.sub.bazbam_module>`
 
-      \ :ansopt:`ns2.flatcol.foo#module:foofoofoobar`\ 
+      :ansopt:`ns2.flatcol.foo#module:foofoofoobar`
 
-      \ :ansretval:`ns2.flatcol.sub.foo2#module:bazbarbam`\ 
+      :ansretval:`ns2.flatcol.sub.foo2#module:bazbarbam`
 
-      \ :ansopt:`ns2.flatcol.foobar#module:subbaz.bam`\ 
+      :ansopt:`ns2.flatcol.foobar#module:subbaz.bam`
 
-      \ :ansretval:`ns2.flatcol.sub.bazbam#module:bar`\ 
+      :ansretval:`ns2.flatcol.sub.bazbam#module:bar`
 
-      \ :ref:`ns2.col.joo <ansible_collections.ns2.col.joo_module>`\ 
+      :ref:`ns2.col.joo <ansible_collections.ns2.col.joo_module>`
 
-      \ :ref:`ns2.col.joo <ansible_collections.ns2.col.joo_lookup>`\ 
+      :ref:`ns2.col.joo <ansible_collections.ns2.col.joo_lookup>`
 
-      \ :ansopt:`ns2.col.bar#filter:jooo`\ 
+      :ansopt:`ns2.col.bar#filter:jooo`
 
-      \ :ansretval:`ns2.col.bar#test:booo`\ 
+      :ansretval:`ns2.col.bar#test:booo`
 
-      \ :ansopt:`ns2.col.joo#filter:foo[-1]`\ 
+      :ansopt:`ns2.col.joo#filter:foo[-1]`
 
-      \ :ansretval:`ns2.col.joo#test:\_value`\ 
+      :ansretval:`ns2.col.joo#test:\_value`
 
-      \ :ref:`ns.col2.foobarbaz <ansible_collections.ns.col2.foobarbaz_module>`\ 
+      :ref:`ns.col2.foobarbaz <ansible_collections.ns.col2.foobarbaz_module>`
 
-      \ :ref:`ns.col2.foobarbam <ansible_collections.ns.col2.foobarbam_filter>`\ 
+      :ref:`ns.col2.foobarbam <ansible_collections.ns.col2.foobarbam_filter>`
 
-      \ :ansopt:`ns.col2.foo2#module:barbazbam.foo`\ 
+      :ansopt:`ns.col2.foo2#module:barbazbam.foo`
 
-      \ :ansretval:`ns.col2.foo2#module:bambazbar`\ 
+      :ansretval:`ns.col2.foo2#module:bambazbar`
 
-      \ :ansopt:`ns.col2.foofoo#test:subfoo.foo`\ 
+      :ansopt:`ns.col2.foofoo#test:subfoo.foo`
 
-      \ :ansretval:`ns.col2.foofoo#lookup:baz`\ 
+      :ansretval:`ns.col2.foofoo#lookup:baz`
 
-      \ :ref:`ext.col.notthere <ansible_collections.ext.col.notthere_module>`\ 
+      :ref:`ext.col.notthere <ansible_collections.ext.col.notthere_module>`
 
-      \ :ref:`ext.col.notthere <ansible_collections.ext.col.notthere_lookup>`\ 
+      :ref:`ext.col.notthere <ansible_collections.ext.col.notthere_lookup>`
 
-      \ :ansopt:`ext.col.foo#module:foo[len(foo)].notthere`\ 
+      :ansopt:`ext.col.foo#module:foo[len(foo)].notthere`
 
-      \ :ansopt:`ext.col.foo#module:notthere[len(notthere)].bar`\ 
+      :ansopt:`ext.col.foo#module:notthere[len(notthere)].bar`
 
-      \ :ansretval:`ext.col.foo#module:notthere[]`\ 
+      :ansretval:`ext.col.foo#module:notthere[]`
 
-      \ :ansopt:`ext.col.notthere#module:foo[len(foo)].bar`\ 
+      :ansopt:`ext.col.notthere#module:foo[len(foo)].bar`
 
-      \ :ansretval:`ext.col.notthere#module:baz[]`\ 
+      :ansretval:`ext.col.notthere#module:baz[]`
 
 
       .. raw:: html

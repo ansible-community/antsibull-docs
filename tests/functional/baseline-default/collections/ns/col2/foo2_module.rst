@@ -50,17 +50,16 @@ Synopsis
 .. Description
 
 - Does some foo on the remote host.
-- A broken reference \ :ref:`asdfasdfoobarTHISDOESNOTEXIST <asdfasdfoobarTHISDOESNOTEXIST>`\ .
-- The option \ :ansopt:`ns.col2.foo2#module:foo`\  exists, but \ :ansopt:`ns.col2.foo2#module:foobar`\  does not.
-- The return value \ :ansretval:`ns.col2.foo2#module:bar`\  exists, but \ :ansretval:`ns.col2.foo2#module:barbaz`\  does not.
-- Again existing: \ :ansopt:`ns.col2.foo#module:foo=1`\ , \ :ansretval:`ns.col2.foo#module:bar=2`\ 
-- Again not existing: \ :ansopt:`ns.col2.foo#module:foobar=1`\ , \ :ansretval:`ns.col2.foo#module:barbaz=2`\ 
-- \ :literal:`\ `\  \ :emphasis:`\ `\  \ :strong:`\ `\  \ :literal:`\ `\    \ :ref:`\  <>`\  \ :ansval:`\ `\  \ :ansopt:`ns.col2.foo2#module:`\  \ :ansretval:`ns.col2.foo2#module:`\  \ :ansenvvar:`\ `\ 
+- A broken reference :ref:`asdfasdfoobarTHISDOESNOTEXIST <asdfasdfoobarTHISDOESNOTEXIST>`.
+- The option :ansopt:`ns.col2.foo2#module:foo` exists, but :ansopt:`ns.col2.foo2#module:foobar` does not.
+- The return value :ansretval:`ns.col2.foo2#module:bar` exists, but :ansretval:`ns.col2.foo2#module:barbaz` does not.
+- Again existing: :ansopt:`ns.col2.foo#module:foo=1`\ , :ansretval:`ns.col2.foo#module:bar=2`
+- Again not existing: :ansopt:`ns.col2.foo#module:foobar=1`\ , :ansretval:`ns.col2.foo#module:barbaz=2`
+- :literal:`\ ` :emphasis:`\ ` :strong:`\ ` :literal:`\ `   :ref:`\  <>` :ansval:`\ ` :ansopt:`ns.col2.foo2#module:`\  :ansretval:`ns.col2.foo2#module:`\  :ansenvvar:`\ `
 - Foo bar baz. Bamm - Bar baz
   bam bum.
   Bumm - Foo bar
   baz bam!
-
 
 
 .. Aliases
@@ -126,13 +125,12 @@ Parameters
 
       Bar.
 
-      Some \ :ansopt:`ns.col2.foo2#module:broken markup`\ .
+      Some :ansopt:`ns.col2.foo2#module:broken markup`.
 
       Foo bar baz. Bamm - Bar baz
       bam bum.
       Bumm - Foo bar
       baz bam!
-
 
 
       .. raw:: html
@@ -288,9 +286,9 @@ Parameters
 
       Whatever.
 
-      Also required when \ :emphasis:`subfoo`\  is specified when \ :emphasis:`foo=bar`\  or \ :literal:`baz`\ .
+      Also required when :emphasis:`subfoo` is specified when :emphasis:`foo=bar` or :literal:`baz`.
 
-      \ :ansretval:`ns.col2.foo2#module:foobarbaz`\  does not exist.
+      :ansretval:`ns.col2.foo2#module:foobarbaz` does not exist.
 
 
       .. raw:: html
@@ -401,7 +399,6 @@ Attributes
       baz bam!
 
 
-
       .. raw:: html
 
         </div>
@@ -432,15 +429,14 @@ Attributes
 
       :ansible-attribute-support-property:`Platform:` |antsibull-internal-nbsp|:ansible-attribute-support-full:`posix`
 
-      The module \ :strong:`ERROR while parsing`\ : While parsing "M(boo)" at index 12: Module name "boo" is not a FQCN\  is not using an FQCN.
+      The module :strong:`ERROR while parsing`\ : While parsing "M(boo)" at index 12: Module name "boo" is not a FQCN is not using an FQCN.
 
-      Sometimes our markup is \ :strong:`ERROR while parsing`\ : While parsing "B(broken." at index 25: Cannot find closing ")" after last parameter\ 
+      Sometimes our markup is :strong:`ERROR while parsing`\ : While parsing "B(broken." at index 25: Cannot find closing ")" after last parameter
 
       Foo bar baz. Bamm - Bar baz
       bam bum.
       Bumm - Foo bar
       baz bam!
-
 
 
       .. raw:: html
@@ -471,7 +467,6 @@ Notes
      Bumm - Foo bar
      baz bam!
 
-
 .. Seealso
 
 See Also
@@ -498,7 +493,6 @@ See Also
        bam bum.
        Bumm - Foo bar
        baz bam!
-
 
 .. Examples
 

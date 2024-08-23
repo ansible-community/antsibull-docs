@@ -55,11 +55,9 @@ DEPRECATED
 :Why: Just some text.
       This one has more than one line.
       And one more.
-
 :Alternative: I don't know
               of any
               alternative.
-
 
 Synopsis
 ^^^^^^^^
@@ -67,7 +65,7 @@ Synopsis
 .. Description
 
 - This is the foo role.
-- If you set \ :ansopt:`ns2.col.foo#role:main:foo\_param\_1`\  while \ :ansopt:`ns2.col.foo#role:main:foo\_param\_2=3`\ , this might behave funny.
+- If you set :ansopt:`ns2.col.foo#role:main:foo\_param\_1` while :ansopt:`ns2.col.foo#role:main:foo\_param\_2=3`\ , this might behave funny.
 
 .. Requirements
 

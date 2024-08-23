@@ -281,16 +281,16 @@ example: ``input | ns2.col.bar(key1=value1, key2=value2, ...)``
       :ansible-option-choices:`Choices:`
 
       - :ansible-option-choices-entry:`"a"`\ :
-        Whatever \ :literal:`a`\  is.
+        Whatever :literal:`a` is.
 
       - :ansible-option-choices-entry:`"b"`\ :
-        What is \ :literal:`b`\ ? I don't know.
+        What is :literal:`b`\ ? I don't know.
 
       - :ansible-option-choices-entry:`"cde"`\ :
         This is some more unknown. There are rumors this is related to the alphabet.
 
       - :ansible-option-choices-entry-default:`"foo"` :ansible-option-choices-default-mark:`(default)`\ :
-        Our default value, the glorious \ :literal:`foo`\ .
+        Our default value, the glorious :literal:`foo`.
 
         Even has two paragraphs.
 

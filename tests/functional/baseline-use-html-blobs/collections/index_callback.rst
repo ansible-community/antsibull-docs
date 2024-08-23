@@ -20,5 +20,5 @@ Index of all Callback Plugins
 ns2.col
 -------
 
-* :ansplugin:`ns2.col.foo#callback` -- Foo output \ :ansopt:`ns2.col.foo#callback:bar`\ 
+* :ansplugin:`ns2.col.foo#callback` -- Foo output :ansopt:`ns2.col.foo#callback:bar`
 
