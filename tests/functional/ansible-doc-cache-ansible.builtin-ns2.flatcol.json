@@ -7110,7 +7110,8 @@
      "author": "Jan-Piet Mens (@jpmens) <jpmens(at)gmail.com>",
      "collection": "ansible.builtin",
      "description": [
-      "The csvfile lookup reads the contents of a file in CSV (comma-separated value) format. The lookup looks for the row where the first column matches keyname (which can be multiple words) and returns the value in the O(col) column (default 1, which indexed from 0 means the second column in the file)."
+      "The csvfile lookup reads the contents of a file in CSV (comma-separated value) format. The lookup looks for the row where the first column matches keyname (which can be multiple words) and returns the value in the O(col) column (default 1, which indexed from 0 means the second column in the file).",
+      "At least one keyname is required, provided as a positional argument(s) to the lookup."
      ],
      "filename": "/ansible/plugins/lookup/csvfile.py",
      "name": "csvfile",
@@ -7160,7 +7161,7 @@
      "version_added": "1.5",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name:  Match 'Li' on the first column, return the second column (0 based index)\n  ansible.builtin.debug: msg=\"The atomic number of Lithium is {{ lookup('ansible.builtin.csvfile', 'Li file=elements.csv delimiter=,') }}\"\n\n- name: msg=\"Match 'Li' on the first column, but return the 3rd column (columns start counting after the match)\"\n  ansible.builtin.debug: msg=\"The atomic mass of Lithium is {{ lookup('ansible.builtin.csvfile', 'Li file=elements.csv delimiter=, col=2') }}\"\n\n# Contents of bgp_neighbors.csv\n# 127.0.0.1,10.0.0.1,24,nones,lola,pepe,127.0.0.2\n# 128.0.0.1,10.1.0.1,20,notes,lolita,pepito,128.0.0.2\n# 129.0.0.1,10.2.0.1,23,nines,aayush,pepete,129.0.0.2\n\n- name: Define values from CSV file, this reads file in one go, but you could also use col= to read each in it's own lookup.\n  ansible.builtin.set_fact:\n    '{{ columns[item|int] }}': \"{{ csvline }}\"\n  vars:\n    csvline: \"{{ lookup('csvfile', bgp_neighbor_ip, file='bgp_neighbors.csv', delimiter=',', col=item) }}\"\n    columns: ['loop_ip', 'int_ip', 'int_mask', 'int_name', 'local_as', 'neighbour_as', 'neight_int_ip']\n    bgp_neighbor_ip: '127.0.0.1'\n  loop: '{{ range(columns|length|int) }}'\n  delegate_to: localhost\n  delegate_facts: true\n\n# Contents of people.csv\n# # Last,First,Email,Extension\n# Smith,Jane,jsmith@example.com,1234\n\n- name: Specify the column (by keycol) in which the string should be searched\n  assert:\n    that:\n    - lookup('ansible.builtin.csvfile', 'Jane', file='people.csv', delimiter=',', col=0, keycol=1) == \"Smith\"\n",
+    "examples": "\n- name:  Match 'Li' on the first column, return the second column (0 based index)\n  ansible.builtin.debug: msg=\"The atomic number of Lithium is {{ lookup('ansible.builtin.csvfile', 'Li file=elements.csv delimiter=,') }}\"\n\n- name: msg=\"Match 'Li' on the first column, but return the 3rd column (columns start counting after the match)\"\n  ansible.builtin.debug: msg=\"The atomic mass of Lithium is {{ lookup('ansible.builtin.csvfile', 'Li file=elements.csv delimiter=, col=2') }}\"\n\n# Contents of bgp_neighbors.csv\n# 127.0.0.1,10.0.0.1,24,nones,lola,pepe,127.0.0.2\n# 128.0.0.1,10.1.0.1,20,notes,lolita,pepito,128.0.0.2\n# 129.0.0.1,10.2.0.1,23,nines,aayush,pepete,129.0.0.2\n\n- name: Define values from CSV file, this reads file in one go, but you could also use col= to read each in it's own lookup.\n  ansible.builtin.set_fact:\n    '{{ columns[item|int] }}': \"{{ csvline }}\"\n  vars:\n    csvline: \"{{ lookup('csvfile', bgp_neighbor_ip, file='bgp_neighbors.csv', delimiter=',', col=item) }}\"\n    columns: ['loop_ip', 'int_ip', 'int_mask', 'int_name', 'local_as', 'neighbour_as', 'neight_int_ip']\n    bgp_neighbor_ip: '127.0.0.1'\n  loop: '{{ range(columns|length|int) }}'\n  delegate_to: localhost\n  delegate_facts: true\n\n# Contents of people.csv\n# # Last,First,Email,Extension\n# Smith,Jane,jsmith@example.com,1234\n\n- name: Specify the column (by keycol) in which the string should be searched\n  assert:\n    that:\n    - lookup('ansible.builtin.csvfile', 'Jane', file='people.csv', delimiter=',', col=0, keycol=1) == \"Smith\"\n\n# Contents of debug.csv\n# test1 ret1.1 ret2.1\n# test2 ret1.2 ret2.2\n# test3 ret1.3 ret2.3\n\n- name: \"Lookup multiple keynames in the first column (index 0), returning the values from the second column (index 1)\"\n  debug:\n    msg: \"{{ lookup('csvfile', 'test1', 'test2', file='debug.csv', delimiter=' ') }}\"\n\n- name: Lookup multiple keynames using old style syntax\n  debug:\n    msg: \"{{ lookup('csvfile', term1, term2) }}\"\n  vars:\n    term1: \"test1 file=debug.csv delimiter=' '\"\n    term2: \"test2 file=debug.csv delimiter=' '\"\n",
     "metadata": null,
     "return": {
      "_raw": {
@@ -7488,6 +7489,13 @@
       "file": {
        "default": "ansible.ini",
        "description": "Name of the file to load."
+      },
+      "interpolation": {
+       "default": true,
+       "description": "Allows for interpolation of values, see https://docs.python.org/3/library/configparser.html#configparser.BasicInterpolation",
+       "type": "bool",
+       "version_added": "2.18",
+       "version_added_collection": "ansible.builtin"
       },
       "re": {
        "default": false,
@@ -16140,7 +16148,8 @@
         "noop",
         "refresh_inventory",
         "reset_connection",
-        "end_batch"
+        "end_batch",
+        "end_role"
        ],
        "description": [
         "This module takes a free form command, as a string. There is not an actual option named \"free form\".  See the examples!",
@@ -16152,7 +16161,8 @@
         "V(end_play) (added in Ansible 2.2) causes the play to end without failing the host(s). Note that this affects all hosts.",
         "V(reset_connection) (added in Ansible 2.3) interrupts a persistent connection (i.e. ssh + control persist)",
         "V(end_host) (added in Ansible 2.8) is a per-host variation of V(end_play). Causes the play to end for the current host without failing it.",
-        "V(end_batch) (added in Ansible 2.12) causes the current batch (see C(serial)) to end without failing the host(s). Note that with C(serial=0) or undefined this behaves the same as V(end_play)."
+        "V(end_batch) (added in Ansible 2.12) causes the current batch (see C(serial)) to end without failing the host(s). Note that with C(serial=0) or undefined this behaves the same as V(end_play).",
+        "V(end_role) (added in Ansible 2.18) causes the currently executing role to end without failing the host(s). Effectively all tasks from within a role after V(end_role) is executed are ignored. Since handlers live in a global, play scope, all handlers added via the role are unaffected and are still executed if notified. It is an error to call V(end_role) from outside of a role or from a handler. Note that V(end_role) does not have an effect to the parent roles or roles that depend (via dependencies in meta/main.yml) on a role executing V(end_role)."
        ],
        "required": true
       }
@@ -17289,7 +17299,8 @@
         "The long-form fingerprint of the key being imported.",
         "This will be used to verify the specified key."
        ],
-       "type": "str",
+       "elements": "str",
+       "type": "list",
        "version_added": 2.9,
        "version_added_collection": "ansible.builtin"
       },
@@ -17325,7 +17336,7 @@
      "version_added": "1.3",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Import a key from a url\n  ansible.builtin.rpm_key:\n    state: present\n    key: http://apt.sw.be/RPM-GPG-KEY.dag.txt\n\n- name: Import a key from a file\n  ansible.builtin.rpm_key:\n    state: present\n    key: /path/to/key.gpg\n\n- name: Ensure a key is not present in the db\n  ansible.builtin.rpm_key:\n    state: absent\n    key: DEADB33F\n\n- name: Verify the key, using a fingerprint, before import\n  ansible.builtin.rpm_key:\n    key: /path/to/RPM-GPG-KEY.dag.txt\n    fingerprint: EBC6 E12C 62B1 C734 026B  2122 A20E 5214 6B8D 79E6\n",
+    "examples": "\n- name: Import a key from a url\n  ansible.builtin.rpm_key:\n    state: present\n    key: http://apt.sw.be/RPM-GPG-KEY.dag.txt\n\n- name: Import a key from a file\n  ansible.builtin.rpm_key:\n    state: present\n    key: /path/to/key.gpg\n\n- name: Ensure a key is not present in the db\n  ansible.builtin.rpm_key:\n    state: absent\n    key: DEADB33F\n\n- name: Verify the key, using a fingerprint, before import\n  ansible.builtin.rpm_key:\n    key: /path/to/RPM-GPG-KEY.dag.txt\n    fingerprint: EBC6 E12C 62B1 C734 026B  2122 A20E 5214 6B8D 79E6\n\n- name: Verify the key, using multiple fingerprints, before import\n  ansible.builtin.rpm_key:\n    key: /path/to/RPM-GPG-KEY.dag.txt\n    fingerprint:\n      - EBC6 E12C 62B1 C734 026B  2122 A20E 5214 6B8D 79E6\n      - 19B7 913E 6284 8E3F 4D78 D6B4 ECD9 1AB2 2EB6 8D86\n",
     "metadata": null,
     "return": null
    },
@@ -24148,27 +24159,57 @@
      "author": "Ansible Core",
      "collection": "ansible.builtin",
      "description": [
-      "Verifies if the input is an Ansible vault."
+      "Verifies if the input string is an Ansible vault or not"
      ],
      "filename": "/ansible/plugins/test/vault_encrypted.yml",
-     "name": "truthy",
+     "name": "vault_encrypted",
      "options": {
       "_input": {
-       "description": "The possible vault.",
+       "description": "The possible vault string",
        "required": true,
        "type": "string"
       }
      },
      "plugin_name": "ansible.builtin.vault_encrypted",
-     "short_description": "Is this an encrypted vault",
+     "short_description": "Is this an encrypted vault string",
      "version_added": "2.10",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "thisisfalse: '{{ \"any string\" is ansible_vault }}'\nthisistrue: '{{ \"$ANSIBLE_VAULT;1.2;AES256;dev....\" is ansible_vault }}'\n",
+    "examples": "thisisfalse: '{{ \"any string\" is vault_encryped}}'\nthisistrue: '{{ \"$ANSIBLE_VAULT;1.2;AES256;dev....\" is vault_encrypted}}'\n",
     "metadata": null,
     "return": {
      "_value": {
       "description": "Returns V(True) if the input is a valid ansible vault, V(False) otherwise.",
+      "type": "boolean"
+     }
+    }
+   },
+   "ansible.builtin.vaulted_file": {
+    "doc": {
+     "author": "Ansible Core",
+     "collection": "ansible.builtin",
+     "description": [
+      "Verifies if the input path is an Ansible vault file."
+     ],
+     "filename": "/ansible/plugins/test/vaulted_file.yml",
+     "name": "vaulted_file",
+     "options": {
+      "_input": {
+       "description": "The path to the possible vault.",
+       "required": true,
+       "type": "path"
+      }
+     },
+     "plugin_name": "ansible.builtin.vaulted_file",
+     "short_description": "Is this file an encrypted vault",
+     "version_added": "2.18",
+     "version_added_collection": "ansible.builtin"
+    },
+    "examples": "thisisfalse: '{{ \"/etc/hosts\" is vaulted_file}}'\nthisistrue: '{{ \"/path/to/vaulted/file\" is vaulted_file}}'\n",
+    "metadata": null,
+    "return": {
+     "_value": {
+      "description": "Returns V(True) if the path is a valid ansible vault, V(False) otherwise.",
       "type": "boolean"
      }
     }
