@@ -168,7 +168,7 @@ Attributes
 
 
 
-    - 
+    -
       Can run in check\_mode and return changed status prediction without modifying target
 
 
@@ -181,7 +181,7 @@ Attributes
 
 
 
-    - 
+    -
       Will return details on what has changed (or possibly needs changing in check\_mode), when in diff mode
 
       Foo bar baz. Bamm - Bar baz
@@ -207,7 +207,7 @@ Attributes
       baz bam!
 
 
-    - 
+    -
       Target OS/families that can be operated against
 
 
@@ -224,28 +224,28 @@ Notes
 See Also
 --------
 
-* \ `ns.col2.foo3 <foo3_module.rst>`__\ 
+* `ns.col2.foo3 <foo3_module.rst>`__
 
   Foo III.
-* \ `ns.col2.foobarbaz <foobarbaz_module.rst>`__\ 
+* `ns.col2.foobarbaz <foobarbaz_module.rst>`__
 
   The official documentation on the **ns.col2.foobarbaz** module.
-* \ `ns.col2.foo4 <foo4_module.rst>`__\  module plugin
+* `ns.col2.foo4 <foo4_module.rst>`__ module plugin
 
   Markup reference linting test.
-* \ `ns.col2.foobarbaz <foobarbaz_inventory.rst>`__\  inventory plugin
+* `ns.col2.foobarbaz <foobarbaz_inventory.rst>`__ inventory plugin
 
   The official documentation on the **ns.col2.foobarbaz** inventory plugin.
-* \ `ansible.builtin.service <service_module.rst>`__\ 
+* `ansible.builtin.service <service_module.rst>`__
 
   The service module.
-* \ `ansible.builtin.foobarbaz <foobarbaz_module.rst>`__\ 
+* `ansible.builtin.foobarbaz <foobarbaz_module.rst>`__
 
   A non-existing module.
-* \ `ansible.builtin.linear <linear_strategy.rst>`__\  strategy plugin
+* `ansible.builtin.linear <linear_strategy.rst>`__ strategy plugin
 
   The linear strategy plugin.
-* \ `ansible.builtin.foobarbaz <foobarbaz_strategy.rst>`__\  strategy plugin
+* `ansible.builtin.foobarbaz <foobarbaz_strategy.rst>`__ strategy plugin
 
   Foo bar baz. Bamm - Bar baz
   bam bum.
@@ -257,9 +257,7 @@ Examples
 
 .. code-block:: yaml
 
-    
     name: This is YAML.
-
 
 
 

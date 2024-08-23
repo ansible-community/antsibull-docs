@@ -72,10 +72,8 @@ Examples
 
 .. code-block:: yaml
 
-    
     foo:
         bar!
-
 
 
 

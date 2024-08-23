@@ -49,7 +49,7 @@
 {%   endfor %}
 
 {#   description #}
-    - 
+    -
 {% for desc in data['description'] %}
       @{ desc | rst_ify(role_entrypoint=role_entrypoint) | rst_indent(6) }@
 

@@ -195,9 +195,7 @@ Examples
 
 .. code-block:: yaml
 
-    
     {'a': 1} | ns2.col.bar({'b': 2}, baz='cde')
-
 
 
 

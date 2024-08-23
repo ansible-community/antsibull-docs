@@ -261,7 +261,7 @@ Status
 Authors
 ~~~~~~~
 
-- Nobody 
+- Nobody
 
 
 .. hint::

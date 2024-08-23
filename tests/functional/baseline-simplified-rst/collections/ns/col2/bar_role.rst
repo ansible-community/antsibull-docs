@@ -60,13 +60,13 @@ Synopsis
 See Also
 ^^^^^^^^
 
-* \ `ns2.col.foo <foo_module.rst>`__\ 
+* `ns2.col.foo <foo_module.rst>`__
 
   The official documentation on the **ns2.col.foo** module.
-* \ `ns2.col.foobarbaz <foobarbaz_module.rst>`__\ 
+* `ns2.col.foobarbaz <foobarbaz_module.rst>`__
 
   The official documentation on the **ns2.col.foobarbaz** module.
-* \ `ns2.col.foo <foo_lookup.rst>`__\  lookup plugin
+* `ns2.col.foo <foo_lookup.rst>`__ lookup plugin
 
   The official documentation on the **ns2.col.foo** lookup plugin.
 

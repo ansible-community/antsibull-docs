@@ -91,7 +91,7 @@ Synopsis
 Authors
 ~~~~~~~
 
-- Felix Fontein (@felixfontein) 
+- Felix Fontein (@felixfontein)
 
 
 .. hint::

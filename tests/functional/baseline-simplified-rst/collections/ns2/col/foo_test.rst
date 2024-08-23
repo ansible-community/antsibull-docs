@@ -110,9 +110,7 @@ Examples
 
 .. code-block:: yaml
 
-    
     some_var: "{{ {'a': 1} is ns2.col.foo }}"
-
 
 
 

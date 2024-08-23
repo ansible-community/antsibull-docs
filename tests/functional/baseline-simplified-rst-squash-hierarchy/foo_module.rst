@@ -229,7 +229,7 @@ Attributes
     - Action group: \ns2.col.foo\_group
 
 
-    - 
+    -
       Use :literal:`group/ns2.col.foo\_group` in :literal:`module\_defaults` to set defaults for this module.
 
 
@@ -242,7 +242,7 @@ Attributes
 
 
 
-    - 
+    -
       Can run in check\_mode and return changed status prediction without modifying target
 
 
@@ -255,7 +255,7 @@ Attributes
 
 
 
-    - 
+    -
       Will return details on what has changed (or possibly needs changing in check\_mode), when in diff mode
 
 
@@ -267,7 +267,7 @@ Attributes
     - Platform:posix
 
 
-    - 
+    -
       Target OS/families that can be operated against
 
 
@@ -277,16 +277,16 @@ Attributes
 See Also
 --------
 
-* \ `ns2.col.foo2 <foo2_module.rst>`__\ 
+* `ns2.col.foo2 <foo2_module.rst>`__
 
   Another foo.
-* \ `ns2.col.foo <foo_lookup.rst>`__\  lookup plugin
+* `ns2.col.foo <foo_lookup.rst>`__ lookup plugin
 
   Look up some foo :literal:`bar` (`link <#parameter-bar>`_).
-* \ `ansible.builtin.service <service_module.rst>`__\ 
+* `ansible.builtin.service <service_module.rst>`__
 
   The service module.
-* \ `ansible.builtin.ssh <ssh_connection.rst>`__\  connection plugin
+* `ansible.builtin.ssh <ssh_connection.rst>`__ connection plugin
 
   The ssh connection plugin.
 
@@ -295,7 +295,6 @@ Examples
 
 .. code-block:: yaml
 
-    
     - name: Do some foo
       ns2.col.foo:
         foo: '{{ foo }}'
@@ -305,7 +304,6 @@ Examples
           - 3
         subfoo:
           foo: hoo!
-
 
 
 

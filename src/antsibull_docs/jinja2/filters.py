@@ -21,6 +21,7 @@ from jinja2.utils import pass_context
 from ..markup.htmlify import html_ify as html_ify_impl
 from ..markup.rstify import get_rst_formatter_link_provider
 from ..markup.rstify import rst_ify as rst_ify_impl
+from ..utils.text import sanitize_whitespace as _sanitize_whitespace
 from . import OutputFormat
 
 mlog = log.fields(mod=__name__)
@@ -98,7 +99,7 @@ def massage_author_name(value):
     """remove email addresses from the given string, and remove `(!UNKNOWN)`"""
     value = _EMAIL_ADDRESS.sub("", value)
     value = value.replace("(!UNKNOWN)", "")
-    return value
+    return value.strip()
 
 
 def extract_options_from_list(
@@ -288,3 +289,9 @@ def rst_indent(
             )
 
     return indent + rv if first else rv
+
+
+def sanitize_whitespace(text: str) -> str:
+    if not isinstance(text, str):
+        raise ValueError("sanitize_whitespace can only be applied to strings")
+    return _sanitize_whitespace(text)

@@ -474,21 +474,21 @@ See Also
 
 .. seealso::
 
-   \ :ref:`ns.col2.foo3 <ansible_collections.ns.col2.foo3_module>`\ 
+   :ref:`ns.col2.foo3 <ansible_collections.ns.col2.foo3_module>`
        Foo III.
-   \ :ref:`ns.col2.foobarbaz <ansible_collections.ns.col2.foobarbaz_module>`\ 
+   :ref:`ns.col2.foobarbaz <ansible_collections.ns.col2.foobarbaz_module>`
        The official documentation on the **ns.col2.foobarbaz** module.
-   \ :ref:`ns.col2.foo4 <ansible_collections.ns.col2.foo4_module>`\  module plugin
+   :ref:`ns.col2.foo4 <ansible_collections.ns.col2.foo4_module>` module plugin
        Markup reference linting test.
-   \ :ref:`ns.col2.foobarbaz <ansible_collections.ns.col2.foobarbaz_inventory>`\  inventory plugin
+   :ref:`ns.col2.foobarbaz <ansible_collections.ns.col2.foobarbaz_inventory>` inventory plugin
        The official documentation on the **ns.col2.foobarbaz** inventory plugin.
-   \ :ref:`ansible.builtin.service <ansible_collections.ansible.builtin.service_module>`\ 
+   :ref:`ansible.builtin.service <ansible_collections.ansible.builtin.service_module>`
        The service module.
-   \ :ref:`ansible.builtin.foobarbaz <ansible_collections.ansible.builtin.foobarbaz_module>`\ 
+   :ref:`ansible.builtin.foobarbaz <ansible_collections.ansible.builtin.foobarbaz_module>`
        A non-existing module.
-   \ :ref:`ansible.builtin.linear <ansible_collections.ansible.builtin.linear_strategy>`\  strategy plugin
+   :ref:`ansible.builtin.linear <ansible_collections.ansible.builtin.linear_strategy>` strategy plugin
        The linear strategy plugin.
-   \ :ref:`ansible.builtin.foobarbaz <ansible_collections.ansible.builtin.foobarbaz_strategy>`\  strategy plugin
+   :ref:`ansible.builtin.foobarbaz <ansible_collections.ansible.builtin.foobarbaz_strategy>` strategy plugin
        Foo bar baz. Bamm - Bar baz
        bam bum.
        Bumm - Foo bar
@@ -501,9 +501,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
     name: This is YAML.
-
 
 
 

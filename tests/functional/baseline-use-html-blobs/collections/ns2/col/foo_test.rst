@@ -152,9 +152,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
     some_var: "{{ {'a': 1} is ns2.col.foo }}"
-
 
 
 

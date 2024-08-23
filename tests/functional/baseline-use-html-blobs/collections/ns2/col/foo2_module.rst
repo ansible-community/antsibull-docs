@@ -297,11 +297,9 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
     - name: Do some foo
       ns2.col.foo2:
         bar: foo
-
 
 
 

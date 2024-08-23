@@ -137,7 +137,7 @@ Attributes
 
 
 
-    - 
+    -
       Can run in check\_mode and return changed status prediction without modifying target
 
 
@@ -150,7 +150,7 @@ Attributes
 
 
 
-    - 
+    -
       Will return details on what has changed (or possibly needs changing in check\_mode), when in diff mode
 
 
@@ -162,7 +162,7 @@ Attributes
     - Platform:posix
 
 
-    - 
+    -
       Target OS/families that can be operated against
 
 
@@ -175,9 +175,7 @@ Examples
 
 .. code-block:: yaml
 
-    
     This is not YAML.
-
 
 
 
