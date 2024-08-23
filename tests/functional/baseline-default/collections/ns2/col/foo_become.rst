@@ -18,8 +18,8 @@
 
 .. Title
 
-ns2.col.foo become -- Use foo \ :ansopt:`ns2.col.foo#become:bar`\ 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ns2.col.foo become -- Use foo :ansopt:`ns2.col.foo#become:bar`
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -48,11 +48,9 @@ DEPRECATED
 :Why: Just some text.
       This one has more than one line.
       And one more.
-
 :Alternative: I don't know
               of any
               alternative.
-
 
 Synopsis
 --------
@@ -118,11 +116,9 @@ Parameters
       This one has more than one line though.
       One more.
 
-
       Alternative: nothing
       relevant
       I know of
-
 
 
 
@@ -135,11 +131,11 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Bar. \ :strong:`BAR!`\ 
+      Bar. :strong:`BAR!`
 
-      Totally unrelated to \ :ansopt:`ns2.col.foo#become:become\_user`\ . Even with \ :ansopt:`ns2.col.foo#become:become\_user=foo`\ .
+      Totally unrelated to :ansopt:`ns2.col.foo#become:become\_user`. Even with :ansopt:`ns2.col.foo#become:become\_user=foo`.
 
-      Might not be compatible when \ :ansopt:`ns2.col.foo#become:become\_user`\  is \ :ansval:`bar`\ , though.
+      Might not be compatible when :ansopt:`ns2.col.foo#become:become\_user` is :ansval:`bar`\ , though.
 
 
       .. raw:: html

@@ -1,8 +1,8 @@
 
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
-ns2.col.foo become -- Use foo \ :literal:`bar` (`link <#parameter-bar>`_)\ 
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ns2.col.foo become -- Use foo :literal:`bar` (`link <#parameter-bar>`_)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 This become plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ui/repo/published/ns2/col/>`_ (version 2.1.0).
 
@@ -24,11 +24,9 @@ DEPRECATED
 :Why: Just some text.
       This one has more than one line.
       And one more.
-
 :Alternative: I don't know
               of any
               alternative.
-
 
 Synopsis
 --------

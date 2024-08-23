@@ -57,7 +57,7 @@ These are the plugins in the ns2.flatcol collection:
 Modules
 ~~~~~~~
 
-* :ansplugin:`foo module <ns2.flatcol.foo#module>` -- Do some foo \ :ansopt:`ns2.flatcol.foo#module:bar`\ 
+* :ansplugin:`foo module <ns2.flatcol.foo#module>` -- Do some foo :ansopt:`ns2.flatcol.foo#module:bar`
 * :ansplugin:`foo2 module <ns2.flatcol.foo2#module>` -- Another foo
 
 .. toctree::

@@ -227,7 +227,7 @@ Parameters
 
       Whatever.
 
-      Also required when \ :emphasis:`subfoo`\  is specified when \ :emphasis:`foo=bar`\  or \ :literal:`baz`\ .
+      Also required when :emphasis:`subfoo` is specified when :emphasis:`foo=bar` or :literal:`baz`.
 
 
       .. raw:: html

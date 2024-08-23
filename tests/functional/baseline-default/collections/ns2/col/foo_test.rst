@@ -18,8 +18,8 @@
 
 .. Title
 
-ns2.col.foo test -- Is something a foo \ :ansopt:`ns2.col.foo#test:bar`\ 
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ns2.col.foo test -- Is something a foo :ansopt:`ns2.col.foo#test:bar`
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 

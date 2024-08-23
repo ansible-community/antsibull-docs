@@ -20,13 +20,13 @@ ns.col2
 ns2.col
 -------
 
-* :ansplugin:`ns2.col.foo#module` -- Do some foo \ :ansopt:`ns2.col.foo#module:bar`\ 
+* :ansplugin:`ns2.col.foo#module` -- Do some foo :ansopt:`ns2.col.foo#module:bar`
 * :ansplugin:`ns2.col.foo2#module` -- Another foo
 * :ansplugin:`ns2.col.sub.foo3#module` -- A sub-foo
 
 ns2.flatcol
 -----------
 
-* :ansplugin:`ns2.flatcol.foo#module` -- Do some foo \ :ansopt:`ns2.flatcol.foo#module:bar`\ 
+* :ansplugin:`ns2.flatcol.foo#module` -- Do some foo :ansopt:`ns2.flatcol.foo#module:bar`
 * :ansplugin:`ns2.flatcol.foo2#module` -- Another foo
 

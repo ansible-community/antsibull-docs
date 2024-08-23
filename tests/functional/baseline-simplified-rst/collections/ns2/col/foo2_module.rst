@@ -23,8 +23,8 @@ Synopsis
 --------
 
 - Foo bar.
-- See \ :literal:`foo\_param\_1` (of role `ns2.col.foo <foo_role.rst>`__, entrypoint main)\  for a random role parameter reference. And \ :literal:`foo\_param\_2=42` (of role `ns2.col.foo <foo_role.rst>`__, entrypoint main)\  for one with a value.
-- Reference using alias - \ :literal:`bar` (of module `ns2.col.foo\_redirect <foo_redirect_module.rst>`__)\  and \ :literal:`baz` (of module `ns2.col.foo\_redirect <foo_redirect_module.rst>`__)\ .
+- See :literal:`foo\_param\_1` (of role `ns2.col.foo <foo_role.rst>`__, entrypoint main) for a random role parameter reference. And :literal:`foo\_param\_2=42` (of role `ns2.col.foo <foo_role.rst>`__, entrypoint main) for one with a value.
+- Reference using alias - :literal:`bar` (of module `ns2.col.foo\_redirect <foo_redirect_module.rst>`__) and :literal:`baz` (of module `ns2.col.foo\_redirect <foo_redirect_module.rst>`__).
 
 
 
@@ -85,7 +85,7 @@ Attributes
 
 
     - 
-      Use \ :literal:`group/ns2.col.foo\_group`\  or \ :literal:`group/ns2.col.bar\_group`\  in \ :literal:`module\_defaults`\  to set defaults for this module.
+      Use :literal:`group/ns2.col.foo\_group` or :literal:`group/ns2.col.bar\_group` in :literal:`module\_defaults` to set defaults for this module.
 
 
 

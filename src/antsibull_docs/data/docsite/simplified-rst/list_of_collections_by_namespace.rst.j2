@@ -12,7 +12,7 @@
 
 .. _list_of_collections_@{ namespace }@:
 
-{% set title = 'Collections in the ' ~ (namespace | title) ~ ' Namespace' | rst_ify -%}
+{% set title = ('Collections in the ' ~ (namespace | title) ~ ' Namespace') | rst_ify -%}
 
 @{ title }@
 @{ '=' * title|column_width }@

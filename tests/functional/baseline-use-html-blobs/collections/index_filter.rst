@@ -13,5 +13,5 @@ ns2.col
 -------
 
 * :ansplugin:`ns2.col.bar#filter` -- The bar filter
-* :ansplugin:`ns2.col.foo#filter` -- The foo filter \ :ansopt:`ns2.col.foo#filter:bar`\ 
+* :ansplugin:`ns2.col.foo#filter` -- The foo filter :ansopt:`ns2.col.foo#filter:bar`
 

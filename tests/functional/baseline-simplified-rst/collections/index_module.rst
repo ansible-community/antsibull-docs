@@ -15,13 +15,13 @@ ns.col2
 ns2.col
 -------
 
-* `ns2.col.foo <ns2/col/foo_module.rst>`_ -- Do some foo \ :literal:`bar` (of module `ns2.col.foo <foo_module.rst>`__)\ 
+* `ns2.col.foo <ns2/col/foo_module.rst>`_ -- Do some foo :literal:`bar` (of module `ns2.col.foo <foo_module.rst>`__)
 * `ns2.col.foo2 <ns2/col/foo2_module.rst>`_ -- Another foo
 * `ns2.col.sub.foo3 <ns2/col/sub.foo3_module.rst>`_ -- A sub-foo
 
 ns2.flatcol
 -----------
 
-* `ns2.flatcol.foo <ns2/flatcol/foo_module.rst>`_ -- Do some foo \ :literal:`bar` (of module `ns2.flatcol.foo <foo_module.rst>`__)\ 
+* `ns2.flatcol.foo <ns2/flatcol/foo_module.rst>`_ -- Do some foo :literal:`bar` (of module `ns2.flatcol.foo <foo_module.rst>`__)
 * `ns2.flatcol.foo2 <ns2/flatcol/foo2_module.rst>`_ -- Another foo
 

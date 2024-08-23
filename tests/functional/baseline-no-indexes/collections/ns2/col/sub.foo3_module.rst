@@ -49,7 +49,7 @@ Synopsis
 .. Description
 
 - Foo sub bar.
-- See \ :ansopt:`ns2.col.foo#role:main:foo\_param\_1`\  for a random role parameter reference. And \ :ansopt:`ns2.col.foo#role:main:foo\_param\_2=42`\  for one with a value.
+- See :ansopt:`ns2.col.foo#role:main:foo\_param\_1` for a random role parameter reference. And :ansopt:`ns2.col.foo#role:main:foo\_param\_2=42` for one with a value.
 
 
 .. Aliases
@@ -107,7 +107,7 @@ Parameters
 
       Some bar.
 
-      See \ :ansopt:`ns2.col.foo#role:main:foo\_param\_1`\  for a random role parameter reference. And \ :ansopt:`ns2.col.foo#role:main:foo\_param\_2=42`\  for one with a value.
+      See :ansopt:`ns2.col.foo#role:main:foo\_param\_1` for a random role parameter reference. And :ansopt:`ns2.col.foo#role:main:foo\_param\_2=42` for one with a value.
 
 
       .. raw:: html
@@ -167,7 +167,7 @@ Attributes
 
         <div class="ansible-option-cell">
 
-      Use \ :literal:`group/ns2.col.foo\_group`\  or \ :literal:`group/ns2.col.bar\_group`\  in \ :literal:`module\_defaults`\  to set defaults for this module.
+      Use :literal:`group/ns2.col.foo\_group` or :literal:`group/ns2.col.bar\_group` in :literal:`module\_defaults` to set defaults for this module.
 
 
       .. raw:: html
@@ -372,9 +372,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       Some bar.
 
-      Referencing myself as \ :ansretval:`ns2.col.sub.foo3#module:bar`\ .
+      Referencing myself as :ansretval:`ns2.col.sub.foo3#module:bar`.
 
-      Do not confuse with \ :ansopt:`ns2.col.sub.foo3#module:bar`\ .
+      Do not confuse with :ansopt:`ns2.col.sub.foo3#module:bar`.
 
 
       .. rst-class:: ansible-option-line

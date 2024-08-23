@@ -1,8 +1,8 @@
 
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
-ns2.flatcol.foo module -- Do some foo \ :literal:`bar` (`link <#parameter-bar>`_)\ 
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ns2.flatcol.foo module -- Do some foo :literal:`bar` (`link <#parameter-bar>`_)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 This module is part of the `ns2.flatcol collection <https://galaxy.ansible.com/ui/repo/published/ns2/flatcol/>`_.
 

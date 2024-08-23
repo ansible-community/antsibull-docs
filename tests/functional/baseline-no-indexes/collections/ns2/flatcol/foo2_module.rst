@@ -49,7 +49,7 @@ Synopsis
 .. Description
 
 - Foo bar.
-- See \ :ansopt:`ns2.flatcol.foo#role:main:foo\_param\_1`\  for a random role parameter reference. And \ :ansopt:`ns2.flatcol.foo#role:main:foo\_param\_2=42`\  for one with a value.
+- See :ansopt:`ns2.flatcol.foo#role:main:foo\_param\_1` for a random role parameter reference. And :ansopt:`ns2.flatcol.foo#role:main:foo\_param\_2=42` for one with a value.
 
 
 .. Aliases
@@ -107,7 +107,7 @@ Parameters
 
       Some bar.
 
-      See \ :ansopt:`ns2.flatcol.foo#role:main:foo\_param\_1`\  for a random role parameter reference. And \ :ansopt:`ns2.flatcol.foo#role:main:foo\_param\_2=42`\  for one with a value.
+      See :ansopt:`ns2.flatcol.foo#role:main:foo\_param\_1` for a random role parameter reference. And :ansopt:`ns2.flatcol.foo#role:main:foo\_param\_2=42` for one with a value.
 
 
       .. raw:: html
@@ -188,9 +188,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       Some bar.
 
-      Referencing myself as \ :ansretval:`ns2.flatcol.foo2#module:bar`\ .
+      Referencing myself as :ansretval:`ns2.flatcol.foo2#module:bar`.
 
-      Do not confuse with \ :ansopt:`ns2.flatcol.foo2#module:bar`\ .
+      Do not confuse with :ansopt:`ns2.flatcol.foo2#module:bar`.
 
 
       .. rst-class:: ansible-option-line

@@ -23,7 +23,7 @@ Synopsis
 --------
 
 - Foo bar.
-- See \ :literal:`foo\_param\_1` (of role `ns2.flatcol.foo <foo_role.rst>`__, entrypoint main)\  for a random role parameter reference. And \ :literal:`foo\_param\_2=42` (of role `ns2.flatcol.foo <foo_role.rst>`__, entrypoint main)\  for one with a value.
+- See :literal:`foo\_param\_1` (of role `ns2.flatcol.foo <foo_role.rst>`__, entrypoint main) for a random role parameter reference. And :literal:`foo\_param\_2=42` (of role `ns2.flatcol.foo <foo_role.rst>`__, entrypoint main) for one with a value.
 
 
 

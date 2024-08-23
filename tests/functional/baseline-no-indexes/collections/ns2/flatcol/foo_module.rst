@@ -18,8 +18,8 @@
 
 .. Title
 
-ns2.flatcol.foo module -- Do some foo \ :ansopt:`ns2.flatcol.foo#module:bar`\ 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ns2.flatcol.foo module -- Do some foo :ansopt:`ns2.flatcol.foo#module:bar`
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -114,9 +114,9 @@ Parameters
 
       A bar.
 
-      Independent from \ :ansopt:`ns2.flatcol.foo#module:foo`\ .
+      Independent from :ansopt:`ns2.flatcol.foo#module:foo`.
 
-      Do not confuse with \ :ansretval:`ns2.flatcol.foo#module:bar`\ .
+      Do not confuse with :ansretval:`ns2.flatcol.foo#module:bar`.
 
 
       .. raw:: html
@@ -245,11 +245,11 @@ Parameters
 
       Whatever.
 
-      Also required when \ :ansopt:`ns2.flatcol.foo#module:subfoo`\  is specified when \ :ansopt:`ns2.flatcol.foo#module:foo=bar`\  or \ :ansval:`baz`\ .
+      Also required when :ansopt:`ns2.flatcol.foo#module:subfoo` is specified when :ansopt:`ns2.flatcol.foo#module:foo=bar` or :ansval:`baz`.
 
-      Note that \ :ansopt:`ns2.flatcol.foo#module:subfoo.foo`\  is the same as \ :ansopt:`ns2.flatcol.foo#module:subbaz.foo`\ , \ :ansopt:`ns2.flatcol.foo#module:subbaz.bam`\ , and \ :ansopt:`ns2.flatcol.foo#module:subfoo.bam`\ .
+      Note that :ansopt:`ns2.flatcol.foo#module:subfoo.foo` is the same as :ansopt:`ns2.flatcol.foo#module:subbaz.foo`\ , :ansopt:`ns2.flatcol.foo#module:subbaz.bam`\ , and :ansopt:`ns2.flatcol.foo#module:subfoo.bam`.
 
-      \ :ansenvvarref:`FOOBAR1`\ , \ :ansenvvarref:`FOOBAR2`\ , \ :ansenvvar:`FOOBAR3`\ , \ :ansenvvar:`FOOBAR4`\ .
+      :ansenvvarref:`FOOBAR1`\ , :ansenvvarref:`FOOBAR2`\ , :ansenvvar:`FOOBAR3`\ , :ansenvvar:`FOOBAR4`.
 
 
       .. raw:: html
@@ -337,9 +337,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       Some bar.
 
-      Referencing myself as \ :ansretval:`ns2.flatcol.foo#module:bar`\ .
+      Referencing myself as :ansretval:`ns2.flatcol.foo#module:bar`.
 
-      Do not confuse with \ :ansopt:`ns2.flatcol.foo#module:bar`\ .
+      Do not confuse with :ansopt:`ns2.flatcol.foo#module:bar`.
 
 
       .. rst-class:: ansible-option-line

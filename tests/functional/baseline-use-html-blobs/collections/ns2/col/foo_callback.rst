@@ -18,8 +18,8 @@
 
 .. Title
 
-ns2.col.foo callback -- Foo output \ :ansopt:`ns2.col.foo#callback:bar`\ 
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ns2.col.foo callback -- Foo output :ansopt:`ns2.col.foo#callback:bar`
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 

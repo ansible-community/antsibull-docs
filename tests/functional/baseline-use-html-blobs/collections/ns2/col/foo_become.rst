@@ -18,8 +18,8 @@
 
 .. Title
 
-ns2.col.foo become -- Use foo \ :ansopt:`ns2.col.foo#become:bar`\ 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ns2.col.foo become -- Use foo :ansopt:`ns2.col.foo#become:bar`
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -48,11 +48,9 @@ DEPRECATED
 :Why: Just some text.
       This one has more than one line.
       And one more.
-
 :Alternative: I don't know
               of any
               alternative.
-
 
 Synopsis
 --------

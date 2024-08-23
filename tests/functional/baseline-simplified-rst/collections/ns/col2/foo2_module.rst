@@ -25,17 +25,16 @@ Synopsis
 --------
 
 - Does some foo on the remote host.
-- A broken reference \ :ref:`asdfasdfoobarTHISDOESNOTEXIST <asdfasdfoobarTHISDOESNOTEXIST>`\ .
-- The option \ :literal:`foo` (`link <#parameter-foo>`_)\  exists, but \ :literal:`foobar` (`link <#parameter-foobar>`_)\  does not.
-- The return value \ :literal:`bar` (`link <#return-bar>`_)\  exists, but \ :literal:`barbaz` (`link <#return-barbaz>`_)\  does not.
-- Again existing: \ :literal:`foo=1` (of module `ns.col2.foo <foo_module.rst>`__)\ , \ :literal:`bar=2` (of module `ns.col2.foo <foo_module.rst>`__)\ 
-- Again not existing: \ :literal:`foobar=1` (of module `ns.col2.foo <foo_module.rst>`__)\ , \ :literal:`barbaz=2` (of module `ns.col2.foo <foo_module.rst>`__)\ 
-- \ :literal:`\ `\  \ :emphasis:`\ `\  \ :strong:`\ `\  \ :literal:`\ `\    \ :ref:`\  <>`\  \ :literal:`\ `\  \ :literal:`` (`link <#parameter->`_)\  \ :literal:`` (`link <#return->`_)\  \ :literal:``\ 
+- A broken reference :ref:`asdfasdfoobarTHISDOESNOTEXIST <asdfasdfoobarTHISDOESNOTEXIST>`.
+- The option :literal:`foo` (`link <#parameter-foo>`_) exists, but :literal:`foobar` (`link <#parameter-foobar>`_) does not.
+- The return value :literal:`bar` (`link <#return-bar>`_) exists, but :literal:`barbaz` (`link <#return-barbaz>`_) does not.
+- Again existing: :literal:`foo=1` (of module `ns.col2.foo <foo_module.rst>`__)\ , :literal:`bar=2` (of module `ns.col2.foo <foo_module.rst>`__)
+- Again not existing: :literal:`foobar=1` (of module `ns.col2.foo <foo_module.rst>`__)\ , :literal:`barbaz=2` (of module `ns.col2.foo <foo_module.rst>`__)
+- :literal:`\ ` :emphasis:`\ ` :strong:`\ ` :literal:`\ `   :ref:`\  <>` :literal:`\ ` :literal:`` (`link <#parameter->`_) :literal:`` (`link <#return->`_) :literal:``
 - Foo bar baz. Bamm - Bar baz
   bam bum.
   Bumm - Foo bar
   baz bam!
-
 
 
 
@@ -192,22 +191,20 @@ Attributes
 
 
 
-
   * - .. _ansible_collections.ns.col2.foo2_module__attribute-platform:
 
       **platform**
 
     - Platform:posix
 
-      The module \ :strong:`ERROR while parsing`\ : While parsing "M(boo)" at index 12: Module name "boo" is not a FQCN\  is not using an FQCN.
+      The module :strong:`ERROR while parsing`\ : While parsing "M(boo)" at index 12: Module name "boo" is not a FQCN is not using an FQCN.
 
-      Sometimes our markup is \ :strong:`ERROR while parsing`\ : While parsing "B(broken." at index 25: Cannot find closing ")" after last parameter\ 
+      Sometimes our markup is :strong:`ERROR while parsing`\ : While parsing "B(broken." at index 25: Cannot find closing ")" after last parameter
 
       Foo bar baz. Bamm - Bar baz
       bam bum.
       Bumm - Foo bar
       baz bam!
-
 
 
     - 
@@ -223,7 +220,6 @@ Notes
   bam bum.
   Bumm - Foo bar
   baz bam!
-
 
 See Also
 --------
@@ -255,7 +251,6 @@ See Also
   bam bum.
   Bumm - Foo bar
   baz bam!
-
 
 Examples
 --------

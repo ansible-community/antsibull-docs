@@ -1,8 +1,8 @@
 
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
-ns2.col.foo connection -- Foo connection \ :literal:`bar` (`link <#parameter-bar>`_)\ 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ns2.col.foo connection -- Foo connection :literal:`bar` (`link <#parameter-bar>`_)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 This connection plugin is part of the `ns2.col collection <https://galaxy.ansible.com/ui/repo/published/ns2/col/>`_ (version 2.1.0).
 
@@ -23,7 +23,7 @@ New in ns2.col 1.2.0
 Synopsis
 --------
 
-- This is for the \ :literal:`foo`\  connection.
+- This is for the :literal:`foo` connection.
 
 
 
@@ -106,8 +106,8 @@ Parameters
 Notes
 -----
 
-- Some note. \ :strong:`Something in bold`\ . \ :literal:`And in code`\ . \ :emphasis:`And in italics`\ . An URL: \ `https://example.org <https://example.org>`__\ .
-- And another one. \ `A link <https://example.com>`__\ .
+- Some note. :strong:`Something in bold`. :literal:`And in code`. :emphasis:`And in italics`. An URL: \ `https://example.org <https://example.org>`__.
+- And another one. \ `A link <https://example.com>`__.
 
 
 

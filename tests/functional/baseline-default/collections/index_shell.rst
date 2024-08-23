@@ -12,5 +12,5 @@ Index of all Shell Plugins
 ns2.col
 -------
 
-* :ansplugin:`ns2.col.foo#shell` -- Foo shell \ :ansopt:`ns2.col.foo#shell:bar`\ 
+* :ansplugin:`ns2.col.foo#shell` -- Foo shell :ansopt:`ns2.col.foo#shell:bar`
 

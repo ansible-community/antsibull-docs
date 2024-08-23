@@ -29,17 +29,15 @@ DEPRECATED
 :Why: Just some text.
       This one has more than one line.
       And one more.
-
 :Alternative: I don't know
               of any
               alternative.
-
 
 Synopsis
 ^^^^^^^^
 
 - This is the foo role.
-- If you set \ :literal:`foo\_param\_1` (`link <#parameter-main--foo_param_1>`_)\  while \ :literal:`foo\_param\_2=3` (`link <#parameter-main--foo_param_2>`_)\ , this might behave funny.
+- If you set :literal:`foo\_param\_1` (`link <#parameter-main--foo_param_1>`_) while :literal:`foo\_param\_2=3` (`link <#parameter-main--foo_param_2>`_)\ , this might behave funny.
 
 
 Parameters

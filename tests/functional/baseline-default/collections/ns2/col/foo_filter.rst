@@ -18,8 +18,8 @@
 
 .. Title
 
-ns2.col.foo filter -- The foo filter \ :ansopt:`ns2.col.foo#filter:bar`\ 
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ns2.col.foo filter -- The foo filter :ansopt:`ns2.col.foo#filter:bar`
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 

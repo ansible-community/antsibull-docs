@@ -18,8 +18,8 @@
 
 .. Title
 
-ns2.col.foo shell -- Foo shell \ :ansopt:`ns2.col.foo#shell:bar`\ 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ns2.col.foo shell -- Foo shell :ansopt:`ns2.col.foo#shell:bar`
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
