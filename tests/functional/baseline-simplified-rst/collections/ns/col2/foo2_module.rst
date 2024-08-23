@@ -79,8 +79,7 @@ Parameters
       <p>Foo bar baz. Bamm - Bar baz
       bam bum.
       Bumm - Foo bar
-      baz bam!
-      </p>
+      baz bam!</p>
     </td>
   </tr>
   <tr>

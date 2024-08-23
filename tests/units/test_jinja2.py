@@ -31,7 +31,7 @@ RST_IFY_DATA = {
     "C(/usr/bin/file)": r":literal:`/usr/bin/file`",
     "HORIZONTALLINE": ".. raw:: html\n\n  <hr>",
     # Multiple substitutions
-    "The M(ansible.builtin.yum) module B(MUST) be given the C(package) parameter.  See the R(looping docs,using-loops) for more info": r"The :ref:`ansible.builtin.yum <ansible_collections.ansible.builtin.yum_module>` module :strong:`MUST` be given the :literal:`package` parameter.  See the :ref:`looping docs <using-loops>` for more info",
+    "The M(ansible.builtin.yum) module B(MUST) be given the C(package) parameter.  See the R(looping docs,using-loops) for more info": r"The :ref:`ansible.builtin.yum <ansible_collections.ansible.builtin.yum_module>` module :strong:`MUST` be given the :literal:`package` parameter. See the :ref:`looping docs <using-loops>` for more info",
     # Problem cases
     "IBM(International Business Machines)": "IBM(International Business Machines)",
     "L(the user guide, https://docs.ansible.com/)": r"`the user guide <https://docs.ansible.com/>`__",

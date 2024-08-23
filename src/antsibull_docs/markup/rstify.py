@@ -13,7 +13,7 @@ from collections.abc import Mapping
 
 from antsibull_docs_parser import dom
 from antsibull_docs_parser.format import Formatter, LinkProvider
-from antsibull_docs_parser.parser import Context, parse
+from antsibull_docs_parser.parser import Context, Whitespace, parse
 from antsibull_docs_parser.rst import AntsibullRSTFormatter as _AntsibullRSTFormatter
 from antsibull_docs_parser.rst import PlainRSTFormatter as _PlainRSTFormatter
 from antsibull_docs_parser.rst import rst_escape as _rst_escape
@@ -157,7 +157,9 @@ def rst_ify(
             fqcn=doc_plugin_fqcn, type=doc_plugin_type
         )
     context = Context(current_plugin=current_plugin, role_entrypoint=role_entrypoint)
-    paragraphs = parse(text, context, errors="message")
+    paragraphs = parse(
+        text, context, errors="message", whitespace=Whitespace.KEEP_SINGLE_NEWLINES
+    )
     text = to_rst(
         paragraphs,
         current_plugin=doc_current_plugin,
