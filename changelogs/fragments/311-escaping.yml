@@ -1,0 +1,4 @@
+bugfixes:
+  - "Fix RST escaping of the title in the collections per namespace list.
+     This causes a space to vanish between namespace name and the word ``Namespace`` with newer versions of antsibull-docs-parser
+     (https://github.com/ansible-community/antsibull-docs/pull/311)."
