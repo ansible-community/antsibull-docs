@@ -8,10 +8,11 @@
 from __future__ import annotations
 
 import asyncio
+import os
 import sys
 import textwrap
 import typing as t
-from collections.abc import MutableMapping
+from collections.abc import Mapping, MutableMapping
 
 from antsibull_core.logging import log
 from antsibull_core.venv import FakeVenvRunner, VenvRunner
@@ -19,6 +20,7 @@ from antsibull_core.venv import FakeVenvRunner, VenvRunner
 from ... import app_context
 from ...augment_docs import augment_docs
 from ...collection_links import load_collections_links
+from ...constants import DOCUMENTABLE_PLUGINS
 from ...docs_parsing import AnsibleCollectionMetadata
 from ...docs_parsing.parsing import get_ansible_plugin_info
 from ...docs_parsing.routing import (
@@ -31,7 +33,7 @@ from ...env_variables import (
     collect_referenced_environment_variables,
     load_ansible_config,
 )
-from ...extra_docs import load_collections_extra_docs
+from ...extra_docs import CollectionExtraDocsInfoT, load_collections_extra_docs
 from ...jinja2 import FilenameGenerator, OutputFormat
 from ...process_docs import (
     get_callback_plugin_contents,
@@ -45,6 +47,7 @@ from ...schemas.app_context import (
     DEFAULT_COLLECTION_URL_TRANSFORM,
 )
 from ...utils.collection_name_transformer import CollectionNameTransformer
+from ...write_docs import CollectionInfoT, _get_collection_dir
 from ...write_docs.changelog import output_changelogs
 from ...write_docs.collections import output_extra_docs, output_indexes
 from ...write_docs.hierarchy import (
@@ -56,6 +59,7 @@ from ...write_docs.indexes import (
     output_environment_variables,
     output_plugin_indexes,
 )
+from ...write_docs.io import TrackingOutput
 from ...write_docs.plugin_stubs import output_all_plugin_stub_rst
 from ...write_docs.plugins import output_all_plugin_rst
 
@@ -111,6 +115,56 @@ def _validate_options(
         )
 
 
+def _register_plugin_patterns(
+    output: TrackingOutput,
+    collection_to_plugin_info: CollectionInfoT,
+    /,
+    *,
+    filename_generator: FilenameGenerator,
+    output_format: OutputFormat,
+    squash_hierarchy: bool,
+) -> None:
+    for collection_name in collection_to_plugin_info:
+        namespace, collection = collection_name.split(".")
+        collection_dir = _get_collection_dir(
+            output,
+            namespace,
+            collection,
+            squash_hierarchy=squash_hierarchy,
+            create_if_not_exists=False,
+        )
+        for plugin_type in DOCUMENTABLE_PLUGINS:
+            output.register_pattern(
+                collection_dir,
+                filename_generator.plugin_filename(
+                    f"{collection_name}.*", plugin_type, output_format
+                ),
+            )
+
+
+def _register_extra_docs(
+    output: TrackingOutput,
+    extra_docs_data: Mapping[str, CollectionExtraDocsInfoT],
+    /,
+    *,
+    squash_hierarchy: bool,
+) -> None:
+    for collection_name, (dummy, documents) in extra_docs_data.items():
+        namespace, collection = collection_name.split(".", 1)
+        collection_dir = _get_collection_dir(
+            output,
+            namespace,
+            collection,
+            squash_hierarchy=squash_hierarchy,
+            create_if_not_exists=False,
+        )
+        directories = {os.path.join(collection_dir, "docsite")}
+        for _, rel_path in documents:
+            directories.add(os.path.dirname(os.path.join(collection_dir, rel_path)))
+        for directory in sorted(directories):
+            output.register_pattern(directory, "*")
+
+
 def generate_docs_for_all_collections(  # noqa: C901
     venv: VenvRunner | FakeVenvRunner,
     collection_dir: str | None,
@@ -130,6 +184,9 @@ def generate_docs_for_all_collections(  # noqa: C901
     for_official_docsite: bool = False,
     include_collection_name_in_plugins: bool = False,
     add_antsibull_docs_version: bool = True,
+    cleanup: t.Literal[
+        "no", "similar-files", "similar-files-and-dirs", "everything"
+    ] = "no",
 ) -> int:
     """
     Create documentation for a set of installed collections.
@@ -270,13 +327,15 @@ def generate_docs_for_all_collections(  # noqa: C901
         include_collection_name_in_plugins=include_collection_name_in_plugins
     )
 
+    output = TrackingOutput(dest_dir)
+
     # Only build top-level index if requested
     if create_indexes:
         asyncio.run(
             output_collection_index(
                 collection_to_plugin_info,
                 collection_namespaces,
-                dest_dir,
+                output,
                 collection_url=collection_url,
                 collection_install=collection_install,
                 output_format=output_format,
@@ -291,7 +350,7 @@ def generate_docs_for_all_collections(  # noqa: C901
         asyncio.run(
             output_collection_namespace_indexes(
                 collection_namespaces,
-                dest_dir,
+                output,
                 collection_url=collection_url,
                 collection_install=collection_install,
                 output_format=output_format,
@@ -307,7 +366,7 @@ def generate_docs_for_all_collections(  # noqa: C901
             output_plugin_indexes(
                 plugin_contents,
                 collection_metadata,
-                dest_dir,
+                output,
                 collection_url=collection_url,
                 collection_install=collection_install,
                 output_format=output_format,
@@ -317,11 +376,14 @@ def generate_docs_for_all_collections(  # noqa: C901
                 add_version=add_antsibull_docs_version,
             )
         )
+        output.register_pattern(
+            "collections", f"index_*{output_format.output_extension}"
+        )
         flog.notice("Finished writing plugin indexes")
         asyncio.run(
             output_callback_indexes(
                 callback_plugin_contents,
-                dest_dir,
+                output,
                 collection_url=collection_url,
                 collection_install=collection_install,
                 output_format=output_format,
@@ -337,7 +399,7 @@ def generate_docs_for_all_collections(  # noqa: C901
         asyncio.run(
             output_indexes(
                 collection_to_plugin_info,
-                dest_dir,
+                output,
                 collection_url=collection_url,
                 collection_install=collection_install,
                 collection_metadata=collection_metadata,
@@ -357,7 +419,7 @@ def generate_docs_for_all_collections(  # noqa: C901
         asyncio.run(
             output_changelogs(
                 collection_to_plugin_info,
-                dest_dir,
+                output,
                 collection_metadata=collection_metadata,
                 squash_hierarchy=squash_hierarchy,
                 output_format=output_format,
@@ -369,7 +431,7 @@ def generate_docs_for_all_collections(  # noqa: C901
         asyncio.run(
             output_all_plugin_stub_rst(
                 stubs_info,
-                dest_dir,
+                output,
                 collection_url=collection_url,
                 collection_install=collection_install,
                 collection_metadata=collection_metadata,
@@ -389,7 +451,7 @@ def generate_docs_for_all_collections(  # noqa: C901
             collection_to_plugin_info,
             new_plugin_info,
             nonfatal_errors,
-            dest_dir,
+            output,
             collection_url=collection_url,
             collection_install=collection_install,
             collection_metadata=collection_metadata,
@@ -405,18 +467,28 @@ def generate_docs_for_all_collections(  # noqa: C901
     )
     flog.debug("Finished writing plugin docs")
 
+    _register_plugin_patterns(
+        output,
+        collection_to_plugin_info,
+        filename_generator=filename_generator,
+        output_format=output_format,
+        squash_hierarchy=squash_hierarchy,
+    )
+
     if add_extra_docs:
         asyncio.run(
             output_extra_docs(
-                dest_dir, extra_docs_data, squash_hierarchy=squash_hierarchy
+                output, extra_docs_data, squash_hierarchy=squash_hierarchy
             )
         )
         flog.debug("Finished writing extra docs")
 
+        _register_extra_docs(output, extra_docs_data, squash_hierarchy=squash_hierarchy)
+
     if output_format == OutputFormat.ANSIBLE_DOCSITE:
         asyncio.run(
             output_environment_variables(
-                dest_dir,
+                output,
                 referenced_env_vars,
                 output_format=output_format,
                 filename_generator=filename_generator,
@@ -426,5 +498,9 @@ def generate_docs_for_all_collections(  # noqa: C901
             )
         )
         flog.debug("Finished writing environment variables")
+
+    # Cleanup
+    if cleanup != "no":
+        output.cleanup("." if squash_hierarchy else "collections", cleanup)
 
     return 0

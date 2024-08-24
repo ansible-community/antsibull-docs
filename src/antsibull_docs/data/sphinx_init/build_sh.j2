@@ -10,15 +10,15 @@ set -e
 pushd "$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 trap "{ popd; }" EXIT
 
-# Create collection documentation into temporary directory
-rm -rf temp-rst
-mkdir -p temp-rst
-chmod og-w temp-rst  # antsibull-docs wants that directory only readable by itself
+# Create collection documentation
+mkdir -p rst
+chmod og-w rst  # antsibull-docs wants that directory only readable by itself
 antsibull-docs \
     --config-file antsibull-docs.cfg \
 {% if use_current %}
 {%   if collections | length > 0 %}
     collection \
+    --cleanup everything \
 {%     if fail_on_error %}
     --fail-on-error \
 {%     endif %}
@@ -26,17 +26,19 @@ antsibull-docs \
 {%     if squash_hierarchy %}
     --squash-hierarchy \
 {%     endif %}
-    --dest-dir temp-rst \
+    --dest-dir rst \
     @{ ' '.join(collections) }@
 {%   else %}
     current \
+    --cleanup everything \
 {%     if fail_on_error %}
     --fail-on-error \
 {%     endif %}
-    --dest-dir temp-rst
+    --dest-dir rst
 {%   endif %}
 {% else %}
     collection \
+    --cleanup everything \
 {%     if fail_on_error %}
     --fail-on-error \
 {%     endif %}
@@ -47,15 +49,8 @@ antsibull-docs \
     --squash-hierarchy \
 {%     endif %}
     --output-format @{ output_format }@ \
-    --dest-dir temp-rst \
+    --dest-dir rst \
     @{ ' '.join(collections) }@
-{% endif %}
-
-# Copy collection documentation into source directory
-{% if squash_hierarchy %}
-rsync -cprv --delete-after temp-rst/ rst/
-{% else %}
-rsync -cprv --delete-after temp-rst/collections/ rst/collections/
 {% endif %}
 
 # Build Sphinx site

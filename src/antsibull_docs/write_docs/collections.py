@@ -14,7 +14,6 @@ from collections.abc import Mapping
 import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context
 from antsibull_core.logging import log
-from antsibull_core.utils.io import copy_file, write_file
 from jinja2 import Template
 from packaging.specifiers import SpecifierSet
 
@@ -25,6 +24,7 @@ from ..jinja2 import FilenameGenerator, OutputFormat
 from ..jinja2.environment import doc_environment, get_template_filename
 from ..utils.collection_name_transformer import CollectionNameTransformer
 from . import CollectionInfoT, _get_collection_dir, _render_template
+from .io import Output
 
 mlog = log.fields(mod=__name__)
 
@@ -58,7 +58,8 @@ async def write_plugin_lists(
     collection_name: str,
     plugin_maps: Mapping[str, Mapping[str, str]],
     template: Template,
-    dest_dir: str,
+    output: Output,
+    collection_dir: str,
     collection_meta: AnsibleCollectionMetadata,
     extra_docs_data: CollectionExtraDocsInfoT,
     link_data: CollectionLinks,
@@ -76,7 +77,7 @@ async def write_plugin_lists(
 
     :arg plugin_maps: Mapping of plugin_type to Mapping of plugin_name to short_description.
     :arg template: A template to render the collection index.
-    :arg dest_dir: The destination directory to output the index into.
+    :arg output: Output helper for writing output.
     :arg collection_meta: Metadata for the collection.
     :arg extra_docs_data: Extra docs data for the collection.
     :arg link_data: Links for the collection.
@@ -104,9 +105,10 @@ async def write_plugin_lists(
                 "Cannot parse required_ansible specifier set for {collection_name}",
                 collection_name=collection_name,
             )
+    index_file = os.path.join(collection_dir, f"index{output_format.output_extension}")
     index_contents = _render_template(
         template,
-        dest_dir,
+        index_file,
         collection_name=collection_name,
         plugin_maps=plugin_maps,
         collection_version=collection_meta.version,
@@ -124,16 +126,14 @@ async def write_plugin_lists(
         add_version=add_version,
     )
 
-    index_file = os.path.join(dest_dir, f"index{output_format.output_extension}")
-
-    await write_file(index_file, index_contents)
+    await output.write_file(index_file, index_contents)
 
     flog.debug("Leave")
 
 
 async def output_indexes(
     collection_to_plugin_info: CollectionInfoT,
-    dest_dir: str,
+    output: Output,
     collection_metadata: Mapping[str, AnsibleCollectionMetadata],
     extra_docs_data: Mapping[str, CollectionExtraDocsInfoT],
     link_data: Mapping[str, CollectionLinks],
@@ -152,7 +152,7 @@ async def output_indexes(
 
     :arg collection_to_plugin_info: Mapping of collection_name to Mapping of plugin_type to
         Mapping of plugin_name to short_description.
-    :arg dest_dir: The directory to place the documentation in.
+    :arg output: Output helper for writing output.
     :arg collection_metadata: Dictionary mapping collection names to collection metadata objects.
     :arg extra_docs_data: Dictionary mapping collection names to CollectionExtraDocsInfoT.
     :arg link_data: Dictionary mapping collection names to CollectionLinks.
@@ -192,7 +192,7 @@ async def output_indexes(
         for collection_name, plugin_maps in collection_to_plugin_info.items():
             namespace, collection = collection_name.split(".", 1)
             collection_dir = _get_collection_dir(
-                dest_dir,
+                output,
                 namespace,
                 collection,
                 squash_hierarchy=squash_hierarchy,
@@ -204,6 +204,7 @@ async def output_indexes(
                         collection_name,
                         plugin_maps,
                         collection_plugins_tmpl,
+                        output,
                         collection_dir,
                         collection_metadata[collection_name],
                         extra_docs_data[collection_name],
@@ -224,14 +225,14 @@ async def output_indexes(
 
 
 async def output_extra_docs(
-    dest_dir: str,
+    output: Output,
     extra_docs_data: Mapping[str, CollectionExtraDocsInfoT],
     squash_hierarchy: bool = False,
 ) -> None:
     """
     Write extra docs pages for the collections.
 
-    :arg dest_dir: The directory to place the documentation in.
+    :arg output: Output helper for writing output.
     :arg extra_docs_data: Dictionary mapping collection names to CollectionExtraDocsInfoT.
     :arg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
                            Undefined behavior if documentation for multiple collections are
@@ -247,16 +248,18 @@ async def output_extra_docs(
         for collection_name, (dummy, documents) in extra_docs_data.items():
             namespace, collection = collection_name.split(".", 1)
             collection_dir = _get_collection_dir(
-                dest_dir,
+                output,
                 namespace,
                 collection,
                 squash_hierarchy=squash_hierarchy,
                 create_if_not_exists=True,
             )
             for source_path, rel_path in documents:
-                full_path = os.path.join(collection_dir, rel_path)
-                os.makedirs(os.path.dirname(full_path), mode=0o755, exist_ok=True)
-                writers.append(await pool.spawn(copy_file(source_path, full_path)))
+                dest_path = os.path.join(collection_dir, rel_path)
+                output.ensure_directory(os.path.dirname(dest_path))
+                writers.append(
+                    await pool.spawn(output.copy_file(source_path, dest_path))
+                )
 
         await asyncio.gather(*writers)
 

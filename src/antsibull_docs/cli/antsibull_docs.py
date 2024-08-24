@@ -355,6 +355,34 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         " This option is deprecated in favor of --no-indexes",
     )
 
+    cleanup_parser = argparse.ArgumentParser(add_help=False)
+    cleanup_parser.add_argument(
+        "--cleanup",
+        dest="cleanup",
+        choices=[
+            "no",
+            "similar-files",
+            "similar-files-and-dirs",
+            "everything",
+        ],
+        default="no",
+        help="Whether to clean-up the output directory after writing the own"
+        " files and directories. Generally this only affects the collections/"
+        " subdirectory of the output directly, unless no hierarchy is emitted."
+        # no:
+        " 'no' means that no cleanup is done."
+        # similar-files:
+        " 'similar-files' removes similar files in directories that"
+        " antsibull-docs writes to, for example files like 'foo_module.rst';"
+        # similar-files-and-dirs:
+        " 'similar-files-and-dirs' also removes directories that are not"
+        " written by antsibull-docs inside the directory structure, for"
+        " example other collections;"
+        # everything:
+        " 'everything' ensures that only what antsibull-docs has written stays"
+        " inside the output directory. (default: no)",
+    )
+
     parser = get_toplevel_parser(
         prog=program_name,
         package="antsibull_docs",
@@ -378,6 +406,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
             whole_site_parser,
             template_parser,
             insert_version_parser,
+            cleanup_parser,
         ],
         description="Generate documentation for the next major release of Ansible",
     )
@@ -406,6 +435,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
             whole_site_parser,
             template_parser,
             insert_version_parser,
+            cleanup_parser,
         ],
         description="Generate documentation for a current version of ansible",
     )
@@ -435,6 +465,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
             template_parser,
             insert_version_parser,
             output_format_parser,
+            cleanup_parser,
         ],
         description="Generate documentation for the current"
         " installed version of ansible and the current installed"
@@ -464,6 +495,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
             template_parser,
             insert_version_parser,
             output_format_parser,
+            cleanup_parser,
         ],
         description="Generate documentation for specified collections",
     )
@@ -537,6 +569,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
             template_parser,
             insert_version_parser,
             output_format_parser,
+            cleanup_parser,
         ],
         description="Generate documentation for all plugins of a specified collection",
     )

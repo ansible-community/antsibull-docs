@@ -15,7 +15,6 @@ from collections.abc import Mapping
 import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context
 from antsibull_core.logging import log
-from antsibull_core.utils.io import write_file
 from jinja2 import Template
 
 from ..docs_parsing import AnsibleCollectionMetadata
@@ -24,6 +23,7 @@ from ..jinja2 import FilenameGenerator, OutputFormat
 from ..jinja2.environment import doc_environment, get_template_filename
 from ..utils.collection_name_transformer import CollectionNameTransformer
 from . import PluginCollectionInfoT, _render_template
+from .io import Output
 
 mlog = log.fields(mod=__name__)
 
@@ -32,6 +32,7 @@ async def write_callback_type_index(
     callback_type: str,
     per_collection_plugins: Mapping[str, Mapping[str, str]],
     template: Template,
+    output: Output,
     dest_filename: str,
     for_official_docsite: bool = False,
     add_version: bool = True,
@@ -58,7 +59,7 @@ async def write_callback_type_index(
         add_version=add_version,
     )
 
-    await write_file(dest_filename, index_contents)
+    await output.write_file(dest_filename, index_contents)
 
 
 async def write_plugin_type_index(
@@ -67,6 +68,7 @@ async def write_plugin_type_index(
     # pylint:disable-next=unused-argument
     collection_metadata: Mapping[str, AnsibleCollectionMetadata],
     template: Template,
+    output: Output,
     dest_filename: str,
     for_official_docsite: bool = False,
     add_version: bool = True,
@@ -94,12 +96,12 @@ async def write_plugin_type_index(
         add_version=add_version,
     )
 
-    await write_file(dest_filename, index_contents)
+    await output.write_file(dest_filename, index_contents)
 
 
 async def output_callback_indexes(
     plugin_info: PluginCollectionInfoT,
-    dest_dir: str,
+    output: Output,
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
     output_format: OutputFormat,
@@ -114,7 +116,7 @@ async def output_callback_indexes(
 
     :arg plugin_info: Mapping of callback_type to Mapping of collection_name to Mapping of
         plugin_name to short_description.
-    :arg dest_dir: The directory to place the documentation in.
+    :arg output: Output helper for writing output.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
     :kwarg referable_envvars: Optional set of environment variables that can be referenced.
@@ -137,13 +139,8 @@ async def output_callback_indexes(
         get_template_filename("list_of_callback_plugins", output_format)
     )
 
-    collection_toplevel = os.path.join(dest_dir, "collections")
-    flog.fields(
-        toplevel=collection_toplevel, exists=os.path.isdir(collection_toplevel)
-    ).debug("collection_toplevel exists?")
-    # This is only safe because we made sure that the top of the directory tree we're writing to
-    # (docs/docsite/rst) is only writable by us.
-    os.makedirs(collection_toplevel, mode=0o755, exist_ok=True)
+    collection_toplevel = "collections"
+    output.ensure_directory(collection_toplevel)
 
     writers = []
     lib_ctx = app_context.lib_ctx.get()
@@ -159,6 +156,7 @@ async def output_callback_indexes(
                         callback_type,
                         per_collection_data,
                         plugin_list_tmpl,
+                        output,
                         filename,
                         for_official_docsite=for_official_docsite,
                         add_version=add_version,
@@ -174,7 +172,7 @@ async def output_callback_indexes(
 async def output_plugin_indexes(
     plugin_info: PluginCollectionInfoT,
     collection_metadata: Mapping[str, AnsibleCollectionMetadata],
-    dest_dir: str,
+    output: Output,
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
     output_format: OutputFormat,
@@ -189,7 +187,7 @@ async def output_plugin_indexes(
     :arg plugin_info: Mapping of plugin_type to Mapping of collection_name to Mapping of
         plugin_name to short_description.
     :arg collection_metadata: Dictionary mapping collection names to collection metadata objects.
-    :arg dest_dir: The directory to place the documentation in.
+    :arg output: Output helper for writing output.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
     :kwarg referable_envvars: Optional set of environment variables that can be referenced.
@@ -212,13 +210,8 @@ async def output_plugin_indexes(
         get_template_filename("list_of_plugins", output_format)
     )
 
-    collection_toplevel = os.path.join(dest_dir, "collections")
-    flog.fields(
-        toplevel=collection_toplevel, exists=os.path.isdir(collection_toplevel)
-    ).debug("collection_toplevel exists?")
-    # This is only safe because we made sure that the top of the directory tree we're writing to
-    # (docs/docsite/rst) is only writable by us.
-    os.makedirs(collection_toplevel, mode=0o755, exist_ok=True)
+    collection_toplevel = "collections"
+    output.ensure_directory(collection_toplevel)
 
     writers = []
     lib_ctx = app_context.lib_ctx.get()
@@ -235,6 +228,7 @@ async def output_plugin_indexes(
                         per_collection_data,
                         collection_metadata,
                         plugin_list_tmpl,
+                        output,
                         filename,
                         for_official_docsite=for_official_docsite,
                         add_version=add_version,
@@ -248,7 +242,7 @@ async def output_plugin_indexes(
 
 
 async def output_environment_variables(
-    dest_dir: str,
+    output: Output,
     env_variables: Mapping[str, EnvironmentVariableInfo],
     output_format: OutputFormat,
     filename_generator: FilenameGenerator,
@@ -259,7 +253,7 @@ async def output_environment_variables(
     """
     Write environment variable Generate collection-level index pages for the collections.
 
-    :arg dest_dir: The directory to place the documentation in.
+    :arg output: Output helper for writing output.
     :arg env_variables: Mapping of environment variable names to environment variable information.
     :arg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
                            Undefined behavior if documentation for multiple collections are
@@ -273,9 +267,9 @@ async def output_environment_variables(
     flog.debug("Enter")
 
     if not squash_hierarchy:
-        collection_toplevel = os.path.join(dest_dir, "collections")
+        collection_toplevel = "collections"
     else:
-        collection_toplevel = dest_dir
+        collection_toplevel = "."
 
     env = doc_environment(
         referable_envvars=referable_envvars,
@@ -287,12 +281,7 @@ async def output_environment_variables(
         get_template_filename("list_of_env_variables", output_format)
     )
 
-    flog.fields(
-        toplevel=collection_toplevel, exists=os.path.isdir(collection_toplevel)
-    ).debug("collection_toplevel exists?")
-    # This is only safe because we made sure that the top of the directory tree we're writing to
-    # (docs/docsite/rst) is only writable by us.
-    os.makedirs(collection_toplevel, mode=0o755, exist_ok=True)
+    output.ensure_directory(collection_toplevel)
 
     index_file = os.path.join(
         collection_toplevel, f"environment_variables{output_format.output_extension}"
@@ -304,6 +293,6 @@ async def output_environment_variables(
         add_version=add_version,
     )
 
-    await write_file(index_file, index_contents)
+    await output.write_file(index_file, index_contents)
 
     flog.debug("Leave")

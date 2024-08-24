@@ -16,6 +16,7 @@ from jinja2 import Template
 import antsibull_docs
 
 from ..utils.text import sanitize_whitespace as _sanitize_whitespace
+from .io import Output
 
 mlog = log.fields(mod=__name__)
 
@@ -56,33 +57,30 @@ def _render_template(
 
 
 def _get_collection_dir(
-    dest_dir: str,
+    output: Output,
     namespace: str,
     collection: str,
     /,
+    *,
     squash_hierarchy: bool = False,
     create_if_not_exists: bool = False,
 ):
     """
-    Compose collection directory.
+    Compose collection directory, for consumption by ``Output``.
 
-    :arg dest_dir: Destination directory for the plugin data.  For instance,
-        :file:`ansible-checkout/docs/docsite/rst/`.  The directory structure underneath this
-        directory will be created if needed.
+    :arg output: Output helper for writing output.
     :arg namespace: The collection's namespace.
     :arg collection: The collection's name.
     :kwarg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
                              Undefined behavior if documentation for multiple collections are
                              created.
     :kwarg create_if_not_exists: If set to ``True``, the directory will be created if it does
-                                 not exist. The ``dest_dir`` is assumed to exist.
+                                 not exist.
     """
     if squash_hierarchy:
-        return dest_dir
+        return "."
 
-    collection_dir = os.path.join(dest_dir, "collections", namespace, collection)
+    collection_dir = os.path.join("collections", namespace, collection)
     if create_if_not_exists:
-        # This is dangerous but the code that takes dest_dir from the user checks
-        # permissions on it to make it as safe as possible.
-        os.makedirs(collection_dir, mode=0o755, exist_ok=True)
+        output.ensure_directory(collection_dir)
     return collection_dir

@@ -20,16 +20,17 @@ from antsibull_changelog.rendering.changelog import (
 )
 from antsibull_core import app_context
 from antsibull_core.logging import log
-from antsibull_core.utils.io import write_file
 
 from ..docs_parsing import AnsibleCollectionMetadata
 from ..jinja2 import OutputFormat
 from . import CollectionInfoT, _get_collection_dir
+from .io import Output
 
 mlog = log.fields(mod=__name__)
 
 
 async def write_changelog(
+    output: Output,
     collection_name: str,
     collection_dir: str,
     collection_metadata: AnsibleCollectionMetadata,
@@ -88,14 +89,14 @@ The changelog of {collection_name} could not be rendered:
     changelog_file = os.path.join(
         collection_dir, f"changelog{output_format.output_extension}"
     )
-    await write_file(changelog_file, changelog_contents)
+    await output.write_file(changelog_file, changelog_contents)
 
     flog.debug("Leave")
 
 
 async def output_changelogs(
     collection_to_plugin_info: CollectionInfoT,
-    dest_dir: str,
+    output: Output,
     collection_metadata: Mapping[str, AnsibleCollectionMetadata],
     output_format: OutputFormat,
     squash_hierarchy: bool = False,
@@ -105,7 +106,7 @@ async def output_changelogs(
 
     :arg collection_to_plugin_info: Mapping of collection_name to Mapping of plugin_type to
         Mapping of plugin_name to short_description.
-    :arg dest_dir: The directory to place the documentation in.
+    :arg output: Output helper for writing output.
     :arg collection_metadata: Dictionary mapping collection names to collection metadata objects.
     :kwarg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
         Undefined behavior if documentation for multiple collections are created.
@@ -128,7 +129,7 @@ async def output_changelogs(
 
             namespace, collection = collection_name.split(".", 1)
             collection_dir = _get_collection_dir(
-                dest_dir,
+                output,
                 namespace,
                 collection,
                 squash_hierarchy=squash_hierarchy,
@@ -137,6 +138,7 @@ async def output_changelogs(
             writers.append(
                 await pool.spawn(
                     write_changelog(
+                        output,
                         collection_name,
                         collection_dir,
                         collection_metadata[collection_name],
