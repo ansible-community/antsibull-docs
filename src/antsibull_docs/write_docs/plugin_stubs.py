@@ -44,6 +44,7 @@ async def write_stub_rst(
     path_override: str | None = None,
     squash_hierarchy: bool = False,
     for_official_docsite: bool = False,
+    add_version: bool = True,
 ) -> None:
     """
     Write the rst page for one plugin stub.
@@ -65,6 +66,8 @@ async def write_stub_rst(
                            created.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
+    :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
+        the generated files.
     """
     flog = mlog.fields(func="write_stub_rst")
     flog.debug("Enter")
@@ -84,6 +87,7 @@ async def write_stub_rst(
             collection_communication=collection_links.communication,
             tombstone=routing_data["tombstone"],
             for_official_docsite=for_official_docsite,
+            add_version=add_version,
         )
     else:  # 'redirect' in routing_data
         plugin_contents = _render_template(
@@ -99,6 +103,7 @@ async def write_stub_rst(
             redirect_is_symlink=routing_data.get("redirect_is_symlink") or False,
             deprecation=routing_data.get("deprecation"),
             for_official_docsite=for_official_docsite,
+            add_version=add_version,
         )
 
     if path_override is not None:
@@ -134,6 +139,7 @@ async def output_all_plugin_stub_rst(
     squash_hierarchy: bool = False,
     for_official_docsite: bool = False,
     referable_envvars: set[str] | None = None,
+    add_version: bool = True,
 ) -> None:
     """
     Output rst files for each plugin stub.
@@ -150,6 +156,8 @@ async def output_all_plugin_stub_rst(
         official docsite on docs.ansible.com.
     :kwarg referable_envvars: Optional set of environment variables that can be referenced.
     :kwarg output_format: The output format to use.
+    :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
+        the generated files.
     """
     # Setup the jinja environment
     env = doc_environment(
@@ -189,6 +197,7 @@ async def output_all_plugin_stub_rst(
                                 filename_generator,
                                 squash_hierarchy=squash_hierarchy,
                                 for_official_docsite=for_official_docsite,
+                                add_version=add_version,
                             )
                         )
                     )

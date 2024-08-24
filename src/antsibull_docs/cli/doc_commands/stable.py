@@ -184,4 +184,5 @@ def generate_docs() -> int:
             use_html_blobs=app_ctx.use_html_blobs,
             fail_on_error=app_ctx.extra["fail_on_error"],
             for_official_docsite=True,
+            add_antsibull_docs_version=app_ctx.add_antsibull_docs_version,
         )

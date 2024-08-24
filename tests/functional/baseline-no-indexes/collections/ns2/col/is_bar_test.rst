@@ -3,9 +3,6 @@
 
 :orphan:
 
-.. meta::
-  :antsibull-docs: <ANTSIBULL_DOCS_VERSION>
-
 .. Anchors
 
 .. _ansible_collections.ns2.col.is_bar_test:

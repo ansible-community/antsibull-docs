@@ -32,6 +32,7 @@ TEST_CASES = [
             "--squash-hierarchy",
             "--lenient",
             "--fail-on-error",
+            "--no-add-antsibull-docs-version",
             "--index-rst-source",
             os.path.join(os.path.dirname(__file__), "test.rst"),
             "--intersphinx",

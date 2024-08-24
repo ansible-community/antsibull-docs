@@ -30,6 +30,7 @@ class DocsAppContext(CoreAppContext):
     breadcrumbs: p.StrictBool = True
     indexes: p.StrictBool = True
     use_html_blobs: p.StrictBool = False
+    add_antsibull_docs_version: p.StrictBool = True
 
     collection_url: dict[str, str] = {
         "*": DEFAULT_COLLECTION_URL_TRANSFORM,
@@ -40,5 +41,10 @@ class DocsAppContext(CoreAppContext):
 
     # pylint: disable-next=unused-private-member
     __convert_docs_bools = p.validator(  # type: ignore
-        "breadcrumbs", "indexes", "use_html_blobs", pre=True, allow_reuse=True
+        "breadcrumbs",
+        "indexes",
+        "use_html_blobs",
+        "add_antsibull_docs_version",
+        pre=True,
+        allow_reuse=True,
     )(convert_bool)

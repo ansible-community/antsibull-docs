@@ -129,6 +129,7 @@ def generate_docs_for_all_collections(  # noqa: C901
     fail_on_error: bool = False,
     for_official_docsite: bool = False,
     include_collection_name_in_plugins: bool = False,
+    add_antsibull_docs_version: bool = True,
 ) -> int:
     """
     Create documentation for a set of installed collections.
@@ -162,6 +163,8 @@ def generate_docs_for_all_collections(  # noqa: C901
         official docsite on docs.ansible.com.
     :kwarg include_collection_name_in_plugins: Default False.  Set to True to use the FQCN for
         plugin files instead of only the part without the collection name.
+    :kwarg add_antsibull_docs_version: Default True.  Set to False to not insert antsibull-docs'
+        version into generated files.
     :returns: A return code for the program.  See :func:`antsibull.cli.antsibull_docs.main` for
         details on what each code means.
     """
@@ -281,6 +284,7 @@ def generate_docs_for_all_collections(  # noqa: C901
                 breadcrumbs=breadcrumbs,
                 for_official_docsite=for_official_docsite,
                 referable_envvars=referable_envvars,
+                add_version=add_antsibull_docs_version,
             )
         )
         flog.notice("Finished writing collection index")
@@ -295,6 +299,7 @@ def generate_docs_for_all_collections(  # noqa: C901
                 breadcrumbs=breadcrumbs,
                 for_official_docsite=for_official_docsite,
                 referable_envvars=referable_envvars,
+                add_version=add_antsibull_docs_version,
             )
         )
         flog.notice("Finished writing collection namespace index")
@@ -309,6 +314,7 @@ def generate_docs_for_all_collections(  # noqa: C901
                 filename_generator=filename_generator,
                 for_official_docsite=for_official_docsite,
                 referable_envvars=referable_envvars,
+                add_version=add_antsibull_docs_version,
             )
         )
         flog.notice("Finished writing plugin indexes")
@@ -322,6 +328,7 @@ def generate_docs_for_all_collections(  # noqa: C901
                 filename_generator=filename_generator,
                 for_official_docsite=for_official_docsite,
                 referable_envvars=referable_envvars,
+                add_version=add_antsibull_docs_version,
             )
         )
         flog.notice("Finished writing callback plugin indexes")
@@ -342,6 +349,7 @@ def generate_docs_for_all_collections(  # noqa: C901
                 breadcrumbs=breadcrumbs,
                 for_official_docsite=for_official_docsite,
                 referable_envvars=referable_envvars,
+                add_version=add_antsibull_docs_version,
             )
         )
         flog.notice("Finished writing indexes")
@@ -371,6 +379,7 @@ def generate_docs_for_all_collections(  # noqa: C901
                 squash_hierarchy=squash_hierarchy,
                 for_official_docsite=for_official_docsite,
                 referable_envvars=referable_envvars,
+                add_version=add_antsibull_docs_version,
             )
         )
         flog.debug("Finished writing plugin stubs")
@@ -391,6 +400,7 @@ def generate_docs_for_all_collections(  # noqa: C901
             use_html_blobs=use_html_blobs,
             for_official_docsite=for_official_docsite,
             referable_envvars=referable_envvars,
+            add_version=add_antsibull_docs_version,
         )
     )
     flog.debug("Finished writing plugin docs")
@@ -412,6 +422,7 @@ def generate_docs_for_all_collections(  # noqa: C901
                 filename_generator=filename_generator,
                 squash_hierarchy=squash_hierarchy,
                 referable_envvars=referable_envvars,
+                add_version=add_antsibull_docs_version,
             )
         )
         flog.debug("Finished writing environment variables")

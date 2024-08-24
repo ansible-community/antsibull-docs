@@ -34,6 +34,7 @@ async def write_callback_type_index(
     template: Template,
     dest_filename: str,
     for_official_docsite: bool = False,
+    add_version: bool = True,
 ) -> None:
     """
     Write an index page for each plugin type.
@@ -45,6 +46,8 @@ async def write_callback_type_index(
     :arg dest_filename: The destination filename.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
+    :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
+        the generated files.
     """
     index_contents = _render_template(
         template,
@@ -52,6 +55,7 @@ async def write_callback_type_index(
         callback_type=callback_type,
         per_collection_plugins=per_collection_plugins,
         for_official_docsite=for_official_docsite,
+        add_version=add_version,
     )
 
     await write_file(dest_filename, index_contents)
@@ -65,6 +69,7 @@ async def write_plugin_type_index(
     template: Template,
     dest_filename: str,
     for_official_docsite: bool = False,
+    add_version: bool = True,
 ) -> None:
     """
     Write an index page for each plugin type.
@@ -77,6 +82,8 @@ async def write_plugin_type_index(
     :arg dest_filename: The destination filename.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
         official docsite on docs.ansible.com.
+    :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
+        the generated files.
     """
     index_contents = _render_template(
         template,
@@ -84,6 +91,7 @@ async def write_plugin_type_index(
         plugin_type=plugin_type,
         per_collection_plugins=per_collection_plugins,
         for_official_docsite=for_official_docsite,
+        add_version=add_version,
     )
 
     await write_file(dest_filename, index_contents)
@@ -98,6 +106,7 @@ async def output_callback_indexes(
     filename_generator: FilenameGenerator,
     for_official_docsite: bool = False,
     referable_envvars: set[str] | None = None,
+    add_version: bool = True,
 ) -> None:
     """
     Generate top-level callback plugin index pages for all callback plugins of a type in all
@@ -110,6 +119,8 @@ async def output_callback_indexes(
         official docsite on docs.ansible.com.
     :kwarg referable_envvars: Optional set of environment variables that can be referenced.
     :kwarg output_format: The output format to use.
+    :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
+        the generated files.
     """
     flog = mlog.fields(func="output_callback_indexes")
     flog.debug("Enter")
@@ -150,6 +161,7 @@ async def output_callback_indexes(
                         plugin_list_tmpl,
                         filename,
                         for_official_docsite=for_official_docsite,
+                        add_version=add_version,
                     )
                 )
             )
@@ -169,6 +181,7 @@ async def output_plugin_indexes(
     filename_generator: FilenameGenerator,
     for_official_docsite: bool = False,
     referable_envvars: set[str] | None = None,
+    add_version: bool = True,
 ) -> None:
     """
     Generate top-level plugin index pages for all plugins of a type in all collections.
@@ -181,6 +194,8 @@ async def output_plugin_indexes(
         official docsite on docs.ansible.com.
     :kwarg referable_envvars: Optional set of environment variables that can be referenced.
     :kwarg output_format: The output format to use.
+    :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
+        the generated files.
     """
     flog = mlog.fields(func="output_plugin_indexes")
     flog.debug("Enter")
@@ -222,6 +237,7 @@ async def output_plugin_indexes(
                         plugin_list_tmpl,
                         filename,
                         for_official_docsite=for_official_docsite,
+                        add_version=add_version,
                     )
                 )
             )
@@ -238,6 +254,7 @@ async def output_environment_variables(
     filename_generator: FilenameGenerator,
     squash_hierarchy: bool = False,
     referable_envvars: set[str] | None = None,
+    add_version: bool = True,
 ) -> None:
     """
     Write environment variable Generate collection-level index pages for the collections.
@@ -249,6 +266,8 @@ async def output_environment_variables(
                            created.
     :kwarg referable_envvars: Optional set of environment variables that can be referenced.
     :kwarg output_format: The output format to use.
+    :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
+        the generated files.
     """
     flog = mlog.fields(func="write_environment_variables")
     flog.debug("Enter")
@@ -282,6 +301,7 @@ async def output_environment_variables(
         env_var_list_tmpl,
         index_file,
         env_variables=env_variables,
+        add_version=add_version,
     )
 
     await write_file(index_file, index_contents)

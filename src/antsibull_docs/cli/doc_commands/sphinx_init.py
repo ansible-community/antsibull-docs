@@ -132,6 +132,7 @@ def site_init() -> int:
     extra_html_context = split_kv(app_ctx.extra["extra_html_context"])
     extra_html_theme_options = split_kv(app_ctx.extra["extra_html_theme_options"])
     output_format = app_ctx.extra["output_format"]
+    add_antsibull_docs_version = app_ctx.add_antsibull_docs_version
 
     if use_html_blobs:
         print(
@@ -187,6 +188,7 @@ def site_init() -> int:
                 extra_html_theme_options=extra_html_theme_options,
                 output_format=output_format,
                 antsibull_docs_version=antsibull_docs.__version__,
+                add_antsibull_docs_version=add_antsibull_docs_version,
             )
             + "\n"
         )

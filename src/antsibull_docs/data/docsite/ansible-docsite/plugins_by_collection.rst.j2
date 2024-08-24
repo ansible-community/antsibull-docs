@@ -10,9 +10,11 @@
 :orphan:
 {% endif %}
 
+{% if antsibull_docs_version %}
 .. meta::
   :antsibull-docs: @{ antsibull_docs_version }@
 
+{% endif %}
 {% macro list_plugins(plugin_type) %}
 {%   for name, desc in plugin_maps[plugin_type].items() | sort %}
 * :ansplugin:`@{ name }@ @{ plugin_type }@ <@{ collection_name }@.@{ name }@#@{ plugin_type }@>` -- @{ desc | rst_ify(plugin_fqcn=collection_name ~ '.' ~ name, plugin_type=plugin_type) | rst_indent(width=2) }@

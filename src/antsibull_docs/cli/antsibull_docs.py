@@ -281,6 +281,16 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         " (default: False)",
     )
 
+    insert_version_parser = argparse.ArgumentParser(add_help=False)
+    insert_version_parser.add_argument(
+        "--add-antsibull-docs-version",
+        dest="add_antsibull_docs_version",
+        action=BooleanOptionalAction,
+        default=argparse.SUPPRESS,
+        help="Determines whether the antsibull-docs version is inserted"
+        " in the generated files. (default: True)",
+    )
+
     cache_parser = argparse.ArgumentParser(add_help=False)
     # TODO: Remove --ansible-base-cache once the ansible/ansible docs-build test is updated
     # TODO: Eventually remove --ansible-base-source
@@ -362,7 +372,13 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     #
     devel_parser = subparsers.add_parser(
         "devel",
-        parents=[docs_parser, cache_parser, whole_site_parser, template_parser],
+        parents=[
+            docs_parser,
+            cache_parser,
+            whole_site_parser,
+            template_parser,
+            insert_version_parser,
+        ],
         description="Generate documentation for the next major release of Ansible",
     )
     devel_parser.add_argument(
@@ -384,7 +400,13 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     #
     stable_parser = subparsers.add_parser(
         "stable",
-        parents=[docs_parser, cache_parser, whole_site_parser, template_parser],
+        parents=[
+            docs_parser,
+            cache_parser,
+            whole_site_parser,
+            template_parser,
+            insert_version_parser,
+        ],
         description="Generate documentation for a current version of ansible",
     )
     stable_parser.add_argument(
@@ -407,7 +429,13 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     #
     current_parser = subparsers.add_parser(
         "current",
-        parents=[docs_parser, whole_site_parser, template_parser, output_format_parser],
+        parents=[
+            docs_parser,
+            whole_site_parser,
+            template_parser,
+            insert_version_parser,
+            output_format_parser,
+        ],
         description="Generate documentation for the current"
         " installed version of ansible and the current installed"
         " collections",
@@ -430,7 +458,13 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     #
     collection_parser = subparsers.add_parser(
         "collection",
-        parents=[docs_parser, whole_site_parser, template_parser, output_format_parser],
+        parents=[
+            docs_parser,
+            whole_site_parser,
+            template_parser,
+            insert_version_parser,
+            output_format_parser,
+        ],
         description="Generate documentation for specified collections",
     )
     collection_parser.add_argument(
@@ -470,7 +504,12 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     #
     plugin_parser = subparsers.add_parser(
         "plugin",
-        parents=[docs_parser, template_parser, output_format_parser],
+        parents=[
+            docs_parser,
+            template_parser,
+            insert_version_parser,
+            output_format_parser,
+        ],
         description="Generate documentation for a single plugin",
     )
     plugin_parser.add_argument(
@@ -493,7 +532,12 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     #
     collection_plugins_parser = subparsers.add_parser(
         "collection-plugins",
-        parents=[docs_parser, template_parser, output_format_parser],
+        parents=[
+            docs_parser,
+            template_parser,
+            insert_version_parser,
+            output_format_parser,
+        ],
         description="Generate documentation for all plugins of a specified collection",
     )
     collection_plugins_parser.add_argument(
@@ -531,7 +575,13 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     #
     sphinx_init_parser = subparsers.add_parser(
         "sphinx-init",
-        parents=[docs_parser, template_parser, whole_site_parser, output_format_parser],
+        parents=[
+            docs_parser,
+            template_parser,
+            whole_site_parser,
+            insert_version_parser,
+            output_format_parser,
+        ],
         description="Generate a Sphinx site template for a collection docsite",
     )
 

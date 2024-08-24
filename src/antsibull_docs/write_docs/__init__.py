@@ -30,10 +30,13 @@ CollectionInfoT = Mapping[str, Mapping[str, Mapping[str, str]]]
 PluginCollectionInfoT = Mapping[str, Mapping[str, Mapping[str, str]]]
 
 
-def _render_template(_template: Template, _name: str, **kwargs) -> str:
+def _render_template(
+    _template: Template, _name: str, /, add_version: bool, **kwargs
+) -> str:
     try:
         return _template.render(
-            antsibull_docs_version=antsibull_docs.__version__, **kwargs
+            antsibull_docs_version=antsibull_docs.__version__ if add_version else None,
+            **kwargs,
         )
     except Exception as exc:
         raise RuntimeError(f"Error while rendering {_name}") from exc

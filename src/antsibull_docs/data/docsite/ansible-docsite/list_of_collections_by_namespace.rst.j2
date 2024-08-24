@@ -8,9 +8,11 @@
 :orphan:
 {% endif %}
 
+{% if antsibull_docs_version %}
 .. meta::
   :antsibull-docs: @{ antsibull_docs_version }@
 
+{% endif %}
 .. _list_of_collections_@{ namespace }@:
 
 {% set title = ('Collections in the ' ~ (namespace | title) ~ ' Namespace') | rst_ify -%}
