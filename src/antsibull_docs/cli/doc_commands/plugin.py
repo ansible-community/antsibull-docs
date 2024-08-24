@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import asyncio
 import json
-import os
 import sys
 import traceback
 
@@ -32,6 +31,7 @@ from ...schemas.app_context import (
     DEFAULT_COLLECTION_URL_TRANSFORM,
 )
 from ...utils.collection_name_transformer import CollectionNameTransformer
+from ...write_docs.io import Output
 from ...write_docs.plugins import write_plugin_rst
 
 mlog = log.fields(mod=__name__)
@@ -42,7 +42,10 @@ def generate_plugin_docs(
     plugin_name: str,
     collection_name: str,
     plugin: str,
-    output_path: str,
+    /,
+    *,
+    output_dir: str,
+    output_filename: str,
     output_format: OutputFormat,
     filename_generator: FilenameGenerator,
     add_antsibull_docs_version: bool,
@@ -134,10 +137,10 @@ def generate_plugin_docs(
             errors,
             plugin_tmpl,
             error_tmpl,
-            "",
+            Output(output_dir),
             output_format,
             filename_generator,
-            path_override=output_path,
+            path_override=output_filename,
             use_html_blobs=app_ctx.use_html_blobs,
             add_version=add_antsibull_docs_version,
         )
@@ -164,10 +167,6 @@ def generate_docs() -> int:
     plugin_name: str = app_ctx.extra["plugin"][0]
     output_format = OutputFormat.parse(app_ctx.extra["output_format"])
 
-    output_path = os.path.join(
-        app_ctx.extra["dest_dir"], f"{plugin_name}_{plugin_type}.rst"
-    )
-
     try:
         namespace, collection, plugin = get_fqcn_parts(plugin_name)
     except ValueError:
@@ -183,8 +182,9 @@ def generate_docs() -> int:
         plugin_name,
         collection_name,
         plugin,
-        output_path,
-        output_format,
-        filename_generator,
+        output_dir=app_ctx.extra["dest_dir"],
+        output_filename=f"{plugin_name}_{plugin_type}.{output_format.output_extension}",
+        output_format=output_format,
+        filename_generator=filename_generator,
         add_antsibull_docs_version=app_ctx.add_antsibull_docs_version,
     )

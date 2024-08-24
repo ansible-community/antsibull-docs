@@ -7,14 +7,20 @@
 
 from __future__ import annotations
 
+import fnmatch
 import os
+import shutil
 import typing as t
+from collections import defaultdict
 
+from antsibull_core.logging import log
 from antsibull_core.utils.io import copy_file as _copy_file
 from antsibull_core.utils.io import write_file as _write_file
 
 if t.TYPE_CHECKING:
     from _typeshed import StrOrBytesPath
+
+mlog = log.fields(mod=__name__)
 
 
 class Output:
@@ -30,7 +36,7 @@ class Output:
         """
         self.root = root
 
-    def ensure_directory(self, directory: StrOrBytesPath, /):
+    def ensure_directory(self, directory: StrOrBytesPath, /) -> None:
         """
         Ensure that the directory (relative to our root) exists.
         """
@@ -39,7 +45,7 @@ class Output:
         # permissions on it to make it as safe as possible.
         os.makedirs(path, mode=0o755, exist_ok=True)
 
-    async def write_file(self, filename: StrOrBytesPath, /, content: str):
+    async def write_file(self, filename: StrOrBytesPath, /, content: str) -> None:
         """
         Write the given text content to a file (relative to our root).
         """
@@ -53,10 +59,149 @@ class Output:
         /,
         *,
         check_content: bool = True,
-    ):
+    ) -> None:
         """
         Copy the given ``source_path`` (relative to CWD) to the ``dest_path``
         (relative to our root).
         """
         src_path = os.path.join(self.root, dest_path)  # type: ignore
         await _copy_file(source_path, src_path, check_content=check_content)
+
+
+class TrackingOutput(Output):
+    directories: set[str]
+    files: defaultdict[str, set[str]]
+    patterns: defaultdict[str, set[str]]
+
+    @staticmethod
+    def _normalize_directory(directory: StrOrBytesPath) -> str:
+        norm_dir_or_bytes = os.path.normpath(directory)
+        norm_dir = (
+            norm_dir_or_bytes.decode("utf-8")
+            if isinstance(norm_dir_or_bytes, bytes)
+            else norm_dir_or_bytes
+        )
+        if norm_dir == ".":
+            norm_dir = ""
+        return norm_dir
+
+    @staticmethod
+    def _normalize_filename(filename: StrOrBytesPath) -> str:
+        norm_fn_or_bytes = os.path.normpath(filename)
+        return (
+            norm_fn_or_bytes.decode("utf-8")
+            if isinstance(norm_fn_or_bytes, bytes)
+            else norm_fn_or_bytes
+        )
+
+    def __init__(self, root: StrOrBytesPath):
+        super().__init__(root=root)
+        self.directories = {""}
+        self.files = defaultdict(set)
+        self.patterns = defaultdict(set)
+
+    def ensure_directory(self, directory: StrOrBytesPath, /) -> None:
+        super().ensure_directory(directory)
+        norm_directory = self._normalize_directory(directory)
+        while norm_directory:
+            self.directories.add(norm_directory)
+            norm_directory, prev_directory = (
+                os.path.basename(norm_directory),
+                norm_directory,
+            )
+            if norm_directory == prev_directory:
+                break
+
+    def _register_file(self, filename: StrOrBytesPath, /) -> None:
+        filename_dir, filename_name = os.path.split(filename)
+        directory = self._normalize_directory(filename_dir)
+        self.directories.add(directory)
+        self.files[directory].add(self._normalize_filename(filename_name))
+
+    async def write_file(self, filename: StrOrBytesPath, /, content: str) -> None:
+        await super().write_file(filename, content=content)
+        self._register_file(filename)
+
+    def register_pattern(self, directory: StrOrBytesPath, pattern: str, /) -> None:
+        self.patterns[self._normalize_directory(directory)].add(pattern)
+
+    async def copy_file(
+        self,
+        source_path: StrOrBytesPath,
+        dest_path: StrOrBytesPath,
+        /,
+        *,
+        check_content: bool = True,
+    ) -> None:
+        await super().copy_file(source_path, dest_path, check_content=check_content)
+        self._register_file(dest_path)
+
+    @staticmethod
+    def _limit_by_patterns(filenames: list[str], patterns: set[str]) -> list[str]:
+        result = set()
+        for pattern in patterns:
+            result.update(fnmatch.filter(filenames, pattern))
+        return sorted(result)
+
+    def _delete(self, directories_to_prune: set[str], files_to_prune: set[str]) -> None:
+        flog = mlog.fields(func="TrackingOutput._delete")
+        flog.notice("Begin")
+        for filename in sorted(files_to_prune):
+            full_filename = os.path.join(self.root, filename)  # type: ignore
+            try:
+                os.unlink(full_filename)
+            except Exception as exc:  # pylint: disable=broad-exception-caught
+                flog.warning(f"Error while deleting file {full_filename!r}: {exc}")
+        for directory in sorted(directories_to_prune):
+            full_directory = os.path.join(self.root, directory)  # type: ignore
+            try:
+                shutil.rmtree(full_directory)
+            except Exception as exc:  # pylint: disable=broad-exception-caught
+                flog.warning(
+                    f"Error while deleting directory {full_directory!r}: {exc}"
+                )
+        flog.notice("Done")
+
+    def cleanup(
+        self,
+        root: StrOrBytesPath,
+        cleanup: t.Literal["similar-files", "similar-files-and-dirs", "everything"],
+        /,
+    ) -> None:
+        flog = mlog.fields(func="TrackingOutput.cleanup")
+        flog.notice("Begin")
+
+        directories_to_prune: set[str] = set()
+        files_to_prune: set[str] = set()
+        root_dir = os.path.join(self.root, root)  # type: ignore
+        for dirpath, dirnames, filenames in os.walk(root_dir):
+            rel_dirpath = os.path.relpath(dirpath, self.root)  # type: ignore
+            directory = self._normalize_directory(rel_dirpath)
+            flog.notice(f"Processing {directory}")
+            if directory not in self.directories:
+                # Stop iteration
+                flog.notice("Unknown directory")
+                dirnames.clear()
+                if cleanup != "similar-files":
+                    directories_to_prune.add(directory)
+                continue
+
+            expected_filenames = self.files[directory]
+            superfluous_filenames = [
+                filename for filename in filenames if filename not in expected_filenames
+            ]
+            if (
+                cleanup != "everything"
+                and directory in self.patterns
+                and superfluous_filenames
+            ):
+                superfluous_filenames = self._limit_by_patterns(
+                    superfluous_filenames, self.patterns[directory]
+                )
+
+            flog.notice(f"Found {len(superfluous_filenames)} superfluous file(s)")
+            for filename in superfluous_filenames:
+                files_to_prune.add(os.path.join(directory, filename))
+        self._delete(directories_to_prune, files_to_prune)
+
+        flog.notice("Done")

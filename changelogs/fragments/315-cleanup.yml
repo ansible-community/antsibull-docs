@@ -1,0 +1,4 @@
+minor_changes:
+  - "Most documentation generating subcommands now have a ``--cleanup`` parameter which allows to delete
+     files and directories that were not created by antsibull-docs in the destination directory
+     (https://github.com/ansible-community/antsibull-docs/pull/315)."
