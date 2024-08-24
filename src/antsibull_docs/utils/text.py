@@ -30,7 +30,13 @@ def count_leading_whitespace(
     return count
 
 
-def sanitize_whitespace(content: str) -> str:
+def sanitize_whitespace(
+    content: str,
+    /,
+    *,
+    trailing_newline: bool = True,
+    remove_common_leading_whitespace: bool = True,
+) -> str:
     # Split into lines and remove trailing whitespace
     lines = [line.rstrip(" \t") for line in content.splitlines()]
 
@@ -44,16 +50,20 @@ def sanitize_whitespace(content: str) -> str:
     lines = lines[start:end]
 
     # Remove common leading whitespace
-    common_whitespace = None
-    for line in lines:
-        whitespace = count_leading_whitespace(line, max_count=common_whitespace)
-        if whitespace is not None:
-            if common_whitespace is None or common_whitespace > whitespace:
-                common_whitespace = whitespace
-                if common_whitespace == 0:
-                    break
-    if common_whitespace is not None and common_whitespace > 0:
-        lines = [line[common_whitespace:] for line in lines]
+    if remove_common_leading_whitespace:
+        common_whitespace = None
+        for line in lines:
+            whitespace = count_leading_whitespace(line, max_count=common_whitespace)
+            if whitespace is not None:
+                if common_whitespace is None or common_whitespace > whitespace:
+                    common_whitespace = whitespace
+                    if common_whitespace == 0:
+                        break
+        if common_whitespace is not None and common_whitespace > 0:
+            lines = [line[common_whitespace:] for line in lines]
+
+    if trailing_newline and lines:
+        lines.append("")
 
     # Re-combine the result
     return "\n".join(lines)

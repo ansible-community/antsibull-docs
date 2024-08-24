@@ -294,4 +294,4 @@ def rst_indent(
 def sanitize_whitespace(text: str) -> str:
     if not isinstance(text, str):
         raise ValueError("sanitize_whitespace can only be applied to strings")
-    return _sanitize_whitespace(text)
+    return _sanitize_whitespace(text, trailing_newline=False)

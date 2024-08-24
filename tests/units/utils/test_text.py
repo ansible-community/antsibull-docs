@@ -55,10 +55,18 @@ def test_count_leading_whitespace(line, max_count, expected):
 
 
 @pytest.mark.parametrize(
-    "content, expected",
+    "content, trailing_newline, remove_common_leading_whitespace, expected",
     [
         (
             "",
+            False,
+            True,
+            "",
+        ),
+        (
+            "",
+            True,
+            True,
             "",
         ),
         (
@@ -66,7 +74,34 @@ def test_count_leading_whitespace(line, max_count, expected):
 Test
   Test
 """,
+            False,
+            True,
             r"""Test
+  Test""",
+        ),
+        (
+            r"""
+Test
+  Test
+""",
+            True,
+            True,
+            r"""Test
+  Test
+""",
+        ),
+        (
+            r"""
+
+      Test!
+  Test  
+    Test
+
+""",
+            False,
+            True,
+            r"""    Test!
+Test
   Test""",
         ),
         (
@@ -77,9 +112,11 @@ Test
     Test
 
 """,
-            r"""    Test!
-Test
-  Test""",
+            False,
+            False,
+            r"""      Test!
+  Test
+    Test""",
         ),
         (
             """
@@ -87,12 +124,20 @@ Test
   ns2.flatcol.foo2:
     bar: foo
 """,
+            False,
+            True,
             """- name: Do some foo
   ns2.flatcol.foo2:
     bar: foo""",
         ),
     ],
 )
-def test_sanitize_whitespace(content, expected):
-    result = sanitize_whitespace(content)
+def test_sanitize_whitespace(
+    content, trailing_newline, remove_common_leading_whitespace, expected
+):
+    result = sanitize_whitespace(
+        content,
+        trailing_newline=trailing_newline,
+        remove_common_leading_whitespace=remove_common_leading_whitespace,
+    )
     assert result == expected
