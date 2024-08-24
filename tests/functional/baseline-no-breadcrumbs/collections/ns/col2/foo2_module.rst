@@ -1,4 +1,3 @@
-
 .. Document meta
 
 :orphan:
@@ -204,7 +203,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -587,4 +586,3 @@ Authors
 
 
 .. Parsing errors
-

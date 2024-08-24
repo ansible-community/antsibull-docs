@@ -1,4 +1,3 @@
-
 :orphan:
 
 .. meta::
@@ -18,4 +17,3 @@ ns2.col
 -------
 
 * :ansplugin:`ns2.col.foo#role` -- Foo role
-

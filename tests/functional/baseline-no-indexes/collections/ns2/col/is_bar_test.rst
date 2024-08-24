@@ -1,4 +1,3 @@
-
 .. Document meta
 
 :orphan:

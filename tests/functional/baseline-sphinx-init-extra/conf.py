@@ -56,4 +56,3 @@ html_theme_options = {
     'key': 'value',
     'long key': 'very "long" \'value\'',
 }
-

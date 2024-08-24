@@ -1,5 +1,3 @@
-
-
 .. meta::
   :antsibull-docs: <ANTSIBULL_DOCS_VERSION>
 
@@ -263,4 +261,3 @@ These are the roles in the ns2.col collection:
     :hidden:
 
     foo_role
-

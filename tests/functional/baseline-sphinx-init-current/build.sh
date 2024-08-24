@@ -24,4 +24,3 @@ rsync -cprv --delete-after temp-rst/collections/ rst/collections/
 
 # Build Sphinx site
 sphinx-build -M html rst build -c . -W --keep-going
-

@@ -1,0 +1,2 @@
+minor_changes:
+  - "Remove trailing whitespace and leading and trailing empty lines from rendered templates, and ensure they end with a newline if not empty (https://github.com/ansible-community/antsibull-docs/pull/314)."

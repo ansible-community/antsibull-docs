@@ -1,4 +1,3 @@
-
 .. Document meta
 
 :orphan:
@@ -134,4 +133,3 @@ Authors
 
 
 .. Parsing errors
-

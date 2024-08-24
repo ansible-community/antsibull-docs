@@ -1,4 +1,3 @@
-
 :orphan:
 
 .. meta::
@@ -12,7 +11,7 @@ Index of all Modules
 ns.col2
 -------
 
-* :ansplugin:`ns.col2.foo#module` -- 
+* :ansplugin:`ns.col2.foo#module` --
 * :ansplugin:`ns.col2.foo2#module` -- Foo two
 * :ansplugin:`ns.col2.foo3#module` -- Foo III
 * :ansplugin:`ns.col2.foo4#module` -- Markup reference linting test
@@ -29,4 +28,3 @@ ns2.flatcol
 
 * :ansplugin:`ns2.flatcol.foo#module` -- Do some foo :ansopt:`ns2.flatcol.foo#module:bar`
 * :ansplugin:`ns2.flatcol.foo2#module` -- Another foo
-

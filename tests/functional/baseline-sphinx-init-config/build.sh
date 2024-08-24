@@ -28,4 +28,3 @@ rsync -cprv --delete-after temp-rst/ rst/
 
 # Build Sphinx site
 sphinx-build -M html rst build -c .
-

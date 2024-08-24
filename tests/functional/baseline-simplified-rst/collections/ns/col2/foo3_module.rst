@@ -1,4 +1,3 @@
-
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
 ns.col2.foo3 module -- Foo III
@@ -201,4 +200,3 @@ The errors were:
           string does not match regex "^(any|bits|bool|bytes|complex|dict|float|int|json|jsonarg|list|path|sid|str|pathspec|pathlist)$" (type=value_error.str.regex; pattern=^(any|bits|bool|bytes|complex|dict|float|int|json|jsonarg|list|path|sid|str|pathspec|pathlist)$)
         return -> baz
           value is not a valid dict (type=type_error.dict)
-

@@ -18,6 +18,7 @@ import antsibull_docs
 
 from ... import app_context
 from ...jinja2.environment import doc_environment
+from ...utils.text import sanitize_whitespace
 
 mlog = log.fields(mod=__name__)
 
@@ -162,35 +163,36 @@ def site_init() -> int:
         source = filename.replace(".", "_").replace("/", "_") + ".j2"
         template = env.get_template(source)
 
-        content = (
-            template.render(
-                dest_dir=dest_dir,
-                collection_version=collection_version,
-                use_current=use_current,
-                squash_hierarchy=squash_hierarchy,
-                collections=collections,
-                lenient=lenient,
-                fail_on_error=fail_on_error,
-                use_html_blobs=use_html_blobs,
-                breadcrumbs=breadcrumbs,
-                indexes=indexes,
-                sphinx_theme=sphinx_theme,
-                sphinx_theme_package=sphinx_theme_package,
-                collection_url=collection_url,
-                collection_install=collection_install,
-                intersphinx=intersphinx_parts,
-                project=project,
-                conf_copyright=conf_copyright,
-                title=title,
-                html_short_title=html_short_title,
-                extra_conf=extra_conf,
-                extra_html_context=extra_html_context,
-                extra_html_theme_options=extra_html_theme_options,
-                output_format=output_format,
-                antsibull_docs_version=antsibull_docs.__version__,
-                add_antsibull_docs_version=add_antsibull_docs_version,
-            )
-            + "\n"
+        content = template.render(
+            dest_dir=dest_dir,
+            collection_version=collection_version,
+            use_current=use_current,
+            squash_hierarchy=squash_hierarchy,
+            collections=collections,
+            lenient=lenient,
+            fail_on_error=fail_on_error,
+            use_html_blobs=use_html_blobs,
+            breadcrumbs=breadcrumbs,
+            indexes=indexes,
+            sphinx_theme=sphinx_theme,
+            sphinx_theme_package=sphinx_theme_package,
+            collection_url=collection_url,
+            collection_install=collection_install,
+            intersphinx=intersphinx_parts,
+            project=project,
+            conf_copyright=conf_copyright,
+            title=title,
+            html_short_title=html_short_title,
+            extra_conf=extra_conf,
+            extra_html_context=extra_html_context,
+            extra_html_theme_options=extra_html_theme_options,
+            output_format=output_format,
+            antsibull_docs_version=antsibull_docs.__version__,
+            add_antsibull_docs_version=add_antsibull_docs_version,
+        )
+
+        content = sanitize_whitespace(
+            content, trailing_newline=True, remove_common_leading_whitespace=False
         )
 
         destination = os.path.join(dest_dir, filename)

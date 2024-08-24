@@ -15,6 +15,8 @@ from jinja2 import Template
 
 import antsibull_docs
 
+from ..utils.text import sanitize_whitespace as _sanitize_whitespace
+
 mlog = log.fields(mod=__name__)
 
 #: Mapping of plugins to nonfatal errors.  This is the type to use when accepting the plugin.
@@ -31,13 +33,24 @@ PluginCollectionInfoT = Mapping[str, Mapping[str, Mapping[str, str]]]
 
 
 def _render_template(
-    _template: Template, _name: str, /, add_version: bool, **kwargs
+    _template: Template,
+    _name: str,
+    /,
+    *,
+    add_version: bool,
+    sanitize_whitespace: bool = True,
+    **kwargs,
 ) -> str:
     try:
-        return _template.render(
+        result = _template.render(
             antsibull_docs_version=antsibull_docs.__version__ if add_version else None,
             **kwargs,
         )
+        if sanitize_whitespace:
+            result = _sanitize_whitespace(
+                result, trailing_newline=True, remove_common_leading_whitespace=False
+            )
+        return result
     except Exception as exc:
         raise RuntimeError(f"Error while rendering {_name}") from exc
 
