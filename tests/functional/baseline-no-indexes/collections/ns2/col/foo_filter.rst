@@ -231,9 +231,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
     some_var: "{{ 'foo' | ns2.col.foo }}"
-
 
 
 

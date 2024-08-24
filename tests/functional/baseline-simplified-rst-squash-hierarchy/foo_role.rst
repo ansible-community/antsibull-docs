@@ -108,7 +108,7 @@ Attributes
 
 
 
-    - 
+    -
       Can run in check\_mode and return changed status prediction without modifying target
 
 
@@ -120,7 +120,7 @@ Attributes
     - Platforms:Linux, macOS, FreeBSD
 
 
-    - 
+    -
       The supported platforms
 
 
@@ -130,7 +130,7 @@ Attributes
 See Also
 ^^^^^^^^
 
-* \ `ns2.col.foo <foo_module.rst>`__\ 
+* `ns2.col.foo <foo_module.rst>`__
 
   The official documentation on the **ns2.col.foo** module.
 

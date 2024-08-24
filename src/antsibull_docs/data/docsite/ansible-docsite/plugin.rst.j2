@@ -327,13 +327,13 @@ See Also
 
 .. Examples
 
-{% if examples -%}
+{% if examples and examples | trim -%}
 Examples
 --------
 
 .. code-block:: @{ examples_format | rst_format(for_sphinx=true) }@
 
-@{ examples | indent(4, True) }@
+@{ examples | sanitize_whitespace | indent(4, True) }@
 
 {% endif %}
 

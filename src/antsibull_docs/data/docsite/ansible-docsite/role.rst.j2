@@ -189,13 +189,13 @@ See Also
 {%     endfor %}
 {%   endif %}
 
-{%   if ep_doc['examples'] -%}
+{%   if ep_doc['examples'] and ep_doc['examples'] | trim -%}
 Examples
 --------
 
 .. code-block:: @{ ep_doc['examples_format'] | rst_format(for_sphinx=true) }@
 
-@{     ep_doc['examples'] | indent(4, True) }@
+@{     ep_doc['examples'] | sanitize_whitespace | indent(4, True) }@
 
 {%   endif %}
 

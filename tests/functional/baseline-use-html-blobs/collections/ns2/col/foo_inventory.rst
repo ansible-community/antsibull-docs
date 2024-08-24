@@ -114,10 +114,8 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
     foo:
         bar!
-
 
 
 

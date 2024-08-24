@@ -37,6 +37,7 @@ from .filters import (
     rst_format,
     rst_indent,
     rst_xline,
+    sanitize_whitespace,
     suboption_depth,
     to_ini_value,
     to_json,
@@ -46,14 +47,14 @@ from .tests import still_relevant, test_list
 
 def reference_plugin_rst(plugin_name: str, plugin_type: str) -> str:
     fqcn = f"{plugin_name}"
-    return f"\\ :ref:`{rst_escape(fqcn)} <{get_plugin_ref(fqcn, plugin_type)}>`\\ "
+    return f":ref:`{rst_escape(fqcn)} <{get_plugin_ref(fqcn, plugin_type)}>`"
 
 
 def reference_plugin_rst_simplified(plugin_name: str, plugin_type: str) -> str:
     fqcn = f"{plugin_name}"
-    # TODO: return f"\\ {fqcn}\\ " for other collections
+    # TODO: return fqcn for other collections
     name = plugin_name.split(".", 2)[2]
-    return f"\\ `{rst_escape(fqcn)} <{name}_{plugin_type}.rst>`__\\ "
+    return f"`{rst_escape(fqcn)} <{name}_{plugin_type}.rst>`__"
 
 
 def make_reference_plugin_rst(output_format: OutputFormat):
@@ -171,6 +172,7 @@ def doc_environment(
     env.filters["suboption_depth"] = suboption_depth
     env.filters["rst_format"] = rst_format
     env.filters["rst_indent"] = rst_indent
+    env.filters["sanitize_whitespace"] = sanitize_whitespace
     if collection_url is not None:
         env.filters["collection_url"] = collection_url
     if collection_install is not None:

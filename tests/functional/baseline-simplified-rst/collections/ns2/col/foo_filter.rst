@@ -127,9 +127,7 @@ Examples
 
 .. code-block:: yaml
 
-    
     some_var: "{{ 'foo' | ns2.col.foo }}"
-
 
 
 

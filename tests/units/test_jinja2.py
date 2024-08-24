@@ -66,9 +66,9 @@ def test_move_first(input, move_to_beginning, expected):
 
 MASSAGE_AUTHOR_NAME = [
     ("", ""),
-    ("John Doe (@johndoe) <john.doe@gmail.com>", "John Doe (@johndoe) "),
-    ("John Doe (@johndoe) john+doe@gmail.com", "John Doe (@johndoe) "),
-    ("John Doe (@johndoe) (john-doe@gmail.com)", "John Doe (@johndoe) "),
+    ("John Doe (@johndoe) <john.doe@gmail.com>", "John Doe (@johndoe)"),
+    ("John Doe (@johndoe) john+doe@gmail.com", "John Doe (@johndoe)"),
+    ("John Doe (@johndoe) (john-doe@gmail.com)", "John Doe (@johndoe)"),
     ("John Doe (@johndoe, john.doe@gmail.com)", "John Doe (@johndoe, )"),
 ]
 

@@ -394,9 +394,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
     This is not YAML.
-
 
 
 

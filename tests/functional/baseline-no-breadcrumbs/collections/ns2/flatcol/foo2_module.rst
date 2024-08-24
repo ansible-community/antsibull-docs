@@ -131,11 +131,9 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
     - name: Do some foo
       ns2.flatcol.foo2:
         bar: foo
-
 
 
 

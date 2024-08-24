@@ -161,11 +161,9 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
     - name: Look up bar
       ansible.builtin.debug:
         msg: "{{ lookup('ns2.col.foo', 'bar') }}"
-
 
 
 

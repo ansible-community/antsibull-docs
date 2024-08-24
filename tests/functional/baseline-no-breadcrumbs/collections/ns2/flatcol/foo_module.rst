@@ -274,7 +274,6 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
     - name: Do some foo
       ns2.flatcol.foo:
         foo: '{{ foo }}'
@@ -284,7 +283,6 @@ Examples
           - 3
         subfoo:
           foo: hoo!
-
 
 
 

@@ -83,7 +83,7 @@ Attributes
     - Action groups: \ns2.col.bar\_group, ns2.col.foo\_group
 
 
-    - 
+    -
       Use :literal:`group/ns2.col.foo\_group` or :literal:`group/ns2.col.bar\_group` in :literal:`module\_defaults` to set defaults for this module.
 
 
@@ -96,7 +96,7 @@ Attributes
 
 
 
-    - 
+    -
       Can run in check\_mode and return changed status prediction without modifying target
 
 
@@ -109,7 +109,7 @@ Attributes
 
 
 
-    - 
+    -
       Will return details on what has changed (or possibly needs changing in check\_mode), when in diff mode
 
 
@@ -121,7 +121,7 @@ Attributes
     - Platform:posix
 
 
-    - 
+    -
       Target OS/families that can be operated against
 
 
@@ -134,11 +134,9 @@ Examples
 
 .. code-block:: yaml
 
-    
     - name: Do some foobar
       ns2.col.sub.foo3:
         bar: baz
-
 
 
 
