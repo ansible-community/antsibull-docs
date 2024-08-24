@@ -15,13 +15,13 @@ from collections.abc import Iterable, Mapping
 import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context
 from antsibull_core.logging import log
-from antsibull_core.utils.io import write_file
 from jinja2 import Template
 
 from ..jinja2 import FilenameGenerator, OutputFormat
 from ..jinja2.environment import doc_environment, get_template_filename
 from ..utils.collection_name_transformer import CollectionNameTransformer
 from . import CollectionInfoT, _render_template
+from .io import Output
 
 mlog = log.fields(mod=__name__)
 
@@ -30,7 +30,8 @@ async def write_collection_list(
     collections: Iterable[str],
     namespaces: Iterable[str],
     template: Template,
-    dest_dir: str,
+    output: Output,
+    directory: str,
     output_format: OutputFormat,
     filename_generator: FilenameGenerator,  # pylint: disable=unused-argument
     breadcrumbs: bool = True,
@@ -45,7 +46,7 @@ async def write_collection_list(
     :arg collections: Iterable of all the collection names.
     :arg namespaces: Iterable of all namespace names.
     :arg template: A template to render the collection index.
-    :arg dest_dir: The destination directory to output the index into.
+    :arg output: Output helper for writing output.
     :kwarg breadcrumbs: Default True.  Set to False if breadcrumbs for collections should be
         disabled.  This will disable breadcrumbs but save on memory usage.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
@@ -53,25 +54,26 @@ async def write_collection_list(
     :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
         the generated files.
     """
+    index_file = os.path.join(directory, f"index{output_format.output_extension}")
     index_contents = _render_template(
         template,
-        dest_dir,
+        index_file,
         collections=collections,
         namespaces=namespaces,
         breadcrumbs=breadcrumbs,
         for_official_docsite=for_official_docsite,
         add_version=add_version,
     )
-    index_file = os.path.join(dest_dir, f"index{output_format.output_extension}")
 
-    await write_file(index_file, index_contents)
+    await output.write_file(index_file, index_contents)
 
 
 async def write_collection_namespace_index(
     namespace: str,
     collections: Iterable[str],
     template: Template,
-    dest_dir: str,
+    output: Output,
+    directory: str,
     output_format: OutputFormat,
     filename_generator: FilenameGenerator,  # pylint: disable=unused-argument
     breadcrumbs: bool = True,
@@ -86,7 +88,7 @@ async def write_collection_namespace_index(
     :arg namespace: The namespace.
     :arg collections: Iterable of all the collection names.
     :arg template: A template to render the collection index.
-    :arg dest_dir: The destination directory to output the index into.
+    :arg output: Output helper for writing output.
     :kwarg breadcrumbs: Default True.  Set to False if breadcrumbs for collections should
         be disabled.  This will disable breadcrumbs but save on memory usage.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
@@ -94,24 +96,24 @@ async def write_collection_namespace_index(
     :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
         the generated files.
     """
+    index_file = os.path.join(directory, f"index{output_format.output_extension}")
     index_contents = _render_template(
         template,
-        dest_dir,
+        index_file,
         namespace=namespace,
         collections=collections,
         breadcrumbs=breadcrumbs,
         for_official_docsite=for_official_docsite,
         add_version=add_version,
     )
-    index_file = os.path.join(dest_dir, f"index{output_format.output_extension}")
 
-    await write_file(index_file, index_contents)
+    await output.write_file(index_file, index_contents)
 
 
 async def output_collection_index(
     collection_to_plugin_info: CollectionInfoT,
     collection_namespaces: Mapping[str, list[str]],
-    dest_dir: str,
+    output: Output,
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
     output_format: OutputFormat,
@@ -127,7 +129,7 @@ async def output_collection_index(
     :arg collection_to_plugin_info: Mapping of collection_name to Mapping of plugin_type to
         Mapping of plugin_name to short_description.
     :arg collection_namespaces: Mapping from collection namespaces to list of collection names.
-    :arg dest_dir: The directory to place the documentation in.
+    :arg output: Output helper for writing output.
     :kwarg breadcrumbs: Default True.  Set to False if breadcrumbs for collections should be
         disabled.  This will disable breadcrumbs but save on memory usage.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
@@ -152,18 +154,14 @@ async def output_collection_index(
         get_template_filename("list_of_collections", output_format)
     )
 
-    collection_toplevel = os.path.join(dest_dir, "collections")
-    flog.fields(
-        toplevel=collection_toplevel, exists=os.path.isdir(collection_toplevel)
-    ).debug("collection_toplevel exists?")
-    # This is only safe because we made sure that the top of the directory tree we're writing to
-    # (docs/docsite/rst) is only writable by us.
-    os.makedirs(collection_toplevel, mode=0o755, exist_ok=True)
+    collection_toplevel = "collections"
+    output.ensure_directory(collection_toplevel)
 
     await write_collection_list(
         collection_to_plugin_info.keys(),
         collection_namespaces.keys(),
         collection_list_tmpl,
+        output,
         collection_toplevel,
         output_format,
         filename_generator,
@@ -177,7 +175,7 @@ async def output_collection_index(
 
 async def output_collection_namespace_indexes(
     collection_namespaces: Mapping[str, list[str]],
-    dest_dir: str,
+    output: Output,
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
     output_format: OutputFormat,
@@ -191,7 +189,7 @@ async def output_collection_namespace_indexes(
     Generate collection namespace index pages for the collections.
 
     :arg collection_namespaces: Mapping from collection namespaces to list of collection names.
-    :arg dest_dir: The directory to place the documentation in.
+    :arg output: Output helper for writing output.
     :kwarg breadcrumbs: Default True.  Set to False if breadcrumbs for collections should be
         disabled.  This will disable breadcrumbs but save on memory usage.
     :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
@@ -220,10 +218,8 @@ async def output_collection_namespace_indexes(
     lib_ctx = app_context.lib_ctx.get()
     async with asyncio_pool.AioPool(size=lib_ctx.thread_max) as pool:
         for namespace, collection_names in collection_namespaces.items():
-            namespace_dir = os.path.join(dest_dir, "collections", namespace)
-            # This is only safe because we made sure that the top of the directory tree we're
-            # writing to (docs/docsite/rst) is only writable by us.
-            os.makedirs(namespace_dir, mode=0o755, exist_ok=True)
+            namespace_dir = os.path.join("collections", namespace)
+            output.ensure_directory(namespace_dir)
 
             writers.append(
                 await pool.spawn(
@@ -231,6 +227,7 @@ async def output_collection_namespace_indexes(
                         namespace,
                         collection_names,
                         collection_list_tmpl,
+                        output,
                         namespace_dir,
                         output_format,
                         filename_generator,

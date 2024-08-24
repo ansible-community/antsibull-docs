@@ -16,7 +16,6 @@ from collections.abc import Mapping, Sequence
 import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context
 from antsibull_core.logging import log
-from antsibull_core.utils.io import write_file
 from jinja2 import Template
 
 from ..collection_links import CollectionLinks
@@ -25,6 +24,7 @@ from ..jinja2 import FilenameGenerator, OutputFormat
 from ..jinja2.environment import doc_environment, get_template_filename
 from ..utils.collection_name_transformer import CollectionNameTransformer
 from . import CollectionInfoT, PluginErrorsT, _get_collection_dir, _render_template
+from .io import Output
 
 mlog = log.fields(mod=__name__)
 
@@ -268,7 +268,7 @@ async def write_plugin_rst(
     nonfatal_errors: Sequence[str],
     plugin_tmpl: Template,
     error_tmpl: Template,
-    dest_dir: str,
+    output: Output,
     output_format: OutputFormat,
     filename_generator: FilenameGenerator,
     path_override: str | None = None,
@@ -291,9 +291,7 @@ async def write_plugin_rst(
         of some or all of the docs
     :arg plugin_tmpl: Template for the plugin.
     :arg error_tmpl: Template to use when there wasn't enough documentation for the plugin.
-    :arg dest_dir: Destination directory for the plugin data.  For instance,
-        :file:`ansible-checkout/docs/docsite/rst/`.  The directory structure underneath this
-        directory will be created if needed.
+    :arg output: Output helper for writing output.
     :arg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
                            Undefined behavior if documentation for multiple collections are
                            created.
@@ -328,7 +326,7 @@ async def write_plugin_rst(
         plugin_file = path_override
     else:
         collection_dir = _get_collection_dir(
-            dest_dir,
+            output,
             namespace,
             collection,
             squash_hierarchy=squash_hierarchy,
@@ -342,7 +340,7 @@ async def write_plugin_rst(
             ),
         )
 
-    await write_file(plugin_file, plugin_contents)
+    await output.write_file(plugin_file, plugin_contents)
 
     flog.debug("Leave")
 
@@ -351,7 +349,7 @@ async def output_all_plugin_rst(
     collection_to_plugin_info: CollectionInfoT,
     plugin_info: dict[str, t.Any],
     nonfatal_errors: PluginErrorsT,
-    dest_dir: str,
+    output: Output,
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
     collection_metadata: Mapping[str, AnsibleCollectionMetadata],
@@ -372,7 +370,7 @@ async def output_all_plugin_rst(
     :arg plugin_info: Documentation information for all of the plugins.
     :arg nonfatal_errors: Mapping of plugins to nonfatal errors.  Using this to note on the docs
         pages when documentation wasn't formatted such that we could use it.
-    :arg dest_dir: The directory to place the documentation in.
+    :arg output: Output helper for writing output.
     :arg collection_metadata: Dictionary mapping collection names to collection metadata objects.
     :arg link_data: Dictionary mapping collection names to CollectionLinks.
     :arg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
@@ -422,7 +420,7 @@ async def output_all_plugin_rst(
                                 nonfatal_errors[plugin_type][plugin_name],
                                 plugin_type_tmpl,
                                 error_tmpl,
-                                dest_dir,
+                                output,
                                 output_format,
                                 filename_generator,
                                 squash_hierarchy=squash_hierarchy,

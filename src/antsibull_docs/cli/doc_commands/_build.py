@@ -56,6 +56,7 @@ from ...write_docs.indexes import (
     output_environment_variables,
     output_plugin_indexes,
 )
+from ...write_docs.io import Output
 from ...write_docs.plugin_stubs import output_all_plugin_stub_rst
 from ...write_docs.plugins import output_all_plugin_rst
 
@@ -270,13 +271,15 @@ def generate_docs_for_all_collections(  # noqa: C901
         include_collection_name_in_plugins=include_collection_name_in_plugins
     )
 
+    output = Output(dest_dir)
+
     # Only build top-level index if requested
     if create_indexes:
         asyncio.run(
             output_collection_index(
                 collection_to_plugin_info,
                 collection_namespaces,
-                dest_dir,
+                output,
                 collection_url=collection_url,
                 collection_install=collection_install,
                 output_format=output_format,
@@ -291,7 +294,7 @@ def generate_docs_for_all_collections(  # noqa: C901
         asyncio.run(
             output_collection_namespace_indexes(
                 collection_namespaces,
-                dest_dir,
+                output,
                 collection_url=collection_url,
                 collection_install=collection_install,
                 output_format=output_format,
@@ -307,7 +310,7 @@ def generate_docs_for_all_collections(  # noqa: C901
             output_plugin_indexes(
                 plugin_contents,
                 collection_metadata,
-                dest_dir,
+                output,
                 collection_url=collection_url,
                 collection_install=collection_install,
                 output_format=output_format,
@@ -321,7 +324,7 @@ def generate_docs_for_all_collections(  # noqa: C901
         asyncio.run(
             output_callback_indexes(
                 callback_plugin_contents,
-                dest_dir,
+                output,
                 collection_url=collection_url,
                 collection_install=collection_install,
                 output_format=output_format,
@@ -337,7 +340,7 @@ def generate_docs_for_all_collections(  # noqa: C901
         asyncio.run(
             output_indexes(
                 collection_to_plugin_info,
-                dest_dir,
+                output,
                 collection_url=collection_url,
                 collection_install=collection_install,
                 collection_metadata=collection_metadata,
@@ -357,7 +360,7 @@ def generate_docs_for_all_collections(  # noqa: C901
         asyncio.run(
             output_changelogs(
                 collection_to_plugin_info,
-                dest_dir,
+                output,
                 collection_metadata=collection_metadata,
                 squash_hierarchy=squash_hierarchy,
                 output_format=output_format,
@@ -369,7 +372,7 @@ def generate_docs_for_all_collections(  # noqa: C901
         asyncio.run(
             output_all_plugin_stub_rst(
                 stubs_info,
-                dest_dir,
+                output,
                 collection_url=collection_url,
                 collection_install=collection_install,
                 collection_metadata=collection_metadata,
@@ -389,7 +392,7 @@ def generate_docs_for_all_collections(  # noqa: C901
             collection_to_plugin_info,
             new_plugin_info,
             nonfatal_errors,
-            dest_dir,
+            output,
             collection_url=collection_url,
             collection_install=collection_install,
             collection_metadata=collection_metadata,
@@ -408,7 +411,7 @@ def generate_docs_for_all_collections(  # noqa: C901
     if add_extra_docs:
         asyncio.run(
             output_extra_docs(
-                dest_dir, extra_docs_data, squash_hierarchy=squash_hierarchy
+                output, extra_docs_data, squash_hierarchy=squash_hierarchy
             )
         )
         flog.debug("Finished writing extra docs")
@@ -416,7 +419,7 @@ def generate_docs_for_all_collections(  # noqa: C901
     if output_format == OutputFormat.ANSIBLE_DOCSITE:
         asyncio.run(
             output_environment_variables(
-                dest_dir,
+                output,
                 referenced_env_vars,
                 output_format=output_format,
                 filename_generator=filename_generator,

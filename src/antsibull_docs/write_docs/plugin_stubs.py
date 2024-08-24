@@ -16,7 +16,6 @@ from collections.abc import Mapping
 import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context
 from antsibull_core.logging import log
-from antsibull_core.utils.io import write_file
 from jinja2 import Template
 
 from ..collection_links import CollectionLinks
@@ -25,6 +24,7 @@ from ..jinja2 import FilenameGenerator, OutputFormat
 from ..jinja2.environment import doc_environment, get_template_filename
 from ..utils.collection_name_transformer import CollectionNameTransformer
 from . import _get_collection_dir, _render_template
+from .io import Output
 
 mlog = log.fields(mod=__name__)
 
@@ -38,7 +38,7 @@ async def write_stub_rst(
     routing_data: Mapping[str, t.Any],
     redirect_tmpl: Template,
     tombstone_tmpl: Template,
-    dest_dir: str,
+    output: Output,
     output_format: OutputFormat,
     filename_generator: FilenameGenerator,
     path_override: str | None = None,
@@ -58,9 +58,7 @@ async def write_stub_rst(
         redirect, redirect_is_symlink are the optional toplevel fields.
     :arg redirect_tmpl: Template for redirects.
     :arg tombstone_tmpl: Template for tombstones.
-    :arg dest_dir: Destination directory for the plugin data.  For instance,
-        :file:`ansible-checkout/docs/docsite/rst/`.  The directory structure underneath this
-        directory will be created if needed.
+    :arg output: Output helper for writing output.
     :arg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
                            Undefined behavior if documentation for multiple collections are
                            created.
@@ -110,7 +108,7 @@ async def write_stub_rst(
         plugin_file = path_override
     else:
         collection_dir = _get_collection_dir(
-            dest_dir,
+            output,
             namespace,
             collection,
             squash_hierarchy=squash_hierarchy,
@@ -122,14 +120,14 @@ async def write_stub_rst(
             filename_generator.plugin_filename(plugin_name, plugin_type, output_format),
         )
 
-    await write_file(plugin_file, plugin_contents)
+    await output.write_file(plugin_file, plugin_contents)
 
     flog.debug("Leave")
 
 
 async def output_all_plugin_stub_rst(
     stubs_info: Mapping[str, Mapping[str, Mapping[str, t.Any]]],
-    dest_dir: str,
+    output: Output,
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
     collection_metadata: Mapping[str, AnsibleCollectionMetadata],
@@ -146,7 +144,7 @@ async def output_all_plugin_stub_rst(
 
     :arg stubs_info: Mapping of collection_name to Mapping of plugin_type to Mapping
         of plugin_name to routing information.
-    :arg dest_dir: The directory to place the documentation in.
+    :arg output: Output helper for writing output.
     :arg collection_metadata: Dictionary mapping collection names to collection metadata objects.
     :arg link_data: Dictionary mapping collection names to CollectionLinks.
     :arg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
@@ -192,7 +190,7 @@ async def output_all_plugin_stub_rst(
                                 routing_data,
                                 redirect_tmpl,
                                 tombstone_tmpl,
-                                dest_dir,
+                                output,
                                 output_format,
                                 filename_generator,
                                 squash_hierarchy=squash_hierarchy,
