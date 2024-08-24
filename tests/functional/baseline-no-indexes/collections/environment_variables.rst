@@ -1,4 +1,3 @@
-
 :orphan:
 
 .. _list_of_collection_env_vars:

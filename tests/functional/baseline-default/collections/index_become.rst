@@ -1,4 +1,3 @@
-
 :orphan:
 
 .. meta::
@@ -13,4 +12,3 @@ ns2.col
 -------
 
 * :ansplugin:`ns2.col.foo#become` -- Use foo :ansopt:`ns2.col.foo#become:bar`
-

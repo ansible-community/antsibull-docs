@@ -1,4 +1,3 @@
-
 .. Document meta
 
 :orphan:
@@ -428,4 +427,3 @@ Collection links
 
 
 .. Parsing errors
-

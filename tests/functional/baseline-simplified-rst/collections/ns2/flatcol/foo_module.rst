@@ -1,4 +1,3 @@
-
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
 ns2.flatcol.foo module -- Do some foo :literal:`bar` (`link <#parameter-bar>`_)
@@ -193,4 +192,3 @@ Collection links
 ~~~~~~~~~~~~~~~~
 
 * `Report an issue <https://github.com/ansible-collections/community.REPO\_NAME/issues/new/choose>`__
-

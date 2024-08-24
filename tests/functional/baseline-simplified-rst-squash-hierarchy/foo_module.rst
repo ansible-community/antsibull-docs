@@ -1,4 +1,3 @@
-
 .. Created with antsibull-docs
 
 ns2.col.foo module -- Do some foo :literal:`bar` (`link <#parameter-bar>`_)
@@ -360,4 +359,3 @@ Collection links
 * `Homepage <https://github.com/ansible-collections/community.crypto>`__
 * `Repository (Sources) <https://github.com/ansible-collections/community.internal\_test\_tools>`__
 * `Submit a bug report <https://github.com/ansible-community/antsibull-docs/issues/new?assignees=&labels=&template=bug\_report.md>`__
-

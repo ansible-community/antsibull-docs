@@ -1,4 +1,3 @@
-
 :orphan:
 
 .. meta::
@@ -21,4 +20,3 @@ ns2.col
 -------
 
 * :ansplugin:`ns2.col.foo#callback` -- Foo output :ansopt:`ns2.col.foo#callback:bar`
-

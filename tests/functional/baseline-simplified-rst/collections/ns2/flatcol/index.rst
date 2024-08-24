@@ -1,4 +1,3 @@
-
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
 
@@ -45,5 +44,3 @@ Modules
 
 * `foo module <foo_module.rst>`_ -- Do some foo :literal:`bar` (of module `ns2.flatcol.foo <foo_module.rst>`__)
 * `foo2 module <foo2_module.rst>`_ -- Another foo
-
-

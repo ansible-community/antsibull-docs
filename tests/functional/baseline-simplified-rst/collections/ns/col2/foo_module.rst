@@ -1,4 +1,3 @@
-
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
 ns.col2.foo module

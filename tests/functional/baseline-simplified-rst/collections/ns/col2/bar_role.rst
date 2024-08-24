@@ -1,4 +1,3 @@
-
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
 ns.col2.bar role -- Bar role
@@ -79,5 +78,3 @@ Authors
 
 
 .. Extra links
-
-

@@ -1,4 +1,3 @@
-
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
 ns.col2.foo2 module -- Foo two
@@ -301,7 +300,3 @@ Authors
 ~~~~~~~
 
 - Someone else (@ansible)
-
-
-
-

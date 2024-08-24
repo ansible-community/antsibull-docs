@@ -1,4 +1,3 @@
-
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
 Index of all Modules
@@ -7,7 +6,7 @@ Index of all Modules
 ns.col2
 -------
 
-* `ns.col2.foo <ns/col2/foo_module.rst>`_ -- 
+* `ns.col2.foo <ns/col2/foo_module.rst>`_ --
 * `ns.col2.foo2 <ns/col2/foo2_module.rst>`_ -- Foo two
 * `ns.col2.foo3 <ns/col2/foo3_module.rst>`_ -- Foo III
 * `ns.col2.foo4 <ns/col2/foo4_module.rst>`_ -- Markup reference linting test
@@ -24,4 +23,3 @@ ns2.flatcol
 
 * `ns2.flatcol.foo <ns2/flatcol/foo_module.rst>`_ -- Do some foo :literal:`bar` (of module `ns2.flatcol.foo <foo_module.rst>`__)
 * `ns2.flatcol.foo2 <ns2/flatcol/foo2_module.rst>`_ -- Another foo
-

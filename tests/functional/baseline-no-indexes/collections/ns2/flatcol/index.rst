@@ -1,6 +1,3 @@
-
-
-
 .. _plugins_in_ns2.flatcol:
 
 Ns2.Flatcol

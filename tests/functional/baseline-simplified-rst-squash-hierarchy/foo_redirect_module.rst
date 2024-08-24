@@ -1,4 +1,3 @@
-
 .. Created with antsibull-docs
 
 ns2.col.foo_redirect module

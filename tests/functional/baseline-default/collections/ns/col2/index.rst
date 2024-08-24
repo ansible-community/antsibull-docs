@@ -1,5 +1,3 @@
-
-
 .. meta::
   :antsibull-docs: <ANTSIBULL_DOCS_VERSION>
 
@@ -42,7 +40,7 @@ These are the plugins in the ns.col2 collection:
 Modules
 ~~~~~~~
 
-* :ansplugin:`foo module <ns.col2.foo#module>` -- 
+* :ansplugin:`foo module <ns.col2.foo#module>` --
 * :ansplugin:`foo2 module <ns.col2.foo2#module>` -- Foo two
 * :ansplugin:`foo3 module <ns.col2.foo3#module>` -- Foo III
 * :ansplugin:`foo4 module <ns.col2.foo4#module>` -- Markup reference linting test

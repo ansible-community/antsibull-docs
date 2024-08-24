@@ -1,6 +1,3 @@
-
-
-
 .. _plugins_in_ns.col1:
 
 Ns.Col1

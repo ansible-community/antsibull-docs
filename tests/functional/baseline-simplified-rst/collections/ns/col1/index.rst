@@ -1,4 +1,3 @@
-
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
 
@@ -33,5 +32,3 @@ Plugin Index
 ------------
 
 There are no plugins in the ns.col1 collection with automatically generated documentation.
-
-

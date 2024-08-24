@@ -1,4 +1,3 @@
-
 :orphan:
 
 .. meta::
@@ -13,4 +12,3 @@ These are the collections documented here in the **ns** namespace.
 
 * :ref:`ns.col1 <plugins_in_ns.col1>`
 * :ref:`ns.col2 <plugins_in_ns.col2>`
-

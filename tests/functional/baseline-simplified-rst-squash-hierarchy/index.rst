@@ -1,4 +1,3 @@
-
 .. Created with antsibull-docs
 
 
@@ -149,4 +148,3 @@ Role Index
 These are the roles in the ns2.col collection:
 
 * `foo role <foo_role.rst>`_ -- Foo role
-

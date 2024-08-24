@@ -1,4 +1,3 @@
-
 .. Document meta
 
 :orphan:
@@ -187,7 +186,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -432,4 +431,3 @@ The errors were:
           string does not match regex "^(any|bits|bool|bytes|complex|dict|float|int|json|jsonarg|list|path|sid|str|pathspec|pathlist)$" (type=value_error.str.regex; pattern=^(any|bits|bool|bytes|complex|dict|float|int|json|jsonarg|list|path|sid|str|pathspec|pathlist)$)
         return -> baz
           value is not a valid dict (type=type_error.dict)
-
