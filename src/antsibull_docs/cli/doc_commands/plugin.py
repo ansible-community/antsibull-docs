@@ -183,7 +183,7 @@ def generate_docs() -> int:
         collection_name,
         plugin,
         output_dir=app_ctx.extra["dest_dir"],
-        output_filename=f"{plugin_name}_{plugin_type}.{output_format.output_extension}",
+        output_filename=f"{plugin_name}_{plugin_type}{output_format.output_extension}",
         output_format=output_format,
         filename_generator=filename_generator,
         add_antsibull_docs_version=app_ctx.add_antsibull_docs_version,
