@@ -15,7 +15,7 @@ from urllib.parse import quote
 from antsibull_docs_parser import dom
 from antsibull_docs_parser.format import LinkProvider
 from antsibull_docs_parser.html import to_html
-from antsibull_docs_parser.parser import Context, parse
+from antsibull_docs_parser.parser import Context, Whitespace, parse
 
 from ._counter import count as _count
 
@@ -60,7 +60,9 @@ def html_ify(
             fqcn=doc_plugin_fqcn, type=doc_plugin_type
         )
     context = Context(current_plugin=current_plugin, role_entrypoint=role_entrypoint)
-    paragraphs = parse(text, context, errors="message")
+    paragraphs = parse(
+        text, context, errors="message", whitespace=Whitespace.KEEP_SINGLE_NEWLINES
+    )
     link_provider = _HTMLLinkProvider()
     text = to_html(
         paragraphs,

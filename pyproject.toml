@@ -28,7 +28,7 @@ dependencies = [
     "ansible-pygments",
     "antsibull-changelog >= 0.24.0",
     "antsibull-core >= 2.1.0, < 4.0.0",
-    "antsibull-docs-parser >= 1.0.2, < 2.0.0",
+    "antsibull-docs-parser >= 1.1.0, < 2.0.0",
     "asyncio-pool",
     "docutils",
     "jinja2 >= 3.0",

@@ -97,12 +97,10 @@ Parameters
   <p>Removed in: version 4.0.0</p>
   <p>Why: Just some other text.
   This one has more than one line though.
-  One more.
-  </p>
+  One more.</p>
   <p>Alternative: nothing
   relevant
-  I know of
-  </p>
+  I know of</p>
 
     </div></td>
     <td><div class="ansible-option-cell">

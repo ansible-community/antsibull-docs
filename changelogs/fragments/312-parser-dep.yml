@@ -1,0 +1,4 @@
+minor_changes:
+  - "Bump minimal required version of dependency antsibull-docs-parser to 1.1.0
+     This allows to use a new whitespace-removal feature
+     (https://github.com/ansible-community/antsibull-docs/pull/312)."
