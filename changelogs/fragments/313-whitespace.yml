@@ -1,2 +1,0 @@
-minor_changes:
-  - "Remove superfluous whitespace or escaped spaces from templates (https://github.com/ansible-community/antsibull-docs/pull/313)."

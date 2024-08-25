@@ -4,6 +4,30 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.13.0
+=======
+
+Release Summary
+---------------
+
+Bugfix and feature release.
+
+Minor Changes
+-------------
+
+- Allow to disable adding the antsibull-docs version to the generated files with the ``--no-add-antsibull-docs-version`` command line flag, or the ``add_antsibull_docs_version = false`` setting in the antsibull-docs config file (https://github.com/ansible-community/antsibull-docs/issues/304, https://github.com/ansible-community/antsibull-docs/pull/308).
+- Bump minimal required version of dependency antsibull-docs-parser to 1.1.0 This allows to use a new whitespace-removal feature (https://github.com/ansible-community/antsibull-docs/pull/312).
+- If you are using `argcomplete <https://pypi.org/project/argcomplete/>`__, you can now tab-complete ``antsibull-docs`` command lines. See `Activating global completion <https://pypi.org/project/argcomplete/#activating-global-completion>`__ in the argcomplete README for how to enable tab completion globally. This will also tab-complete Ansible commands such as ``ansible-playbook`` and ``ansible-test`` (https://github.com/ansible-community/antsibull-docs/pull/302).
+- Most documentation generating subcommands now have a ``--cleanup`` parameter which allows to delete files and directories that were not created by antsibull-docs in the destination directory (https://github.com/ansible-community/antsibull-docs/pull/315).
+- No longer use ``rsync`` when creating a build script with the ``sphinx-init`` subcommand (https://github.com/ansible-community/antsibull-docs/pull/315).
+- Remove superfluous whitespace or escaped spaces from templates (https://github.com/ansible-community/antsibull-docs/pull/313).
+- Remove trailing whitespace and leading and trailing empty lines from rendered templates, and ensure they end with a newline if not empty (https://github.com/ansible-community/antsibull-docs/pull/314).
+
+Bugfixes
+--------
+
+- Fix RST escaping of the title in the collections per namespace list. This causes a space to vanish between namespace name and the word ``Namespace`` with newer versions of antsibull-docs-parser (https://github.com/ansible-community/antsibull-docs/pull/311).
+
 v2.12.0
 =======
 

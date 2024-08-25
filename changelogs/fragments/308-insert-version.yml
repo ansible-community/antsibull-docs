@@ -1,4 +1,0 @@
-minor_changes:
-  - "Allow to disable adding the antsibull-docs version to the generated files with the ``--no-add-antsibull-docs-version``
-     command line flag, or the ``add_antsibull_docs_version = false`` setting in the antsibull-docs config file
-     (https://github.com/ansible-community/antsibull-docs/issues/304, https://github.com/ansible-community/antsibull-docs/pull/308)."
