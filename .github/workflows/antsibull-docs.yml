@@ -143,8 +143,10 @@ jobs:
         working-directory: antsibull-docs
 
       - name: Test plugin rendering
+        shell: bash
         run: |
           coverage run -p --source antsibull_docs -m antsibull_docs.cli.antsibull_docs plugin --plugin-type module --dest-dir . community.crypto.acme_account_info
+          test -f community.crypto.acme_account_info_module.rst
         working-directory: antsibull-docs
         if: contains(matrix.options, '--use-current')
 

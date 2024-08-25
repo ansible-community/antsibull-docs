@@ -13,7 +13,7 @@ make_docsite_baseline() {
     echo "Building baseline ${DEST}..."
     rm -rf "${DEST}"
     mkdir -p "${DEST}"
-    ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ python antsibull-docs-stub.py collection --dest-dir "${DEST}" --use-current "$@" 2>&1 | (
+    ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ python antsibull-docs-stub.py ${COMMAND:-collection --use-current} --dest-dir "${DEST}" "$@" 2>&1 | (
         set +e
         grep -v "ERROR:antsibull:func=create_plugin_rst:mod=antsibull_docs.write_docs.plugins:nonfatal_errors="
         set -e
@@ -47,6 +47,7 @@ make_docsite_baseline baseline-no-breadcrumbs ns.col1 ns.col2 ns2.col ns2.flatco
 make_docsite_baseline baseline-no-indexes ns.col1 ns2.col ns2.flatcol --fail-on-error --no-indexes --no-add-antsibull-docs-version
 make_docsite_baseline baseline-use-html-blobs ns2.col --fail-on-error --use-html-blobs
 make_docsite_baseline baseline-squash-hierarchy ns2.col --fail-on-error --squash-hierarchy
+COMMAND="plugin" make_docsite_baseline baseline-plugin --plugin-type lookup ns2.col.foo --fail-on-error
 make_docsite_baseline baseline-simplified-rst ns.col1 ns.col2 ns2.col ns2.flatcol --output-format simplified-rst
 make_docsite_baseline baseline-simplified-rst-squash-hierarchy ns2.col --fail-on-error --squash-hierarchy --no-add-antsibull-docs-version --output-format simplified-rst
 
