@@ -80,6 +80,16 @@ TEST_CASES = [
     ),
     (
         [
+            "plugin",
+            "--plugin-type",
+            "lookup",
+            "ns2.col.foo",
+            "--fail-on-error",
+        ],
+        "baseline-plugin",
+    ),
+    (
+        [
             "collection",
             "--use-current",
             "ns.col1",
