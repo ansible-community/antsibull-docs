@@ -9,28 +9,65 @@ from __future__ import annotations
 
 import os
 from collections.abc import Mapping, Sequence
+from typing import Any
 
 from antsibull_core.logging import log
 from jinja2 import Template
 
 import antsibull_docs
 
+from ..schemas.docs.base import DeprecationSchema, DocSchema
 from ..utils.text import sanitize_whitespace as _sanitize_whitespace
 from .io import Output
 
 mlog = log.fields(mod=__name__)
+
+
+class BasicPluginInfo:
+    short_description: str
+    deprecation: DeprecationSchema | None
+
+    def __init__(self, short_description: str, deprecation: DeprecationSchema | None):
+        self.short_description = short_description
+        self.deprecation = deprecation
+
+    @classmethod
+    def from_doc_schema(cls, doc_schema: DocSchema):
+        return cls(doc_schema.short_description, doc_schema.deprecated)
+
+    @classmethod
+    def from_doc(cls, plugin_desc: Mapping[str, Any], plugin_type: str):
+        desc: str
+        deprecation: DeprecationSchema | None = None
+        if plugin_type == "role":
+            desc = ""
+            if "entry_points" in plugin_desc and "main" in plugin_desc["entry_points"]:
+                entrypoint = plugin_desc["entry_points"]["main"]
+                desc = entrypoint.get("short_description") or ""
+                deprecation = entrypoint.get("deprecated")
+        elif "doc" in plugin_desc:
+            desc = plugin_desc["doc"].get("short_description") or ""
+            deprecation = plugin_desc["doc"].get("deprecated")
+        else:
+            desc = ""
+        return cls(desc, deprecation)
+
+    @classmethod
+    def empty(cls):
+        return cls("", None)
+
 
 #: Mapping of plugins to nonfatal errors.  This is the type to use when accepting the plugin.
 #: The mapping is of plugin_type: plugin_name: [error_msgs]
 PluginErrorsT = Mapping[str, Mapping[str, Sequence[str]]]
 
 #: Mapping to collections to plugins.
-#: The mapping is collection_name: plugin_type: plugin_name: plugin_short_description
-CollectionInfoT = Mapping[str, Mapping[str, Mapping[str, str]]]
+#: The mapping is collection_name: plugin_type: plugin_name: basic_plugin_info
+CollectionInfoT = Mapping[str, Mapping[str, Mapping[str, BasicPluginInfo]]]
 
 #: Plugins grouped first by plugin type, then by collection
-#: The mapping is plugin_type: collection_name: plugin_name: plugin_short_description
-PluginCollectionInfoT = Mapping[str, Mapping[str, Mapping[str, str]]]
+#: The mapping is plugin_type: collection_name: plugin_name: basic_plugin_info
+PluginCollectionInfoT = Mapping[str, Mapping[str, Mapping[str, BasicPluginInfo]]]
 
 
 def _render_template(

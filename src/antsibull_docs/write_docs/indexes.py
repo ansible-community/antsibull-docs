@@ -22,7 +22,7 @@ from ..env_variables import EnvironmentVariableInfo
 from ..jinja2 import FilenameGenerator, OutputFormat
 from ..jinja2.environment import doc_environment, get_template_filename
 from ..utils.collection_name_transformer import CollectionNameTransformer
-from . import PluginCollectionInfoT, _render_template
+from . import BasicPluginInfo, PluginCollectionInfoT, _render_template
 from .io import Output
 
 mlog = log.fields(mod=__name__)
@@ -30,7 +30,7 @@ mlog = log.fields(mod=__name__)
 
 async def write_callback_type_index(
     callback_type: str,
-    per_collection_plugins: Mapping[str, Mapping[str, str]],
+    per_collection_plugins: Mapping[str, Mapping[str, BasicPluginInfo]],
     template: Template,
     output: Output,
     dest_filename: str,
@@ -64,7 +64,7 @@ async def write_callback_type_index(
 
 async def write_plugin_type_index(
     plugin_type: str,
-    per_collection_plugins: Mapping[str, Mapping[str, str]],
+    per_collection_plugins: Mapping[str, Mapping[str, BasicPluginInfo]],
     # pylint:disable-next=unused-argument
     collection_metadata: Mapping[str, AnsibleCollectionMetadata],
     template: Template,

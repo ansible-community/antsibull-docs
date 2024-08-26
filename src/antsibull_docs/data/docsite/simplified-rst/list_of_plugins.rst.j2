@@ -25,8 +25,8 @@ Index of all @{ plugin_type | capitalize }@ Plugins
 @{ collection_name }@
 @{ '-' * (collection_name | column_width) }@
 
-{%   for plugin_name, plugin_desc in plugins.items() | sort %}
-* `@{ collection_name }@.@{ plugin_name }@ <@{ collection_name | replace('.', '/') }@/@{ get_plugin_filename(collection_name ~ '.' ~ plugin_name, plugin_type) }@>`_ -- @{ plugin_desc | rst_ify(plugin_fqcn=collection_name ~ '.' ~ plugin_name, plugin_type=plugin_type) }@
+{%   for plugin_name, plugin_info in plugins.items() | sort %}
+* `@{ collection_name }@.@{ plugin_name }@ <@{ collection_name | replace('.', '/') }@/@{ get_plugin_filename(collection_name ~ '.' ~ plugin_name, plugin_type) }@>`_ -- @{ plugin_info.short_description | rst_ify(plugin_fqcn=collection_name ~ '.' ~ plugin_name, plugin_type=plugin_type) }@
 {%   endfor %}
 
 {% else %}

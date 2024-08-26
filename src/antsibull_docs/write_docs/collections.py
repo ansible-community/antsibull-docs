@@ -23,7 +23,7 @@ from ..extra_docs import CollectionExtraDocsInfoT
 from ..jinja2 import FilenameGenerator, OutputFormat
 from ..jinja2.environment import doc_environment, get_template_filename
 from ..utils.collection_name_transformer import CollectionNameTransformer
-from . import CollectionInfoT, _get_collection_dir, _render_template
+from . import BasicPluginInfo, CollectionInfoT, _get_collection_dir, _render_template
 from .io import Output
 
 mlog = log.fields(mod=__name__)
@@ -56,7 +56,7 @@ def _parse_required_ansible(requires_ansible: str) -> list[str]:
 
 async def write_plugin_lists(
     collection_name: str,
-    plugin_maps: Mapping[str, Mapping[str, str]],
+    plugin_maps: Mapping[str, Mapping[str, BasicPluginInfo]],
     template: Template,
     output: Output,
     collection_dir: str,

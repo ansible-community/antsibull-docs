@@ -48,7 +48,7 @@ from .process_docs import (
 from .rstcheck import check_rst_content
 from .schemas.collection_links import CollectionLinks
 from .utils.collection_name_transformer import CollectionNameTransformer
-from .write_docs import PluginErrorsT
+from .write_docs import BasicPluginInfo, PluginErrorsT
 from .write_docs.plugins import (
     create_plugin_rst,
     guess_relative_filename,
@@ -631,7 +631,9 @@ def _validate_markup(
 
 def _collect_names(
     new_plugin_info: Mapping[str, Mapping[str, t.Any]],
-    collection_to_plugin_info: Mapping[str, Mapping[str, Mapping[str, str]]],
+    collection_to_plugin_info: Mapping[
+        str, Mapping[str, Mapping[str, BasicPluginInfo]]
+    ],
     collection_name: str,
     collections: list[str],
     collection_metadata: Mapping[str, AnsibleCollectionMetadata],
@@ -647,7 +649,7 @@ def _collect_names(
         if validate_collections_refs != "all" and collection_name_ not in collections:
             continue
         for plugin_type, plugins_dict in plugins_by_type.items():
-            for plugin_short_name, dummy_ in plugins_dict.items():
+            for plugin_short_name in plugins_dict:
                 plugin_name = ".".join((collection_name_, plugin_short_name))
                 plugin_record = new_plugin_info[plugin_type].get(plugin_name) or {}
                 if not has_broken_docs(plugin_record, plugin_type):
