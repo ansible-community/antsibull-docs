@@ -898,3 +898,14 @@ releases:
       - 314-whitespace.yml
       - 315-cleanup.yml
     release_date: '2024-08-25'
+  2.13.1:
+    changes:
+      bugfixes:
+        - The output filename used by the ``plugin`` subcommand contained two dots
+          before the ``rst`` extension (https://github.com/ansible-community/antsibull-docs/issues/317,
+          https://github.com/ansible-community/antsibull-docs/pull/318).
+      release_summary: Bugfix release.
+    fragments:
+      - 2.13.1.yml
+      - 318-plugin-filename.yml
+    release_date: '2024-08-26'

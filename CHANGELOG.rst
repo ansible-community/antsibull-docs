@@ -4,6 +4,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.13.1
+=======
+
+Release Summary
+---------------
+
+Bugfix release.
+
+Bugfixes
+--------
+
+- The output filename used by the ``plugin`` subcommand contained two dots before the ``rst`` extension (https://github.com/ansible-community/antsibull-docs/issues/317, https://github.com/ansible-community/antsibull-docs/pull/318).
+
 v2.13.0
 =======
 
