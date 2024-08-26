@@ -5,6 +5,7 @@
 #}
 
 {% from 'macros/collection_links.rst.j2' import add as add_collection_links with context -%}
+{% from 'macros/deprecates.rst.j2' import deprecation_marker with context -%}
 
 {% if not breadcrumbs %}
 :orphan:
@@ -17,7 +18,7 @@
 {% endif %}
 {% macro list_plugins(plugin_type) %}
 {%   for name, info in plugin_maps[plugin_type].items() | sort %}
-* :ansplugin:`@{ name }@ @{ plugin_type }@ <@{ collection_name }@.@{ name }@#@{ plugin_type }@>` -- @{ info.short_description | rst_ify(plugin_fqcn=collection_name ~ '.' ~ name, plugin_type=plugin_type) | rst_indent(width=2) }@
+* :ansplugin:`@{ name }@ @{ plugin_type }@ <@{ collection_name }@.@{ name }@#@{ plugin_type }@>` -- @{ info.short_description | rst_ify(plugin_fqcn=collection_name ~ '.' ~ name, plugin_type=plugin_type) | rst_indent(width=2) }@ @{ deprecation_marker(info) }@
 {%   endfor %}
 {%   if breadcrumbs %}
 

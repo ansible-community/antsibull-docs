@@ -338,3 +338,11 @@ table.ansible-option-table {
     }
   }
 }
+
+.ansible-deprecation-marker {
+  border-radius: 1em;
+  border: 2px solid var(--antsibull-deprecation-border);
+  background-color: var(--antsibull-deprecation-background);
+  color: var(--antsibull-deprecation-color);
+  padding: 0.2em 0.4em;
+}
