@@ -71,7 +71,7 @@ Modules
 Become Plugins
 ~~~~~~~~~~~~~~
 
-* `foo become <foo_become.rst>`_ -- Use foo :literal:`bar` (of become plugin `ns2.col.foo <foo_become.rst>`__)
+* `foo become <foo_become.rst>`_ -- Use foo :literal:`bar` (of become plugin `ns2.col.foo <foo_become.rst>`__) **(DEPRECATED)**
 
 
 Cache Plugins
@@ -147,4 +147,4 @@ Role Index
 
 These are the roles in the ns2.col collection:
 
-* `foo role <foo_role.rst>`_ -- Foo role
+* `foo role <foo_role.rst>`_ -- Foo role **(DEPRECATED)**

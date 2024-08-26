@@ -11,10 +11,11 @@
 {% endif %}
 
 {% from 'macros/collection_links.rst.j2' import add as add_collection_links with context -%}
+{% from 'macros/deprecates.rst.j2' import deprecation_marker with context -%}
 
 {% macro list_plugins(plugin_type) %}
 {%   for name, info in plugin_maps[plugin_type].items() | sort %}
-* `@{ name }@ @{ plugin_type }@ <@{ get_plugin_filename(collection_name ~ '.' ~ name, plugin_type) }@>`_ -- @{ info.short_description | rst_ify(plugin_fqcn=collection_name ~ '.' ~ name, plugin_type=plugin_type) | rst_indent(width=2) }@
+* `@{ name }@ @{ plugin_type }@ <@{ get_plugin_filename(collection_name ~ '.' ~ name, plugin_type) }@>`_ -- @{ info.short_description | rst_ify(plugin_fqcn=collection_name ~ '.' ~ name, plugin_type=plugin_type) | rst_indent(width=2) }@ @{ deprecation_marker(info) }@
 {%   endfor %}
 {% endmacro %}
 
