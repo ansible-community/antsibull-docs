@@ -174,7 +174,7 @@ Role Index
 
 These are the roles in the ns2.col collection:
 
-* :ansplugin:`foo role <ns2.col.foo#role>` -- Foo role :ansdeprecatedmarker:`{"date": "", "version": "5.0.0"}`
+* :ansplugin:`foo role <ns2.col.foo#role>` -- Foo role :ansdeprecatedmarker:`{"date": "2020-01-01", "version": ""}`
 
 
 .. seealso::

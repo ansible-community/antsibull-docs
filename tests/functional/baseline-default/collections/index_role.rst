@@ -16,4 +16,4 @@ ns.col2
 ns2.col
 -------
 
-* :ansplugin:`ns2.col.foo#role` -- Foo role :ansdeprecatedmarker:`{"date": "", "version": "5.0.0"}`
+* :ansplugin:`ns2.col.foo#role` -- Foo role :ansdeprecatedmarker:`{"date": "2020-01-01", "version": ""}`

@@ -24,7 +24,7 @@ New in ns2.col 0.2.0
 
 DEPRECATED
 ^^^^^^^^^^
-:Removed in: version 5.0.0
+:Removed in: major release after 2020-01-01
 :Why: Just some text.
       This one has more than one line.
       And one more.
