@@ -1,0 +1,2 @@
+minor_changes:
+  - "Add deprecation markers next to module/plugin/role descriptions in lists (https://github.com/ansible-community/antsibull-docs/issues/141, https://github.com/ansible-community/antsibull-docs/pull/320)."

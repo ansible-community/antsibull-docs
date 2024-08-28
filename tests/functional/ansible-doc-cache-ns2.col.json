@@ -1414,7 +1414,7 @@
       ],
       "deprecated": {
        "alternatives": "I don't know\nof any\nalternative.\n",
-       "removed_in": "5.0.0",
+       "removed_at_date": "2020-01-01",
        "why": "Just some text.\nThis one has more than one line.\nAnd one more.\n"
       },
       "description": [

@@ -9,6 +9,7 @@ Add roles for semantic markup and general formatting.
 
 from __future__ import annotations
 
+import json
 import typing as t
 
 from docutils import nodes
@@ -280,6 +281,34 @@ def plugin_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
     return [refnode], []
 
 
+# pylint:disable-next=unused-argument,dangerous-default-value
+def deprecated_marker(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    """Insert deprecation marker.
+
+    Returns 2 part tuple containing list of nodes to insert into the
+    document and a list of system messages.  Both are allowed to be
+    empty.
+
+    :param name: The role name used in the document.
+    :param rawtext: The entire markup snippet, with role.
+    :param text: The text marked with the role.
+    :param lineno: The line number where rawtext appears in the input.
+    :param inliner: The inliner instance that called us.
+    :param options: Directive options for customization.
+    :param content: The directive content for customization.
+    """
+    data = json.loads(unescape(text))
+
+    title = "DEPRECATED"
+    if data.get("date"):
+        title = f"DEPRECATED: REMOVED AFTER {data['date']}"
+    if data.get("version"):
+        title = f"DEPRECATED: REMOVED IN {data['version']}"
+
+    content = nodes.strong(text, title, classes=["ansible-deprecation-marker"])
+    return [content], []
+
+
 def _create_extra_role(
     role_name,
     prepend_raw=None,
@@ -334,6 +363,7 @@ ROLES = {
     "ansenvvar": environment_variable,
     "ansenvvarref": environment_variable_reference,
     "ansplugin": plugin_role,
+    "ansdeprecatedmarker": deprecated_marker,
 }
 
 

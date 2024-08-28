@@ -98,7 +98,7 @@ Modules
 Become Plugins
 ~~~~~~~~~~~~~~
 
-* :ansplugin:`foo become <ns2.col.foo#become>` -- Use foo :ansopt:`ns2.col.foo#become:bar`
+* :ansplugin:`foo become <ns2.col.foo#become>` -- Use foo :ansopt:`ns2.col.foo#become:bar` :ansdeprecatedmarker:`{"date": "", "version": "5.0.0"}`
 
 
 Cache Plugins
@@ -174,7 +174,7 @@ Role Index
 
 These are the roles in the ns2.col collection:
 
-* :ansplugin:`foo role <ns2.col.foo#role>` -- Foo role
+* :ansplugin:`foo role <ns2.col.foo#role>` -- Foo role :ansdeprecatedmarker:`{"date": "2020-01-01", "version": ""}`
 
 
 .. seealso::

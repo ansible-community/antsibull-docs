@@ -33,7 +33,7 @@ argument_specs:
     seealso:
       - module: ns2.col.foo
     deprecated:
-        removed_in: 5.0.0
+        removed_at_date: 2020-01-01
         why: |
           Just some text.
           This one has more than one line.

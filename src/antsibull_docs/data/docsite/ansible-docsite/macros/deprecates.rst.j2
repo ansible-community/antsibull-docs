@@ -46,3 +46,16 @@ Removed in: a future release
   <p>@{ 'Alternative: ' ~ data['alternative'] | html_ify(role_entrypoint=role_entrypoint) | rst_indent(2, blank=true) }@</p>
 {%   endif %}
 {% endmacro %}
+
+
+{% macro deprecation_marker(plugin_info) %}
+  {%- if plugin_info.deprecation -%}
+    :ansdeprecatedmarker:`@{
+      (
+        { "date": plugin_info.deprecation.removed_at_date }
+        if for_official_docsite else
+        { "date": plugin_info.deprecation.removed_at_date, "version": plugin_info.deprecation.removed_in }
+      ) | antsibull_to_json | rst_escape
+    }@`
+  {%- endif -%}
+{% endmacro %}

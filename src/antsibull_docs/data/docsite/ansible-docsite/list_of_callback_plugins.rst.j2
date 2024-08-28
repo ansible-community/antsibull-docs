@@ -4,6 +4,8 @@
   SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
+{% from 'macros/deprecates.rst.j2' import deprecation_marker with context -%}
+
 :orphan:
 
 {% if antsibull_docs_version %}
@@ -22,8 +24,8 @@ See :ref:`list_of_callback_plugins` for the list of *all* callback plugins.
 @{ collection_name }@
 @{ '-' * (collection_name | column_width) }@
 
-{%   for plugin_name, plugin_desc in plugins.items() | sort %}
-* :ansplugin:`@{ collection_name }@.@{ plugin_name }@#callback` -- @{ plugin_desc | rst_ify(plugin_fqcn=collection_name ~ '.' ~ plugin_name, plugin_type='callback') }@
+{%   for plugin_name, plugin_info in plugins.items() | sort %}
+* :ansplugin:`@{ collection_name }@.@{ plugin_name }@#callback` -- @{ plugin_info.short_description | rst_ify(plugin_fqcn=collection_name ~ '.' ~ plugin_name, plugin_type='callback') }@ @{ deprecation_marker(plugin_info) }@
 {%   endfor %}
 
 {% else %}

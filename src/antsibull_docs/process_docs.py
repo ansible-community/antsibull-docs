@@ -18,6 +18,7 @@ from antsibull_docs._pydantic_compat import v1
 from . import app_context
 from .docs_parsing.fqcn import get_fqcn_parts
 from .schemas.docs import DOCS_SCHEMAS
+from .write_docs import BasicPluginInfo
 
 mlog = log.fields(mod=__name__)
 
@@ -155,7 +156,7 @@ async def normalize_all_plugin_info(
 
 def get_plugin_contents(
     plugin_info: Mapping[str, Mapping[str, t.Any]], nonfatal_errors: PluginErrorsRT
-) -> defaultdict[str, defaultdict[str, dict[str, str]]]:
+) -> defaultdict[str, defaultdict[str, dict[str, BasicPluginInfo]]]:
     """
     Return the collections with their plugins for every plugin type.
 
@@ -169,7 +170,7 @@ def get_plugin_contents(
         collection:
             - plugin_short_name: short_description
     """
-    plugin_contents: defaultdict[str, defaultdict[str, dict[str, str]]]
+    plugin_contents: defaultdict[str, defaultdict[str, dict[str, BasicPluginInfo]]]
     plugin_contents = defaultdict(lambda: defaultdict(dict))
     # Some plugins won't have an entry in the plugin_info because documentation failed to parse.
     # Those should be documented in the nonfatal_errors information.
@@ -178,35 +179,21 @@ def get_plugin_contents(
             namespace, collection, short_name = get_fqcn_parts(plugin_name)
             plugin_contents[plugin_type][".".join((namespace, collection))][
                 short_name
-            ] = ""
+            ] = BasicPluginInfo.empty()
 
     for plugin_type, plugin_dict in plugin_info.items():
         for plugin_name, plugin_desc in plugin_dict.items():
             namespace, collection, short_name = get_fqcn_parts(plugin_name)
-            if plugin_type == "role":
-                desc = ""
-                if (
-                    "entry_points" in plugin_desc
-                    and "main" in plugin_desc["entry_points"]
-                ):
-                    desc = (
-                        plugin_desc["entry_points"]["main"].get("short_description")
-                        or ""
-                    )
-            elif "doc" in plugin_desc:
-                desc = plugin_desc["doc"].get("short_description") or ""
-            else:
-                desc = ""
             plugin_contents[plugin_type][".".join((namespace, collection))][
                 short_name
-            ] = desc
+            ] = BasicPluginInfo.from_doc(plugin_desc, plugin_type)
 
     return plugin_contents
 
 
 def get_callback_plugin_contents(
     plugin_info: Mapping[str, Mapping[str, t.Any]],
-) -> defaultdict[str, defaultdict[str, dict[str, str]]]:
+) -> defaultdict[str, defaultdict[str, dict[str, BasicPluginInfo]]]:
     """
     Return the collections with their plugins for every callback plugin type.
 
@@ -218,27 +205,28 @@ def get_callback_plugin_contents(
         collection:
             - plugin_short_name: short_description
     """
-    callback_plugin_contents: defaultdict[str, defaultdict[str, dict[str, str]]]
+    callback_plugin_contents: defaultdict[
+        str, defaultdict[str, dict[str, BasicPluginInfo]]
+    ]
     callback_plugin_contents = defaultdict(lambda: defaultdict(dict))
 
     if plugin_info.get("callback"):
         for plugin_name, plugin_desc in plugin_info["callback"].items():
             if "doc" in plugin_desc:
-                desc = plugin_desc["doc"].get("short_description") or ""
                 callback_type = plugin_desc["doc"].get("type") or ""
                 if callback_type:
                     namespace, collection, short_name = get_fqcn_parts(plugin_name)
                     collection_name = ".".join((namespace, collection))
                     callback_plugin_contents[callback_type][collection_name][
                         short_name
-                    ] = desc
+                    ] = BasicPluginInfo.from_doc(plugin_desc, "callback")
 
     return callback_plugin_contents
 
 
 def get_collection_contents(
-    plugin_content: Mapping[str, Mapping[str, Mapping[str, str]]],
-) -> defaultdict[str, dict[str, Mapping[str, str]]]:
+    plugin_content: Mapping[str, Mapping[str, Mapping[str, BasicPluginInfo]]],
+) -> defaultdict[str, dict[str, Mapping[str, BasicPluginInfo]]]:
     """
     Return the plugins which are in each collection.
 
@@ -250,8 +238,8 @@ def get_collection_contents(
         plugin_type:
             - plugin_short_name: short_description
     """
-    collection_plugins: defaultdict[str, dict[str, Mapping[str, str]]] = defaultdict(
-        dict
+    collection_plugins: defaultdict[str, dict[str, Mapping[str, BasicPluginInfo]]] = (
+        defaultdict(dict)
     )
 
     for plugin_type, collection_data in plugin_content.items():

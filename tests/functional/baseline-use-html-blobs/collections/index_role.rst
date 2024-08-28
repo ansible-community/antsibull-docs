@@ -11,4 +11,4 @@ Index of all Roles
 ns2.col
 -------
 
-* :ansplugin:`ns2.col.foo#role` -- Foo role
+* :ansplugin:`ns2.col.foo#role` -- Foo role :ansdeprecatedmarker:`{"date": "2020-01-01", "version": ""}`

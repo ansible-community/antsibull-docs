@@ -10,6 +10,8 @@
 .. Created with antsibull-docs
 {% endif %}
 
+{% from 'macros/deprecates.rst.j2' import deprecation_marker with context -%}
+
 Index of all @{ callback_type | capitalize }@ Callback Plugins
 =============@{ '=' * (callback_type | column_width) }@=================
 
@@ -19,8 +21,8 @@ See `List of all Callback Plugins <index_callback.rst>`_ for the list of *all* c
 @{ collection_name }@
 @{ '-' * (collection_name | column_width) }@
 
-{%   for plugin_name, plugin_desc in plugins.items() | sort %}
-* `@{ collection_name }@.@{ plugin_name }@ <@{ collection_name | replace('.', '/') }@/@{ get_plugin_filename(collection_name ~ '.' ~ plugin_name, 'callback') }@>`_ -- @{ plugin_desc | rst_ify(plugin_fqcn=collection_name ~ '.' ~ plugin_name, plugin_type='callback') }@
+{%   for plugin_name, plugin_info in plugins.items() | sort %}
+* `@{ collection_name }@.@{ plugin_name }@ <@{ collection_name | replace('.', '/') }@/@{ get_plugin_filename(collection_name ~ '.' ~ plugin_name, 'callback') }@>`_ -- @{ plugin_info.short_description | rst_ify(plugin_fqcn=collection_name ~ '.' ~ plugin_name, plugin_type='callback') }@ @{ deprecation_marker(plugin_info) }@
 {%   endfor %}
 
 {% else %}

@@ -11,4 +11,4 @@ ns.col2
 ns2.col
 -------
 
-* `ns2.col.foo <ns2/col/foo_role.rst>`_ -- Foo role
+* `ns2.col.foo <ns2/col/foo_role.rst>`_ -- Foo role **(DEPRECATED)**

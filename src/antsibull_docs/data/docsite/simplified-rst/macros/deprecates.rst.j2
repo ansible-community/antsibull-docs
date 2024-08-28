@@ -22,3 +22,10 @@ Removed in: a future release
   <p>@{ 'Alternative: ' ~ data['alternative'] | html_ify(role_entrypoint=role_entrypoint) | rst_indent(2, blank=true) }@</p>
 {%   endif %}
 {% endmacro %}
+
+
+{% macro deprecation_marker(plugin_info) %}
+  {%- if plugin_info.deprecation -%}
+    **(DEPRECATED)**
+  {%- endif -%}
+{% endmacro %}

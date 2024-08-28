@@ -33,4 +33,9 @@
   --antsibull-attribute-support-partial: #a5a500;
   --antsibull-attribute-support-full: green;
   --antsibull-attribute-support-na: inherit;
+
+  // Deprecation marker
+  --antsibull-deprecation-border: #000;
+  --antsibull-deprecation-background: #eee;
+  --antsibull-deprecation-color: #000;
 }
