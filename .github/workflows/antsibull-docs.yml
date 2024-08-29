@@ -40,6 +40,8 @@ jobs:
           - main
         antsibull_docutils_ref:
           - main
+        antsibull_fileutils_ref:
+          - main
         include:
           - options: '--use-current --use-html-blobs --no-breadcrumbs community.crypto community.docker --extra-conf antsibull_ext_color_scheme=none'
             python: '3.9'
@@ -79,6 +81,13 @@ jobs:
           repository: ansible-community/antsibull-docutils
           path: antsibull-docutils
           ref: ${{ matrix.antsibull_docutils_ref }}
+
+      - name: Check out dependent project antsibull-fileutils
+        uses: actions/checkout@v4
+        with:
+          repository: ansible-community/antsibull-fileutils
+          path: antsibull-fileutils
+          ref: ${{ matrix.antsibull_fileutils_ref }}
 
       - name: Set up Python ${{ matrix.python }}
         uses: actions/setup-python@v5

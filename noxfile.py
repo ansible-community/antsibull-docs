@@ -47,6 +47,7 @@ def other_antsibull(
         "antsibull-core",
         "antsibull-docs-parser",
         "antsibull-docutils",
+        "antsibull-fileutils",
     )
     for project in args:
         path = Path("../", project)
