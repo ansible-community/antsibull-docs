@@ -12,7 +12,7 @@ from __future__ import annotations
 import abc
 import typing as t
 
-from antsibull_core.yaml import load_yaml_bytes
+from antsibull_fileutils.yaml import load_yaml_bytes
 from docutils import nodes
 from docutils.parsers.rst import Directive
 

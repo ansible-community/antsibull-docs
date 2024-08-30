@@ -12,7 +12,7 @@ import os
 import os.path
 import typing as t
 
-from antsibull_core.yaml import load_yaml_file
+from antsibull_fileutils.yaml import load_yaml_file
 
 
 def load_collection_info(path_to_collection: str) -> dict[str, t.Any]:
