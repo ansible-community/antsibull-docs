@@ -19,6 +19,10 @@ You can find a list of changes in [the antsibull-docs changelog](https://github.
 
 antsibull-docs is covered by the [Ansible Code of Conduct](https://docs.ansible.com/ansible/latest/community/code_of_conduct.html).
 
+## Community
+
+Need help or want to discuss the project? See our [Community guide](https://ansible.readthedocs.io/projects/antsibull-docs/community/) to learn how to join the conversation!
+
 ## Versioning and compatibility
 
 From version 1.0.0 on, antsibull-docs sticks to semantic versioning and aims at providing no backwards compatibility breaking changes **to the command line API (antsibull-docs)** during a major release cycle. We might make exceptions from this in case of security fixes for vulnerabilities that are severe enough.
