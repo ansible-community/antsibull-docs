@@ -9,13 +9,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
 [![Discuss on Matrix at #antsibull:ansible.com](https://img.shields.io/matrix/antsibull:ansible.com.svg?server_fqdn=ansible-accounts.ems.host&label=Discuss%20on%20Matrix%20at%20%23antsibull:ansible.com&logo=matrix)](https://matrix.to/#/#antsibull:ansible.com)
 [![Discuss on Matrix at #docs:ansible.com](https://img.shields.io/matrix/docs:ansible.com.svg?server_fqdn=ansible-accounts.ems.host&label=Discuss%20on%20Matrix%20at%20%23docs:ansible.com&logo=matrix)](https://matrix.to/#/#docs:ansible.com)
 
-> Need help or want to discuss the project? See our [Community guide](https://ansible.readthedocs.io/projects/antsibull-docs/community/) to learn how to join the conversation!
-
 This package provides tooling for validating and building Ansible documentation. It mainly consists of a CLI tool, `antsibull-docs`, and a Sphinx extension. The main output format are [reStructured Text (RST)](https://en.wikipedia.org/wiki/ReStructuredText) files for consumption by [Sphinx](https://en.wikipedia.org/wiki/Sphinx_\(documentation_generator\)).
 
 **Collection maintainers and authors should look at the [Creating a collection docsite](collection-docs.md) section of this docsite.**
 
 antsibull-docs is covered by the [Ansible Code of Conduct](https://docs.ansible.com/ansible/latest/community/code_of_conduct.html).
+
+> Need help or want to discuss the project? See our [Community guide](community.md) to learn how to join the conversation!
 
 ## `antsibull-docs` subcommands
 
