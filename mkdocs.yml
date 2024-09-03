@@ -32,4 +32,5 @@ nav:
   - antsibull-docs: index.md
   - Creating a collection docsite: collection-docs.md
   - Official Ansible docsite: package-docs.md
+  - Join the Community: community.md
   - antsibull-docs Release Notes: changelog.md
