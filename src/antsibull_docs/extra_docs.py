@@ -17,7 +17,7 @@ from collections.abc import Mapping
 import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context
 from antsibull_core.logging import log
-from antsibull_core.utils.io import read_file
+from antsibull_fileutils.io import read_file
 from antsibull_fileutils.yaml import load_yaml_file
 
 mlog = log.fields(mod=__name__)
