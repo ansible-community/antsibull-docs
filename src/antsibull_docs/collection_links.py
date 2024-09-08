@@ -64,12 +64,6 @@ _ANSIBLE_CORE_METADATA = {
                 "room": "#users:ansible.im",
             }
         ],
-        "mailing_lists": [
-            {
-                "topic": "Ansible Project List",
-                "url": "https://groups.google.com/g/ansible-project",
-            }
-        ],
         "forums": [
             {
                 "topic": "Ansible Forum",
