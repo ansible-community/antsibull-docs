@@ -15,7 +15,8 @@ This package provides tooling for validating and building Ansible documentation.
 
 antsibull-docs is covered by the [Ansible Code of Conduct](https://docs.ansible.com/ansible/latest/community/code_of_conduct.html).
 
-> Need help or want to discuss the project? See our [Community guide](community.md) to learn how to join the conversation!
+!!! note
+    Need help or want to discuss the project? See our [Community guide](community.md) to learn how to join the conversation!
 
 ## `antsibull-docs` subcommands
 
