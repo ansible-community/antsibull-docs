@@ -41,18 +41,20 @@ and install the requirements needed to run the tests there.
 
 ---
 
-antsibull-docs depends on the sister antsibull-changelog, antsibull-core, and
-antsibull-docs-parser projects.
+antsibull-docs depends on the sister antsibull-changelog, antsibull-core,
+antsibull-docs-parser, antsibull-docutils, and antsibull-fileutils projects.
 By default, `nox` will install a development version of these projects from Github.
-If you're hacking on antsibull-changelog, antsibull-core, antsibull-docs-parser, and/or
-antsibull-docutils alongside antsibull-docs, nox will automatically install the projects
-from  `../antsibull-changelog`, `../antsibull-core`, `../antsibull-docs-parser`, and
-`../antsibull-docutils` when running tests if those paths exist.
+If you're hacking on antsibull-changelog, antsibull-core, antsibull-docs-parser,
+antsibull-docutils, and/or antsibull-fileutils alongside antsibull-docs,
+nox will automatically install the projects from  `../antsibull-changelog`,
+`../antsibull-core`, `../antsibull-docs-parser`, `../antsibull-docutils`,
+and `../antsibull-fileutils` when running tests if those paths exist.
 You can change this behavior through the `OTHER_ANTSIBULL_MODE` env var:
 
 - `OTHER_ANTSIBULL_MODE=auto` — the default behavior described above
 - `OTHER_ANTSIBULL_MODE=local` — install the projects from `../antsibull-changelog`,
-  `../antsibull-core`, `../antsibull-docs-parser`, and `../antsibull-docutils`.
+  `../antsibull-core`, `../antsibull-docs-parser`, `../antsibull-docutils`, and
+  `../antsibull-fileutils`.
   Fail if those paths don't exist.
 - `OTHER_ANTSIBULL_MODE=git` — install the projects from the Github main branch
 - `OTHER_ANTSIBULL_MODE=pypi` — install the latest versions from PyPI

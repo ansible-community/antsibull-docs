@@ -14,9 +14,10 @@ import typing as t
 from collections import defaultdict
 from threading import Lock
 
+from antsibull_core import app_context
 from antsibull_core.logging import log
-from antsibull_core.utils.io import copy_file as _copy_file
-from antsibull_core.utils.io import write_file as _write_file
+from antsibull_fileutils.io import copy_file as _copy_file
+from antsibull_fileutils.io import write_file as _write_file
 
 if t.TYPE_CHECKING:
     from _typeshed import StrOrBytesPath
@@ -51,7 +52,8 @@ class Output:
         Write the given text content to a file (relative to our root).
         """
         path = os.path.join(self.root, filename)  # type: ignore
-        await _write_file(path, content)
+        lib_ctx = app_context.lib_ctx.get()
+        await _write_file(path, content, file_check_content=lib_ctx.file_check_content)
 
     async def copy_file(
         self,
@@ -66,7 +68,14 @@ class Output:
         (relative to our root).
         """
         src_path = os.path.join(self.root, dest_path)  # type: ignore
-        await _copy_file(source_path, src_path, check_content=check_content)
+        lib_ctx = app_context.lib_ctx.get()
+        await _copy_file(
+            source_path,
+            src_path,
+            check_content=check_content,
+            file_check_content=lib_ctx.file_check_content,
+            chunksize=lib_ctx.chunksize,
+        )
 
 
 class TrackingOutput(Output):

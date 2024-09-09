@@ -40,6 +40,8 @@ jobs:
           - main
         antsibull_docutils_ref:
           - main
+        antsibull_fileutils_ref:
+          - main
         include:
           - options: '--use-current --use-html-blobs --no-breadcrumbs community.crypto community.docker --extra-conf antsibull_ext_color_scheme=none'
             python: '3.9'
@@ -80,6 +82,13 @@ jobs:
           path: antsibull-docutils
           ref: ${{ matrix.antsibull_docutils_ref }}
 
+      - name: Check out dependent project antsibull-fileutils
+        uses: actions/checkout@v4
+        with:
+          repository: ansible-community/antsibull-fileutils
+          path: antsibull-fileutils
+          ref: ${{ matrix.antsibull_fileutils_ref }}
+
       - name: Set up Python ${{ matrix.python }}
         uses: actions/setup-python@v5
         with:
@@ -88,7 +97,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e .[coverage] ../antsibull-core ../antsibull-docs-parser
+          pip install -e .[coverage] ../antsibull-core ../antsibull-changelog ../antsibull-docs-parser ../antsibull-docutils ../antsibull-fileutils
         working-directory: antsibull-docs
 
       - name: Use antsibull-docs sphinx-init
@@ -192,6 +201,18 @@ jobs:
           repository: ansible-community/antsibull-changelog
           path: antsibull-changelog
 
+      - name: Check out dependent project antsibull-docutils
+        uses: actions/checkout@v4
+        with:
+          repository: ansible-community/antsibull-docutils
+          path: antsibull-docutils
+
+      - name: Check out dependent project antsibull-fileutils
+        uses: actions/checkout@v4
+        with:
+          repository: ansible-community/antsibull-fileutils
+          path: antsibull-fileutils
+
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
@@ -200,7 +221,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e .[coverage] ../antsibull-core ../antsibull-docs-parser
+          pip install -e .[coverage] ../antsibull-core ../antsibull-changelog ../antsibull-docs-parser ../antsibull-docutils ../antsibull-fileutils
         working-directory: antsibull-docs
 
       - name: Get hold of deps file
@@ -256,6 +277,18 @@ jobs:
           repository: ansible-community/antsibull-changelog
           path: antsibull-changelog
 
+      - name: Check out dependent project antsibull-docutils
+        uses: actions/checkout@v4
+        with:
+          repository: ansible-community/antsibull-docutils
+          path: antsibull-docutils
+
+      - name: Check out dependent project antsibull-fileutils
+        uses: actions/checkout@v4
+        with:
+          repository: ansible-community/antsibull-fileutils
+          path: antsibull-fileutils
+
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
@@ -264,7 +297,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e .[coverage] ../antsibull-core ../antsibull-docs-parser
+          pip install -e .[coverage] ../antsibull-core ../antsibull-changelog ../antsibull-docs-parser ../antsibull-docutils ../antsibull-fileutils
         working-directory: antsibull-docs
 
       - name: Get hold of ansible.in file

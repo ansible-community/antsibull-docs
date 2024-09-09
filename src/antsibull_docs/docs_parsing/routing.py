@@ -17,8 +17,9 @@ from collections import defaultdict
 from collections.abc import Mapping, MutableMapping, Sequence
 
 import asyncio_pool  # type: ignore[import]
-from antsibull_core import app_context, yaml
+from antsibull_core import app_context
 from antsibull_core.utils.collections import compare_all_but
+from antsibull_fileutils import yaml
 
 from ..constants import DOCUMENTABLE_PLUGINS
 from ..utils.get_pkg_data import get_antsibull_data

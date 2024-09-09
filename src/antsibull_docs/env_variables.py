@@ -12,7 +12,7 @@ import os.path
 import typing as t
 from collections.abc import Generator, Mapping
 
-from antsibull_core import yaml
+from antsibull_fileutils import yaml
 
 from .docs_parsing import AnsibleCollectionMetadata
 
