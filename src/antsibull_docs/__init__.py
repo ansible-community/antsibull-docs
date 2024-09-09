@@ -9,7 +9,7 @@ import warnings
 
 import pydantic
 
-__version__ = "2.13.1.post0"
+__version__ = "2.14.0"
 
 
 def _filter_pydantic_v2_warnings() -> None:
