@@ -1,2 +1,0 @@
-minor_changes:
-  - "Remove ansible-project Google Groups mailing list from ansible.builtin links (https://github.com/ansible-community/antsibull-docs/pull/325)."

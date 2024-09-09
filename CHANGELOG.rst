@@ -4,6 +4,21 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.14.0
+=======
+
+Release Summary
+---------------
+
+Feature release.
+
+Minor Changes
+-------------
+
+- Add dependency on antsibull-fileutils. Some functionality from antsibull-core is moving there, so we can use it from there directly (https://github.com/ansible-community/antsibull-docs/pull/322).
+- Add deprecation markers next to module/plugin/role descriptions in lists (https://github.com/ansible-community/antsibull-docs/issues/141, https://github.com/ansible-community/antsibull-docs/pull/320).
+- Remove ansible-project Google Groups mailing list from ansible.builtin links (https://github.com/ansible-community/antsibull-docs/pull/325).
+
 v2.13.1
 =======
 

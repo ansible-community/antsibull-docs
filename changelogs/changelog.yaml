@@ -909,3 +909,19 @@ releases:
       - 2.13.1.yml
       - 318-plugin-filename.yml
     release_date: '2024-08-26'
+  2.14.0:
+    changes:
+      minor_changes:
+        - Add dependency on antsibull-fileutils. Some functionality from antsibull-core
+          is moving there, so we can use it from there directly (https://github.com/ansible-community/antsibull-docs/pull/322).
+        - Add deprecation markers next to module/plugin/role descriptions in lists
+          (https://github.com/ansible-community/antsibull-docs/issues/141, https://github.com/ansible-community/antsibull-docs/pull/320).
+        - Remove ansible-project Google Groups mailing list from ansible.builtin links
+          (https://github.com/ansible-community/antsibull-docs/pull/325).
+      release_summary: Feature release.
+    fragments:
+      - 2.14.0.yml
+      - 320-deprecation-marker.yml
+      - 322-antsibull-fileutils.yml
+      - 325-mailing-list.yml
+    release_date: '2024-09-09'
