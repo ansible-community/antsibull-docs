@@ -200,7 +200,7 @@ If you want to reference modules, plugins, roles, their options and return value
 
 ## Adding useful links to the docsite
 
-You can add general links of interest to your collection page and the plugin pages, like for example links pointing to how to submit a bug report, how to request a feature, or where to ask for help. You can also provide links to communication channels like Matrix rooms, IRC channels, and mailing lists.
+You can add general links of interest to your collection page and the plugin pages, like for example links pointing to how to submit a bug report, how to request a feature, or where to ask for help. You can also provide links to communication channels like the Ansible Forum and Matrix rooms.
 
 These can be configured in `docs/docsite/links.yml`. A template showing what is available can be found below:
 
@@ -240,16 +240,6 @@ communication:
   matrix_rooms:
     - topic: General usage and support questions
       room: '#users:ansible.im'
-  irc_channels:
-    - topic: General usage and support questions
-      network: Libera
-      channel: '#ansible'
-  mailing_lists:
-    - topic: Ansible Project List
-      url: https://groups.google.com/g/ansible-project
-      # You can also add a `subscribe` field with an URI that allows to subscribe
-      # to the mailing list. For lists on https://groups.google.com/ a subscribe link is
-      # automatically generated.
   forums:
     - topic: Ansible Forum
       # The following URL directly points to the "Get Help" section
