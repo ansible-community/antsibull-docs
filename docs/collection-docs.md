@@ -253,6 +253,8 @@ communication:
   mailing_lists:
     # The mailing lists are only mentioned as examples and
     # should not be used except in very specific circumstances.
+    # Please note that the ansible-project group used as an example
+    # below is read-only and will soon vanish completely.
     - topic: Ansible Project List
       url: https://groups.google.com/g/ansible-project
       # You can also add a `subscribe` field with an URI that allows to subscribe
