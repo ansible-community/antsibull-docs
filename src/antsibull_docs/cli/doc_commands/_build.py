@@ -476,6 +476,7 @@ def generate_docs_for_all_collections(  # noqa: C901
             output_collection_index(
                 collection_to_plugin_info,
                 collection_namespaces,
+                collection_metadata,
                 output,
                 collection_url=collection_url,
                 collection_install=collection_install,
@@ -491,6 +492,7 @@ def generate_docs_for_all_collections(  # noqa: C901
         asyncio.run(
             output_collection_namespace_indexes(
                 collection_namespaces,
+                collection_metadata,
                 output,
                 collection_url=collection_url,
                 collection_install=collection_install,
