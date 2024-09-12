@@ -1,0 +1,2 @@
+minor_changes:
+  - "This project now depends on antsibull-core >= 3.1.0 and pydantic 2 (https://github.com/ansible-community/antsibull-docs/pull/330)."

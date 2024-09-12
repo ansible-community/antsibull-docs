@@ -27,7 +27,7 @@ requires-python = ">=3.9"
 dependencies = [
     "ansible-pygments",
     "antsibull-changelog >= 0.24.0",
-    "antsibull-core >= 2.1.0, < 4.0.0",
+    "antsibull-core >= 3.1.0, < 4.0.0",
     "antsibull-docs-parser >= 1.1.0, < 2.0.0",
     "antsibull-fileutils >= 1.0.0, < 2.0.0",
     "asyncio-pool",
@@ -39,7 +39,7 @@ dependencies = [
     "sphinx",
     # pydantic v2 contains deprecated features that we need for pydantic v1
     # compat
-    "pydantic >= 1.0.0, < 3.0.0",
+    "pydantic >= 2.0.0, < 3.0.0",
     "semantic_version",
     "aiohttp >= 3.0.0",
     "twiggy",
