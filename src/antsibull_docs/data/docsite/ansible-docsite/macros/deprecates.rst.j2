@@ -68,3 +68,14 @@ Removed in: a future release
     }@`
   {%- endif -%}
 {% endmacro %}
+
+
+{% macro collection_deprecation_note() %}
+{%   if for_official_docsite and collection_deprecation_info %}
+
+.. note::
+
+    @{ collection_deprecation_info | rst_ify | rst_indent(4) }@
+
+{%   endif %}
+{% endmacro %}

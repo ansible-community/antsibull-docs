@@ -201,6 +201,7 @@ def create_plugin_rst(
             collection_links=collection_links.links,
             collection_communication=collection_links.communication,
             collection_issue_tracker=collection_links.issue_tracker,
+            collection_deprecation_info=collection_meta.deprecation_info,
             for_official_docsite=for_official_docsite,
             add_version=add_version,
         )
@@ -229,6 +230,7 @@ def create_plugin_rst(
                 collection_links=collection_links.links,
                 collection_communication=collection_links.communication,
                 collection_issue_tracker=collection_links.issue_tracker,
+                collection_deprecation_info=collection_meta.deprecation_info,
                 for_official_docsite=for_official_docsite,
                 add_version=add_version,
             )
@@ -250,6 +252,7 @@ def create_plugin_rst(
                 collection_links=collection_links.links,
                 collection_communication=collection_links.communication,
                 collection_issue_tracker=collection_links.issue_tracker,
+                collection_deprecation_info=collection_meta.deprecation_info,
                 for_official_docsite=for_official_docsite,
                 add_version=add_version,
             )

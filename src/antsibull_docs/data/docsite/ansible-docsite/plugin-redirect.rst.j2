@@ -4,6 +4,8 @@
   SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
+{% from 'macros/deprecates.rst.j2' import collection_deprecation_note with context -%}
+
 .. Document meta
 
 :orphan:
@@ -43,7 +45,7 @@
     To use it in a playbook, specify: :code:`@{plugin_name}@`.
 {%   endif %}
 {% endif %}
-
+@{ collection_deprecation_note() }@
 {% if deprecation %}
 - This redirect has been **deprecated**. Please update your tasks to use the new name ``@{ redirect }@`` instead.
 {%   if deprecation.removal_version is defined %}

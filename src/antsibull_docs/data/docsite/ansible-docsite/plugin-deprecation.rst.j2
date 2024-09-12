@@ -4,6 +4,8 @@
   SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
+{% from 'macros/deprecates.rst.j2' import collection_deprecation_note with context -%}
+
 :source: @{ source }@
 
 {# avoids rST "isn't included in any toctree" errors for module docs #}

@@ -5,6 +5,7 @@
 #}
 
 {% from 'macros/collection_links.rst.j2' import add as add_collection_links with context -%}
+{% from 'macros/deprecates.rst.j2' import collection_deprecation_note with context -%}
 {% from 'macros/deprecates.rst.j2' import deprecation_marker with context -%}
 
 {% if not breadcrumbs %}
@@ -40,7 +41,7 @@
 {% if collection_version %}
 Collection version @{ collection_version }@
 {% endif %}
-
+@{ collection_deprecation_note() }@
 .. contents::
    :local:
    :depth: 1
