@@ -18,6 +18,8 @@ import sys
 from collections.abc import Callable
 from importlib import import_module
 
+from packaging.version import Version as PypiVer
+
 try:
     import argcomplete
 
@@ -154,6 +156,14 @@ def _normalize_stable_options(args: argparse.Namespace) -> None:
             " It should contain one namespace.collection with version"
             " per line"
         )
+
+    if args.version is not None:
+        try:
+            PypiVer(args.version)
+        except ValueError as exc:
+            raise InvalidArgumentError(
+                f"The provided version, {args.version!r}, is not a valid version: {exc}"
+            ) from exc
 
 
 def _normalize_collection_options(args: argparse.Namespace) -> None:
@@ -423,6 +433,11 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         " from $PATH. By default, antsibull-docs installs ansible-core"
         " into a temporary venv.",
     )
+    devel_parser.add_argument(
+        "--major-version",
+        type=int,
+        help="Provide the major Ansible version for the devel build.",
+    )
 
     #
     # Document a released version of ansible
@@ -453,6 +468,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         " from $PATH. By default, antsibull-docs installs ansible-core"
         " into a temporary venv.",
     )
+    stable_parser.add_argument("--version", help="Provide the Ansible version.")
 
     #
     # Document the currently installed version of ansible

@@ -235,7 +235,7 @@ jobs:
       - name: Build stable docs RST files
         run: |
           mkdir stable-docs
-          coverage run -p --source antsibull_docs -m antsibull_docs.cli.antsibull_docs stable --deps-file ansible.deps --dest-dir stable-docs --no-breadcrumbs --no-indexes
+          coverage run -p --source antsibull_docs -m antsibull_docs.cli.antsibull_docs stable --deps-file ansible.deps --dest-dir stable-docs --no-breadcrumbs --no-indexes --version "${MAJOR_VERSION}.0.0"
         working-directory: antsibull-docs
 
       - name: Combine coverage stats
@@ -314,7 +314,7 @@ jobs:
       - name: Build devel docs RST files
         run: |
           mkdir devel-docs
-          coverage run -p --source antsibull_docs -m antsibull_docs.cli.antsibull_docs devel --pieces-file ansible.in --dest-dir devel-docs
+          coverage run -p --source antsibull_docs -m antsibull_docs.cli.antsibull_docs devel --pieces-file ansible.in --dest-dir devel-docs --major-version "${MAJOR_VERSION}"
         working-directory: antsibull-docs
 
       - name: Combine coverage stats

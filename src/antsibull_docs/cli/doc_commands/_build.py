@@ -21,6 +21,7 @@ from antsibull_core.schemas.collection_meta import (
     RemovalInformation,
 )
 from antsibull_core.venv import FakeVenvRunner, VenvRunner
+from packaging.version import Version as PypiVer
 
 from ... import app_context
 from ...augment_docs import augment_docs
@@ -106,6 +107,8 @@ def _validate_options(
     collection_names: list[str] | None,
     exclude_collection_names: list[str] | None,
     use_html_blobs: bool,
+    for_official_docsite: bool = False,
+    ansible_version: PypiVer | None = None,
 ) -> None:
     if collection_names is not None and exclude_collection_names is not None:
         raise ValueError(
@@ -117,6 +120,11 @@ def _validate_options(
             "WARNING: the use of --use-html-blobs is deprecated."
             " This feature will be removed soon.",
             file=sys.stderr,
+        )
+
+    if ansible_version is not None and not for_official_docsite:
+        raise AssertionError(
+            "Ansible version cannot be provided if this is not for the official docsite"
         )
 
 
@@ -170,8 +178,41 @@ def _register_extra_docs(
             output.register_pattern(directory, "*")
 
 
+def _compose_redirect_sentence(
+    collection: str,
+    new_name: str,
+    redirect_replacement_major_version: int,
+    current_major_version: int | None,
+) -> str:
+    if (
+        current_major_version is not None
+        and current_major_version == redirect_replacement_major_version
+    ):
+        return (
+            f"The content of {collection} have been replaced"
+            f" by redirects to {new_name}"
+            f" in this major release of Ansible."
+        )
+    if (
+        current_major_version is not None
+        and current_major_version > redirect_replacement_major_version
+    ):
+        return (
+            f"The content of {collection} have been replaced"
+            f" by redirects to {new_name}"
+            f" in Ansible {redirect_replacement_major_version}."
+        )
+    return (
+        f"The content of {collection} will be replaced"
+        f" by redirects to {new_name}"
+        f" in Ansible {redirect_replacement_major_version}."
+    )
+
+
 def _collect_removal_sentences(
-    collection: str, removal: RemovalInformation
+    collection: str,
+    removal: RemovalInformation,
+    ansible_version: PypiVer | None,
 ) -> list[str]:
     sentences = []
     removed_text = (
@@ -194,9 +235,12 @@ def _collect_removal_sentences(
         )
         if removal.redirect_replacement_major_version is not None:
             sentences.append(
-                f"The content of {collection} will be replaced"
-                f" by redirects to {removal.new_name}"
-                f" in Ansible {removal.redirect_replacement_major_version}."
+                _compose_redirect_sentence(
+                    collection,
+                    removal.new_name or "",
+                    removal.redirect_replacement_major_version,
+                    ansible_version.major if ansible_version is not None else None,
+                )
             )
     if removal.reason == "guidelines-violation":
         sentences.append(
@@ -218,13 +262,15 @@ def _collect_removal_sentences(
 
 
 def _compose_deprecation_info(
-    collection: str, metadata: CollectionMetadata
+    collection: str,
+    metadata: CollectionMetadata,
+    ansible_version: PypiVer | None,
 ) -> str | None:
     removal = metadata.removal
     if removal is None:
         return None
 
-    sentences = _collect_removal_sentences(collection, removal)
+    sentences = _collect_removal_sentences(collection, removal, ansible_version)
     if not sentences:
         return None
 
@@ -234,13 +280,16 @@ def _compose_deprecation_info(
 def _add_deprecation_info(
     collection_metadata: Mapping[str, AnsibleCollectionMetadata],
     collection_meta: CollectionsMetadata | None,
+    ansible_version: PypiVer | None,
 ) -> None:
     if collection_meta is None:
         return
 
     for collection, metadata in collection_metadata.items():
         meta = collection_meta.get_meta(collection)
-        metadata.deprecation_info = _compose_deprecation_info(collection, meta)
+        metadata.deprecation_info = _compose_deprecation_info(
+            collection, meta, ansible_version
+        )
 
 
 def generate_docs_for_all_collections(  # noqa: C901
@@ -266,6 +315,7 @@ def generate_docs_for_all_collections(  # noqa: C901
         "no", "similar-files", "similar-files-and-dirs", "everything"
     ] = "no",
     collection_meta: CollectionsMetadata | None = None,
+    ansible_version: PypiVer | None = None,
 ) -> int:
     """
     Create documentation for a set of installed collections.
@@ -302,13 +352,20 @@ def generate_docs_for_all_collections(  # noqa: C901
     :kwarg add_antsibull_docs_version: Default True.  Set to False to not insert antsibull-docs'
         version into generated files.
     :kwarg collection_meta: Metadata on collections, if available.
+    :kwarg ansible_version: The version of the Ansible build, if available.
     :returns: A return code for the program.  See :func:`antsibull.cli.antsibull_docs.main` for
         details on what each code means.
     """
     flog = mlog.fields(func="generate_docs_for_all_collections")
     flog.notice("Begin")
 
-    _validate_options(collection_names, exclude_collection_names, use_html_blobs)
+    _validate_options(
+        collection_names,
+        exclude_collection_names,
+        use_html_blobs,
+        for_official_docsite,
+        ansible_version,
+    )
 
     if collection_names is not None and all(
         ab not in collection_names
@@ -327,7 +384,7 @@ def generate_docs_for_all_collections(  # noqa: C901
     # flog.fields(
     #     collection_metadata=full_collection_metadata).debug('Collection metadata')
 
-    _add_deprecation_info(full_collection_metadata, collection_meta)
+    _add_deprecation_info(full_collection_metadata, collection_meta, ansible_version)
 
     collection_metadata = dict(full_collection_metadata)
     _remove_collections(

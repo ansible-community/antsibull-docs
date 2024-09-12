@@ -21,6 +21,7 @@ from antsibull_core.galaxy import CollectionDownloader, DownloadResults, GalaxyC
 from antsibull_core.logging import log
 from antsibull_core.schemas.collection_meta import CollectionsMetadata
 from antsibull_core.venv import FakeVenvRunner, VenvRunner
+from packaging.version import Version as PypiVer
 
 from ... import app_context
 from ...jinja2.environment import OutputFormat
@@ -112,6 +113,11 @@ def generate_docs() -> int:
     lib_ctx = app_context.lib_ctx.get()
 
     use_installed_ansible_core: bool = app_ctx.extra["use_installed_ansible_core"]
+    ansible_version: PypiVer | None = (
+        PypiVer(str(app_ctx.extra["major_version"]))
+        if app_ctx.extra["major_version"] is not None
+        else None
+    )
 
     data_dir = "."
 
@@ -194,4 +200,5 @@ def generate_docs() -> int:
             add_antsibull_docs_version=app_ctx.add_antsibull_docs_version,
             cleanup=app_ctx.extra["cleanup"],
             collection_meta=collection_meta,
+            ansible_version=ansible_version,
         )
