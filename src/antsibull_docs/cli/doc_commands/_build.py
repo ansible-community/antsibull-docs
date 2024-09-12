@@ -290,6 +290,8 @@ def _add_deprecation_info(
         metadata.deprecation_info = _compose_deprecation_info(
             collection, meta, ansible_version
         )
+        if meta.removal and meta.removal.major_version != "TBD":
+            metadata.removal_ansible_major_version = meta.removal.major_version
 
 
 def generate_docs_for_all_collections(  # noqa: C901
