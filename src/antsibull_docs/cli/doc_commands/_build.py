@@ -230,7 +230,8 @@ def _collect_removal_sentences(
         )
     if removal.reason == "renamed":
         sentences.append(
-            f"The {collection} collection has been renamed to {removal.new_name}"
+            f"The {collection} collection has been renamed to"
+            f" R({removal.new_name}, plugins_in_{removal.new_name})"
             f" and {removed_text}."
         )
         if removal.redirect_replacement_major_version is not None:
@@ -242,6 +243,14 @@ def _collect_removal_sentences(
                     ansible_version.major if ansible_version is not None else None,
                 )
             )
+        sentences.append(
+            f"If you use content from {collection},"
+            " please update FQCNs in your playbooks and roles!"
+        )
+        sentences.append(
+            "When creating new playbooks or roles,"
+            f" directly use content from {removal.new_name} instead."
+        )
     if removal.reason == "guidelines-violation":
         sentences.append(
             f"The {collection} collection {removed_text}"
