@@ -90,6 +90,7 @@ class AnsibleCollectionMetadata:
     version: str | None
     requires_ansible: str | None
     docs_config: CollectionConfig
+    deprecation_info: str | None
 
     def __init__(
         self,
@@ -97,11 +98,13 @@ class AnsibleCollectionMetadata:
         docs_config: CollectionConfig,
         version: str | None = None,
         requires_ansible: str | None = None,
+        deprecation_info: str | None = None,
     ):
         self.path = path
         self.version = version
         self.requires_ansible = requires_ansible
         self.docs_config = docs_config
+        self.deprecation_info = deprecation_info
 
     def __repr__(self):
         return f"AnsibleCollectionMetadata({repr(self.path)}, {repr(self.version)})"

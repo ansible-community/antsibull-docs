@@ -19,6 +19,7 @@ from antsibull_core.collections import install_together
 from antsibull_core.dependency_files import parse_pieces_file
 from antsibull_core.galaxy import CollectionDownloader, DownloadResults, GalaxyContext
 from antsibull_core.logging import log
+from antsibull_core.schemas.collection_meta import CollectionsMetadata
 from antsibull_core.venv import FakeVenvRunner, VenvRunner
 
 from ... import app_context
@@ -112,10 +113,18 @@ def generate_docs() -> int:
 
     use_installed_ansible_core: bool = app_ctx.extra["use_installed_ansible_core"]
 
+    data_dir = "."
+
     # Parse the pieces file
-    flog.fields(deps_file=app_ctx.extra["pieces_file"]).info("Parse pieces file")
-    collections = parse_pieces_file(app_ctx.extra["pieces_file"])
+    pieces_file_path = os.path.join(data_dir, app_ctx.extra["pieces_file"])
+    flog.fields(pieces_file=pieces_file_path).info("Parse pieces file")
+    collections = parse_pieces_file(pieces_file_path)
     flog.debug("Finished parsing deps file")
+
+    # Load collection metadata
+    flog.fields(data_dir=data_dir).info("Loading collection metadata")
+    collection_meta = CollectionsMetadata.load_from(data_dir)
+    flog.debug("Finished parsing collection metadata")
 
     with tempfile.TemporaryDirectory() as tmp_dir:
         # Retrieve ansible-core and the collections
@@ -184,4 +193,5 @@ def generate_docs() -> int:
             for_official_docsite=True,
             add_antsibull_docs_version=app_ctx.add_antsibull_docs_version,
             cleanup=app_ctx.extra["cleanup"],
+            collection_meta=collection_meta,
         )

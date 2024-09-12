@@ -15,6 +15,11 @@ import typing as t
 from collections.abc import Mapping, MutableMapping
 
 from antsibull_core.logging import log
+from antsibull_core.schemas.collection_meta import (
+    CollectionMetadata,
+    CollectionsMetadata,
+    RemovalInformation,
+)
 from antsibull_core.venv import FakeVenvRunner, VenvRunner
 
 from ... import app_context
@@ -165,6 +170,79 @@ def _register_extra_docs(
             output.register_pattern(directory, "*")
 
 
+def _collect_removal_sentences(
+    collection: str, removal: RemovalInformation
+) -> list[str]:
+    sentences = []
+    removed_text = (
+        "will eventually be removed from Ansible"
+        if removal.major_version == "TBD"
+        else f"will be removed from Ansible {removal.major_version}"
+    )
+    if removal.reason == "deprecated":
+        sentences.append(
+            f"The {collection} collection has been deprecated and {removed_text}."
+        )
+    if removal.reason == "considered-unmaintained":
+        sentences.append(
+            f"The {collection} collection is considered unmaintained and {removed_text}"
+        )
+    if removal.reason == "renamed":
+        sentences.append(
+            f"The {collection} collection has been renamed to {removal.new_name}"
+            f" and {removed_text}."
+        )
+        if removal.redirect_replacement_major_version is not None:
+            sentences.append(
+                f"The content of {collection} will be replaced"
+                f" by redirects to {removal.new_name}"
+                f" in Ansible {removal.redirect_replacement_major_version}."
+            )
+    if removal.reason == "guidelines-violation":
+        sentences.append(
+            f"The {collection} collection {removed_text}"
+            " due to violations of the Ansible inclusion."
+        )
+    if removal.reason == "other":
+        sentences.append(f"The {collection} collection {removed_text}.")
+
+    if removal.reason_text:
+        sentences.append(removal.reason_text)
+
+    if sentences and removal.discussion:
+        sentences.append(
+            f"See the L(discussion thread, {removal.discussion}) for more information."
+        )
+
+    return sentences
+
+
+def _compose_deprecation_info(
+    collection: str, metadata: CollectionMetadata
+) -> str | None:
+    removal = metadata.removal
+    if removal is None:
+        return None
+
+    sentences = _collect_removal_sentences(collection, removal)
+    if not sentences:
+        return None
+
+    return " ".join(sentences)
+
+
+def _add_deprecation_info(
+    collection_metadata: Mapping[str, AnsibleCollectionMetadata],
+    collection_meta: CollectionsMetadata | None,
+) -> None:
+    if collection_meta is None:
+        return
+
+    for collection, metadata in collection_metadata.items():
+        meta = collection_meta.get_meta(collection)
+        metadata.deprecation_info = _compose_deprecation_info(collection, meta)
+
+
 def generate_docs_for_all_collections(  # noqa: C901
     venv: VenvRunner | FakeVenvRunner,
     collection_dir: str | None,
@@ -187,6 +265,7 @@ def generate_docs_for_all_collections(  # noqa: C901
     cleanup: t.Literal[
         "no", "similar-files", "similar-files-and-dirs", "everything"
     ] = "no",
+    collection_meta: CollectionsMetadata | None = None,
 ) -> int:
     """
     Create documentation for a set of installed collections.
@@ -222,6 +301,7 @@ def generate_docs_for_all_collections(  # noqa: C901
         plugin files instead of only the part without the collection name.
     :kwarg add_antsibull_docs_version: Default True.  Set to False to not insert antsibull-docs'
         version into generated files.
+    :kwarg collection_meta: Metadata on collections, if available.
     :returns: A return code for the program.  See :func:`antsibull.cli.antsibull_docs.main` for
         details on what each code means.
     """
@@ -246,6 +326,8 @@ def generate_docs_for_all_collections(  # noqa: C901
     # flog.fields(plugin_info=plugin_info).debug('Plugin data')
     # flog.fields(
     #     collection_metadata=full_collection_metadata).debug('Collection metadata')
+
+    _add_deprecation_info(full_collection_metadata, collection_meta)
 
     collection_metadata = dict(full_collection_metadata)
     _remove_collections(
