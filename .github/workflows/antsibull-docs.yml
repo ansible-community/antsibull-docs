@@ -176,6 +176,8 @@ jobs:
   build-stable:
     name: 'Build stable docsite'
     runs-on: ubuntu-latest
+    env:
+      MAJOR_VERSION: 10
 
     steps:
       - name: Check out antsibull-docs
@@ -226,7 +228,8 @@ jobs:
 
       - name: Get hold of deps file
         run: |
-          curl https://raw.githubusercontent.com/ansible-community/ansible-build-data/main/9/ansible-9.0.0.deps --output ansible.deps
+          curl "https://raw.githubusercontent.com/ansible-community/ansible-build-data/main/${MAJOR_VERSION}/ansible-${MAJOR_VERSION}.0.0.deps" --output ansible.deps
+          curl "https://raw.githubusercontent.com/ansible-community/ansible-build-data/main/${MAJOR_VERSION}/collection-meta.yaml" --remote-name
         working-directory: antsibull-docs
 
       - name: Build stable docs RST files
@@ -252,6 +255,8 @@ jobs:
   build-devel:
     name: 'Build devel docsite'
     runs-on: ubuntu-latest
+    env:
+      MAJOR_VERSION: 11
 
     steps:
       - name: Check out antsibull-docs
@@ -302,7 +307,8 @@ jobs:
 
       - name: Get hold of ansible.in file
         run: |
-          curl https://raw.githubusercontent.com/ansible-community/ansible-build-data/main/10/ansible.in --output ansible.in
+          curl "https://raw.githubusercontent.com/ansible-community/ansible-build-data/main/${MAJOR_VERSION}/ansible.in" --remote-name
+          curl "https://raw.githubusercontent.com/ansible-community/ansible-build-data/main/${MAJOR_VERSION}/collection-meta.yaml" --remote-name
         working-directory: antsibull-docs
 
       - name: Build devel docs RST files
