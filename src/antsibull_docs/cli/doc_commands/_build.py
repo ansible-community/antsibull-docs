@@ -220,13 +220,14 @@ def _collect_removal_sentences(
         if removal.major_version == "TBD"
         else f"will be removed from Ansible {removal.major_version}"
     )
+
     if removal.reason == "deprecated":
         sentences.append(
             f"The {collection} collection has been deprecated and {removed_text}."
         )
     if removal.reason == "considered-unmaintained":
         sentences.append(
-            f"The {collection} collection is considered unmaintained and {removed_text}"
+            f"The {collection} collection is considered unmaintained and {removed_text}."
         )
     if removal.reason == "renamed":
         sentences.append(
