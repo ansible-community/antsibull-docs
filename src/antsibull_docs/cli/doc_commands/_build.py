@@ -283,7 +283,7 @@ def _compose_deprecation_info(
     if not sentences:
         return None
 
-    return " ".join(sentences)
+    return "\n".join(sentences)
 
 
 def _add_deprecation_info(
