@@ -255,7 +255,7 @@ def _collect_removal_sentences(
     if removal.reason == "guidelines-violation":
         sentences.append(
             f"The {collection} collection {removed_text}"
-            " due to violations of the Ansible inclusion."
+            " due to violations of the Ansible inclusion requirements."
         )
     if removal.reason == "other":
         sentences.append(f"The {collection} collection {removed_text}.")
