@@ -189,7 +189,7 @@ def _compose_redirect_sentence(
         and current_major_version == redirect_replacement_major_version
     ):
         return (
-            f"The content of {collection} have been replaced"
+            f"The content of {collection} has been replaced"
             f" by redirects to {new_name}"
             f" in this major release of Ansible."
         )
@@ -198,7 +198,7 @@ def _compose_redirect_sentence(
         and current_major_version > redirect_replacement_major_version
     ):
         return (
-            f"The content of {collection} have been replaced"
+            f"The content of {collection} has been replaced"
             f" by redirects to {new_name}"
             f" in Ansible {redirect_replacement_major_version}."
         )
