@@ -17,6 +17,7 @@ from antsibull_core import app_context
 from antsibull_core.logging import log
 from jinja2 import Template
 
+from ..docs_parsing import AnsibleCollectionMetadata
 from ..jinja2 import FilenameGenerator, OutputFormat
 from ..jinja2.environment import doc_environment, get_template_filename
 from ..utils.collection_name_transformer import CollectionNameTransformer
@@ -29,6 +30,7 @@ mlog = log.fields(mod=__name__)
 async def write_collection_list(
     collections: Iterable[str],
     namespaces: Iterable[str],
+    collection_metadata: Mapping[str, AnsibleCollectionMetadata],
     template: Template,
     output: Output,
     directory: str,
@@ -45,6 +47,7 @@ async def write_collection_list(
 
     :arg collections: Iterable of all the collection names.
     :arg namespaces: Iterable of all namespace names.
+    :arg collection_metadata: Dictionary mapping collection names to collection metadata objects.
     :arg template: A template to render the collection index.
     :arg output: Output helper for writing output.
     :kwarg breadcrumbs: Default True.  Set to False if breadcrumbs for collections should be
@@ -63,6 +66,7 @@ async def write_collection_list(
         breadcrumbs=breadcrumbs,
         for_official_docsite=for_official_docsite,
         add_version=add_version,
+        collection_metadata=collection_metadata,
     )
 
     await output.write_file(index_file, index_contents)
@@ -71,6 +75,7 @@ async def write_collection_list(
 async def write_collection_namespace_index(
     namespace: str,
     collections: Iterable[str],
+    collection_metadata: Mapping[str, AnsibleCollectionMetadata],
     template: Template,
     output: Output,
     directory: str,
@@ -87,6 +92,7 @@ async def write_collection_namespace_index(
 
     :arg namespace: The namespace.
     :arg collections: Iterable of all the collection names.
+    :arg collection_metadata: Dictionary mapping collection names to collection metadata objects.
     :arg template: A template to render the collection index.
     :arg output: Output helper for writing output.
     :kwarg breadcrumbs: Default True.  Set to False if breadcrumbs for collections should
@@ -105,6 +111,7 @@ async def write_collection_namespace_index(
         breadcrumbs=breadcrumbs,
         for_official_docsite=for_official_docsite,
         add_version=add_version,
+        collection_metadata=collection_metadata,
     )
 
     await output.write_file(index_file, index_contents)
@@ -113,6 +120,7 @@ async def write_collection_namespace_index(
 async def output_collection_index(
     collection_to_plugin_info: CollectionInfoT,
     collection_namespaces: Mapping[str, list[str]],
+    collection_metadata: Mapping[str, AnsibleCollectionMetadata],
     output: Output,
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
@@ -129,6 +137,7 @@ async def output_collection_index(
     :arg collection_to_plugin_info: Mapping of collection_name to Mapping of plugin_type to
         Mapping of plugin_name to short_description.
     :arg collection_namespaces: Mapping from collection namespaces to list of collection names.
+    :arg collection_metadata: Dictionary mapping collection names to collection metadata objects.
     :arg output: Output helper for writing output.
     :kwarg breadcrumbs: Default True.  Set to False if breadcrumbs for collections should be
         disabled.  This will disable breadcrumbs but save on memory usage.
@@ -160,6 +169,7 @@ async def output_collection_index(
     await write_collection_list(
         collection_to_plugin_info.keys(),
         collection_namespaces.keys(),
+        collection_metadata,
         collection_list_tmpl,
         output,
         collection_toplevel,
@@ -175,6 +185,7 @@ async def output_collection_index(
 
 async def output_collection_namespace_indexes(
     collection_namespaces: Mapping[str, list[str]],
+    collection_metadata: Mapping[str, AnsibleCollectionMetadata],
     output: Output,
     collection_url: CollectionNameTransformer,
     collection_install: CollectionNameTransformer,
@@ -189,6 +200,7 @@ async def output_collection_namespace_indexes(
     Generate collection namespace index pages for the collections.
 
     :arg collection_namespaces: Mapping from collection namespaces to list of collection names.
+    :arg collection_metadata: Dictionary mapping collection names to collection metadata objects.
     :arg output: Output helper for writing output.
     :kwarg breadcrumbs: Default True.  Set to False if breadcrumbs for collections should be
         disabled.  This will disable breadcrumbs but save on memory usage.
@@ -226,6 +238,7 @@ async def output_collection_namespace_indexes(
                     write_collection_namespace_index(
                         namespace,
                         collection_names,
+                        collection_metadata,
                         collection_list_tmpl,
                         output,
                         namespace_dir,

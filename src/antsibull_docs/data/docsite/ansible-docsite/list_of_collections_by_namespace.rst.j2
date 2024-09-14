@@ -4,6 +4,8 @@
   SPDX-License-Identifier: GPL-3.0-or-later
 #}
 
+{% from 'macros/deprecates.rst.j2' import collection_deprecation_marker with context -%}
+
 {% if not breadcrumbs %}
 :orphan:
 {% endif %}
@@ -27,7 +29,7 @@ These are the collections documented here in the **@{ namespace }@** namespace.
 {% endif %}
 
 {% for name in collections | sort %}
-* :ref:`@{ namespace }@.@{ name }@ <plugins_in_@{ namespace }@.@{ name }@>`
+* :ref:`@{ namespace }@.@{ name }@ <plugins_in_@{ namespace }@.@{ name }@>` @{ collection_deprecation_marker(collection_metadata[namespace ~ '.' ~ name]) }@
 {% endfor %}
 
 {% if breadcrumbs %}

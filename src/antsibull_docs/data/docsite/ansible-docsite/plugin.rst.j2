@@ -6,6 +6,7 @@
 
 {% from 'macros/attributes.rst.j2' import in_rst as attributes_rst with context -%}
 {% from 'macros/collection_links.rst.j2' import add as add_collection_links with context -%}
+{% from 'macros/deprecates.rst.j2' import collection_deprecation_note with context -%}
 {% from 'macros/parameters.rst.j2' import in_rst as parameters_rst with context -%}
 {% from 'macros/parameters.rst.j2' import in_html as parameters_html with context -%}
 {% from 'macros/returnvalues.rst.j2' import in_rst as return_docs_rst with context -%}
@@ -83,7 +84,7 @@
 
     To use it in a playbook, specify: :code:`@{plugin_name}@`.
 {% endif %}
-
+@{ collection_deprecation_note() }@
 .. version_added
 
 {% if doc['version_added'] is still_relevant(collection=doc['version_added_collection'] or collection) -%}

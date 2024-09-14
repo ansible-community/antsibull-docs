@@ -20,7 +20,9 @@ from antsibull_core.collections import install_together
 from antsibull_core.dependency_files import DepsFile
 from antsibull_core.galaxy import CollectionDownloader, GalaxyContext
 from antsibull_core.logging import log
+from antsibull_core.schemas.collection_meta import CollectionsMetadata
 from antsibull_core.venv import FakeVenvRunner, VenvRunner
+from packaging.version import Version as PypiVer
 
 from ... import app_context
 from ...jinja2.environment import OutputFormat
@@ -110,13 +112,26 @@ def generate_docs() -> int:
     lib_ctx = app_context.lib_ctx.get()
 
     use_installed_ansible_core: bool = app_ctx.extra["use_installed_ansible_core"]
+    ansible_version: PypiVer | None = (
+        PypiVer(app_ctx.extra["version"])
+        if app_ctx.extra["version"] is not None
+        else None
+    )
+
+    data_dir = "."
 
     # Parse the deps file
-    flog.fields(deps_file=app_ctx.extra["deps_file"]).info("Parse deps file")
-    deps_file = DepsFile(app_ctx.extra["deps_file"])
+    deps_file_path = os.path.join(data_dir, app_ctx.extra["deps_file"])
+    flog.fields(deps_file=deps_file_path).info("Parse deps file")
+    deps_file = DepsFile(deps_file_path)
     dummy_, ansible_core_version, collections = deps_file.parse()
     collections.pop("_python", None)
     flog.debug("Finished parsing deps file")
+
+    # Load collection metadata
+    flog.fields(data_dir=data_dir).info("Loading collection metadata")
+    collection_meta = CollectionsMetadata.load_from(data_dir)
+    flog.debug("Finished parsing collection metadata")
 
     with tempfile.TemporaryDirectory() as tmp_dir:
         # Retrieve ansible-core and the collections
@@ -186,4 +201,6 @@ def generate_docs() -> int:
             for_official_docsite=True,
             add_antsibull_docs_version=app_ctx.add_antsibull_docs_version,
             cleanup=app_ctx.extra["cleanup"],
+            collection_meta=collection_meta,
+            ansible_version=ansible_version,
         )

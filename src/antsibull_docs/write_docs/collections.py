@@ -124,6 +124,7 @@ async def write_plugin_lists(
         squash_hierarchy=squash_hierarchy,
         has_changelog=collection_meta.docs_config.changelog.write_changelog,
         add_version=add_version,
+        collection_deprecation_info=collection_meta.deprecation_info,
     )
 
     await output.write_file(index_file, index_contents)

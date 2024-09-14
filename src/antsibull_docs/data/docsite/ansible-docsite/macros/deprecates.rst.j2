@@ -59,3 +59,22 @@ Removed in: a future release
     }@`
   {%- endif -%}
 {% endmacro %}
+
+
+{% macro collection_deprecation_marker(collection_metadata) %}
+  {%- if for_official_docsite and collection_metadata.deprecation_info -%}
+    :ansdeprecatedmarker:`@{
+      { "version": collection_metadata.removal_ansible_major_version } | antsibull_to_json | rst_escape
+    }@`
+  {%- endif -%}
+{% endmacro %}
+
+
+{% macro collection_deprecation_note() %}
+{%   if for_official_docsite and collection_deprecation_info %}
+
+.. note::
+    @{ collection_deprecation_info | rst_ify | rst_indent(4) }@
+
+{%   endif %}
+{% endmacro %}
