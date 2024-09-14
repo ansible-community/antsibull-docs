@@ -903,7 +903,7 @@ def run(args: list[str]) -> int:
         args=parsed_args, cfg=cfg, app_context_model=DocsAppContext
     )
     with app_context.app_and_lib_context(context_data) as (app_ctx, dummy_):
-        twiggy.dict_config(app_ctx.logging_cfg.dict())
+        twiggy.dict_config(app_ctx.logging_cfg.model_dump())
         flog.debug("Set logging config")
 
         flog.fields(command=parsed_args.command).info("Action")

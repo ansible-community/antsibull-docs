@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import typing as t
 
-from antsibull_docs._pydantic_compat import v1 as p
+import pydantic as p
 
 
 class AnsibleLink(p.BaseModel):
@@ -18,13 +18,14 @@ class AnsibleLink(p.BaseModel):
     ref: t.Optional[str] = None
     external: bool = False
 
-    @p.root_validator()
-    # pylint:disable=no-self-argument
-    def one_of_url_and_ref(cls, values: dict[str, t.Any]) -> dict[str, t.Any]:
-        has_url = values.get("url")
-        has_ref = values.get("ref")
-        if has_url == has_ref:
-            raise ValueError("Exactly one of 'url' and 'ref' must be specified.")
+    @p.model_validator(mode="before")
+    @classmethod
+    def one_of_url_and_ref(cls, values: t.Any) -> t.Any:
+        if isinstance(values, dict):
+            has_url = values.get("url")
+            has_ref = values.get("ref")
+            if has_url == has_ref:
+                raise ValueError("Exactly one of 'url' and 'ref' must be specified.")
         return values
 
 
