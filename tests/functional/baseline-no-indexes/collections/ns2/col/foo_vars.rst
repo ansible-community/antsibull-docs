@@ -130,7 +130,7 @@ Parameters
 
       - INI entry:
 
-        .. code-block::
+        .. code-block:: ini
 
           [defaults]
           foo_valid_extensions = .foo, .foobar

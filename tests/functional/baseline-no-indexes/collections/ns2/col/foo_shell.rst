@@ -159,7 +159,7 @@ Parameters
 
       - INI entry:
 
-        .. code-block::
+        .. code-block:: ini
 
           [defaults]
           remote_tmp = ~/.ansible/tmp

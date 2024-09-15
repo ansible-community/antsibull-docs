@@ -120,7 +120,7 @@
       - INI {% if value['ini'] | length == 1 %}entry{% else %}entries{% endif %}:
 {%       for ini in value['ini'] %}
 
-        .. code-block::
+        .. code-block:: ini
 
           [@{ ini['section'] }@]
 {%        if value['default'] is none %}
