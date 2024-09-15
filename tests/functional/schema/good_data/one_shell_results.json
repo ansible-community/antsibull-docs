@@ -6,7 +6,7 @@
                 "author": [],
                 "attributes": {},
                 "collection": "",
-                "deprecated": {},
+                "deprecated": null,
                 "description": [
                     "This shell plugin is the one you want to use on most Unix systems, it is the most compatible and widely installed shell."
                 ],
@@ -23,14 +23,14 @@
                             "root",
                             "toor"
                         ],
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "list of users to be expected to have admin privileges. This is used by the controller to determine how to share temporary files between the remote user and the become user."
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_ADMIN_USERS",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -38,7 +38,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "admin_users",
                                 "section": "defaults",
                                 "version_added": "historical",
@@ -51,7 +51,7 @@
                         "type": "list",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_admin_users",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -65,14 +65,14 @@
                         "choices": [],
                         "cli": [],
                         "default": "~/.ansible_async",
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Directory in which ansible will keep async job information"
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_ASYNC_DIR",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -80,7 +80,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "async_dir",
                                 "section": "defaults",
                                 "version_added": "historical",
@@ -93,7 +93,7 @@
                         "type": "str",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_async_dir",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -107,7 +107,7 @@
                         "choices": [],
                         "cli": [],
                         "default": {},
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "dictionary of environment variables and their values to use when executing commands."
                         ],
@@ -127,20 +127,20 @@
                         "choices": [],
                         "cli": [],
                         "default": "~/.ansible/tmp",
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Temporary directory to use on targets when executing tasks."
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_REMOTE_TEMP",
                                 "version_added": "historical",
                                 "version_added_collection": ""
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_REMOTE_TMP",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -148,7 +148,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "remote_tmp",
                                 "section": "defaults",
                                 "version_added": "historical",
@@ -161,7 +161,7 @@
                         "type": "str",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_remote_tmp",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -178,14 +178,14 @@
                             "/var/tmp",
                             "/tmp"
                         ],
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "List of valid system temporary directories for Ansible to choose when it cannot use ``remote_tmp``, normally due to permission issues.  These must be world readable, writable, and executable."
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_SYSTEM_TMPDIRS",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -193,7 +193,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "system_tmpdirs",
                                 "section": "defaults",
                                 "version_added": "historical",
@@ -206,7 +206,7 @@
                         "type": "list",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_system_tmpdirs",
                                 "version_added": "historical",
                                 "version_added_collection": ""

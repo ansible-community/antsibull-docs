@@ -8,7 +8,7 @@
                 ],
                 "attributes": {},
                 "collection": "",
-                "deprecated": {},
+                "deprecated": null,
                 "description": [
                     "This cache uses JSON formatted, per host, files saved to the filesystem."
                 ],
@@ -22,14 +22,14 @@
                         "choices": [],
                         "cli": [],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "User defined prefix to use when creating the JSON files"
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_CACHE_PLUGIN_PREFIX",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -37,7 +37,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "fact_caching_prefix",
                                 "section": "defaults",
                                 "version_added": "historical",
@@ -57,14 +57,14 @@
                         "choices": [],
                         "cli": [],
                         "default": 86400,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Expiration timeout in seconds for the cache plugin data. Set to 0 to never expire"
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_CACHE_PLUGIN_TIMEOUT",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -72,7 +72,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "fact_caching_timeout",
                                 "section": "defaults",
                                 "version_added": "historical",
@@ -92,14 +92,14 @@
                         "choices": [],
                         "cli": [],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Path in which the cache plugin will save the JSON files"
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_CACHE_PLUGIN_CONNECTION",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -107,7 +107,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "fact_caching_connection",
                                 "section": "defaults",
                                 "version_added": "historical",

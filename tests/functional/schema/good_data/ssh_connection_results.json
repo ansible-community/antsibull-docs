@@ -8,7 +8,7 @@
                 ],
                 "attributes": {},
                 "collection": "ansible.builtin",
-                "deprecated": {},
+                "deprecated": null,
                 "description": [
                     "This connection plugin allows ansible to communicate to the target machines via normal ssh command line.",
                     "Ansible does not expose a channel to allow communication between the user and the ssh process to accept a password manually to decrypt an ssh key when using this connection plugin (which is the default). The use of ``ssh-agent`` is highly recommended."
@@ -25,7 +25,7 @@
                         "choices": [],
                         "cli": [],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "This is the location to save ssh's ControlPath sockets, it uses ssh's variable substitution.",
                             "Since 2.3, if null (default), ansible will generate a unique hash. Use `%(directory)s` to indicate where to use the control dir path setting.",
@@ -35,7 +35,7 @@
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_SSH_CONTROL_PATH",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -43,7 +43,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "control_path",
                                 "section": "ssh_connection",
                                 "version_added": "historical",
@@ -56,7 +56,7 @@
                         "type": "str",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_control_path",
                                 "version_added": "2.7",
                                 "version_added_collection": "ansible.builtin"
@@ -70,7 +70,7 @@
                         "choices": [],
                         "cli": [],
                         "default": "~/.ansible/cp",
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "This sets the directory to use for ssh control path if the control path setting is null.",
                             "Also, provides the `%(directory)s` variable for the control path setting."
@@ -78,7 +78,7 @@
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_SSH_CONTROL_PATH_DIR",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -86,7 +86,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "control_path_dir",
                                 "section": "ssh_connection",
                                 "version_added": "historical",
@@ -99,7 +99,7 @@
                         "type": "str",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_control_path_dir",
                                 "version_added": "2.7",
                                 "version_added_collection": "ansible.builtin"
@@ -113,7 +113,7 @@
                         "choices": [],
                         "cli": [],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Hostname/ip to connect to."
                         ],
@@ -126,31 +126,31 @@
                         "type": "str",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "inventory_hostname",
                                 "version_added": "historical",
                                 "version_added_collection": ""
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_host",
                                 "version_added": "historical",
                                 "version_added_collection": ""
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_ssh_host",
                                 "version_added": "historical",
                                 "version_added_collection": ""
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "delegated_vars['ansible_host']",
                                 "version_added": "historical",
                                 "version_added_collection": ""
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "delegated_vars['ansible_ssh_host']",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -164,20 +164,20 @@
                         "choices": [],
                         "cli": [],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Determines if ssh should check host keys"
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_HOST_KEY_CHECKING",
                                 "version_added": "historical",
                                 "version_added_collection": ""
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_SSH_HOST_KEY_CHECKING",
                                 "version_added": "2.5",
                                 "version_added_collection": "ansible.builtin"
@@ -185,14 +185,14 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "host_key_checking",
                                 "section": "defaults",
                                 "version_added": "historical",
                                 "version_added_collection": ""
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "host_key_checking",
                                 "section": "ssh_connection",
                                 "version_added": "2.5",
@@ -205,13 +205,13 @@
                         "type": "bool",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_host_key_checking",
                                 "version_added": "2.5",
                                 "version_added_collection": "ansible.builtin"
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_ssh_host_key_checking",
                                 "version_added": "2.5",
                                 "version_added_collection": "ansible.builtin"
@@ -225,7 +225,7 @@
                         "choices": [],
                         "cli": [],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Authentication password for the C(remote_user). Can be supplied as CLI option."
                         ],
@@ -238,19 +238,19 @@
                         "type": "str",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_password",
                                 "version_added": "historical",
                                 "version_added_collection": ""
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_ssh_pass",
                                 "version_added": "historical",
                                 "version_added_collection": ""
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_ssh_password",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -264,7 +264,7 @@
                         "choices": [],
                         "cli": [],
                         "default": false,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Pipelining reduces the number of connection operations required to execute a module on the remote server, by executing many Ansible modules without actual file transfers.",
                             "This can result in a very significant performance improvement when enabled.",
@@ -273,13 +273,13 @@
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_PIPELINING",
                                 "version_added": "historical",
                                 "version_added_collection": ""
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_SSH_PIPELINING",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -287,14 +287,14 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "pipelining",
                                 "section": "connection",
                                 "version_added": "historical",
                                 "version_added_collection": ""
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "pipelining",
                                 "section": "ssh_connection",
                                 "version_added": "historical",
@@ -307,13 +307,13 @@
                         "type": "bool",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_pipelining",
                                 "version_added": "historical",
                                 "version_added_collection": ""
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_ssh_pipelining",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -327,14 +327,14 @@
                         "choices": [],
                         "cli": [],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Remote port to connect to."
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_REMOTE_PORT",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -342,7 +342,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "remote_port",
                                 "section": "defaults",
                                 "version_added": "historical",
@@ -351,7 +351,7 @@
                         ],
                         "keyword": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "port",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -362,13 +362,13 @@
                         "type": "int",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_port",
                                 "version_added": "historical",
                                 "version_added_collection": ""
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_ssh_port",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -382,7 +382,7 @@
                         "choices": [],
                         "cli": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "private_key_file",
                                 "option": "--private-key",
                                 "version_added": "historical",
@@ -390,14 +390,14 @@
                             }
                         ],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Path to private key file to use for authentication"
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_PRIVATE_KEY_FILE",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -405,7 +405,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "private_key_file",
                                 "section": "defaults",
                                 "version_added": "historical",
@@ -418,13 +418,13 @@
                         "type": "str",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_private_key_file",
                                 "version_added": "historical",
                                 "version_added_collection": ""
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_ssh_private_key_file",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -438,7 +438,7 @@
                         "choices": [],
                         "cli": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "user",
                                 "option": "--user",
                                 "version_added": "historical",
@@ -446,7 +446,7 @@
                             }
                         ],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "User name with which to login to the remote server, normally set by the remote_user keyword.",
                             "If no user is supplied, Ansible will let the ssh client binary choose the user as it normally"
@@ -454,7 +454,7 @@
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_REMOTE_USER",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -462,7 +462,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "remote_user",
                                 "section": "defaults",
                                 "version_added": "historical",
@@ -471,7 +471,7 @@
                         ],
                         "keyword": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "remote_user",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -482,13 +482,13 @@
                         "type": "str",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_user",
                                 "version_added": "historical",
                                 "version_added_collection": ""
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_ssh_user",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -502,14 +502,14 @@
                         "choices": [],
                         "cli": [],
                         "default": 3,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Number of attempts to connect."
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_SSH_RETRIES",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -517,14 +517,14 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "retries",
                                 "section": "connection",
                                 "version_added": "historical",
                                 "version_added_collection": ""
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "retries",
                                 "section": "ssh_connection",
                                 "version_added": "historical",
@@ -537,7 +537,7 @@
                         "type": "int",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_ssh_retries",
                                 "version_added": "2.7",
                                 "version_added_collection": "ansible.builtin"
@@ -551,14 +551,14 @@
                         "choices": [],
                         "cli": [],
                         "default": "scp",
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "This defines the location of the scp binary. It defaults to `scp` which will use the first binary available in $PATH."
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_SCP_EXECUTABLE",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -566,7 +566,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "scp_executable",
                                 "section": "ssh_connection",
                                 "version_added": "historical",
@@ -579,7 +579,7 @@
                         "type": "str",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_scp_executable",
                                 "version_added": "2.7",
                                 "version_added_collection": "ansible.builtin"
@@ -593,7 +593,7 @@
                         "choices": [],
                         "cli": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "scp_extra_args",
                                 "option": "--scp-extra-args",
                                 "version_added": "historical",
@@ -601,14 +601,14 @@
                             }
                         ],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Extra exclusive to the ``scp`` CLI"
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_SCP_EXTRA_ARGS",
                                 "version_added": "2.7",
                                 "version_added_collection": "ansible.builtin"
@@ -616,7 +616,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "scp_extra_args",
                                 "section": "ssh_connection",
                                 "version_added": "2.7",
@@ -629,7 +629,7 @@
                         "type": "str",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_scp_extra_args",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -643,7 +643,7 @@
                         "choices": [],
                         "cli": [],
                         "default": "smart",
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Preferred method to use when transfering files over ssh",
                             "When set to smart, Ansible will try them until one succeeds or they all fail",
@@ -652,7 +652,7 @@
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_SCP_IF_SSH",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -660,7 +660,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "scp_if_ssh",
                                 "section": "ssh_connection",
                                 "version_added": "historical",
@@ -673,7 +673,7 @@
                         "type": "str",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_scp_if_ssh",
                                 "version_added": "2.7",
                                 "version_added_collection": "ansible.builtin"
@@ -687,14 +687,14 @@
                         "choices": [],
                         "cli": [],
                         "default": true,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "TODO: write it"
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_SFTP_BATCH_MODE",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -702,7 +702,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "sftp_batch_mode",
                                 "section": "ssh_connection",
                                 "version_added": "historical",
@@ -715,7 +715,7 @@
                         "type": "bool",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_sftp_batch_mode",
                                 "version_added": "2.7",
                                 "version_added_collection": "ansible.builtin"
@@ -729,14 +729,14 @@
                         "choices": [],
                         "cli": [],
                         "default": "sftp",
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "This defines the location of the sftp binary. It defaults to ``sftp`` which will use the first binary available in $PATH."
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_SFTP_EXECUTABLE",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -744,7 +744,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "sftp_executable",
                                 "section": "ssh_connection",
                                 "version_added": "historical",
@@ -757,7 +757,7 @@
                         "type": "str",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_sftp_executable",
                                 "version_added": "2.7",
                                 "version_added_collection": "ansible.builtin"
@@ -771,7 +771,7 @@
                         "choices": [],
                         "cli": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "sftp_extra_args",
                                 "option": "--sftp-extra-args",
                                 "version_added": "historical",
@@ -779,14 +779,14 @@
                             }
                         ],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Extra exclusive to the ``sftp`` CLI"
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_SFTP_EXTRA_ARGS",
                                 "version_added": "2.7",
                                 "version_added_collection": "ansible.builtin"
@@ -794,7 +794,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "sftp_extra_args",
                                 "section": "ssh_connection",
                                 "version_added": "2.7",
@@ -807,7 +807,7 @@
                         "type": "str",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_sftp_extra_args",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -821,7 +821,7 @@
                         "choices": [],
                         "cli": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ssh_args",
                                 "option": "--ssh-args",
                                 "version_added": "historical",
@@ -829,14 +829,14 @@
                             }
                         ],
                         "default": "-C -o ControlMaster=auto -o ControlPersist=60s",
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Arguments to pass to all ssh cli tools"
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_SSH_ARGS",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -844,7 +844,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "ssh_args",
                                 "section": "ssh_connection",
                                 "version_added": "historical",
@@ -857,7 +857,7 @@
                         "type": "str",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_ssh_args",
                                 "version_added": "2.7",
                                 "version_added_collection": "ansible.builtin"
@@ -871,7 +871,7 @@
                         "choices": [],
                         "cli": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ssh_common_args",
                                 "option": "--ssh-common-args",
                                 "version_added": "historical",
@@ -879,14 +879,14 @@
                             }
                         ],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Common extra args for all ssh CLI tools"
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_SSH_COMMON_ARGS",
                                 "version_added": "2.7",
                                 "version_added_collection": "ansible.builtin"
@@ -894,7 +894,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "ssh_common_args",
                                 "section": "ssh_connection",
                                 "version_added": "2.7",
@@ -907,7 +907,7 @@
                         "type": "str",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_ssh_common_args",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -921,7 +921,7 @@
                         "choices": [],
                         "cli": [],
                         "default": "ssh",
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "This defines the location of the ssh binary. It defaults to ``ssh`` which will use the first ssh binary available in $PATH.",
                             "This option is usually not required, it might be useful when access to system ssh is restricted, or when using ssh wrappers to connect to remote hosts."
@@ -929,7 +929,7 @@
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_SSH_EXECUTABLE",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -937,7 +937,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "ssh_executable",
                                 "section": "ssh_connection",
                                 "version_added": "historical",
@@ -950,7 +950,7 @@
                         "type": "str",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_ssh_executable",
                                 "version_added": "2.7",
                                 "version_added_collection": "ansible.builtin"
@@ -964,7 +964,7 @@
                         "choices": [],
                         "cli": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ssh_extra_args",
                                 "option": "--ssh-extra-args",
                                 "version_added": "historical",
@@ -972,14 +972,14 @@
                             }
                         ],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Extra exclusive to the 'ssh' CLI"
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_SSH_EXTRA_ARGS",
                                 "version_added": "2.7",
                                 "version_added_collection": "ansible.builtin"
@@ -987,7 +987,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "ssh_extra_args",
                                 "section": "ssh_connection",
                                 "version_added": "2.7",
@@ -1000,7 +1000,7 @@
                         "type": "str",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_ssh_extra_args",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -1019,7 +1019,7 @@
                         ],
                         "cli": [],
                         "default": "smart",
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Preferred method to use when transferring files over ssh",
                             "Setting to 'smart' (default) will try them in order, until one succeeds or they all fail",
@@ -1028,7 +1028,7 @@
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_SSH_TRANSFER_METHOD",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -1036,7 +1036,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "transfer_method",
                                 "section": "ssh_connection",
                                 "version_added": "historical",
@@ -1056,14 +1056,14 @@
                         "choices": [],
                         "cli": [],
                         "default": "",
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Password prompt that sshpass should search for. Supported by sshpass 1.06 and up."
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_SSHPASS_PROMPT",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -1071,7 +1071,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "sshpass_prompt",
                                 "section": "ssh_connection",
                                 "version_added": "historical",
@@ -1084,7 +1084,7 @@
                         "type": "str",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_sshpass_prompt",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -1098,7 +1098,7 @@
                         "choices": [],
                         "cli": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "timeout",
                                 "option": "--timeout",
                                 "version_added": "historical",
@@ -1106,7 +1106,7 @@
                             }
                         ],
                         "default": 10,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "This is the default ammount of time we will wait while establishing an ssh connection",
                             "It also controls how long we can wait to access reading the connection once established (select on the socket)"
@@ -1114,13 +1114,13 @@
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_TIMEOUT",
                                 "version_added": "historical",
                                 "version_added_collection": ""
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_SSH_TIMEOUT",
                                 "version_added": "2.11",
                                 "version_added_collection": "ansible.builtin"
@@ -1128,14 +1128,14 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "timeout",
                                 "section": "defaults",
                                 "version_added": "historical",
                                 "version_added_collection": ""
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "timeout",
                                 "section": "ssh_connection",
                                 "version_added": "2.11",
@@ -1148,7 +1148,7 @@
                         "type": "int",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_ssh_timeout",
                                 "version_added": "2.11",
                                 "version_added_collection": "ansible.builtin"
@@ -1162,14 +1162,14 @@
                         "choices": [],
                         "cli": [],
                         "default": true,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "add -tt to ssh commands to force tty allocation"
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_SSH_USETTY",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -1177,7 +1177,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "usetty",
                                 "section": "ssh_connection",
                                 "version_added": "historical",
@@ -1190,7 +1190,7 @@
                         "type": "bool",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_ssh_use_tty",
                                 "version_added": "2.7",
                                 "version_added_collection": "ansible.builtin"

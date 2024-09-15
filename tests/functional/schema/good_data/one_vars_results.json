@@ -6,7 +6,7 @@
                 "author": [],
                 "attributes": {},
                 "collection": "",
-                "deprecated": {},
+                "deprecated": null,
                 "description": [
                     "Loads YAML vars into corresponding groups/hosts in group_vars/ and host_vars/ directories.",
                     "Files are restricted by extension to one of .yaml, .json, .yml or no extension.",
@@ -28,7 +28,7 @@
                             ".yaml",
                             ".json"
                         ],
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Check all of these extensions when looking for 'variable' files which should be YAML or JSON or vaulted versions of these.",
                             "This affects vars_files, include_vars, inventory and vars plugins among others."
@@ -36,7 +36,7 @@
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_YAML_FILENAME_EXT",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -44,7 +44,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "defaults",
                                 "section": "yaml_valid_extensions",
                                 "version_added": "historical",
@@ -68,7 +68,7 @@
                         ],
                         "cli": [],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Control when this vars plugin may be executed.",
                             "Setting this option to C(all) will run the vars plugin after importing inventory and whenever it is demanded by a task.",
@@ -79,7 +79,7 @@
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_VARS_PLUGIN_STAGE",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -87,7 +87,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "stage",
                                 "section": "vars_host_group_vars",
                                 "version_added": "historical",

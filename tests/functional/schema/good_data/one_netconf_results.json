@@ -8,7 +8,7 @@
                 ],
                 "attributes": {},
                 "collection": "",
-                "deprecated": {},
+                "deprecated": null,
                 "description": [
                     "This iosxr plugin provides low level abstraction apis for sending and receiving netconf commands from Cisco iosxr network devices."
                 ],
@@ -22,7 +22,7 @@
                         "choices": [],
                         "cli": [],
                         "default": "iosxr",
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Specifies the ncclient device handler name for Cisco iosxr network os. To identify the ncclient device handler name refer ncclient library documentation."
                         ],

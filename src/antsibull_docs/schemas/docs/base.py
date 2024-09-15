@@ -623,7 +623,7 @@ class DocSchema(BaseModel):
     short_description: str
     aliases: list[str] = []
     author: list[str] = []
-    deprecated: DeprecationSchema = p.Field({})
+    deprecated: t.Optional[DeprecationSchema] = None
     extends_documentation_fragment: list[str] = []
     filename: str = ""
     notes: list[str] = []

@@ -52,7 +52,7 @@ class RoleEntrypointSchema(PluginExamplesSchema, BaseModel):
     description: list[str]
     short_description: str
     author: list[str] = []
-    deprecated: DeprecationSchema = p.Field({})
+    deprecated: t.Optional[DeprecationSchema] = None
     notes: list[str] = []
     requirements: list[str] = []
     seealso: list[SeeAlsoSchemaT] = []
