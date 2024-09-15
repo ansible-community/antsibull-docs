@@ -613,7 +613,7 @@
     "description": "Number of seconds to delay between retries. This setting is only used in combination with :term:`until`.",
     "priority": 0,
     "template": "explicit",
-    "type": "int"
+    "type": "float"
    },
    "delegate_facts": {
     "applies_to": [

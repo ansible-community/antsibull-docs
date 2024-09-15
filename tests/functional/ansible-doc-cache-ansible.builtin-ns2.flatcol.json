@@ -6562,7 +6562,7 @@
     "description": "Number of seconds to delay between retries. This setting is only used in combination with :term:`until`.",
     "priority": 0,
     "template": "explicit",
-    "type": "int"
+    "type": "float"
    },
    "delegate_facts": {
     "applies_to": [
@@ -12431,7 +12431,7 @@
       "force": {
        "default": false,
        "description": [
-        "Force the creation of the symlinks in two cases: the source file does not exist (but will appear later); the destination exists and is a file (so, we need to unlink the O(path) file and create a symlink to the O(src) file in place of it).\n"
+        "Force the creation of the links in two cases: if the link type is symbolic and the source file does not exist (but will appear later); the destination exists and is a file (so, we need to unlink the O(path) file and create a link to the O(src) file in place of it).\n"
        ],
        "type": "bool"
       },
@@ -23321,7 +23321,7 @@
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "big: [1,2,3,4,5]\nsml: [3,4]\nissmallinbig: '{{ small is subset(big) }}'\n",
+    "examples": "big: [1,2,3,4,5]\nsmall: [3,4]\nissmallinbig: '{{ small is subset(big) }}'\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -23832,7 +23832,7 @@
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "big: [1,2,3,4,5]\nsml: [3,4]\nissmallinbig: '{{ small is subset(big) }}'\n",
+    "examples": "big: [1,2,3,4,5]\nsmall: [3,4]\nissmallinbig: '{{ small is subset(big) }}'\n",
     "metadata": null,
     "return": {
      "_value": {
