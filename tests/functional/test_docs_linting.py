@@ -180,6 +180,7 @@ Foo ``bar`.
 
 TEST_CASES = [
     (
+        "ns.col2-self",
         "ns",
         "col2",
         (
@@ -262,6 +263,7 @@ TEST_CASES = [
         ],
     ),
     (
+        "ns.col2-dependent",
         "ns",
         "col2",
         ("--validate-collection-refs", "dependent"),
@@ -359,6 +361,7 @@ TEST_CASES = [
         ],
     ),
     (
+        "ns.col2-all",
         "ns",
         "col2",
         ("--validate-collection-refs", "all"),
@@ -464,6 +467,7 @@ TEST_CASES = [
         ],
     ),
     (
+        "ns.col2-self-disallow",
         "ns",
         "col2",
         (
@@ -606,6 +610,7 @@ TEST_CASES = [
         ],
     ),
     (
+        "ns.col2-dependent-disallow",
         "ns",
         "col2",
         (
@@ -732,6 +737,7 @@ TEST_CASES = [
         ],
     ),
     (
+        "ns.col2-all-disallow",
         "ns",
         "col2",
         ("--validate-collection-refs", "all", "--disallow-unknown-collection-refs"),
@@ -852,6 +858,7 @@ TEST_CASES = [
         ],
     ),
     (
+        "ns.col2-dependent-disallow-with-others",
         "ns",
         "col2",
         ("--validate-collection-refs", "all", "--disallow-unknown-collection-refs"),
@@ -967,6 +974,7 @@ TEST_CASES = [
         ],
     ),
     (
+        "ns.col2",
         "ns2",
         "col",
         (),
@@ -975,6 +983,7 @@ TEST_CASES = [
         [],
     ),
     (
+        "ns.flatcol",
         "ns2",
         "flatcol",
         (),
@@ -1019,9 +1028,12 @@ def update_environment(environment: dict[str, str | None]):
 
 
 @pytest.mark.parametrize(
-    "namespace, name, parameters, environment, rc, errors", TEST_CASES
+    "id, namespace, name, parameters, environment, rc, errors",
+    TEST_CASES,
+    ids=[entry[0] for entry in TEST_CASES],
 )
 def test_lint_collection_plugin_docs(
+    id: int,
     namespace: str,
     name: str,
     parameters: tuple[str],
@@ -1058,4 +1070,7 @@ def test_lint_collection_plugin_docs(
     actual_errors = stdout.getvalue().splitlines()
     print("\n".join(actual_errors))
     assert actual_rc == rc
+    if actual_errors != errors:
+        with open(f"lint-{id}-errors.txt", "w", encoding="utf-8") as f:
+            f.write(repr(actual_errors))
     assert actual_errors == errors
