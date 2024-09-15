@@ -187,14 +187,14 @@ Parameters
 
       - INI entries:
 
-        .. code-block::
+        .. code-block:: ini
 
           [privilege_escalation]
           become_exe = foo
 
 
 
-        .. code-block::
+        .. code-block:: ini
 
           [foo_become_plugin]
           executable = foo
@@ -279,7 +279,7 @@ Parameters
 
       - INI entries:
 
-        .. code-block::
+        .. code-block:: ini
 
           [privilege_escalation]
           become_user = root
@@ -287,7 +287,7 @@ Parameters
         :ansible-option-versionadded:`added in ns2.col 0.1.0`
 
 
-        .. code-block::
+        .. code-block:: ini
 
           [foo_become_plugin]
           user = root

@@ -118,7 +118,7 @@ Parameters
 
       - INI entry:
 
-        .. code-block::
+        .. code-block:: ini
 
           [defaults]
           fact_caching_connection = VALUE

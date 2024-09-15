@@ -1,0 +1,2 @@
+minor_changes:
+  - "Use language ``ini`` for example INI code blocks (https://github.com/ansible-community/antsibull-docs/pull/335)."
