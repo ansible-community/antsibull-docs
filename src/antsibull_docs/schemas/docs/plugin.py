@@ -34,7 +34,7 @@ _EXAMPLES_FMT_RE = re.compile(r"^# fmt:\s+(\S+)")
 
 class OptionCliSchema(BaseModel):
     name: str = REQUIRED_CLI_F
-    deprecated: DeprecationSchema = p.Field({})
+    deprecated: t.Optional[DeprecationSchema] = None
     option: str = ""
     version_added: str = "historical"
     version_added_collection: str = COLLECTION_NAME_F
@@ -55,7 +55,7 @@ class OptionCliSchema(BaseModel):
 
 class OptionEnvSchema(BaseModel):
     name: str = REQUIRED_ENV_VAR_F
-    deprecated: DeprecationSchema = p.Field({})
+    deprecated: t.Optional[DeprecationSchema] = None
     version_added: str = "historical"
     version_added_collection: str = COLLECTION_NAME_F
 
@@ -63,21 +63,21 @@ class OptionEnvSchema(BaseModel):
 class OptionIniSchema(BaseModel):
     key: str
     section: str
-    deprecated: DeprecationSchema = p.Field({})
+    deprecated: t.Optional[DeprecationSchema] = None
     version_added: str = "historical"
     version_added_collection: str = COLLECTION_NAME_F
 
 
 class OptionVarsSchema(BaseModel):
     name: str
-    deprecated: DeprecationSchema = p.Field({})
+    deprecated: t.Optional[DeprecationSchema] = None
     version_added: str = "historical"
     version_added_collection: str = COLLECTION_NAME_F
 
 
 class OptionKeywordSchema(BaseModel):
     name: str
-    deprecated: DeprecationSchema = p.Field({})
+    deprecated: t.Optional[DeprecationSchema] = None
     version_added: str = "historical"
     version_added_collection: str = COLLECTION_NAME_F
 
@@ -190,7 +190,7 @@ class PluginOptionsSchema(OptionsSchema):
     suboptions: dict[str, "PluginOptionsSchema"] = {}
     vars: list[OptionVarsSchema] = []
     keyword: list[OptionKeywordSchema] = []
-    deprecated: DeprecationSchema = p.Field({})
+    deprecated: t.Optional[DeprecationSchema] = None
 
 
 PluginOptionsSchema.update_forward_refs()

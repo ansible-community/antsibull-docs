@@ -6,7 +6,7 @@
                 "author": [],
                 "attributes": {},
                 "collection": "",
-                "deprecated": {},
+                "deprecated": null,
                 "description": [
                     "Lookup metadata for a playbook from the key value store in a Consul cluster. Values can be easily set in the kv store with simple rest commands",
                     "C(curl -X PUT -d 'some-value' http://localhost:8500/v1/kv/ansible/somedata)"
@@ -21,7 +21,7 @@
                         "choices": [],
                         "cli": [],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "List of key(s) to retrieve."
                         ],
@@ -41,14 +41,14 @@
                         "choices": [],
                         "cli": [],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "The client cert to verify the ssl connection."
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_CONSUL_CLIENT_CERT",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -56,7 +56,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "client_cert",
                                 "section": "lookup_consul",
                                 "version_added": "historical",
@@ -76,7 +76,7 @@
                         "choices": [],
                         "cli": [],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Retrieve the key from a consul datatacenter other than the default for the consul host."
                         ],
@@ -96,7 +96,7 @@
                         "choices": [],
                         "cli": [],
                         "default": "localhost",
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "The target to connect to, must be a resolvable address. Will be determined from C(ANSIBLE_CONSUL_URL) if that is set.",
                             "C(ANSIBLE_CONSUL_URL) should look like this: C(https://my.consul.server:8500)"
@@ -104,7 +104,7 @@
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_CONSUL_URL",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -112,7 +112,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "host",
                                 "section": "lookup_consul",
                                 "version_added": "historical",
@@ -132,7 +132,7 @@
                         "choices": [],
                         "cli": [],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "If the key has a value with the specified index then this is returned allowing access to historical values."
                         ],
@@ -152,7 +152,7 @@
                         "choices": [],
                         "cli": [],
                         "default": 8500,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "The port of the target host to connect to.",
                             "If you use C(ANSIBLE_CONSUL_URL) this value will be used from there."
@@ -173,7 +173,7 @@
                         "choices": [],
                         "cli": [],
                         "default": 0,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "If true, will retrieve all the values that have the given key as prefix."
                         ],
@@ -193,7 +193,7 @@
                         "choices": [],
                         "cli": [],
                         "default": "http",
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Whether to use http or https.",
                             "If you use C(ANSIBLE_CONSUL_URL) this value will be used from there."
@@ -214,7 +214,7 @@
                         "choices": [],
                         "cli": [],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "The acl token to allow access to restricted values."
                         ],
@@ -234,14 +234,14 @@
                         "choices": [],
                         "cli": [],
                         "default": 1,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Whether to verify the ssl connection or not."
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_CONSUL_VALIDATE_CERTS",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -249,7 +249,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "validate_certs",
                                 "section": "lookup_consul",
                                 "version_added": "historical",

@@ -44,7 +44,7 @@ class _PluginDocsTextWalker:
     def _walk_deprecation(
         self, owner: dict[str, t.Any], key_path: str, role_entrypoint: str | None = None
     ) -> None:
-        if "deprecated" not in owner:
+        if not owner.get("deprecated"):
             return
         key_path = f"{key_path} -> deprecated"
         deprecated = owner["deprecated"]

@@ -8,7 +8,7 @@
                     "Ansible Core"
                 ],
                 "collection": "ansible.builtin",
-                "deprecated": {},
+                "deprecated": null,
                 "description": [
                     "Tests if task required changes to complete",
                     "This test checks for the existance of a C(changed) key in the input dictionary and that it is C(True) if present"
@@ -23,7 +23,7 @@
                         "choices": [],
                         "cli": [],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "registered result from an Ansible task"
                         ],

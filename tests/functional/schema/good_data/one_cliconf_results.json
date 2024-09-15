@@ -8,7 +8,7 @@
                 ],
                 "attributes": {},
                 "collection": "",
-                "deprecated": {},
+                "deprecated": null,
                 "description": [
                     "This eos plugin provides low level abstraction apis for sending and receiving CLI commands from Arista EOS network devices."
                 ],
@@ -22,14 +22,14 @@
                         "choices": [],
                         "cli": [],
                         "default": 1,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Specifies if sessions should be used on remote host or not"
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_EOS_USE_SESSIONS",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -42,7 +42,7 @@
                         "type": "bool",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_eos_use_sessions",
                                 "version_added": "2.7",
                                 "version_added_collection": "foo.bar"

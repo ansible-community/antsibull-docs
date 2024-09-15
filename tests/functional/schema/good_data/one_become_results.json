@@ -8,7 +8,7 @@
                 ],
                 "attributes": {},
                 "collection": "",
-                "deprecated": {},
+                "deprecated": null,
                 "description": [
                     "This become plugins allows elevated permissions on a remote network device."
                 ],
@@ -25,20 +25,20 @@
                         "choices": [],
                         "cli": [],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "password"
                         ],
                         "elements": "str",
                         "env": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_BECOME_PASS",
                                 "version_added": "historical",
                                 "version_added_collection": ""
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ANSIBLE_ENABLE_PASS",
                                 "version_added": "historical",
                                 "version_added_collection": ""
@@ -46,7 +46,7 @@
                         ],
                         "ini": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "key": "password",
                                 "section": "enable_become_plugin",
                                 "version_added": "historical",
@@ -59,19 +59,19 @@
                         "type": "str",
                         "vars": [
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_become_password",
                                 "version_added": "historical",
                                 "version_added_collection": ""
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_become_pass",
                                 "version_added": "historical",
                                 "version_added_collection": ""
                             },
                             {
-                                "deprecated": {},
+                                "deprecated": null,
                                 "name": "ansible_enable_pass",
                                 "version_added": "historical",
                                 "version_added_collection": ""

@@ -8,7 +8,7 @@
                     "Brian Coca (@bcoca)"
                 ],
                 "collection": "ansible.builtin",
-                "deprecated": {},
+                "deprecated": null,
                 "description": [
                     "Return the first value if the input is C(True), the second if C(False)."
                 ],
@@ -24,7 +24,7 @@
                         "choices": [],
                         "cli": [],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "A boolean expression, must evaluate to C(True) or C(False)."
                         ],
@@ -44,7 +44,7 @@
                         "choices": [],
                         "cli": [],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Value to return if the input is C(False)."
                         ],
@@ -64,7 +64,7 @@
                         "choices": [],
                         "cli": [],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Value to return if the input is C(None). If not set, C(None) will be treated as C(False)."
                         ],
@@ -84,7 +84,7 @@
                         "choices": [],
                         "cli": [],
                         "default": null,
-                        "deprecated": {},
+                        "deprecated": null,
                         "description": [
                             "Value to return if the input is C(True)."
                         ],
