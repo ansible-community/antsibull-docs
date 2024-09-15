@@ -8,6 +8,11 @@
 Index of all Connection Plugins
 ===============================
 
+ns.col2
+-------
+
+* :ansplugin:`ns.col2.extra#connection` --
+
 ns2.col
 -------
 

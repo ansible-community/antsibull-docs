@@ -3,6 +3,11 @@
 Index of all Test Plugins
 =========================
 
+ns.col2
+-------
+
+* `ns.col2.extra <ns/col2/extra_test.rst>`_ --
+
 ns2.col
 -------
 

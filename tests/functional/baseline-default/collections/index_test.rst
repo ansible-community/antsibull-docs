@@ -8,6 +8,11 @@
 Index of all Test Plugins
 =========================
 
+ns.col2
+-------
+
+* :ansplugin:`ns.col2.extra#test` --
+
 ns2.col
 -------
 

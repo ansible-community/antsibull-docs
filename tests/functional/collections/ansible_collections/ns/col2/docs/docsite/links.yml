@@ -6,22 +6,32 @@
 edit_on_github:
   branch: main
   path_prefi: tests/functional/collections/ansible_collections/ns/col2
+  extra: more
+
+extra: crap
 
 extra_link:
   - description: Submit a bug report
     url: https://github.com/ansible-community/antsibull-docs/issues/new?assignees=&labels=&template=bug_report.md
+    extra: more
 
 extra_links:
   foo: bar
 
 communication:
-  matrix_rooms: {}
+  matrix_rooms:
+    - extra: foo
+      name: bar
+      room: baz
   irc_channels:
     - topic: 42
       network: true
+      extra: foo
   mailing_lists:
-    - Ansible Project List
+    - name: Ansible Project List
+      extra: bar
   forums:
     - topic: foo
+      extra: baz
 
 bla:

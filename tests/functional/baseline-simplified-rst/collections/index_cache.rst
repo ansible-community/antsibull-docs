@@ -3,6 +3,11 @@
 Index of all Cache Plugins
 ==========================
 
+ns.col2
+-------
+
+* `ns.col2.extra <ns/col2/extra_cache.rst>`_ --
+
 ns2.col
 -------
 

@@ -11,6 +11,7 @@ Index of all Modules
 ns.col2
 -------
 
+* :ansplugin:`ns.col2.extra#module` --
 * :ansplugin:`ns.col2.foo#module` --
 * :ansplugin:`ns.col2.foo2#module` -- Foo two
 * :ansplugin:`ns.col2.foo3#module` -- Foo III

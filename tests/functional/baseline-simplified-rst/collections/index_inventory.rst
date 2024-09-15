@@ -3,6 +3,11 @@
 Index of all Inventory Plugins
 ==============================
 
+ns.col2
+-------
+
+* `ns.col2.extra <ns/col2/extra_inventory.rst>`_ --
+
 ns2.col
 -------
 

@@ -3,6 +3,11 @@
 Index of all Become Plugins
 ===========================
 
+ns.col2
+-------
+
+* `ns.col2.extra <ns/col2/extra_become.rst>`_ --
+
 ns2.col
 -------
 

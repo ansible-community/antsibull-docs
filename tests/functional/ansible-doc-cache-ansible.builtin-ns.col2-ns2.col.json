@@ -458,6 +458,116 @@
     "metadata": null,
     "return": null
    },
+   "ns.col2.extra": {
+    "doc": {
+     "author": "Nobody (!UNKNOWN)",
+     "collection": "ns.col2",
+     "deprecated": {
+      "alternatives": "Absolutely none.",
+      "extra": "bar",
+      "removed_from_collection": "ns.col2",
+      "removed_in": "5.0.0",
+      "why": "Boo."
+     },
+     "description": [
+      "This become plugin uses foo.",
+      "This is a second paragraph."
+     ],
+     "extra": "foo",
+     "filename": "ansible_collections/ns/col2/plugins/become/extra.py",
+     "name": "extra",
+     "options": {
+      "become_user": {
+       "default": "root",
+       "deprecated": {
+        "alternatives": "nothing\nrelevant\nI know of\n",
+        "collection_name": "ns.col2",
+        "extra": "foobaz",
+        "version": "4.0.0",
+        "why": "Just some other text.\nThis one has more than one line though.\nOne more.\n"
+       },
+       "description": "User you 'become' to execute the task.",
+       "env": [
+        {
+         "extra": "foobam",
+         "name": "ANSIBLE_BECOME_USER",
+         "version_added": "0.1.0",
+         "version_added_collection": "ns.col2"
+        },
+        {
+         "deprecated": {
+          "alternatives": "None.",
+          "collection_name": "ns.col2",
+          "extra": "foobarbaz",
+          "version": "4.0.0",
+          "why": "No idea."
+         },
+         "name": "ANSIBLE_FOO_USER"
+        }
+       ],
+       "extra": "baz",
+       "ini": [
+        {
+         "extra": "bam",
+         "key": "become_user",
+         "section": "privilege_escalation",
+         "version_added": "0.1.0",
+         "version_added_collection": "ns.col2"
+        },
+        {
+         "deprecated": {
+          "alternatives": "None.",
+          "collection_name": "ns.col2",
+          "extra": "foobarbaz",
+          "version": "4.0.0",
+          "why": "No idea."
+         },
+         "key": "user",
+         "section": "foo_become_plugin"
+        }
+       ],
+       "keyword": [
+        {
+         "deprecated": {
+          "alternatives": "None.",
+          "extra": "foobarbaz",
+          "version": "4.0.0",
+          "why": "No idea."
+         },
+         "extra": "foobar",
+         "name": "become_user",
+         "version_added": "0.1.0"
+        }
+       ],
+       "vars": [
+        {
+         "extra": "barbaz",
+         "name": "ansible_become_user"
+        },
+        {
+         "deprecated": {
+          "alternatives": "None.",
+          "collection_name": "ns.col2",
+          "extra": "foobarbaz",
+          "version": "4.0.0",
+          "why": "No idea."
+         },
+         "name": "ansible_foo_user",
+         "version_added": "0.1.0",
+         "version_added_collection": "ns.col2"
+        }
+       ]
+      }
+     },
+     "plugin_name": "ns.col2.extra",
+     "short_description": "Use foo O(bar)",
+     "version_added": "historical",
+     "version_added_collection": "ns.col2"
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
    "ns2.col.foo": {
     "doc": {
      "author": "Nobody (!UNKNOWN)",
@@ -683,6 +793,48 @@
      "short_description": "RAM backed, non persistent",
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ns.col2.extra": {
+    "doc": {
+     "author": "Ansible Core (@ansible-core)",
+     "collection": "ns.col2",
+     "description": [
+      "Cache foo files."
+     ],
+     "extra": "indeed",
+     "filename": "ansible_collections/ns/col2/plugins/cache/extra.py",
+     "name": "extra",
+     "options": {
+      "_uri": {
+       "description": [
+        "Path in which the cache plugin will save the foo files."
+       ],
+       "env": [
+        {
+         "extra": "More extra.",
+         "name": "ANSIBLE_CACHE_PLUGIN_CONNECTION"
+        }
+       ],
+       "extra": "more",
+       "ini": [
+        {
+         "extra": "Yes.",
+         "key": "fact_caching_connection",
+         "section": "defaults"
+        }
+       ],
+       "required": true,
+       "type": "path"
+      }
+     },
+     "plugin_name": "ns.col2.extra",
+     "short_description": "Some extra attributes",
+     "version_added": "1.9.0",
+     "version_added_collection": "ns.col2"
     },
     "examples": null,
     "metadata": null,
@@ -1193,6 +1345,32 @@
     "metadata": null,
     "return": null
    },
+   "ns.col2.extra": {
+    "doc": {
+     "collection": "ns.col2",
+     "description": [
+      "Absolut minimal foo output."
+     ],
+     "extra": "Ja.",
+     "filename": "ansible_collections/ns/col2/plugins/callback/extra.py",
+     "name": "extra",
+     "options": {
+      "bar": {
+       "description": "Nothing.",
+       "extra": "More.",
+       "type": "string"
+      }
+     },
+     "plugin_name": "ns.col2.extra",
+     "short_description": "Some extra",
+     "type": "stdout",
+     "version_added": "0.0.1",
+     "version_added_collection": "ns.col2"
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
    "ns2.col.foo": {
     "doc": {
      "collection": "ns2.col",
@@ -1219,6 +1397,23 @@
    }
   },
   "cliconf": {
+   "ns.col2.extra": {
+    "doc": {
+     "author": "Felix Fontein (@felixfontein) <felix@fontein.de>",
+     "collection": "ns.col2",
+     "description": [
+      "This is a CLI config for foo routers. Whatever these are."
+     ],
+     "extra": "More extra.",
+     "filename": "ansible_collections/ns/col2/plugins/cliconf/extra.py",
+     "name": "extra",
+     "plugin_name": "ns.col2.extra",
+     "short_description": "Extra routing"
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
    "ns2.col.foo": {
     "doc": {
      "author": "Felix Fontein (@felixfontein) <felix@fontein.de>",
@@ -3198,6 +3393,54 @@
      "short_description": "Run tasks over Microsoft's WinRM",
      "version_added": "2.0",
      "version_added_collection": "ansible.builtin"
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ns.col2.extra": {
+    "doc": {
+     "author": "ansible (@core)",
+     "collection": "ns.col2",
+     "description": [
+      "This is for the C(foo) connection."
+     ],
+     "extra": "Present.",
+     "filename": "ansible_collections/ns/col2/plugins/connection/extra.py",
+     "name": "extra",
+     "notes": [
+      "Some note. B(Something in bold). C(And in code). I(And in italics). An URL: U(https://example.org).",
+      "And another one. L(A link, https://example.com)."
+     ],
+     "options": {
+      "host": {
+       "default": "inventory_hostname",
+       "description": "Hostname to connect to.",
+       "extra": "Value.",
+       "vars": [
+        {
+         "extra": "Yeah.",
+         "name": "inventory_hostname"
+        },
+        {
+         "name": "ansible_host"
+        },
+        {
+         "name": "ansible_ssh_host"
+        },
+        {
+         "name": "delegated_vars['ansible_host']"
+        },
+        {
+         "name": "delegated_vars['ansible_ssh_host']"
+        }
+       ]
+      }
+     },
+     "plugin_name": "ns.col2.extra",
+     "short_description": "Extra whatever",
+     "version_added": "1.2.0",
+     "version_added_collection": "ns.col2"
     },
     "examples": null,
     "metadata": null,
@@ -6229,6 +6472,37 @@
      }
     }
    },
+   "ns.col2.extra": {
+    "doc": {
+     "collection": "ns.col2",
+     "description": [
+      "Do some fooing."
+     ],
+     "extra": "nope",
+     "filename": "ansible_collections/ns/col2/plugins/filter/extra.py",
+     "name": "extra",
+     "options": {
+      "_input": {
+       "description": "The main input.",
+       "extra": "Yeah.",
+       "required": true,
+       "type": "str"
+      }
+     },
+     "plugin_name": "ns.col2.extra",
+     "short_description": "The foo filter O(bar)",
+     "version_added": "1.3.0",
+     "version_added_collection": "ns.col2"
+    },
+    "examples": "\nsome_var: \"{{ 'foo' | ns2.col.extra }}\"\n",
+    "metadata": null,
+    "return": {
+     "_value": {
+      "description": "The result.",
+      "type": "str"
+     }
+    }
+   },
    "ns2.col.bar": {
     "doc": {
      "collection": "ns2.col",
@@ -6717,6 +6991,31 @@
     "metadata": null,
     "return": null
    },
+   "ns.col2.extra": {
+    "doc": {
+     "collection": "ns.col2",
+     "description": [
+      "Loads inventory from foo."
+     ],
+     "extra": "Toplevel.",
+     "filename": "ansible_collections/ns/col2/plugins/inventory/extra.py",
+     "name": "extra",
+     "options": {
+      "bar": {
+       "description": "Foo bar.",
+       "extra": "Option.",
+       "type": "string"
+      }
+     },
+     "plugin_name": "ns.col2.extra",
+     "short_description": "The extra inventory",
+     "version_added": "0.5.0",
+     "version_added_collection": "ns.col2"
+    },
+    "examples": "\nfoo:\n    bar!\n",
+    "metadata": null,
+    "return": null
+   },
    "ns2.col.foo": {
     "doc": {
      "collection": "ns2.col",
@@ -6951,7 +7250,7 @@
     "description": "Number of seconds to delay between retries. This setting is only used in combination with :term:`until`.",
     "priority": 0,
     "template": "explicit",
-    "type": "int"
+    "type": "float"
    },
    "delegate_facts": {
     "applies_to": [
@@ -8905,6 +9204,44 @@
        "value of the variables requested."
       ],
       "elements": "raw",
+      "type": "list"
+     }
+    }
+   },
+   "ns.col2.extra": {
+    "doc": {
+     "author": "Felix Fontein (@felixfontein)",
+     "collection": "ns.col2",
+     "description": [
+      "This looks up some foo.",
+      "Whatever that is."
+     ],
+     "extra": "lookup",
+     "filename": "ansible_collections/ns/col2/plugins/lookup/extra.py",
+     "name": "extra",
+     "options": {
+      "_terms": {
+       "description": "The stuff to look up.",
+       "elements": "str",
+       "extra": "stuff",
+       "required": true,
+       "type": "list"
+      }
+     },
+     "plugin_name": "ns.col2.extra",
+     "short_description": "Look up some foo O(bar)",
+     "version_added": "1.0.0",
+     "version_added_collection": "ns.col2"
+    },
+    "examples": "\n- name: Look up extra\n  ansible.builtin.debug:\n    msg: \"{{ lookup('ns2.col.extra', 'bar') }}\"\n",
+    "metadata": null,
+    "return": {
+     "_raw": {
+      "description": [
+       "The resulting stuff."
+      ],
+      "elements": "str",
+      "extra": "more",
       "type": "list"
      }
     }
@@ -12859,7 +13196,7 @@
       "force": {
        "default": false,
        "description": [
-        "Force the creation of the symlinks in two cases: the source file does not exist (but will appear later); the destination exists and is a file (so, we need to unlink the O(path) file and create a symlink to the O(src) file in place of it).\n"
+        "Force the creation of the links in two cases: if the link type is symbolic and the source file does not exist (but will appear later); the destination exists and is a file (so, we need to unlink the O(path) file and create a link to the O(src) file in place of it).\n"
        ],
        "type": "bool"
       },
@@ -22547,6 +22884,121 @@
      }
     }
    },
+   "ns.col2.extra": {
+    "doc": {
+     "attributes": {
+      "action_group": {
+       "description": "Use C(group/ns2.col.foo_group) in C(module_defaults) to set defaults for this module.",
+       "extra": "baz",
+       "membership": [
+        "ns2.col.foo_group"
+       ],
+       "support": "full"
+      },
+      "check_mode": {
+       "description": "Can run in check_mode and return changed status prediction without modifying target",
+       "extra": "yeah",
+       "support": "full"
+      },
+      "diff_mode": {
+       "description": "Will return details on what has changed (or possibly needs changing in check_mode), when in diff mode",
+       "extra": "foo",
+       "support": "full"
+      },
+      "platform": {
+       "description": "Target OS/families that can be operated against",
+       "extra": "bar",
+       "platforms": "posix",
+       "support": "N/A"
+      }
+     },
+     "author": [
+      "Ansible Core Team",
+      "Someone else (@ansible)"
+     ],
+     "collection": "ns.col2",
+     "description": [
+      "Does some foo on the remote host.",
+      "Whether foo is magic or not has not yet been determined.",
+      "E(FOOBAR1), E(FOOBAR2), E(FOOBAR3), E(FOOBAR4)."
+     ],
+     "extra": "more.",
+     "filename": "ansible_collections/ns/col2/plugins/modules/extra.py",
+     "has_action": false,
+     "module": "extra",
+     "options": {
+      "foo": {
+       "description": "The foo source.",
+       "extra": "foo",
+       "required": true,
+       "type": "str"
+      },
+      "subfoo": {
+       "description": "Some recursive foo.",
+       "extra": "subfoo",
+       "suboptions": {
+        "foo": {
+         "description": [
+          "A sub foo.",
+          "Whatever.",
+          "Also required when O(subfoo) is specified when O(foo=bar) or V(baz)."
+         ],
+         "extra": "foo",
+         "required": true,
+         "type": "str"
+        }
+       },
+       "type": "dict",
+       "version_added": "2.0.0",
+       "version_added_collection": "ns.col2"
+      }
+     },
+     "plugin_name": "ns.col2.extra",
+     "requirements": [
+      "Foo on remote."
+     ],
+     "seealso": [
+      {
+       "extra": "bam",
+       "module": "ns2.col.foo2"
+      },
+      {
+       "extra": "bar",
+       "plugin": "ns2.col.foo",
+       "plugin_type": "lookup"
+      },
+      {
+       "description": "The service module.",
+       "extra": "foobar",
+       "module": "ansible.builtin.service"
+      },
+      {
+       "description": "The ssh connection plugin.",
+       "extra": "bambarbaz",
+       "plugin": "ansible.builtin.ssh",
+       "plugin_type": "connection"
+      }
+     ],
+     "short_description": "Do some foo O(bar)",
+     "version_added": "2.0.0",
+     "version_added_collection": "ns.col2"
+    },
+    "examples": "\n- name: Do some foo\n  ns2.col.extra:\n    foo: '{{ foo }}'\n    bar:\n      - 1\n      - 2\n      - 3\n    subfoo:\n      foo: hoo!\n",
+    "metadata": null,
+    "return": {
+     "bar": {
+      "description": [
+       "Some bar.",
+       "Referencing myself as RV(bar).",
+       "Do not confuse with O(bar)."
+      ],
+      "extra": "foobar",
+      "returned": "success",
+      "sample": "baz",
+      "type": "str"
+     }
+    }
+   },
    "ns.col2.foo": {
     "doc": {
      "attributes": {
@@ -23245,6 +23697,71 @@
     },
     "path": "ansible_collections/ns/col2"
    },
+   "ns.col2.extra": {
+    "collection": "ns.col2",
+    "entry_points": {
+     "baz": {
+      "description": [
+       "This is the baz entrypoint of the bar role."
+      ],
+      "examples": "An example.",
+      "extra": "more.",
+      "short_description": "Bar role, baz entrypoint \u30c6\u30b9\u30c8\u30ed\u30fc\u30eb"
+     },
+     "main": {
+      "author": [
+       "Felix Fontein (@felixfontein)"
+      ],
+      "description": [
+       "This is the bar role."
+      ],
+      "extra": "main",
+      "options": {
+       "bar": {
+        "description": "Text.",
+        "options": {
+         "subbar": {
+          "description": "Sub bar.",
+          "elements": "string",
+          "extra": "more",
+          "type": "list"
+         },
+         "subfoo": {
+          "description": [
+           "Sub foo."
+          ],
+          "extra": "yo",
+          "type": "int"
+         }
+        },
+        "type": "dict"
+       },
+       "foo": {
+        "description": "Text.",
+        "extra": "bar",
+        "type": "string"
+       }
+      },
+      "seealso": [
+       {
+        "extra": "foo",
+        "module": "ns2.col.foo"
+       },
+       {
+        "extra": "bar",
+        "module": "ns2.col.foobarbaz"
+       },
+       {
+        "extra": "baz",
+        "plugin": "ns2.col.foo",
+        "plugin_type": "lookup"
+       }
+      ],
+      "short_description": "Bar role"
+     }
+    },
+    "path": "ansible_collections/ns/col2"
+   },
    "ns2.col.foo": {
     "collection": "ns2.col",
     "entry_points": {
@@ -23611,6 +24128,57 @@
     "metadata": null,
     "return": null
    },
+   "ns.col2.extra": {
+    "doc": {
+     "collection": "ns.col2",
+     "description": [
+      "This is for the foo shell."
+     ],
+     "extra": "toplevel",
+     "filename": "ansible_collections/ns/col2/plugins/shell/extra.py",
+     "name": "extra",
+     "options": {
+      "remote_tmp": {
+       "default": "~/.ansible/tmp",
+       "description": [
+        "Temporary directory to use on targets when executing tasks."
+       ],
+       "env": [
+        {
+         "extra": "env",
+         "name": "ANSIBLE_REMOTE_TEMP"
+        },
+        {
+         "name": "ANSIBLE_REMOTE_TMP"
+        }
+       ],
+       "extra": "option",
+       "ini": [
+        {
+         "extra": "ini",
+         "key": "remote_tmp",
+         "section": "defaults"
+        }
+       ],
+       "vars": [
+        {
+         "extra": "var",
+         "name": "ansible_remote_tmp"
+        }
+       ],
+       "version_added": "2.10",
+       "version_added_collection": "ansible.builtin"
+      }
+     },
+     "plugin_name": "ns.col2.extra",
+     "short_description": "Foo shell O(bar)",
+     "version_added": "1.0.0",
+     "version_added_collection": "ns.col2"
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
    "ns2.col.foo": {
     "doc": {
      "collection": "ns2.col",
@@ -23734,6 +24302,25 @@
      "short_description": "Executes tasks in a linear fashion",
      "version_added": "2.0",
      "version_added_collection": "ansible.builtin"
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ns.col2.extra": {
+    "doc": {
+     "author": "Ansible Core Team",
+     "collection": "ns.col2",
+     "description": [
+      "This is something funny. Or at least I think so from its name."
+     ],
+     "extra": "more",
+     "filename": "ansible_collections/ns/col2/plugins/strategy/extra.py",
+     "name": "extra",
+     "plugin_name": "ns.col2.extra",
+     "short_description": "Executes tasks in foo",
+     "version_added": "1.1.0",
+     "version_added_collection": "ns.col2"
     },
     "examples": null,
     "metadata": null,
@@ -24448,7 +25035,7 @@
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "big: [1,2,3,4,5]\nsml: [3,4]\nissmallinbig: '{{ small is subset(big) }}'\n",
+    "examples": "big: [1,2,3,4,5]\nsmall: [3,4]\nissmallinbig: '{{ small is subset(big) }}'\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -24959,7 +25546,7 @@
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "big: [1,2,3,4,5]\nsml: [3,4]\nissmallinbig: '{{ small is subset(big) }}'\n",
+    "examples": "big: [1,2,3,4,5]\nsmall: [3,4]\nissmallinbig: '{{ small is subset(big) }}'\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -25511,6 +26098,37 @@
      }
     }
    },
+   "ns.col2.extra": {
+    "doc": {
+     "author": "Nobody",
+     "collection": "ns.col2",
+     "description": [
+      "Check whether the input dictionary is a foo."
+     ],
+     "extra": "stuff",
+     "filename": "ansible_collections/ns/col2/plugins/test/extra.py",
+     "name": "extra",
+     "options": {
+      "_input": {
+       "description": "Something to test.",
+       "extra": "value",
+       "required": true,
+       "type": "dictionary"
+      }
+     },
+     "plugin_name": "ns.col2.extra",
+     "short_description": "Is something a foo O(bar)"
+    },
+    "examples": "\nsome_var: \"{{ {'a': 1} is ns2.col.extra }}\"\n",
+    "metadata": null,
+    "return": {
+     "_value": {
+      "description": "Whether the input is a foo.",
+      "extra": "yes.",
+      "type": "boolean"
+     }
+    }
+   },
    "ns2.col.bar": {
     "doc": {
      "aliases": [
@@ -25678,6 +26296,55 @@
      "short_description": "In charge of loading group_vars and host_vars",
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ns.col2.extra": {
+    "doc": {
+     "collection": "ns.col2",
+     "description": [
+      "Load some foo.",
+      "This is so glorious."
+     ],
+     "extra": "vars",
+     "filename": "ansible_collections/ns/col2/plugins/vars/extra.py",
+     "name": "extra",
+     "options": {
+      "_valid_extensions": {
+       "default": [
+        ".foo",
+        ".foobar"
+       ],
+       "description": [
+        "All extensions to check."
+       ],
+       "elements": "string",
+       "env": [
+        {
+         "extra": "env",
+         "name": "ANSIBLE_FOO_FILENAME_EXT"
+        }
+       ],
+       "extra": "stuff",
+       "ini": [
+        {
+         "extra": "ini",
+         "key": "foo_valid_extensions",
+         "section": "defaults"
+        }
+       ],
+       "type": "list"
+      }
+     },
+     "plugin_name": "ns.col2.extra",
+     "requirements": [
+      "Enabled in Ansible's configuration."
+     ],
+     "short_description": "Load foo O(bar)",
+     "version_added": "0.9.0",
+     "version_added_collection": "ns.col2"
     },
     "examples": null,
     "metadata": null,

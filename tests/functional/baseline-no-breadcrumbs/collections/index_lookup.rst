@@ -8,6 +8,11 @@
 Index of all Lookup Plugins
 ===========================
 
+ns.col2
+-------
+
+* :ansplugin:`ns.col2.extra#lookup` --
+
 ns2.col
 -------
 

@@ -8,6 +8,11 @@
 Index of all Vars Plugins
 =========================
 
+ns.col2
+-------
+
+* :ansplugin:`ns.col2.extra#vars` --
+
 ns2.col
 -------
 

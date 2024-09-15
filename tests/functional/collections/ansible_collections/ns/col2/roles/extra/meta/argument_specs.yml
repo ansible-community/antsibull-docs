@@ -1,0 +1,47 @@
+---
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: Ansible Project
+
+argument_specs:
+  main:
+    extra: main
+    short_description: Bar role
+    description:
+      - This is the bar role.
+    author:
+      - Felix Fontein (@felixfontein)
+    seealso:
+      - module: ns2.col.foo
+        extra: foo
+      - module: ns2.col.foobarbaz
+        # does not exist
+        extra: bar
+      - plugin: ns2.col.foo
+        plugin_type: lookup
+        extra: baz
+    options:
+      foo:
+        type: string
+        description: Text.
+        extra: bar
+      bar:
+        type: dict
+        description: Text.
+        options:
+          subfoo:
+            type: int
+            description:
+              - Sub foo.
+            extra: yo
+          subbar:
+            type: list
+            elements: string
+            description: Sub bar.
+            extra: more
+  baz:
+    short_description: Bar role, baz entrypoint テストロール
+    description:
+      - This is the baz entrypoint of the bar role.
+    examples: An example.
+    extra: more.

@@ -8,6 +8,11 @@
 Index of all Strategy Plugins
 =============================
 
+ns.col2
+-------
+
+* :ansplugin:`ns.col2.extra#strategy` --
+
 ns2.col
 -------
 

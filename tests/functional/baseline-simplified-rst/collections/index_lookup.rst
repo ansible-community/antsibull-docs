@@ -3,6 +3,11 @@
 Index of all Lookup Plugins
 ===========================
 
+ns.col2
+-------
+
+* `ns.col2.extra <ns/col2/extra_lookup.rst>`_ --
+
 ns2.col
 -------
 
