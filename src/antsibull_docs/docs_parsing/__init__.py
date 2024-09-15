@@ -114,4 +114,6 @@ class AnsibleCollectionMetadata:
 
     @classmethod
     def empty(cls, path="."):
-        return cls(path=path, docs_config=CollectionConfig.parse_obj({}), version=None)
+        return cls(
+            path=path, docs_config=CollectionConfig.model_validate({}), version=None
+        )

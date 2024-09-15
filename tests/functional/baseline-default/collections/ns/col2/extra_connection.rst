@@ -25,11 +25,11 @@ The errors were:
 
         3 validation errors for PluginDocSchema
         doc -> options -> host -> vars -> 0 -> extra
-          extra fields not permitted (type=value_error.extra)
+          Extra inputs are not permitted (type=extra_forbidden)
         doc -> options -> host -> extra
-          extra fields not permitted (type=value_error.extra)
+          Extra inputs are not permitted (type=extra_forbidden)
         doc -> extra
-          extra fields not permitted (type=value_error.extra)
+          Extra inputs are not permitted (type=extra_forbidden)
 
 
 File a bug with the `ns.col2 collection <https://galaxy.ansible.com/ui/repo/published/ns/col2/>`_ in order to have it corrected.

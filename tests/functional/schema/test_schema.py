@@ -27,8 +27,8 @@ from antsibull_docs.schemas.docs import ansible_doc as ad
 #   import json
 #   from antsibull_docs.schemas.docs.ansible_doc import ConnectionPluginSchema
 #   raw = open('one_connection.json').read()
-#   normalized = ConnectionPluginSchema.parse_raw(raw)
-#   out = json.dumps(normalized.dict(), indent=4, sort_keys=True)
+#   normalized = ConnectionPluginSchema.model_validate_json(raw)
+#   out = json.dumps(normalized.model_dump(), indent=4, sort_keys=True)
 #   open('one_connection_results.json', 'w').write(out)
 SINGLE_TESTS = {
     "one_become.json": ad.BecomePluginSchema,
@@ -66,9 +66,9 @@ def test_one_plugin_of_each_type(test_file, test_schema):
     with open(full_path) as f:
         ansible_doc_output = f.read()
 
-    model = test_schema.parse_raw(ansible_doc_output)
+    model = test_schema.model_validate_json(ansible_doc_output)
 
-    model_dict = model.dict()
+    model_dict = {"__root__": model.model_dump()}
     assert model_dict == results
 
 
@@ -92,7 +92,7 @@ def test_ssh_connection():
     with open(full_path) as f:
         ansible_doc_output = f.read()
 
-    model = test_schema.parse_raw(ansible_doc_output)
+    model = test_schema.model_validate_json(ansible_doc_output)
 
-    model_dict = model.dict()
+    model_dict = {"__root__": model.model_dump()}
     assert model_dict == results

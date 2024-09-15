@@ -9,7 +9,7 @@
 import typing as t
 from collections.abc import Mapping
 
-from antsibull_docs._pydantic_compat import v1 as p
+import pydantic as p
 
 from .base import (
     COLLECTION_NAME_F,
@@ -30,16 +30,16 @@ _SENTINEL = object()
 class InnerRoleOptionsSchema(OptionsSchema):
     options: dict[str, "InnerRoleOptionsSchema"] = {}
 
-    @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument
+    @p.model_validator(mode="before")
+    @classmethod
     def allow_description_to_be_optional(cls, values):
         # Doing this in a validator so that the json-schema will still flag it as an error
-        if "description" not in values:
+        if isinstance(values, dict) and "description" not in values:
             values["description"] = []
         return values
 
 
-InnerRoleOptionsSchema.update_forward_refs()
+InnerRoleOptionsSchema.model_rebuild()
 
 
 class RoleOptionsSchema(OptionsSchema):
@@ -65,13 +65,13 @@ class RoleEntrypointSchema(PluginExamplesSchema, BaseModel):
 
     options: dict[str, RoleOptionsSchema] = {}
 
-    @p.validator(
+    @p.field_validator(
         "author",
         "description",
         "todo",
-        pre=True,
+        mode="before",
     )
-    # pylint:disable=no-self-argument
+    @classmethod
     def list_from_scalars(cls, obj):
         return list_from_scalars(obj)
 
@@ -83,16 +83,17 @@ class RoleSchema(BaseModel):
     entry_points: dict[str, RoleEntrypointSchema]
     path: str
 
-    @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument
+    @p.model_validator(mode="before")
+    @classmethod
     def add_entrypoint_deprecation_collection(cls, values):
-        entry_points = values.get("entry_points")
-        collection = values.get("collection")
-        if isinstance(entry_points, Mapping) and isinstance(collection, str):
-            for data in entry_points.values():
-                if isinstance(data, Mapping):
-                    deprecation = data.get("deprecated")
-                    if isinstance(deprecation, Mapping):
+        if isinstance(values, Mapping):
+            entry_points = values.get("entry_points")
+            collection = values.get("collection")
+            if isinstance(entry_points, Mapping) and isinstance(collection, str):
+                for data in entry_points.values():
+                    if isinstance(data, Mapping) and isinstance(
+                        deprecation := data.get("deprecated"), Mapping
+                    ):
                         removed_from_collection = deprecation.get(
                             "removed_from_collection", _SENTINEL
                         )

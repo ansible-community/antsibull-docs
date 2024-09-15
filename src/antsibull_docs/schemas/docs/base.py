@@ -47,11 +47,11 @@ To use these schemas, follow these steps:
   to load the data into the Schema.  :ansible:cmd:`ansible-doc` output is json, for instance, so you
   can feed that directly to :meth:`ansible_doc.ModulePluginSchema.parse_raw` (or the same method on
   a different schema).  If you have to manipulate the data as a dict first, you can use
-  :meth:`ansible_doc.ModulePluginSchema.parse_obj`.
+  :meth:`ansible_doc.ModulePluginSchema.model_validate`.
 
 * The Schema will validate and normalize the data as it is loaded.
 
-* Call the `dict(by_alias=True)
+* Call the `model_dump(by_alias=True)
   <https://pydantic-docs.helpmanual.io/usage/exporting_models/#modeldict>`_
   method on the returned model to convert the data back into a dict so that you can use it with
   templating engines or modify the structure of the data.
@@ -66,7 +66,7 @@ One example of doing all this:
     >>> module_json = sh.ansible_doc('-t', 'module', '--json', 'yum').stdout
     >>> module_model = ansible_doc.ModulePluginSchema.parse_raw(module_json)
     >>> # Retrieve the data from the __root__ field of the dict representation:
-    >>> module_dict = module_model.dict(by_alias=True)['__root__']
+    >>> module_dict = module_model.model_dump(by_alias=True)['__root__']
     >>> for plugin_name, plugin_info in module_dict.items():
     >>>     out = template.render(name=plugin_name, doc=plugin_info['doc'])
     >>>     print(out)
@@ -92,8 +92,8 @@ An example of both of the above:
 
       class Model(BaseModel):
           new_name: str
-          # Use pydantic.constr so that json-schema validations will also need to match the regex
-          type: constr(regex='^(int|str|float)$')
+          # Use pydantic.constr so that json-schema validations will also need to match the pattern
+          type: constr(pattern='^(int|str|float)$')
 
           # Use validator on a specific attribute to change the value of the attribute
           @validator('type', pre=True)
@@ -122,9 +122,9 @@ import abc
 import typing as t
 from collections.abc import Mapping
 
+import pydantic as p
 from antsibull_fileutils.yaml import load_yaml_bytes
 
-from antsibull_docs._pydantic_compat import v1 as p
 from antsibull_docs.vendored.ansible import (  # type: ignore[import]
     check_type_bits,
     check_type_bool,
@@ -144,37 +144,37 @@ _SENTINEL = object()
 #: Constrained string for valid Ansible cli args.
 #: Must not start or end with an underscore, must not contain double underscores, lowercase ascii
 #: letters, digits, and single underscores are okay.
-REQUIRED_CLI_F = p.Field(..., regex="^[a-z0-9]+(_[a-z0-9]+)*$")
+REQUIRED_CLI_F = p.Field(..., pattern="^[a-z0-9]+(_[a-z0-9]+)*$")
 
 #: Constrained string for valid Ansible environment variables
-REQUIRED_ENV_VAR_F = p.Field(..., regex="[A-Z_]+")
+REQUIRED_ENV_VAR_F = p.Field(..., pattern="[A-Z_]+")
 
 #: option types are a set of strings that represent the types handled by argspec.
 OPTION_TYPE_F = p.Field(
     "str",
-    regex="^(any|bits|bool|bytes|dict|float|int|json|jsonarg|list"
+    pattern="^(any|bits|bool|bytes|dict|float|int|json|jsonarg|list"
     "|path|raw|sid|str|tmppath|pathspec|pathlist)$",
 )
 
 #: Constrained string type for version numbers
-REQUIRED_VERSION_F = p.Field(..., regex="^([0-9][0-9.]+)$")
-VERSION_F = p.Field(default="", regex="^([0-9][0-9.]+)$")
+REQUIRED_VERSION_F = p.Field(..., pattern="^([0-9][0-9.]+)$")
+VERSION_F = p.Field(default="", pattern="^([0-9][0-9.]+)$")
 
 #: Constrained string type for dates
-REQUIRED_DATE_F = p.Field(..., regex="^([0-9]{4}-[0-9]{2}-[0-9]{2})$")
-DATE_F = p.Field(default="", regex="^([0-9]{4}-[0-9]{2}-[0-9]{2})$")
+REQUIRED_DATE_F = p.Field(..., pattern="^([0-9]{4}-[0-9]{2}-[0-9]{2})$")
+DATE_F = p.Field(default="", pattern="^([0-9]{4}-[0-9]{2}-[0-9]{2})$")
 
 #: Constrained string type for collection names
-REQUIRED_COLLECTION_NAME_F = p.Field(..., regex="^([^.]+\\.[^.]+)$")
-COLLECTION_NAME_F = p.Field(default="", regex="^([^.]+\\.[^.]+)$")
+REQUIRED_COLLECTION_NAME_F = p.Field(..., pattern="^([^.]+\\.[^.]+)$")
+COLLECTION_NAME_F = p.Field(default="", pattern="^([^.]+\\.[^.]+)$")
 
 # As soon as we get 70026 backported, make this required (...)
-REQUIRED_COLLECTION_NAME_OR_EMPTY_STR_F = p.Field("", regex="^([^.]+\\.[^.]+)?$")
+REQUIRED_COLLECTION_NAME_OR_EMPTY_STR_F = p.Field("", pattern="^([^.]+\\.[^.]+)?$")
 
 #: Constrained string listing the possible types of a return field
 RETURN_TYPE_F = p.Field(
     "str",
-    regex="^(any|bits|bool|bytes|complex|dict|float|int|json"
+    pattern="^(any|bits|bool|bytes|complex|dict|float|int|json"
     "|jsonarg|list|path|sid|str|pathspec|pathlist)$",
 )
 
@@ -357,17 +357,10 @@ def normalize_value(  # noqa: C901
     values[field] = value
 
 
-class LocalConfig:
-    """Settings we want on all of our models."""
-
-    extra = p.Extra.forbid
-
-
 class BaseModel(p.BaseModel):
     """BaseModel that has our preferred default config."""
 
-    # pydantic Config classes are pure datastructures with no builtin special data
-    Config = LocalConfig  # type: ignore[assignment]
+    model_config = p.ConfigDict(extra="forbid", coerce_numbers_to_str=True)
 
 
 class DeprecationSchema(BaseModel):
@@ -379,63 +372,65 @@ class DeprecationSchema(BaseModel):
     why: str
     alternative: str = ""
 
-    @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument
+    @p.model_validator(mode="before")
+    @classmethod
     def rename_version(cls, values):
         """Make deprecations at this level match the toplevel name."""
-        version = values.get("version", _SENTINEL)
-        if version is not _SENTINEL:
-            if values.get("removed_in"):
-                raise ValueError(
-                    "Cannot specify `version` if `removed_in` has been specified."
-                )
+        if isinstance(values, dict):
+            version = values.get("version", _SENTINEL)
+            if version is not _SENTINEL:
+                if values.get("removed_in"):
+                    raise ValueError(
+                        "Cannot specify `version` if `removed_in` has been specified."
+                    )
 
-            values["removed_in"] = version
-            del values["version"]
+                values["removed_in"] = version
+                del values["version"]
 
         return values
 
-    @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument
+    @p.model_validator(mode="before")
+    @classmethod
     def rename_date(cls, values):
         """Make deprecations at this level match the toplevel name."""
-        date = values.get("date", _SENTINEL)
-        if date is not _SENTINEL:
-            if values.get("removed_at_date"):
-                raise ValueError(
-                    "Cannot specify `date` if `removed_at_date` has been specified."
-                )
+        if isinstance(values, dict):
+            date = values.get("date", _SENTINEL)
+            if date is not _SENTINEL:
+                if values.get("removed_at_date"):
+                    raise ValueError(
+                        "Cannot specify `date` if `removed_at_date` has been specified."
+                    )
 
-            values["removed_at_date"] = date
-            del values["date"]
+                values["removed_at_date"] = date
+                del values["date"]
 
         return values
 
-    @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument
+    @p.model_validator(mode="before")
+    @classmethod
     def rename_collection_name(cls, values):
         """Make deprecations at this level match the toplevel name."""
-        collection_name = values.get("collection_name", _SENTINEL)
-        if collection_name is not _SENTINEL:
-            if values.get("removed_from_collection"):
-                raise ValueError(
-                    "Cannot specify `collection_name` if `removed_from_collection`"
-                    " has been specified."
-                )
+        if isinstance(values, dict):
+            collection_name = values.get("collection_name", _SENTINEL)
+            if collection_name is not _SENTINEL:
+                if values.get("removed_from_collection"):
+                    raise ValueError(
+                        "Cannot specify `collection_name` if `removed_from_collection`"
+                        " has been specified."
+                    )
 
-            values["removed_from_collection"] = collection_name
-            del values["collection_name"]
+                values["removed_from_collection"] = collection_name
+                del values["collection_name"]
 
         return values
 
-    @p.root_validator
-    # pylint:disable=no-self-argument
-    def require_version_xor_date(cls, values):
+    @p.model_validator(mode="after")
+    def require_version_xor_date(self):
         """Make sure either removed_in or removed_at_date are specified, but not both."""
         # This should be changed to a way that also works in the JSON schema; see
         # https://github.com/ansible-community/antsibull/issues/104
-        removed_in = values.get("removed_in")
-        removed_at_date = values.get("removed_at_date")
+        removed_in = self.removed_in
+        removed_at_date = self.removed_at_date
 
         if not removed_in and not removed_at_date:
             raise ValueError(
@@ -446,22 +441,23 @@ class DeprecationSchema(BaseModel):
                 "Cannot specify both of `removed_at_date` and `removed_in`"
             )
 
-        return values
+        return self
 
-    @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument
+    @p.model_validator(mode="before")
+    @classmethod
     def merge_typo_names(cls, values):
-        alternatives = values.get("alternatives", _SENTINEL)
+        if isinstance(values, dict):
+            alternatives = values.get("alternatives", _SENTINEL)
 
-        if alternatives is not _SENTINEL:
-            if values.get("alternative"):
-                raise ValueError(
-                    "Cannot specify `alternatives` if `alternative`"
-                    " has been specified."
-                )
+            if alternatives is not _SENTINEL:
+                if values.get("alternative"):
+                    raise ValueError(
+                        "Cannot specify `alternatives` if `alternative`"
+                        " has been specified."
+                    )
 
-            values["alternative"] = alternatives
-            del values["alternatives"]
+                values["alternative"] = alternatives
+                del values["alternatives"]
 
         return values
 
@@ -477,20 +473,20 @@ class OptionsSchema(BaseModel):
     version_added: str = "historical"
     version_added_collection: str = COLLECTION_NAME_F
 
-    @p.validator("aliases", "description", pre=True)
-    # pylint:disable=no-self-argument
+    @p.field_validator("aliases", "description", mode="before")
+    @classmethod
     def list_from_scalars(cls, obj):
         return list_from_scalars(obj)
 
-    @p.validator("default", pre=True)
-    # pylint:disable=no-self-argument
+    @p.field_validator("default", mode="before")
+    @classmethod
     def is_json_value(cls, obj):
         if not is_json_value(obj):
             raise ValueError("`default` must be a JSON value")
         return obj
 
-    @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument
+    @p.model_validator(mode="before")
+    @classmethod
     def get_rid_of_name(cls, values):
         """
         Remove name from this schema.
@@ -498,55 +494,57 @@ class OptionsSchema(BaseModel):
         ``name`` is redundant with ``description``.  If we did need a shorter description here for
         some reason, we should call it ``short_description`` to match the other parts of the schema.
         """
-        if "name" in values:
+        if isinstance(values, dict) and "name" in values:
             del values["name"]
         return values
 
-    @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument
+    @p.model_validator(mode="before")
+    @classmethod
     def merge_typo_names(cls, values):
-        element_type = values.get("element_type", _SENTINEL)
+        if isinstance(values, dict):
+            element_type = values.get("element_type", _SENTINEL)
 
-        if element_type is not _SENTINEL:
-            if values.get("elements"):
-                raise ValueError(
-                    "Cannot specify `element_type` if `elements` has been specified."
-                )
+            if element_type is not _SENTINEL:
+                if values.get("elements"):
+                    raise ValueError(
+                        "Cannot specify `element_type` if `elements` has been specified."
+                    )
 
-            values["elements"] = element_type
-            del values["element_type"]
+                values["elements"] = element_type
+                del values["element_type"]
 
-        element = values.get("element", _SENTINEL)
+            element = values.get("element", _SENTINEL)
 
-        if element is not _SENTINEL:
-            if values.get("elements"):
-                raise ValueError(
-                    "Cannot specify `element` if `elements` has been specified."
-                )
+            if element is not _SENTINEL:
+                if values.get("elements"):
+                    raise ValueError(
+                        "Cannot specify `element` if `elements` has been specified."
+                    )
 
-            values["elements"] = element
-            del values["element"]
+                values["elements"] = element
+                del values["element"]
 
         return values
 
-    @p.validator("type", "elements", pre=True)
-    # pylint:disable=no-self-argument
+    @p.field_validator("type", "elements", mode="before")
+    @classmethod
     def normalize_option_type(cls, obj):
         return normalize_option_type_names(obj)
 
-    @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument
+    @p.model_validator(mode="before")
+    @classmethod
     def normalize_default_choices(cls, values):
-        if isinstance(values.get("choices"), dict):
-            for k, v in values["choices"].items():
-                values["choices"][k] = list_from_scalars(v)
-        normalize_value(values, "default")
-        normalize_value(
-            values,
-            "choices",
-            is_list_of_values=values.get("type") != "list",
-            accept_dict=True,
-        )
+        if isinstance(values, dict):
+            if isinstance(values.get("choices"), dict):
+                for k, v in values["choices"].items():
+                    values["choices"][k] = list_from_scalars(v)
+            normalize_value(values, "default")
+            normalize_value(
+                values,
+                "choices",
+                is_list_of_values=values.get("type") != "list",
+                accept_dict=True,
+            )
         return values
 
 
@@ -578,12 +576,12 @@ class AttributeSchemaBase(BaseModel, metaclass=abc.ABCMeta):
     # Without this base class, we would hit https://github.com/samuelcolvin/pydantic/issues/1259
     description: list[str]
     details: list[str] = []
-    support: str = p.Field("str", regex="^(full|partial|none|N/A)$")
+    support: str = p.Field("str", pattern="^(full|partial|none|N/A)$")
     version_added: str = "historical"
     version_added_collection: str = COLLECTION_NAME_F
 
-    @p.validator("description", "details", pre=True)
-    # pylint:disable=no-self-argument
+    @p.field_validator("description", "details", mode="before")
+    @classmethod
     def list_from_scalars(cls, obj):
         return list_from_scalars(obj)
 
@@ -595,8 +593,8 @@ class AttributeSchema(AttributeSchemaBase):
 class AttributeSchemaActionGroup(AttributeSchemaBase):  # for 'action_group'
     membership: list[str]
 
-    @p.validator("membership", pre=True)
-    # pylint:disable=no-self-argument
+    @p.field_validator("membership", mode="before")
+    @classmethod
     def list_from_scalars_sub(cls, obj):
         return list_from_scalars_comma_separated(obj)
 
@@ -604,8 +602,8 @@ class AttributeSchemaActionGroup(AttributeSchemaBase):  # for 'action_group'
 class AttributeSchemaPlatform(AttributeSchemaBase):  # for 'platform'
     platforms: list[str]
 
-    @p.validator("platforms", pre=True)
-    # pylint:disable=no-self-argument
+    @p.field_validator("platforms", mode="before")
+    @classmethod
     def list_from_scalars_sub(cls, obj):
         return list_from_scalars_comma_separated(obj)
 
@@ -637,21 +635,21 @@ class DocSchema(BaseModel):
         t.Union[AttributeSchema, AttributeSchemaActionGroup, AttributeSchemaPlatform],
     ] = {}
 
-    @p.validator(
+    @p.field_validator(
         "author",
         "description",
         "extends_documentation_fragment",
         "notes",
         "requirements",
         "todo",
-        pre=True,
+        mode="before",
     )
-    # pylint:disable=no-self-argument
+    @classmethod
     def list_from_scalars(cls, obj):
         return list_from_scalars(obj)
 
-    @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument
+    @p.model_validator(mode="before")
+    @classmethod
     def remove_plugin_type(cls, values):
         """
         Remove the plugin_type field from the doc.
@@ -661,12 +659,12 @@ class DocSchema(BaseModel):
         If we decide to keep this, we need to figure out how to fill it in for every plugin; right
         now it's only set (manually) on inventory and shell.
         """
-        if "plugin_type" in values:
+        if isinstance(values, dict) and "plugin_type" in values:
             del values["plugin_type"]
         return values
 
-    @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument
+    @p.model_validator(mode="before")
+    @classmethod
     def merge_plugin_names(cls, values):
         """
         Normalize the field which plugin names are in.
@@ -675,74 +673,78 @@ class DocSchema(BaseModel):
         This makes it harder for code to make use of the data as it has to know what the plugin
         type is and then look up that field.  Standardize on a ``name`` field instead.
         """
-        names = {}
-        for name_field in (
-            "become",
-            "cache",
-            "callback",
-            "cliconf",
-            "connection",
-            "httpapi",
-            "inventory",
-            "lookup",
-            "module",
-            "netconf",
-            "strategy",
-            "vars",
-        ):
-            plugin_name = values.get(name_field, _SENTINEL)
-            if plugin_name is not _SENTINEL:
-                names[name_field] = plugin_name
+        if isinstance(values, dict):
+            names = {}
+            for name_field in (
+                "become",
+                "cache",
+                "callback",
+                "cliconf",
+                "connection",
+                "httpapi",
+                "inventory",
+                "lookup",
+                "module",
+                "netconf",
+                "strategy",
+                "vars",
+            ):
+                plugin_name = values.get(name_field, _SENTINEL)
+                if plugin_name is not _SENTINEL:
+                    names[name_field] = plugin_name
 
-        if names:
-            if len(names) > 1:
-                raise ValueError(
-                    f"Specified {names.keys()} but only one can be specified."
-                )
-            if values.get("name"):
-                raise ValueError(
-                    f"Cannot specify {names.keys()} if `name` has been specified."
-                )
+            if names:
+                if len(names) > 1:
+                    raise ValueError(
+                        f"Specified {names.keys()} but only one can be specified."
+                    )
+                if values.get("name"):
+                    raise ValueError(
+                        f"Cannot specify {names.keys()} if `name` has been specified."
+                    )
 
-            # This seems to be the best way to get key and value from a one-element dict
-            for name_field, name_field_value in names.items():
-                values["name"] = name_field_value
-                del values[name_field]
+                # This seems to be the best way to get key and value from a one-element dict
+                for name_field, name_field_value in names.items():
+                    values["name"] = name_field_value
+                    del values[name_field]
 
         return values
 
-    @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument
+    @p.model_validator(mode="before")
+    @classmethod
     def merge_typo_names(cls, values):
-        cb_type = values.get("callback_type", _SENTINEL)
+        if isinstance(values, dict):
+            cb_type = values.get("callback_type", _SENTINEL)
 
-        if cb_type is not _SENTINEL:
-            if values.get("type"):
-                raise ValueError(
-                    "Cannot specify `callback_type` if `type` has been specified."
-                )
+            if cb_type is not _SENTINEL:
+                if values.get("type"):
+                    raise ValueError(
+                        "Cannot specify `callback_type` if `type` has been specified."
+                    )
 
-            values["type"] = cb_type
-            del values["callback_type"]
+                values["type"] = cb_type
+                del values["callback_type"]
 
-        note = values.get("note", _SENTINEL)
+            note = values.get("note", _SENTINEL)
 
-        if note is not _SENTINEL:
-            if values.get("notes"):
-                raise ValueError("Cannot specify `note` if `notes` has been specified.")
+            if note is not _SENTINEL:
+                if values.get("notes"):
+                    raise ValueError(
+                        "Cannot specify `note` if `notes` has been specified."
+                    )
 
-            values["notes"] = note
-            del values["note"]
+                values["notes"] = note
+                del values["note"]
 
-        authors = values.get("authors", _SENTINEL)
+            authors = values.get("authors", _SENTINEL)
 
-        if authors is not _SENTINEL:
-            if values.get("author"):
-                raise ValueError(
-                    "Cannot specify `authors` if `author` has been specified."
-                )
+            if authors is not _SENTINEL:
+                if values.get("author"):
+                    raise ValueError(
+                        "Cannot specify `authors` if `author` has been specified."
+                    )
 
-            values["author"] = authors
-            del values["authors"]
+                values["author"] = authors
+                del values["authors"]
 
         return values

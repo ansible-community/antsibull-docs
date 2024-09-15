@@ -11,13 +11,14 @@ from collections import defaultdict
 from collections.abc import Iterable, Mapping, MutableMapping
 from concurrent.futures import ProcessPoolExecutor
 
+import pydantic as p
+import pydantic_core
 from antsibull_core.logging import log
-
-from antsibull_docs._pydantic_compat import v1
 
 from . import app_context
 from .docs_parsing.fqcn import get_fqcn_parts
 from .schemas.docs import DOCS_SCHEMAS
+from .schemas.docs.base import BaseModel
 from .write_docs import BasicPluginInfo
 
 mlog = log.fields(mod=__name__)
@@ -38,6 +39,48 @@ def get_collection_namespaces(collection_names: Iterable[str]) -> dict[str, list
         namespace, name = collection_name.split(".", 1)
         namespaces[namespace].append(name)
     return namespaces
+
+
+_CAPITAL_LETTERS = tuple("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+
+def _exc_to_string(exc: p.ValidationError, model_name: str) -> str:
+    def _display_error_loc(error: pydantic_core.ErrorDetails) -> str:
+        # We sort out all strings starting with an upper-case letter
+        # since pydantic sometimes inserts class names, for example:
+        #
+        #   entry_points -> main -> seealso -> 1 -> SeeAlsoPluginSchema -> extra
+        #
+        # Since our attribute names are all lower-case and our class
+        # names all start with an upper-case letter, this effectively
+        # removes all class names from the location sequence.
+        return " -> ".join(
+            str(e)
+            for i, e in enumerate(error["loc"])
+            if not isinstance(e, str)
+            or not e.startswith(_CAPITAL_LETTERS)
+            or i == len(error["loc"]) - 1
+        )
+
+    def _display_error_type_and_ctx(error: pydantic_core.ErrorDetails) -> str:
+        result = "type=" + error["type"]
+        ctx = error.get("ctx")
+        if ctx:
+            result += "".join(f"; {k}={v}" for k, v in ctx.items())
+        return result
+
+    def display_errors(errors: list[pydantic_core.ErrorDetails]) -> str:
+        return "\n".join(
+            f'{_display_error_loc(e)}\n  {e["msg"]} ({_display_error_type_and_ctx(e)})'
+            for e in errors
+        )
+
+    errors = exc.errors()
+    no_errors = len(errors)
+    return (
+        f'{no_errors} validation error{"" if no_errors == 1 else "s"} for {model_name}\n'
+        f"{display_errors(errors)}"
+    )
 
 
 def normalize_plugin_info(
@@ -63,36 +106,45 @@ def normalize_plugin_info(
 
     errors: list[str] = []
     if plugin_type == "role":
+        role_schema: type[BaseModel] = DOCS_SCHEMAS[
+            plugin_type
+        ]  # type: ignore[attr-defined, assignment]
         try:
-            parsed = DOCS_SCHEMAS[plugin_type].parse_obj(plugin_info)  # type: ignore[attr-defined]
-            return parsed.dict(by_alias=True), errors
-        except v1.ValidationError as e:
-            raise ValueError(str(e))  # pylint:disable=raise-missing-from
+            parsed = role_schema.model_validate(plugin_info)
+            return parsed.model_dump(by_alias=True), errors
+        except p.ValidationError as e:
+            raise ValueError(  # pylint:disable=raise-missing-from
+                _exc_to_string(e, role_schema.__name__)
+            )
 
     new_info: dict[str, t.Any] = {}
     # Note: loop through "doc" before any other keys.
     for field in ("doc", "examples", "return"):
+        schema: type[BaseModel] = DOCS_SCHEMAS[plugin_type][
+            field
+        ]  # type: ignore[index, assignment]
         try:
-            schema = DOCS_SCHEMAS[plugin_type][field]  # type: ignore[index]
-            field_model = schema.parse_obj({field: plugin_info.get(field)})
-        except v1.ValidationError as e:
+            field_model = schema.model_validate({field: plugin_info.get(field)})
+        except p.ValidationError as e:
             if field == "doc":
                 # We can't recover if there's not a doc field
                 # pydantic exceptions are not picklable (probably due to bugs in the pickle module)
                 # so convert it to an exception type which is picklable
-                raise ValueError(str(e))  # pylint:disable=raise-missing-from
+                raise ValueError(  # pylint:disable=raise-missing-from
+                    _exc_to_string(e, schema.__name__)
+                )
 
             # But we can use the default value (some variant of "empty") for everything else
             # Note: We looped through doc first and returned an exception if doc did not normalize
             # so we're able to use it in the error message here.
             errors.append(
                 f'Unable to normalize {new_info["doc"]["name"]}: {field}'
-                f" due to: {str(e)}"
+                f" due to: {_exc_to_string(e, schema.__name__)}"
             )
 
-            field_model = DOCS_SCHEMAS[plugin_type][field].parse_obj({})  # type: ignore[index]
+            field_model = DOCS_SCHEMAS[plugin_type][field].model_validate({})  # type: ignore[index]
 
-        new_info.update(field_model.dict(by_alias=True))
+        new_info.update(field_model.model_dump(by_alias=True))
 
     return (new_info, errors)
 
