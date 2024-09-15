@@ -8,6 +8,11 @@
 Index of all Inventory Plugins
 ==============================
 
+ns.col2
+-------
+
+* :ansplugin:`ns.col2.extra#inventory` --
+
 ns2.col
 -------
 

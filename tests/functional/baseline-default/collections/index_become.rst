@@ -8,6 +8,11 @@
 Index of all Become Plugins
 ===========================
 
+ns.col2
+-------
+
+* :ansplugin:`ns.col2.extra#become` --
+
 ns2.col
 -------
 

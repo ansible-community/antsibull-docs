@@ -8,6 +8,11 @@
 Index of all Filter Plugins
 ===========================
 
+ns.col2
+-------
+
+* :ansplugin:`ns.col2.extra#filter` --
+
 ns2.col
 -------
 

@@ -12,6 +12,7 @@ ns.col2
 -------
 
 * :ansplugin:`ns.col2.bar#role` -- Bar role
+* :ansplugin:`ns.col2.extra#role` --
 
 ns2.col
 -------

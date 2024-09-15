@@ -6,6 +6,7 @@ Index of all Modules
 ns.col2
 -------
 
+* `ns.col2.extra <ns/col2/extra_module.rst>`_ --
 * `ns.col2.foo <ns/col2/foo_module.rst>`_ --
 * `ns.col2.foo2 <ns/col2/foo2_module.rst>`_ -- Foo two
 * `ns.col2.foo3 <ns/col2/foo3_module.rst>`_ -- Foo III

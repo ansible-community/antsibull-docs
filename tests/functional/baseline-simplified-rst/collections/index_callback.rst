@@ -3,6 +3,11 @@
 Index of all Callback Plugins
 =============================
 
+ns.col2
+-------
+
+* `ns.col2.extra <ns/col2/extra_callback.rst>`_ --
+
 ns2.col
 -------
 

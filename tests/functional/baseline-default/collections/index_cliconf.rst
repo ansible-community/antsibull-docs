@@ -8,6 +8,11 @@
 Index of all Cliconf Plugins
 ============================
 
+ns.col2
+-------
+
+* :ansplugin:`ns.col2.extra#cliconf` --
+
 ns2.col
 -------
 

@@ -1,0 +1,55 @@
+.. Document meta section
+
+:orphan:
+
+.. meta::
+  :antsibull-docs: <ANTSIBULL_DOCS_VERSION>
+
+.. Document body
+
+.. Anchors
+
+.. _ansible_collections.ns.col2.extra_become:
+
+.. Title
+
+ns.col2.extra become
+++++++++++++++++++++
+
+
+The documentation for the become plugin, ns.col2.extra,  was malformed.
+
+The errors were:
+
+* .. code-block:: text
+
+        13 validation errors for PluginDocSchema
+        doc -> deprecated -> extra
+          extra fields not permitted (type=value_error.extra)
+        doc -> options -> become_user -> env -> 0 -> extra
+          extra fields not permitted (type=value_error.extra)
+        doc -> options -> become_user -> env -> 1 -> deprecated -> extra
+          extra fields not permitted (type=value_error.extra)
+        doc -> options -> become_user -> ini -> 0 -> extra
+          extra fields not permitted (type=value_error.extra)
+        doc -> options -> become_user -> ini -> 1 -> deprecated -> extra
+          extra fields not permitted (type=value_error.extra)
+        doc -> options -> become_user -> vars -> 0 -> extra
+          extra fields not permitted (type=value_error.extra)
+        doc -> options -> become_user -> vars -> 1 -> deprecated -> extra
+          extra fields not permitted (type=value_error.extra)
+        doc -> options -> become_user -> keyword -> 0 -> deprecated -> removed_from_collection
+          field required (type=value_error.missing)
+        doc -> options -> become_user -> keyword -> 0 -> deprecated -> extra
+          extra fields not permitted (type=value_error.extra)
+        doc -> options -> become_user -> keyword -> 0 -> extra
+          extra fields not permitted (type=value_error.extra)
+        doc -> options -> become_user -> deprecated -> extra
+          extra fields not permitted (type=value_error.extra)
+        doc -> options -> become_user -> extra
+          extra fields not permitted (type=value_error.extra)
+        doc -> extra
+          extra fields not permitted (type=value_error.extra)
+
+
+File a bug with the `ns.col2 collection <https://galaxy.ansible.com/ui/repo/published/ns/col2/>`_ in order to have it corrected.

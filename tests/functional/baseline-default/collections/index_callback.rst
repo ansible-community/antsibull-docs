@@ -16,6 +16,11 @@ Index of all Callback Plugins
    callback_index_*
 
 
+ns.col2
+-------
+
+* :ansplugin:`ns.col2.extra#callback` --
+
 ns2.col
 -------
 

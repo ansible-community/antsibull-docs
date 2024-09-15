@@ -8,6 +8,11 @@
 Index of all Cache Plugins
 ==========================
 
+ns.col2
+-------
+
+* :ansplugin:`ns.col2.extra#cache` --
+
 ns2.col
 -------
 

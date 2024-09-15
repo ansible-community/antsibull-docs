@@ -3,6 +3,11 @@
 Index of all Shell Plugins
 ==========================
 
+ns.col2
+-------
+
+* `ns.col2.extra <ns/col2/extra_shell.rst>`_ --
+
 ns2.col
 -------
 

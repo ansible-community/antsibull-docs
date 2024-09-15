@@ -3,6 +3,11 @@
 Index of all Filter Plugins
 ===========================
 
+ns.col2
+-------
+
+* `ns.col2.extra <ns/col2/extra_filter.rst>`_ --
+
 ns2.col
 -------
 

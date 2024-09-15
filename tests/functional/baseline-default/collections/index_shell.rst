@@ -8,6 +8,11 @@
 Index of all Shell Plugins
 ==========================
 
+ns.col2
+-------
+
+* :ansplugin:`ns.col2.extra#shell` --
+
 ns2.col
 -------
 
