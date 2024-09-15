@@ -7,7 +7,7 @@
 
 import typing as t
 
-from antsibull_docs._pydantic_compat import v1 as p
+import pydantic as p
 
 _SENTINEL = object()
 
@@ -26,8 +26,8 @@ class CollectionEditOnGitHub(p.BaseModel):
     # is inside a subdirectory ansible_collections/community/general/.
     path_prefix: str = ""
 
-    @p.validator("path_prefix", pre=True)
-    # pylint:disable=no-self-argument
+    @p.field_validator("path_prefix", mode="before")
+    @classmethod
     def ensure_trailing_slash(cls, obj):
         if isinstance(obj, str):
             obj = obj.rstrip("/")
@@ -57,12 +57,12 @@ class MailingList(p.BaseModel):
     url: str
     subscribe: t.Optional[str] = None
 
-    @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument
+    @p.model_validator(mode="before")
+    @classmethod
     def add_subscribe(cls, values):
         """If 'subscribe' is not provided, try to deduce it from the URL."""
 
-        if values.get("subscribe", _SENTINEL) is _SENTINEL:
+        if isinstance(values, dict) and values.get("subscribe", _SENTINEL) is _SENTINEL:
             url = str(values.get("url"))
             if url.startswith(GOOGLE_GROUPS_PREFIX):
                 name = url[len(GOOGLE_GROUPS_PREFIX) :]
