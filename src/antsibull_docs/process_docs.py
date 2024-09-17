@@ -5,6 +5,8 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Utilities for processing documentation."""
 
+from __future__ import annotations
+
 import asyncio
 import typing as t
 from collections import defaultdict
