@@ -33,7 +33,7 @@ The errors were:
         doc -> options -> bar -> description -> 1
           Input should be a valid string (type=string_type)
         doc -> options -> bar -> type
-          String should match pattern '^(any|bits|bool|bytes|dict|float|int|json|jsonarg|list|path|raw|sid|str|tmppath|pathspec|pathlist)$' (type=string_pattern_mismatch; pattern=^(any|bits|bool|bytes|dict|float|int|json|jsonarg|list|path|raw|sid|str|tmppath|pathspec|pathlist)$)
+          Input should be 'any', 'bits', 'bool', 'bytes', 'dict', 'float', 'int', 'json', 'jsonarg', 'list', 'path', 'raw', 'sid', 'str', 'tmppath', 'pathspec' or 'pathlist' (type=literal_error; expected='any', 'bits', 'bool', 'bytes', 'dict', 'float', 'int', 'json', 'jsonarg', 'list', 'path', 'raw', 'sid', 'str', 'tmppath', 'pathspec' or 'pathlist')
         doc -> options -> foo
           Input should be a valid dictionary or instance of ModuleOptionsSchema (type=model_type; class_name=ModuleOptionsSchema)
         doc -> options -> subfoo -> bam

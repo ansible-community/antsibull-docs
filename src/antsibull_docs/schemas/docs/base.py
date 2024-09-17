@@ -92,8 +92,8 @@ An example of both of the above:
 
       class Model(BaseModel):
           new_name: str
-          # Use pydantic.constr so that json-schema validations will also need to match the pattern
-          type: constr(pattern='^(int|str|float)$')
+          # Use t.Literal so that json-schema validations will also need to match the pattern
+          type: t.Literal["int", "str", "float"]
 
           # Use validator on a specific attribute to change the value of the attribute
           @validator('type', pre=True)
@@ -150,11 +150,25 @@ REQUIRED_CLI_F = p.Field(..., pattern="^[a-z0-9]+(_[a-z0-9]+)*$")
 REQUIRED_ENV_VAR_F = p.Field(..., pattern="[A-Z_]+")
 
 #: option types are a set of strings that represent the types handled by argspec.
-OPTION_TYPE_F = p.Field(
+OPTION_TYPE = t.Literal[
+    "any",
+    "bits",
+    "bool",
+    "bytes",
+    "dict",
+    "float",
+    "int",
+    "json",
+    "jsonarg",
+    "list",
+    "path",
+    "raw",
+    "sid",
     "str",
-    pattern="^(any|bits|bool|bytes|dict|float|int|json|jsonarg|list"
-    "|path|raw|sid|str|tmppath|pathspec|pathlist)$",
-)
+    "tmppath",
+    "pathspec",
+    "pathlist",
+]
 
 #: Constrained string type for version numbers
 REQUIRED_VERSION_F = p.Field(..., pattern="^([0-9][0-9.]+)$")
@@ -172,11 +186,24 @@ COLLECTION_NAME_F = p.Field(default="", pattern="^([^.]+\\.[^.]+)$")
 REQUIRED_COLLECTION_NAME_OR_EMPTY_STR_F = p.Field("", pattern="^([^.]+\\.[^.]+)?$")
 
 #: Constrained string listing the possible types of a return field
-RETURN_TYPE_F = p.Field(
+RETURN_TYPE = t.Literal[
+    "any",
+    "bits",
+    "bool",
+    "bytes",
+    "complex",
+    "dict",
+    "float",
+    "int",
+    "json",
+    "jsonarg",
+    "list",
+    "path",
+    "sid",
     "str",
-    pattern="^(any|bits|bool|bytes|complex|dict|float|int|json"
-    "|jsonarg|list|path|sid|str|pathspec|pathlist)$",
-)
+    "pathspec",
+    "pathlist",
+]
 
 
 def is_json_value(value: t.Any) -> bool:
@@ -467,9 +494,9 @@ class OptionsSchema(BaseModel):
     aliases: list[str] = []
     choices: t.Union[list[t.Any], dict[t.Any, list[str]]] = []
     default: t.Any = None  # JSON value
-    elements: str = OPTION_TYPE_F
+    elements: OPTION_TYPE = "str"
     required: bool = False
-    type: str = OPTION_TYPE_F
+    type: OPTION_TYPE = "str"
     version_added: str = "historical"
     version_added_collection: str = COLLECTION_NAME_F
 
@@ -576,7 +603,7 @@ class AttributeSchemaBase(BaseModel, metaclass=abc.ABCMeta):
     # Without this base class, we would hit https://github.com/samuelcolvin/pydantic/issues/1259
     description: list[str]
     details: list[str] = []
-    support: str = p.Field("str", pattern="^(full|partial|none|N/A)$")
+    support: t.Literal["full", "partial", "none", "N/A"]
     version_added: str = "historical"
     version_added_collection: str = COLLECTION_NAME_F
 

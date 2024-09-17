@@ -197,6 +197,6 @@ The errors were:
 
         Unable to normalize foo3: return due to: 2 validation errors for PluginReturnSchema
         return -> bar -> type
-          String should match pattern '^(any|bits|bool|bytes|complex|dict|float|int|json|jsonarg|list|path|sid|str|pathspec|pathlist)$' (type=string_pattern_mismatch; pattern=^(any|bits|bool|bytes|complex|dict|float|int|json|jsonarg|list|path|sid|str|pathspec|pathlist)$)
+          Input should be 'any', 'bits', 'bool', 'bytes', 'complex', 'dict', 'float', 'int', 'json', 'jsonarg', 'list', 'path', 'sid', 'str', 'pathspec' or 'pathlist' (type=literal_error; expected='any', 'bits', 'bool', 'bytes', 'complex', 'dict', 'float', 'int', 'json', 'jsonarg', 'list', 'path', 'sid', 'str', 'pathspec' or 'pathlist')
         return -> baz
           Input should be a valid dictionary or instance of OuterReturnSchema (type=model_type; class_name=OuterReturnSchema)

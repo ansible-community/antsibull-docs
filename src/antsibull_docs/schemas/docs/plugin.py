@@ -14,7 +14,7 @@ from .base import (
     COLLECTION_NAME_F,
     REQUIRED_CLI_F,
     REQUIRED_ENV_VAR_F,
-    RETURN_TYPE_F,
+    RETURN_TYPE,
     BaseModel,
     DeprecationSchema,
     DocSchema,
@@ -87,10 +87,10 @@ class ReturnSchema(BaseModel):
 
     description: list[str]
     choices: t.Union[list[t.Any], dict[t.Any, list[str]]] = []
-    elements: str = RETURN_TYPE_F
+    elements: RETURN_TYPE = "str"
     returned: str = "success"
     sample: t.Any = None  # JSON value
-    type: str = RETURN_TYPE_F
+    type: RETURN_TYPE = "str"
     version_added: str = "historical"
     version_added_collection: str = COLLECTION_NAME_F
 
