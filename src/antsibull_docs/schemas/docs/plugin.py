@@ -113,9 +113,9 @@ class ReturnSchema(BaseModel):
 
     @p.model_validator(mode="before")
     @classmethod
-    def remove_example(cls, values):
+    def remove_example_normalize_sample(cls, values):
         """
-        Remove example in favor of sample.
+        Remove example in favor of sample, and normalize sample.
 
         Having both sample and example is redundant.  Many more plugins are using sample so
         standardize on that.
@@ -135,16 +135,11 @@ class ReturnSchema(BaseModel):
                 values["sample"] = example
                 del values["example"]
 
-        return values
-
-    @p.model_validator(mode="before")
-    @classmethod
-    def normalize_sample(cls, values):
-        if isinstance(values, dict):
             try:
                 normalize_value(values, "sample")
             except ValueError:
                 pass
+
         return values
 
     @p.model_validator(mode="before")
