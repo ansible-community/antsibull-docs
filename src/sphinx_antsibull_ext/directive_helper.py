@@ -12,13 +12,12 @@ from __future__ import annotations
 import abc
 import typing as t
 
+import pydantic as p
 from antsibull_fileutils.yaml import load_yaml_bytes
 from docutils import nodes
 from docutils.parsers.rst import Directive
 
-from antsibull_docs._pydantic_compat import v1
-
-SchemaT = t.TypeVar("SchemaT", bound=v1.BaseModel)
+SchemaT = t.TypeVar("SchemaT", bound=p.BaseModel)
 
 
 class YAMLDirective(Directive, t.Generic[SchemaT], metaclass=abc.ABCMeta):
@@ -45,8 +44,8 @@ class YAMLDirective(Directive, t.Generic[SchemaT], metaclass=abc.ABCMeta):
                 "data": content,
             }
         try:
-            content_obj = self.schema.parse_obj(content)
-        except v1.ValidationError as exc:
+            content_obj = self.schema.model_validate(content)
+        except p.ValidationError as exc:
             raise self.error(
                 f"Error while parsing content of {self.name}: {exc}"
             ) from exc
