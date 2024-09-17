@@ -8,7 +8,7 @@
 import asyncio
 import typing as t
 from collections import defaultdict
-from collections.abc import Iterable, Mapping, MutableMapping
+from collections.abc import Iterable, Mapping, MutableMapping, Sequence
 from concurrent.futures import ProcessPoolExecutor
 
 import pydantic as p
@@ -44,23 +44,53 @@ def get_collection_namespaces(collection_names: Iterable[str]) -> dict[str, list
 _CAPITAL_LETTERS = tuple("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 
+_PREFIXES = [
+    ("attributes", str),
+    ("seealso", int),
+    ("entry_points", str, "attributes", str),
+    ("entry_points", str, "seealso", int),
+    ("doc", "attributes", str),
+    ("doc", "seealso", int),
+    ("doc", "entry_points", str, "attributes", str),
+    ("doc", "entry_points", str, "seealso", int),
+]
+
+
+def _match_prefix(
+    location: Sequence[int | str], prefix: tuple[str | type, ...]
+) -> bool:
+    if len(location) < len(prefix) + 1:
+        return False
+    if not isinstance(last := location[len(prefix)], str) or not last.startswith(
+        _CAPITAL_LETTERS
+    ):
+        return False
+    for loc, elt in zip(location, prefix):
+        if isinstance(elt, str):
+            if loc != elt:
+                return False
+        else:
+            if not isinstance(loc, elt):
+                return False
+    return True
+
+
 def _exc_to_string(exc: p.ValidationError, model_name: str) -> str:
     def _display_error_loc(error: pydantic_core.ErrorDetails) -> str:
-        # We sort out all strings starting with an upper-case letter
-        # since pydantic sometimes inserts class names, for example:
+        # pydantic 2 includes the class name of a t.Union[] in the location list.
+        # For example:
         #
         #   entry_points -> main -> seealso -> 1 -> SeeAlsoPluginSchema -> extra
         #
-        # Since our attribute names are all lower-case and our class
-        # names all start with an upper-case letter, this effectively
-        # removes all class names from the location sequence.
-        return " -> ".join(
-            str(e)
-            for i, e in enumerate(error["loc"])
-            if not isinstance(e, str)
-            or not e.startswith(_CAPITAL_LETTERS)
-            or i == len(error["loc"]) - 1
-        )
+        # We don't want to expose that to the user, so we have to filter these
+        # out. Simply checking for strings starting with an upper-case (or even
+        # a specific list) won't work, since keys for `options` and `suboptions`
+        # can be arbitrary strings.
+        location = error["loc"]
+        for prefix in _PREFIXES:
+            if _match_prefix(location, prefix):
+                location = location[: len(prefix)] + location[len(prefix) + 1 :]
+        return " -> ".join(str(e) for e in location)
 
     def _display_error_type_and_ctx(error: pydantic_core.ErrorDetails) -> str:
         result = "type=" + error["type"]
