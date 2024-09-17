@@ -5,14 +5,11 @@
 # SPDX-FileCopyrightText: 2022, Ansible Project
 """Extended configuration file format."""
 
+import typing as t
+
 import pydantic as p
 from antsibull_core.schemas.context import AppContext as CoreAppContext
 from antsibull_core.schemas.validators import convert_bool
-from pydantic import Field
-
-#: Valid choices for the docs parsing backend
-DOC_PARSING_BACKEND_CHOICES_F = Field("auto", pattern="^(auto|ansible-core-2\\.13)$")
-
 
 DEFAULT_COLLECTION_URL_TRANSFORM = (
     "https://galaxy.ansible.com/ui/repo/published/{namespace}/{name}/"
@@ -23,7 +20,7 @@ DEFAULT_COLLECTION_INSTALL_CMD = "ansible-galaxy collection install {namespace}.
 class DocsAppContext(CoreAppContext):
     # These are already defined in CoreConfigModel, but deprecated and will be removed in
     # antsibull-core 3.0.0
-    doc_parsing_backend: str = DOC_PARSING_BACKEND_CHOICES_F
+    doc_parsing_backend: t.Literal["auto", "ansible-core-2.13"] = "auto"
 
     # These are antsibull-docs specific
     breadcrumbs: p.StrictBool = True
