@@ -18,11 +18,8 @@ DEFAULT_COLLECTION_INSTALL_CMD = "ansible-galaxy collection install {namespace}.
 
 
 class DocsAppContext(CoreAppContext):
-    # These are already defined in CoreConfigModel, but deprecated and will be removed in
-    # antsibull-core 3.0.0
-    doc_parsing_backend: t.Literal["auto", "ansible-core-2.13"] = "auto"
-
     # These are antsibull-docs specific
+    doc_parsing_backend: t.Literal["auto", "ansible-core-2.13"] = "auto"
     breadcrumbs: p.StrictBool = True
     indexes: p.StrictBool = True
     use_html_blobs: p.StrictBool = False
