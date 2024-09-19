@@ -12,6 +12,7 @@ import typing as t
 from collections import defaultdict
 from collections.abc import Iterable, Mapping, MutableMapping, Sequence
 from concurrent.futures import ProcessPoolExecutor
+from strings import ascii_uppercase as _CAPITAL_LETTERS_STRING
 
 import pydantic as p
 import pydantic_core
@@ -43,7 +44,7 @@ def get_collection_namespaces(collection_names: Iterable[str]) -> dict[str, list
     return namespaces
 
 
-_CAPITAL_LETTERS = tuple("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+_CAPITAL_LETTERS = tuple(_CAPITAL_LETTERS_STRING)
 
 
 _PREFIXES = [
