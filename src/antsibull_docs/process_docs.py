@@ -12,7 +12,7 @@ import typing as t
 from collections import defaultdict
 from collections.abc import Iterable, Mapping, MutableMapping, Sequence
 from concurrent.futures import ProcessPoolExecutor
-from strings import ascii_uppercase as _CAPITAL_LETTERS_STRING
+from string import ascii_uppercase as _CAPITAL_LETTERS_STRING
 
 import pydantic as p
 import pydantic_core
