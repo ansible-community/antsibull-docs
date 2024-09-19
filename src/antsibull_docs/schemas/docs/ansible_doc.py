@@ -84,50 +84,30 @@ class AnsibleDocSchema(BaseModel):
 GenericPluginSchema = p.RootModel[dict[str, PluginSchema]]
 """
 Document the output of ``ansible-doc -t PLUGIN_TYPE PLUGIN_NAME``.
-
-.. note:: Both the model and the dict will be wrapped in an outer dict with your data mapped
-    to the ``__root__`` key. This happens because the toplevel key of ansible-doc's output is
-    a dynamic key which we can't automatically map to an attribute name.
 """
 
 
 CallbackPluginSchema = p.RootModel[dict[str, CallbackSchema]]
 """
 Document the output of ``ansible-doc -t callback CALLBACK_NAME``.
-
-.. note:: Both the model and the dict will be wrapped in an outer dict with your data mapped
-    to the ``__root__`` key. This happens because the toplevel key of ansible-doc's output is
-    a dynamic key which we can't automatically map to an attribute name.
 """
 
 
 PositionalPluginSchema = p.RootModel[dict[str, PositionalSchema]]
 """
 Document the output of ``ansible-doc -t lookup CALLBACK_NAME``, or ``-t filter``, ``-t test``.
-
-.. note:: Both the model and the dict will be wrapped in an outer dict with your data mapped
-    to the ``__root__`` key. This happens because the toplevel key of ansible-doc's output is
-    a dynamic key which we can't automatically map to an attribute name.
 """
 
 
 ModulePluginSchema = p.RootModel[dict[str, ModuleSchema]]
 """
 Document the output of ``ansible-doc -t module MODULE_NAME``.
-
-.. note:: Both the model and the dict will be wrapped in an outer dict with your data mapped
-    to the ``__root__`` key. This happens because the toplevel key of ansible-doc's output is
-    a dynamic key which we can't automatically map to an attribute name.
 """
 
 
 RolePluginSchema = p.RootModel[dict[str, RoleSchema]]
 """
 Document the output of ``ansible-doc -t role ROLE_NAME``.
-
-.. note:: Both the model and the dict will be wrapped in an outer dict with your data mapped
-    to the ``__root__`` key. This happens because the toplevel key of ansible-doc's output is
-    a dynamic key which we can't automatically map to an attribute name.
 """
 
 
