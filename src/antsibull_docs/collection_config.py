@@ -53,7 +53,7 @@ async def load_collection_config(
                 return CollectionConfig.model_validate(load_yaml_file(config_path))
             except p.ValidationError:
                 pass
-        return CollectionConfig.model_validate({})
+        return CollectionConfig()
     finally:
         flog.debug("Leave")
 

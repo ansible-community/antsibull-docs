@@ -132,7 +132,7 @@ def load(
     try:
         result = CollectionLinks.model_validate(ld)
     except p.ValidationError:
-        result = CollectionLinks.model_validate({})
+        result = CollectionLinks()
 
     # Parse MANIFEST or galaxy data
     issue_tracker = None
