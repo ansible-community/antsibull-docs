@@ -175,7 +175,7 @@ def normalize_plugin_info(
                 f" due to: {_exc_to_string(e, schema.__name__)}"
             )
 
-            field_model = DOCS_SCHEMAS[plugin_type][field].model_validate({})  # type: ignore[index]
+            field_model = DOCS_SCHEMAS[plugin_type][field]()  # type: ignore[index]
 
         new_info.update(field_model.model_dump(by_alias=True))
 
