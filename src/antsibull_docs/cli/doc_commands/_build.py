@@ -55,7 +55,7 @@ from ...schemas.app_context import (
 from ...utils.collection_name_transformer import CollectionNameTransformer
 from ...write_docs import CollectionInfoT, _get_collection_dir
 from ...write_docs.changelog import output_changelogs
-from ...write_docs.collections import output_extra_docs, output_indexes
+from ...write_docs.collections import output_collection_indexes, output_extra_docs
 from ...write_docs.hierarchy import (
     output_collection_index,
     output_collection_namespace_indexes,
@@ -552,7 +552,7 @@ def generate_docs_for_all_collections(  # noqa: C901
 
     if create_collection_indexes:
         asyncio.run(
-            output_indexes(
+            output_collection_indexes(
                 collection_to_plugin_info,
                 output,
                 collection_url=collection_url,

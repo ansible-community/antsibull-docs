@@ -54,7 +54,7 @@ def _parse_required_ansible(requires_ansible: str) -> list[str]:
     return result
 
 
-async def write_plugin_lists(
+async def write_collection_index(
     collection_name: str,
     plugin_maps: Mapping[str, Mapping[str, BasicPluginInfo]],
     template: Template,
@@ -90,7 +90,7 @@ async def write_plugin_lists(
     :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
         the generated files.
     """
-    flog = mlog.fields(func="write_plugin_lists")
+    flog = mlog.fields(func="write_collection_index")
     flog.debug("Enter")
 
     requires_ansible = []
@@ -132,7 +132,7 @@ async def write_plugin_lists(
     flog.debug("Leave")
 
 
-async def output_indexes(
+async def output_collection_indexes(
     collection_to_plugin_info: CollectionInfoT,
     output: Output,
     collection_metadata: Mapping[str, AnsibleCollectionMetadata],
@@ -168,7 +168,7 @@ async def output_indexes(
     :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
         the generated files.
     """
-    flog = mlog.fields(func="output_indexes")
+    flog = mlog.fields(func="output_collection_indexes")
     flog.debug("Enter")
 
     if collection_metadata is None:
@@ -201,7 +201,7 @@ async def output_indexes(
             )
             writers.append(
                 await pool.spawn(
-                    write_plugin_lists(
+                    write_collection_index(
                         collection_name,
                         plugin_maps,
                         collection_plugins_tmpl,
