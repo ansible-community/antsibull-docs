@@ -464,7 +464,9 @@ def generate_docs_for_all_collections(  # noqa: C901
         referenced_env_vars, core_env_vars, collection_metadata
     )
 
-    collection_namespaces = get_collection_namespaces(collection_to_plugin_info.keys())
+    collection_namespaces = get_collection_namespaces(
+        collection_to_plugin_info.keys(), collection_meta=collection_meta
+    )
 
     collection_url = CollectionNameTransformer(
         app_ctx.collection_url, DEFAULT_COLLECTION_URL_TRANSFORM
