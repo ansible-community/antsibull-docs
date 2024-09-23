@@ -14,6 +14,10 @@ from collections.abc import Mapping
 import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context
 from antsibull_core.logging import log
+from antsibull_core.schemas.collection_meta import (
+    CollectionsMetadata,
+    RemovedCollectionMetadata,
+)
 from jinja2 import Template
 from packaging.specifiers import SpecifierSet
 
@@ -132,6 +136,54 @@ async def write_collection_index(
     flog.debug("Leave")
 
 
+async def write_collection_tombstone(
+    collection_name: str,
+    template: Template,
+    output: Output,
+    collection_dir: str,
+    collection_metadata: RemovedCollectionMetadata,
+    output_format: OutputFormat,
+    filename_generator: FilenameGenerator,  # pylint: disable=unused-argument
+    breadcrumbs: bool = True,
+    for_official_docsite: bool = False,
+    squash_hierarchy: bool = False,
+    add_version: bool = True,
+) -> None:
+    """
+    Write a tombstone page for a collection.
+
+    :arg template: A template to render the collection tombstone.
+    :arg output: Output helper for writing output.
+    :arg collection_metadata: Removal metadata for the collection.
+    :kwarg breadcrumbs: Default True.  Set to False if breadcrumbs for collections should be
+        disabled.  This will disable breadcrumbs but save on memory usage.
+    :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
+        official docsite on docs.ansible.com.
+    :kwarg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
+        Undefined behavior if documentation for multiple collections are created.
+    :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
+        the generated files.
+    """
+    flog = mlog.fields(func="write_collection_tombstone")
+    flog.debug("Enter")
+
+    index_file = os.path.join(collection_dir, f"index{output_format.output_extension}")
+    index_contents = _render_template(
+        template,
+        index_file,
+        collection_name=collection_name,
+        collection_removal_version=collection_metadata.removal.version,
+        breadcrumbs=breadcrumbs,
+        for_official_docsite=for_official_docsite,
+        squash_hierarchy=squash_hierarchy,
+        add_version=add_version,
+    )
+
+    await output.write_file(index_file, index_contents)
+
+    flog.debug("Leave")
+
+
 async def output_collection_indexes(
     collection_to_plugin_info: CollectionInfoT,
     output: Output,
@@ -210,6 +262,90 @@ async def output_collection_indexes(
                         collection_metadata[collection_name],
                         extra_docs_data[collection_name],
                         link_data[collection_name],
+                        output_format,
+                        filename_generator,
+                        breadcrumbs=breadcrumbs,
+                        for_official_docsite=for_official_docsite,
+                        squash_hierarchy=squash_hierarchy,
+                        add_version=add_version,
+                    )
+                )
+            )
+
+        await asyncio.gather(*writers)
+
+    flog.debug("Leave")
+
+
+async def output_collection_tombstones(
+    collections_metadata: CollectionsMetadata | None,
+    output: Output,
+    collection_url: CollectionNameTransformer,
+    collection_install: CollectionNameTransformer,
+    output_format: OutputFormat,
+    filename_generator: FilenameGenerator,
+    squash_hierarchy: bool = False,
+    breadcrumbs: bool = True,
+    for_official_docsite: bool = False,
+    add_version: bool = True,
+) -> None:
+    """
+    Generate collection-level index pages for the collections.
+
+    :arg collections_metadata: Metadata on collections.
+    :arg output: Output helper for writing output.
+    :kwarg squash_hierarchy: If set to ``True``, no directory hierarchy will be used.
+        Undefined behavior if documentation for multiple collections are created.
+    :kwarg breadcrumbs: Default True.  Set to False if breadcrumbs for collections should be
+        disabled.  This will disable breadcrumbs but save on memory usage.
+    :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
+        official docsite on docs.ansible.com.
+    :kwarg output_format: The output format to use.
+    :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
+        the generated files.
+    """
+    flog = mlog.fields(func="output_collection_tombstones")
+    flog.debug("Enter")
+
+    if collections_metadata is None:
+        return
+
+    env = doc_environment(
+        collection_url=collection_url,
+        collection_install=collection_install,
+        referable_envvars=None,
+        output_format=output_format,
+        filename_generator=filename_generator,
+    )
+    # Get the templates
+    collection_tombstone_tmpl = env.get_template(
+        get_template_filename("collection-tombstone", output_format)
+    )
+
+    writers = []
+    lib_ctx = app_context.lib_ctx.get()
+
+    async with asyncio_pool.AioPool(size=lib_ctx.thread_max) as pool:
+        for (
+            collection_name,
+            collection_meta,
+        ) in collections_metadata.removed_collections.items():
+            namespace, collection = collection_name.split(".", 1)
+            collection_dir = _get_collection_dir(
+                output,
+                namespace,
+                collection,
+                squash_hierarchy=squash_hierarchy,
+                create_if_not_exists=True,
+            )
+            writers.append(
+                await pool.spawn(
+                    write_collection_tombstone(
+                        collection_name,
+                        collection_tombstone_tmpl,
+                        output,
+                        collection_dir,
+                        collection_meta,
                         output_format,
                         filename_generator,
                         breadcrumbs=breadcrumbs,
