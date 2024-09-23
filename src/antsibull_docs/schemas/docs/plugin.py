@@ -8,17 +8,16 @@
 import re
 import typing as t
 
-from antsibull_docs._pydantic_compat import v1 as p
+import pydantic as p
 
 from .base import (
     COLLECTION_NAME_F,
     REQUIRED_CLI_F,
     REQUIRED_ENV_VAR_F,
-    RETURN_TYPE_F,
+    RETURN_TYPE,
     BaseModel,
     DeprecationSchema,
     DocSchema,
-    LocalConfig,
     OptionsSchema,
     is_json_value,
     list_from_scalars,
@@ -39,16 +38,17 @@ class OptionCliSchema(BaseModel):
     version_added: str = "historical"
     version_added_collection: str = COLLECTION_NAME_F
 
-    @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument
+    @p.model_validator(mode="before")
+    @classmethod
     def add_option(cls, values):
         """
         Add option if not present
         """
-        option = values.get("option", _SENTINEL)
+        if isinstance(values, dict):
+            option = values.get("option", _SENTINEL)
 
-        if option is _SENTINEL:
-            values["option"] = f'--{values["name"].replace("_", "-")}'
+            if option is _SENTINEL:
+                values["option"] = f'--{values["name"].replace("_", "-")}'
 
         return values
 
@@ -87,76 +87,74 @@ class ReturnSchema(BaseModel):
 
     description: list[str]
     choices: t.Union[list[t.Any], dict[t.Any, list[str]]] = []
-    elements: str = RETURN_TYPE_F
+    elements: RETURN_TYPE = "str"
     returned: str = "success"
     sample: t.Any = None  # JSON value
-    type: str = RETURN_TYPE_F
+    type: RETURN_TYPE = "str"
     version_added: str = "historical"
     version_added_collection: str = COLLECTION_NAME_F
 
-    @p.validator("description", pre=True)
-    # pylint:disable=no-self-argument
+    @p.field_validator("description", mode="before")
+    @classmethod
     def list_from_scalars(cls, obj):
         return list_from_scalars(obj)
 
-    @p.validator("sample", pre=True)
-    # pylint:disable=no-self-argument
+    @p.field_validator("sample", mode="before")
+    @classmethod
     def is_json_value(cls, obj):
         if not is_json_value(obj):
             raise ValueError("`sample` must be a JSON value")
         return obj
 
-    @p.validator("type", "elements", pre=True)
-    # pylint:disable=no-self-argument
+    @p.field_validator("type", "elements", mode="before")
+    @classmethod
     def normalize_types(cls, obj):
         return normalize_return_type_names(obj)
 
-    @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument
-    def remove_example(cls, values):
+    @p.model_validator(mode="before")
+    @classmethod
+    def remove_example_normalize_sample(cls, values):
         """
-        Remove example in favor of sample.
+        Remove example in favor of sample, and normalize sample.
 
         Having both sample and example is redundant.  Many more plugins are using sample so
         standardize on that.
         """
-        example = values.get("example", _SENTINEL)
+        if isinstance(values, dict):
+            example = values.get("example", _SENTINEL)
 
-        if example is not _SENTINEL:
-            if values.get("sample"):
-                raise ValueError(
-                    "Cannot specify `example` if `sample` has been specified."
-                )
+            if example is not _SENTINEL:
+                if values.get("sample"):
+                    raise ValueError(
+                        "Cannot specify `example` if `sample` has been specified."
+                    )
 
-            if not is_json_value(example):
-                raise ValueError("`example` must be a JSON value")
+                if not is_json_value(example):
+                    raise ValueError("`example` must be a JSON value")
 
-            values["sample"] = example
-            del values["example"]
+                values["sample"] = example
+                del values["example"]
+
+            try:
+                normalize_value(values, "sample")
+            except ValueError:
+                pass
 
         return values
 
-    @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument
-    def normalize_sample(cls, values):
-        try:
-            normalize_value(values, "sample")
-        except ValueError:
-            pass
-        return values
-
-    @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument
+    @p.model_validator(mode="before")
+    @classmethod
     def normalize_choices(cls, values):
-        if isinstance(values.get("choices"), dict):
-            for k, v in values["choices"].items():
-                values["choices"][k] = list_from_scalars(v)
-        normalize_value(
-            values,
-            "choices",
-            is_list_of_values=values.get("type") != "list",
-            accept_dict=True,
-        )
+        if isinstance(values, dict):
+            if isinstance(values.get("choices"), dict):
+                for k, v in values["choices"].items():
+                    values["choices"][k] = list_from_scalars(v)
+            normalize_value(
+                values,
+                "choices",
+                is_list_of_values=values.get("type") != "list",
+                accept_dict=True,
+            )
         return values
 
 
@@ -165,16 +163,16 @@ class InnerReturnSchema(ReturnSchema):
 
     contains: dict[str, "InnerReturnSchema"] = {}
 
-    @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument
+    @p.model_validator(mode="before")
+    @classmethod
     def allow_description_to_be_optional(cls, values):
         # Doing this in a validator so that the json-schema will still flag it as an error
-        if "description" not in values:
+        if isinstance(values, dict) and "description" not in values:
             values["description"] = []
         return values
 
 
-InnerReturnSchema.update_forward_refs()
+InnerReturnSchema.model_rebuild()
 
 
 class OuterReturnSchema(ReturnSchema):
@@ -193,7 +191,7 @@ class PluginOptionsSchema(OptionsSchema):
     deprecated: t.Optional[DeprecationSchema] = None
 
 
-PluginOptionsSchema.update_forward_refs()
+PluginOptionsSchema.model_rebuild()
 
 
 class InnerDocSchema(DocSchema):
@@ -208,16 +206,17 @@ class PluginExamplesSchema(BaseModel):
     examples: str = ""
     examples_format: str = "yaml"
 
-    @p.validator("examples_format", always=True)
-    # pylint:disable=no-self-argument
-    def extract_examples_format(cls, value: t.Any, values: dict[str, t.Any]):
-        if isinstance(examples := values.get("examples"), str):
-            if fmt_match := _EXAMPLES_FMT_RE.match(examples.lstrip()):
-                value = fmt_match.group(1)
-        return value
+    @p.model_validator(mode="before")
+    @classmethod
+    def extract_examples_format(cls, values):
+        if isinstance(values, dict):
+            if isinstance(examples := values.get("examples"), str):
+                if fmt_match := _EXAMPLES_FMT_RE.match(examples.lstrip()):
+                    values["examples_format"] = fmt_match.group(1)
+        return values
 
-    @p.validator("examples", pre=True)
-    # pylint:disable=no-self-argument
+    @p.field_validator("examples", mode="before")
+    @classmethod
     def normalize_examples(cls, value):
         if value is None:
             value = ""
@@ -229,15 +228,10 @@ class PluginMetadataSchema(BaseModel):
 
 
 class PluginReturnSchema(BaseModel):
-    class Config(LocalConfig):
-        fields = {
-            "return_": "return",
-        }
+    return_: t.Annotated[dict[str, OuterReturnSchema], p.Field(alias="return")] = {}
 
-    return_: dict[str, OuterReturnSchema] = {}
-
-    @p.validator("return_", pre=True)
-    # pylint:disable=no-self-argument
+    @p.field_validator("return_", mode="before")
+    @classmethod
     def transform_return(cls, obj):
         return transform_return_docs(obj)
 

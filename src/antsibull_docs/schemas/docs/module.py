@@ -6,7 +6,7 @@
 """Schemas for the plugin DOCUMENTATION data."""
 
 
-from antsibull_docs._pydantic_compat import v1 as p
+import pydantic as p
 
 from .base import BaseModel, DocSchema, OptionsSchema
 from .plugin import PluginExamplesSchema, PluginMetadataSchema, PluginReturnSchema
@@ -15,16 +15,16 @@ from .plugin import PluginExamplesSchema, PluginMetadataSchema, PluginReturnSche
 class InnerModuleOptionsSchema(OptionsSchema):
     suboptions: dict[str, "InnerModuleOptionsSchema"] = {}
 
-    @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument
+    @p.model_validator(mode="before")
+    @classmethod
     def allow_description_to_be_optional(cls, values):
         # Doing this in a validator so that the json-schema will still flag it as an error
-        if "description" not in values:
+        if isinstance(values, dict) and "description" not in values:
             values["description"] = []
         return values
 
 
-InnerModuleOptionsSchema.update_forward_refs()
+InnerModuleOptionsSchema.model_rebuild()
 
 
 class ModuleOptionsSchema(OptionsSchema):

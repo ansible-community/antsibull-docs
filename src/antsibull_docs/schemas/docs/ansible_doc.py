@@ -12,6 +12,8 @@ antsibull.schemas.docs to handle all of their validation needs.
 
 from __future__ import annotations
 
+import pydantic as p
+
 from .base import BaseModel
 from .callback import CallbackSchema
 from .module import ModuleSchema
@@ -53,7 +55,8 @@ class AnsibleDocSchema(BaseModel):
             plugin_name:
                 # json.loads(ansible-doc -t plugin_type --json plugin_name)
 
-    Pass the dict above to :meth:`AnsibleDocSchema.parse_obj` to build the models from the schema.
+    Pass the dict above to :meth:`AnsibleDocSchema.model_validate` to build the models from the
+    schema.
 
     If you want to use the Schema to validate and normalize the data but need a :python:obj:`dict`
     afterwards, call :meth:`AnsibleDocSchema.dict` on the populated model to get
@@ -78,64 +81,34 @@ class AnsibleDocSchema(BaseModel):
     role: dict[str, RoleSchema]
 
 
-class GenericPluginSchema(BaseModel):
-    """
-    Document the output of ``ansible-doc -t PLUGIN_TYPE PLUGIN_NAME``.
-
-    .. note:: Both the model and the dict will be wrapped in an outer dict with your data mapped
-        to the ``__root__`` key. This happens because the toplevel key of ansible-doc's output is
-        a dynamic key which we can't automatically map to an attribute name.
-    """
-
-    __root__: dict[str, PluginSchema]
+GenericPluginSchema = p.RootModel[dict[str, PluginSchema]]
+"""
+Document the output of ``ansible-doc -t PLUGIN_TYPE PLUGIN_NAME``.
+"""
 
 
-class CallbackPluginSchema(BaseModel):
-    """
-    Document the output of ``ansible-doc -t callback CALLBACK_NAME``.
-
-    .. note:: Both the model and the dict will be wrapped in an outer dict with your data mapped
-        to the ``__root__`` key. This happens because the toplevel key of ansible-doc's output is
-        a dynamic key which we can't automatically map to an attribute name.
-    """
-
-    __root__: dict[str, CallbackSchema]
+CallbackPluginSchema = p.RootModel[dict[str, CallbackSchema]]
+"""
+Document the output of ``ansible-doc -t callback CALLBACK_NAME``.
+"""
 
 
-class PositionalPluginSchema(BaseModel):
-    """
-    Document the output of ``ansible-doc -t lookup CALLBACK_NAME``, or ``-t filter``, ``-t test``.
-
-    .. note:: Both the model and the dict will be wrapped in an outer dict with your data mapped
-        to the ``__root__`` key. This happens because the toplevel key of ansible-doc's output is
-        a dynamic key which we can't automatically map to an attribute name.
-    """
-
-    __root__: dict[str, PositionalSchema]
+PositionalPluginSchema = p.RootModel[dict[str, PositionalSchema]]
+"""
+Document the output of ``ansible-doc -t lookup CALLBACK_NAME``, or ``-t filter``, ``-t test``.
+"""
 
 
-class ModulePluginSchema(BaseModel):
-    """
-    Document the output of ``ansible-doc -t module MODULE_NAME``.
-
-    .. note:: Both the model and the dict will be wrapped in an outer dict with your data mapped
-        to the ``__root__`` key. This happens because the toplevel key of ansible-doc's output is
-        a dynamic key which we can't automatically map to an attribute name.
-    """
-
-    __root__: dict[str, ModuleSchema]
+ModulePluginSchema = p.RootModel[dict[str, ModuleSchema]]
+"""
+Document the output of ``ansible-doc -t module MODULE_NAME``.
+"""
 
 
-class RolePluginSchema(BaseModel):
-    """
-    Document the output of ``ansible-doc -t role ROLE_NAME``.
-
-    .. note:: Both the model and the dict will be wrapped in an outer dict with your data mapped
-        to the ``__root__`` key. This happens because the toplevel key of ansible-doc's output is
-        a dynamic key which we can't automatically map to an attribute name.
-    """
-
-    __root__: dict[str, RoleSchema]
+RolePluginSchema = p.RootModel[dict[str, RoleSchema]]
+"""
+Document the output of ``ansible-doc -t role ROLE_NAME``.
+"""
 
 
 #: Make sure users can access plugins using the plugin type rather than having to guess that

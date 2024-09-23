@@ -9,19 +9,21 @@ The errors were:
 
 * ::
 
-        6 validation errors for ModuleDocSchema
+        7 validation errors for ModuleDocSchema
         doc -> short_description
-          field required (type=value_error.missing)
+          Field required (type=missing)
         doc -> seealso
-          value is not a valid list (type=type_error.list)
+          Input should be a valid list (type=list_type)
         doc -> options -> bar -> description -> 0
-          str type expected (type=type_error.str)
+          Input should be a valid string (type=string_type)
+        doc -> options -> bar -> description -> 1
+          Input should be a valid string (type=string_type)
         doc -> options -> bar -> type
-          string does not match regex "^(any|bits|bool|bytes|dict|float|int|json|jsonarg|list|path|raw|sid|str|tmppath|pathspec|pathlist)$" (type=value_error.str.regex; pattern=^(any|bits|bool|bytes|dict|float|int|json|jsonarg|list|path|raw|sid|str|tmppath|pathspec|pathlist)$)
+          Input should be 'any', 'bits', 'bool', 'bytes', 'dict', 'float', 'int', 'json', 'jsonarg', 'list', 'path', 'raw', 'sid', 'str', 'tmppath', 'pathspec' or 'pathlist' (type=literal_error; expected='any', 'bits', 'bool', 'bytes', 'dict', 'float', 'int', 'json', 'jsonarg', 'list', 'path', 'raw', 'sid', 'str', 'tmppath', 'pathspec' or 'pathlist')
         doc -> options -> foo
-          value is not a valid dict (type=type_error.dict)
+          Input should be a valid dictionary or instance of ModuleOptionsSchema (type=model_type; class_name=ModuleOptionsSchema)
         doc -> options -> subfoo -> bam
-          extra fields not permitted (type=value_error.extra)
+          Extra inputs are not permitted (type=extra_forbidden)
 
 
 File a bug with the `ns.col2 collection <https://galaxy.ansible.com/ui/repo/published/ns/col2/>`_ in order to have it corrected.

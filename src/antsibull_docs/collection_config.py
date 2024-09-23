@@ -12,11 +12,11 @@ import typing as t
 from collections.abc import Mapping
 
 import asyncio_pool  # type: ignore[import]
+import pydantic as p
 from antsibull_core import app_context
 from antsibull_core.logging import log
+from antsibull_core.pydantic import forbid_extras, get_formatted_error_messages
 from antsibull_fileutils.yaml import load_yaml_file
-
-from antsibull_docs._pydantic_compat import v1
 
 from .schemas.collection_config import CollectionConfig
 
@@ -27,7 +27,7 @@ _ANSIBLE_CORE_CONFIG: dict[str, t.Any] = {}
 
 
 def get_ansible_core_config() -> CollectionConfig:
-    return CollectionConfig.parse_obj(_ANSIBLE_CORE_CONFIG)
+    return CollectionConfig.model_validate(_ANSIBLE_CORE_CONFIG)
 
 
 async def load_collection_config(
@@ -50,10 +50,10 @@ async def load_collection_config(
         config_path = os.path.join(collection_path, "docs", "docsite", "config.yml")
         if os.path.isfile(config_path):
             try:
-                return CollectionConfig.parse_obj(load_yaml_file(config_path))
-            except v1.ValidationError:
+                return CollectionConfig.model_validate(load_yaml_file(config_path))
+            except p.ValidationError:
                 pass
-        return CollectionConfig.parse_obj({})
+        return CollectionConfig()
     finally:
         flog.debug("Leave")
 
@@ -99,8 +99,7 @@ def lint_collection_config(collection_path: str) -> list[tuple[str, int, int, st
 
     result: list[tuple[str, int, int, str]] = []
 
-    for cls in (CollectionConfig,):
-        cls.__config__.extra = v1.Extra.forbid  # type: ignore[attr-defined]
+    forbid_extras(CollectionConfig)
 
     try:
         config_path = os.path.join(collection_path, "docs", "docsite", "config.yml")
@@ -109,17 +108,10 @@ def lint_collection_config(collection_path: str) -> list[tuple[str, int, int, st
 
         config_data = load_yaml_file(config_path)
         try:
-            CollectionConfig.parse_obj(config_data)
-        except v1.ValidationError as exc:
-            for error in exc.errors():
-                result.append(
-                    (
-                        config_path,
-                        0,
-                        0,
-                        v1.error_wrappers.display_errors([error]).replace("\n ", ":"),
-                    )
-                )
+            CollectionConfig.model_validate(config_data)
+        except p.ValidationError as exc:
+            for message in get_formatted_error_messages(exc):
+                result.append((config_path, 0, 0, message))
 
         return result
     finally:

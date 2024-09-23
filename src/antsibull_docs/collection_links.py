@@ -13,11 +13,11 @@ import typing as t
 from collections.abc import Mapping
 
 import asyncio_pool  # type: ignore[import]
+import pydantic as p
 from antsibull_core import app_context
 from antsibull_core.logging import log
+from antsibull_core.pydantic import forbid_extras, get_formatted_error_messages
 from antsibull_fileutils.yaml import load_yaml_file
-
-from antsibull_docs._pydantic_compat import v1
 
 from .schemas.collection_links import (
     CollectionEditOnGitHub,
@@ -99,7 +99,7 @@ def _extract_galaxy_links(data: dict) -> list[Link]:
                 if data.get(other_key) == url:
                     return
         if isinstance(url, str):
-            result.append(Link.parse_obj({"description": desc, "url": url}))
+            result.append(Link.model_validate({"description": desc, "url": url}))
 
     # extract('documentation', 'Documentation')
     extract("issues", "Issue Tracker")
@@ -130,9 +130,9 @@ def load(
     else:
         ld = {}
     try:
-        result = CollectionLinks.parse_obj(ld)
-    except v1.ValidationError:
-        result = CollectionLinks.parse_obj({})
+        result = CollectionLinks.model_validate(ld)
+    except p.ValidationError:
+        result = CollectionLinks()
 
     # Parse MANIFEST or galaxy data
     issue_tracker = None
@@ -170,7 +170,7 @@ async def load_collection_links(
     flog.debug("Enter")
 
     if collection_name == "ansible.builtin":
-        return CollectionLinks.parse_obj(_ANSIBLE_CORE_METADATA)
+        return CollectionLinks.model_validate(_ANSIBLE_CORE_METADATA)
 
     try:
         # Load links data
@@ -274,16 +274,17 @@ def lint_collection_links(collection_path: str) -> list[tuple[str, int, int, str
 
     result: list[tuple[str, int, int, str]] = []
 
-    for cls in (
-        CollectionEditOnGitHub,
-        Link,
-        IRCChannel,
-        MatrixRoom,
-        MailingList,
-        Communication,
-        CollectionLinks,
-    ):
-        cls.__config__.extra = v1.Extra.forbid  # type: ignore[attr-defined]
+    forbid_extras(
+        [
+            CollectionEditOnGitHub,
+            Link,
+            IRCChannel,
+            MatrixRoom,
+            MailingList,
+            Communication,
+            CollectionLinks,
+        ]
+    )
 
     try:
         index_path = os.path.join(collection_path, "docs", "docsite", "links.yml")
@@ -297,18 +298,11 @@ def lint_collection_links(collection_path: str) -> list[tuple[str, int, int, str
                     (index_path, 0, 0, f"The key '{forbidden_key}' must not be used")
                 )
         try:
-            parsed_data = CollectionLinks.parse_obj(links_data)
+            parsed_data = CollectionLinks.model_validate(links_data)
             _check_default_values(parsed_data, index_path, result)
-        except v1.ValidationError as exc:
-            for error in exc.errors():
-                result.append(
-                    (
-                        index_path,
-                        0,
-                        0,
-                        v1.error_wrappers.display_errors([error]).replace("\n ", ":"),
-                    )
-                )
+        except p.ValidationError as exc:
+            for message in get_formatted_error_messages(exc):
+                result.append((index_path, 0, 0, message))
 
         return result
     finally:

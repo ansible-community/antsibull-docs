@@ -5,7 +5,7 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Schemas for the plugin DOCUMENTATION data."""
 
-from antsibull_docs._pydantic_compat import v1 as p
+import typing as t
 
 from .base import BaseModel
 from .plugin import (
@@ -14,8 +14,6 @@ from .plugin import (
     PluginMetadataSchema,
     PluginReturnSchema,
 )
-
-REQUIRED_CALLBACK_TYPE_F = p.Field(..., regex="^(aggregate|notification|stdout)$")
 
 
 class InnerCallbackDocSchema(InnerDocSchema):
@@ -26,7 +24,7 @@ class InnerCallbackDocSchema(InnerDocSchema):
     having separate types.
     """
 
-    type: str = REQUIRED_CALLBACK_TYPE_F
+    type: t.Literal["aggregate", "notification", "stdout"]
 
 
 class CallbackDocSchema(BaseModel):

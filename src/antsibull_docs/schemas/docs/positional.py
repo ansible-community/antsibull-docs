@@ -7,7 +7,7 @@
 """Schemas for the plugin DOCUMENTATION data."""
 
 
-from antsibull_docs._pydantic_compat import v1 as p
+import pydantic as p
 
 from .base import BaseModel
 from .plugin import (
@@ -25,8 +25,8 @@ class InnerPositionalDocSchema(InnerDocSchema):
 
     positional: list[str] = []
 
-    @p.root_validator(pre=True)
-    # pylint:disable=no-self-argument
+    @p.model_validator(mode="before")
+    @classmethod
     def add_default_positional(cls, values):
         """
         Remove example in favor of sample.
@@ -34,14 +34,17 @@ class InnerPositionalDocSchema(InnerDocSchema):
         Having both sample and example is redundant.  Many more plugins are using sample so
         standardize on that.
         """
-        positional = values.get("positional", [])
+        if isinstance(values, dict):
+            positional = values.get("positional", [])
 
-        if isinstance(positional, str):
-            positional = (
-                [part.strip() for part in positional.split(",")] if positional else []
-            )
+            if isinstance(positional, str):
+                positional = (
+                    [part.strip() for part in positional.split(",")]
+                    if positional
+                    else []
+                )
 
-        values["positional"] = positional
+            values["positional"] = positional
         return values
 
 

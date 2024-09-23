@@ -5,7 +5,7 @@
 # SPDX-FileCopyrightText: 2023, Ansible Project
 """Schemas for collection config files."""
 
-from antsibull_docs._pydantic_compat import v1 as p
+import pydantic as p
 
 
 class ChangelogConfig(p.BaseModel):

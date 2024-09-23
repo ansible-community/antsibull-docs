@@ -1,0 +1,6 @@
+minor_changes:
+  - "Migrated all models to Pydantic 2. This is mostly transparent, except that validation error messages slightly change, and that
+     some validation is more strict. For example, if a boolean is used instead of a string, say in a description, this now results
+     in an error instead of a silent coercion. Numbers are still accepted for strings (for example ``version_added`` with float values
+     like ``2.14``)
+     (https://github.com/ansible-community/antsibull-docs/pull/331, https://github.com/ansible-community/antsibull-core/pull/333)."

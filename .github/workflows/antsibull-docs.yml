@@ -33,7 +33,7 @@ jobs:
           - '3.12'
         antsibull_core_ref:
           - main
-          - '3.1.0'
+          - '3.2.0'
         antsibull_docs_parser_ref:
           - main
         antsibull_changelog_ref:
