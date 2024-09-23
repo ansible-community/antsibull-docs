@@ -1,0 +1,19 @@
+{#
+  Copyright (c) Ansible Project
+  GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+  SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+{% if antsibull_docs_version %}
+.. Created with antsibull-docs @{ antsibull_docs_version }@
+{% else %}
+.. Created with antsibull-docs
+{% endif %}
+
+@{collection_name.title()}@
+@{ '=' * (collection_name | column_width) }@
+
+This collection has been removed from Ansible @{ collection_removal_version.major }@.
+
+If you want to continue using this collection, you can install it manually using
+@{ collection_name | collection_install | rst_code }@.

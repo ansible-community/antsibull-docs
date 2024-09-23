@@ -30,6 +30,8 @@ These are the collections documented here in the **@{ namespace }@** namespace.
 
 {% for name in collections | sort %}
 * :ref:`@{ namespace }@.@{ name }@ <plugins_in_@{ namespace }@.@{ name }@>` @{ collection_deprecation_marker(collection_metadata[namespace ~ '.' ~ name]) }@
+{% else %}
+There is no collection in this namespace.
 {% endfor %}
 
 {% if breadcrumbs %}
