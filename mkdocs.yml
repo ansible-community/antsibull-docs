@@ -16,7 +16,7 @@ theme:
 # REUSE-IgnoreStart
 copyright: >
   Copyright (C) 2024 Ansible Project Authors |
-  SPDX-License-Identifier: <a style="text-decoration: underline;" href="https://github.com/ansible-community/antsibull-changelog/blob/main/LICENSE">GPL-3.0-or-later</a>
+  SPDX-License-Identifier: <a style="text-decoration: underline;" href="https://github.com/ansible-community/antsibull-docs/blob/main/LICENSE">GPL-3.0-or-later</a>
 # REUSE-IgnoreEnd
 markdown_extensions:
   # Builtin
