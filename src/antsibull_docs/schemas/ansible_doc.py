@@ -20,3 +20,5 @@ warnings.warn(
     DeprecationWarning,
     stacklevel=2,
 )
+
+# TODO: remove in 3.0.0
