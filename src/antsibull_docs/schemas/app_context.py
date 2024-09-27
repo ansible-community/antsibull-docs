@@ -33,11 +33,10 @@ class DocsAppContext(CoreAppContext):
     }
 
     # pylint: disable-next=unused-private-member
-    __convert_docs_bools = p.validator(  # type: ignore
+    __convert_docs_bools = p.field_validator(  # type: ignore
         "breadcrumbs",
         "indexes",
         "use_html_blobs",
         "add_antsibull_docs_version",
-        pre=True,
-        allow_reuse=True,
+        mode="before",
     )(convert_bool)
