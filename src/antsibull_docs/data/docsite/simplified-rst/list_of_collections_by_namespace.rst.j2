@@ -29,4 +29,6 @@ These are the collections documented here in the **@{ namespace }@** namespace.
 
 {% for name in collections | sort %}
 * `@{ namespace }@.@{ name }@ <namespace/index.rst>`_
+{% else %}
+There is no collection in this namespace.
 {% endfor %}

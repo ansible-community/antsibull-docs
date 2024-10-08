@@ -55,7 +55,11 @@ from ...schemas.app_context import (
 from ...utils.collection_name_transformer import CollectionNameTransformer
 from ...write_docs import CollectionInfoT, _get_collection_dir
 from ...write_docs.changelog import output_changelogs
-from ...write_docs.collections import output_extra_docs, output_indexes
+from ...write_docs.collections import (
+    output_collection_indexes,
+    output_collection_tombstones,
+    output_extra_docs,
+)
 from ...write_docs.hierarchy import (
     output_collection_index,
     output_collection_namespace_indexes,
@@ -464,7 +468,9 @@ def generate_docs_for_all_collections(  # noqa: C901
         referenced_env_vars, core_env_vars, collection_metadata
     )
 
-    collection_namespaces = get_collection_namespaces(collection_to_plugin_info.keys())
+    collection_namespaces = get_collection_namespaces(
+        collection_to_plugin_info.keys(), collection_meta=collection_meta
+    )
 
     collection_url = CollectionNameTransformer(
         app_ctx.collection_url, DEFAULT_COLLECTION_URL_TRANSFORM
@@ -550,7 +556,7 @@ def generate_docs_for_all_collections(  # noqa: C901
 
     if create_collection_indexes:
         asyncio.run(
-            output_indexes(
+            output_collection_indexes(
                 collection_to_plugin_info,
                 output,
                 collection_url=collection_url,
@@ -567,7 +573,23 @@ def generate_docs_for_all_collections(  # noqa: C901
                 add_version=add_antsibull_docs_version,
             )
         )
-        flog.notice("Finished writing indexes")
+        flog.notice("Finished writing collection indexes")
+
+        asyncio.run(
+            output_collection_tombstones(
+                collection_meta,
+                output,
+                collection_url=collection_url,
+                collection_install=collection_install,
+                squash_hierarchy=squash_hierarchy,
+                output_format=output_format,
+                filename_generator=filename_generator,
+                breadcrumbs=breadcrumbs,
+                for_official_docsite=for_official_docsite,
+                add_version=add_antsibull_docs_version,
+            )
+        )
+        flog.notice("Finished writing collection tombstones")
 
         asyncio.run(
             output_changelogs(

@@ -17,6 +17,7 @@ from string import ascii_uppercase as _CAPITAL_LETTERS_STRING
 import pydantic as p
 import pydantic_core
 from antsibull_core.logging import log
+from antsibull_core.schemas.collection_meta import CollectionsMetadata
 
 from . import app_context
 from .docs_parsing.fqcn import get_fqcn_parts
@@ -30,17 +31,27 @@ mlog = log.fields(mod=__name__)
 PluginErrorsRT = defaultdict[str, defaultdict[str, list[str]]]
 
 
-def get_collection_namespaces(collection_names: Iterable[str]) -> dict[str, list[str]]:
+def get_collection_namespaces(
+    collection_names: Iterable[str], *, collection_meta: CollectionsMetadata | None
+) -> dict[str, list[str]]:
     """
     Return the plugins which are in each collection.
 
     :arg collection_names: An iterable of collection names.
+    :kwarg collection_meta: Optional collection metadata. If provided, will
+        ensure that namespaces that only contain removed collections are also
+        present (with an empty collection list).
     :returns: Mapping from collection namespaces to list of collection names.
     """
     namespaces = defaultdict(list)
     for collection_name in collection_names:
         namespace, name = collection_name.split(".", 1)
         namespaces[namespace].append(name)
+    if collection_meta:
+        for collection_name in collection_meta.removed_collections:
+            namespace, name = collection_name.split(".", 1)
+            # Simply make sure that there's an entry for the namespace:
+            namespaces[namespace]  # pylint:disable=pointless-statement
     return namespaces
 
 
