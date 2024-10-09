@@ -121,6 +121,14 @@ Parameters
     </div></td>
     <td><div class="ansible-option-cell">
       <p>The foo source.</p>
+      <p class="ansible-option-line"><strong class="ansible-option-configuration">Configuration:</strong></p>
+      <p>The below environment variable will be used on the host that executes this module.</p>
+      <ul class="simple">
+      <li>
+        <p>Environment variable: <code class="xref std std-envvar literal notranslate">ANSIBLE_FOO</code></p>
+
+      </li>
+      </ul>
     </div></td>
   </tr>
   <tr class="row-even">
@@ -214,7 +222,7 @@ Parameters
       <p class="ansible-option-type-line">
         <span class="ansible-option-type">dictionary</span>
       </p>
-      <p><em class="ansible-option-versionadded">added in ns2.col 2.0.0</em></p>
+      <p><em class="ansible-option-versionadded">added in ns2.col 2.1.0</em></p>
     </div></td>
     <td><div class="ansible-option-cell">
       <p>Some recursive foo.</p>
@@ -234,6 +242,26 @@ Parameters
       <p>A sub foo.</p>
       <p>Whatever.</p>
       <p>Also required when <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="#parameter-subfoo"><span class="std std-ref"><span class="pre">subfoo</span></span></a></strong></code> is specified when <code class="ansible-option-value literal notranslate"><a class="reference internal" href="#parameter-foo"><span class="std std-ref"><span class="pre">foo=bar</span></span></a></code> or <code class="ansible-value literal notranslate">baz</code>.</p>
+      <p class="ansible-option-line"><strong class="ansible-option-configuration">Configuration:</strong></p>
+      <p>The below environment variables will be used on the host that executes this module.</p>
+      <ul class="simple">
+      <li>
+        <p>Environment variable: <code class="xref std std-envvar literal notranslate">ANSIBLE_FOO</code></p>
+
+      </li>
+      <li>
+        <p>Environment variable: <code class="xref std std-envvar literal notranslate">ANSIBLE_BAR</code></p>
+        <p><em class="ansible-option-versionadded">added in ns2.col 2.2.0</em></p>
+
+      </li>
+      <li>
+        <p>Environment variable: <code class="xref std std-envvar literal notranslate">ANSIBLE_BAZ</code></p>
+  <p>Removed in: version 4.0.0</p>
+  <p>Why: Will be gone.</p>
+  <p>Alternative: use <code class='docutils literal notranslate'>ANSIBLE_BAR</code></p>
+
+      </li>
+      </ul>
     </div></td>
   </tr>
 
