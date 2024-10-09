@@ -63,7 +63,7 @@ async def retrieve(
     requestors = {}
 
     lib_ctx = app_context.lib_ctx.get()
-    async with aiohttp.ClientSession() as aio_session:
+    async with aiohttp.ClientSession(trust_env=True) as aio_session:
         context = await GalaxyContext.create(aio_session, galaxy_server=galaxy_server)
         async with asyncio_pool.AioPool(size=lib_ctx.thread_max) as pool:
             if not use_installed_ansible_core:
