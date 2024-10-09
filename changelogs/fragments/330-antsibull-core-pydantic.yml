@@ -1,4 +1,0 @@
-minor_changes:
-  - "This project now depends on antsibull-core >= 3.2.0 and pydantic 2 (https://github.com/ansible-community/antsibull-docs/pull/330)."
-  - "When rendering the Ansible docsite with the ``stable`` and ``devel`` subcommands, information on deprecated collections is shown
-     (https://github.com/ansible-community/ansible-build-data/pull/450, https://github.com/ansible-community/antsibull-docs/pull/330)."

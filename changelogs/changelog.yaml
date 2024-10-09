@@ -925,3 +925,34 @@ releases:
       - 322-antsibull-fileutils.yml
       - 325-mailing-list.yml
     release_date: '2024-09-09'
+  2.15.0:
+    changes:
+      minor_changes:
+        - Migrated all models to Pydantic 2. This is mostly transparent, except that
+          validation error messages slightly change, and that some validation is more
+          strict. For example, if a boolean is used instead of a string, say in a
+          description, this now results in an error instead of a silent coercion.
+          Numbers are still accepted for strings (for example ``version_added`` with
+          float values like ``2.14``) (https://github.com/ansible-community/antsibull-docs/pull/331,
+          https://github.com/ansible-community/antsibull-core/pull/333, https://github.com/ansible-community/antsibull-core/pull/344).
+        - This project now depends on antsibull-core >= 3.2.0 and pydantic 2 (https://github.com/ansible-community/antsibull-docs/pull/330).
+        - Use Proxy configuration settings from the environment. Check out the `aiohttp
+          documentation on Proxy support <https://docs.aiohttp.org/en/stable/client_advanced.html#proxy-support>`__
+          for information on which environment variables are supported (https://github.com/ansible/ansible-documentation/issues/1936,
+          https://github.com/ansible-community/antsibull-docs/pull/346).
+        - Use language ``ini`` for example INI code blocks (https://github.com/ansible-community/antsibull-docs/pull/335).
+        - When rendering the Ansible docsite with the ``stable`` and ``devel`` subcommands,
+          information on deprecated collections is shown (https://github.com/ansible-community/ansible-build-data/pull/450,
+          https://github.com/ansible-community/antsibull-docs/pull/330).
+        - When rendering the Ansible docsite with the ``stable`` and ``devel`` subcommands,
+          stub pages for removed collections are added (https://github.com/ansible-community/ansible-build-data/pull/459,
+          https://github.com/ansible-community/antsibull-docs/pull/341).
+      release_summary: Bugfix and feature release which migrates to Pydantic 2.
+    fragments:
+      - 2.15.0.yml
+      - 330-antsibull-core-pydantic.yml
+      - 332-pydantic-2.yml
+      - 335-ini.yml
+      - 341-removed-collections.yml
+      - 346-proxy-env.yml
+    release_date: '2024-10-09'
