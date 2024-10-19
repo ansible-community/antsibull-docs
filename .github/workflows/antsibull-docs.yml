@@ -30,7 +30,7 @@ jobs:
           - '--use-current --sphinx-theme sphinx_rtd_theme'
           - '--no-indexes --squash-hierarchy --intersphinx ansible7:https://docs.ansible.com/ansible/6/ community.crypto --collection-version 2.0.0'
         python:
-          - '3.12'
+          - '3.13'
         antsibull_core_ref:
           - main
           - '3.2.0'
@@ -215,10 +215,10 @@ jobs:
           repository: ansible-community/antsibull-fileutils
           path: antsibull-fileutils
 
-      - name: Set up Python 3.12
+      - name: Set up Python 3.13
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.13'
 
       - name: Install dependencies
         run: |
@@ -294,10 +294,10 @@ jobs:
           repository: ansible-community/antsibull-fileutils
           path: antsibull-fileutils
 
-      - name: Set up Python 3.12
+      - name: Set up Python 3.13
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.13'
 
       - name: Install dependencies
         run: |
