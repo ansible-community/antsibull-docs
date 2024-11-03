@@ -281,7 +281,7 @@ def _compose_deprecation_info(
     ansible_version: PypiVer | None,
 ) -> str | None:
     removal = metadata.removal
-    if removal is None:
+    if removal is None or not removal.is_deprecated():
         return None
 
     sentences = _collect_removal_sentences(collection, removal, ansible_version)
@@ -304,7 +304,11 @@ def _add_deprecation_info(
         metadata.deprecation_info = _compose_deprecation_info(
             collection, meta, ansible_version
         )
-        if meta.removal and meta.removal.major_version != "TBD":
+        if (
+            meta.removal
+            and meta.removal.is_deprecated()
+            and meta.removal.major_version != "TBD"
+        ):
             metadata.removal_ansible_major_version = meta.removal.major_version
 
 
