@@ -956,3 +956,15 @@ releases:
       - 341-removed-collections.yml
       - 346-proxy-env.yml
     release_date: '2024-10-09'
+  2.16.0:
+    changes:
+      minor_changes:
+        - Allow to cancel collection deprecations (https://github.com/ansible-community/antsibull-docs/pull/352).
+        - Declare support for Python 3.13 (https://github.com/ansible-community/antsibull-docs/pull/349).
+        - antsibull-docs now depends on antsibull-core >= 3.4.0 (https://github.com/ansible-community/antsibull-docs/pull/352).
+      release_summary: Feature release.
+    fragments:
+      - 2.16.0.yml
+      - 352-cancel-deprecation.yml
+      - python-3.13.yml
+    release_date: '2024-11-16'

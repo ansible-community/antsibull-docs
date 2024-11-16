@@ -4,6 +4,21 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.16.0
+=======
+
+Release Summary
+---------------
+
+Feature release.
+
+Minor Changes
+-------------
+
+- Allow to cancel collection deprecations (https://github.com/ansible-community/antsibull-docs/pull/352).
+- Declare support for Python 3.13 (https://github.com/ansible-community/antsibull-docs/pull/349).
+- antsibull-docs now depends on antsibull-core >= 3.4.0 (https://github.com/ansible-community/antsibull-docs/pull/352).
+
 v2.15.0
 =======
 
