@@ -216,7 +216,11 @@ def _compose_redirect_sentence(
 def _collect_removal_sentences(
     collection: str,
     removal: RemovalInformation,
+    /,
     ansible_version: PypiVer | None,
+    discussion_override: str | None = None,
+    reason_override: str | None = None,
+    reason_text_override: str | None = None,
 ) -> list[str]:
     sentences = []
     removed_text = (
@@ -225,15 +229,19 @@ def _collect_removal_sentences(
         else f"will be removed from Ansible {removal.major_version}"
     )
 
-    if removal.reason == "deprecated":
+    discussion = discussion_override or removal.discussion
+    reason = reason_override or removal.reason
+    reason_text = reason_text_override or removal.reason_text
+
+    if reason == "deprecated":
         sentences.append(
             f"The {collection} collection has been deprecated and {removed_text}."
         )
-    if removal.reason == "considered-unmaintained":
+    if reason == "considered-unmaintained":
         sentences.append(
             f"The {collection} collection is considered unmaintained and {removed_text}."
         )
-    if removal.reason == "renamed":
+    if reason == "renamed":
         sentences.append(
             f"The {collection} collection has been renamed to"
             f" R({removal.new_name}, plugins_in_{removal.new_name})"
@@ -256,20 +264,20 @@ def _collect_removal_sentences(
             "When creating new playbooks or roles,"
             f" directly use content from {removal.new_name} instead."
         )
-    if removal.reason == "guidelines-violation":
+    if reason == "guidelines-violation":
         sentences.append(
             f"The {collection} collection {removed_text}"
             " due to violations of the Ansible inclusion requirements."
         )
-    if removal.reason == "other":
+    if reason == "other":
         sentences.append(f"The {collection} collection {removed_text}.")
 
-    if removal.reason_text:
-        sentences.append(removal.reason_text)
+    if reason_text:
+        sentences.append(reason_text)
 
-    if sentences and removal.discussion:
+    if sentences and discussion:
         sentences.append(
-            f"See the L(discussion thread, {removal.discussion}) for more information."
+            f"See the L(discussion thread, {discussion}) for more information."
         )
 
     return sentences
@@ -281,10 +289,28 @@ def _compose_deprecation_info(
     ansible_version: PypiVer | None,
 ) -> str | None:
     removal = metadata.removal
-    if removal is None:
+    if removal is None or not removal.is_deprecated():
         return None
 
-    sentences = _collect_removal_sentences(collection, removal, ansible_version)
+    discussion_override = None
+    reason_override = None
+    reason_text_override = None
+    if removal.updates and (
+        removal.updates[-1].deprecated_version
+        or removal.updates[-1].redeprecated_version
+    ):
+        discussion_override = removal.updates[-1].discussion
+        reason_override = removal.updates[-1].reason
+        reason_text_override = removal.updates[-1].reason_text
+
+    sentences = _collect_removal_sentences(
+        collection,
+        removal,
+        ansible_version=ansible_version,
+        discussion_override=discussion_override,
+        reason_override=reason_override,
+        reason_text_override=reason_text_override,
+    )
     if not sentences:
         return None
 
@@ -304,7 +330,11 @@ def _add_deprecation_info(
         metadata.deprecation_info = _compose_deprecation_info(
             collection, meta, ansible_version
         )
-        if meta.removal and meta.removal.major_version != "TBD":
+        if (
+            meta.removal
+            and meta.removal.is_deprecated()
+            and meta.removal.major_version != "TBD"
+        ):
             metadata.removal_ansible_major_version = meta.removal.major_version
 
 
