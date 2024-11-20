@@ -44,6 +44,8 @@ COLLECTIONS_WITH_FLATMAPPING = (
     "community.network",
 )
 
+_DOCUMENTABLE_PLUGINS_WITH_ACTION = frozenset(tuple(DOCUMENTABLE_PLUGINS) + ("action",))
+
 
 def calculate_plugin_fqcns(
     collection_name: str, src_basename: str, dst_basename: str, rel_path: str
@@ -242,7 +244,7 @@ def _add_symlink_redirects(
     collection_metadata: AnsibleCollectionMetadata,
     plugin_routing_out: dict[str, dict[str, dict[str, t.Any]]],
 ) -> None:
-    for plugin_type in DOCUMENTABLE_PLUGINS:
+    for plugin_type in _DOCUMENTABLE_PLUGINS_WITH_ACTION:
         directory_name = "modules" if plugin_type == "module" else plugin_type
         directory_path = os.path.join(
             collection_metadata.path, "plugins", directory_name
@@ -265,7 +267,7 @@ def _add_core_symlink_redirects(
     collection_metadata: AnsibleCollectionMetadata,
     plugin_routing_out: dict[str, dict[str, dict[str, t.Any]]],
 ) -> None:
-    for plugin_type in DOCUMENTABLE_PLUGINS:
+    for plugin_type in _DOCUMENTABLE_PLUGINS_WITH_ACTION:
         directory_name = (
             "modules"
             if plugin_type == "module"
@@ -284,6 +286,23 @@ def _add_core_symlink_redirects(
                 plugin_type_routing[redirect_name]["redirect"] = redirect_dst
 
 
+def _merge_action_into_modules(
+    plugin_routing_out: dict[str, dict[str, dict[str, t.Any]]]
+) -> None:
+    """
+    Merge 'action' routing info into 'modules' routing info.
+
+    Entries in 'action' trump over the corresponding entries in 'modules'
+    when resolving actions, which is what modules look like to users.
+    """
+    action_routing = plugin_routing_out.pop("action")
+    module_routing = plugin_routing_out["module"]
+    for plugin_name, plugin_data in action_routing.items():
+        if plugin_name not in module_routing:
+            module_routing[plugin_name] = {}
+        module_routing[plugin_name].update(plugin_data)
+
+
 async def load_collection_routing(
     collection_name: str, collection_metadata: AnsibleCollectionMetadata
 ) -> dict[str, dict[str, dict[str, t.Any]]]:
@@ -293,7 +312,7 @@ async def load_collection_routing(
     meta_runtime = load_meta_runtime(collection_name, collection_metadata)
     plugin_routing_out: dict[str, dict[str, dict[str, t.Any]]] = {}
     plugin_routing_in = meta_runtime.get("plugin_routing") or {}
-    for plugin_type in DOCUMENTABLE_PLUGINS:
+    for plugin_type in _DOCUMENTABLE_PLUGINS_WITH_ACTION:
         plugin_type_id = "modules" if plugin_type == "module" else plugin_type
         plugin_type_routing = plugin_routing_in.get(plugin_type_id) or {}
         plugin_routing_out[plugin_type] = {
@@ -301,17 +320,19 @@ async def load_collection_routing(
             for plugin_name, plugin_record in plugin_type_routing.items()
         }
 
+    # TODO collapse action + modules
+
     if collection_name == "ansible.builtin":
         # ansible-core has a special directory structure we currently do not want
         # (or need) to handle
         _add_core_symlink_redirects(collection_metadata, plugin_routing_out)
-        return plugin_routing_out
+    else:
+        _add_symlink_redirects(collection_name, collection_metadata, plugin_routing_out)
 
-    _add_symlink_redirects(collection_name, collection_metadata, plugin_routing_out)
+        if collection_name in COLLECTIONS_WITH_FLATMAPPING:
+            remove_flatmapping_artifacts(plugin_routing_out)
 
-    if collection_name in COLLECTIONS_WITH_FLATMAPPING:
-        remove_flatmapping_artifacts(plugin_routing_out)
-
+    _merge_action_into_modules(plugin_routing_out)
     return plugin_routing_out
 
 
