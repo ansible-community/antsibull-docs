@@ -13,6 +13,19 @@ action_groups:
     - foo2
 
 plugin_routing:
+  action:
+    foo_1_redirect:
+      redirect: ns2.col.foo
+    foo_2_redirect:
+      redirect: ns2.col.foo
+    foo_4_redirect:
+      tombstone:
+        removal_version: 2.0.0
+        warning_text: It is gone
+    foo_5_redirect:
+      deprecation:
+        removal_version: 5.0.0
+        warning_text: It will be really gone
   become:
     foo:
       deprecation:
@@ -21,3 +34,14 @@ plugin_routing:
   modules:
     foo_redirect:
       redirect: ns2.col.foo
+    foo_1_redirect:
+      redirect: ns2.col.foo2
+    foo_3_redirect:
+      redirect: ns2.col.foo2
+    foo_4_redirect:
+      redirect: ns2.col.foo2
+    foo_5_redirect:
+      deprecation:
+        removal_version: 10.0.0
+        warning_text: It will be eventually gone
+      redirect: ns2.col.foo2
