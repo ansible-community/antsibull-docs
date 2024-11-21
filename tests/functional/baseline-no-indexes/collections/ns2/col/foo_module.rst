@@ -56,7 +56,7 @@ Synopsis
 
 .. Aliases
 
-Aliases: foo_redirect
+Aliases: foo_1_redirect, foo_2_redirect, foo_redirect
 
 .. Requirements
 

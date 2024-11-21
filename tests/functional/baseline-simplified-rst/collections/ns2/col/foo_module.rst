@@ -29,7 +29,7 @@ Synopsis
 - :literal:`FOOBAR1`\ , :literal:`FOOBAR2`\ , :literal:`FOOBAR3`\ , :literal:`FOOBAR4`.
 
 
-Aliases: foo_redirect
+Aliases: foo_1_redirect, foo_2_redirect, foo_redirect
 
 .. _ansible_collections.ns2.col.foo_module_requirements:
 

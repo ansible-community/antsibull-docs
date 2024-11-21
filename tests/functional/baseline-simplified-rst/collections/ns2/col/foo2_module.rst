@@ -26,6 +26,7 @@ Synopsis
 - Reference using alias - :literal:`bar` (of module `ns2.col.foo\_redirect <foo_redirect_module.rst>`__) and :literal:`baz` (of module `ns2.col.foo\_redirect <foo_redirect_module.rst>`__).
 
 
+Aliases: foo_3_redirect, foo_4_redirect, foo_5_redirect
 
 
 
