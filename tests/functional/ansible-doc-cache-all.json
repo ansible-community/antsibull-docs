@@ -5401,7 +5401,7 @@
      "version_added": 2.11,
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n# listjojo => [ \"jojo\", \"is\", \"a\" ]\nlistjojo: \"{{ 'jojo is a' | split }}\"\n\n# listjojocomma => [ \"jojo is\", \"a\" ]\nlistjojocomma: \"{{ 'jojo is, a' | split(',') }}\"\n",
+    "examples": "\n# listjojo => [ \"jojo\", \"is\", \"a\" ]\nlistjojo: \"{{ 'jojo is a' | split }}\"\n\n# listjojocomma => [ \"jojo is\", \" a\" ]\nlistjojocomma: \"{{ 'jojo is, a' | split(',') }}\"\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -6063,6 +6063,15 @@
        "description": "A list.",
        "required": true,
        "type": "list"
+      },
+      "attribute": {
+       "description": "Filter objects with unique values for this attribute.",
+       "type": "str"
+      },
+      "case_sensitive": {
+       "default": false,
+       "description": "Whether to consider case when comparing elements.",
+       "type": "bool"
       }
      },
      "plugin_name": "ansible.builtin.unique",
@@ -6088,7 +6097,7 @@
      "version_added": "1.4",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "# return only the unique elements of list1\n# list1: [1, 2, 5, 1, 3, 4, 10]\n{{ list1 | unique }}\n# => [1, 2, 5, 3, 4, 10]\n",
+    "examples": "# return only the unique elements of list1\n# list1: [1, 2, 5, 1, 3, 4, 10]\n{{ list1 | unique }}\n# => [1, 2, 5, 3, 4, 10]\n\n# return case sensitive unique elements\n{{ ['a', 'A', 'a'] | unique(case_sensitive='true') }}\n# => ['a', 'A']\n\n# return case insensitive unique elements\n{{ ['b', 'B', 'b'] | unique() }}\n# => ['b']\n\n# return unique elements of list based on attribute\n# => [{\"age\": 12, \"name\": \"a\" }, { \"age\": 14, \"name\": \"b\"}]\n- debug:\n    msg: \"{{ sample | unique(attribute='age') }}\"\n  vars:\n    sample:\n      - name: a\n        age: 12\n      - name: b\n        age: 14\n      - name: c\n        age: 14\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -6884,7 +6893,8 @@
       "Enabled in configuration by default.",
       "The plugin does not cache results because external inventory scripts are responsible for their own caching.",
       "To write your own inventory script see (R(Developing dynamic inventory,developing_inventory) from the documentation site.",
-      "To find the scripts that used to be part of the code release, go to U(https://github.com/ansible-community/contrib-scripts/)."
+      "To find the scripts that used to be part of the code release, go to U(https://github.com/ansible-community/contrib-scripts/).",
+      "Since 2.19 using a directory as an inventory source will no longer ignore .ini files by default, but you can still update the configuration to do so."
      ],
      "options": {
       "always_show_stderr": {
@@ -9155,11 +9165,17 @@
       }
      },
      "plugin_name": "ansible.builtin.varnames",
+     "seealso": [
+      {
+       "plugin": "ansible.builtin.vars",
+       "plugin_type": "lookup"
+      }
+     ],
      "short_description": "Lookup matching variable names",
      "version_added": "2.8",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: List variables that start with qz_\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.varnames', '^qz_.+')}}\"\n  vars:\n    qz_1: hello\n    qz_2: world\n    qa_1: \"I won't show\"\n    qz_: \"I won't show either\"\n\n- name: Show all variables\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.varnames', '.+')}}\"\n\n- name: Show variables with 'hosts' in their names\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.varnames', 'hosts')}}\"\n\n- name: Find several related variables that end specific way\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.varnames', '.+_zone$', '.+_location$') }}\"\n\n",
+    "examples": "\n- name: List variables that start with qz_\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.varnames', '^qz_.+') }}\"\n  vars:\n    qz_1: hello\n    qz_2: world\n    qa_1: \"I won't show\"\n    qz_: \"I won't show either\"\n\n- name: Show all variables\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.varnames', '.+') }}\"\n\n- name: Show variables with 'hosts' in their names\n  ansible.builtin.debug: msg=\"{{ q('varnames', 'hosts') }}\"\n\n- name: Find several related variables that end specific way\n  ansible.builtin.debug: msg=\"{{ query('ansible.builtin.varnames', '.+_zone$', '.+_location$') }}\"\n\n- name: display values from variables found via varnames (note \"*\" is used to dereference the list to a 'list of arguments')\n  debug: msg=\"{{ lookup('vars', *lookup('varnames', 'ansible_play_.+')) }}\"\n\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -9192,11 +9208,17 @@
       }
      },
      "plugin_name": "ansible.builtin.vars",
+     "seealso": [
+      {
+       "plugin": "ansible.builtin.varnames",
+       "plugin_type": "lookup"
+      }
+     ],
      "short_description": "Lookup templated value of variables",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Show value of 'variablename'\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.vars', 'variabl' + myvar) }}\"\n  vars:\n    variablename: hello\n    myvar: ename\n\n- name: Show default empty since i dont have 'variablnotename'\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.vars', 'variabl' + myvar, default='')}}\"\n  vars:\n    variablename: hello\n    myvar: notename\n\n- name: Produce an error since i dont have 'variablnotename'\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.vars', 'variabl' + myvar)}}\"\n  ignore_errors: True\n  vars:\n    variablename: hello\n    myvar: notename\n\n- name: find several related variables\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.vars', 'ansible_play_hosts', 'ansible_play_batch', 'ansible_play_hosts_all') }}\"\n\n- name: Access nested variables\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.vars', 'variabl' + myvar).sub_var }}\"\n  ignore_errors: True\n  vars:\n    variablename:\n        sub_var: 12\n    myvar: ename\n\n- name: alternate way to find some 'prefixed vars' in loop\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.vars', 'ansible_play_' + item) }}\"\n  loop:\n    - hosts\n    - batch\n    - hosts_all\n",
+    "examples": "\n- name: Show value of 'variablename'\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.vars', 'variabl' + myvar) }}\"\n  vars:\n    variablename: hello\n    myvar: ename\n\n- name: Show default empty since i dont have 'variablnotename'\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.vars', 'variabl' + myvar, default='') }}\"\n  vars:\n    variablename: hello\n    myvar: notename\n\n- name: Produce an error since i dont have 'variablnotename'\n  ansible.builtin.debug: msg=\"{{ q('vars', 'variabl' + myvar) }}\"\n  ignore_errors: True\n  vars:\n    variablename: hello\n    myvar: notename\n\n- name: find several related variables\n  ansible.builtin.debug: msg=\"{{ query('ansible.builtin.vars', 'ansible_play_hosts', 'ansible_play_batch', 'ansible_play_hosts_all') }}\"\n\n- name: show values from variables found via varnames (note \"*\" is used to dereference the list to a 'list of arguments')\n  debug: msg=\"{{ q('vars', *q('varnames', 'ansible_play_.+')) }}\"\n\n- name: Access nested variables\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.vars', 'variabl' + myvar).sub_var }}\"\n  ignore_errors: True\n  vars:\n    variablename:\n        sub_var: 12\n    myvar: ename\n\n- name: alternate way to find some 'prefixed vars' in loop\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.vars', 'ansible_play_' + item) }}\"\n  loop:\n    - hosts\n    - batch\n    - hosts_all\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -10834,7 +10856,7 @@
      "description": [
       "The M(ansible.builtin.command) module takes the command name followed by a list of space-delimited arguments.",
       "The given command will be executed on all selected nodes.",
-      "The command(s) will not be processed through the shell, so variables like C($HOSTNAME) and operations like C(\"*\"), C(\"<\"), C(\">\"), C(\"|\"), C(\";\") and C(\"&\") will not work. Use the M(ansible.builtin.shell) module if you need these features.",
+      "The command(s) will not be processed through the shell, so operations like C(\"*\"), C(\"<\"), C(\">\"), C(\"|\"), C(\";\") and C(\"&\") will not work. Also, environment variables are resolved via Python, not shell, see O(expand_argument_vars) and are left unchanged if not matched. Use the M(ansible.builtin.shell) module if you need these features.",
       "To create C(command) tasks that are easier to read than the ones using space-delimited arguments, pass parameters using the C(args) L(task keyword,https://docs.ansible.com/ansible/latest/reference_appendices/playbooks_keywords.html#task) or use O(cmd) parameter.",
       "Either a free form command or O(cmd) parameter is required, see the examples.",
       "For Windows targets, use the M(ansible.windows.win_command) module instead."
@@ -10888,6 +10910,7 @@
        "default": true,
        "description": [
         "Expands the arguments that are variables, for example C($HOME) will be expanded before being passed to the command to run.",
+        "If a variable is not matched, it is left unchanged, unlike shell substitution which would remove it.",
         "Set to V(false) to disable expansion and treat the value as a literal argument."
        ],
        "type": "bool",
@@ -11194,7 +11217,6 @@
        "type": "str"
       },
       "local_follow": {
-       "default": true,
        "description": [
         "This flag indicates that filesystem links in the source tree, if they exist, should be followed."
        ],
@@ -13429,6 +13451,30 @@
        ],
        "type": "str"
       },
+      "checksum_algorithm": {
+       "aliases": [
+        "checksum",
+        "checksum_algo"
+       ],
+       "choices": [
+        "md5",
+        "sha1",
+        "sha224",
+        "sha256",
+        "sha384",
+        "sha512"
+       ],
+       "default": "sha1",
+       "description": [
+        "Algorithm to determine checksum of file.",
+        "Will throw an error if the host is unable to use specified algorithm.",
+        "The remote host has to support the hashing method specified, V(md5) can be unavailable if the host is FIPS-140 compliant.",
+        "Availability might be restricted by the target system, for example FIPS systems won't allow md5 use"
+       ],
+       "type": "str",
+       "version_added": "2.19",
+       "version_added_collection": "ansible.builtin"
+      },
       "contains": {
        "description": [
         "A regular expression or pattern which should be matched against the file content.",
@@ -13501,7 +13547,7 @@
       "get_checksum": {
        "default": false,
        "description": [
-        "Set this to V(true) to retrieve a file's SHA1 checksum."
+        "Whether to return a checksum of the file."
        ],
        "type": "bool"
       },
@@ -16949,6 +16995,191 @@
     "metadata": null,
     "return": null
    },
+   "ansible.builtin.mount_facts": {
+    "doc": {
+     "attributes": {
+      "check_mode": {
+       "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
+       "support": "full"
+      },
+      "diff_mode": {
+       "description": "Will return details on what has changed (or possibly needs changing in check_mode), when in diff mode",
+       "support": "none"
+      },
+      "platform": {
+       "description": "Target OS/families that can be operated against",
+       "platforms": "posix",
+       "support": "N/A"
+      }
+     },
+     "author": [
+      "Ansible Core Team",
+      "Sloane Hertel (@s-hertel)"
+     ],
+     "collection": "ansible.builtin",
+     "description": [
+      "Retrieve information about mounts from preferred sources and filter the results based on the filesystem type and device."
+     ],
+     "filename": "/ansible/modules/mount_facts.py",
+     "has_action": false,
+     "module": "mount_facts",
+     "options": {
+      "devices": {
+       "default": null,
+       "description": "A list of fnmatch patterns to filter mounts by the special device or remote file system.",
+       "elements": "str",
+       "type": "list"
+      },
+      "fstypes": {
+       "default": null,
+       "description": "A list of fnmatch patterns to filter mounts by the type of the file system.",
+       "elements": "str",
+       "type": "list"
+      },
+      "include_aggregate_mounts": {
+       "default": null,
+       "description": [
+        "Whether or not the module should return the C(aggregate_mounts) list in C(ansible_facts).",
+        "When this is V(null), a warning will be emitted if multiple mounts for the same mount point are found."
+       ],
+       "type": "bool"
+      },
+      "mount_binary": {
+       "default": "mount",
+       "description": [
+        "The O(mount_binary) is used if O(sources) contain the value \"mount\", or if O(sources) contains a dynamic source, and none were found (as can be expected on BSD or AIX hosts).",
+        "Set to V(null) to stop after no dynamic file source is found instead."
+       ],
+       "type": "raw"
+      },
+      "on_timeout": {
+       "choices": [
+        "error",
+        "warn",
+        "ignore"
+       ],
+       "default": "error",
+       "description": [
+        "The action to take when gathering mount information exceeds O(timeout)."
+       ],
+       "type": "str"
+      },
+      "sources": {
+       "default": null,
+       "description": [
+        "A list of sources used to determine the mounts. Missing file sources (or empty files) are skipped. Repeat sources, including symlinks, are skipped.",
+        "The C(mount_points) return value contains the first definition found for a mount point.",
+        "Additional mounts to the same mount point are available from C(aggregate_mounts) (if enabled).",
+        "By default, mounts are retrieved from all of the standard locations, which have the predefined aliases V(all)/V(static)/V(dynamic).",
+        "V(all) contains V(dynamic) and V(static).",
+        "V(dynamic) contains V(/etc/mtab), V(/proc/mounts), V(/etc/mnttab), and the value of O(mount_binary) if it is not None. This allows platforms like BSD or AIX, which don't have an equivalent to V(/proc/mounts), to collect the current mounts by default. See the O(mount_binary) option to disable the fall back or configure a different executable.",
+        "V(static) contains V(/etc/fstab), V(/etc/vfstab), and V(/etc/filesystems). Note that V(/etc/filesystems) is specific to AIX. The Linux file by this name has a different format/purpose and is ignored.",
+        "The value of O(mount_binary) can be configured as a source, which will cause it to always execute. Depending on the other sources configured, this could be inefficient/redundant. For example, if V(/proc/mounts) and V(mount) are listed as O(sources), Linux hosts will retrieve the same mounts twice."
+       ],
+       "elements": "str",
+       "type": "list"
+      },
+      "timeout": {
+       "description": [
+        "This is the maximum number of seconds to wait for each mount to complete. When this is V(null), wait indefinitely.",
+        "Configure in conjunction with O(on_timeout) to skip unresponsive mounts.",
+        "This timeout also applies to the O(mount_binary) command to list mounts.",
+        "If the module is configured to run during the play's fact gathering stage, set a timeout using module_defaults to prevent a hang (see example)."
+       ],
+       "type": "float"
+      }
+     },
+     "plugin_name": "ansible.builtin.mount_facts",
+     "short_description": "Retrieve mount information.",
+     "version_added": 2.18,
+     "version_added_collection": "ansible.builtin"
+    },
+    "examples": "\n- name: Get non-local devices\n  mount_facts:\n    devices: \"[!/]*\"\n\n- name: Get FUSE subtype mounts\n  mount_facts:\n    fstypes:\n      - \"fuse.*\"\n\n- name: Get NFS mounts during gather_facts with timeout\n  hosts: all\n  gather_facts: true\n  vars:\n    ansible_facts_modules:\n      - ansible.builtin.mount_facts\n  module_default:\n    ansible.builtin.mount_facts:\n      timeout: 10\n      fstypes:\n        - nfs\n        - nfs4\n\n- name: Get mounts from a non-default location\n  mount_facts:\n    sources:\n      - /usr/etc/fstab\n\n- name: Get mounts from the mount binary\n  mount_facts:\n    sources:\n      - mount\n    mount_binary: /sbin/mount\n",
+    "metadata": null,
+    "return": {
+     "ansible_facts": {
+      "description": [
+       "An ansible_facts dictionary containing a dictionary of C(mount_points) and list of C(aggregate_mounts) when enabled.",
+       "Each key in C(mount_points) is a mount point, and the value contains mount information (similar to C(ansible_facts[\"mounts\"])). Each value also contains the key C(ansible_context), with details about the source and line(s) corresponding to the parsed mount point.",
+       "When C(aggregate_mounts) are included, the containing dictionaries are the same format as the C(mount_point) values."
+      ],
+      "returned": "on success",
+      "sample": {
+       "aggregate_mounts": [
+        {
+         "ansible_context": {
+          "source": "/proc/mounts",
+          "source_data": "systemd-1 /proc/sys/fs/binfmt_misc autofs rw,relatime,fd=33,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=33850 0 0"
+         },
+         "block_available": 0,
+         "block_size": 4096,
+         "block_total": 0,
+         "block_used": 0,
+         "device": "systemd-1",
+         "dump": 0,
+         "fstype": "autofs",
+         "inode_available": 0,
+         "inode_total": 0,
+         "inode_used": 0,
+         "mount": "/proc/sys/fs/binfmt_misc",
+         "options": "rw,relatime,fd=33,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=33850",
+         "passno": 0,
+         "size_available": 0,
+         "size_total": 0,
+         "uuid": null
+        },
+        {
+         "ansible_context": {
+          "source": "/proc/mounts",
+          "source_data": "binfmt_misc /proc/sys/fs/binfmt_misc binfmt_misc rw,nosuid,nodev,noexec,relatime 0 0"
+         },
+         "block_available": 0,
+         "block_size": 4096,
+         "block_total": 0,
+         "block_used": 0,
+         "device": "binfmt_misc",
+         "dump": 0,
+         "fstype": "binfmt_misc",
+         "inode_available": 0,
+         "inode_total": 0,
+         "inode_used": 0,
+         "mount": "/proc/sys/fs/binfmt_misc",
+         "options": "rw,nosuid,nodev,noexec,relatime",
+         "passno": 0,
+         "size_available": 0,
+         "size_total": 0,
+         "uuid": null
+        }
+       ],
+       "mount_points": {
+        "/proc/sys/fs/binfmt_misc": {
+         "ansible_context": {
+          "source": "/proc/mounts",
+          "source_data": "systemd-1 /proc/sys/fs/binfmt_misc autofs rw,relatime,fd=33,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=33850 0 0"
+         },
+         "block_available": 0,
+         "block_size": 4096,
+         "block_total": 0,
+         "block_used": 0,
+         "device": "systemd-1",
+         "dump": 0,
+         "fstype": "autofs",
+         "inode_available": 0,
+         "inode_total": 0,
+         "inode_used": 0,
+         "mount": "/proc/sys/fs/binfmt_misc",
+         "options": "rw,relatime,fd=33,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=33850",
+         "passno": 0,
+         "size_available": 0,
+         "size_total": 0,
+         "uuid": null
+        }
+       }
+      },
+      "type": "dict"
+     }
+    }
+   },
    "ansible.builtin.package": {
     "doc": {
      "attributes": {
@@ -19127,7 +19358,8 @@
        "description": [
         "Algorithm to determine checksum of file.",
         "Will throw an error if the host is unable to use specified algorithm.",
-        "The remote host has to support the hashing method specified, V(md5) can be unavailable if the host is FIPS-140 compliant."
+        "The remote host has to support the hashing method specified, V(md5) can be unavailable if the host is FIPS-140 compliant.",
+        "Availability might be restricted by the target system, for example FIPS systems won't allow md5 use"
        ],
        "type": "str",
        "version_added": "2.0",
@@ -21977,10 +22209,14 @@
      "filename": "/ansible/modules/validate_argument_spec.py",
      "has_action": true,
      "module": "validate_argument_spec",
+     "notes": [
+      "It is unnecessary to call this module explicitly if the role contains an R(argument spec,role_argument_spec)."
+     ],
      "options": {
       "argument_spec": {
        "description": [
-        "A dictionary like AnsibleModule argument_spec. See R(argument spec definition,argument_spec)."
+        "A dictionary like AnsibleModule argument_spec.",
+        "See the C(options) parameter for the R(specification format,role_argument_spec)."
        ],
        "required": true
       },
@@ -25815,6 +26051,36 @@
      "_value": {
       "description": "Returns V(True) if the specified list is a superset of the provided list, V(False) otherwise.",
       "type": "boolean"
+     }
+    }
+   },
+   "ansible.builtin.timedout": {
+    "doc": {
+     "author": "Ansible Core",
+     "collection": "ansible.builtin",
+     "description": [
+      "Tests if task finished ended due to a time out"
+     ],
+     "filename": "/ansible/plugins/test/timedout.yml",
+     "name": "timedout",
+     "options": {
+      "_input": {
+       "description": "registered result from an Ansible task",
+       "required": true,
+       "type": "dictionary"
+      }
+     },
+     "plugin_name": "ansible.builtin.timedout",
+     "short_description": "did the task time out",
+     "version_added": "2.18",
+     "version_added_collection": "ansible.builtin"
+    },
+    "examples": "# test 'status' to know how to respond\n{{ taskresults is timedout }}\n",
+    "metadata": null,
+    "return": {
+     "_value": {
+      "description": "A dictionary with 2 keys 'frame' showing the 'frame of code' in which the timeout occurred and 'period' with the time limit that was enforced.",
+      "type": "dict"
      }
     }
    },
