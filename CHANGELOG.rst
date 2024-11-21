@@ -4,6 +4,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.16.1
+=======
+
+Release Summary
+---------------
+
+Bugfix release.
+
+Bugfixes
+--------
+
+- Also consider action plugin redirects/deprecations in runtime metadata for modules, since for users there is no difference. Also ``ansible.builtin.yum`` only has a action plugin redirect to ``ansible.builtin.dnf``, so this is needed to ensure that a stub page generated for ``ansible.builtin.yum`` (https://github.com/ansible-community/antsibull-docs/pull/360).
+
 v2.16.0
 =======
 
