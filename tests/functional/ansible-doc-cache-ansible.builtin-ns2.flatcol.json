@@ -3869,7 +3869,7 @@
       "_input": {
        "description": "human-readable description of a number of bytes.",
        "required": true,
-       "type": "int"
+       "type": "string"
       },
       "default_unit": {
        "choices": [
@@ -4204,7 +4204,7 @@
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "# pwdhash => \"$6$/bQCntzQ7VrgVcFa$VaMkmevkY1dqrx8neaenUDlVU.6L/.ojRbrnI4ID.yBHU6XON1cB422scCiXfUL5wRucMdLgJU0Fn38uoeBni/\"\npwdhash: \"{{ 'testing' | password_hash }}\"\n",
+    "examples": "# pwdhash => \"$6$/bQCntzQ7VrgVcFa$VaMkmevkY1dqrx8neaenUDlVU.6L/.ojRbrnI4ID.yBHU6XON1cB422scCiXfUL5wRucMdLgJU0Fn38uoeBni/\"\npwdhash: \"{{ 'testing' | password_hash }}\"\n\n# Using hash type\n# wireguard_admin_password_hash => \"$2b$12$ujYVRD9v9z87lpvLqeWNuOFDI4QzSSYHoRyYydW6XK4.kgqfwOXzO\"\nwireguard_admin_password_hash: \"{{ 'vagrant-libvirt' | password_hash(hashtype='bcrypt') }}\"\n\n# Using salt value for idempotency\n# wireguard_admin_password_hash => \"$2b$12$abcdefghijklmnopqrstuuTEw8POU2MwwuYEM7WaKcjqZ948Hm7.W\"\nwireguard_admin_password_hash: \"{{ 'vagrant-libvirt' | password_hash(hashtype='bcrypt', salt='abcdefghijklmnopqrstuv') }}\"\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -4637,7 +4637,9 @@
      "name": "regex_search",
      "notes": [
       "Maps to Python's C(re.search).",
-      "The substring matched by the group is accessible via the symbolic group name or the ``\\{number}`` special sequence. See examples section."
+      "The substring matched by the group is accessible via the symbolic group name or the ``\\{number}`` special sequence. See examples section.",
+      "The return for no match will be C(None) in most cases, depending on whether it is used with other filters/tests or not. It also depends on the Jinja version used and whether native is enabled.",
+      "For a more complete explanation see U(https://docs.ansible.com/ansible-core/devel/reference_appendices/faq.html#why-does-the-regex-search-filter-return-none-instead-of-an-empty-string)."
      ],
      "options": {
       "_input": {
@@ -4670,7 +4672,7 @@
     "metadata": null,
     "return": {
      "_value": {
-      "description": "Matched string or empty string if no match.",
+      "description": "Matched string or if no match a C(None) or an empty string (see notes)",
       "type": "str"
      }
     }
@@ -7132,8 +7134,9 @@
      ],
      "options": {
       "col": {
-       "default": "1",
-       "description": "column to return (0 indexed)."
+       "default": 1,
+       "description": "column to return (0 indexed).",
+       "type": "int"
       },
       "default": {
        "description": "what to return if the value is not found in the file."
@@ -7992,8 +7995,8 @@
       "convert_data": {
        "default": true,
        "description": [
-        "Whether to convert YAML into data. If False, strings that are YAML will be left untouched.",
-        "Mutually exclusive with the jinja2_native option."
+        "Whether to convert YAML into data. If V(False), strings that are YAML will be left untouched.",
+        "Mutually exclusive with the O(jinja2_native) option."
        ],
        "type": "bool"
       },
@@ -8001,10 +8004,10 @@
        "default": false,
        "description": [
         "Controls whether to use Jinja2 native types.",
-        "It is off by default even if global jinja2_native is True.",
-        "Has no effect if global jinja2_native is False.",
+        "It is off by default even if global O(jinja2_native) is V(True).",
+        "Has no effect if global O(jinja2_native) is V(False).",
         "This offers more flexibility than the template module which does not use Jinja2 native types at all.",
-        "Mutually exclusive with the convert_data option."
+        "Mutually exclusive with the O(convert_data) option."
        ],
        "type": "bool",
        "version_added": "2.11",
@@ -8015,6 +8018,16 @@
        "description": "A dictionary, the keys become additional variables available for templating.",
        "type": "dict",
        "version_added": "2.3",
+       "version_added_collection": "ansible.builtin"
+      },
+      "trim_blocks": {
+       "default": true,
+       "description": [
+        "Determine when newlines should be removed from blocks.",
+        "When set to V(yes) the first newline after a block is removed (block, not variable tag!)."
+       ],
+       "type": "bool",
+       "version_added": "2.19",
        "version_added_collection": "ansible.builtin"
       },
       "variable_end_string": {
@@ -8043,7 +8056,7 @@
      "version_added": "0.9",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: show templating results\n  ansible.builtin.debug:\n    msg: \"{{ lookup('ansible.builtin.template', './some_template.j2') }}\"\n\n- name: show templating results with different variable start and end string\n  ansible.builtin.debug:\n    msg: \"{{ lookup('ansible.builtin.template', './some_template.j2', variable_start_string='[%', variable_end_string='%]') }}\"\n\n- name: show templating results with different comment start and end string\n  ansible.builtin.debug:\n    msg: \"{{ lookup('ansible.builtin.template', './some_template.j2', comment_start_string='[#', comment_end_string='#]') }}\"\n",
+    "examples": "\n- name: show templating results\n  ansible.builtin.debug:\n    msg: \"{{ lookup('ansible.builtin.template', './some_template.j2') }}\"\n\n- name: show templating results with different variable start and end string\n  ansible.builtin.debug:\n    msg: \"{{ lookup('ansible.builtin.template', './some_template.j2', variable_start_string='[%', variable_end_string='%]') }}\"\n\n- name: show templating results with different comment start and end string\n  ansible.builtin.debug:\n    msg: \"{{ lookup('ansible.builtin.template', './some_template.j2', comment_start_string='[#', comment_end_string='#]') }}\"\n\n- name: show templating results with trim_blocks\n  ansible.builtin.debug:\n    msg: \"{{ lookup('ansible.builtin.template', './some_template.j2', trim_blocks=True) }}\"\n\n",
     "metadata": null,
     "return": {
      "_raw": {
@@ -8200,7 +8213,9 @@
         "yes": "(DEPRECATED, removed in 2.22) alias of V(all)."
        },
        "default": "urllib2",
-       "description": "String of urllib2, all/yes, safe, none to determine how redirects are followed",
+       "description": [
+        "Whether or not the URI module should follow redirects."
+       ],
        "env": [
         {
          "name": "ANSIBLE_LOOKUP_URL_FOLLOW_REDIRECTS"
@@ -9304,7 +9319,7 @@
      "version_added": "0.7",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Add specified repository into sources list\n  ansible.builtin.apt_repository:\n    repo: deb http://archive.canonical.com/ubuntu hardy partner\n    state: present\n\n- name: Add specified repository into sources list using specified filename\n  ansible.builtin.apt_repository:\n    repo: deb http://dl.google.com/linux/chrome/deb/ stable main\n    state: present\n    filename: google-chrome\n\n- name: Add source repository into sources list\n  ansible.builtin.apt_repository:\n    repo: deb-src http://archive.canonical.com/ubuntu hardy partner\n    state: present\n\n- name: Remove specified repository from sources list\n  ansible.builtin.apt_repository:\n    repo: deb http://archive.canonical.com/ubuntu hardy partner\n    state: absent\n\n- name: Add nginx stable repository from PPA and install its signing key on Ubuntu target\n  ansible.builtin.apt_repository:\n    repo: ppa:nginx/stable\n\n- name: Add nginx stable repository from PPA and install its signing key on Debian target\n  ansible.builtin.apt_repository:\n    repo: 'ppa:nginx/stable'\n    codename: trusty\n\n- name: One way to avoid apt_key once it is removed from your distro\n  block:\n    - name: somerepo |no apt key\n      ansible.builtin.get_url:\n        url: https://download.example.com/linux/ubuntu/gpg\n        dest: /etc/apt/keyrings/somerepo.asc\n\n    - name: somerepo | apt source\n      ansible.builtin.apt_repository:\n        repo: \"deb [arch=amd64 signed-by=/etc/apt/keyrings/myrepo.asc] https://download.example.com/linux/ubuntu {{ ansible_distribution_release }} stable\"\n        state: present\n",
+    "examples": "\n- name: Add specified repository into sources list\n  ansible.builtin.apt_repository:\n    repo: deb http://archive.canonical.com/ubuntu hardy partner\n    state: present\n\n- name: Add specified repository into sources list using specified filename\n  ansible.builtin.apt_repository:\n    repo: deb http://dl.google.com/linux/chrome/deb/ stable main\n    state: present\n    filename: google-chrome\n\n- name: Add source repository into sources list\n  ansible.builtin.apt_repository:\n    repo: deb-src http://archive.canonical.com/ubuntu hardy partner\n    state: present\n\n- name: Remove specified repository from sources list\n  ansible.builtin.apt_repository:\n    repo: deb http://archive.canonical.com/ubuntu hardy partner\n    state: absent\n\n- name: Add nginx stable repository from PPA and install its signing key on Ubuntu target\n  ansible.builtin.apt_repository:\n    repo: ppa:nginx/stable\n\n- name: Add nginx stable repository from PPA and install its signing key on Debian target\n  ansible.builtin.apt_repository:\n    repo: 'ppa:nginx/stable'\n    codename: trusty\n\n- name: One way to avoid apt_key once it is removed from your distro\n  block:\n    - name: somerepo |no apt key\n      ansible.builtin.get_url:\n        url: https://download.example.com/linux/ubuntu/gpg\n        dest: /etc/apt/keyrings/somerepo.asc\n\n    - name: somerepo | apt source\n      ansible.builtin.apt_repository:\n        repo: \"deb [arch=amd64 signed-by=/etc/apt/keyrings/somerepo.asc] https://download.example.com/linux/ubuntu {{ ansible_distribution_release }} stable\"\n        state: present\n",
     "metadata": null,
     "return": {
      "repo": {
@@ -10726,7 +10741,8 @@
        ],
        "default": "*",
        "description": [
-        "Day of the month the job should run (V(1-31), V(*), V(*/2), and so on)."
+        "Day of the month the job should run (V(1-31), V(*), V(*/2), and so on).",
+        "Cannot be combined with O(special_time)."
        ],
        "type": "str"
       },
@@ -10754,7 +10770,8 @@
       "hour": {
        "default": "*",
        "description": [
-        "Hour when the job should run (V(0-23), V(*), V(*/2), and so on)."
+        "Hour when the job should run (V(0-23), V(*), V(*/2), and so on).",
+        "Cannot be combined with O(special_time)."
        ],
        "type": "str"
       },
@@ -10790,14 +10807,16 @@
       "minute": {
        "default": "*",
        "description": [
-        "Minute when the job should run (V(0-59), V(*), V(*/2), and so on)."
+        "Minute when the job should run (V(0-59), V(*), V(*/2), and so on).",
+        "Cannot be combined with O(special_time)."
        ],
        "type": "str"
       },
       "month": {
        "default": "*",
        "description": [
-        "Month of the year the job should run (V(1-12), V(*), V(*/2), and so on)."
+        "Month of the year the job should run (V(JAN-DEC) or V(1-12), V(*), V(*/2), and so on).",
+        "Cannot be combined with O(special_time)."
        ],
        "type": "str"
       },
@@ -10820,7 +10839,8 @@
         "yearly"
        ],
        "description": [
-        "Special time specification nickname."
+        "Special time specification nickname.",
+        "Cannot be combined with O(minute), O(hour), O(day), O(month) or O(weekday)."
        ],
        "type": "str",
        "version_added": "1.3",
@@ -10850,7 +10870,8 @@
        ],
        "default": "*",
        "description": [
-        "Day of the week that the job should run (V(0-6) for Sunday-Saturday, V(*), and so on)."
+        "Day of the week that the job should run (V(SUN-SAT) or V(0-6), V(*), and so on).",
+        "Cannot be combined with O(special_time)."
        ],
        "type": "str"
       }
@@ -20435,7 +20456,8 @@
        "description": [
         "The body of the http request/response to the web service. If O(body_format) is set to V(json) it will take an already formatted JSON string or convert a data structure into JSON.",
         "If O(body_format) is set to V(form-urlencoded) it will convert a dictionary or list of tuples into an C(application/x-www-form-urlencoded) string. (Added in v2.7)",
-        "If O(body_format) is set to V(form-multipart) it will convert a dictionary into C(multipart/form-multipart) body. (Added in v2.10)"
+        "If O(body_format) is set to V(form-multipart) it will convert a dictionary into C(multipart/form-multipart) body. (Added in v2.10)",
+        "If C(body_format) is set to V(form-multipart) the option 'multipart_encoding' allows to change multipart file encoding. (Added in v2.19)"
        ],
        "type": "raw"
       },
@@ -20794,7 +20816,7 @@
      "version_added": "1.1",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Check that you can connect (GET) to a page and it returns a status 200\n  ansible.builtin.uri:\n    url: http://www.example.com\n\n- name: Check that a page returns successfully but fail if the word AWESOME is not in the page contents\n  ansible.builtin.uri:\n    url: http://www.example.com\n    return_content: true\n  register: this\n  failed_when: this is failed or \"'AWESOME' not in this.content\"\n\n- name: Create a JIRA issue\n  ansible.builtin.uri:\n    url: https://your.jira.example.com/rest/api/2/issue/\n    user: your_username\n    password: your_pass\n    method: POST\n    body: \"{{ lookup('ansible.builtin.file','issue.json') }}\"\n    force_basic_auth: true\n    status_code: 201\n    body_format: json\n\n- name: Login to a form based webpage, then use the returned cookie to access the app in later tasks\n  ansible.builtin.uri:\n    url: https://your.form.based.auth.example.com/index.php\n    method: POST\n    body_format: form-urlencoded\n    body:\n      name: your_username\n      password: your_password\n      enter: Sign in\n    status_code: 302\n  register: login\n\n- name: Login to a form based webpage using a list of tuples\n  ansible.builtin.uri:\n    url: https://your.form.based.auth.example.com/index.php\n    method: POST\n    body_format: form-urlencoded\n    body:\n    - [ name, your_username ]\n    - [ password, your_password ]\n    - [ enter, Sign in ]\n    status_code: 302\n  register: login\n\n- name: Upload a file via multipart/form-multipart\n  ansible.builtin.uri:\n    url: https://httpbin.org/post\n    method: POST\n    body_format: form-multipart\n    body:\n      file1:\n        filename: /bin/true\n        mime_type: application/octet-stream\n      file2:\n        content: text based file content\n        filename: fake.txt\n        mime_type: text/plain\n      text_form_field: value\n\n- name: Connect to website using a previously stored cookie\n  ansible.builtin.uri:\n    url: https://your.form.based.auth.example.com/dashboard.php\n    method: GET\n    return_content: true\n    headers:\n      Cookie: \"{{ login.cookies_string }}\"\n\n- name: Queue build of a project in Jenkins\n  ansible.builtin.uri:\n    url: http://{{ jenkins.host }}/job/{{ jenkins.job }}/build?token={{ jenkins.token }}\n    user: \"{{ jenkins.user }}\"\n    password: \"{{ jenkins.password }}\"\n    method: GET\n    force_basic_auth: true\n    status_code: 201\n\n- name: POST from contents of local file\n  ansible.builtin.uri:\n    url: https://httpbin.org/post\n    method: POST\n    src: file.json\n\n- name: POST from contents of remote file\n  ansible.builtin.uri:\n    url: https://httpbin.org/post\n    method: POST\n    src: /path/to/my/file.json\n    remote_src: true\n\n- name: Create workspaces in Log analytics Azure\n  ansible.builtin.uri:\n    url: https://www.mms.microsoft.com/Embedded/Api/ConfigDataSources/LogManagementData/Save\n    method: POST\n    body_format: json\n    status_code: [200, 202]\n    return_content: true\n    headers:\n      Content-Type: application/json\n      x-ms-client-workspace-path: /subscriptions/{{ sub_id }}/resourcegroups/{{ res_group }}/providers/microsoft.operationalinsights/workspaces/{{ w_spaces }}\n      x-ms-client-platform: ibiza\n      x-ms-client-auth-token: \"{{ token_az }}\"\n    body:\n\n- name: Pause play until a URL is reachable from this host\n  ansible.builtin.uri:\n    url: \"http://192.0.2.1/some/test\"\n    follow_redirects: none\n    method: GET\n  register: _result\n  until: _result.status == 200\n  retries: 720 # 720 * 5 seconds = 1hour (60*60/5)\n  delay: 5 # Every 5 seconds\n\n- name: Provide SSL/TLS ciphers as a list\n  uri:\n    url: https://example.org\n    ciphers:\n      - '@SECLEVEL=2'\n      - ECDH+AESGCM\n      - ECDH+CHACHA20\n      - ECDH+AES\n      - DHE+AES\n      - '!aNULL'\n      - '!eNULL'\n      - '!aDSS'\n      - '!SHA1'\n      - '!AESCCM'\n\n- name: Provide SSL/TLS ciphers as an OpenSSL formatted cipher list\n  uri:\n    url: https://example.org\n    ciphers: '@SECLEVEL=2:ECDH+AESGCM:ECDH+CHACHA20:ECDH+AES:DHE+AES:!aNULL:!eNULL:!aDSS:!SHA1:!AESCCM'\n",
+    "examples": "\n- name: Check that you can connect (GET) to a page and it returns a status 200\n  ansible.builtin.uri:\n    url: http://www.example.com\n\n- name: Check that a page returns successfully but fail if the word AWESOME is not in the page contents\n  ansible.builtin.uri:\n    url: http://www.example.com\n    return_content: true\n  register: this\n  failed_when: \"this is failed or 'AWESOME' not in this.content\"\n\n- name: Create a JIRA issue\n  ansible.builtin.uri:\n    url: https://your.jira.example.com/rest/api/2/issue/\n    user: your_username\n    password: your_pass\n    method: POST\n    body: \"{{ lookup('ansible.builtin.file','issue.json') }}\"\n    force_basic_auth: true\n    status_code: 201\n    body_format: json\n\n- name: Login to a form based webpage, then use the returned cookie to access the app in later tasks\n  ansible.builtin.uri:\n    url: https://your.form.based.auth.example.com/index.php\n    method: POST\n    body_format: form-urlencoded\n    body:\n      name: your_username\n      password: your_password\n      enter: Sign in\n    status_code: 302\n  register: login\n\n- name: Login to a form based webpage using a list of tuples\n  ansible.builtin.uri:\n    url: https://your.form.based.auth.example.com/index.php\n    method: POST\n    body_format: form-urlencoded\n    body:\n    - [ name, your_username ]\n    - [ password, your_password ]\n    - [ enter, Sign in ]\n    status_code: 302\n  register: login\n\n- name: Upload a file via multipart/form-multipart\n  ansible.builtin.uri:\n    url: https://httpbin.org/post\n    method: POST\n    body_format: form-multipart\n    body:\n      file1:\n        filename: /bin/true\n        mime_type: application/octet-stream\n        multipart_encoding: base64\n      file2:\n        content: text based file content\n        filename: fake.txt\n        mime_type: text/plain\n        multipart_encoding: 7or8bit\n      text_form_field: value\n\n- name: Connect to website using a previously stored cookie\n  ansible.builtin.uri:\n    url: https://your.form.based.auth.example.com/dashboard.php\n    method: GET\n    return_content: true\n    headers:\n      Cookie: \"{{ login.cookies_string }}\"\n\n- name: Queue build of a project in Jenkins\n  ansible.builtin.uri:\n    url: http://{{ jenkins.host }}/job/{{ jenkins.job }}/build?token={{ jenkins.token }}\n    user: \"{{ jenkins.user }}\"\n    password: \"{{ jenkins.password }}\"\n    method: GET\n    force_basic_auth: true\n    status_code: 201\n\n- name: POST from contents of local file\n  ansible.builtin.uri:\n    url: https://httpbin.org/post\n    method: POST\n    src: file.json\n\n- name: POST from contents of remote file\n  ansible.builtin.uri:\n    url: https://httpbin.org/post\n    method: POST\n    src: /path/to/my/file.json\n    remote_src: true\n\n- name: Create workspaces in Log analytics Azure\n  ansible.builtin.uri:\n    url: https://www.mms.microsoft.com/Embedded/Api/ConfigDataSources/LogManagementData/Save\n    method: POST\n    body_format: json\n    status_code: [200, 202]\n    return_content: true\n    headers:\n      Content-Type: application/json\n      x-ms-client-workspace-path: /subscriptions/{{ sub_id }}/resourcegroups/{{ res_group }}/providers/microsoft.operationalinsights/workspaces/{{ w_spaces }}\n      x-ms-client-platform: ibiza\n      x-ms-client-auth-token: \"{{ token_az }}\"\n    body:\n\n- name: Pause play until a URL is reachable from this host\n  ansible.builtin.uri:\n    url: \"http://192.0.2.1/some/test\"\n    follow_redirects: none\n    method: GET\n  register: _result\n  until: _result.status == 200\n  retries: 720 # 720 * 5 seconds = 1hour (60*60/5)\n  delay: 5 # Every 5 seconds\n\n- name: Provide SSL/TLS ciphers as a list\n  uri:\n    url: https://example.org\n    ciphers:\n      - '@SECLEVEL=2'\n      - ECDH+AESGCM\n      - ECDH+CHACHA20\n      - ECDH+AES\n      - DHE+AES\n      - '!aNULL'\n      - '!eNULL'\n      - '!aDSS'\n      - '!SHA1'\n      - '!AESCCM'\n\n- name: Provide SSL/TLS ciphers as an OpenSSL formatted cipher list\n  uri:\n    url: https://example.org\n    ciphers: '@SECLEVEL=2:ECDH+AESGCM:ECDH+CHACHA20:ECDH+AES:DHE+AES:!aNULL:!eNULL:!aDSS:!SHA1:!AESCCM'\n",
     "metadata": null,
     "return": {
      "content": {
