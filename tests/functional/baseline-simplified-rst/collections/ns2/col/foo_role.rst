@@ -89,7 +89,7 @@ Parameters
 
 
 Attributes
-----------
+^^^^^^^^^^
 
 .. list-table::
   :widths: auto
@@ -134,7 +134,7 @@ See Also
   The official documentation on the **ns2.col.foo** module.
 
 Examples
---------
+^^^^^^^^
 
 .. code-block:: yaml
 
@@ -155,7 +155,7 @@ Authors
 .. Extra links
 
 Collection links
-~~~~~~~~~~~~~~~~
+----------------
 
 * `Issue Tracker <https://github.com/ansible-collections/community.general/issues>`__
 * `Homepage <https://github.com/ansible-collections/community.crypto>`__

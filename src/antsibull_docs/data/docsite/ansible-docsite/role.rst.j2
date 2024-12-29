@@ -144,7 +144,7 @@ Parameters
 {%   if ep_doc['attributes'] %}
 
 Attributes
-----------
+^^^^^^^^^^
 
 @{     attributes_rst(ep_doc['attributes'], attribute_html_prefix=entry_point ~ '--', role_entrypoint=entry_point) }@
 {%   endif %}
@@ -194,7 +194,7 @@ See Also
 
 {%   if ep_doc['examples'] and ep_doc['examples'] | trim -%}
 Examples
---------
+^^^^^^^^
 
 .. code-block:: @{ ep_doc['examples_format'] | rst_format(for_sphinx=true) }@
 
@@ -218,7 +218,7 @@ Authors
 
 {% if collection_links or not collection_communication.empty %}
 Collection links
-~~~~~~~~~~~~~~~~
+----------------
 
 @{   add_collection_links(collection_links, collection_communication, collection) -}@
 {% endif %}
