@@ -4,6 +4,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.16.2
+=======
+
+Release Summary
+---------------
+
+Bugfix release.
+
+Bugfixes
+--------
+
+- Fix role section heading levels. Examples and attributes should be below role entrypoints (https://github.com/ansible-community/antsibull-docs/issues/366, https://github.com/ansible-community/antsibull-docs/pull/367).
+
 v2.16.1
 =======
 

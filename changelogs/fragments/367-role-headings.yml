@@ -1,3 +1,0 @@
-bugfixes:
-  - "Fix role section heading levels. Examples and attributes should be below role entrypoints
-    (https://github.com/ansible-community/antsibull-docs/issues/366, https://github.com/ansible-community/antsibull-docs/pull/367)."

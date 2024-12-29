@@ -981,3 +981,14 @@ releases:
       - 2.16.1.yml
       - 360-action-modules.yml
     release_date: '2024-11-21'
+  2.16.2:
+    changes:
+      bugfixes:
+        - Fix role section heading levels. Examples and attributes should be below
+          role entrypoints (https://github.com/ansible-community/antsibull-docs/issues/366,
+          https://github.com/ansible-community/antsibull-docs/pull/367).
+      release_summary: Bugfix release.
+    fragments:
+      - 2.16.2.yml
+      - 367-role-headings.yml
+    release_date: '2024-12-29'
