@@ -103,7 +103,7 @@ Parameters
 {%   if ep_doc['attributes'] %}
 
 Attributes
-----------
+^^^^^^^^^^
 
 @{     attributes_rst(ep_doc['attributes'], role_entrypoint=entry_point) }@
 {%   endif %}
@@ -152,7 +152,7 @@ See Also
 
 {%   if ep_doc['examples'] and ep_doc['examples'] | trim -%}
 Examples
---------
+^^^^^^^^
 
 .. code-block:: @{ ep_doc['examples_format'] | rst_format }@
 

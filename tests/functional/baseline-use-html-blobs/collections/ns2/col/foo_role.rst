@@ -123,7 +123,7 @@ Parameters
 
 
 Attributes
-----------
+^^^^^^^^^^
 
 .. tabularcolumns:: \X{2}{10}\X{3}{10}\X{5}{10}
 
@@ -236,7 +236,7 @@ See Also
        The official documentation on the **ns2.col.foo** module.
 
 Examples
---------
+^^^^^^^^
 
 .. code-block:: yaml+jinja
 

@@ -89,7 +89,7 @@ Parameters
 
 
 Attributes
-----------
+^^^^^^^^^^
 
 .. list-table::
   :widths: auto
@@ -134,7 +134,7 @@ See Also
   The official documentation on the **ns2.col.foo** module.
 
 Examples
---------
+^^^^^^^^
 
 .. code-block:: yaml
 
