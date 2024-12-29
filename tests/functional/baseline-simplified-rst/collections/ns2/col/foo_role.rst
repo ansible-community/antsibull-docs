@@ -155,7 +155,7 @@ Authors
 .. Extra links
 
 Collection links
-----------------
+~~~~~~~~~~~~~~~~
 
 * `Issue Tracker <https://github.com/ansible-collections/community.general/issues>`__
 * `Homepage <https://github.com/ansible-collections/community.crypto>`__

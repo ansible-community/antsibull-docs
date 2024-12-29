@@ -257,7 +257,7 @@ Authors
 .. Extra links
 
 Collection links
-----------------
+~~~~~~~~~~~~~~~~
 
 .. ansible-links::
 
