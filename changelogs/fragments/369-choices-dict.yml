@@ -1,0 +1,3 @@
+bugfixes:
+  - "When ``choices`` are provided as a dictionary with explanations, links to options, return values, modules, plugins, and roles were not correctly rendered
+     (https://github.com/ansible-community/antsibull-docs/pull/369)."

@@ -117,7 +117,7 @@ Parameters
         </li>
         <li>
           <p><code style="color: blue;"><b>&#34;auto&#34;</b></code> <span style="color: blue;">(default)</span>:
-          Depending on <code class="ansible-option literal notranslate"><strong>strategy</strong></code>, will match the first or all package managers provided, in order</p>
+          Depending on <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="#parameter-strategy"><span class="std std-ref"><span class="pre">strategy</span></span></a></strong></code>, will match the first or all package managers provided, in order</p>
         </li>
         <li>
           <p><code>&#34;dnf&#34;</code>:

@@ -151,7 +151,7 @@ Parameters
         </li>
         <li>
           <p><code class="ansible-value literal notranslate ansible-option-default-bold"><strong>&#34;auto&#34;</strong></code> <span class="ansible-option-choices-default-mark">(default)</span>:
-          Depending on <code class="ansible-option literal notranslate"><strong>strategy</strong></code>, will match the first or all package managers provided, in order</p>
+          Depending on <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="#parameter-strategy"><span class="std std-ref"><span class="pre">strategy</span></span></a></strong></code>, will match the first or all package managers provided, in order</p>
         </li>
         <li>
           <p><code class="ansible-value literal notranslate ansible-option-choices-entry">&#34;dnf&#34;</code>:
