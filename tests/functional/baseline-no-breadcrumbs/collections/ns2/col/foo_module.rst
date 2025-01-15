@@ -217,7 +217,7 @@ Parameters
         For DEB based distros, :literal:`python-apt` package must be installed on targeted hosts
 
       - :ansible-option-choices-entry-default:`"auto"` :ansible-option-choices-default-mark:`(default)`\ :
-        Depending on :ansopt:`strategy`\ , will match the first or all package managers provided, in order
+        Depending on :ansopt:`ns2.col.foo#module:strategy`\ , will match the first or all package managers provided, in order
 
       - :ansible-option-choices-entry:`"dnf"`\ :
         Alias to rpm
