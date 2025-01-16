@@ -260,7 +260,12 @@ def column_width(string: str) -> int:
 
 
 def _lstrip(line: str, lines: list[str], no: int) -> str:
-    if no >= 2 and lines[no - 2].startswith('.. raw:: ') and lines[no - 1] == '' and line.startswith('  '):
+    if (
+        no >= 2
+        and lines[no - 2].startswith(".. raw:: ")
+        and lines[no - 1] == ""
+        and line.startswith("  ")
+    ):
         return line
     return line.lstrip()
 
