@@ -50,6 +50,10 @@ Synopsis
 - Foo bar.
 - See :ansopt:`ns2.col.foo#role:main:foo\_param\_1` for a random role parameter reference. And :ansopt:`ns2.col.foo#role:main:foo\_param\_2=42` for one with a value.
 - Reference using alias - :ansopt:`ns2.col.foo\_redirect#module:bar` and :ansopt:`ns2.col.foo\_redirect#module:baz`.
+- .. raw:: html
+
+  <hr>
+- Another line.
 
 
 .. Aliases
@@ -90,6 +94,7 @@ Parameters
     <td><div class="ansible-option-cell">
       <p>Some bar.</p>
       <p>See <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="../../ns2/col/foo_role.html#parameter-main--foo_param_1"><span class="std std-ref"><span class="pre">foo_param_1</span></span></a></strong></code> for a random role parameter reference. And <code class="ansible-option-value literal notranslate"><a class="reference internal" href="../../ns2/col/foo_role.html#parameter-main--foo_param_2"><span class="std std-ref"><span class="pre">foo_param_2=42</span></span></a></code> for one with a value.</p>
+      <p>Some text.<hr/>More text.</p>
     </div></td>
   </tr>
   </tbody>

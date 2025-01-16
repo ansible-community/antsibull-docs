@@ -19,12 +19,15 @@ description:
     - See O(ns2.col.foo#role:main:foo_param_1) for a random role parameter reference. And
       O(ns2.col.foo#role:main:foo_param_2=42) for one with a value.
     - Reference using alias - O(ns2.col.foo_redirect#module:bar) and O(ns2.col.foo_redirect#module:baz).
+    - HORIZONTALLINE
+    - Another line.
 options:
     bar:
         description:
           - Some bar.
           - See O(ns2.col.foo#role:main:foo_param_1) for a random role parameter reference. And
             O(ns2.col.foo#role:main:foo_param_2=42) for one with a value.
+          - Some text. HORIZONTALLINE More text.
         type: str
 
 attributes:
