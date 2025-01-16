@@ -992,3 +992,17 @@ releases:
       - 2.16.2.yml
       - 367-role-headings.yml
     release_date: '2024-12-29'
+  2.16.3:
+    changes:
+      bugfixes:
+        - Fix rendering of ``HORIZONTALLINE`` in reStructuredText output. An earlier
+          fix for leading whitespace mangled the resulting ``raw`` directive (https://github.com/ansible-community/antsibull-docs/pull/370).
+        - When ``choices`` are provided as a dictionary with explanations, links to
+          options, return values, modules, plugins, and roles were not correctly rendered
+          (https://github.com/ansible-community/antsibull-docs/pull/369).
+      release_summary: Bugfix release.
+    fragments:
+      - 2.16.3.yml
+      - 369-choices-dict.yml
+      - 370-fixes.yml
+    release_date: '2025-01-16'

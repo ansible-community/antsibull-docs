@@ -4,6 +4,20 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.16.3
+=======
+
+Release Summary
+---------------
+
+Bugfix release.
+
+Bugfixes
+--------
+
+- Fix rendering of ``HORIZONTALLINE`` in reStructuredText output. An earlier fix for leading whitespace mangled the resulting ``raw`` directive (https://github.com/ansible-community/antsibull-docs/pull/370).
+- When ``choices`` are provided as a dictionary with explanations, links to options, return values, modules, plugins, and roles were not correctly rendered (https://github.com/ansible-community/antsibull-docs/pull/369).
+
 v2.16.2
 =======
 
