@@ -1,0 +1,3 @@
+bugfixes:
+  - "Fix rendering of ``HORIZONTALLINE`` in reStructuredText output. An earlier fix for leading whitespace mangled the resulting ``raw`` directive
+     (https://github.com/ansible-community/antsibull-docs/pull/370)."

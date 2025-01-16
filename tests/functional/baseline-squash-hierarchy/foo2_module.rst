@@ -52,7 +52,7 @@ Synopsis
 - Reference using alias - :ansopt:`ns2.col.foo\_redirect#module:bar` and :ansopt:`ns2.col.foo\_redirect#module:baz`.
 - .. raw:: html
 
-  <hr>
+    <hr>
 - Another line.
 
 
@@ -118,7 +118,7 @@ Parameters
 
       .. raw:: html
 
-      <hr>
+        <hr>
 
       More text.
 

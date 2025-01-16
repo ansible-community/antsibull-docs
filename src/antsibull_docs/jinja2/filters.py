@@ -259,6 +259,12 @@ def column_width(string: str) -> int:
     return _column_width(string)
 
 
+def _lstrip(line: str, lines: list[str], no: int) -> str:
+    if no >= 2 and lines[no - 2].startswith('.. raw:: ') and lines[no - 1] == '' and line.startswith('  '):
+        return line
+    return line.lstrip()
+
+
 def rst_indent(
     value: str, width: t.Union[int, str], first: bool = False, blank: bool = False
 ) -> str:
@@ -277,7 +283,7 @@ def rst_indent(
     lines = (value + "\n").splitlines()
 
     # Remove trailing whitespace
-    stripped_lines = [line.lstrip() for line in lines]
+    stripped_lines = [_lstrip(line, lines, no) for no, line in enumerate(lines)]
 
     if blank:
         rv = ("\n" + indent).join(stripped_lines)
