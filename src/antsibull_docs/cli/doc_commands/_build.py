@@ -275,6 +275,12 @@ def _collect_removal_sentences(
     if reason_text:
         sentences.append(reason_text)
 
+    if reason not in ("renamed", "deprecated"):
+        sentences.append(
+            "Once removed, you can still install the collection manually"
+            f" with C(ansible-galaxy collection install {collection})."
+        )
+
     if sentences and discussion:
         sentences.append(
             f"See the L(discussion thread, {discussion}) for more information."
