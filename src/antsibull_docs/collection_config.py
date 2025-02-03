@@ -59,7 +59,7 @@ async def load_collection_config(
 
 
 async def load_collections_configs(
-    collection_paths: Mapping[str, str]
+    collection_paths: Mapping[str, str],
 ) -> Mapping[str, CollectionConfig]:
     """Load config data.
 

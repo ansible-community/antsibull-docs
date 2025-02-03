@@ -51,7 +51,7 @@ def load_ansible_config(
 
 
 def _find_env_vars(
-    options: Mapping[str, Mapping[str, t.Any]]
+    options: Mapping[str, Mapping[str, t.Any]],
 ) -> Generator[tuple[str, list[str] | None], None, None]:
     for _, option_data in options.items():
         if isinstance(option_data.get("env"), list):

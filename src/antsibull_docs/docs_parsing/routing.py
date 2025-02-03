@@ -168,7 +168,7 @@ def find_flatmapping_short_long_maps(
 
 
 def remove_flatmapping_artifacts(
-    plugin_routing: dict[str, dict[str, dict[str, t.Any]]]
+    plugin_routing: dict[str, dict[str, dict[str, t.Any]]],
 ) -> None:
     """
     For collections which use flatmapping (like community.general and community.network),
@@ -287,7 +287,7 @@ def _add_core_symlink_redirects(
 
 
 def _merge_action_into_modules(
-    plugin_routing_out: dict[str, dict[str, dict[str, t.Any]]]
+    plugin_routing_out: dict[str, dict[str, dict[str, t.Any]]],
 ) -> None:
     """
     Merge 'action' routing info into 'modules' routing info.
@@ -337,7 +337,7 @@ async def load_collection_routing(
 
 
 async def load_all_collection_routing(
-    collection_metadata: Mapping[str, AnsibleCollectionMetadata]
+    collection_metadata: Mapping[str, AnsibleCollectionMetadata],
 ) -> MutableCollectionRoutingT:
     # Collection
     lib_ctx = app_context.lib_ctx.get()

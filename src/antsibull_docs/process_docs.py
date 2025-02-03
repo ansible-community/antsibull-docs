@@ -194,7 +194,7 @@ def normalize_plugin_info(
 
 
 async def normalize_all_plugin_info(
-    plugin_info: Mapping[str, Mapping[str, t.Any]]
+    plugin_info: Mapping[str, Mapping[str, t.Any]],
 ) -> tuple[dict[str, MutableMapping[str, t.Any]], PluginErrorsRT]:
     """
     Normalize the data in plugin_info so that it is ready to be passed to the templates.

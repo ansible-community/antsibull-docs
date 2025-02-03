@@ -255,7 +255,7 @@ async def load_collection_extra_docs(
 
 
 async def load_collections_extra_docs(
-    collection_paths: Mapping[str, str]
+    collection_paths: Mapping[str, str],
 ) -> Mapping[str, CollectionExtraDocsInfoT]:
     """Load extra docs data.
 

@@ -200,7 +200,7 @@ async def load_collection_links(
 
 
 async def load_collections_links(
-    collection_paths: Mapping[str, str]
+    collection_paths: Mapping[str, str],
 ) -> Mapping[str, CollectionLinks]:
     """Load links data.
 
