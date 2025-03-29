@@ -3,8 +3,6 @@
 # GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-changelog_filename_template: ../CHANGELOG
-changelog_filename_version_depth: 0
 changes_file: changelog.yaml
 changes_format: combined
 is_other_project: true
@@ -12,9 +10,6 @@ keep_fragments: false
 mention_ancestor: true
 new_plugins_after_name: removed_features
 notesdir: fragments
-output_formats:
-- md
-- rst
 prelude_section_name: release_summary
 prelude_section_title: Release Summary
 sections:
@@ -36,5 +31,19 @@ sections:
     - Known Issues
 use_semantic_versioning: false
 title: antsibull-docs -- Ansible Documentation Build Scripts
+output:
+  - file: CHANGELOG.rst
+    format: rst
+    global_toc: true
+    per_release_toc: false
+  - file: CHANGELOG.md
+    format: md
+    global_toc: true
+    per_release_toc: false
+  - file: docs/changelog.md
+    format: md
+    global_toc: false
+    per_release_toc: false
 changelog_nice_yaml: true
 changelog_sort: version
+vcs: auto
