@@ -5,9 +5,35 @@
 Index of all Collection Environment Variables
 =============================================
 
-The following index documents all environment variables declared by plugins in collections.
+The following index documents all environment variables declared by plugins and modules in collections.
 Environment variables used by the ansible-core configuration are documented in :ref:`ansible_configuration_settings`.
 
+.. envvar:: ANSIBLE_BAR
+
+    A sub foo.
+
+    Whatever.
+
+    Also required when \ :ansopt:`subfoo`\  is specified when \ :ansopt:`foo=bar`\  or \ :ansval:`baz`\ .
+
+    *Used by:*
+    :ansplugin:`ns2.col.foo module <ns2.col.foo#module>`
+.. envvar:: ANSIBLE_BAZ
+
+    A sub foo.
+
+    Whatever.
+
+    Also required when \ :ansopt:`subfoo`\  is specified when \ :ansopt:`foo=bar`\  or \ :ansval:`baz`\ .
+
+    *Used by:*
+    :ansplugin:`ns2.col.foo module <ns2.col.foo#module>`
+.. envvar:: ANSIBLE_FOO
+
+    See the documentations for the options where this environment variable is used.
+
+    *Used by:*
+    :ansplugin:`ns2.col.foo module <ns2.col.foo#module>`
 .. envvar:: ANSIBLE_FOO_EXE
 
     Foo executable.
