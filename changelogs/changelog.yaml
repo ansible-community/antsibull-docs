@@ -1006,3 +1006,18 @@ releases:
       - 369-choices-dict.yml
       - 370-fixes.yml
     release_date: '2025-01-16'
+  2.17.0:
+    changes:
+      bugfixes:
+        - Make sure that all errors are caught during documentation normalization.
+          Until now exceptions derived from ``BaseException`` that are not derived
+          from ``Exception`` are not handled correctly (https://github.com/ansible-community/antsibull-docs/pull/389).
+      minor_changes:
+        - Extend deprecation/removal note that collections can be installed manually
+          after removal (https://github.com/ansible-community/antsibull-docs/pull/371).
+      release_summary: Feature and bugfix release.
+    fragments:
+      - 2.17.0.yml
+      - 371-removal-hint.yml
+      - 389-docs-parsing-base-exception.yml
+    release_date: '2025-06-03'

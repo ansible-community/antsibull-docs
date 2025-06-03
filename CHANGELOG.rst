@@ -4,6 +4,24 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.17.0
+=======
+
+Release Summary
+---------------
+
+Feature and bugfix release.
+
+Minor Changes
+-------------
+
+- Extend deprecation/removal note that collections can be installed manually after removal (https://github.com/ansible-community/antsibull-docs/pull/371).
+
+Bugfixes
+--------
+
+- Make sure that all errors are caught during documentation normalization. Until now exceptions derived from ``BaseException`` that are not derived from ``Exception`` are not handled correctly (https://github.com/ansible-community/antsibull-docs/pull/389).
+
 v2.16.3
 =======
 

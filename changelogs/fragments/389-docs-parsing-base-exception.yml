@@ -1,4 +1,0 @@
-bugfixes:
-  - "Make sure that all errors are caught during documentation normalization.
-     Until now exceptions derived from ``BaseException`` that are not derived from ``Exception`` are not handled correctly
-     (https://github.com/ansible-community/antsibull-docs/pull/389)."
