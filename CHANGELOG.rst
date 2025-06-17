@@ -4,6 +4,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.17.1
+=======
+
+Release Summary
+---------------
+
+Bugfix release with updated antsibull-fileutils dependency.
+
+Bugfixes
+--------
+
+- Using the new util from ``antsibull-fileutils >= 1.3.0`` to prevent copying the collections tree into a temporary directory structure that already lives inside a ``ansible_collections`` tree, which triggers a bug in ansible-core (https://github.com/ansible-community/antsibull-docs/pull/391).
+
 v2.17.0
 =======
 
