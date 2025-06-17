@@ -10,7 +10,6 @@ from __future__ import annotations
 import asyncio
 import os
 import os.path
-import tempfile
 
 import aiohttp
 import asyncio_pool  # type: ignore[import]
@@ -21,6 +20,7 @@ from antsibull_core.galaxy import CollectionDownloader, DownloadResults, GalaxyC
 from antsibull_core.logging import log
 from antsibull_core.schemas.collection_meta import CollectionsMetadata
 from antsibull_core.venv import FakeVenvRunner, VenvRunner
+from antsibull_fileutils.tempfile import AnsibleTemporaryDirectory
 from packaging.version import Version as PypiVer
 
 from ... import app_context
@@ -132,13 +132,13 @@ def generate_docs() -> int:
     collection_meta = CollectionsMetadata.load_from(data_dir)
     flog.debug("Finished parsing collection metadata")
 
-    with tempfile.TemporaryDirectory() as tmp_dir:
+    with AnsibleTemporaryDirectory() as tmp_dir:
         # Retrieve ansible-core and the collections
         flog.fields(tmp_dir=tmp_dir).info("created tmpdir")
         collection_tarballs = asyncio.run(
             retrieve(
                 collections,
-                tmp_dir,
+                str(tmp_dir),
                 galaxy_server=str(lib_ctx.galaxy_url),
                 ansible_core_source=app_ctx.extra["ansible_core_source"],
                 collection_cache=lib_ctx.collection_cache,

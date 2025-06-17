@@ -11,7 +11,6 @@ import asyncio
 import json
 import os
 import shutil
-import tempfile
 import typing as t
 from collections.abc import Mapping, Sequence
 
@@ -21,6 +20,7 @@ from antsibull_core.venv import FakeVenvRunner
 from antsibull_docs_parser import dom
 from antsibull_docs_parser.parser import Context as ParserContext
 from antsibull_docs_parser.parser import parse as parse_markup
+from antsibull_fileutils.tempfile import ansible_mkdtemp
 from jinja2 import Template
 
 from sphinx_antsibull_ext import directives as antsibull_directives
@@ -67,7 +67,7 @@ class CollectionCopier:
     def __enter__(self):
         if self.dir is not None:
             raise AssertionError("Collection copier already initialized")
-        self.dir = os.path.realpath(tempfile.mkdtemp(prefix="antsibull-docs-"))
+        self.dir = os.path.realpath(ansible_mkdtemp(prefix="antsibull-docs-"))
         return self
 
     def add_collection(

@@ -11,7 +11,6 @@ from __future__ import annotations
 import asyncio
 import os
 import os.path
-import tempfile
 
 import aiohttp
 import asyncio_pool  # type: ignore[import]
@@ -19,6 +18,7 @@ from antsibull_core.collections import install_together
 from antsibull_core.galaxy import CollectionDownloader, GalaxyContext
 from antsibull_core.logging import log
 from antsibull_core.venv import FakeVenvRunner
+from antsibull_fileutils.tempfile import AnsibleTemporaryDirectory
 
 from ... import app_context
 from ...jinja2.environment import OutputFormat
@@ -132,14 +132,14 @@ def generate_docs() -> int:
     if collection_version == "@latest":
         collection_version = None
 
-    with tempfile.TemporaryDirectory() as tmp_dir:
+    with AnsibleTemporaryDirectory() as tmp_dir:
         # Retrieve the collections
         flog.fields(tmp_dir=tmp_dir).info("created tmpdir")
         collection_tarballs = asyncio.run(
             retrieve(
                 app_ctx.extra["collections"],
                 collection_version,
-                tmp_dir,
+                str(tmp_dir),
                 galaxy_server=str(lib_ctx.galaxy_url),
                 collection_cache=lib_ctx.collection_cache,
             )
