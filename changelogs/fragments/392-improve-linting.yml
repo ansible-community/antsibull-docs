@@ -1,0 +1,2 @@
+minor_changes:
+  - "The ``lint-collection-docs``'s option ``--plugin-docs`` now also checks role entrypoints for existence (https://github.com/ansible-community/antsibull-docs/pull/392)."

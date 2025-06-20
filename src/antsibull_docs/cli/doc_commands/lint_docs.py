@@ -23,6 +23,7 @@ from ...schemas.app_context import (
     DEFAULT_COLLECTION_URL_TRANSFORM,
 )
 from ...utils.collection_name_transformer import CollectionNameTransformer
+from ...utils.collection_names import ValidCollectionRefs
 
 mlog = log.fields(mod=__name__)
 
@@ -39,12 +40,16 @@ def lint_collection_docs() -> int:
 
     app_ctx = app_context.app_ctx.get()
 
-    collection_root = app_ctx.extra["collection_root_path"]
-    plugin_docs = app_ctx.extra["plugin_docs"]
-    validate_collections_refs = app_ctx.extra["validate_collections_refs"]
-    disallow_unknown_collection_refs = app_ctx.extra["disallow_unknown_collection_refs"]
-    skip_rstcheck = app_ctx.extra["skip_rstcheck"]
-    disallow_semantic_markup = app_ctx.extra["disallow_semantic_markup"]
+    collection_root: str = app_ctx.extra["collection_root_path"]
+    plugin_docs: bool = app_ctx.extra["plugin_docs"]
+    validate_collections_refs: ValidCollectionRefs = app_ctx.extra[
+        "validate_collections_refs"
+    ]
+    disallow_unknown_collection_refs: bool = app_ctx.extra[
+        "disallow_unknown_collection_refs"
+    ]
+    skip_rstcheck: bool = app_ctx.extra["skip_rstcheck"]
+    disallow_semantic_markup: bool = app_ctx.extra["disallow_semantic_markup"]
     output_format = OutputFormat.parse(app_ctx.extra["output_format"])
 
     flog.notice("Linting docs config file")
@@ -67,7 +72,7 @@ def lint_collection_docs() -> int:
         )
         errors.extend(
             lint_collection_plugin_docs(
-                collection_root,
+                path_to_collection=collection_root,
                 collection_url=collection_url,
                 collection_install=collection_install,
                 validate_collections_refs=validate_collections_refs,
@@ -105,8 +110,12 @@ def lint_core_docs() -> int:
 
     app_ctx = app_context.app_ctx.get()
 
-    validate_collections_refs = app_ctx.extra["validate_collections_refs"]
-    disallow_unknown_collection_refs = app_ctx.extra["disallow_unknown_collection_refs"]
+    validate_collections_refs: ValidCollectionRefs = app_ctx.extra[
+        "validate_collections_refs"
+    ]
+    disallow_unknown_collection_refs: bool = app_ctx.extra[
+        "disallow_unknown_collection_refs"
+    ]
 
     flog.notice("Linting plugin docs")
     collection_url = CollectionNameTransformer(

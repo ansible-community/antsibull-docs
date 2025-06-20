@@ -131,7 +131,7 @@ def ansible_doc_cache():
                 call_ansible_galaxy_collection_list,
             ):
                 with mock.patch(
-                    "antsibull_docs.lint_plugin_docs._call_ansible_galaxy_collection_list",
+                    "antsibull_docs.utils.collection_copier._call_ansible_galaxy_collection_list",
                     call_ansible_galaxy_collection_list_simple,
                 ):
                     with mock.patch(
