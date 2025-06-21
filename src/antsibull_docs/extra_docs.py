@@ -242,7 +242,9 @@ async def load_collection_extra_docs(
             content = await read_file(abs_path, encoding="utf-8")
 
             # Lint content
-            dummy, errors = lint_required_conditions(content, collection_name)
+            dummy, errors = lint_required_conditions(
+                content=content, collection_name=collection_name
+            )
 
             # When no errors were found, add to output
             if not errors:
