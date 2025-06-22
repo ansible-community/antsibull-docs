@@ -761,28 +761,28 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         dest="validate_collections_refs",
         choices=["self", "dependent", "all"],
         default="dependent",
-        help="When --plugin-docs is specified, determine references to which"
-        " collections to validate.  'self' means only validate references to"
-        " this collection.  'dependent' means validating references to"
-        " collections this collection (transitively) depends on, including"
-        " references to ansible.builtin.  'all' means validating references"
-        " to all collections the linter can find.",
+        help="When --plugin-docs or --check-extra-docs-refs is specified,"
+        "determine references to which collections to validate."
+        "  'self' means only validate references to this collection."
+        "  'dependent' means validating references to collections this collection"
+        " (transitively) depends on, including references to ansible.builtin."
+        "  'all' means validating references to all collections the linter can find.",
     )
     lint_collection_docs_parser.add_argument(
         "--disallow-unknown-collection-refs",
         dest="disallow_unknown_collection_refs",
         action=BooleanOptionalAction,
         default=False,
-        help="When --plugin-docs is specified, determine whether to accept"
-        " references to unknown collections that are not covered by "
-        "--validate-collection-refs.",
+        help="When --plugin-docs or --check-extra-docs-refs is specified,"
+        " determine whether to accept references to unknown collections"
+        " that are not covered by --validate-collection-refs.",
     )
     lint_collection_docs_parser.add_argument(
         "--skip-rstcheck",
         dest="skip_rstcheck",
         action=BooleanOptionalAction,
         default=False,
-        help="When --plugin-docs is specified, do not run"
+        help="When --plugin-docs or --check-extra-docs-refs is specified, do not run"
         " rstcheck on the generated RST files. This speeds"
         " up testing for large collections.",
     )
@@ -795,6 +795,14 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         " there is no semantic markup used. This can be used"
         " by collections to ensure that semantic markup is"
         " not yet used.",
+    )
+    lint_collection_docs_parser.add_argument(
+        "--check-extra-docs-refs",
+        dest="check_extra_docs_refs",
+        action=BooleanOptionalAction,
+        default=False,
+        help="Determine whether to also check extra RST files"
+        " for valid collection references.",
     )
 
     #
