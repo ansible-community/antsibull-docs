@@ -46,6 +46,7 @@ To use it in a playbook, specify: :code:`@{plugin_name}@`.
    :depth: 2
 
 {% for entry_point, ep_doc in entry_points.items() | sort %}
+.. _@{ rst_plugin_ref(plugin_name, plugin_type, entry_point) }@:
 
 {%   if ep_doc['short_description'] -%}
 {%     set title = 'Entry point ``' + entry_point + '`` -- ' + ep_doc['short_description'] | rst_ify(role_entrypoint=entry_point) -%}

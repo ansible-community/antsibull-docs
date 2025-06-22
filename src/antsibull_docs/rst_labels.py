@@ -12,8 +12,11 @@ from __future__ import annotations
 from antsibull_docs.utils.rst import massage_rst_label
 
 
-def get_plugin_ref(plugin_fqcn: str, plugin_type: str) -> str:
-    return f"ansible_collections.{plugin_fqcn}_{plugin_type}"
+def get_plugin_ref(plugin_fqcn: str, plugin_type: str, entrypoint: str | None = None) -> str:
+    label = f"ansible_collections.{plugin_fqcn}_{plugin_type}"
+    if plugin_type == "role" and entrypoint is not None:
+        label = f"{label}__entrypoint-{entrypoint}"
+    return label
 
 
 def get_attribute_ref(

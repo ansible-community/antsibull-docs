@@ -45,12 +45,12 @@ from .filters import (
 from .tests import still_relevant, test_list
 
 
-def reference_plugin_rst(plugin_name: str, plugin_type: str) -> str:
+def reference_plugin_rst(plugin_name: str, plugin_type: str, entrypoint: str | None = None) -> str:
     fqcn = f"{plugin_name}"
-    return f":ref:`{rst_escape(fqcn)} <{get_plugin_ref(fqcn, plugin_type)}>`"
+    return f":ref:`{rst_escape(fqcn)} <{get_plugin_ref(fqcn, plugin_type, entrypoint)}>`"
 
 
-def reference_plugin_rst_simplified(plugin_name: str, plugin_type: str) -> str:
+def reference_plugin_rst_simplified(plugin_name: str, plugin_type: str, entrypoint: str | None = None) -> str:
     fqcn = f"{plugin_name}"
     # TODO: return fqcn for other collections
     name = plugin_name.split(".", 2)[2]

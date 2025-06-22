@@ -126,8 +126,11 @@ def split_option_like_name(name: str) -> list[tuple[str, str | None]]:
     return result
 
 
-def parse_plugin_name(text: str) -> tuple[str, str]:
-    m = _FQCN_TYPE_RE.match(text)
+def parse_plugin_name(text: str) -> tuple[str, str, str | None]:
+    start, sep, entrypoint = text.partition(":")
+    m = _FQCN_TYPE_RE.match(start)
     if not m:
         raise ValueError("Cannot extract plugin name and type")
-    return m.group(1), m.group(2)
+    if m.group(2) != "role" and sep:
+        raise ValueError("Only roles can have entrypoints")
+    return m.group(1), m.group(2), entrypoint if sep else None

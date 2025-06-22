@@ -1,0 +1,4 @@
+minor_changes:
+  - |-
+    Extend ``\:ansplugin\:`` role to allow referencing role entrypoints. The syntax is ``\:ansplugin\:\`namespace.name.role_name#entrypoint\```
+    (https://github.com/ansible-community/antsibull-docs/pull/393).

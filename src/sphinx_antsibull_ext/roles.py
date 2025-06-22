@@ -260,7 +260,7 @@ def plugin_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
     target, title = extract_explicit_title(text)
 
     try:
-        plugin_fqcn, plugin_type = parse_plugin_name(target)
+        plugin_fqcn, plugin_type, entrypoint = parse_plugin_name(target)
     except ValueError as exc:
         return _create_error(rawtext, text, str(exc))
 
@@ -276,7 +276,7 @@ def plugin_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
     refnode = addnodes.pending_xref(
         plugin_fqcn, nodes.inline(rawtext, title), **options
     )
-    refnode["reftarget"] = get_plugin_ref(plugin_fqcn, plugin_type)
+    refnode["reftarget"] = get_plugin_ref(plugin_fqcn, plugin_type, entrypoint)
 
     return [refnode], []
 
