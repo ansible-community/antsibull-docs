@@ -76,6 +76,7 @@ def lint_collection_docs() -> int:
             DEFAULT_COLLECTION_INSTALL_CMD,
         )
         try:
+            flog.notice("Loading collection information")
             with load_collection_infos(
                 path_to_collection=collection_root,
                 copy_dependencies=validate_collections_refs != "all",
@@ -88,6 +89,7 @@ def lint_collection_docs() -> int:
                 for error in load_errors:
                     errors.append((error.path, 0, 0, error.error))
 
+                flog.notice("Collecting names of collection objects")
                 (
                     name_collection,
                     new_plugin_info,
