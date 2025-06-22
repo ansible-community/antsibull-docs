@@ -127,12 +127,26 @@ def _exc_to_string(exc: p.ValidationError, model_name: str) -> str:
     )
 
 
+def _fix_builtin_plugins(
+    plugin_name: str, plugin_type: str, plugin_record: MutableMapping[str, t.Any]
+) -> None:
+    doc = plugin_record.get("doc")
+    if not isinstance(doc, MutableMapping):
+        return
+
+    # Since ansible-core 2.19, standard Jinja2 filters and tests are listed
+    # under filter and test plugins, but with 'name' missing in 'doc'.
+    if plugin_type in ("filter", "test") and "name" not in doc:
+        doc["name"] = plugin_name.split(".")[-1]
+
+
 def normalize_plugin_info(
-    plugin_type: str, plugin_info: Mapping[str, t.Any]
+    plugin_name: str, plugin_type: str, plugin_info: MutableMapping[str, t.Any]
 ) -> tuple[dict[str, t.Any], list[str]]:
     """
     Normalize and validate all of the plugin docs.
 
+    :arg plugin_name: The FQCN of the plguin that we're getting docs for.
     :arg plugin_type: The type of plugins that we're getting docs for.
     :arg plugin_info: Mapping of plugin_info.  The toplevel keys are plugin names.
         See the schema in :mod:`antsibull.schemas.docs` for what the data should look like and just
@@ -160,6 +174,9 @@ def normalize_plugin_info(
             raise ValueError(  # pylint:disable=raise-missing-from
                 _exc_to_string(e, role_schema.__name__)
             )
+
+    if plugin_name.startswith("ansible.builtin."):
+        _fix_builtin_plugins(plugin_name, plugin_type, plugin_info)
 
     new_info: dict[str, t.Any] = {}
     # Note: loop through "doc" before any other keys.
@@ -223,7 +240,7 @@ async def normalize_all_plugin_info(
     for plugin_type, plugin_list_for_type in plugin_info.items():
         for plugin_name, plugin_record in plugin_list_for_type.items():
             normalizers[(plugin_type, plugin_name)] = loop.run_in_executor(
-                executor, normalize_plugin_info, plugin_type, plugin_record
+                executor, normalize_plugin_info, plugin_name, plugin_type, plugin_record
             )
 
     results = await asyncio.gather(*normalizers.values(), return_exceptions=True)
