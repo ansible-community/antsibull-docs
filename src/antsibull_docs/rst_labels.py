@@ -12,7 +12,26 @@ from __future__ import annotations
 from antsibull_docs.utils.rst import massage_rst_label
 
 
-def get_plugin_ref(plugin_fqcn: str, plugin_type: str, entrypoint: str | None = None) -> str:
+def get_collection_ref(collection_name: str, what: str = "collection") -> str:
+    if what == "communication":
+        return f"communication_for_{collection_name}"
+    if what == "changelog":
+        return f"changelog_for_{collection_name}"
+    if what == "changelog-section":
+        return f"changelog_section_for_{collection_name}"
+    if what == "plugin-index":
+        return f"plugin_index_for_{collection_name}"
+    if what.startswith("plugins-"):
+        plugin_type = what[len("plugins-") :]
+        if plugin_type:
+            return f"{plugin_type}_plugins_in_{collection_name}"
+    # Last case: "collection", "plugins", and catch-all
+    return f"plugins_in_{collection_name}"
+
+
+def get_plugin_ref(
+    plugin_fqcn: str, plugin_type: str, entrypoint: str | None = None
+) -> str:
     label = f"ansible_collections.{plugin_fqcn}_{plugin_type}"
     if plugin_type == "role" and entrypoint is not None:
         label = f"{label}__entrypoint-{entrypoint}"

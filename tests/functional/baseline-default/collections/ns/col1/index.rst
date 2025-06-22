@@ -30,6 +30,8 @@ A short description.
 .. toctree::
     :maxdepth: 1
 
+.. _changelog_section_for_ns.col1:
+
 Changelog
 ---------
 
@@ -37,6 +39,8 @@ Changelog
     :maxdepth: 1
 
     changelog
+
+.. _plugin_index_for_ns.col1:
 
 Plugin Index
 ------------

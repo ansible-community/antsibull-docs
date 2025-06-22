@@ -23,6 +23,7 @@ from antsibull_core.logging import log
 
 from ..docs_parsing import AnsibleCollectionMetadata
 from ..jinja2 import OutputFormat
+from ..rst_labels import get_collection_ref
 from . import CollectionInfoT, _get_collection_dir
 from .io import Output
 
@@ -84,6 +85,11 @@ The changelog of {collection_name} could not be rendered:
 .. code-block:: text
 
   {exc}
+"""
+
+    changelog_contents = f""".. _{get_collection_ref(collection_name, "changelog")}:
+
+{changelog_contents}
 """
 
     changelog_file = os.path.join(

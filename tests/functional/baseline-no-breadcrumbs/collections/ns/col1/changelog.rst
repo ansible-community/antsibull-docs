@@ -1,3 +1,5 @@
+.. _changelog_for_ns.col1:
+
 =====================
 Ns.Col1 Release Notes
 =====================
@@ -128,3 +130,4 @@ Lookup
 ~~~~~~
 
 - ns.col1.reverse - reverse magic
+

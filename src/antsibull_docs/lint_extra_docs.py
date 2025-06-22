@@ -82,7 +82,9 @@ def _validate_return_value(value: str, names_linter: CollectionNameLinter) -> No
 def _validate_plugin(value: str, names_linter: CollectionNameLinter) -> None:
     plugin_fqcn, plugin_type, entrypoint = parse_plugin_name(value)
     for error in names_linter.validate_plugin_fqcn(
-        Plugin(plugin_fqcn=plugin_fqcn, plugin_type=plugin_type, role_entrypoint=entrypoint)
+        Plugin(
+            plugin_fqcn=plugin_fqcn, plugin_type=plugin_type, role_entrypoint=entrypoint
+        )
     ):
         raise ValueError(error)
 

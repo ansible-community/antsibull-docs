@@ -65,6 +65,8 @@ Communication
 .. toctree::
     :maxdepth: 1
 
+.. _changelog_section_for_ns2.col:
+
 Changelog
 ---------
 
@@ -81,11 +83,14 @@ Guides
 
     docsite/filter_guide
 
+.. _plugin_index_for_ns2.col:
+
 Plugin Index
 ------------
 
 These are the plugins in the ns2.col collection:
 
+.. _module_plugins_in_ns2.col:
 
 Modules
 ~~~~~~~
@@ -94,36 +99,42 @@ Modules
 * :ansplugin:`foo2 module <ns2.col.foo2#module>` -- Another foo
 * :ansplugin:`sub.foo3 module <ns2.col.sub.foo3#module>` -- A sub-foo
 
+.. _become_plugins_in_ns2.col:
 
 Become Plugins
 ~~~~~~~~~~~~~~
 
 * :ansplugin:`foo become <ns2.col.foo#become>` -- Use foo :ansopt:`ns2.col.foo#become:bar` :ansdeprecatedmarker:`{"date": "", "version": "5.0.0"}`
 
+.. _cache_plugins_in_ns2.col:
 
 Cache Plugins
 ~~~~~~~~~~~~~
 
 * :ansplugin:`foo cache <ns2.col.foo#cache>` -- Foo files :ansopt:`ns2.col.foo#cache:bar`
 
+.. _callback_plugins_in_ns2.col:
 
 Callback Plugins
 ~~~~~~~~~~~~~~~~
 
 * :ansplugin:`foo callback <ns2.col.foo#callback>` -- Foo output :ansopt:`ns2.col.foo#callback:bar`
 
+.. _cliconf_plugins_in_ns2.col:
 
 Cliconf Plugins
 ~~~~~~~~~~~~~~~
 
 * :ansplugin:`foo cliconf <ns2.col.foo#cliconf>` -- Foo router CLI config
 
+.. _connection_plugins_in_ns2.col:
 
 Connection Plugins
 ~~~~~~~~~~~~~~~~~~
 
 * :ansplugin:`foo connection <ns2.col.foo#connection>` -- Foo connection :ansopt:`ns2.col.foo#connection:bar`
 
+.. _filter_plugins_in_ns2.col:
 
 Filter Plugins
 ~~~~~~~~~~~~~~
@@ -131,30 +142,35 @@ Filter Plugins
 * :ansplugin:`bar filter <ns2.col.bar#filter>` -- The bar filter
 * :ansplugin:`foo filter <ns2.col.foo#filter>` -- The foo filter :ansopt:`ns2.col.foo#filter:bar`
 
+.. _inventory_plugins_in_ns2.col:
 
 Inventory Plugins
 ~~~~~~~~~~~~~~~~~
 
 * :ansplugin:`foo inventory <ns2.col.foo#inventory>` -- The foo inventory :ansopt:`ns2.col.foo#inventory:bar`
 
+.. _lookup_plugins_in_ns2.col:
 
 Lookup Plugins
 ~~~~~~~~~~~~~~
 
 * :ansplugin:`foo lookup <ns2.col.foo#lookup>` -- Look up some foo :ansopt:`ns2.col.foo#lookup:bar`
 
+.. _shell_plugins_in_ns2.col:
 
 Shell Plugins
 ~~~~~~~~~~~~~
 
 * :ansplugin:`foo shell <ns2.col.foo#shell>` -- Foo shell :ansopt:`ns2.col.foo#shell:bar`
 
+.. _strategy_plugins_in_ns2.col:
 
 Strategy Plugins
 ~~~~~~~~~~~~~~~~
 
 * :ansplugin:`foo strategy <ns2.col.foo#strategy>` -- Executes tasks in foo
 
+.. _test_plugins_in_ns2.col:
 
 Test Plugins
 ~~~~~~~~~~~~
@@ -162,12 +178,15 @@ Test Plugins
 * :ansplugin:`bar test <ns2.col.bar#test>` -- Is something a bar
 * :ansplugin:`foo test <ns2.col.foo#test>` -- Is something a foo :ansopt:`ns2.col.foo#test:bar`
 
+.. _vars_plugins_in_ns2.col:
 
 Vars Plugins
 ~~~~~~~~~~~~
 
 * :ansplugin:`foo vars <ns2.col.foo#vars>` -- Load foo :ansopt:`ns2.col.foo#vars:bar`
 
+
+.. _role_plugins_in_ns2.col:
 
 Role Index
 ----------

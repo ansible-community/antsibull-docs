@@ -33,11 +33,14 @@ Description
 .. toctree::
     :maxdepth: 1
 
+.. _plugin_index_for_ns.col2:
+
 Plugin Index
 ------------
 
 These are the plugins in the ns.col2 collection:
 
+.. _module_plugins_in_ns.col2:
 
 Modules
 ~~~~~~~
@@ -48,78 +51,92 @@ Modules
 * :ansplugin:`foo3 module <ns.col2.foo3#module>` -- Foo III
 * :ansplugin:`foo4 module <ns.col2.foo4#module>` -- Markup reference linting test
 
+.. _become_plugins_in_ns.col2:
 
 Become Plugins
 ~~~~~~~~~~~~~~
 
 * :ansplugin:`extra become <ns.col2.extra#become>` --
 
+.. _cache_plugins_in_ns.col2:
 
 Cache Plugins
 ~~~~~~~~~~~~~
 
 * :ansplugin:`extra cache <ns.col2.extra#cache>` --
 
+.. _callback_plugins_in_ns.col2:
 
 Callback Plugins
 ~~~~~~~~~~~~~~~~
 
 * :ansplugin:`extra callback <ns.col2.extra#callback>` --
 
+.. _cliconf_plugins_in_ns.col2:
 
 Cliconf Plugins
 ~~~~~~~~~~~~~~~
 
 * :ansplugin:`extra cliconf <ns.col2.extra#cliconf>` --
 
+.. _connection_plugins_in_ns.col2:
 
 Connection Plugins
 ~~~~~~~~~~~~~~~~~~
 
 * :ansplugin:`extra connection <ns.col2.extra#connection>` --
 
+.. _filter_plugins_in_ns.col2:
 
 Filter Plugins
 ~~~~~~~~~~~~~~
 
 * :ansplugin:`extra filter <ns.col2.extra#filter>` --
 
+.. _inventory_plugins_in_ns.col2:
 
 Inventory Plugins
 ~~~~~~~~~~~~~~~~~
 
 * :ansplugin:`extra inventory <ns.col2.extra#inventory>` --
 
+.. _lookup_plugins_in_ns.col2:
 
 Lookup Plugins
 ~~~~~~~~~~~~~~
 
 * :ansplugin:`extra lookup <ns.col2.extra#lookup>` --
 
+.. _shell_plugins_in_ns.col2:
 
 Shell Plugins
 ~~~~~~~~~~~~~
 
 * :ansplugin:`extra shell <ns.col2.extra#shell>` --
 
+.. _strategy_plugins_in_ns.col2:
 
 Strategy Plugins
 ~~~~~~~~~~~~~~~~
 
 * :ansplugin:`extra strategy <ns.col2.extra#strategy>` --
 
+.. _test_plugins_in_ns.col2:
 
 Test Plugins
 ~~~~~~~~~~~~
 
 * :ansplugin:`extra test <ns.col2.extra#test>` --
 
+.. _vars_plugins_in_ns.col2:
 
 Vars Plugins
 ~~~~~~~~~~~~
 
 * :ansplugin:`extra vars <ns.col2.extra#vars>` --
 
+
+.. _role_plugins_in_ns.col2:
 
 Role Index
 ----------

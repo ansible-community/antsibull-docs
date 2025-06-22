@@ -15,6 +15,7 @@ from jinja2 import BaseLoader, Environment, FileSystemLoader, PackageLoader
 from ..markup.rstify import rst_code, rst_escape
 from ..rst_labels import (
     get_attribute_ref,
+    get_collection_ref,
     get_option_ref,
     get_plugin_ref,
     get_requirements_ref,
@@ -45,12 +46,20 @@ from .filters import (
 from .tests import still_relevant, test_list
 
 
-def reference_plugin_rst(plugin_name: str, plugin_type: str, entrypoint: str | None = None) -> str:
+def reference_plugin_rst(
+    plugin_name: str, plugin_type: str, entrypoint: str | None = None
+) -> str:
     fqcn = f"{plugin_name}"
-    return f":ref:`{rst_escape(fqcn)} <{get_plugin_ref(fqcn, plugin_type, entrypoint)}>`"
+    return (
+        f":ref:`{rst_escape(fqcn)} <{get_plugin_ref(fqcn, plugin_type, entrypoint)}>`"
+    )
 
 
-def reference_plugin_rst_simplified(plugin_name: str, plugin_type: str, entrypoint: str | None = None) -> str:
+def reference_plugin_rst_simplified(
+    plugin_name: str,
+    plugin_type: str,
+    entrypoint: str | None = None,  # pylint: disable=unused-argument
+) -> str:
     fqcn = f"{plugin_name}"
     # TODO: return fqcn for other collections
     name = plugin_name.split(".", 2)[2]
@@ -148,6 +157,7 @@ def doc_environment(
 
     env.globals["reference_plugin_rst"] = make_reference_plugin_rst(output_format)
     env.globals["referable_envvars"] = referable_envvars
+    env.globals["rst_collection_ref"] = get_collection_ref
     env.globals["rst_plugin_ref"] = get_plugin_ref
     env.globals["rst_requirements_ref"] = get_requirements_ref
     env.globals["rst_attribute_ref"] = get_attribute_ref

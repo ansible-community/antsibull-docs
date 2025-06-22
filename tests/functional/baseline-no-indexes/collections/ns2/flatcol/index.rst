@@ -42,11 +42,14 @@ Communication
 .. toctree::
     :maxdepth: 1
 
+.. _plugin_index_for_ns2.flatcol:
+
 Plugin Index
 ------------
 
 These are the plugins in the ns2.flatcol collection:
 
+.. _module_plugins_in_ns2.flatcol:
 
 Modules
 ~~~~~~~
