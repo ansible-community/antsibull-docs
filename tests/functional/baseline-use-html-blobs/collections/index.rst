@@ -10,7 +10,7 @@ Collection Index
 
 These are the collections documented here.
 
-* :ref:`ns2.col <plugins_in_ns2.col>`
+* :anscollection:`ns2.col <ns2.col>`
 
 .. toctree::
     :maxdepth: 1

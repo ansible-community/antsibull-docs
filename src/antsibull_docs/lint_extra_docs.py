@@ -38,6 +38,7 @@ from .extra_docs import (
 from .lint_collection_names import CollectionNameLinter, Plugin
 from .lint_helpers import load_collection_name
 from .markup.semantic_helper import (
+    parse_collection_name,
     parse_option,
     parse_plugin_name,
     parse_return_value,
@@ -89,6 +90,16 @@ def _validate_plugin(value: str, names_linter: CollectionNameLinter) -> None:
         raise ValueError(error)
 
 
+def _validate_collection(value: str, names_linter: CollectionNameLinter) -> None:
+    collection_name, what = parse_collection_name(value)
+    for error in names_linter.validate_collection_name(collection_name):
+        raise ValueError(error)
+    if what.startswith("plugins-"):
+        plugin_type = what[len("plugins-") :]
+        if not names_linter.has_plugins_of_type(collection_name, plugin_type):
+            raise ValueError(f"{collection_name} has no {plugin_type} plugins")
+
+
 def get_names_linter_roles(
     names_linter: CollectionNameLinter, errors: list[tuple[int, int, str]]
 ) -> dict[str, t.Any]:
@@ -118,10 +129,16 @@ def get_names_linter_roles(
         target, _ = extract_explicit_title(text)
         return wrap(target, rawtext, lineno, _validate_plugin)
 
+    # pylint:disable-next=unused-argument,dangerous-default-value
+    def collection_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+        target, _ = extract_explicit_title(text)
+        return wrap(target, rawtext, lineno, _validate_collection)
+
     return {
         "ansopt": option_role,
         "ansretval": return_value_role,
         "ansplugin": plugin_role,
+        "anscollection": collection_role,
     }
 
 

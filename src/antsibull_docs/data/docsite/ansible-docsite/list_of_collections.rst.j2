@@ -25,7 +25,7 @@ These are the collections documented here.
 {% endif %}
 
 {% for name in collections | sort %}
-* :ref:`@{ name }@ <@{rst_collection_ref(name, "collection")}@>` @{ collection_deprecation_marker(collection_metadata[name]) }@
+* :anscollection:`@{ name }@ <@{name}@>` @{ collection_deprecation_marker(collection_metadata[name]) }@
 {% endfor %}
 
 {% if breadcrumbs %}

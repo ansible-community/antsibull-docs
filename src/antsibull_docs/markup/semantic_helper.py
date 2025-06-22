@@ -15,6 +15,7 @@ _ARRAY_STUB_RE = re.compile(r"\[([^\]]*)\]")
 _ARRAY_STUB_SEP_START_RE = re.compile(r"[\[.]")
 _FQCN_TYPE_RE = re.compile(r"^([^.]+\.[^.]+\.[^#]+)#([a-z]+)$")
 _FQCN_TYPE_PREFIX_RE = re.compile(r"^([^.]+\.[^.]+\.[^#]+)#([a-z]+):(.*)$")
+_COLLECTION_NAME = re.compile(r"^([^.]+)\.([^.]+)$")
 _IGNORE_MARKER = "ignore:"
 
 
@@ -134,3 +135,22 @@ def parse_plugin_name(text: str) -> tuple[str, str, str | None]:
     if m.group(2) != "role" and sep:
         raise ValueError("Only roles can have entrypoints")
     return m.group(1), m.group(2), entrypoint if sep else None
+
+
+def parse_collection_name(text: str) -> tuple[str, str]:
+    collection_name, sep, what = text.partition("#")
+    if not sep:
+        what = "collection"
+    m = _COLLECTION_NAME.match(collection_name)
+    if not m:
+        raise ValueError("Does not contain collection name")
+    if what not in (
+        "communication",
+        "changelog",
+        "changelog-section",
+        "plugin-index",
+        "collection",
+        "plugins",
+    ) and not what.startswith("plugins-"):
+        raise ValueError("Invalid destination")
+    return collection_name, what
