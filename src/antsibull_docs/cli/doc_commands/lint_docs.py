@@ -28,7 +28,10 @@ from ...utils.collection_copier import (
     load_collection_infos,
 )
 from ...utils.collection_name_transformer import CollectionNameTransformer
-from ...utils.collection_names import ValidCollectionRefs
+from ...utils.collection_names import (
+    ValidCollectionRefs,
+    collect_names,
+)
 
 mlog = log.fields(mod=__name__)
 
@@ -85,21 +88,38 @@ def lint_collection_docs() -> int:
                 for error in load_errors:
                     errors.append((error.path, 0, 0, error.error))
 
-                flog.notice("Linting plugin docs")
-                lint_errors, name_collection = lint_plugin_docs(
+                (
+                    name_collection,
+                    new_plugin_info,
+                    nonfatal_errors,
+                    collection_to_plugin_info,
+                    collection_metadata,
+                ) = collect_names(
+                    collection_name=collection_name,
                     collections_dir=collections_dir,
                     dependencies=dependencies,
-                    collection_name=collection_name,
-                    original_path_to_collection=collection_root,
-                    collection_url=collection_url,
-                    collection_install=collection_install,
                     validate_collections_refs=validate_collections_refs,
-                    disallow_unknown_collection_refs=disallow_unknown_collection_refs,
-                    skip_rstcheck=skip_rstcheck,
-                    disallow_semantic_markup=disallow_semantic_markup,
-                    output_format=output_format,
                 )
-                errors.extend(lint_errors)
+
+                if plugin_docs:
+                    flog.notice("Linting plugin docs")
+                    lint_errors = lint_plugin_docs(
+                        name_collection=name_collection,
+                        new_plugin_info=new_plugin_info,
+                        nonfatal_errors=nonfatal_errors,
+                        collection_to_plugin_info=collection_to_plugin_info,
+                        collection_metadata=collection_metadata,
+                        collection_name=collection_name,
+                        original_path_to_collection=collection_root,
+                        collection_url=collection_url,
+                        collection_install=collection_install,
+                        validate_collections_refs=validate_collections_refs,
+                        disallow_unknown_collection_refs=disallow_unknown_collection_refs,
+                        skip_rstcheck=skip_rstcheck,
+                        disallow_semantic_markup=disallow_semantic_markup,
+                        output_format=output_format,
+                    )
+                    errors.extend(lint_errors)
 
                 flog.notice("Linting extra docs files")
                 names_linter = None

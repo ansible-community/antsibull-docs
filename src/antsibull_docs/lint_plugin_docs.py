@@ -10,7 +10,7 @@ from __future__ import annotations
 import asyncio
 import os
 import typing as t
-from collections.abc import Mapping, Sequence
+from collections.abc import Mapping, MutableMapping, Sequence
 
 from antsibull_docs_parser import dom
 from antsibull_docs_parser.parser import Context as ParserContext
@@ -26,6 +26,7 @@ from .jinja2.environment import OutputFormat, doc_environment
 from .lint_collection_names import CollectionNameLinter, Plugin
 from .markup.semantic_helper import split_option_like_name
 from .plugin_docs import walk_plugin_docs_texts
+from .process_docs import PluginErrorsRT
 from .rstcheck import check_rst_content
 from .schemas.collection_links import CollectionLinks
 from .utils.collection_copier import (
@@ -38,7 +39,7 @@ from .utils.collection_names import (
     ValidCollectionRefs,
     collect_names,
 )
-from .write_docs import PluginErrorsT
+from .write_docs import BasicPluginInfo, PluginErrorsT
 from .write_docs.plugins import (
     create_plugin_rst,
     guess_relative_filename,
@@ -313,7 +314,7 @@ class _MarkupValidator:
 
 def _validate_markup(
     *,
-    name_collector: NameCollection,
+    name_collection: NameCollection,
     plugin_record: dict[str, t.Any],
     plugin_fqcn: str,
     plugin_type: str,
@@ -323,7 +324,7 @@ def _validate_markup(
     disallow_semantic_markup: bool,
 ) -> list[tuple[str, int, int, str]]:
     validator = _MarkupValidator(
-        name_collector,
+        name_collection,
         plugin_record,
         plugin_fqcn,
         plugin_type,
@@ -338,7 +339,7 @@ def _lint_plugin_docs(
     *,
     result: list[tuple[str, int, int, str]],
     original_path_to_collection: str,
-    name_collector: NameCollection,
+    name_collection: NameCollection,
     collection_name: str,
     collection_metadata: Mapping[str, AnsibleCollectionMetadata],
     link_data: Mapping[str, CollectionLinks],
@@ -360,7 +361,7 @@ def _lint_plugin_docs(
     else:
         result.extend(
             _validate_markup(
-                name_collector=name_collector,
+                name_collection=name_collection,
                 plugin_record=plugin_record,
                 plugin_fqcn=plugin_name,
                 plugin_type=plugin_type,
@@ -405,8 +406,11 @@ def _lint_plugin_docs(
 
 def lint_plugin_docs(
     *,
-    collections_dir: str | None,
-    dependencies: list[str],
+    name_collection: NameCollection,
+    new_plugin_info: Mapping[str, MutableMapping[str, t.Any]],
+    nonfatal_errors: PluginErrorsRT,
+    collection_to_plugin_info: Mapping[str, dict[str, Mapping[str, BasicPluginInfo]]],
+    collection_metadata: Mapping[str, AnsibleCollectionMetadata],
     collection_name: str,
     original_path_to_collection: str | None,
     collection_url: CollectionNameTransformer,
@@ -416,7 +420,9 @@ def lint_plugin_docs(
     skip_rstcheck: bool,
     disallow_semantic_markup: bool,
     output_format: OutputFormat,
-) -> tuple[list[tuple[str, int, int, str]], NameCollection]:
+) -> list[tuple[str, int, int, str]]:
+    if original_path_to_collection is None:
+        original_path_to_collection = collection_metadata[collection_name].path
     # Setup the jinja environment
     env = doc_environment(
         collection_url=collection_url,
@@ -428,21 +434,6 @@ def lint_plugin_docs(
     plugin_tmpl = env.get_template("plugin.rst.j2")
     role_tmpl = env.get_template("role.rst.j2")
     error_tmpl = env.get_template("plugin-error.rst.j2")
-    # Collect all option and return value names
-    (
-        name_collector,
-        new_plugin_info,
-        nonfatal_errors,
-        collection_to_plugin_info,
-        collection_metadata,
-    ) = collect_names(
-        collection_name=collection_name,
-        collections_dir=collections_dir,
-        dependencies=dependencies,
-        validate_collections_refs=validate_collections_refs,
-    )
-    if original_path_to_collection is None:
-        original_path_to_collection = collection_metadata[collection_name].path
     # Load link data
     link_data = asyncio.run(
         load_collections_links(
@@ -474,7 +465,7 @@ def lint_plugin_docs(
                 _lint_plugin_docs(
                     result=result,
                     original_path_to_collection=original_path_to_collection,
-                    name_collector=name_collector,
+                    name_collection=name_collection,
                     collection_name=collection_name_,
                     collection_metadata=collection_metadata,
                     link_data=link_data,
@@ -491,7 +482,7 @@ def lint_plugin_docs(
                     skip_rstcheck=skip_rstcheck,
                     validate_collections_refs=validate_collections_refs,
                 )
-    return result, name_collector
+    return result
 
 
 def lint_collection_plugin_docs(
@@ -519,10 +510,25 @@ def lint_collection_plugin_docs(
             for error in errors:
                 result.append((error.path, 0, 0, error.error))
 
+            (
+                name_collection,
+                new_plugin_info,
+                nonfatal_errors,
+                collection_to_plugin_info,
+                collection_metadata,
+            ) = collect_names(
+                collection_name=collection_name,
+                collections_dir=collections_dir,
+                dependencies=dependencies,
+                validate_collections_refs=validate_collections_refs,
+            )
             result.extend(
                 lint_plugin_docs(
-                    collections_dir=collections_dir,
-                    dependencies=dependencies,
+                    name_collection=name_collection,
+                    new_plugin_info=new_plugin_info,
+                    nonfatal_errors=nonfatal_errors,
+                    collection_to_plugin_info=collection_to_plugin_info,
+                    collection_metadata=collection_metadata,
                     collection_name=collection_name,
                     original_path_to_collection=path_to_collection,
                     collection_url=collection_url,
@@ -532,7 +538,7 @@ def lint_collection_plugin_docs(
                     skip_rstcheck=skip_rstcheck,
                     disallow_semantic_markup=disallow_semantic_markup,
                     output_format=output_format,
-                )[0]
+                )
             )
             return result
     except CollectionLoadError as exc:
@@ -546,9 +552,24 @@ def lint_core_plugin_docs(
     validate_collections_refs: ValidCollectionRefs = "self",
     disallow_unknown_collection_refs: bool = False,
 ) -> list[tuple[str, int, int, str]]:
-    result, _ = lint_plugin_docs(
+    (
+        name_collection,
+        new_plugin_info,
+        nonfatal_errors,
+        collection_to_plugin_info,
+        collection_metadata,
+    ) = collect_names(
+        collection_name="ansible.builtin",
         collections_dir=None,
         dependencies=["ansible.builtin"],
+        validate_collections_refs=validate_collections_refs,
+    )
+    result = lint_plugin_docs(
+        name_collection=name_collection,
+        new_plugin_info=new_plugin_info,
+        nonfatal_errors=nonfatal_errors,
+        collection_to_plugin_info=collection_to_plugin_info,
+        collection_metadata=collection_metadata,
         collection_name="ansible.builtin",
         original_path_to_collection=None,
         collection_url=collection_url,

@@ -227,8 +227,8 @@ def _collect_names_impl(
     validate_collections_refs: ValidCollectionRefs,
     collection_routing: CollectionRoutingT,
 ) -> NameCollection:
-    name_collector = NameCollection(collection_routing)
-    name_collector._collect_collection(  # pylint: disable=protected-access
+    name_collection = NameCollection(collection_routing)
+    name_collection._collect_collection(  # pylint: disable=protected-access
         collection_name
     )
     for other_collection in collection_metadata.keys():
@@ -242,10 +242,10 @@ def _collect_names_impl(
                 plugin_name = ".".join((collection_name_, plugin_short_name))
                 plugin_record = new_plugin_info[plugin_type].get(plugin_name) or {}
                 if not has_broken_docs(plugin_record, plugin_type):
-                    name_collector._collect_plugin(  # pylint: disable=protected-access
+                    name_collection._collect_plugin(  # pylint: disable=protected-access
                         plugin_record, plugin_name, plugin_type
                     )
-    return name_collector
+    return name_collection
 
 
 def collect_names(
@@ -315,7 +315,7 @@ def collect_names(
 
 
 @contextlib.contextmanager
-def load_name_collector(
+def load_name_collection(
     *,
     path_to_collection: str,
     validate_collections_refs: ValidCollectionRefs = "self",
@@ -329,19 +329,19 @@ def load_name_collector(
         dependencies,
         errors,
     ):
-        name_collector, _, __, ___, ____ = collect_names(
+        name_collection, _, __, ___, ____ = collect_names(
             collection_name=collection_name,
             collections_dir=collections_dir,
             dependencies=dependencies,
             validate_collections_refs=validate_collections_refs,
         )
 
-        yield name_collector, errors
+        yield name_collection, errors
 
 
 __all__ = (
     "NameCollection",
     "ValidCollectionRefs",
     "collect_names",
-    "load_name_collector",
+    "load_name_collection",
 )
