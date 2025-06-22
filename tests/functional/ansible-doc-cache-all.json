@@ -447,6 +447,29 @@
          "name": "ansible_sudo_user"
         }
        ]
+      },
+      "sudo_chdir": {
+       "description": "Directory to change to before invoking sudo; can avoid permission errors when dropping privileges.",
+       "env": [
+        {
+         "name": "ANSIBLE_SUDO_CHDIR"
+        }
+       ],
+       "ini": [
+        {
+         "key": "chdir",
+         "section": "sudo_become_plugin"
+        }
+       ],
+       "required": false,
+       "type": "string",
+       "vars": [
+        {
+         "name": "ansible_sudo_chdir"
+        }
+       ],
+       "version_added": "2.19",
+       "version_added_collection": "ansible.builtin"
       }
      },
      "plugin_name": "ansible.builtin.sudo",
@@ -1445,6 +1468,35 @@
       "The remote user is ignored, the user with which the ansible CLI was executed is used instead."
      ],
      "options": {
+      "become_strip_preamble": {
+       "default": true,
+       "description": [
+        "Strip internal become output preceding command execution. Disable for additional diagnostics."
+       ],
+       "type": "bool",
+       "vars": [
+        {
+         "name": "ansible_local_become_strip_preamble"
+        }
+       ],
+       "version_added": "2.19",
+       "version_added_collection": "ansible.builtin"
+      },
+      "become_success_timeout": {
+       "default": 10,
+       "description": [
+        "Number of seconds to wait for become to succeed when enabled.",
+        "The default will be used if the configured value is less than 1."
+       ],
+       "type": "int",
+       "vars": [
+        {
+         "name": "ansible_local_become_success_timeout"
+        }
+       ],
+       "version_added": "2.19",
+       "version_added_collection": "ansible.builtin"
+      },
       "pipelining": {
        "default": false,
        "description": [
@@ -2573,6 +2625,34 @@
         }
        ]
       },
+      "password_mechanism": {
+       "choices": [
+        "ssh_askpass",
+        "sshpass",
+        "disable"
+       ],
+       "default": "ssh_askpass",
+       "description": "Mechanism to use for handling ssh password prompt",
+       "env": [
+        {
+         "name": "ANSIBLE_SSH_PASSWORD_MECHANISM"
+        }
+       ],
+       "ini": [
+        {
+         "key": "password_mechanism",
+         "section": "ssh_connection"
+        }
+       ],
+       "type": "string",
+       "vars": [
+        {
+         "name": "ansible_ssh_password_mechanism"
+        }
+       ],
+       "version_added": "2.19",
+       "version_added_collection": "ansible.builtin"
+      },
       "pipelining": {
        "default": false,
        "description": [
@@ -2615,8 +2695,7 @@
       "pkcs11_provider": {
        "default": "",
        "description": [
-        "PKCS11 SmartCard provider such as opensc, example: /usr/local/lib/opensc-pkcs11.so",
-        "Requires sshpass version 1.06+, sshpass must support the -P option."
+        "PKCS11 SmartCard provider such as opensc, example: /usr/local/lib/opensc-pkcs11.so"
        ],
        "env": [
         {
@@ -2666,6 +2745,27 @@
         }
        ]
       },
+      "private_key": {
+       "description": [
+        "Private key contents in PEM format. Requires the C(SSH_AGENT) configuration to be enabled."
+       ],
+       "env": [
+        {
+         "name": "ANSIBLE_PRIVATE_KEY"
+        }
+       ],
+       "type": "string",
+       "vars": [
+        {
+         "name": "ansible_private_key"
+        },
+        {
+         "name": "ansible_ssh_private_key"
+        }
+       ],
+       "version_added": "2.19",
+       "version_added_collection": "ansible.builtin"
+      },
       "private_key_file": {
        "cli": [
         {
@@ -2696,6 +2796,28 @@
          "name": "ansible_ssh_private_key_file"
         }
        ]
+      },
+      "private_key_passphrase": {
+       "description": [
+        "Private key passphrase, dependent on O(private_key).",
+        "This does NOT have any effect when used with O(private_key_file)."
+       ],
+       "env": [
+        {
+         "name": "ANSIBLE_PRIVATE_KEY_PASSPHRASE"
+        }
+       ],
+       "type": "string",
+       "vars": [
+        {
+         "name": "ansible_private_key_passphrase"
+        },
+        {
+         "name": "ansible_ssh_private_key_passphrase"
+        }
+       ],
+       "version_added": "2.19",
+       "version_added_collection": "ansible.builtin"
       },
       "reconnection_retries": {
        "default": 0,
@@ -2823,7 +2945,10 @@
       },
       "sftp_batch_mode": {
        "default": true,
-       "description": "TODO: write it",
+       "description": [
+        "When set to C(True), sftp will be run in batch mode, allowing detection of transfer errors.",
+        "When set to C(False), sftp will not be run in batch mode, preventing detection of transfer errors."
+       ],
        "env": [
         {
          "name": "ANSIBLE_SFTP_BATCH_MODE"
@@ -3044,8 +3169,10 @@
       "sshpass_prompt": {
        "default": "",
        "description": [
-        "Password prompt that sshpass should search for. Supported by sshpass 1.06 and up.",
-        "Defaults to C(Enter PIN for) when pkcs11_provider is set."
+        "Password prompt that C(sshpass)/C(SSH_ASKPASS) should search for.",
+        "Supported by sshpass 1.06 and up when O(password_mechanism) set to V(sshpass).",
+        "Defaults to C(Enter PIN for) when pkcs11_provider is set.",
+        "Defaults to C(assword) when O(password_mechanism) set to V(ssh_askpass)."
        ],
        "env": [
         {
@@ -3133,6 +3260,31 @@
        ],
        "version_added": "2.5",
        "version_added_collection": "ansible.builtin"
+      },
+      "verbosity": {
+       "default": 0,
+       "description": [
+        "Requested verbosity level for the SSH CLI."
+       ],
+       "env": [
+        {
+         "name": "ANSIBLE_SSH_VERBOSITY"
+        }
+       ],
+       "ini": [
+        {
+         "key": "verbosity",
+         "section": "ssh_connection"
+        }
+       ],
+       "type": "int",
+       "vars": [
+        {
+         "name": "ansible_ssh_verbosity"
+        }
+       ],
+       "version_added": "2.19",
+       "version_added_collection": "ansible.builtin"
       }
      },
      "plugin_name": "ansible.builtin.ssh",
@@ -3192,8 +3344,7 @@
        "description": [
         "kerberos usage mode.",
         "The managed option means Ansible will obtain kerberos ticket.",
-        "While the manual one means a ticket must already have been obtained by the user.",
-        "If having issues with Ansible freezing when trying to obtain the Kerberos ticket, you can either set this to V(manual) and obtain it outside Ansible or install C(pexpect) through pip and try again."
+        "While the manual one means a ticket must already have been obtained by the user."
        ],
        "type": "str",
        "vars": [
@@ -3497,6 +3648,40 @@
    }
   },
   "filter": {
+   "ansible.builtin.abs": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return the absolute value of the argument.",
+      "",
+      "This is the Jinja builtin filter plugin 'abs'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.abs)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.abs",
+     "short_description": "Return the absolute value of the argument."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.attr": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Get an attribute of an object.",
+      "",
+      "This is the Jinja builtin filter plugin 'attr'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.attr)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.attr",
+     "short_description": "Get an attribute of an object."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
    "ansible.builtin.b64decode": {
     "doc": {
      "author": "ansible core team",
@@ -3513,6 +3698,24 @@
        "description": "A Base64 string to decode.",
        "required": true,
        "type": "string"
+      },
+      "encoding": {
+       "description": [
+        "The encoding to use to transform from a text string to a byte string.",
+        "Defaults to using 'utf-8'."
+       ],
+       "required": false,
+       "type": "string"
+      },
+      "urlsafe": {
+       "default": false,
+       "description": [
+        "Decode string using URL- and filesystem-safe alphabet, which substitutes I(-) instead of I(+) and I(_) instead of I(/) in the Base64 alphabet."
+       ],
+       "required": false,
+       "type": "bool",
+       "version_added": 2.19,
+       "version_added_collection": "ansible.builtin"
       }
      },
      "plugin_name": "ansible.builtin.b64decode",
@@ -3521,7 +3724,7 @@
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "# Base64 decode a string\nlola: \"{{ 'bG9sYQ==' | b64decode }}\"\n\n# Base64 decode the content of 'b64stuff' variable\nstuff: \"{{ b64stuff | b64decode }}\"\n",
+    "examples": "# Base64 decode a string\nlola: \"{{ 'bG9sYQ==' | b64decode }}\"\n\n# Base64 decode the content of 'b64stuff' variable\nstuff: \"{{ b64stuff | b64decode }}\"\n\n# Base64 decode the content with different encoding\nstuff: \"{{ 'QQBuAHMAaQBiAGwAZQAgAC0AIABPMIkwaDB/MAoA' | b64decode(encoding='utf-16-le') }}\"\n# => 'Ansible - \u304f\u3089\u3068\u307f\\n'\n\n# URL-Safe Base64 decoding\nstuff: \"{{ 'aHR0cHM6Ly93d3cucHl0aG9uLm9yZy9leGFtcGxlLTE=' | b64decode(urlsafe=True) }}\"\n# => 'https://www.python.org/example-1'\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -3544,6 +3747,24 @@
        "description": "A string to encode.",
        "required": true,
        "type": "string"
+      },
+      "encoding": {
+       "description": [
+        "The encoding to use to transform from a text string to a byte string.",
+        "Defaults to using 'utf-8'."
+       ],
+       "required": false,
+       "type": "string"
+      },
+      "urlsafe": {
+       "default": false,
+       "description": [
+        "Encode string using URL- and filesystem-safe alphabet, which substitutes I(-) instead of I(+) and I(_) instead of I(/) in the Base64 alphabet."
+       ],
+       "required": false,
+       "type": "bool",
+       "version_added": 2.19,
+       "version_added_collection": "ansible.builtin"
       }
      },
      "plugin_name": "ansible.builtin.b64encode",
@@ -3552,7 +3773,7 @@
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "# Base64 encode a string\nb64lola: \"{{ 'lola'| b64encode }}\"\n\n# Base64 encode the content of 'stuff' variable\nb64stuff: \"{{ stuff | b64encode }}\"\n",
+    "examples": "# Base64 encode a string\nb64lola: \"{{ 'lola'| b64encode }}\"\n\n# Base64 encode the content of 'stuff' variable\nb64stuff: \"{{ stuff | b64encode }}\"\n\n# Base64 encode the content with different encoding\nb64stuff: \"{{ 'Ansible - \u304f\u3089\u3068\u307f\\n' | b64encode(encoding='utf-16-le') }}\"\n# => 'QQBuAHMAaQBiAGwAZQAgAC0AIABPMIkwaDB/MAoA'\n\n# URL-safe Base64 encoding\nb64stuff: \"{{ 'https://www.python.org/example-1' | b64encode(urlsafe=True) }}\"\n# => 'aHR0cHM6Ly93d3cucHl0aG9uLm9yZy9leGFtcGxlLTE='\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -3600,24 +3821,46 @@
      }
     }
    },
+   "ansible.builtin.batch": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "A filter that batches items.",
+      "",
+      "This is the Jinja builtin filter plugin 'batch'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.batch)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.batch",
+     "short_description": "A filter that batches items."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
    "ansible.builtin.bool": {
     "doc": {
      "collection": "ansible.builtin",
      "description": [
-      "Attempt to cast the input into a boolean (V(True) or V(False)) value."
+      "Attempt to convert the input value into a boolean (V(True) or V(False)) from a common set of well-known values.",
+      "Valid true values are (V(True), 'yes', 'on', '1', 'true', 1).",
+      "Valid false values are (V(False), 'no', 'off', '0', 'false', 0).",
+      "A deprecation warning will result if an invalid value is supplied.",
+      "For more permissive boolean conversion, consider the P(ansible.builtin.truthy#test) or P(ansible.builtin.falsy#test) tests.",
+      "String comparisons are case-insensitive."
      ],
      "filename": "/ansible/plugins/filter/bool.yml",
      "name": "bool",
      "options": {
       "_input": {
-       "description": "Data to cast.",
+       "description": "Data to convert.",
        "required": true,
        "type": "raw"
       }
      },
      "plugin_name": "ansible.builtin.bool",
      "positional": "_input",
-     "short_description": "cast into a boolean",
+     "short_description": "coerce some well-known truthy/falsy values to a boolean",
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
     },
@@ -3625,10 +3868,44 @@
     "metadata": null,
     "return": {
      "_value": {
-      "description": "The boolean resulting of casting the input expression into a V(True) or V(False) value.",
+      "description": "The boolean result of coercing the input expression to a V(True) or V(False) value.",
       "type": "bool"
      }
     }
+   },
+   "ansible.builtin.capitalize": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Capitalize a value.",
+      "",
+      "This is the Jinja builtin filter plugin 'capitalize'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.capitalize)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.capitalize",
+     "short_description": "Capitalize a value."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.center": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Centers the value in a field of a given width.",
+      "",
+      "This is the Jinja builtin filter plugin 'center'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.center)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.center",
+     "short_description": "Centers the value in a field of a given width."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.checksum": {
     "doc": {
@@ -3864,6 +4141,57 @@
      }
     }
    },
+   "ansible.builtin.count": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return the number of items in a container.",
+      "",
+      "This is the Jinja builtin filter plugin 'count'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.count)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.count",
+     "short_description": "Return the number of items in a container."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.d": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "If the value is undefined it will return the passed default value, otherwise the value of the variable.",
+      "",
+      "This is the Jinja builtin filter plugin 'd'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.d)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.d",
+     "short_description": "If the value is undefined it will return the passed default value, otherwise the value of the variable."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.default": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "If the value is undefined it will return the passed default value, otherwise the value of the variable.",
+      "",
+      "This is the Jinja builtin filter plugin 'default'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.default)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.default",
+     "short_description": "If the value is undefined it will return the passed default value, otherwise the value of the variable."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
    "ansible.builtin.dict2items": {
     "doc": {
      "author": "Ansible core team",
@@ -3917,6 +4245,23 @@
       "type": "list"
      }
     }
+   },
+   "ansible.builtin.dictsort": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Sort a dict and yield.",
+      "",
+      "This is the Jinja builtin filter plugin 'dictsort'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.dictsort)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.dictsort",
+     "short_description": "Sort a dict and yield."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.difference": {
     "doc": {
@@ -4010,6 +4355,40 @@
       "type": "path"
      }
     }
+   },
+   "ansible.builtin.e": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Replace the characters ``&``, ``<``, ``>``, ``'``, and ``\"`` in the string with HTML-safe sequences.",
+      "",
+      "This is the Jinja builtin filter plugin 'e'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.e)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.e",
+     "short_description": "Replace the characters ``&``, ``<``, ``>``, ``'``, and ``\"`` in the string with HTML-safe sequences."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.escape": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Replace the characters ``&``, ``<``, ``>``, ``'``, and ``\"`` in the string with HTML-safe sequences.",
+      "",
+      "This is the Jinja builtin filter plugin 'escape'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.escape)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.escape",
+     "short_description": "Replace the characters ``&``, ``<``, ``>``, ``'``, and ``\"`` in the string with HTML-safe sequences."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.expanduser": {
     "doc": {
@@ -4144,6 +4523,40 @@
      }
     }
    },
+   "ansible.builtin.filesizeformat": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Format the value like a 'human-readable' file size.",
+      "",
+      "This is the Jinja builtin filter plugin 'filesizeformat'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.filesizeformat)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.filesizeformat",
+     "short_description": "Format the value like a 'human-readable' file size."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.first": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return the first item of a sequence.",
+      "",
+      "This is the Jinja builtin filter plugin 'first'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.first)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.first",
+     "short_description": "Return the first item of a sequence."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
    "ansible.builtin.flatten": {
     "doc": {
      "collection": "ansible.builtin",
@@ -4183,6 +4596,57 @@
       "type": "list"
      }
     }
+   },
+   "ansible.builtin.float": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Convert the value into a floating point number.",
+      "",
+      "This is the Jinja builtin filter plugin 'float'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.float)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.float",
+     "short_description": "Convert the value into a floating point number."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.forceescape": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Enforce HTML escaping.",
+      "",
+      "This is the Jinja builtin filter plugin 'forceescape'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.forceescape)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.forceescape",
+     "short_description": "Enforce HTML escaping."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.format": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Apply the given values to a `printf-style`_ format string, like ``string % values``.",
+      "",
+      "This is the Jinja builtin filter plugin 'format'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.format)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.format",
+     "short_description": "Apply the given values to a `printf-style`_ format string, like ``string % values``."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.from_json": {
     "doc": {
@@ -4284,6 +4748,23 @@
       "type": "raw"
      }
     }
+   },
+   "ansible.builtin.groupby": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Group a sequence of objects by an attribute using Python's :func:`itertools.",
+      "",
+      "This is the Jinja builtin filter plugin 'groupby'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.groupby)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.groupby",
+     "short_description": "Group a sequence of objects by an attribute using Python's :func:`itertools."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.hash": {
     "doc": {
@@ -4413,7 +4894,7 @@
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n# size => 1234803098\nsize: '{{ \"1.15 GB\" | human_to_bytes }}'\n\n# size => 1234803098\nsize: '{{ \"1.15\" | human_to_bytes(default_unit=\"G\") }}'\n\n# this is an error, wants bits, got bytes\nERROR: '{{ \"1.15 GB\" | human_to_bytes(isbits=true) }}'\n\n# size => 2684354560\nsize: '{{ \"2.5 gigabyte\" | human_to_bytes }}'\n\n# size => 1234803098\nsize: '{{ \"1 Gigabyte\" | human_to_bytes }}'\n\n# this is an error, because gigggabyte is not a valid unit\nsize: '{{ \"1 gigggabyte\" | human_to_bytes }}'\n",
+    "examples": "\n# size => 1234803098\nsize: '{{ \"1.15 GB\" | human_to_bytes }}'\n\n# size => 1234803098\nsize: '{{ \"1.15\" | human_to_bytes(default_unit=\"G\") }}'\n\n# this is an error, wants bits, got bytes\nERROR: '{{ \"1.15 GB\" | human_to_bytes(isbits=true) }}'\n\n# size => 2684354560\nsize: '{{ \"2.5 gigabyte\" | human_to_bytes }}'\n\n# size => 1073741824\nsize: '{{ \"1 Gigabyte\" | human_to_bytes }}'\n\n# this is an error, because gigggabyte is not a valid unit\nsize: '{{ \"1 gigggabyte\" | human_to_bytes }}'\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -4421,6 +4902,40 @@
       "type": "int"
      }
     }
+   },
+   "ansible.builtin.indent": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return a copy of the string with each line indented by 4 spaces.",
+      "",
+      "This is the Jinja builtin filter plugin 'indent'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.indent)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.indent",
+     "short_description": "Return a copy of the string with each line indented by 4 spaces."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.int": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Convert the value into an integer.",
+      "",
+      "This is the Jinja builtin filter plugin 'int'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.int)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.int",
+     "short_description": "Convert the value into an integer."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.intersect": {
     "doc": {
@@ -4476,6 +4991,23 @@
      }
     }
    },
+   "ansible.builtin.items": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return an iterator over the ``(key, value)`` items of a mapping.",
+      "",
+      "This is the Jinja builtin filter plugin 'items'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.items)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.items",
+     "short_description": "Return an iterator over the ``(key, value)`` items of a mapping."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
    "ansible.builtin.items2dict": {
     "doc": {
      "author": "Ansible core team",
@@ -4527,6 +5059,74 @@
      }
     }
    },
+   "ansible.builtin.join": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return a string which is the concatenation of the strings in the sequence.",
+      "",
+      "This is the Jinja builtin filter plugin 'join'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.join)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.join",
+     "short_description": "Return a string which is the concatenation of the strings in the sequence."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.last": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return the last item of a sequence.",
+      "",
+      "This is the Jinja builtin filter plugin 'last'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.last)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.last",
+     "short_description": "Return the last item of a sequence."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.length": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return the number of items in a container.",
+      "",
+      "This is the Jinja builtin filter plugin 'length'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.length)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.length",
+     "short_description": "Return the number of items in a container."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.list": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Convert the value into a list.",
+      "",
+      "This is the Jinja builtin filter plugin 'list'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.list)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.list",
+     "short_description": "Convert the value into a list."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
    "ansible.builtin.log": {
     "doc": {
      "collection": "ansible.builtin",
@@ -4566,6 +5166,23 @@
      }
     }
    },
+   "ansible.builtin.lower": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Convert a value to lowercase.",
+      "",
+      "This is the Jinja builtin filter plugin 'lower'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.lower)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.lower",
+     "short_description": "Convert a value to lowercase."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
    "ansible.builtin.mandatory": {
     "doc": {
      "collection": "ansible.builtin",
@@ -4601,6 +5218,40 @@
      }
     }
    },
+   "ansible.builtin.map": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Applies a filter on a sequence of objects or looks up an attribute.",
+      "",
+      "This is the Jinja builtin filter plugin 'map'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.map)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.map",
+     "short_description": "Applies a filter on a sequence of objects or looks up an attribute."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.max": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return the largest item from the sequence.",
+      "",
+      "This is the Jinja builtin filter plugin 'max'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.max)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.max",
+     "short_description": "Return the largest item from the sequence."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
    "ansible.builtin.md5": {
     "doc": {
      "collection": "ansible.builtin",
@@ -4634,6 +5285,23 @@
       "type": "string"
      }
     }
+   },
+   "ansible.builtin.min": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return the smallest item from the sequence.",
+      "",
+      "This is the Jinja builtin filter plugin 'min'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.min)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.min",
+     "short_description": "Return the smallest item from the sequence."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.normpath": {
     "doc": {
@@ -4802,7 +5470,7 @@
     "doc": {
      "collection": "ansible.builtin",
      "description": [
-      "Math operation that returns the Nth power of inputed number, C(X ^ N)."
+      "Math operation that returns the Nth power of inputted number, C(X ^ N)."
      ],
      "filename": "/ansible/plugins/filter/pow.yml",
      "name": "pow",
@@ -4835,6 +5503,23 @@
       "type": "float"
      }
     }
+   },
+   "ansible.builtin.pprint": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Pretty print a variable.",
+      "",
+      "This is the Jinja builtin filter plugin 'pprint'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.pprint)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.pprint",
+     "short_description": "Pretty print a variable."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.product": {
     "doc": {
@@ -5153,9 +5838,7 @@
      "name": "regex_search",
      "notes": [
       "Maps to Python's C(re.search).",
-      "The substring matched by the group is accessible via the symbolic group name or the ``\\{number}`` special sequence. See examples section.",
-      "The return for no match will be C(None) in most cases, depending on whether it is used with other filters/tests or not. It also depends on the Jinja version used and whether native is enabled.",
-      "For a more complete explanation see U(https://docs.ansible.com/ansible-core/devel/reference_appendices/faq.html#why-does-the-regex-search-filter-return-none-instead-of-an-empty-string)."
+      "The substring matched by the group is accessible via the symbolic group name or the ``\\{number}`` special sequence. See examples section."
      ],
      "options": {
       "_input": {
@@ -5188,10 +5871,44 @@
     "metadata": null,
     "return": {
      "_value": {
-      "description": "Matched string or if no match a C(None) or an empty string (see notes)",
+      "description": "Matched string or C(None) if no match.",
       "type": "str"
      }
     }
+   },
+   "ansible.builtin.reject": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Filters a sequence of objects by applying a test to each object, and rejecting the objects with the test succeeding.",
+      "",
+      "This is the Jinja builtin filter plugin 'reject'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.reject)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.reject",
+     "short_description": "Filters a sequence of objects by applying a test to each object, and rejecting the objects with the test succeeding."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.rejectattr": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Filters a sequence of objects by applying a test to the specified attribute of each object, and rejecting the objects with the test succeeding.",
+      "",
+      "This is the Jinja builtin filter plugin 'rejectattr'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.rejectattr)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.rejectattr",
+     "short_description": "Filters a sequence of objects by applying a test to the specified attribute of each object, and rejecting the objects with the test succeeding."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.rekey_on_member": {
     "doc": {
@@ -5270,11 +5987,45 @@
      }
     }
    },
+   "ansible.builtin.replace": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return a copy of the value with all occurrences of a substring replaced with a new one.",
+      "",
+      "This is the Jinja builtin filter plugin 'replace'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.replace)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.replace",
+     "short_description": "Return a copy of the value with all occurrences of a substring replaced with a new one."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.reverse": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Reverse the object or return an iterator that iterates over it the other way round.",
+      "",
+      "This is the Jinja builtin filter plugin 'reverse'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.reverse)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.reverse",
+     "short_description": "Reverse the object or return an iterator that iterates over it the other way round."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
    "ansible.builtin.root": {
     "doc": {
      "collection": "ansible.builtin",
      "description": [
-      "Math operation that returns the Nth root of inputed number C(X ^^ N)."
+      "Math operation that returns the Nth root of inputted number C(X ^^ N)."
      ],
      "filename": "/ansible/plugins/filter/root.yml",
      "name": "root",
@@ -5304,6 +6055,74 @@
       "type": "float"
      }
     }
+   },
+   "ansible.builtin.round": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Round the number to a given precision.",
+      "",
+      "This is the Jinja builtin filter plugin 'round'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.round)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.round",
+     "short_description": "Round the number to a given precision."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.safe": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Mark the value as safe which means that in an environment with automatic escaping enabled this variable will not be escaped.",
+      "",
+      "This is the Jinja builtin filter plugin 'safe'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.safe)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.safe",
+     "short_description": "Mark the value as safe which means that in an environment with automatic escaping enabled this variable will not be escaped."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.select": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Filters a sequence of objects by applying a test to each object, and only selecting the objects with the test succeeding.",
+      "",
+      "This is the Jinja builtin filter plugin 'select'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.select)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.select",
+     "short_description": "Filters a sequence of objects by applying a test to each object, and only selecting the objects with the test succeeding."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.selectattr": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Filters a sequence of objects by applying a test to the specified attribute of each object, and only selecting the objects with the test succeeding.",
+      "",
+      "This is the Jinja builtin filter plugin 'selectattr'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.selectattr)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.selectattr",
+     "short_description": "Filters a sequence of objects by applying a test to the specified attribute of each object, and only selecting the objects with the test succeeding."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.sha1": {
     "doc": {
@@ -5374,6 +6193,40 @@
       "type": "list"
      }
     }
+   },
+   "ansible.builtin.slice": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Slice an iterator and return a list of lists containing those items.",
+      "",
+      "This is the Jinja builtin filter plugin 'slice'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.slice)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.slice",
+     "short_description": "Slice an iterator and return a list of lists containing those items."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.sort": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Sort an iterable using Python's :func:`sorted`.",
+      "",
+      "This is the Jinja builtin filter plugin 'sort'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.sort)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.sort",
+     "short_description": "Sort an iterable using Python's :func:`sorted`."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.split": {
     "doc": {
@@ -5450,7 +6303,7 @@
     "doc": {
      "collection": "ansible.builtin",
      "description": [
-      "Using Python's C(strftime) function, take a data formating string and a date/time to create a formatted date."
+      "Using Python's C(strftime) function, take a data formatting string and a date/time to create a formatted date."
      ],
      "filename": "/ansible/plugins/filter/strftime.yml",
      "name": "strftime",
@@ -5460,7 +6313,7 @@
      "options": {
       "_input": {
        "description": [
-        "A formating string following C(stftime) conventions.",
+        "A formatting string following C(stftime) conventions.",
         "See L(the Python documentation, https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior) for a reference."
        ],
        "required": true,
@@ -5480,7 +6333,7 @@
      },
      "plugin_name": "ansible.builtin.strftime",
      "positional": "_input, second, utc",
-     "short_description": "date formating",
+     "short_description": "date formatting",
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
     },
@@ -5492,6 +6345,40 @@
       "type": "str"
      }
     }
+   },
+   "ansible.builtin.string": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Convert an object to a string if it isn't already.",
+      "",
+      "This is the Jinja builtin filter plugin 'string'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.string)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.string",
+     "short_description": "Convert an object to a string if it isn't already."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.striptags": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Strip SGML/XML tags and replace adjacent whitespace by one space.",
+      "",
+      "This is the Jinja builtin filter plugin 'striptags'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.striptags)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.striptags",
+     "short_description": "Strip SGML/XML tags and replace adjacent whitespace by one space."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.subelements": {
     "doc": {
@@ -5534,6 +6421,23 @@
       "type": "list"
      }
     }
+   },
+   "ansible.builtin.sum": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Returns the sum of a sequence of numbers plus the value of parameter 'start'.",
+      "",
+      "This is the Jinja builtin filter plugin 'sum'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.sum)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.sum",
+     "short_description": "Returns the sum of a sequence of numbers plus the value of parameter 'start'."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.symmetric_difference": {
     "doc": {
@@ -5637,6 +6541,23 @@
       "type": "any"
      }
     }
+   },
+   "ansible.builtin.title": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return a titlecased version of the value.",
+      "",
+      "This is the Jinja builtin filter plugin 'title'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.title)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.title",
+     "short_description": "Return a titlecased version of the value."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.to_datetime": {
     "doc": {
@@ -5898,7 +6819,7 @@
      "name": "to_uuid",
      "options": {
       "_input": {
-       "description": "String to use as base fo the UUID.",
+       "description": "String to use as base of the UUID.",
        "required": true,
        "type": "str"
       },
@@ -5967,6 +6888,57 @@
       "type": "string"
      }
     }
+   },
+   "ansible.builtin.tojson": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Serialize an object to a string of JSON, and mark it safe to render in HTML.",
+      "",
+      "This is the Jinja builtin filter plugin 'tojson'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.tojson)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.tojson",
+     "short_description": "Serialize an object to a string of JSON, and mark it safe to render in HTML."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.trim": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Strip leading and trailing characters, by default whitespace.",
+      "",
+      "This is the Jinja builtin filter plugin 'trim'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.trim)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.trim",
+     "short_description": "Strip leading and trailing characters, by default whitespace."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.truncate": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return a truncated copy of the string.",
+      "",
+      "This is the Jinja builtin filter plugin 'truncate'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.truncate)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.truncate",
+     "short_description": "Return a truncated copy of the string."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.type_debug": {
     "doc": {
@@ -6120,7 +7092,7 @@
      "name": "unvault",
      "options": {
       "_input": {
-       "description": "Vault string, or an C(AnsibleVaultEncryptedUnicode) string object.",
+       "description": "Vault string.",
        "required": true,
        "type": "string"
       },
@@ -6149,6 +7121,23 @@
       "type": "string"
      }
     }
+   },
+   "ansible.builtin.upper": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Convert a value to uppercase.",
+      "",
+      "This is the Jinja builtin filter plugin 'upper'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.upper)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.upper",
+     "short_description": "Convert a value to uppercase."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.urldecode": {
     "doc": {
@@ -6182,6 +7171,40 @@
       "type": "any"
      }
     }
+   },
+   "ansible.builtin.urlencode": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Quote data for use in a URL path or query using UTF-8.",
+      "",
+      "This is the Jinja builtin filter plugin 'urlencode'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.urlencode)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.urlencode",
+     "short_description": "Quote data for use in a URL path or query using UTF-8."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.urlize": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Convert URLs in text into clickable links.",
+      "",
+      "This is the Jinja builtin filter plugin 'urlize'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.urlize)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.urlize",
+     "short_description": "Convert URLs in text into clickable links."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.urlsplit": {
     "doc": {
@@ -6266,7 +7289,7 @@
       "wrap_object": {
        "default": false,
        "description": [
-        "This toggle can force the return of an C(AnsibleVaultEncryptedUnicode) string object, when V(False), you get a simple string.",
+        "This toggle can force the return of a C(VaultedValue)-tagged string object, when V(False), you get a simple string.",
         "Mostly useful when combining with the C(to_yaml) filter to output the 'inline vault' format."
        ],
        "type": "bool"
@@ -6278,11 +7301,11 @@
      "version_added": "2.12",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "# simply encrypt my key in a vault\nvars:\n  myvaultedkey: \"{{ keyrawdata|vault(passphrase) }} \"\n\n- name: save templated vaulted data\n  template: src=dump_template_data.j2 dest=/some/key/vault.txt\n  vars:\n    mysalt: '{{2**256|random(seed=inventory_hostname)}}'\n    template_data: '{{ secretdata|vault(vaultsecret, salt=mysalt) }}'\n",
+    "examples": "# Encrypt a value using the vault filter\nvars:\n  myvaultedkey: \"{{ 'my_secret_key' | vault('my_vault_password') }}\"\n\n# Encrypt a value and save it to a file using the template module\nvars:\n  template_data: \"{{ 'my_sensitive_data' | vault('another_vault_password', salt=(2**256 | random(seed=inventory_hostname))) }}\"\n\n# The content of dump_template_data.j2 looks like\n#     Encrypted secret: {{ template_data }}\n- name: Save vaulted data\n  template:\n    src: dump_template_data.j2\n    dest: /some/key/vault.txt\n",
     "metadata": null,
     "return": {
      "_value": {
-      "description": "The vault string that contains the secret data (or C(AnsibleVaultEncryptedUnicode) string object).",
+      "description": "The vault string that contains the secret data (or C(VaultedValue)-tagged string object).",
       "type": "string"
      }
     }
@@ -6292,7 +7315,8 @@
      "author": "ansible core team",
      "collection": "ansible.builtin",
      "description": [
-      "Returns the last name component of a Windows path, what is left in the string that is not 'win_dirname'."
+      "Returns the last name component of a Windows path, what is left in the string that is not 'win_dirname'.",
+      "While specifying an UNC (Universal Naming Convention) path, please make sure the path conforms to the UNC path syntax."
      ],
      "filename": "/ansible/plugins/filter/win_basename.yml",
      "name": "win_basename",
@@ -6314,7 +7338,7 @@
      "version_added": "2.0",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n# To get the last name of a file Windows path, like 'foo.txt' out of 'C:\\Users\\asdf\\foo.txt'\n{{ mypath | win_basename }}\n",
+    "examples": "\n# To get the last name of a file Windows path, like 'foo.txt' out of 'C:\\Users\\asdf\\foo.txt'\nfilename: \"{{ mypath | win_basename }}\"\n\n# Get basename from the UNC path in the form of '\\\\<SERVER_NAME>\\<SHARE_NAME>\\<FILENAME.FILE_EXTENSION>'\n# like '\\\\server1\\test\\foo.txt' returns 'foo.txt'\nfilename: \"{{ mypath | win_basename }}\"\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -6328,7 +7352,8 @@
      "author": "ansible core team",
      "collection": "ansible.builtin",
      "description": [
-      "Returns the directory component of a Windows path, what is left in the string that is not 'win_basename'."
+      "Returns the directory component of a Windows path, what is left in the string that is not 'win_basename'.",
+      "While specifying an UNC (Universal Naming Convention) path, please make sure the path conforms to the UNC path syntax."
      ],
      "filename": "/ansible/plugins/filter/win_dirname.yml",
      "name": "win_dirname",
@@ -6350,7 +7375,7 @@
      "version_added": "2.0",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n# To get the last name of a file Windows path, like 'C:\\users\\asdf' out of 'C:\\Users\\asdf\\foo.txt'\n{{ mypath | win_dirname }}\n",
+    "examples": "\n# To get the last name of a file Windows path, like 'C:\\users\\asdf' out of 'C:\\Users\\asdf\\foo.txt'\n{{ mypath | win_dirname }}\n\n# Get dirname from the UNC path in the form of '\\\\<SERVER_NAME>\\<SHARE_NAME>\\<FILENAME.FILE_EXTENSION>'\n# like '\\\\server1\\test\\foo.txt' returns '\\\\\\\\server1\\\\test\\\\'\nfilename: \"{{ mypath | win_dirname }}\"\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -6394,6 +7419,57 @@
       "type": "list"
      }
     }
+   },
+   "ansible.builtin.wordcount": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Count the words in that string.",
+      "",
+      "This is the Jinja builtin filter plugin 'wordcount'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.wordcount)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.wordcount",
+     "short_description": "Count the words in that string."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.wordwrap": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Wrap a string to the given width.",
+      "",
+      "This is the Jinja builtin filter plugin 'wordwrap'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.wordwrap)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.wordwrap",
+     "short_description": "Wrap a string to the given width."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.xmlattr": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Create an SGML/XML attribute string based on the items in a dict.",
+      "",
+      "This is the Jinja builtin filter plugin 'xmlattr'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.xmlattr)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.xmlattr",
+     "short_description": "Create an SGML/XML attribute string based on the items in a dict."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.zip": {
     "doc": {
@@ -6685,7 +7761,7 @@
        "suboptions": {
         "default_value": {
          "description": [
-          "The default value when the host variable's value is an empty string.",
+          "The default value when the host variable's value is V(None) or an empty string.",
           "This option is mutually exclusive with O(keyed_groups[].trailing_separator)."
          ],
          "type": "str",
@@ -6715,7 +7791,7 @@
         "trailing_separator": {
          "default": true,
          "description": [
-          "Set this option to V(false) to omit the O(keyed_groups[].separator) after the host variable when the value is an empty string.",
+          "Set this option to V(false) to omit the O(keyed_groups[].separator) after the host variable when the value is V(None) or an empty string.",
           "This option is mutually exclusive with O(keyed_groups[].default_value)."
          ],
          "type": "bool",
@@ -6928,7 +8004,7 @@
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "# fmt: code\n\n### simple bash script\n\n   #!/usr/bin/env bash\n\n   if [ \"$1\" == \"--list\" ]; then\n   cat<<EOF\n   {\n     \"bash_hosts\": {\n       \"hosts\": [\n         \"myhost.domain.com\",\n         \"myhost2.domain.com\"\n       ],\n       \"vars\": {\n         \"host_test\": \"test-value\"\n       }\n     },\n     \"_meta\": {\n       \"hostvars\": {\n         \"myhost.domain.com\": {\n           \"host_specific_test_var\": \"test-value\"\n         }\n       }\n     }\n   }\n   EOF\n   elif [ \"$1\" == \"--host\" ]; then\n     # this should not normally be called by Ansible as we return _meta above\n     if [ \"$2\" == \"myhost.domain.com\" ]; then\n        echo '{\"_meta\": {hostvars\": {\"myhost.domain.com\": {\"host_specific-test_var\": \"test-value\"}}}}'\n     else\n        echo '{\"_meta\": {hostvars\": {}}}'\n     fi\n   else\n     echo \"Invalid option: use --list or --host <hostname>\"\n     exit 1\n   fi\n\n\n### python example with ini config\n\n    #!/usr/bin/env python\n    \"\"\"\n    # ansible_inventory.py\n    \"\"\"\n    import argparse\n    import json\n    import os.path\n    import sys\n    from configparser import ConfigParser\n    from inventories.custom import MyInventoryAPI\n\n    def load_config() -> ConfigParser:\n        cp = ConfigParser()\n        config_file = os.path.expanduser(\"~/.config/ansible_inventory_script.cfg\")\n        cp.read(config_file)\n        if not cp.has_option('DEFAULT', 'namespace'):\n            raise ValueError(\"Missing configuration option: DEFAULT -> namespace\")\n        return cp\n\n\n    def get_api_data(namespace: str, pretty=False) -> str:\n        \"\"\"\n        :param namespace: parameter for our custom api\n        :param pretty: Human redable JSON vs machine readable\n        :return: JSON string\n        \"\"\"\n        found_data = list(MyInventoryAPI(namespace))\n        hostvars = {}\n        data = { '_meta': { 'hostvars': {}},}\n\n        groups = found_data['groups'].keys()\n        for group in groups:\n            groups[group]['hosts'] = found_data[groups].get('host_list', [])\n            if group not in data:\n                data[group] = {}\n            data[group]['hosts'] = found_data[groups].get('host_list', [])\n            data[group]['vars'] = found_data[groups].get('info', [])\n            data[group]['children'] = found_data[group].get('subgroups', [])\n\n        for host_data in found_data['hosts']:\n            for name in host_data.items():\n                # turn info into vars\n                data['_meta'][name] = found_data[name].get('info', {})\n                # set ansible_host if possible\n                if 'address' in found_data[name]:\n                    data[name]['_meta']['ansible_host'] = found_data[name]['address']\n        data['_meta']['hostvars'] = hostvars\n\n        return json.dumps(data, indent=pretty)\n\n    if __name__ == '__main__':\n\n        arg_parser = argparse.ArgumentParser( description=__doc__, prog=__file__)\n        arg_parser.add_argument('--pretty', action='store_true', default=False, help=\"Pretty JSON\")\n        mandatory_options = arg_parser.add_mutually_exclusive_group()\n        mandatory_options.add_argument('--list', action='store', nargs=\"*\", help=\"Get inventory JSON from our API\")\n        mandatory_options.add_argument('--host', action='store',\n                                       help=\"Get variables for specific host, not used but kept for compatibility\")\n\n        try:\n            config = load_config()\n            namespace = config.get('DEFAULT', 'namespace')\n\n            args = arg_parser.parse_args()\n            if args.host:\n                print('{\"_meta\":{}}')\n                sys.stderr.write('This script already provides _meta via --list, so this option is really ignored')\n            elif len(args.list) >= 0:\n                print(get_api_data(namespace, args.pretty))\n            else:\n                raise ValueError(\"Valid options are --list or --host <HOSTNAME>\")\n\n        except ValueError:\n            raise\n\n",
+    "examples": "# fmt: code\n\n### simple bash script\n\n   #!/usr/bin/env bash\n\n   if [ \"$1\" == \"--list\" ]; then\n   cat<<EOF\n   {\n     \"bash_hosts\": {\n       \"hosts\": [\n         \"myhost.domain.com\",\n         \"myhost2.domain.com\"\n       ],\n       \"vars\": {\n         \"host_test\": \"test-value\"\n       }\n     },\n     \"_meta\": {\n       \"hostvars\": {\n         \"myhost.domain.com\": {\n           \"host_specific_test_var\": \"test-value\"\n         }\n       }\n     }\n   }\n   EOF\n   elif [ \"$1\" == \"--host\" ]; then\n     # this should not normally be called by Ansible as we return _meta above\n     if [ \"$2\" == \"myhost.domain.com\" ]; then\n        echo '{\"_meta\": {hostvars\": {\"myhost.domain.com\": {\"host_specific-test_var\": \"test-value\"}}}}'\n     else\n        echo '{\"_meta\": {hostvars\": {}}}'\n     fi\n   else\n     echo \"Invalid option: use --list or --host <hostname>\"\n     exit 1\n   fi\n\n\n### python example with ini config\n\n    #!/usr/bin/env python\n    \"\"\"\n    # ansible_inventory.py\n    \"\"\"\n    import argparse\n    import json\n    import os.path\n    import sys\n    from configparser import ConfigParser\n    from inventories.custom import MyInventoryAPI\n\n    def load_config() -> ConfigParser:\n        cp = ConfigParser()\n        config_file = os.path.expanduser(\"~/.config/ansible_inventory_script.cfg\")\n        cp.read(config_file)\n        if not cp.has_option('DEFAULT', 'namespace'):\n            raise ValueError(\"Missing configuration option: DEFAULT -> namespace\")\n        return cp\n\n\n    def get_api_data(namespace: str, pretty=False) -> str:\n        \"\"\"\n        :param namespace: parameter for our custom api\n        :param pretty: Human readable JSON vs machine readable\n        :return: JSON string\n        \"\"\"\n        found_data = list(MyInventoryAPI(namespace))\n        hostvars = {}\n        data = { '_meta': { 'hostvars': {}},}\n\n        groups = found_data['groups'].keys()\n        for group in groups:\n            groups[group]['hosts'] = found_data[groups].get('host_list', [])\n            if group not in data:\n                data[group] = {}\n            data[group]['hosts'] = found_data[groups].get('host_list', [])\n            data[group]['vars'] = found_data[groups].get('info', [])\n            data[group]['children'] = found_data[group].get('subgroups', [])\n\n        for host_data in found_data['hosts']:\n            for name in host_data.items():\n                # turn info into vars\n                data['_meta'][name] = found_data[name].get('info', {})\n                # set ansible_host if possible\n                if 'address' in found_data[name]:\n                    data[name]['_meta']['ansible_host'] = found_data[name]['address']\n        data['_meta']['hostvars'] = hostvars\n\n        return json.dumps(data, indent=pretty)\n\n    if __name__ == '__main__':\n\n        arg_parser = argparse.ArgumentParser( description=__doc__, prog=__file__)\n        arg_parser.add_argument('--pretty', action='store_true', default=False, help=\"Pretty JSON\")\n        mandatory_options = arg_parser.add_mutually_exclusive_group()\n        mandatory_options.add_argument('--list', action='store', nargs=\"*\", help=\"Get inventory JSON from our API\")\n        mandatory_options.add_argument('--host', action='store',\n                                       help=\"Get variables for specific host, not used but kept for compatibility\")\n\n        try:\n            config = load_config()\n            namespace = config.get('DEFAULT', 'namespace')\n\n            args = arg_parser.parse_args()\n            if args.host:\n                print('{\"_meta\":{}}')\n                sys.stderr.write('This script already provides _meta via --list, so this option is really ignored')\n            elif len(args.list) >= 0:\n                print(get_api_data(namespace, args.pretty))\n            else:\n                raise ValueError(\"Valid options are --list or --host <HOSTNAME>\")\n\n        except ValueError:\n            raise\n\n",
     "metadata": null,
     "return": null
    },
@@ -6941,9 +8017,6 @@
      ],
      "filename": "/ansible/plugins/inventory/toml.py",
      "name": "toml",
-     "notes": [
-      "Requires one of the following python libraries: 'toml', 'tomli', or 'tomllib'\n"
-     ],
      "plugin_name": "ansible.builtin.toml",
      "short_description": "Uses a specific TOML file as an inventory source.",
      "version_added": "2.8",
@@ -7215,7 +8288,7 @@
      "Task",
      "Handler"
     ],
-    "description": "A boolean that controls if a task is executed in 'check' mode. See :ref:`check_mode_dry`.",
+    "description": "A boolean that controls if a task is run normally or avoids changes to the target and tries to report what it would have done (check mode/dry run). See :ref:`check_mode_dry`.",
     "priority": 0,
     "template": "explicit",
     "type": "bool"
@@ -7943,7 +9016,7 @@
      "version_added": "0.9",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Basic usage\n  ansible.builtin.debug:\n    msg: \"'{{ lookup('ansible.builtin.env', 'HOME') }}' is the HOME environment variable.\"\n\n- name: Before 2.13, how to set default value if the variable is not defined\n  ansible.builtin.debug:\n    msg: \"Hello {{ lookup('ansible.builtin.env', 'UNDEFINED_VARIABLE') | default('World', True) }}\"\n\n- name: Example how to set default value if the variable is not defined\n  ansible.builtin.debug:\n    msg: \"Hello {{ lookup('ansible.builtin.env', 'UNDEFINED_VARIABLE', default='World') }}\"\n\n- name: Fail if the variable is not defined by setting default value to 'Undefined'\n  ansible.builtin.debug:\n    msg: \"Hello {{ lookup('ansible.builtin.env', 'UNDEFINED_VARIABLE', default=Undefined) }}\"\n\n- name: Fail if the variable is not defined by setting default value to 'undef()'\n  ansible.builtin.debug:\n    msg: \"Hello {{ lookup('ansible.builtin.env', 'UNDEFINED_VARIABLE', default=undef()) }}\"\n",
+    "examples": "\n- name: Basic usage\n  ansible.builtin.debug:\n    msg: \"'{{ lookup('ansible.builtin.env', 'HOME') }}' is the HOME environment variable.\"\n\n- name: Before 2.13, how to set default value if the variable is not defined\n  ansible.builtin.debug:\n    msg: \"Hello {{ lookup('ansible.builtin.env', 'UNDEFINED_VARIABLE') | default('World', True) }}\"\n\n- name: Example how to set default value if the variable is not defined\n  ansible.builtin.debug:\n    msg: \"Hello {{ lookup('ansible.builtin.env', 'UNDEFINED_VARIABLE', default='World') }}\"\n\n- name: Fail if the variable is not defined by setting default value to 'undef()'\n  ansible.builtin.debug:\n    msg: \"Hello {{ lookup('ansible.builtin.env', 'UNDEFINED_VARIABLE', default=undef()) }}\"\n",
     "metadata": null,
     "return": {
      "_list": {
@@ -7964,7 +9037,6 @@
      "filename": "/ansible/plugins/lookup/file.py",
      "name": "file",
      "notes": [
-      "if read in variable context, the file can be interpreted as YAML if the content is valid to the parser.",
       "this lookup does not understand 'globbing', use the fileglob lookup instead."
      ],
      "options": {
@@ -8089,8 +9161,8 @@
         "When V(True), return an empty list when no files are matched.",
         "This is useful when used with C(with_first_found), as an empty list return to C(with_) calls causes the calling task to be skipped.",
         "When used as a template via C(lookup) or C(query), setting O(skip=True) will *not* cause the task to skip. Tasks must handle the empty list return from the template.",
-        "When V(False) and C(lookup) or C(query) specifies O(ignore:errors='ignore') all errors (including no file found, but potentially others) return an empty string or an empty list respectively.",
-        "When V(True) and C(lookup) or C(query) specifies O(ignore:errors='ignore'), no file found will return an empty list and other potential errors return an empty string or empty list depending on the template call (in other words return values of C(lookup) vs C(query))."
+        "When V(False) and C(lookup) or C(query) specifies O(ignore:errors='ignore') all errors (including no file found, but potentially others) return V(None) or an empty list respectively.",
+        "When V(True) and C(lookup) or C(query) specifies O(ignore:errors='ignore'), no file found will return an empty list and other potential errors return V(None) or empty list depending on the template call (in other words return values of C(lookup) vs C(query))."
        ],
        "type": "boolean"
       }
@@ -8319,6 +9391,7 @@
      "filename": "/ansible/plugins/lookup/lines.py",
      "name": "lines",
      "notes": [
+      "The given commands are passed to a shell for execution, therefore all variables that are part of the commands and come from a remote/untrusted source MUST be sanitized using the P(ansible.builtin.quote#filter) filter to avoid shell injection vulnerabilities. See the example section.",
       "Like all lookups, this runs on the Ansible controller and is unaffected by other keywords such as 'become'. If you need to use different permissions, you must change the command or run Ansible as another user.",
       "Alternatively, you can use a shell/command task that runs against localhost and registers the result.",
       "The directory of the play is used as the current working directory."
@@ -8334,7 +9407,7 @@
      "version_added": "0.9",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: We could read the file directly, but this shows output from command\n  ansible.builtin.debug: msg=\"{{ item }} is an output line from running cat on /etc/motd\"\n  with_lines: cat /etc/motd\n\n- name: More useful example of looping over a command result\n  ansible.builtin.shell: \"/usr/bin/frobnicate {{ item }}\"\n  with_lines:\n    - \"/usr/bin/frobnications_per_host --param {{ inventory_hostname }}\"\n",
+    "examples": "\n- name: We could read the file directly, but this shows output from command\n  ansible.builtin.debug: msg=\"{{ item }} is an output line from running cat on /etc/motd\"\n  with_lines: cat /etc/motd\n\n- name: Always use quote filter to make sure your variables are safe to use with shell\n  ansible.builtin.debug: msg=\"{{ item }} is an output line from running given command\"\n  with_lines: \"cat {{ file_name | quote }}\"\n\n- name: More useful example of looping over a command result\n  ansible.builtin.shell: \"/usr/bin/frobnicate {{ item }}\"\n  with_lines:\n    - \"/usr/bin/frobnications_per_host --param {{ inventory_hostname }}\"\n",
     "metadata": null,
     "return": {
      "_list": {
@@ -8513,9 +9586,9 @@
      "filename": "/ansible/plugins/lookup/pipe.py",
      "name": "pipe",
      "notes": [
+      "The given command is passed to a shell for execution, therefore all variables that are part of the command and come from a remote/untrusted source MUST be sanitized using the P(ansible.builtin.quote#filter) filter to avoid shell injection vulnerabilities. See the example section.",
       "Like all lookups this runs on the Ansible controller and is unaffected by other keywords, such as become, so if you need to different permissions you must change the command or run Ansible as another user.",
       "Alternatively you can use a shell/command task that runs against localhost and registers the result.",
-      "Pipe lookup internally invokes Popen with shell=True (this is required and intentional). This type of invocation is considered a security issue if appropriate care is not taken to sanitize any user provided or variable input. It is strongly recommended to pass user input or variable input via quote filter before using with pipe lookup. See example section for this. Read more about this L(Bandit B602 docs,https://bandit.readthedocs.io/en/latest/plugins/b602_subprocess_popen_with_shell_equals_true.html)",
       "The directory of the play is used as the current working directory."
      ],
      "options": {
@@ -8687,6 +9760,12 @@
       },
       "convert_data": {
        "default": true,
+       "deprecated": {
+        "alternatives": "Jinja2 native mode is now the default and only option, which is mutually exclusive with this option.",
+        "collection_name": "ansible.builtin",
+        "version": "2.23",
+        "why": "This option is no longer used in the Ansible Core code base."
+       },
        "description": [
         "Whether to convert YAML into data. If V(False), strings that are YAML will be left untouched.",
         "Mutually exclusive with the O(jinja2_native) option."
@@ -8694,13 +9773,18 @@
        "type": "bool"
       },
       "jinja2_native": {
-       "default": false,
+       "default": true,
+       "deprecated": {
+        "alternatives": "Jinja2 native mode is now the default and only option.",
+        "collection_name": "ansible.builtin",
+        "version": "2.23",
+        "why": "This option is no longer used in the Ansible Core code base."
+       },
        "description": [
         "Controls whether to use Jinja2 native types.",
         "It is off by default even if global O(jinja2_native) is V(True).",
         "Has no effect if global O(jinja2_native) is V(False).",
-        "This offers more flexibility than the template module which does not use Jinja2 native types at all.",
-        "Mutually exclusive with the O(convert_data) option."
+        "This offers more flexibility than the template module which does not use Jinja2 native types at all."
        ],
        "type": "bool",
        "version_added": "2.11",
@@ -9393,7 +10477,7 @@
       },
       "until": {
        "description": "Denotes if this action obeys until/retry/poll keywords",
-       "support": "full"
+       "support": "none"
       }
      },
      "author": [
@@ -9825,7 +10909,8 @@
       "As a sanity check, downloaded key id must match the one specified.",
       "Use full fingerprint (40 characters) key ids to avoid key collisions. To generate a full-fingerprint imported key: C(apt-key adv --list-public-keys --with-fingerprint --with-colons).",
       "If you specify both the key O(id) and the O(url) with O(state=present), the task can verify or add the key as needed.",
-      "Adding a new key requires an apt cache update (e.g. using the M(ansible.builtin.apt) module's C(update_cache) option)."
+      "Adding a new key requires an apt cache update (e.g. using the M(ansible.builtin.apt) module's C(update_cache) option).",
+      "The C(apt-key) utility has been deprecated and removed in modern debian versions, use M(ansible.builtin.deb822_repository) as an alternative to M(ansible.builtin.apt_repository) + apt_key combinations."
      ],
      "options": {
       "data": {
@@ -10004,8 +11089,8 @@
        "default": true,
        "description": [
         "Whether to automatically try to install the Python apt library or not, if it is not already installed. Without this library, the module does not work.",
-        "Runs C(apt-get install python-apt) for Python 2, and C(apt-get install python3-apt) for Python 3.",
-        "Only works with the system Python 2 or Python 3. If you are using a Python on the remote that is not the system Python, set O(install_python_apt=false) and ensure that the Python apt library for your Python version is installed some other way."
+        "Runs C(apt-get install python3-apt).",
+        "Only works with the system Python. If you are using a Python on the remote that is not the system Python, set O(install_python_apt=false) and ensure that the Python apt library for your Python version is installed some other way."
        ],
        "type": "bool"
       },
@@ -10076,8 +11161,7 @@
      },
      "plugin_name": "ansible.builtin.apt_repository",
      "requirements": [
-      "python-apt (python 2)",
-      "python3-apt (python 3)",
+      "python3-apt",
       "apt-key or gpg"
      ],
      "seealso": [
@@ -10141,7 +11225,7 @@
       },
       "check_mode": {
        "description": "Can run in check_mode and return changed status prediction without modifying target, if not supported the action will be skipped.",
-       "support": "none"
+       "support": "full"
       },
       "diff_mode": {
        "description": "Will return details on what has changed (or possibly needs changing in check_mode), when in diff mode",
@@ -10521,6 +11605,9 @@
      "filename": "/ansible/modules/async_status.py",
      "has_action": true,
      "module": "async_status",
+     "notes": [
+      "The RV(started) and RV(finished) return values were updated to return V(True) or V(False) instead of V(1) or V(0) in ansible-core 2.19."
+     ],
      "options": {
       "jid": {
        "description": [
@@ -10553,7 +11640,7 @@
      "version_added": "0.5",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n---\n- name: Asynchronous dnf task\n  ansible.builtin.dnf:\n    name: docker-io\n    state: present\n  async: 1000\n  poll: 0\n  register: dnf_sleeper\n\n- name: Wait for asynchronous job to end\n  ansible.builtin.async_status:\n    jid: '{{ dnf_sleeper.ansible_job_id }}'\n  register: job_result\n  until: job_result.finished\n  retries: 100\n  delay: 10\n\n- name: Clean up async file\n  ansible.builtin.async_status:\n    jid: '{{ dnf_sleeper.ansible_job_id }}'\n    mode: cleanup\n",
+    "examples": "\n---\n- name: Asynchronous dnf task\n  ansible.builtin.dnf:\n    name: docker-io\n    state: present\n  async: 1000\n  poll: 0\n  register: dnf_sleeper\n\n- name: Wait for asynchronous job to end\n  ansible.builtin.async_status:\n    jid: '{{ dnf_sleeper.ansible_job_id }}'\n  register: job_result\n  until: job_result is finished\n  retries: 100\n  delay: 10\n\n- name: Clean up async file\n  ansible.builtin.async_status:\n    jid: '{{ dnf_sleeper.ansible_job_id }}'\n    mode: cleanup\n",
     "metadata": null,
     "return": {
      "ansible_job_id": {
@@ -10568,16 +11655,16 @@
       "type": "str"
      },
      "finished": {
-      "description": "Whether the asynchronous job has finished (V(1)) or not (V(0))",
+      "description": "Whether the asynchronous job has finished or not",
       "returned": "always",
-      "sample": 1,
-      "type": "int"
+      "sample": true,
+      "type": "bool"
      },
      "started": {
-      "description": "Whether the asynchronous job has started (V(1)) or not (V(0))",
+      "description": "Whether the asynchronous job has started or not",
       "returned": "always",
-      "sample": 1,
-      "type": "int"
+      "sample": true,
+      "type": "bool"
      },
      "stderr": {
       "description": "Any errors returned by async_wrapper",
@@ -13884,7 +14971,7 @@
       "checksum": {
        "default": "",
        "description": [
-        "If a checksum is passed to this parameter, the digest of the destination file will be calculated after it is downloaded to ensure its integrity and verify that the transfer completed successfully. Format: <algorithm>:<checksum|url>, for example C(checksum=\"sha256:D98291AC[...]B6DC7B97\", C(checksum=\"sha256:http://example.com/path/sha256sum.txt\").",
+        "If a checksum is passed to this parameter, the digest of the destination file will be calculated after it is downloaded to ensure its integrity and verify that the transfer completed successfully. Format: <algorithm>:<checksum|url>, for example C(checksum=\"sha256:D98291AC[...]B6DC7B97\"), C(checksum=\"sha256:http://example.com/path/sha256sum.txt\").",
         "If you worry about portability, only the sha1 algorithm is available on all platforms and python versions.",
         "The Python C(hashlib) module is responsible for providing the available algorithms. The choices vary based on Python version and OpenSSL version.",
         "On systems running in FIPS compliant mode, the C(md5) algorithm may be unavailable.",
@@ -14557,7 +15644,8 @@
         "name"
        ],
        "description": [
-        "git, SSH, or HTTP(S) protocol address of the git repository."
+        "git, SSH, or HTTP(S) protocol address of the git repository.",
+        "Avoid embedding usernames and passwords within Git repository URLs. This practice is insecure and can lead to unauthorized access to your repositories. For secure authentication, configure SSH keys (recommended) or use a credential helper. See Git documentation on SSH keys/credential helpers for instructions."
        ],
        "required": true,
        "type": "str"
@@ -14675,12 +15763,6 @@
       "returned": "success",
       "sample": true,
       "type": "bool"
-     },
-     "warnings": {
-      "description": "List of warnings if requested features were not available due to a too old git version.",
-      "returned": "error",
-      "sample": "git version is too old to fully support the depth argument. Falling back to full checkouts.",
-      "type": "str"
      }
     }
    },
@@ -14909,7 +15991,7 @@
       },
       "until": {
        "description": "Denotes if this action obeys until/retry/poll keywords",
-       "support": "full"
+       "support": "none"
       }
      },
      "author": [
@@ -15112,7 +16194,7 @@
       },
       "until": {
        "description": "Denotes if this action obeys until/retry/poll keywords",
-       "support": "full"
+       "support": "none"
       }
      },
      "author": "Ansible Core Team (@ansible)",
@@ -15230,7 +16312,7 @@
       },
       "until": {
        "description": "Denotes if this action obeys until/retry/poll keywords",
-       "support": "full"
+       "support": "none"
       }
      },
      "author": "Ansible Core Team (@ansible)",
@@ -15284,7 +16366,7 @@
        "description": [
         "This option dictates whether the role's C(vars) and C(defaults) are exposed to the play.",
         "Variables are exposed to the play at playbook parsing time, and available to earlier roles and tasks as well unlike C(include_role).",
-        "The default depends on the configuration option :ref:`default_private_role_vars`."
+        "The default depends on the configuration option R(DEFAULT_PRIVATE_ROLE_VARS, DEFAULT_PRIVATE_ROLE_VARS)."
        ],
        "type": "bool",
        "version_added": "2.17",
@@ -15409,7 +16491,7 @@
       },
       "until": {
        "description": "Denotes if this action obeys until/retry/poll keywords",
-       "support": "full"
+       "support": "none"
       }
      },
      "author": "Ansible Core Team (@ansible)",
@@ -15532,7 +16614,7 @@
       },
       "until": {
        "description": "Denotes if this action obeys until/retry/poll keywords",
-       "support": "full"
+       "support": "none"
       }
      },
      "author": "Ansible Core Team (@ansible)",
@@ -15716,7 +16798,7 @@
       },
       "until": {
        "description": "Denotes if this action obeys until/retry/poll keywords",
-       "support": "full"
+       "support": "none"
       }
      },
      "author": "Ansible Core Team (@ansible)",
@@ -15848,7 +16930,7 @@
       },
       "until": {
        "description": "Denotes if this action obeys until/retry/poll keywords",
-       "support": "full"
+       "support": "none"
       }
      },
      "author": "Allen Sanabria (@linuxdynasty)",
@@ -16177,7 +17259,8 @@
       "ip_version": {
        "choices": [
         "ipv4",
-        "ipv6"
+        "ipv6",
+        "both"
        ],
        "default": "ipv4",
        "description": [
@@ -17011,7 +18094,8 @@
        "description": [
         "This module takes a free form command, as a string. There is not an actual option named \"free form\".  See the examples!",
         "V(flush_handlers) makes Ansible run any handler tasks which have thus far been notified. Ansible inserts these tasks internally at certain points to implicitly trigger handler runs (after pre/post tasks, the final role execution, and the main tasks section of your plays).",
-        "V(refresh_inventory) (added in Ansible 2.0) forces the reload of the inventory, which in the case of dynamic inventory scripts means they will be re-executed. If the dynamic inventory script is using a cache, Ansible cannot know this and has no way of refreshing it (you can disable the cache or, if available for your specific inventory datasource (e.g. aws), you can use the an inventory plugin instead of an inventory script). This is mainly useful when additional hosts are created and users wish to use them instead of using the M(ansible.builtin.add_host) module.",
+        "V(refresh_inventory) (added in Ansible 2.0) forces the reload of the inventory, which in the case of dynamic inventory scripts means they will be re-executed. If the dynamic inventory script is using a cache, Ansible cannot know this and has no way of refreshing it (you can disable the cache or, if available for your specific inventory datasource (for example P(amazon.aws.aws_ec2#inventory)), you can use the an inventory plugin instead of an inventory script). This is mainly useful when additional hosts are created and users wish to use them instead of using the M(ansible.builtin.add_host) module.",
+        "Note that neither V(refresh_inventory) nor the M(ansible.builtin.add_host) add hosts to the hosts the current play iterates over. However, if needed, you can explicitly delegate tasks to new hosts with C(delegate_to). Generally, C(delegate_to) can be used against hosts regardless of whether they are in the inventory or not, as long as the value supplied is sufficient for the connection plugin to access the host.",
         "V(noop) (added in Ansible 2.0) This literally does 'nothing'. It is mainly used internally and not recommended for general use.",
         "V(clear_facts) (added in Ansible 2.1) causes the gathered facts for the hosts specified in the play's list of hosts to be cleared, including the fact cache.",
         "V(clear_host_errors) (added in Ansible 2.1) clears the failed state (if any) from hosts specified in the play's list of hosts.",
@@ -17311,7 +18395,7 @@
      "version_added": 2.0,
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Install ntpdate\n  ansible.builtin.package:\n    name: ntpdate\n    state: present\n\n# This uses a variable as this changes per distribution.\n- name: Remove the apache package\n  ansible.builtin.package:\n    name: \"{{ apache }}\"\n    state: absent\n\n- name: Install the latest version of Apache and MariaDB\n  ansible.builtin.package:\n    name:\n      - httpd\n      - mariadb-server\n    state: latest\n",
+    "examples": "\n- name: Install ntpdate\n  ansible.builtin.package:\n    name: ntpdate\n    state: present\n\n# This uses a variable as this changes per distribution.\n- name: Remove the apache package\n  ansible.builtin.package:\n    name: \"{{ apache }}\"\n    state: absent\n\n- name: Install the latest version of Apache and MariaDB\n  ansible.builtin.package:\n    name:\n      - httpd\n      - mariadb-server\n    state: latest\n\n- name: Use the dnf package manager to install httpd\n  ansible.builtin.package:\n    name: httpd\n    state: present\n    use: dnf\n",
     "metadata": null,
     "return": null
    },
@@ -17672,7 +18756,7 @@
      "notes": [
       "Python installations marked externally-managed (as defined by PEP668) cannot be updated by pip versions >= 23.0.1 without the use of a virtual environment or setting the O(break_system_packages) option.",
       "The virtualenv (U(http://www.virtualenv.org/)) must be installed on the remote host if the virtualenv parameter is specified and the virtualenv needs to be created.",
-      "Although it executes using the Ansible Python interpreter, the pip module shells out to run the actual pip command, so it can use any pip version you specify with O(executable). By default, it uses the pip version for the Ansible Python interpreter. For example, pip3 on python 3, and pip2 or pip on python 2.",
+      "Although it executes using the Ansible Python interpreter, the pip module shells out to run the actual pip command, so it can use any pip version you specify with O(executable). By default, it uses the pip version for the Ansible Python interpreter.",
       "The interpreter used by Ansible (see R(ansible_python_interpreter, ansible_python_interpreter)) requires the setuptools package, regardless of the version of pip set with the O(executable) option."
      ],
      "options": {
@@ -17705,7 +18789,7 @@
       },
       "executable": {
        "description": [
-        "The explicit executable or pathname for the C(pip) executable, if different from the Ansible Python interpreter. For example V(pip3.3), if there are both Python 2.7 and 3.3 installations in the system and you want to run pip for the Python 3.3 installation.",
+        "The explicit executable or pathname for the C(pip) executable, if different from the Ansible Python interpreter. For example V(pip3.13), if there are multiple Python installations in the system and you want to run pip for the Python 3.13 installation.",
         "Mutually exclusive with O(virtualenv) (added in 2.1).",
         "Does not affect the Ansible Python interpreter.",
         "The C(setuptools) package must be installed for both the Ansible Python interpreter and for the version of Python specified by this option."
@@ -17781,7 +18865,7 @@
       },
       "virtualenv_python": {
        "description": [
-        "The Python executable used for creating the virtual environment. For example V(python3.12), V(python2.7). When not specified, the Python version used to run the ansible module is used. This parameter should not be used when O(virtualenv_command) is using V(pyvenv) or the C(-m venv) module."
+        "The Python executable used for creating the virtual environment. For example V(python3.13). When not specified, the Python version used to run the ansible module is used. This parameter should not be used when O(virtualenv_command) is using V(pyvenv) or the C(-m venv) module."
        ],
        "type": "str",
        "version_added": "2.0",
@@ -17807,7 +18891,7 @@
      "version_added": "0.7",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Install bottle python package\n  ansible.builtin.pip:\n    name: bottle\n\n- name: Install bottle python package on version 0.11\n  ansible.builtin.pip:\n    name: bottle==0.11\n\n- name: Install bottle python package with version specifiers\n  ansible.builtin.pip:\n    name: bottle>0.10,<0.20,!=0.11\n\n- name: Install multi python packages with version specifiers\n  ansible.builtin.pip:\n    name:\n      - django>1.11.0,<1.12.0\n      - bottle>0.10,<0.20,!=0.11\n\n- name: Install python package using a proxy\n  ansible.builtin.pip:\n    name: six\n  environment:\n    http_proxy: 'http://127.0.0.1:8080'\n    https_proxy: 'https://127.0.0.1:8080'\n\n# You do not have to supply '-e' option in extra_args\n- name: Install MyApp using one of the remote protocols (bzr+,hg+,git+,svn+)\n  ansible.builtin.pip:\n    name: svn+http://myrepo/svn/MyApp#egg=MyApp\n\n- name: Install MyApp using one of the remote protocols (bzr+,hg+,git+)\n  ansible.builtin.pip:\n    name: git+http://myrepo/app/MyApp\n\n- name: Install MyApp from local tarball\n  ansible.builtin.pip:\n    name: file:///path/to/MyApp.tar.gz\n\n- name: Install bottle into the specified (virtualenv), inheriting none of the globally installed modules\n  ansible.builtin.pip:\n    name: bottle\n    virtualenv: /my_app/venv\n\n- name: Install bottle into the specified (virtualenv), inheriting globally installed modules\n  ansible.builtin.pip:\n    name: bottle\n    virtualenv: /my_app/venv\n    virtualenv_site_packages: yes\n\n- name: Install bottle into the specified (virtualenv), using Python 2.7\n  ansible.builtin.pip:\n    name: bottle\n    virtualenv: /my_app/venv\n    virtualenv_command: virtualenv-2.7\n\n- name: Install bottle within a user home directory\n  ansible.builtin.pip:\n    name: bottle\n    extra_args: --user\n\n- name: Install specified python requirements\n  ansible.builtin.pip:\n    requirements: /my_app/requirements.txt\n\n- name: Install specified python requirements in indicated (virtualenv)\n  ansible.builtin.pip:\n    requirements: /my_app/requirements.txt\n    virtualenv: /my_app/venv\n\n- name: Install specified python requirements and custom Index URL\n  ansible.builtin.pip:\n    requirements: /my_app/requirements.txt\n    extra_args: -i https://example.com/pypi/simple\n\n- name: Install specified python requirements offline from a local directory with downloaded packages\n  ansible.builtin.pip:\n    requirements: /my_app/requirements.txt\n    extra_args: \"--no-index --find-links=file:///my_downloaded_packages_dir\"\n\n- name: Install bottle for Python 3.3 specifically, using the 'pip3.3' executable\n  ansible.builtin.pip:\n    name: bottle\n    executable: pip3.3\n\n- name: Install bottle, forcing reinstallation if it's already installed\n  ansible.builtin.pip:\n    name: bottle\n    state: forcereinstall\n\n- name: Install bottle while ensuring the umask is 0022 (to ensure other users can use it)\n  ansible.builtin.pip:\n    name: bottle\n    umask: \"0022\"\n  become: True\n\n- name: Run a module inside a virtual environment\n  block:\n    - name: Ensure the virtual environment exists\n      pip:\n        name: psutil\n        virtualenv: \"{{ venv_dir }}\"\n        # On Debian-based systems the correct python*-venv package must be installed to use the `venv` module.\n        virtualenv_command: \"{{ ansible_python_interpreter }} -m venv\"\n\n    - name: Run a module inside the virtual environment\n      wait_for:\n        port: 22\n      vars:\n        # Alternatively, use a block to affect multiple tasks, or use set_fact to affect the remainder of the playbook.\n        ansible_python_interpreter: \"{{ venv_python }}\"\n\n  vars:\n    venv_dir: /tmp/pick-a-better-venv-path\n    venv_python: \"{{ venv_dir }}/bin/python\"\n",
+    "examples": "\n- name: Install bottle python package\n  ansible.builtin.pip:\n    name: bottle\n\n- name: Install bottle python package on version 0.11\n  ansible.builtin.pip:\n    name: bottle==0.11\n\n- name: Install bottle python package with version specifiers\n  ansible.builtin.pip:\n    name: bottle>0.10,<0.20,!=0.11\n\n- name: Install multi python packages with version specifiers\n  ansible.builtin.pip:\n    name:\n      - django>1.11.0,<1.12.0\n      - bottle>0.10,<0.20,!=0.11\n\n- name: Install python package using a proxy\n  ansible.builtin.pip:\n    name: six\n  environment:\n    http_proxy: 'http://127.0.0.1:8080'\n    https_proxy: 'https://127.0.0.1:8080'\n\n# You do not have to supply '-e' option in extra_args\n- name: Install MyApp using one of the remote protocols (bzr+,hg+,git+,svn+)\n  ansible.builtin.pip:\n    name: svn+http://myrepo/svn/MyApp#egg=MyApp\n\n- name: Install MyApp using one of the remote protocols (bzr+,hg+,git+)\n  ansible.builtin.pip:\n    name: git+http://myrepo/app/MyApp\n\n- name: Install MyApp from local tarball\n  ansible.builtin.pip:\n    name: file:///path/to/MyApp.tar.gz\n\n- name: Install bottle into the specified (virtualenv), inheriting none of the globally installed modules\n  ansible.builtin.pip:\n    name: bottle\n    virtualenv: /my_app/venv\n\n- name: Install bottle into the specified (virtualenv), inheriting globally installed modules\n  ansible.builtin.pip:\n    name: bottle\n    virtualenv: /my_app/venv\n    virtualenv_site_packages: yes\n\n- name: Install bottle into the specified (virtualenv), using Python 3.13\n  ansible.builtin.pip:\n    name: bottle\n    virtualenv: /my_app/venv\n    virtualenv_command: virtualenv-3.13\n\n- name: Install bottle within a user home directory\n  ansible.builtin.pip:\n    name: bottle\n    extra_args: --user\n\n- name: Install specified python requirements\n  ansible.builtin.pip:\n    requirements: /my_app/requirements.txt\n\n- name: Install specified python requirements in indicated (virtualenv)\n  ansible.builtin.pip:\n    requirements: /my_app/requirements.txt\n    virtualenv: /my_app/venv\n\n- name: Install specified python requirements and custom Index URL\n  ansible.builtin.pip:\n    requirements: /my_app/requirements.txt\n    extra_args: -i https://example.com/pypi/simple\n\n- name: Install specified python requirements offline from a local directory with downloaded packages\n  ansible.builtin.pip:\n    requirements: /my_app/requirements.txt\n    extra_args: \"--no-index --find-links=file:///my_downloaded_packages_dir\"\n\n- name: Install bottle for Python 3.13 specifically, using the 'pip3.13' executable\n  ansible.builtin.pip:\n    name: bottle\n    executable: pip3.13\n\n- name: Install bottle, forcing reinstallation if it's already installed\n  ansible.builtin.pip:\n    name: bottle\n    state: forcereinstall\n\n- name: Install bottle while ensuring the umask is 0022 (to ensure other users can use it)\n  ansible.builtin.pip:\n    name: bottle\n    umask: \"0022\"\n  become: True\n\n- name: Run a module inside a virtual environment\n  block:\n    - name: Ensure the virtual environment exists\n      pip:\n        name: psutil\n        virtualenv: \"{{ venv_dir }}\"\n        # On Debian-based systems the correct python*-venv package must be installed to use the `venv` module.\n        virtualenv_command: \"{{ ansible_python_interpreter }} -m venv\"\n\n    - name: Run a module inside the virtual environment\n      wait_for:\n        port: 22\n      vars:\n        # Alternatively, use a block to affect multiple tasks, or use set_fact to affect the remainder of the playbook.\n        ansible_python_interpreter: \"{{ venv_python }}\"\n\n  vars:\n    venv_dir: /tmp/pick-a-better-venv-path\n    venv_python: \"{{ venv_dir }}/bin/python\"\n",
     "metadata": null,
     "return": {
      "cmd": {
@@ -17926,7 +19010,7 @@
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Bootstrap a host without python2 installed\n  ansible.builtin.raw: dnf install -y python2 python2-dnf libselinux-python\n\n- name: Run a command that uses non-posix shell-isms (in this example /bin/sh doesn't handle redirection and wildcards together but bash does)\n  ansible.builtin.raw: cat < /tmp/*txt\n  args:\n    executable: /bin/bash\n\n- name: Safely use templated variables. Always use quote filter to avoid injection issues.\n  ansible.builtin.raw: \"{{ package_mgr|quote }} {{ pkg_flags|quote }} install {{ python|quote }}\"\n\n- name: List user accounts on a Windows system\n  ansible.builtin.raw: Get-WmiObject -Class Win32_UserAccount\n",
+    "examples": "\n- name: Bootstrap a host without Python installed\n  ansible.builtin.raw: dnf install -y python3 python3-libdnf\n\n- name: Run a command that uses non-posix shell-isms (in this example /bin/sh doesn't handle redirection and wildcards together but bash does)\n  ansible.builtin.raw: cat < /tmp/*txt\n  args:\n    executable: /bin/bash\n\n- name: Safely use templated variables. Always use quote filter to avoid injection issues.\n  ansible.builtin.raw: \"{{ package_mgr|quote }} {{ pkg_flags|quote }} install {{ python|quote }}\"\n\n- name: List user accounts on a Windows system\n  ansible.builtin.raw: Get-WmiObject -Class Win32_UserAccount\n",
     "metadata": null,
     "return": null
    },
@@ -18824,7 +19908,7 @@
       },
       "until": {
        "description": "Denotes if this action obeys until/retry/poll keywords",
-       "support": "full"
+       "support": "none"
       }
      },
      "author": [
@@ -18842,7 +19926,7 @@
      "module": "set_fact",
      "notes": [
       "Because of the nature of tasks, set_fact will produce 'static' values for a variable. Unlike normal 'lazy' variables, the value gets evaluated and templated on assignment.",
-      "Some boolean values (yes, no, true, false) will always be converted to boolean type, unless C(DEFAULT_JINJA2_NATIVE) is enabled.  This is done so the C(var=value) booleans, otherwise it would only be able to create strings, but it also prevents using those values to create YAML strings. Using the setting will restrict k=v to strings, but will allow you to specify string or boolean in YAML.",
+      "Some boolean values (yes, no, true, false) will always be converted to boolean type, This is done so the C(var=value) booleans, otherwise it would only be able to create strings, but it also prevents using those values to create YAML strings. Using the setting will restrict k=v to strings, but will allow you to specify string or boolean in YAML.",
       "To create lists/arrays or dictionary/hashes use YAML notation C(var: [val1, val2]).",
       "Since 'cacheable' is now a module param, 'cacheable' is no longer a valid fact name."
      ],
@@ -18948,7 +20032,7 @@
       },
       "until": {
        "description": "Denotes if this action obeys until/retry/poll keywords",
-       "support": "full"
+       "support": "none"
       }
      },
      "author": "Brian Coca (@bcoca)",
@@ -20299,7 +21383,7 @@
      "version_added": "2.6",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Make sure apache2 is started\n  ansible.builtin.sysvinit:\n      name: apache2\n      state: started\n      enabled: yes\n\n- name: Sleep for 5 seconds between stop and start command of badly behaving service\n  ansible.builtin.sysvinit:\n    name: apache2\n    state: restarted\n    sleep: 5\n\n- name: Make sure apache2 is started on runlevels 3 and 5\n  ansible.builtin.sysvinit:\n      name: apache2\n      state: started\n      enabled: yes\n      runlevels:\n        - 3\n        - 5\n",
+    "examples": "\n- name: Make sure apache2 is started\n  ansible.builtin.sysvinit:\n      name: apache2\n      state: started\n      enabled: yes\n\n- name: Sleep for 5 seconds between stop and start command of badly behaving service\n  ansible.builtin.sysvinit:\n      name: apache2\n      state: restarted\n      sleep: 5\n\n- name: Make sure apache2 is started on runlevels 3 and 5\n  ansible.builtin.sysvinit:\n      name: apache2\n      state: started\n      enabled: yes\n      runlevels:\n        - 3\n        - 5\n",
     "metadata": null,
     "return": {
      "results": {
@@ -20469,8 +21553,8 @@
      ],
      "collection": "ansible.builtin",
      "description": [
-      "Templates are processed by the L(Jinja2 templating language,http://jinja.pocoo.org/docs/).",
-      "Documentation on the template formatting can be found in the L(Template Designer Documentation,http://jinja.pocoo.org/docs/templates/).",
+      "Templates are processed by the L(Jinja2 templating language,https://jinja.palletsprojects.com/en/stable/).",
+      "Documentation on the template formatting can be found in the L(Template Designer Documentation,https://jinja.palletsprojects.com/en/stable/templates/).",
       "Additional variables listed below can be used in templates.",
       "C(ansible_managed) (configurable via the C(defaults) section of C(ansible.cfg)) contains a string which can be used to describe the template name, host, modification time of the template file and the owner uid.",
       "C(template_host) contains the node name of the template's machine.",
@@ -22354,11 +23438,9 @@
      "has_action": false,
      "module": "wait_for",
      "notes": [
-      "The ability to use search_regex with a port connection was added in Ansible 1.7.",
-      "Prior to Ansible 2.4, testing for the absence of a directory or UNIX socket did not work correctly.",
-      "Prior to Ansible 2.4, testing for the presence of a file did not work correctly if the remote user did not have read access to that file.",
       "Under some circumstances when using mandatory access control, a path may always be treated as being absent even if it exists, but can't be modified or created by the remote user either.",
-      "When waiting for a path, symbolic links will be followed.  Many other modules that manipulate files do not follow symbolic links, so operations on the path using other modules may not work exactly as expected."
+      "When waiting for a path, symbolic links will be followed.  Many other modules that manipulate files do not follow symbolic links, so operations on the path using other modules may not work exactly as expected.",
+      "When searching a static string within a system log file, it is important to account for potential self-matching against log entries generated by the Ansible modules.  To prevent this, add a regular expression construct into the search string. For example, to match a literal string 'this thing', one could use a regular expression like 'this t[h]ing'."
      ],
      "options": {
       "active_connection_states": {
@@ -22435,7 +23517,8 @@
       "search_regex": {
        "description": [
         "Can be used to match a string in either a file or a socket connection.",
-        "Defaults to a multiline regex."
+        "Defaults to a multiline regex.",
+        "When inspecting a system log file and a static string, remember that Ansible by default logs its own actions there; see the notes and examples for information."
        ],
        "type": "str",
        "version_added": "1.4",
@@ -22492,7 +23575,7 @@
      "version_added": "0.7",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Sleep for 300 seconds and continue with play\n  ansible.builtin.wait_for:\n    timeout: 300\n  delegate_to: localhost\n\n- name: Wait for port 8000 to become open on the host, don't start checking for 10 seconds\n  ansible.builtin.wait_for:\n    port: 8000\n    delay: 10\n\n- name: Waits for port 8000 of any IP to close active connections, don't start checking for 10 seconds\n  ansible.builtin.wait_for:\n    host: 0.0.0.0\n    port: 8000\n    delay: 10\n    state: drained\n\n- name: Wait for port 8000 of any IP to close active connections, ignoring connections for specified hosts\n  ansible.builtin.wait_for:\n    host: 0.0.0.0\n    port: 8000\n    state: drained\n    exclude_hosts: 10.2.1.2,10.2.1.3\n\n- name: Wait until the file /tmp/foo is present before continuing\n  ansible.builtin.wait_for:\n    path: /tmp/foo\n\n- name: Wait until the string \"completed\" is in the file /tmp/foo before continuing\n  ansible.builtin.wait_for:\n    path: /tmp/foo\n    search_regex: completed\n\n- name: Wait until regex pattern matches in the file /tmp/foo and print the matched group\n  ansible.builtin.wait_for:\n    path: /tmp/foo\n    search_regex: completed (?P<task>\\w+)\n  register: waitfor\n- ansible.builtin.debug:\n    msg: Completed {{ waitfor['match_groupdict']['task'] }}\n\n- name: Wait until the lock file is removed\n  ansible.builtin.wait_for:\n    path: /var/lock/file.lock\n    state: absent\n\n- name: Wait until the process is finished and pid was destroyed\n  ansible.builtin.wait_for:\n    path: /proc/3466/status\n    state: absent\n\n- name: Output customized message when failed\n  ansible.builtin.wait_for:\n    path: /tmp/foo\n    state: present\n    msg: Timeout to find file /tmp/foo\n\n# Do not assume the inventory_hostname is resolvable and delay 10 seconds at start\n- name: Wait 300 seconds for port 22 to become open and contain \"OpenSSH\"\n  ansible.builtin.wait_for:\n    port: 22\n    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'\n    search_regex: OpenSSH\n    delay: 10\n  connection: local\n\n# Same as above but you normally have ansible_connection set in inventory, which overrides 'connection'\n- name: Wait 300 seconds for port 22 to become open and contain \"OpenSSH\"\n  ansible.builtin.wait_for:\n    port: 22\n    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'\n    search_regex: OpenSSH\n    delay: 10\n  vars:\n    ansible_connection: local\n",
+    "examples": "\n- name: Sleep for 300 seconds and continue with play\n  ansible.builtin.wait_for:\n    timeout: 300\n  delegate_to: localhost\n\n- name: Wait for port 8000 to become open on the host, don't start checking for 10 seconds\n  ansible.builtin.wait_for:\n    port: 8000\n    delay: 10\n\n- name: Waits for port 8000 of any IP to close active connections, don't start checking for 10 seconds\n  ansible.builtin.wait_for:\n    host: 0.0.0.0\n    port: 8000\n    delay: 10\n    state: drained\n\n- name: Wait for port 8000 of any IP to close active connections, ignoring connections for specified hosts\n  ansible.builtin.wait_for:\n    host: 0.0.0.0\n    port: 8000\n    state: drained\n    exclude_hosts: 10.2.1.2,10.2.1.3\n\n- name: Wait until the file /tmp/foo is present before continuing\n  ansible.builtin.wait_for:\n    path: /tmp/foo\n\n- name: Wait until the string \"completed\" is in the file /tmp/foo before continuing\n  ansible.builtin.wait_for:\n    path: /tmp/foo\n    search_regex: completed\n\n- name: Wait until the string \"tomcat up\" is in syslog, use regex character set to avoid self match\n  ansible.builtin.wait_for:\n    path: /var/log/syslog\n    search_regex: 'tomcat [u]p'\n\n- name: Wait until regex pattern matches in the file /tmp/foo and print the matched group\n  ansible.builtin.wait_for:\n    path: /tmp/foo\n    search_regex: completed (?P<task>\\w+)\n  register: waitfor\n- ansible.builtin.debug:\n    msg: Completed {{ waitfor['match_groupdict']['task'] }}\n\n- name: Wait until the lock file is removed\n  ansible.builtin.wait_for:\n    path: /var/lock/file.lock\n    state: absent\n\n- name: Wait until the process is finished and pid was destroyed\n  ansible.builtin.wait_for:\n    path: /proc/3466/status\n    state: absent\n\n- name: Output customized message when failed\n  ansible.builtin.wait_for:\n    path: /tmp/foo\n    state: present\n    msg: Timeout to find file /tmp/foo\n\n# Do not assume the inventory_hostname is resolvable and delay 10 seconds at start\n- name: Wait 300 seconds for port 22 to become open and contain \"OpenSSH\"\n  ansible.builtin.wait_for:\n    port: 22\n    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'\n    search_regex: OpenSSH\n    delay: 10\n    timeout: 300\n  delegate_to: localhost\n\n# Same as above but using config lookup for the target,\n# most plugins use 'remote_addr', but ssh uses 'host'\n- name: Wait 300 seconds for port 22 to become open and contain \"OpenSSH\"\n  ansible.builtin.wait_for:\n    port: 22\n    host: \"{{ lookup('config', 'host', plugin_name='ssh', plugin_type='connection') }}\"\n    search_regex: OpenSSH\n    delay: 10\n    timeout: 300\n  delegate_to: localhost\n",
     "metadata": null,
     "return": {
      "elapsed": {
@@ -24848,6 +25931,40 @@
      }
     }
    },
+   "ansible.builtin.boolean": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return true if the object is a boolean value.",
+      "",
+      "This is the Jinja builtin test plugin 'boolean'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.boolean)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.boolean",
+     "short_description": "Return true if the object is a boolean value."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.callable": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return whether the object is callable.",
+      "",
+      "This is the Jinja builtin test plugin 'callable'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.callable)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.callable",
+     "short_description": "Return whether the object is callable."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
    "ansible.builtin.change": {
     "doc": {
      "aliases": [
@@ -24952,6 +26069,23 @@
      }
     }
    },
+   "ansible.builtin.defined": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return true if the variable is defined.",
+      "",
+      "This is the Jinja builtin test plugin 'defined'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.defined)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.defined",
+     "short_description": "Return true if the variable is defined."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
    "ansible.builtin.directory": {
     "doc": {
      "author": "Ansible Core",
@@ -24980,6 +26114,91 @@
       "type": "boolean"
      }
     }
+   },
+   "ansible.builtin.divisibleby": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Check if a variable is divisible by a number.",
+      "",
+      "This is the Jinja builtin test plugin 'divisibleby'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.divisibleby)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.divisibleby",
+     "short_description": "Check if a variable is divisible by a number."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.eq": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Same as a == b.",
+      "",
+      "This is the Jinja builtin test plugin 'eq'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.eq)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.eq",
+     "short_description": "Same as a == b."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.equalto": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Same as a == b.",
+      "",
+      "This is the Jinja builtin test plugin 'equalto'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.equalto)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.equalto",
+     "short_description": "Same as a == b."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.escaped": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Check if the value is escaped.",
+      "",
+      "This is the Jinja builtin test plugin 'escaped'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.escaped)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.escaped",
+     "short_description": "Check if the value is escaped."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.even": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return true if the variable is even.",
+      "",
+      "This is the Jinja builtin test plugin 'even'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.even)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.even",
+     "short_description": "Return true if the variable is even."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.exists": {
     "doc": {
@@ -25081,6 +26300,23 @@
      }
     }
    },
+   "ansible.builtin.false": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return true if the object is False.",
+      "",
+      "This is the Jinja builtin test plugin 'false'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.false)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.false",
+     "short_description": "Return true if the object is False."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
    "ansible.builtin.falsy": {
     "doc": {
      "author": "Ansible Core",
@@ -25149,13 +26385,30 @@
      }
     }
    },
+   "ansible.builtin.filter": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Check if a filter exists by name.",
+      "",
+      "This is the Jinja builtin test plugin 'filter'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.filter)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.filter",
+     "short_description": "Check if a filter exists by name."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
    "ansible.builtin.finished": {
     "doc": {
      "author": "Ansible Core",
      "collection": "ansible.builtin",
      "description": [
       "Used to test if an async task has finished, it will also work with normal tasks but will issue a warning.",
-      "This test checks for the existence of a C(finished) key in the input dictionary and that it is V(1) if present"
+      "This test checks for the existence of a C(finished) key in the input dictionary and that it is V(True) if present"
      ],
      "filename": "/ansible/plugins/test/finished.yml",
      "name": "finished",
@@ -25179,6 +26432,108 @@
       "type": "boolean"
      }
     }
+   },
+   "ansible.builtin.float": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return true if the object is a float.",
+      "",
+      "This is the Jinja builtin test plugin 'float'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.float)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.float",
+     "short_description": "Return true if the object is a float."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.ge": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Same as a >= b.",
+      "",
+      "This is the Jinja builtin test plugin 'ge'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.ge)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.ge",
+     "short_description": "Same as a >= b."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.greaterthan": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Same as a > b.",
+      "",
+      "This is the Jinja builtin test plugin 'greaterthan'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.greaterthan)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.greaterthan",
+     "short_description": "Same as a > b."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.gt": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Same as a > b.",
+      "",
+      "This is the Jinja builtin test plugin 'gt'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.gt)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.gt",
+     "short_description": "Same as a > b."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.in": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Check if value is in seq.",
+      "",
+      "This is the Jinja builtin test plugin 'in'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.in)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.in",
+     "short_description": "Check if value is in seq."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.integer": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return true if the object is an integer.",
+      "",
+      "This is the Jinja builtin test plugin 'integer'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.integer)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.integer",
+     "short_description": "Return true if the object is an integer."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.is_abs": {
     "doc": {
@@ -25488,6 +26843,57 @@
      }
     }
    },
+   "ansible.builtin.iterable": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Check if it's possible to iterate over an object.",
+      "",
+      "This is the Jinja builtin test plugin 'iterable'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.iterable)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.iterable",
+     "short_description": "Check if it's possible to iterate over an object."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.le": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Same as a <= b.",
+      "",
+      "This is the Jinja builtin test plugin 'le'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.le)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.le",
+     "short_description": "Same as a <= b."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.lessthan": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Same as a < b.",
+      "",
+      "This is the Jinja builtin test plugin 'lessthan'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.lessthan)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.lessthan",
+     "short_description": "Same as a < b."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
    "ansible.builtin.link": {
     "doc": {
      "aliases": [
@@ -25549,6 +26955,57 @@
       "type": "boolean"
      }
     }
+   },
+   "ansible.builtin.lower": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return true if the variable is lowercased.",
+      "",
+      "This is the Jinja builtin test plugin 'lower'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.lower)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.lower",
+     "short_description": "Return true if the variable is lowercased."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.lt": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Same as a < b.",
+      "",
+      "This is the Jinja builtin test plugin 'lt'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.lt)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.lt",
+     "short_description": "Same as a < b."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.mapping": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return true if the object is a mapping.",
+      "",
+      "This is the Jinja builtin test plugin 'mapping'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.mapping)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.mapping",
+     "short_description": "Return true if the object is a mapping."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.match": {
     "doc": {
@@ -25657,6 +27114,74 @@
       "type": "boolean"
      }
     }
+   },
+   "ansible.builtin.ne": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Same as a .",
+      "",
+      "This is the Jinja builtin test plugin 'ne'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.ne)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.ne",
+     "short_description": "Same as a ."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.none": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return true if the variable is none.",
+      "",
+      "This is the Jinja builtin test plugin 'none'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.none)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.none",
+     "short_description": "Return true if the variable is none."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.number": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return true if the variable is a number.",
+      "",
+      "This is the Jinja builtin test plugin 'number'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.number)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.number",
+     "short_description": "Return true if the variable is a number."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
+   "ansible.builtin.odd": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return true if the variable is odd.",
+      "",
+      "This is the Jinja builtin test plugin 'odd'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.odd)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.odd",
+     "short_description": "Return true if the variable is odd."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.reachable": {
     "doc": {
@@ -25777,6 +27302,23 @@
      }
     }
    },
+   "ansible.builtin.sameas": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Check if an object points to the same memory address than another object.",
+      "",
+      "This is the Jinja builtin test plugin 'sameas'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.sameas)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.sameas",
+     "short_description": "Check if an object points to the same memory address than another object."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
    "ansible.builtin.search": {
     "doc": {
      "author": "Ansible Core",
@@ -25819,6 +27361,23 @@
       "type": "boolean"
      }
     }
+   },
+   "ansible.builtin.sequence": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return true if the variable is a sequence.",
+      "",
+      "This is the Jinja builtin test plugin 'sequence'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.sequence)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.sequence",
+     "short_description": "Return true if the variable is a sequence."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.skip": {
     "doc": {
@@ -25918,6 +27477,23 @@
       "type": "boolean"
      }
     }
+   },
+   "ansible.builtin.string": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return true if the object is a string.",
+      "",
+      "This is the Jinja builtin test plugin 'string'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.string)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.string",
+     "short_description": "Return true if the object is a string."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.subset": {
     "doc": {
@@ -26104,6 +27680,23 @@
      }
     }
    },
+   "ansible.builtin.test": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Check if a test exists by name.",
+      "",
+      "This is the Jinja builtin test plugin 'test'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.test)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.test",
+     "short_description": "Check if a test exists by name."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
    "ansible.builtin.timedout": {
     "doc": {
      "author": "Ansible Core",
@@ -26133,6 +27726,23 @@
       "type": "dict"
      }
     }
+   },
+   "ansible.builtin.true": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return true if the object is True.",
+      "",
+      "This is the Jinja builtin test plugin 'true'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.true)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.true",
+     "short_description": "Return true if the object is True."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.truthy": {
     "doc": {
@@ -26170,6 +27780,23 @@
      }
     }
    },
+   "ansible.builtin.undefined": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Like :func:`defined` but the other way round.",
+      "",
+      "This is the Jinja builtin test plugin 'undefined'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.undefined)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.undefined",
+     "short_description": "Like :func:`defined` but the other way round."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
+   },
    "ansible.builtin.unreachable": {
     "doc": {
      "author": "Ansible Core",
@@ -26200,6 +27827,23 @@
       "type": "boolean"
      }
     }
+   },
+   "ansible.builtin.upper": {
+    "doc": {
+     "collection": "ansible.builtin",
+     "description": [
+      "Return true if the variable is uppercased.",
+      "",
+      "This is the Jinja builtin test plugin 'upper'.",
+      "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.upper)"
+     ],
+     "filename": "",
+     "plugin_name": "ansible.builtin.upper",
+     "short_description": "Return true if the variable is uppercased."
+    },
+    "examples": null,
+    "metadata": null,
+    "return": null
    },
    "ansible.builtin.uri": {
     "doc": {

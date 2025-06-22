@@ -561,7 +561,7 @@
      "Task",
      "Handler"
     ],
-    "description": "A boolean that controls if a task is executed in 'check' mode. See :ref:`check_mode_dry`.",
+    "description": "A boolean that controls if a task is run normally or avoids changes to the target and tries to report what it would have done (check mode/dry run). See :ref:`check_mode_dry`.",
     "priority": 0,
     "template": "explicit",
     "type": "bool"

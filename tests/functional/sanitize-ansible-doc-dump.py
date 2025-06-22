@@ -26,7 +26,7 @@ for plugin_type, plugins in data["all"].items():
                 if doc_key not in doc:
                     continue
                 doc = doc[doc_key]
-            if key in doc:
+            if doc.get(key):
                 rel_root = os.path.relpath(doc[key], root)
                 rel_ansible = os.path.relpath(doc[key], ansible_root)
                 if not rel_root.startswith(".") or rel_root.startswith(
