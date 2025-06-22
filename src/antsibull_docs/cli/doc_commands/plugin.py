@@ -94,7 +94,9 @@ def generate_plugin_docs(
     flog.debug("Finished parsing info from plugin")
 
     try:
-        plugin_info, errors = normalize_plugin_info(plugin_type, plugin_info)
+        plugin_info, errors = normalize_plugin_info(
+            plugin_name, plugin_type, plugin_info
+        )
     except ValueError as exc:
         print("Cannot parse documentation:")
         print(str(exc))
