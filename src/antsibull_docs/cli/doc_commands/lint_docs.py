@@ -18,7 +18,7 @@ from ...collection_links import lint_collection_links
 from ...jinja2.environment import OutputFormat
 from ...lint_collection_names import CollectionNameLinter
 from ...lint_extra_docs import lint_collection_extra_docs_files
-from ...lint_plugin_docs import lint_core_plugin_docs, lint_plugin_docs
+from ...lint_plugin_docs import lint_plugin_docs
 from ...schemas.app_context import (
     DEFAULT_COLLECTION_INSTALL_CMD,
     DEFAULT_COLLECTION_URL_TRANSFORM,
@@ -188,11 +188,34 @@ def lint_core_docs() -> int:
         app_ctx.collection_install,
         DEFAULT_COLLECTION_INSTALL_CMD,
     )
-    errors = lint_core_plugin_docs(
+
+    (
+        name_collection,
+        new_plugin_info,
+        nonfatal_errors,
+        collection_to_plugin_info,
+        collection_metadata,
+    ) = collect_names(
+        collection_name="ansible.builtin",
+        collections_dir=None,
+        dependencies=["ansible.builtin"],
+        validate_collections_refs=validate_collections_refs,
+    )
+    errors = lint_plugin_docs(
+        name_collection=name_collection,
+        new_plugin_info=new_plugin_info,
+        nonfatal_errors=nonfatal_errors,
+        collection_to_plugin_info=collection_to_plugin_info,
+        collection_metadata=collection_metadata,
+        collection_name="ansible.builtin",
+        original_path_to_collection=None,
         collection_url=collection_url,
         collection_install=collection_install,
         validate_collections_refs=validate_collections_refs,
         disallow_unknown_collection_refs=disallow_unknown_collection_refs,
+        skip_rstcheck=True,
+        disallow_semantic_markup=False,
+        output_format=OutputFormat.ANSIBLE_DOCSITE,
     )
 
     messages = sorted(

@@ -29,15 +29,10 @@ from .plugin_docs import walk_plugin_docs_texts
 from .process_docs import PluginErrorsRT
 from .rstcheck import check_rst_content
 from .schemas.collection_links import CollectionLinks
-from .utils.collection_copier import (
-    CollectionLoadError,
-    load_collection_infos,
-)
 from .utils.collection_name_transformer import CollectionNameTransformer
 from .utils.collection_names import (
     NameCollection,
     ValidCollectionRefs,
-    collect_names,
 )
 from .write_docs import BasicPluginInfo, PluginErrorsT
 from .write_docs.plugins import (
@@ -482,102 +477,4 @@ def lint_plugin_docs(
                     skip_rstcheck=skip_rstcheck,
                     validate_collections_refs=validate_collections_refs,
                 )
-    return result
-
-
-def lint_collection_plugin_docs(
-    *,
-    path_to_collection: str,
-    collection_url: CollectionNameTransformer,
-    collection_install: CollectionNameTransformer,
-    validate_collections_refs: ValidCollectionRefs = "self",
-    disallow_unknown_collection_refs: bool = False,
-    skip_rstcheck: bool = False,
-    disallow_semantic_markup: bool = False,
-    output_format: OutputFormat = OutputFormat.ANSIBLE_DOCSITE,
-) -> list[tuple[str, int, int, str]]:
-    try:
-        with load_collection_infos(
-            path_to_collection=path_to_collection,
-            copy_dependencies=validate_collections_refs != "all",
-        ) as (
-            collection_name,
-            collections_dir,
-            dependencies,
-            errors,
-        ):
-            result = []
-            for error in errors:
-                result.append((error.path, 0, 0, error.error))
-
-            (
-                name_collection,
-                new_plugin_info,
-                nonfatal_errors,
-                collection_to_plugin_info,
-                collection_metadata,
-            ) = collect_names(
-                collection_name=collection_name,
-                collections_dir=collections_dir,
-                dependencies=dependencies,
-                validate_collections_refs=validate_collections_refs,
-            )
-            result.extend(
-                lint_plugin_docs(
-                    name_collection=name_collection,
-                    new_plugin_info=new_plugin_info,
-                    nonfatal_errors=nonfatal_errors,
-                    collection_to_plugin_info=collection_to_plugin_info,
-                    collection_metadata=collection_metadata,
-                    collection_name=collection_name,
-                    original_path_to_collection=path_to_collection,
-                    collection_url=collection_url,
-                    collection_install=collection_install,
-                    validate_collections_refs=validate_collections_refs,
-                    disallow_unknown_collection_refs=disallow_unknown_collection_refs,
-                    skip_rstcheck=skip_rstcheck,
-                    disallow_semantic_markup=disallow_semantic_markup,
-                    output_format=output_format,
-                )
-            )
-            return result
-    except CollectionLoadError as exc:
-        return [(exc.path, 0, 0, exc.error)]
-
-
-def lint_core_plugin_docs(
-    *,
-    collection_url: CollectionNameTransformer,
-    collection_install: CollectionNameTransformer,
-    validate_collections_refs: ValidCollectionRefs = "self",
-    disallow_unknown_collection_refs: bool = False,
-) -> list[tuple[str, int, int, str]]:
-    (
-        name_collection,
-        new_plugin_info,
-        nonfatal_errors,
-        collection_to_plugin_info,
-        collection_metadata,
-    ) = collect_names(
-        collection_name="ansible.builtin",
-        collections_dir=None,
-        dependencies=["ansible.builtin"],
-        validate_collections_refs=validate_collections_refs,
-    )
-    result = lint_plugin_docs(
-        name_collection=name_collection,
-        new_plugin_info=new_plugin_info,
-        nonfatal_errors=nonfatal_errors,
-        collection_to_plugin_info=collection_to_plugin_info,
-        collection_metadata=collection_metadata,
-        collection_name="ansible.builtin",
-        original_path_to_collection=None,
-        collection_url=collection_url,
-        collection_install=collection_install,
-        validate_collections_refs=validate_collections_refs,
-        disallow_unknown_collection_refs=disallow_unknown_collection_refs,
-        skip_rstcheck=True,
-        disallow_semantic_markup=False,
-        output_format=OutputFormat.ANSIBLE_DOCSITE,
-    )
     return result
