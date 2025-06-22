@@ -5,10 +5,11 @@
 
 from __future__ import annotations
 
-import ansible
 import json
 import os
 import sys
+
+import ansible
 
 root = os.path.join(os.getcwd(), "collections")
 ansible_root = os.path.dirname(ansible.__file__)
