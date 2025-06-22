@@ -114,7 +114,7 @@ jobs:
       - name: Patch build.sh to supply code coverage
         run: |
           sed -i build.sh -e 's!antsibull-docs !coverage run -p --source antsibull_docs -m antsibull_docs.cli.antsibull_docs !g'
-          sed -i build.sh -e 's!sphinx-build !coverage run -p --source antsibull_docs --source sphinx_antsibull_ext -m sphinx.cmd.build !g'
+          sed -i build.sh -e 's!sphinx-build !coverage run -p --source antsibull_docs,sphinx_antsibull_ext -m sphinx.cmd.build !g'
           cat build.sh
         working-directory: antsibull-docs
 
@@ -140,10 +140,10 @@ jobs:
 
       - name: Lint collection docs
         run: |
-          coverage run -p --source antsibull_docs --source sphinx_antsibull_ext -m antsibull_docs.cli.antsibull_docs lint-collection-docs ~/.ansible/collections/ansible_collections/community/docker --plugin-docs --no-skip-rstcheck --no-check-extra-docs-refs
-          coverage run -p --source antsibull_docs --source sphinx_antsibull_ext -m antsibull_docs.cli.antsibull_docs lint-collection-docs ~/.ansible/collections/ansible_collections/community/crypto --no-plugin-docs --no-check-extra-docs-refs
-          coverage run -p --source antsibull_docs --source sphinx_antsibull_ext -m antsibull_docs.cli.antsibull_docs lint-collection-docs ~/.ansible/collections/ansible_collections/community/sops --plugin-docs --check-extra-docs-refs --skip-rstcheck
-          coverage run -p --source antsibull_docs --source sphinx_antsibull_ext -m antsibull_docs.cli.antsibull_docs lint-collection-docs ~/.ansible/collections/ansible_collections/community/sops --no-plugin-docs --check-extra-docs-refs
+          coverage run -p --source antsibull_docs,sphinx_antsibull_ext -m antsibull_docs.cli.antsibull_docs lint-collection-docs ~/.ansible/collections/ansible_collections/community/docker --plugin-docs --no-skip-rstcheck --no-check-extra-docs-refs
+          coverage run -p --source antsibull_docs,sphinx_antsibull_ext -m antsibull_docs.cli.antsibull_docs lint-collection-docs ~/.ansible/collections/ansible_collections/community/crypto --no-plugin-docs --no-check-extra-docs-refs
+          coverage run -p --source antsibull_docs,sphinx_antsibull_ext -m antsibull_docs.cli.antsibull_docs lint-collection-docs ~/.ansible/collections/ansible_collections/community/sops --plugin-docs --check-extra-docs-refs --skip-rstcheck
+          coverage run -p --source antsibull_docs,sphinx_antsibull_ext -m antsibull_docs.cli.antsibull_docs lint-collection-docs ~/.ansible/collections/ansible_collections/community/sops --no-plugin-docs --check-extra-docs-refs
         working-directory: antsibull-docs
         if: contains(matrix.options, '--use-current')
 
