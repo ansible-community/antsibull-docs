@@ -1,3 +1,3 @@
 minor_changes:
   - "The ``lint-collection-docs``'s option ``--plugin-docs`` now also checks role entrypoints for existence (https://github.com/ansible-community/antsibull-docs/pull/392)."
-  - "The ``lint-collection-docs`` subcommand has a new otpion ``--check-extra-docs-refs`` that checks references to collections in extra documentation files (``docs/docsite/rst``) (https://github.com/ansible-community/antsibull-docs/pull/392)."
+  - "The ``lint-collection-docs`` subcommand has a new option ``--check-extra-docs-refs`` that checks references to collections in extra documentation files (``docs/docsite/rst``) (https://github.com/ansible-community/antsibull-docs/pull/392)."
