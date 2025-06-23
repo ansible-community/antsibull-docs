@@ -16,6 +16,7 @@ To use it in a playbook, specify: :code:`ns2.col.foo`.
    :local:
    :depth: 2
 
+.. _ansible_collections.ns2.col.foo_role__entrypoint-main:
 
 Entry point ``main`` -- Foo role
 --------------------------------

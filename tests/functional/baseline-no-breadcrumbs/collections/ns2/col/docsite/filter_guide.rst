@@ -12,10 +12,10 @@ Filter Guide
    :local:
    :depth: 1
 
-The :ref:`ns2.col collection <plugins_in_ns2.col>` offers two filters.
+The :anscollection:`ns2.col collection <ns2.col>` offers :anscollection:`two filters <ns2.col#plugins-filter>`.
 
-- ``ns2.col.foo``: foo!
-- ``ns2.col.bar``: bar!
+- :ansplugin:`ns2.col.foo#filter`: foo! (Note its :ansopt:`ns2.col.foo#filter:foo[]` option, and try :ansopt:`ns2.col.foo#filter:bar=baz`.)
+- :ansplugin:`ns2.col.bar#filter`: bar! (Its return value is :ansretval:`ns2.col.bar#filter:_value`.)
 
 .. envvar:: FOOBAR1
 
@@ -28,3 +28,31 @@ The :ref:`ns2.col collection <plugins_in_ns2.col>` offers two filters.
 .. envvar:: FOOBAR3
 
     This is a third environment variable.
+
+.. note::
+  Also check out the :ansplugin:`ns2.col.foo role <ns2.col.foo#role>` with its :ansplugin:`main <ns2.col.foo#role:main>` entrypoint.
+
+Errors
+------
+
+:anscollection:`does.not_exist`
+
+:anscollection:`ns2.col#foobar`
+
+:anscollection:`ns.col1#plugins-filter`
+
+:anscollection:`ns2.col#plugins-foo`
+
+:ansplugin:`ns2.col.does_not_exist#filter`
+
+:ansplugin:`ns2.col.foo#asdf`
+
+:ansplugin:`ns2.col.foo#filter:boo`
+
+:ansplugin:`ns2.col.foo#role:boo`
+
+:ansopt:`ns2.col.foo#role:main:does_not_exist`
+
+:ansopt:`ns2.col.foo#role:does_not_exist:neither`
+
+:ansopt:`ns2.col.foo#role:does_not_exist`

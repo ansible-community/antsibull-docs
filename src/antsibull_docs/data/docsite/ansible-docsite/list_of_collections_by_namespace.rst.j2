@@ -29,7 +29,7 @@ These are the collections documented here in the **@{ namespace }@** namespace.
 {% endif %}
 
 {% for name in collections | sort %}
-* :ref:`@{ namespace }@.@{ name }@ <plugins_in_@{ namespace }@.@{ name }@>` @{ collection_deprecation_marker(collection_metadata[namespace ~ '.' ~ name]) }@
+* :anscollection:`@{ namespace }@.@{ name }@ <@{namespace}@.@{name}@>` @{ collection_deprecation_marker(collection_metadata[namespace ~ '.' ~ name]) }@
 {% else %}
 There is no collection in this namespace.
 {% endfor %}

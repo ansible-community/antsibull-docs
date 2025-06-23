@@ -18,11 +18,13 @@ from sphinx import addnodes
 from sphinx.util import logging
 
 from antsibull_docs.markup.semantic_helper import (
+    parse_collection_name,
     parse_option,
     parse_plugin_name,
     parse_return_value,
 )
 from antsibull_docs.rst_labels import (
+    get_collection_ref,
     get_option_ref,
     get_plugin_ref,
     get_return_value_ref,
@@ -260,7 +262,7 @@ def plugin_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
     target, title = extract_explicit_title(text)
 
     try:
-        plugin_fqcn, plugin_type = parse_plugin_name(target)
+        plugin_fqcn, plugin_type, entrypoint = parse_plugin_name(target)
     except ValueError as exc:
         return _create_error(rawtext, text, str(exc))
 
@@ -276,7 +278,47 @@ def plugin_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
     refnode = addnodes.pending_xref(
         plugin_fqcn, nodes.inline(rawtext, title), **options
     )
-    refnode["reftarget"] = get_plugin_ref(plugin_fqcn, plugin_type)
+    refnode["reftarget"] = get_plugin_ref(plugin_fqcn, plugin_type, entrypoint)
+
+    return [refnode], []
+
+
+# pylint:disable-next=unused-argument,dangerous-default-value
+def collection_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    """Format Ansible collection.
+
+    Returns 2 part tuple containing list of nodes to insert into the
+    document and a list of system messages.  Both are allowed to be
+    empty.
+
+    :param name: The role name used in the document.
+    :param rawtext: The entire markup snippet, with role.
+    :param text: The text marked with the role.
+    :param lineno: The line number where rawtext appears in the input.
+    :param inliner: The inliner instance that called us.
+    :param options: Directive options for customization.
+    :param content: The directive content for customization.
+    """
+    target, title = extract_explicit_title(text)
+
+    try:
+        collection_name, what = parse_collection_name(target)
+    except ValueError as exc:
+        return _create_error(rawtext, text, str(exc))
+
+    if title is None:
+        title = collection_name
+
+    options = {
+        "reftype": "ref",
+        "refdomain": "std",
+        "refexplicit": True,
+        "refwarn": True,
+    }
+    refnode = addnodes.pending_xref(
+        collection_name, nodes.inline(rawtext, title), **options
+    )
+    refnode["reftarget"] = get_collection_ref(collection_name, what)
 
     return [refnode], []
 
@@ -363,6 +405,7 @@ ROLES = {
     "ansenvvar": environment_variable,
     "ansenvvarref": environment_variable_reference,
     "ansplugin": plugin_role,
+    "anscollection": collection_role,
     "ansdeprecatedmarker": deprecated_marker,
 }
 

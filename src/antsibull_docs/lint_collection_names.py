@@ -52,6 +52,23 @@ class CollectionNameLinter:
         self._validate_collections_refs = validate_collections_refs
         self._disallow_unknown_collection_refs = disallow_unknown_collection_refs
 
+    def validate_collection_name(self, collection_name: str) -> list[str]:
+        if self._validate_collections_refs == "self":
+            if f"{collection_name}." == self._collection_name_prefix:
+                return []
+        else:
+            if self._name_collection.is_valid_collection(f"{collection_name}."):
+                return []
+        if self._disallow_unknown_collection_refs:
+            return [f"a reference to the collection {collection_name} is not allowed"]
+        return []
+
+    def has_plugins_of_type(self, collection_name: str, plugin_type: str) -> bool:
+        if self._name_collection.is_valid_collection(f"{collection_name}."):
+            return self._name_collection.has_plugins(collection_name, plugin_type)
+        # In case we don't know, simply say "yes"
+        return True
+
     def _report_disallowed_collection(
         self, errors: list[str], plugin_fqcn: str
     ) -> None:
@@ -65,17 +82,19 @@ class CollectionNameLinter:
                 if self._disallow_unknown_collection_refs:
                     self._report_disallowed_collection(errors, plugin.plugin_fqcn)
                 return False
-        if (
-            plugin.plugin_type == "role"
-            and plugin.role_entrypoint is not None
-            and self._name_collection.is_valid_role_entrypoint(
-                plugin.plugin_fqcn, plugin.role_entrypoint
-            )
-        ):
-            return True
         if self._name_collection.is_valid_plugin(
             plugin.plugin_fqcn, plugin.plugin_type
         ):
+            if (
+                plugin.plugin_type == "role"
+                and plugin.role_entrypoint is not None
+                and not self._name_collection.is_valid_role_entrypoint(
+                    plugin.plugin_fqcn, plugin.role_entrypoint
+                )
+            ):
+                errors.append(
+                    f"the role {plugin.plugin_fqcn} has no entrypoint {plugin.role_entrypoint}"
+                )
             return True
         if self._name_collection.is_valid_collection(plugin.plugin_fqcn):
             prefix = "" if plugin.plugin_type in ("role", "module") else " plugin"

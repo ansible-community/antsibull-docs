@@ -1,0 +1,8 @@
+minor_changes:
+  - |-
+    Extend ``\:ansplugin\:`` role to allow referencing role entrypoints. The syntax is ``\:ansplugin\:\`namespace.name.role_name#entrypoint\```
+    (https://github.com/ansible-community/antsibull-docs/pull/393).
+  - |-
+    Add ``\:anscollection\:`` role to allow referencing collections. The syntax is ``\:anscollection\:\`namespace.name\```, or
+    ``\:anscollection\:\`namespace.name#what\``` for more specific parts of the index page
+    (https://github.com/ansible-community/antsibull-docs/pull/393).

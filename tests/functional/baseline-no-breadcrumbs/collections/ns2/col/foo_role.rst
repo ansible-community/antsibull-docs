@@ -34,6 +34,7 @@ ns2.col.foo role -- Foo role
    :local:
    :depth: 2
 
+.. _ansible_collections.ns2.col.foo_role__entrypoint-main:
 
 .. Entry point title
 

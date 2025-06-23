@@ -8,7 +8,7 @@ Collections in the Ns2 Namespace
 
 These are the collections documented here in the **ns2** namespace.
 
-* :ref:`ns2.col <plugins_in_ns2.col>`
+* :anscollection:`ns2.col <ns2.col>`
 
 .. toctree::
     :maxdepth: 1

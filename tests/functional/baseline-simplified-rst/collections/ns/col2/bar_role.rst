@@ -16,6 +16,7 @@ To use it in a playbook, specify: :code:`ns.col2.bar`.
    :local:
    :depth: 2
 
+.. _ansible_collections.ns.col2.bar_role__entrypoint-baz:
 
 Entry point ``baz`` -- Bar role, baz entrypoint テストロール
 ------------------------------------------------------------
@@ -41,6 +42,7 @@ Examples
 
 
 
+.. _ansible_collections.ns.col2.bar_role__entrypoint-main:
 
 Entry point ``main`` -- Bar role
 --------------------------------

@@ -33,6 +33,7 @@ ns.col2.bar role -- Bar role
    :local:
    :depth: 2
 
+.. _ansible_collections.ns.col2.bar_role__entrypoint-baz:
 
 .. Entry point title
 
@@ -76,6 +77,7 @@ Examples
 
 
 
+.. _ansible_collections.ns.col2.bar_role__entrypoint-main:
 
 .. Entry point title
 

@@ -31,11 +31,14 @@ Description
 .. toctree::
     :maxdepth: 1
 
+.. _plugin_index_for_ns.col2:
+
 Plugin Index
 ------------
 
 These are the plugins in the ns.col2 collection:
 
+.. _module_plugins_in_ns.col2:
 
 Modules
 ~~~~~~~
@@ -56,6 +59,7 @@ Modules
     foo3_module
     foo4_module
 
+.. _become_plugins_in_ns.col2:
 
 Become Plugins
 ~~~~~~~~~~~~~~
@@ -68,6 +72,7 @@ Become Plugins
 
     extra_become
 
+.. _cache_plugins_in_ns.col2:
 
 Cache Plugins
 ~~~~~~~~~~~~~
@@ -80,6 +85,7 @@ Cache Plugins
 
     extra_cache
 
+.. _callback_plugins_in_ns.col2:
 
 Callback Plugins
 ~~~~~~~~~~~~~~~~
@@ -92,6 +98,7 @@ Callback Plugins
 
     extra_callback
 
+.. _cliconf_plugins_in_ns.col2:
 
 Cliconf Plugins
 ~~~~~~~~~~~~~~~
@@ -104,6 +111,7 @@ Cliconf Plugins
 
     extra_cliconf
 
+.. _connection_plugins_in_ns.col2:
 
 Connection Plugins
 ~~~~~~~~~~~~~~~~~~
@@ -116,6 +124,7 @@ Connection Plugins
 
     extra_connection
 
+.. _filter_plugins_in_ns.col2:
 
 Filter Plugins
 ~~~~~~~~~~~~~~
@@ -128,6 +137,7 @@ Filter Plugins
 
     extra_filter
 
+.. _inventory_plugins_in_ns.col2:
 
 Inventory Plugins
 ~~~~~~~~~~~~~~~~~
@@ -140,6 +150,7 @@ Inventory Plugins
 
     extra_inventory
 
+.. _lookup_plugins_in_ns.col2:
 
 Lookup Plugins
 ~~~~~~~~~~~~~~
@@ -152,6 +163,7 @@ Lookup Plugins
 
     extra_lookup
 
+.. _shell_plugins_in_ns.col2:
 
 Shell Plugins
 ~~~~~~~~~~~~~
@@ -164,6 +176,7 @@ Shell Plugins
 
     extra_shell
 
+.. _strategy_plugins_in_ns.col2:
 
 Strategy Plugins
 ~~~~~~~~~~~~~~~~
@@ -176,6 +189,7 @@ Strategy Plugins
 
     extra_strategy
 
+.. _test_plugins_in_ns.col2:
 
 Test Plugins
 ~~~~~~~~~~~~
@@ -188,6 +202,7 @@ Test Plugins
 
     extra_test
 
+.. _vars_plugins_in_ns.col2:
 
 Vars Plugins
 ~~~~~~~~~~~~
@@ -200,6 +215,8 @@ Vars Plugins
 
     extra_vars
 
+
+.. _role_plugins_in_ns.col2:
 
 Role Index
 ----------

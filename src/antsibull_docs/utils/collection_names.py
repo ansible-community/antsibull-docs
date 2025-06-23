@@ -190,6 +190,13 @@ class NameCollection:
             plugin_fqcn.startswith(prefix) for prefix in self._collection_prefixes
         )
 
+    def has_plugins(self, collection_name: str, plugin_type: str) -> bool:
+        collection_prefix = f"{collection_name}."
+        return any(
+            a_plugin_type == plugin_type and a_plugin_fqcn.startswith(collection_prefix)
+            for a_plugin_fqcn, a_plugin_type in self._plugins
+        )
+
     def is_valid_plugin(self, plugin_fqcn: str, plugin_type: str) -> bool:
         return (
             self._resolve_plugin_fqcn(plugin_fqcn, plugin_type),

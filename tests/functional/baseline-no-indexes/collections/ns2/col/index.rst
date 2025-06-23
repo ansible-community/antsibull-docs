@@ -59,6 +59,8 @@ Communication
 .. toctree::
     :maxdepth: 1
 
+.. _changelog_section_for_ns2.col:
+
 Changelog
 ---------
 
@@ -75,11 +77,14 @@ Guides
 
     docsite/filter_guide
 
+.. _plugin_index_for_ns2.col:
+
 Plugin Index
 ------------
 
 These are the plugins in the ns2.col collection:
 
+.. _module_plugins_in_ns2.col:
 
 Modules
 ~~~~~~~
@@ -96,6 +101,7 @@ Modules
     foo2_module
     sub.foo3_module
 
+.. _become_plugins_in_ns2.col:
 
 Become Plugins
 ~~~~~~~~~~~~~~
@@ -108,6 +114,7 @@ Become Plugins
 
     foo_become
 
+.. _cache_plugins_in_ns2.col:
 
 Cache Plugins
 ~~~~~~~~~~~~~
@@ -120,6 +127,7 @@ Cache Plugins
 
     foo_cache
 
+.. _callback_plugins_in_ns2.col:
 
 Callback Plugins
 ~~~~~~~~~~~~~~~~
@@ -132,6 +140,7 @@ Callback Plugins
 
     foo_callback
 
+.. _cliconf_plugins_in_ns2.col:
 
 Cliconf Plugins
 ~~~~~~~~~~~~~~~
@@ -144,6 +153,7 @@ Cliconf Plugins
 
     foo_cliconf
 
+.. _connection_plugins_in_ns2.col:
 
 Connection Plugins
 ~~~~~~~~~~~~~~~~~~
@@ -156,6 +166,7 @@ Connection Plugins
 
     foo_connection
 
+.. _filter_plugins_in_ns2.col:
 
 Filter Plugins
 ~~~~~~~~~~~~~~
@@ -170,6 +181,7 @@ Filter Plugins
     bar_filter
     foo_filter
 
+.. _inventory_plugins_in_ns2.col:
 
 Inventory Plugins
 ~~~~~~~~~~~~~~~~~
@@ -182,6 +194,7 @@ Inventory Plugins
 
     foo_inventory
 
+.. _lookup_plugins_in_ns2.col:
 
 Lookup Plugins
 ~~~~~~~~~~~~~~
@@ -194,6 +207,7 @@ Lookup Plugins
 
     foo_lookup
 
+.. _shell_plugins_in_ns2.col:
 
 Shell Plugins
 ~~~~~~~~~~~~~
@@ -206,6 +220,7 @@ Shell Plugins
 
     foo_shell
 
+.. _strategy_plugins_in_ns2.col:
 
 Strategy Plugins
 ~~~~~~~~~~~~~~~~
@@ -218,6 +233,7 @@ Strategy Plugins
 
     foo_strategy
 
+.. _test_plugins_in_ns2.col:
 
 Test Plugins
 ~~~~~~~~~~~~
@@ -232,6 +248,7 @@ Test Plugins
     bar_test
     foo_test
 
+.. _vars_plugins_in_ns2.col:
 
 Vars Plugins
 ~~~~~~~~~~~~
@@ -244,6 +261,8 @@ Vars Plugins
 
     foo_vars
 
+
+.. _role_plugins_in_ns2.col:
 
 Role Index
 ----------

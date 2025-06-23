@@ -33,7 +33,7 @@
 {%   endif %}
 {% endmacro %}
 
-.. _plugins_in_@{collection_name}@:
+.. _@{rst_collection_ref(collection_name, "collection")}@:
 
 @{collection_name.title()}@
 @{ '=' * (collection_name | column_width) }@
@@ -79,7 +79,7 @@ Description
 {% if not collection_communication.empty %}
 .. Communication
 
-.. _communication_for_@{collection_name}@:
+.. _@{rst_collection_ref(collection_name, "communication")}@:
 
 Communication
 -------------
@@ -110,6 +110,8 @@ Communication
     :maxdepth: 1
 
 {% if has_changelog %}
+.. _@{rst_collection_ref(collection_name, "changelog-section")}@:
+
 Changelog
 ---------
 
@@ -137,6 +139,8 @@ Changelog
 {%   endif %}
 
 {% endfor %}
+.. _@{rst_collection_ref(collection_name, "plugin-index")}@:
+
 Plugin Index
 ------------
 
@@ -147,6 +151,7 @@ There are no plugins in the @{collection_name}@ collection with automatically ge
 {% endif %}
 
 {% for category in plugin_maps | reject('eq', 'role') | sort | move_first('module') %}
+.. _@{rst_collection_ref(collection_name, "plugins-" ~ category)}@:
 
 {%   if category == 'module' %}
 Modules
@@ -160,6 +165,8 @@ Modules
 {% endfor %}
 
 {% if 'role' in plugin_maps %}
+.. _@{rst_collection_ref(collection_name, "plugins-role")}@:
+
 Role Index
 ----------
 
