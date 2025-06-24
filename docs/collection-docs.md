@@ -69,19 +69,32 @@ $ antsibull-docs lint-collection-docs --plugin-docs .
 This subcommand has multiple options which allow to control validation. The most important options are:
 
 * `--plugin-docs`: whether to validate schemas and markup of modules, plugins, and roles included in the collection. By default, this is not run (for backwards compatibility). We recommend to always specify this.
-* `--validate-collection-refs {self,dependent,all}`: Specify how to validate inter-plugin/module/role and inter-collection references in plugin/module/role documentation. This covers Ansible markup, like `M(foo.bar.baz)` or `O(foo.bar.baz#module:parameter=value)`, and other links such as `seealso` sections. If set to `self`, only references to the same collection are validated. If set to `dependent`, only references to the collection itself and collections it (transitively) depends on are validated, including references to ansible-core (as `ansible.builtin`). If set to `all`, all references to other collections are validated.
+* `--check-extra-docs-refs`: whether references in `:anscollection:`, `:ansplugin`, `:ansopt:`, `:ansretval:` roles used in extra documentation should be checked.
+* `--validate-collection-refs {self,dependent,all}`: Specify how to validate inter-plugin/module/role and inter-collection references in plugin/module/role documentation (if `--plugin-docs` is specified) and extra docs (if `--check-extra-docs-refs` is specified`). This covers Ansible markup, like `M(foo.bar.baz)` or `O(foo.bar.baz#module:parameter=value)`, and other links such as `seealso` sections. If set to `self`, only references to the same collection are validated. If set to `dependent`, only references to the collection itself and collections it (transitively) depends on are validated, including references to ansible-core (as `ansible.builtin`). If set to `all`, all references to other collections are validated.
 
     If collections are referenced that are not installed and that are in scope, references to them will not be reported. Reporting these can be enabled by specifying `--disallow-unknown-collection-refs`.
 
 * `--skip-rstcheck`: by default, when specifying `--plugin-docs`, antsibull-docs generates RST documentation for module/plugin/role docs and runs [`rstcheck`](https://rstcheck.readthedocs.io/) on these. This step is usually not necessary, since it will mostly point out errors in antsibull-docs' RST generation code, and will slow down linting especially for large collections.
 * `--disallow-semantic-markup`: If you want to avoid semantic markup in Ansible markup, for example for collections whose documentation must render OK with older versions of ansible-doc or Automation Hub, you can use this parameter to make antsibull-docs report all markup that is not supported. Semantic markup is supported by ansible-doc since ansible-core 2.15.0.
 
-The most extensive validation is achieved by running the following command:
-```console
-$ antsibull-docs lint-collection-docs --plugin-docs --skip-rstcheck \
-                                      --validate-collection-refs=all \
-                                      --disallow-unknown-collection-refs .
-```
+!!! note
+    In antsibull-docs 3.0.0, the defaults for some of the above options will change:
+
+    * `--plugin-docs` will become the default; you need to specify `--no-plugin-docs` to not check plugin docs.
+    * `--check-extra-docs-refs` will become the default; you need to specify `--no-check-extra-docs-refs` to not check extra docs references.
+    * `--skip-rstcheck` will become the default; you need to speicyf `--no-skip-rstcheck` to check the generated plugin documentation RST files.
+
+    We suggest that you already explicitly provide the `--no-XXX` variants now for features you do not want to use, respectively to enable plugin RST checking (for `--no-skip-rstcheck`). Then the scope of the linting command will not change once antsibull-docs 3.0.0 is released.
+
+!!! note
+    The most extensive validation is achieved by running the following command:
+    ```console
+    $ antsibull-docs lint-collection-docs --plugin-docs --skip-rstcheck \
+                                          --validate-collection-refs=all \
+                                          --disallow-unknown-collection-refs \
+                                          --check-extra-docs-refs \
+                                          .
+    ```
 
 When successfully validating, the exit code will be `0`, otherwise it will be non-zero. In case it is non-zero, validation errors are shown in the format `<filename>:<line>:<column>:<message>` as follows:
 ```
@@ -166,38 +179,139 @@ sections:
       - guide_ownca
 ```
 
-Note that in the RST files, you cannot chose labels freely, but have to prefix every label with `ansible_collections.<namespace>.<name>.docsite.`. This ensures that you cannot accidentally re-use labels that are used by other parts of the Ansible docsite. This can look as follows for community.crypto:
+!!! note
+    In the RST files, you cannot chose labels freely, but have to prefix every label with `ansible_collections.<namespace>.<name>.docsite.`. This ensures that you cannot accidentally re-use labels that are used by other parts of the Ansible docsite. This can look as follows for community.crypto:
 
-```rst
-.. _ansible_collections.community.crypto.docsite.guide_ownca:
+    ```rst
+    .. _ansible_collections.community.crypto.docsite.guide_ownca:
 
-How to create a small CA
-========================
+    How to create a small CA
+    ========================
 
-The `community.crypto collection
-<https://galaxy.ansible.com/ui/repo/published/community/crypto/>`_
-offers multiple modules that create private keys, certificate signing
-requests, and certificates. This guide shows how to create your own
-small CA and how to use it to sign certificates.
+    The :anscollection:`community.crypto collection <community.crypto>`
+    offers multiple modules that create private keys, certificate signing
+    requests, and certificates. This guide shows how to create your own
+    small CA and how to use it to sign certificates.
 
-In all examples, we assume that the CA's private key is password
-protected, where the password is provided in the
-``secret_ca_passphrase`` variable.
+    In all examples, we assume that the CA's private key is password
+    protected, where the password is provided in the
+    ``secret_ca_passphrase`` variable.
 
-Set up the CA
--------------
+    Set up the CA
+    -------------
 
-Any certificate can be used as a CA certificate. You can create a
-self-signed certificate (see
-:ref:`ansible_collections.community.crypto.docsite.guide_selfsigned`),
-use another CA certificate to sign a new certificate (using the
-instructions below for signing a certificate), ask (and pay) a
-commercial CA to sign your CA certificate, etc.
+    Any certificate can be used as a CA certificate. You can create a
+    self-signed certificate (see
+    :ref:`ansible_collections.community.crypto.docsite.guide_selfsigned`),
+    use another CA certificate to sign a new certificate (using the
+    instructions below for signing a certificate), ask (and pay) a
+    commercial CA to sign your CA certificate, etc.
 
-...
-```
+    ...
+    ```
 
 If you want to reference modules, plugins, roles, their options and return values, see [the Ansible documentation's style guide](http://docs.testing.ansible.com/ansible/devel/dev_guide/style_guide/#adding-links-to-modules-and-plugins).
+
+### Special RST roles for extra documentation
+
+Antsibull-docs provides several roles to reference Ansible content without having to manually compose the right RST labels for references.
+
+* `:ansval:`: format values.
+
+    The syntax is as follows:
+    ```rst
+    :ansval:`some value`
+    ```
+
+* `:ansopt:`: format option names; reference options of a module, plugin, or role.
+
+    The syntax is as follows:
+    ```rst
+    An option with an optional value, without reference:
+    :ansopt:`option_name`
+    :ansopt:`option_name=value`
+
+    An option with an option value, referencing an option of a plugin
+    (specified by its FQCN) and plugin type (module, lookup, filter, ...):
+    :ansopt:`namespace.name.plugin_name#plugin_type:option_name`
+    :ansopt:`namespace.name.plugin_name#plugin_type:option_name=value`
+
+    For roles (plugin type "role"), you also have to specify the entrypoint
+    (usually "main"):
+    :ansopt:`namespace.name.role_name#role:entrypoint:option_name`
+    :ansopt:`namespace.name.role_name#role:entrypoint:option_name=value`
+
+    Suboptions must be referenced by separating the different levels by dot:
+    :ansopt:`namespace.name.plugin#type:option.suboption.subsuboption=foo`
+
+    You can use "[]" (with possible content) to indicate lists:
+    :ansopt:`namespace.name.plugin#type:option[].suboption[n-1].subsuboption["key"]=foo`
+    ```
+
+* `:ansretval:`: format return values; reference return values of a module or plugin.
+
+    Basically the syntax is identical to the one of `:ansopt:`, except that this references return values instead of options.
+
+* `:ansenvvar:`: format environment variables with possible assignment.
+
+    The syntax is as follows:
+    ```rst
+    Environment variable with optional value:
+    :ansenvvar:`FOO`
+    :ansenvvar:`FOO=bar`
+    ```
+
+* `:ansenvvarref:`: format environment variables with possible assignment; reference the environment variable.
+
+    The syntax is as follows:
+    ```rst
+    Environment variable with optional value:
+    :ansenvvarref:`FOO`
+    :ansenvvarref:`FOO=bar`
+
+    A reference to the definition of "FOO" is added.
+    ```
+
+* `:ansplugin:`: reference a plugin, module, or role / role entrypoint.
+
+    The syntax is as follows:
+    ```rst
+    Reference a plugin of a given type in a collection, with an optional title:
+    :ansplugin:`namespace.name.plugin_name#plugin_type`
+    :ansplugin:`Reference title <namespace.name.plugin_name#plugin_type>`
+
+    For roles, you can also specify an entrypoint:
+    :ansplugin:`namespace.name.role_name#role:entrypoint`
+    :ansplugin:`Reference title <namespace.name.role_name#role:entrypoint>`
+    ```
+
+* `:anscollection:`: reference a collection, or a specific section / page for a collection.
+
+    The syntax is as follows:
+    ```rst
+    Reference the collection's page:
+    :anscollection:`namespace.name`
+    :anscollection:`namespace.name#collection`
+    :anscollection:`namespace.name#plugins`
+
+    Reference the communication section on the collection's page:
+    :anscollection:`namespace.name#communication`
+
+    Reference the collection's changelog:
+    :anscollection:`namespace.name#changelog`
+    Reference the changelog section on the collection's page:
+    :anscollection:`namespace.name#changelog-section`
+
+    Reference the plugin index on the collection's page:
+    :anscollection:`namespace.name#plugin-index`
+
+    Reference the list of plugins of a given type on the collection's page:
+    :anscollection:`namespace.name#plugin-<type>`
+    Concretely:
+    :anscollection:`namespace.name#plugin-module`
+    :anscollection:`namespace.name#plugin-lookup`
+    :anscollection:`namespace.name#plugin-role`
+    ```
 
 ## Adding useful links to the docsite
 
