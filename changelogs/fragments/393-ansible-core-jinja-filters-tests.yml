@@ -1,3 +1,0 @@
-bugfixes:
-  - "Ansible-core 2.19 now lists standard Jinja2 tests and filters as members of ``ansible.builtin``
-     with minimal documentation, but without a ``name`` field in ``doc`` (https://github.com/ansible-community/antsibull-docs/pull/393)."

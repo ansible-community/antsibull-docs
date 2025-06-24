@@ -4,6 +4,43 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.18.0
+=======
+
+Release Summary
+---------------
+
+Feature and bugfix release.
+
+Minor Changes
+-------------
+
+- Add ``:anscollection:`` role to allow referencing collections. The syntax is ``:anscollection:`namespace.name```, or
+  ``:anscollection:`namespace.name#what``` for more specific parts of the index page
+  (https://github.com/ansible-community/antsibull-docs/pull/393).
+- Extend ``:ansplugin:`` role to allow referencing role entrypoints. The syntax is ``:ansplugin:`namespace.name.role_name#entrypoint```
+  (https://github.com/ansible-community/antsibull-docs/pull/393).
+- The ``lint-collection-docs`` subcommand has a new option ``--check-extra-docs-refs`` that checks references to collections in extra documentation files (``docs/docsite/rst``) (https://github.com/ansible-community/antsibull-docs/pull/392).
+- The ``lint-collection-docs``'s option ``--plugin-docs`` now also checks role entrypoints for existence (https://github.com/ansible-community/antsibull-docs/pull/392).
+
+Deprecated Features
+-------------------
+
+- The following default values for options to ``antsibull-docs lint-collection-docs`` are deprecated
+  and will change in antsibull-docs 3.0.0:
+
+  * ``--plugin-docs`` will be enabled by default; right now the default is ``--no-plugin-docs``;
+  * ``--skip-rstcheck`` will be enabled by default; right now the default is ``--no-skip-rstcheck`` (note that this applies to ``--plugin-docs``, not to checking extra documentation);
+  * ``--check-extra-docs-refs`` will be enabled by default; right now the default is ``--no-check-extra-docs-refs``.
+
+  We suggested to already now explicitly state the default value if you do not want the extra checks to be run
+  (https://github.com/ansible-community/antsibull-docs/pull/394).
+
+Bugfixes
+--------
+
+- Ansible-core 2.19 now lists standard Jinja2 tests and filters as members of ``ansible.builtin`` with minimal documentation, but without a ``name`` field in ``doc`` (https://github.com/ansible-community/antsibull-docs/pull/393).
+
 v2.17.1
 =======
 
