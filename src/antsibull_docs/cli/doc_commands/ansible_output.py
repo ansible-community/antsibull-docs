@@ -344,7 +344,7 @@ def _add_replacements_as_errors(
             changes[-lines_to_skip:] = [
                 _colorize_diff(f"[... {lines_to_skip} lines skipped ...]", color=color)
             ]
-        message = f"Output would differ:\n{'\n'.join(changes)}"
+        message = "Output would differ:\n" + "\n".join(changes)
         errors.append(
             (path, code_block.row_offset + 1, code_block.col_offset + 1, message)
         )
