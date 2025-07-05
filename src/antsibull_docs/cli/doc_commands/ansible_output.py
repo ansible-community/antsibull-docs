@@ -7,8 +7,10 @@
 
 from __future__ import annotations
 
+import difflib
 import os
 import subprocess
+import sys
 import tempfile
 from collections.abc import Sequence
 from dataclasses import dataclass
@@ -70,7 +72,7 @@ _DIRECTIVES = {
 
 
 @dataclass
-class AnsibleOutputDataExt:
+class _AnsibleOutputDataExt:
     data: AnsibleOutputData
     line: int
     col: int
@@ -90,21 +92,21 @@ def _get_ansible_output_data_error(block: CodeBlockInfo) -> tuple[int, int, str]
     return line, col, message
 
 
-def find_blocks(
+def _find_blocks(
     *,
     content: str,
     path: Path,
     root: Path | None = None,
     errors: list[tuple[Path, int | None, int | None, str]],
-) -> list[tuple[CodeBlockInfo, AnsibleOutputDataExt]]:
-    blocks: list[tuple[CodeBlockInfo, AnsibleOutputDataExt]] = []
-    data: AnsibleOutputDataExt | None = None
+) -> list[tuple[CodeBlockInfo, _AnsibleOutputDataExt]]:
+    blocks: list[tuple[CodeBlockInfo, _AnsibleOutputDataExt]] = []
+    data: _AnsibleOutputDataExt | None = None
     for block in find_code_blocks(
         content, path=path, root_prefix=root, extra_directives=_DIRECTIVES
     ):
         if block.language == _ANSIBLE_OUTPUT_DATA_IDENTIFIER:
             if "antsibull-other-data" in block.attributes:
-                data = AnsibleOutputDataExt(
+                data = _AnsibleOutputDataExt(
                     data=block.attributes["antsibull-other-data"],
                     line=block.row_offset + 1,
                     col=block.col_offset + 1,
@@ -132,10 +134,10 @@ def find_blocks(
     return blocks
 
 
-def compute_code_block_content(
-    data: AnsibleOutputDataExt, *, collection_path: Path | None = None
+def _compute_code_block_content(
+    data: _AnsibleOutputDataExt, *, collection_path: Path | None = None
 ) -> list[str]:
-    flog = mlog.fields(func="compute_code_block_content")
+    flog = mlog.fields(func="_compute_code_block_content")
 
     flog.notice("Prepare environment")
     env = os.environ.copy()
@@ -221,7 +223,7 @@ def _compute_replacements(
     flog = mlog.fields(func="_compute_replacements")
     flog.notice("Find code blocks in file")
     try:
-        blocks = find_blocks(content=content, path=path, root=root, errors=errors)
+        blocks = _find_blocks(content=content, path=path, root=root, errors=errors)
     except Exception as exc:  # pylint: disable=broad-exception-caught
         flog.notice("Error while finding code blocks: {}", exc)
         errors.append((path, None, None, f"Error while finding code blocks: {exc}"))
@@ -233,7 +235,7 @@ def _compute_replacements(
     for block, block_data in blocks:
         flog.notice("Processing block at line {}", block.row_offset + 1)
         try:
-            new_content = compute_code_block_content(
+            new_content = _compute_code_block_content(
                 block_data, collection_path=collection_path
             )
         except Exception as exc:  # pylint: disable=broad-exception-caught
@@ -255,12 +257,109 @@ def _compute_replacements(
     return replacements
 
 
+_COLORS = {
+    # Regular
+    "faint": "\033[2m",  # faint
+    "error": "\033[0;31m",  # red
+    "bold": "\033[1m",  # bold
+    # Diff
+    "unchanged": "\033[2m",  # faint
+    "remove": "\033[0;31m",  # red
+    "add": "\033[0;32m",  # green
+    "hint": "\033[1m",  # bold
+    "omit": "\033[1m",  # bold
+    # Reset
+    "reset": "\033[0m",
+}
+
+
+def _colorize(text: str, *, color_code: str, color: bool) -> str:
+    if not color:
+        return text
+    return f"{_COLORS[color_code]}{text}{_COLORS['reset']}"
+
+
+def _colorize_diff(diff_line: str, *, color: bool) -> str:
+    if not color:
+        return diff_line
+    col = None
+    skip = 0
+    if diff_line.startswith("+"):
+        col = "add"
+        skip = 1
+    if diff_line.startswith("-"):
+        col = "remove"
+        skip = 1
+    if diff_line.startswith("?"):
+        col = "hint"
+        skip = 1
+    if diff_line.startswith(" "):
+        col = "unchanged"
+        skip = 1
+    if diff_line.startswith("["):
+        col = "omit"
+    if col is None:
+        return diff_line
+    return (
+        f"{diff_line[:skip]}{_colorize(diff_line[skip:], color_code=col, color=color)}"
+    )
+
+
+def _add_replacements_as_errors(
+    errors: list[tuple[Path, int | None, int | None, str]],
+    *,
+    path: Path,
+    replacements: list[tuple[CodeBlockInfo, list[str]]],
+    environment_lines: int = 2,
+    color: bool,
+) -> None:
+    if not replacements:
+        return
+    d = difflib.Differ()
+    for code_block, new_content in replacements:
+        old_content = code_block.content.rstrip().split("\n")
+        changes: list[str] = []
+        no_changes = 0
+        last_change_add_lines = 0
+        for change in d.compare(old_content, new_content):
+            if change.startswith("?") and change.endswith("\n"):
+                change = change[:-1]
+            changes.append(_colorize_diff(change, color=color))
+            if change.startswith(" "):
+                no_changes += 1
+            else:
+                if no_changes > environment_lines + last_change_add_lines + 1:
+                    lines_to_skip = (
+                        no_changes - environment_lines - last_change_add_lines
+                    )
+                    changes[
+                        -lines_to_skip - environment_lines - 1 : -environment_lines - 1
+                    ] = [
+                        _colorize_diff(
+                            f"[... {lines_to_skip} lines skipped ...]", color=color
+                        )
+                    ]
+                no_changes = 0
+                last_change_add_lines = environment_lines
+        if no_changes > environment_lines + 1:
+            lines_to_skip = no_changes - environment_lines
+            changes[-lines_to_skip:] = [
+                _colorize_diff(f"[... {lines_to_skip} lines skipped ...]", color=color)
+            ]
+        message = f"Output would differ:\n{'\n'.join(changes)}"
+        errors.append(
+            (path, code_block.row_offset + 1, code_block.col_offset + 1, message)
+        )
+
+
 def process_file(
     path: Path,
     *,
     root: Path | None = None,
     errors: list[tuple[Path, int | None, int | None, str]],
     collection_path: Path | None = None,
+    check: bool,
+    color: bool,
 ) -> None:
     """
     Process RST file.
@@ -289,6 +388,12 @@ def process_file(
     if not replacements:
         return
 
+    if check:
+        _add_replacements_as_errors(
+            errors, path=path, replacements=replacements, color=color
+        )
+        return
+
     flog.notice("Do replacements for {}", path)
     content = _apply_replacements(content, replacements)
 
@@ -307,6 +412,8 @@ def process_directory(
     *,
     errors: list[tuple[Path, int | None, int | None, str]],
     collection_path: Path | None = None,
+    check: bool,
+    color: bool,
 ) -> None:
     flog = mlog.fields(func="process_directory")
     flog.notice("Walking {}", path)
@@ -320,6 +427,8 @@ def process_directory(
                         root=path,
                         errors=errors,
                         collection_path=collection_path,
+                        check=check,
+                        color=color,
                     )
     except Exception as exc:  # pylint: disable=broad-exception-caught
         errors.append((path, None, None, f"Error while listing files: {exc}"))
@@ -327,31 +436,59 @@ def process_directory(
 
 def check_rst_files(
     paths: Sequence[str],
+    *,
+    collection_path: Path | None = None,
+    check: bool,
+    color: bool,
 ) -> list[tuple[Path, int | None, int | None, str]]:
     errors: list[tuple[Path, int | None, int | None, str]] = []
     for path in paths:
         path_obj = Path(path)
         if path_obj.is_dir():
-            process_directory(path_obj, errors=errors)
+            process_directory(
+                path_obj,
+                errors=errors,
+                collection_path=collection_path,
+                check=check,
+                color=color,
+            )
         elif path_obj.exists():
-            process_file(path_obj, errors=errors)
+            process_file(
+                path_obj,
+                errors=errors,
+                collection_path=collection_path,
+                check=check,
+                color=color,
+            )
         else:
             errors.append((path_obj, None, None, "Does not exist"))
     return errors
 
 
 def print_errors(
-    errors: list[tuple[Path, int | None, int | None, str]], *, with_header: bool
+    errors: list[tuple[Path, int | None, int | None, str]],
+    *,
+    with_header: bool,
+    color: bool,
 ) -> None:
     if with_header and errors:
-        print(f"\nFound {len(errors)} error{'' if len(errors) == 1 else 's'}:")
+        print()
+        print(
+            _colorize(
+                f"Found {len(errors)} error{'' if len(errors) == 1 else 's'}:",
+                color_code="bold",
+                color=color,
+            )
+        )
     for error_path, line, col, error in sorted(
         errors,
         key=lambda entry: (str(entry[0]), entry[1] or 0, entry[2] or 0, entry[3]),
     ):
-        prefix = f"{error_path}:{line or '-'}:{col or '-'}: "
+        prefix = _colorize(
+            f"{error_path}:{line or '-'}:{col or '-'}: ", color_code="bold", color=color
+        )
         error_lines = [error_line.rstrip() for error_line in error.split("\n")]
-        print(f"{prefix}{error_lines[0]}")
+        print(f"{prefix}{_colorize(error_lines[0], color_code='error', color=color)}")
         if len(error_lines) > 1:
             prefix = "   "
             for error_line in error_lines[1:]:
@@ -374,7 +511,11 @@ def run_ansible_output() -> int:
     app_ctx = app_context.app_ctx.get()
 
     paths: tuple[str, ...] = app_ctx.extra["paths"]
+    check: bool = app_ctx.extra["check"]
+    force_color: bool | None = app_ctx.extra["force_color"]
 
-    errors = check_rst_files(paths)
-    print_errors(errors, with_header=True)
+    color = force_color if force_color is not None else sys.stdout.isatty()
+
+    errors = check_rst_files(paths, check=check, color=color)
+    print_errors(errors, with_header=True, color=color)
     return 3 if len(errors) > 0 else 0
