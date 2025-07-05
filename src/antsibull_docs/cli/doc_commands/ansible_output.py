@@ -11,7 +11,6 @@ import difflib
 import os
 import subprocess
 import sys
-import tempfile
 from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
@@ -22,6 +21,7 @@ from antsibull_docutils.rst_code_finder import (
     find_code_blocks,
     mark_antsibull_code_block,
 )
+from antsibull_fileutils.tempfile import AnsibleTemporaryDirectory
 from docutils import nodes
 from yaml import MarkedYAMLError
 
@@ -29,10 +29,8 @@ from sphinx_antsibull_ext.directive_helper import YAMLDirective
 from sphinx_antsibull_ext.schemas.ansible_output_data import AnsibleOutputData
 
 from ... import app_context
-from ...utils.collection_copier import (
-    CollectionLoadError,
-    load_collection_infos,
-)
+from ...lint_helpers import load_collection_info
+from ...utils.collection_copier import CollectionCopier
 
 mlog = log.fields(mod=__name__)
 
@@ -154,8 +152,8 @@ def _compute_code_block_content(
     flog.notice("Environment: {}", env)
 
     flog.notice("Prepare temporary directory")
-    with tempfile.TemporaryDirectory(prefix="antsibull-docs-output") as directory:
-        file = Path(directory) / "playbook.yml"
+    with AnsibleTemporaryDirectory(prefix="antsibull-docs-output") as directory:
+        file = directory / "playbook.yml"
         flog.notice("Directory: {}; playbook: {}", directory, file)
         with open(file, "w", encoding="utf-8") as f:
             f.write(data.data.playbook)
@@ -165,7 +163,7 @@ def _compute_code_block_content(
         result = subprocess.run(
             command,
             capture_output=True,
-            cwd=str(directory),
+            cwd=directory,
             env=env,
             check=True,
             encoding="utf-8",
@@ -560,35 +558,33 @@ def run_ansible_output() -> int:
             force_color=force_color,
         )
 
+    path_to_collection = "."
     try:
-        with load_collection_infos(
-            path_to_collection=".",
-            copy_dependencies=False,
-        ) as (
-            _,
-            collections_dir,
-            __,
-            ___,
-        ):
-            environment = get_environment(collection_path=Path(collections_dir))
-            rst_dir = "docs/docsite/rst"
-            if os.path.exists(rst_dir):
-                paths = (rst_dir,)
-            return _run_ansible_output(
-                paths=paths,
-                environment=environment,
-                check=check,
-                force_color=force_color,
-            )
-    except CollectionLoadError as exc:
+        info = load_collection_info(path_to_collection)
+        namespace = info["namespace"]
+        name = info["name"]
+    except Exception:  # pylint: disable=broad-exception-caught
         errors: list[tuple[Path, int | None, int | None, str]] = []
         errors.append(
             (
-                Path(exc.path),
+                Path(path_to_collection),
                 None,
                 None,
-                exc.error,
+                "Cannot identify collection with galaxy.yml or MANIFEST.json at this path",
             )
         )
         print_errors(errors, with_header=True, color=detect_color(force=force_color))
         return 3 if len(errors) > 0 else 0
+
+    with CollectionCopier() as copier:
+        copier.add_collection(path_to_collection, namespace, name)
+        environment = get_environment(collection_path=Path(copier.dir))
+        rst_dir = "docs/docsite/rst"
+        if os.path.exists(rst_dir):
+            paths = (rst_dir,)
+        return _run_ansible_output(
+            paths=paths,
+            environment=environment,
+            check=check,
+            force_color=force_color,
+        )
