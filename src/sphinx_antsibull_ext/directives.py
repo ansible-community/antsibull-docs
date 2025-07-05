@@ -16,6 +16,7 @@ from sphinx import addnodes
 from .directive_helper import YAMLDirective
 from .nodes import link_button
 from .schemas.ansible_links import AnsibleLinks
+from .schemas.ansible_output_data import AnsibleOutputData
 
 
 class _OptionTypeLine(Directive):
@@ -71,9 +72,19 @@ class _Links(YAMLDirective[AnsibleLinks]):
         return [node]
 
 
+class _AnsibleOutputDataDirective(YAMLDirective[AnsibleOutputData]):
+    wrap_as_data = True
+    schema = AnsibleOutputData
+
+    def _run(self, content_str: str, content: AnsibleOutputData) -> list[nodes.Node]:
+        # This directive should produce no output. It is used in the ansible-output subcommand.
+        return []
+
+
 DIRECTIVES = {
     "ansible-option-type-line": _OptionTypeLine,
     "ansible-links": _Links,
+    "ansible-output-data": _AnsibleOutputDataDirective,
 }
 
 

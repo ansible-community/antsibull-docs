@@ -81,6 +81,7 @@ ARGS_MAP: dict[str, Callable[[], Callable[[], int]]] = {
     "sphinx-init": _create_loader("sphinx_init", "site_init"),
     "lint-collection-docs": _create_loader("lint_docs", "lint_collection_docs"),
     "lint-core-docs": _create_loader("lint_docs", "lint_core_docs"),
+    "ansible-output": _create_loader("ansible_output", "run_ansible_output"),
 }
 
 #: The filename for the file which lists raw collection names
@@ -88,7 +89,7 @@ DEFAULT_PIECES_FILE: str = "ansible.in"
 
 
 def _normalize_docs_options(args: argparse.Namespace) -> None:
-    if args.command in ("lint-collection-docs", "lint-core-docs"):
+    if args.command in ("lint-collection-docs", "lint-core-docs", "ansible-output"):
         return
 
     args.dest_dir = os.path.abspath(os.path.realpath(args.dest_dir))
@@ -829,6 +830,22 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         default=False,
         help="Determine whether to accept references to unknown collections"
         " that are not covered by --validate-collection-refs.",
+    )
+
+    #
+    # Compute/Update Ansible output in RST files
+    #
+    ansible_output_parser = subparsers.add_parser(
+        "ansible-output",
+        description="Update ansible-output code blocks in RST files",
+    )
+    ansible_output_parser.add_argument(
+        nargs="*",
+        dest="paths",
+        default=["docs/docsite/rst"],
+        help="One or more path to a directory or a RST file. If a directory"
+        " is specified, all RST files in it are processed recursively."
+        " If not specified, docs/docsite/rst is used.",
     )
 
     # This must come after all parser setup
