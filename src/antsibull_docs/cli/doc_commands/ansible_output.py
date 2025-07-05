@@ -134,22 +134,18 @@ def _find_blocks(
     return blocks
 
 
+@dataclass
+class Environment:
+    env: dict[str, str]
+
+
 def _compute_code_block_content(
-    data: _AnsibleOutputDataExt, *, collection_path: Path | None = None
+    data: _AnsibleOutputDataExt, *, environment: Environment
 ) -> list[str]:
     flog = mlog.fields(func="_compute_code_block_content")
 
     flog.notice("Prepare environment")
-    env = os.environ.copy()
-    env.pop("ANSIBLE_FORCE_COLOR", None)
-    env["NO_COLOR"] = "true"
-    if collection_path is not None:
-        collections_path = env.get("ANSIBLE_COLLECTIONS_PATH") or ""
-        if collections_path:
-            collections_path = f"{collection_path}:{collections_path}"
-        else:
-            collections_path = f"{collection_path}"
-        env["ANSIBLE_COLLECTIONS_PATH"] = collections_path
+    env = environment.env.copy()
     env.update(data.data.env)
     flog.notice("Environment: {}", env)
 
@@ -218,7 +214,7 @@ def _compute_replacements(
     path: Path,
     root: Path | None = None,
     errors: list[tuple[Path, int | None, int | None, str]],
-    collection_path: Path | None = None,
+    environment: Environment,
 ) -> list[tuple[CodeBlockInfo, list[str]]]:
     flog = mlog.fields(func="_compute_replacements")
     flog.notice("Find code blocks in file")
@@ -236,10 +232,10 @@ def _compute_replacements(
         flog.notice("Processing block at line {}", block.row_offset + 1)
         try:
             new_content = _compute_code_block_content(
-                block_data, collection_path=collection_path
+                block_data, environment=environment
             )
         except Exception as exc:  # pylint: disable=broad-exception-caught
-            flog.notice("Error while computing code block's expeted contents: {}", exc)
+            flog.notice("Error while computing code block's expected contents: {}", exc)
             errors.append(
                 (
                     path,
@@ -357,7 +353,7 @@ def process_file(
     *,
     root: Path | None = None,
     errors: list[tuple[Path, int | None, int | None, str]],
-    collection_path: Path | None = None,
+    environment: Environment,
     check: bool,
     color: bool,
 ) -> None:
@@ -383,7 +379,7 @@ def process_file(
         path=path,
         root=root,
         errors=errors,
-        collection_path=collection_path,
+        environment=environment,
     )
     if not replacements:
         return
@@ -411,7 +407,7 @@ def process_directory(
     path: Path,
     *,
     errors: list[tuple[Path, int | None, int | None, str]],
-    collection_path: Path | None = None,
+    environment: Environment,
     check: bool,
     color: bool,
 ) -> None:
@@ -426,7 +422,7 @@ def process_directory(
                         dirpath / filename,
                         root=path,
                         errors=errors,
-                        collection_path=collection_path,
+                        environment=environment,
                         check=check,
                         color=color,
                     )
@@ -434,13 +430,39 @@ def process_directory(
         errors.append((path, None, None, f"Error while listing files: {exc}"))
 
 
+def get_environment(collection_path: Path | None = None) -> Environment:
+    flog = mlog.fields(func="get_environment")
+    env = os.environ.copy()
+    env.pop("ANSIBLE_FORCE_COLOR", None)
+    env["NO_COLOR"] = "true"
+    if collection_path is not None:
+        collections_path = env.get("ANSIBLE_COLLECTIONS_PATH") or ""
+        if collections_path:
+            collections_path = f"{collection_path}:{collections_path}"
+        else:
+            collections_path = f"{collection_path}"
+        env["ANSIBLE_COLLECTIONS_PATH"] = collections_path
+    flog.notice("Environment template: {}", env)
+    return Environment(env=env)
+
+
+def detect_color(*, force: bool | None = None) -> bool:
+    if force is not None:
+        return force
+    return sys.stdout.isatty()
+
+
 def check_rst_files(
     paths: Sequence[str],
     *,
-    collection_path: Path | None = None,
-    check: bool,
-    color: bool,
+    environment: Environment | None = None,
+    check: bool = False,
+    color: bool | None = None,
 ) -> list[tuple[Path, int | None, int | None, str]]:
+    if environment is None:
+        environment = get_environment()
+    if color is None:
+        color = detect_color()
     errors: list[tuple[Path, int | None, int | None, str]] = []
     for path in paths:
         path_obj = Path(path)
@@ -448,7 +470,7 @@ def check_rst_files(
             process_directory(
                 path_obj,
                 errors=errors,
-                collection_path=collection_path,
+                environment=environment,
                 check=check,
                 color=color,
             )
@@ -456,7 +478,7 @@ def check_rst_files(
             process_file(
                 path_obj,
                 errors=errors,
-                collection_path=collection_path,
+                environment=environment,
                 check=check,
                 color=color,
             )
@@ -514,8 +536,11 @@ def run_ansible_output() -> int:
     check: bool = app_ctx.extra["check"]
     force_color: bool | None = app_ctx.extra["force_color"]
 
-    color = force_color if force_color is not None else sys.stdout.isatty()
+    if not paths:
+        paths = ["docs/docsite/rst"]
 
-    errors = check_rst_files(paths, check=check, color=color)
+    color = detect_color(force=force_color)
+    environment = get_environment()
+    errors = check_rst_files(paths, environment=environment, check=check, color=color)
     print_errors(errors, with_header=True, color=color)
     return 3 if len(errors) > 0 else 0
