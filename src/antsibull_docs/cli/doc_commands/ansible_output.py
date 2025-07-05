@@ -10,6 +10,7 @@ from __future__ import annotations
 import os
 import subprocess
 import tempfile
+from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -148,15 +149,17 @@ def compute_code_block_content(
             collections_path = f"{collection_path}"
         env["ANSIBLE_COLLECTIONS_PATH"] = collections_path
     env.update(data.data.env)
+    flog.notice("Environment: {}", env)
 
     flog.notice("Prepare temporary directory")
     with tempfile.TemporaryDirectory(prefix="antsibull-docs-output") as directory:
         file = Path(directory) / "playbook.yml"
+        flog.notice("Directory: {}; playbook: {}", directory, file)
         with open(file, "w", encoding="utf-8") as f:
             f.write(data.data.playbook)
 
-        flog.notice("Run ansible-playbook")
         command = ["ansible-playbook", "playbook.yml"]
+        flog.notice("Run ansible-playbook: {}", command)
         result = subprocess.run(
             command,
             capture_output=True,
@@ -220,8 +223,11 @@ def _compute_replacements(
     try:
         blocks = find_blocks(content=content, path=path, root=root, errors=errors)
     except Exception as exc:  # pylint: disable=broad-exception-caught
+        flog.notice("Error while finding code blocks: {}", exc)
         errors.append((path, None, None, f"Error while finding code blocks: {exc}"))
         return []
+
+    flog.notice("Found {} blocks", len(blocks))
 
     replacements: list[tuple[CodeBlockInfo, list[str]]] = []
     for block, block_data in blocks:
@@ -231,6 +237,7 @@ def _compute_replacements(
                 block_data, collection_path=collection_path
             )
         except Exception as exc:  # pylint: disable=broad-exception-caught
+            flog.notice("Error while computing code block's expeted contents: {}", exc)
             errors.append(
                 (
                     path,
@@ -267,6 +274,7 @@ def process_file(
         with open(path, "r", encoding="utf-8") as f:
             content = f.read()
     except Exception as exc:  # pylint: disable=broad-exception-caught
+        flog.notice("Error while reading content: {}", exc)
         errors.append((path, None, None, f"Error while reading content: {exc}"))
         return
 
@@ -290,6 +298,7 @@ def process_file(
         with open(path, "w", encoding="utf-8") as f:
             f.write(content)
     except Exception as exc:  # pylint: disable=broad-exception-caught
+        flog.notice("Error while writing content: {}", exc)
         errors.append((path, None, None, f"Error while writing content: {exc}"))
 
 
@@ -299,8 +308,11 @@ def process_directory(
     errors: list[tuple[Path, int | None, int | None, str]],
     collection_path: Path | None = None,
 ) -> None:
+    flog = mlog.fields(func="process_directory")
+    flog.notice("Walking {}", path)
     try:
         for dirpath, _, filenames in path.walk():
+            flog.notice("Processing {}: found {}", dirpath, filenames)
             for filename in filenames:
                 if filename.endswith(".rst"):
                     process_file(
@@ -311,6 +323,42 @@ def process_directory(
                     )
     except Exception as exc:  # pylint: disable=broad-exception-caught
         errors.append((path, None, None, f"Error while listing files: {exc}"))
+
+
+def check_rst_files(
+    paths: Sequence[str],
+) -> list[tuple[Path, int | None, int | None, str]]:
+    errors: list[tuple[Path, int | None, int | None, str]] = []
+    for path in paths:
+        path_obj = Path(path)
+        if path_obj.is_dir():
+            process_directory(path_obj, errors=errors)
+        elif path_obj.exists():
+            process_file(path_obj, errors=errors)
+        else:
+            errors.append((path_obj, None, None, "Does not exist"))
+    return errors
+
+
+def print_errors(
+    errors: list[tuple[Path, int | None, int | None, str]], *, with_header: bool
+) -> None:
+    if with_header and errors:
+        print(f"\nFound {len(errors)} error{'' if len(errors) == 1 else 's'}:")
+    for error_path, line, col, error in sorted(
+        errors,
+        key=lambda entry: (str(entry[0]), entry[1] or 0, entry[2] or 0, entry[3]),
+    ):
+        prefix = f"{error_path}:{line or '-'}:{col or '-'}: "
+        error_lines = [error_line.rstrip() for error_line in error.split("\n")]
+        print(f"{prefix}{error_lines[0]}")
+        if len(error_lines) > 1:
+            prefix = "   "
+            for error_line in error_lines[1:]:
+                if error_line:
+                    print(f"{prefix}{error_line}")
+                else:
+                    print()
 
 
 def run_ansible_output() -> int:
@@ -327,31 +375,6 @@ def run_ansible_output() -> int:
 
     paths: tuple[str, ...] = app_ctx.extra["paths"]
 
-    errors: list[tuple[Path, int | None, int | None, str]] = []
-    for path in paths:
-        path_obj = Path(path)
-        if path_obj.is_dir():
-            process_directory(path_obj, errors=errors)
-        elif path_obj.exists():
-            process_file(path_obj, errors=errors)
-        else:
-            errors.append((path_obj, None, None, "Does not exist"))
-
-    if errors:
-        print(f"\nFound {len(errors)} error{'' if len(errors) == 1 else 's'}:")
-        for error_path, line, col, error in sorted(
-            errors,
-            key=lambda entry: (str(entry[0]), entry[1] or 0, entry[2] or 0, entry[3]),
-        ):
-            prefix = f"{error_path}:{line or '-'}:{col or '-'}: "
-            error_lines = [error_line.rstrip() for error_line in error.split("\n")]
-            print(f"{prefix}{error_lines[0]}")
-            if len(error_lines) > 1:
-                prefix = "   "
-                for error_line in error_lines[1:]:
-                    if error_line:
-                        print(f"{prefix}{error_line}")
-                    else:
-                        print()
-
+    errors = check_rst_files(paths)
+    print_errors(errors, with_header=True)
     return 3 if len(errors) > 0 else 0
