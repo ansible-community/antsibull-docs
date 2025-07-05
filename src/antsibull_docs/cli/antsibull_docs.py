@@ -847,6 +847,19 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         " is specified, all RST files in it are processed recursively."
         " If not specified, docs/docsite/rst is used.",
     )
+    ansible_output_parser.add_argument(
+        "--check",
+        action="store_true",
+        help="Do not write files, but return non-zero exit code in case"
+        " files would be written and show changes as errors.",
+    )
+    ansible_output_parser.add_argument(
+        "--force-color",
+        dest="force_color",
+        action=BooleanOptionalAction,
+        help="Force enable or disable color in diffs when using --check."
+        " By default decides on whether stdout is a tty or not.",
+    )
 
     # This must come after all parser setup
     if HAS_ARGCOMPLETE:
