@@ -845,7 +845,8 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         default=[],
         help="One or more path to a directory or a RST file. If a directory"
         " is specified, all RST files in it are processed recursively."
-        " If not specified, docs/docsite/rst is used.",
+        " If not specified, assumes that the current working directory"
+        " is a collection's root directory, and uses docs/docsite/rst if it exists.",
     )
     ansible_output_parser.add_argument(
         "--check",

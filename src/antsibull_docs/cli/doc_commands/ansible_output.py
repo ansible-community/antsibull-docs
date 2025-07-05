@@ -29,6 +29,10 @@ from sphinx_antsibull_ext.directive_helper import YAMLDirective
 from sphinx_antsibull_ext.schemas.ansible_output_data import AnsibleOutputData
 
 from ... import app_context
+from ...utils.collection_copier import (
+    CollectionLoadError,
+    load_collection_infos,
+)
 
 mlog = log.fields(mod=__name__)
 
@@ -520,6 +524,19 @@ def print_errors(
                     print()
 
 
+def _run_ansible_output(
+    *,
+    paths: tuple[str, ...],
+    environment: Environment | None = None,
+    check: bool,
+    force_color: bool | None,
+) -> int:
+    color = detect_color(force=force_color)
+    errors = check_rst_files(paths, environment=environment, check=check, color=color)
+    print_errors(errors, with_header=True, color=color)
+    return 3 if len(errors) > 0 else 0
+
+
 def run_ansible_output() -> int:
     """
     Lint collection documentation for inclusion into the collection's docsite.
@@ -536,11 +553,42 @@ def run_ansible_output() -> int:
     check: bool = app_ctx.extra["check"]
     force_color: bool | None = app_ctx.extra["force_color"]
 
-    if not paths:
-        paths = ["docs/docsite/rst"]
+    if paths:
+        return _run_ansible_output(
+            paths=paths,
+            check=check,
+            force_color=force_color,
+        )
 
-    color = detect_color(force=force_color)
-    environment = get_environment()
-    errors = check_rst_files(paths, environment=environment, check=check, color=color)
-    print_errors(errors, with_header=True, color=color)
-    return 3 if len(errors) > 0 else 0
+    try:
+        with load_collection_infos(
+            path_to_collection=".",
+            copy_dependencies=False,
+        ) as (
+            _,
+            collections_dir,
+            __,
+            ___,
+        ):
+            environment = get_environment(collection_path=Path(collections_dir))
+            rst_dir = "docs/docsite/rst"
+            if os.path.exists(rst_dir):
+                paths = (rst_dir,)
+            return _run_ansible_output(
+                paths=paths,
+                environment=environment,
+                check=check,
+                force_color=force_color,
+            )
+    except CollectionLoadError as exc:
+        errors: list[tuple[Path, int | None, int | None, str]] = []
+        errors.append(
+            (
+                Path(exc.path),
+                None,
+                None,
+                exc.error,
+            )
+        )
+        print_errors(errors, with_header=True, color=detect_color(force=force_color))
+        return 3 if len(errors) > 0 else 0
