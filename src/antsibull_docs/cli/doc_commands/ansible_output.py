@@ -16,7 +16,9 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
+import pydantic
 from antsibull_core.logging import log
+from antsibull_core.pydantic import get_formatted_error_messages
 from antsibull_docutils.rst_code_finder import (
     CodeBlockInfo,
     find_code_blocks,
@@ -94,6 +96,11 @@ def _get_ansible_output_data_error(block: CodeBlockInfo) -> tuple[int, int, str]
             line += exc.problem_mark.line
         if isinstance(exc.problem_mark.column, int):
             col += exc.problem_mark.column
+    if isinstance(exc, pydantic.ValidationError):
+        message = (
+            "Error while validating ansible-output-data directive's contents:\n"
+            + "\n".join(get_formatted_error_messages(exc))
+        )
     return line, col, message
 
 

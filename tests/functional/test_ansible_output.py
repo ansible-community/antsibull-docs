@@ -344,13 +344,9 @@ broken-meta-yaml.rst:5:15: Error while parsing content of ansible-output-data as
         3,
         r"""
 Found 1 error:
-broken-meta-schema.rst:4:5: Error while parsing content of ansible-output-data: 2 validation errors for AnsibleOutputData
-   playbook
-     Input should be a valid string [type=string_type, input_value=[], input_type=list]
-       For further information visit https://errors.pydantic.dev/2.10/v/string_type
-   env
-     Input should be a valid dictionary [type=dict_type, input_value=123, input_type=int]
-       For further information visit https://errors.pydantic.dev/2.10/v/dict_type
+broken-meta-schema.rst:4:5: Error while validating ansible-output-data directive's contents:
+   playbook: Input should be a valid string
+   env: Input should be a valid dictionary
 """,
     ),
     (
