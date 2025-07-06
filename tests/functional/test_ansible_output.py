@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import io
+import subprocess
 from contextlib import contextmanager, redirect_stdout
 from dataclasses import dataclass
 from pathlib import Path
@@ -24,10 +25,19 @@ class AnsiblePlaybookSuccess:
     stderr: str = ""
 
 
+@dataclass
+class AnsiblePlaybookFailure:
+    expected_cmd: list[str]
+    expected_env: dict[str, str | None]
+    rc: int
+    stdout: str
+    stderr: str
+
+
 @contextmanager
 def patch_ansible_playbook(
     *,
-    ansible_playbook_command: AnsiblePlaybookSuccess | None,
+    ansible_playbook_command: AnsiblePlaybookSuccess | AnsiblePlaybookFailure | None,
 ) -> None:
     class Result:
         def __init__(self, stdout: str, stderr: str) -> None:
@@ -46,6 +56,7 @@ def patch_ansible_playbook(
     ) -> Result:
         if ansible_playbook_command is None:
             raise AssertionError("ansible-playbook should never have been called!")
+
         assert capture_output == True
         assert cwd is not None
         assert check is True
@@ -56,7 +67,21 @@ def patch_ansible_playbook(
             else:
                 assert env[key] == value
         assert command == ansible_playbook_command.expected_cmd
-        return Result(ansible_playbook_command.stdout, ansible_playbook_command.stderr)
+
+        if isinstance(ansible_playbook_command, AnsiblePlaybookSuccess):
+            return Result(
+                ansible_playbook_command.stdout, ansible_playbook_command.stderr
+            )
+
+        if isinstance(ansible_playbook_command, AnsiblePlaybookFailure):
+            raise subprocess.CalledProcessError(
+                ansible_playbook_command.rc,
+                command,
+                output=ansible_playbook_command.stdout,
+                stderr=ansible_playbook_command.stderr,
+            )
+
+        raise AssertionError("should not happen")  # pragma: no cover
 
     with mock.patch(
         "antsibull_docs.cli.doc_commands.ansible_output.subprocess.run",
@@ -66,7 +91,7 @@ def patch_ansible_playbook(
 
 
 EXPECTED_CHECK_RESULTS: list[
-    tuple[str, str, AnsiblePlaybookSuccess | None, int, str]
+    tuple[str, str, AnsiblePlaybookSuccess | AnsiblePlaybookFailure | None, int, str]
 ] = [
     (
         "no-code-block.rst",
@@ -654,6 +679,42 @@ ok: [localhost] => {
         0,
         "",
     ),
+    (
+        "ansible-playbook-failure.rst",
+        """
+.. ansible-output-data::
+
+    playbook: |-
+      foo
+
+.. code-block:: ansible-output
+
+    bar
+""",
+        AnsiblePlaybookFailure(
+            ["ansible-playbook", "playbook.yml"],
+            {
+                "NO_COLOR": "true",
+            },
+            1,
+            "Nothing to see here...",
+            r"""Something bad happened.
+Some traceback maybe?
+Or just some blabla?
+""",
+        ),
+        3,
+        r"""
+Found 1 error:
+ansible-playbook-failure.rst:4:5: Error while computing code block's expected contents:
+   Command '['ansible-playbook', 'playbook.yml']' returned non-zero exit status 1.
+   Error output:
+   Something bad happened.
+   Some traceback maybe?
+   Or just some blabla?
+
+""",
+    ),
 ]
 
 
@@ -665,7 +726,7 @@ ok: [localhost] => {
 def test_ansible_output_check(
     rst_filename: str,
     rst_content: str,
-    ansible_playbook_command: AnsiblePlaybookSuccess | None,
+    ansible_playbook_command: AnsiblePlaybookSuccess | AnsiblePlaybookFailure | None,
     expected_rc: int,
     expected_stdout: str,
     tmp_path: Path,
