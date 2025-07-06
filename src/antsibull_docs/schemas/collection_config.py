@@ -13,6 +13,11 @@ class ChangelogConfig(p.BaseModel):
     write_changelog: bool = False
 
 
+class AnsibleOutputConfig(p.BaseModel):
+    # Environment variables to inject for every ansible-output-data
+    global_env: dict[str, str] = {}
+
+
 class CollectionConfig(p.BaseModel):
     # Whether the collection uses flatmapping to flatten subdirectories in
     # `plugins/*/`.
@@ -24,3 +29,6 @@ class CollectionConfig(p.BaseModel):
 
     # Changelog configuration (added in version 2.10.0)
     changelog: ChangelogConfig = ChangelogConfig()
+
+    # ansible-output subcommand configuration (added in version 2.19.0)
+    ansible_output: AnsibleOutputConfig = AnsibleOutputConfig()
