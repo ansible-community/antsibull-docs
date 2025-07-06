@@ -407,82 +407,115 @@ foo
         "",
     ),
     (
-        "complex-diff.rst",
+        "language-and-prepend.rst",
         """
 .. ansible-output-data::
 
     playbook: ""
+    prepend_lines: |-
+      Hello
+      World!
+    language: bar
 
-.. code-block:: ansible-output
+.. code-block:: foo
 
-    1
-    2
-    3
-    4
-    5
-    6
-    7
-    8
-    9
-    10
-    11
-    11 again
-    12
-    13
-    14
-    15
-    16
-    17
-    18
-    19
-    20
+    foo
+
+.. code-block:: bar
+
+    Hello
+    World!
+    bar
+
+.. code-block:: baz
+
+    baz
 """,
         ["ansible-playbook", "playbook.yml"],
         {},
         """
-2
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-eighteen
-nineteen
-20
+bar
 """,
-        3,
-        r"""
-Found 1 error:
-complex-diff.rst:8:5: Output would differ:
-   - 1
-     2
-   - 3
-     4
-     5
-   [... 4 lines skipped ...]
-     10
-     11
-   - 11 again
-     12
-     13
-   [... 2 lines skipped ...]
-     16
-     17
-   - 18
-   - 19
-   + eighteen
-   + nineteen
-     20
+        0,
+        "",
+    ),
+    (
+        "working-test.rst",
+        """
+Working with versions
+---------------------
+
+If you need to sort a list of version numbers, the Jinja ``sort`` filter is problematic. Since it sorts lexicographically, ``2.10`` will come before ``2.9``. To treat version numbers correctly, you can use the :ansplugin:`community.general.version_sort filter <community.general.version_sort#filter>`:
+
+.. code-block:: yaml+jinja
+
+    - name: Sort list by version number
+      debug:
+        var: ansible_versions | community.general.version_sort
+      vars:
+        ansible_versions:
+          - '2.8.0'
+          - '2.11.0'
+          - '2.7.0'
+          - '2.10.0'
+          - '2.9.0'
+
+This produces:
+
+.. ansible-output-data::
+
+    env:
+      ANSIBLE_STDOUT_CALLBACK: community.general.tasks_only
+      ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH: "90"
+    playbook: |-
+      - hosts: localhost
+        gather_facts: false
+        tasks:
+          - name: Sort list by version number
+            debug:
+              var: ansible_versions | community.general.version_sort
+            vars:
+              ansible_versions:
+                - '2.8.0'
+                - '2.11.0'
+                - '2.7.0'
+                - '2.10.0'
+                - '2.9.0'
+
+.. code-block:: ansible-output
+
+    TASK [Sort list by version number] ********************************************************
+    ok: [localhost] => {
+        "ansible_versions | community.general.version_sort": [
+            "2.7.0",
+            "2.8.0",
+            "2.9.0",
+            "2.10.0",
+            "2.11.0"
+        ]
+    }
+
+.. versionadded: 2.2.0
 """,
+        ["ansible-playbook", "playbook.yml"],
+        {
+            "NO_COLOR": "true",
+            "ANSIBLE_STDOUT_CALLBACK": "community.general.tasks_only",
+            "ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH": "90",
+        },
+        """TASK [Sort list by version number] ********************************************************
+ok: [localhost] => {
+    "ansible_versions | community.general.version_sort": [
+        "2.7.0",
+        "2.8.0",
+        "2.9.0",
+        "2.10.0",
+        "2.11.0"
+    ]
+}
+""",
+        0,
+        "",
     ),
 ]
 
