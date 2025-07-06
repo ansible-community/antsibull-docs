@@ -17,6 +17,20 @@ class AnsibleOutputConfig(p.BaseModel):
     # Environment variables to inject for every ansible-output-data
     global_env: dict[str, str] = {}
 
+    @p.field_validator("global_env", mode="before")
+    @classmethod
+    def convert_dict_values(cls, obj):
+        """
+        Convert dictionary values to strings that have a unique string representation.
+        Values without a unique string representation (floats, booleans, ...)
+        are not converted.
+        """
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                if isinstance(v, int):
+                    obj[k] = str(v)
+        return obj
+
 
 class CollectionConfig(p.BaseModel):
     # Whether the collection uses flatmapping to flatten subdirectories in

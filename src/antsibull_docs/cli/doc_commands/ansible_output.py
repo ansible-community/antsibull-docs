@@ -434,7 +434,9 @@ def process_file(
         return
 
     flog.notice("Do replacements for {}", path)
-    content, changed = _apply_replacements(content, replacements, path=path, errors=errors)
+    content, changed = _apply_replacements(
+        content, replacements, path=path, errors=errors
+    )
     if not changed:
         return
 

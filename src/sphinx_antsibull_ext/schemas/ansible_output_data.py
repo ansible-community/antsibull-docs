@@ -15,3 +15,17 @@ class AnsibleOutputData(p.BaseModel):
     env: dict[str, str] = {}
     prepend_lines: str = ""
     language: str = "ansible-output"
+
+    @p.field_validator("env", mode="before")
+    @classmethod
+    def convert_dict_values(cls, obj):
+        """
+        Convert dictionary values to strings that have a unique string representation.
+        Values without a unique string representation (floats, booleans, ...)
+        are not converted.
+        """
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                if isinstance(v, int):
+                    obj[k] = str(v)
+        return obj

@@ -217,7 +217,7 @@ ok: [localhost] => {
 
     env:
       ANSIBLE_STDOUT_CALLBACK: community.general.tasks_only
-      ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH: "80"
+      ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH: 80
     playbook: |-
       - hosts: localhost
         gather_facts: false
@@ -756,7 +756,15 @@ def test_ansible_output_check(
 
 
 EXPECTED_REPLACE_RESULTS: list[
-    tuple[str, str, AnsiblePlaybookSuccess | AnsiblePlaybookFailure | None, int, str, bool, str]
+    tuple[
+        str,
+        str,
+        AnsiblePlaybookSuccess | AnsiblePlaybookFailure | None,
+        int,
+        str,
+        bool,
+        str,
+    ]
 ] = [
     (
         "no-code-block.rst",
@@ -891,7 +899,7 @@ This produces:
 
     env:
       ANSIBLE_STDOUT_CALLBACK: community.general.tasks_only
-      ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH: "80"
+      ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH: 80
     playbook: |-
       - hosts: localhost
         gather_facts: false
@@ -947,7 +955,7 @@ ok: [localhost] => {
 
     env:
       ANSIBLE_STDOUT_CALLBACK: community.general.tasks_only
-      ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH: "80"
+      ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH: 80
     playbook: |-
       - hosts: localhost
         gather_facts: false
