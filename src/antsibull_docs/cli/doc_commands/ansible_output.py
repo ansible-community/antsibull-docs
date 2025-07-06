@@ -107,6 +107,15 @@ def _find_blocks(
         content, path=path, root_prefix=root, extra_directives=_DIRECTIVES
     ):
         if block.language == _ANSIBLE_OUTPUT_DATA_IDENTIFIER:
+            if data is not None:
+                errors.append(
+                    (
+                        path,
+                        data.line,
+                        data.col,
+                        "ansible-output-data directive not used",
+                    )
+                )
             if "antsibull-other-data" in block.attributes:
                 data = _AnsibleOutputDataExt(
                     data=block.attributes["antsibull-other-data"],
@@ -133,6 +142,15 @@ def _find_blocks(
             )
             continue
         blocks.append((block, block_data))
+    if data is not None:
+        errors.append(
+            (
+                path,
+                data.line,
+                data.col,
+                "ansible-output-data directive not used",
+            )
+        )
     return blocks
 
 
