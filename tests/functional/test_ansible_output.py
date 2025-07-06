@@ -310,6 +310,180 @@ missing-test.rst:24:5: Output would differ:
    + }
 """,
     ),
+    (
+        "broken-meta-yaml.rst",
+        """
+.. ansible-output-data::
+
+    env: {
+    playbook: |-
+      foo
+""",
+        [],
+        {},
+        "",
+        3,
+        r"""
+Found 1 error:
+broken-meta-yaml.rst:5:15: Error while parsing content of ansible-output-data as YAML: while scanning for the next token
+   found character that cannot start any token
+     in "<byte string>", line 2, column 11
+""",
+    ),
+    (
+        "broken-meta-schema.rst",
+        """
+.. ansible-output-data::
+
+    env: 123
+    playbook: []
+""",
+        [],
+        {},
+        "",
+        3,
+        r"""
+Found 1 error:
+broken-meta-schema.rst:4:5: Error while parsing content of ansible-output-data: 2 validation errors for AnsibleOutputData
+   playbook
+     Input should be a valid string [type=string_type, input_value=[], input_type=list]
+       For further information visit https://errors.pydantic.dev/2.10/v/string_type
+   env
+     Input should be a valid dictionary [type=dict_type, input_value=123, input_type=int]
+       For further information visit https://errors.pydantic.dev/2.10/v/dict_type
+""",
+    ),
+    (
+        "unused-ansible-output-data.rst",
+        """
+.. ansible-output-data::
+
+    playbook: ""
+
+.. ansible-output-data::
+
+    playbook: ""
+
+.. code-block:: ansible-output
+
+    foo
+
+.. ansible-output-data::
+
+    playbook: ""
+
+""",
+        ["ansible-playbook", "playbook.yml"],
+        {},
+        "foo\n",
+        3,
+        r"""
+Found 2 errors:
+unused-ansible-output-data.rst:4:5: ansible-output-data directive not used
+unused-ansible-output-data.rst:16:5: ansible-output-data directive not used
+""",
+    ),
+    (
+        "multiple-empty-lines.rst",
+        """
+.. ansible-output-data::
+
+    playbook: foo
+
+.. code-block:: ansible-output
+
+    foo
+""",
+        ["ansible-playbook", "playbook.yml"],
+        {},
+        """
+
+
+foo
+
+
+""",
+        0,
+        "",
+    ),
+    (
+        "complex-diff.rst",
+        """
+.. ansible-output-data::
+
+    playbook: ""
+
+.. code-block:: ansible-output
+
+    1
+    2
+    3
+    4
+    5
+    6
+    7
+    8
+    9
+    10
+    11
+    11 again
+    12
+    13
+    14
+    15
+    16
+    17
+    18
+    19
+    20
+""",
+        ["ansible-playbook", "playbook.yml"],
+        {},
+        """
+2
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+eighteen
+nineteen
+20
+""",
+        3,
+        r"""
+Found 1 error:
+complex-diff.rst:8:5: Output would differ:
+   - 1
+     2
+   - 3
+     4
+     5
+   [... 4 lines skipped ...]
+     10
+     11
+   - 11 again
+     12
+     13
+   [... 2 lines skipped ...]
+     16
+     17
+   - 18
+   - 19
+   + eighteen
+   + nineteen
+     20
+""",
+    ),
 ]
 
 
