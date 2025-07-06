@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import difflib
 import os
 import subprocess
@@ -29,7 +30,9 @@ from sphinx_antsibull_ext.directive_helper import YAMLDirective
 from sphinx_antsibull_ext.schemas.ansible_output_data import AnsibleOutputData
 
 from ... import app_context
+from ...collection_config import load_collection_config
 from ...lint_helpers import load_collection_info
+from ...schemas.collection_config import CollectionConfig
 from ...utils.collection_copier import CollectionCopier
 
 mlog = log.fields(mod=__name__)
@@ -458,7 +461,10 @@ def process_directory(
         errors.append((path, None, None, f"Error while listing files: {exc}"))
 
 
-def get_environment(collection_path: Path | None = None) -> Environment:
+def get_environment(
+    collection_path: Path | None = None,
+    collection_config: CollectionConfig | None = None,
+) -> Environment:
     flog = mlog.fields(func="get_environment")
     env = os.environ.copy()
     env.pop("ANSIBLE_FORCE_COLOR", None)
@@ -470,6 +476,8 @@ def get_environment(collection_path: Path | None = None) -> Environment:
         else:
             collections_path = f"{collection_path}"
         env["ANSIBLE_COLLECTIONS_PATH"] = collections_path
+    if collection_config is not None:
+        env.update(collection_config.ansible_output.global_env)
     flog.notice("Environment template: {}", env)
     return Environment(env=env)
 
@@ -602,9 +610,15 @@ def run_ansible_output() -> int:
         print_errors(errors, with_header=True, color=detect_color(force=force_color))
         return 3 if len(errors) > 0 else 0
 
+    collection_config = asyncio.run(
+        load_collection_config(f"{namespace}.{name}", path_to_collection)
+    )
+
     with CollectionCopier() as copier:
         copier.add_collection(path_to_collection, namespace, name)
-        environment = get_environment(collection_path=Path(copier.dir))
+        environment = get_environment(
+            collection_path=Path(copier.dir), collection_config=collection_config
+        )
         rst_dir = "docs/docsite/rst"
         if os.path.exists(rst_dir):
             paths = (rst_dir,)
