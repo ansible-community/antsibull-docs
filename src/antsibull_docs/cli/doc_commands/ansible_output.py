@@ -224,8 +224,9 @@ def _apply_replacements(
     *,
     path: Path,
     errors: list[tuple[Path, int | None, int | None, str]],
-) -> str:
+) -> tuple[str, bool]:
     content_lines = content.split("\n")
+    changed = False
 
     # Apply replacements sorted back to front
     for block, new_content in sorted(
@@ -242,11 +243,12 @@ def _apply_replacements(
             )
             continue
         content_lines = _replace(content_lines, block=block, new_content=new_content)
+        changed = True
 
     # Ensure trailing newline
     if content_lines and content_lines[-1]:
         content_lines.append("")
-    return "\n".join(content_lines)
+    return "\n".join(content_lines), changed
 
 
 def _compute_replacements(
@@ -432,7 +434,9 @@ def process_file(
         return
 
     flog.notice("Do replacements for {}", path)
-    content = _apply_replacements(content, replacements, path=path, errors=errors)
+    content, changed = _apply_replacements(content, replacements, path=path, errors=errors)
+    if not changed:
+        return
 
     flog.notice("Write {}", path)
     print(f"Write {path}...")
