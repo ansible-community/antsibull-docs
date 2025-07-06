@@ -13,3 +13,5 @@ import pydantic as p
 class AnsibleOutputData(p.BaseModel):
     playbook: str
     env: dict[str, str] = {}
+    prepend_lines: str = ""
+    language: str = "ansible-output"

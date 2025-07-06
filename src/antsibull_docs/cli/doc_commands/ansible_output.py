@@ -126,22 +126,12 @@ def _find_blocks(
                 line, col, message = _get_ansible_output_data_error(block)
                 errors.append((path, line, col, message))
             continue
-        if block.language != "ansible-output":
-            continue
         if data is None:
             continue
-        block_data, data = data, None
-        if not block.directly_replacable_in_content:
-            errors.append(
-                (
-                    path,
-                    block.row_offset + 1,
-                    block.col_offset + 1,
-                    "Code block is not replacable",
-                )
-            )
+        if block.language != data.data.language:
             continue
-        blocks.append((block, block_data))
+        blocks.append((block, data))
+        data = None
     if data is not None:
         errors.append(
             (
@@ -196,7 +186,11 @@ def _compute_code_block_content(
             first += 1
         while first < last and not lines[last - 1]:
             last -= 1
-        return lines[first:last]
+        # Prepend lines
+        prepend_lines = (
+            data.data.prepend_lines.split("\n") if data.data.prepend_lines else []
+        )
+        return prepend_lines + lines[first:last]
 
 
 def _replace(
@@ -212,7 +206,11 @@ def _replace(
 
 
 def _apply_replacements(
-    content: str, replacements: list[tuple[CodeBlockInfo, list[str]]]
+    content: str,
+    replacements: list[tuple[CodeBlockInfo, list[str]]],
+    *,
+    path: Path,
+    errors: list[tuple[Path, int | None, int | None, str]],
 ) -> str:
     content_lines = content.split("\n")
 
@@ -220,6 +218,16 @@ def _apply_replacements(
     for block, new_content in sorted(
         replacements, key=lambda entry: -entry[0].row_offset
     ):
+        if not block.directly_replacable_in_content:
+            errors.append(
+                (
+                    path,
+                    block.row_offset + 1,
+                    block.col_offset + 1,
+                    "Code block is not replacable",
+                )
+            )
+            continue
         content_lines = _replace(content_lines, block=block, new_content=new_content)
 
     # Ensure trailing newline
@@ -411,7 +419,7 @@ def process_file(
         return
 
     flog.notice("Do replacements for {}", path)
-    content = _apply_replacements(content, replacements)
+    content = _apply_replacements(content, replacements, path=path, errors=errors)
 
     flog.notice("Write {}", path)
     print(f"Write {path}...")
