@@ -31,6 +31,7 @@ markdown_extensions:
 nav:
   - antsibull-docs: index.md
   - Creating a collection docsite: collection-docs.md
+  - Updating playbook output in RST files: ansible-output.md
   - Official Ansible docsite: package-docs.md
   - Join the Community: community.md
   - antsibull-docs Release Notes: changelog.md
