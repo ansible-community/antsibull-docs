@@ -135,3 +135,20 @@ ansible_output:
 ```
 
 This is useful to standardize the callback and its settings for most code blocks in a collection's extra docs.
+
+## Usage in CI
+
+If you want to run `antsibull-docs ansible-output` in CI, you might find the `--check` parameter useful.
+If that parameter is specified, antsibull-docs will not update files, but instead fail if a file would be modified.
+A diff of the changes that would be applied will be printed to standard output.
+
+!!! warning
+    Please note that you have to make sure that `antsibull-docs ansible-output` runs in CI with minimum number of privileges,
+    since it can run **arbitrary code**!
+
+    Someone can add a playbook to documentation that recursively deletes all files you have access to.
+    If you run `antsibull-docs ansible-output` (with or without `--check`) on such a RST file without sufficient isolation,
+    all your files will be gone.
+
+    If you run `antsibull-docs ansible-output` in CI in a context where the code run has access to credentials,
+    a playbook could send these credentials to an arbitrary location on the internet.
