@@ -513,6 +513,84 @@ ok: [localhost] => {
         0,
         "",
     ),
+    (
+        "complex-diff.rst",
+        """
+.. ansible-output-data::
+
+    playbook: ""
+
+.. code-block:: ansible-output
+
+    1
+    2
+    3
+    4
+    5
+    6
+    7
+    8
+    9
+    10
+    11
+    11 again
+    12
+    13
+    14
+    15
+    16
+    17
+    18
+    19
+    20
+""",
+        ["ansible-playbook", "playbook.yml"],
+        {},
+        """
+2
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+eighteen
+nineteen
+20
+""",
+        3,
+        r"""
+Found 1 error:
+complex-diff.rst:8:5: Output would differ:
+   - 1
+     2
+   - 3
+     4
+     5
+   [... 4 lines skipped ...]
+     10
+     11
+   - 11 again
+     12
+     13
+   [... 2 lines skipped ...]
+     16
+     17
+   - 18
+   - 19
+   + eighteen
+   + nineteen
+     20
+""",
+    ),
 ]
 
 
