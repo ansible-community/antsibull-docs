@@ -178,14 +178,17 @@ def _compute_code_block_content(
 
         command = ["ansible-playbook", "playbook.yml"]
         flog.notice("Run ansible-playbook: {}", command)
-        result = subprocess.run(
-            command,
-            capture_output=True,
-            cwd=directory,
-            env=env,
-            check=True,
-            encoding="utf-8",
-        )
+        try:
+            result = subprocess.run(
+                command,
+                capture_output=True,
+                cwd=directory,
+                env=env,
+                check=True,
+                encoding="utf-8",
+            )
+        except subprocess.CalledProcessError as exc:
+            raise ValueError(f"{exc}\nError output:\n{exc.stderr}") from exc
 
         flog.notice("Post-process result")
         # Compute result lines
@@ -279,7 +282,7 @@ def _compute_replacements(
                     path,
                     block_data.line,
                     block_data.col,
-                    f"Error while computing code block's expected contents: {exc}",
+                    f"Error while computing code block's expected contents:\n{exc}",
                 )
             )
             continue
