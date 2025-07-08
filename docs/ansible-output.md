@@ -21,7 +21,7 @@ To know which code blocks to update and what playbook and environment variables 
 
     env:
       ANSIBLE_STDOUT_CALLBACK: community.general.tasks_only
-      ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH: "90"
+      ANSIBLE_COLLECTIONS_TASKS_ONLY_NUMBER_OF_COLUMNS: "90"
     playbook: |-
       - hosts: localhost
         gather_facts: false
@@ -54,7 +54,7 @@ To know which code blocks to update and what playbook and environment variables 
 The `ansible-output-data` directive results in no output when the `sphinx_antsibull_ext` Sphinx extension is used, and contains YAML data.
 The `env` dictionary allows to set environment variables that are set when calling `ansible-playbook`.
 In this example, we set an explicit callback stdout plugin (using `ANSIBLE_STDOUT_CALLBACK`),
-and provide configuration for that plugin (`ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH`).
+and provide configuration for that plugin (`ANSIBLE_COLLECTIONS_TASKS_ONLY_NUMBER_OF_COLUMNS`).
 
 The playbook is provided as a multi-line YAML string.
 Antsibull-docs looks for the next code block with language `ansible-output`, and replaces its contents with the output of `ansible-playbook playbook.yml`,
@@ -68,7 +68,7 @@ Also you can prepend lines to the output using `prepend_lines`:
 
     env:
       ANSIBLE_STDOUT_CALLBACK: community.general.tasks_only
-      ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH: "90"
+      ANSIBLE_COLLECTIONS_TASKS_ONLY_NUMBER_OF_COLUMNS: "90"
     language: console
     prepend_lines: |
       $ ansible-playbook playbook.yml
@@ -131,7 +131,7 @@ ansible_output:
   # Insert definitions into 'env' for every ansible-output-data directive
   global_env:
     ANSIBLE_STDOUT_CALLBACK: community.general.tasks_only
-    ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH: 80
+    ANSIBLE_COLLECTIONS_TASKS_ONLY_NUMBER_OF_COLUMNS: 80
 ```
 
 This is useful to standardize the callback and its settings for most code blocks in a collection's extra docs.
