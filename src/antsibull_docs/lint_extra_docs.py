@@ -190,7 +190,13 @@ def check_antsibull_roles(
 
     # Parse the document
     try:
-        publisher.reader.read(publisher.source, publisher.parser, publisher.settings)
+        # mypy gives errors for the next line, but this is literally what docutils itself
+        # is also doing. So we're going to ignore this error...
+        publisher.reader.read(
+            publisher.source,
+            publisher.parser,
+            publisher.settings,  # type: ignore
+        )
         return errors
     except SystemMessage as exc:
         return [(0, 0, f"Cannot parse document: {exc}")]
