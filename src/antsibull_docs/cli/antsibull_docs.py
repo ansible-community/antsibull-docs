@@ -81,6 +81,7 @@ ARGS_MAP: dict[str, Callable[[], Callable[[], int]]] = {
     "sphinx-init": _create_loader("sphinx_init", "site_init"),
     "lint-collection-docs": _create_loader("lint_docs", "lint_collection_docs"),
     "lint-core-docs": _create_loader("lint_docs", "lint_core_docs"),
+    "ansible-output": _create_loader("ansible_output", "run_ansible_output"),
 }
 
 #: The filename for the file which lists raw collection names
@@ -88,7 +89,7 @@ DEFAULT_PIECES_FILE: str = "ansible.in"
 
 
 def _normalize_docs_options(args: argparse.Namespace) -> None:
-    if args.command in ("lint-collection-docs", "lint-core-docs"):
+    if args.command in ("lint-collection-docs", "lint-core-docs", "ansible-output"):
         return
 
     args.dest_dir = os.path.abspath(os.path.realpath(args.dest_dir))
@@ -829,6 +830,38 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         default=False,
         help="Determine whether to accept references to unknown collections"
         " that are not covered by --validate-collection-refs.",
+    )
+
+    #
+    # Compute/Update Ansible output in RST files
+    #
+    ansible_output_parser = subparsers.add_parser(
+        "ansible-output",
+        description="Update ansible-output code blocks in RST files",
+    )
+    ansible_output_parser.add_argument(
+        nargs="*",
+        dest="paths",
+        default=[],
+        help="One or more path to a directory or a RST file. If a directory"
+        " is specified, all RST files in it are processed recursively."
+        " If not specified, assumes that the current working directory"
+        " is a collection's root directory, and uses docs/docsite/rst if it exists."
+        " In that case, also additional configuration from docs/docsite/config.yml"
+        " will be loaded.",
+    )
+    ansible_output_parser.add_argument(
+        "--check",
+        action="store_true",
+        help="Do not write files, but return non-zero exit code in case"
+        " files would be written and show changes as errors.",
+    )
+    ansible_output_parser.add_argument(
+        "--force-color",
+        dest="force_color",
+        action=BooleanOptionalAction,
+        help="Force enable or disable color in diffs when using --check."
+        " By default decides on whether stdout is a tty or not.",
     )
 
     # This must come after all parser setup
