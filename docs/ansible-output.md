@@ -7,10 +7,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
 # Updating ansible-playbook output in RST files
 
 One common problem with Ansible playbook examples in documentation is that while it is helpful to include the playbook's output,
-it is somewhat tedious to update the playbook output, especially when the used plugins or modules change.
+it is somewhat tedious to update the playbook output, especially when changes occur to plugins or modules.
 
-Antsibull-docs has a tool, its `antsibull-docs ansible-output` subcommand, that lets you update the `ansible-playbook` output
-in code blocks in RST files, and check whether they need to be updated (for example useful for CI).
+Antsibull-docs provides a tool through the `antsibull-docs ansible-output` subcommand that lets you update the `ansible-playbook` output in code blocks within RST files. The `antsibull-docs ansible-output` subcommand also lets you check whether code blocks need to be updated, which can be a useful consistency check in CI pipelines.
 
 ## Metadata and code blocks
 
@@ -51,9 +50,10 @@ To know which code blocks to update and what playbook and environment variables 
     }
 ```
 
-The `ansible-output-data` directive results in no output when the `sphinx_antsibull_ext` Sphinx extension is used, and contains YAML data.
-The `env` dictionary allows to set environment variables that are set when calling `ansible-playbook`.
-In this example, we set an explicit callback stdout plugin (using `ANSIBLE_STDOUT_CALLBACK`),
+The `ansible-output-data` directive does not generate any visible content in rendered documentation when the `sphinx_antsibull_ext` Sphinx extension is used.
+The directive contains YAML configuration data that is meant for `antsibull-docs` and not for readers.
+The `env` dictionary allows you to set environment variables that are set when calling `ansible-playbook`.
+In this example, we set an explicit callback stdout plugin (using `ANSIBLE_STDOUT_CALLBACK`)
 and provide configuration for that plugin (`ANSIBLE_COLLECTIONS_TASKS_ONLY_NUMBER_OF_COLUMNS`).
 
 The playbook is provided as a multi-line YAML string.
@@ -143,12 +143,12 @@ If that parameter is specified, antsibull-docs will not update files, but instea
 A diff of the changes that would be applied will be printed to standard output.
 
 !!! warning
-    Please note that you have to make sure that `antsibull-docs ansible-output` runs in CI with minimum number of privileges,
+    Please note that you have to make sure that `antsibull-docs ansible-output` runs in CI with the minimum set of privileges,
     since it can run **arbitrary code**!
 
     Someone can add a playbook to documentation that recursively deletes all files you have access to.
     If you run `antsibull-docs ansible-output` (with or without `--check`) on such a RST file without sufficient isolation,
-    all your files will be gone.
+    all your files will be deleted.
 
     If you run `antsibull-docs ansible-output` in CI in a context where the code run has access to credentials,
     a playbook could send these credentials to an arbitrary location on the internet.
