@@ -13,7 +13,8 @@ Antsibull-docs provides a tool through the `antsibull-docs ansible-output` subco
 
 ## Metadata and code blocks
 
-To know which code blocks to update and what playbook and environment variables to use, you need to provide a `ansible-output-data` directive before the actual code block:
+To know which code blocks to update and what playbook and environment variables to use,
+you need to provide a `ansible-output-data` directive before the actual code block:
 
 ```rst
 .. ansible-output-data::
@@ -50,28 +51,55 @@ To know which code blocks to update and what playbook and environment variables 
     }
 ```
 
-The `ansible-output-data` directive does not generate any visible content in rendered documentation when the `sphinx_antsibull_ext` Sphinx extension is used.
-The directive contains YAML configuration data that is meant for `antsibull-docs` and not for readers.
-The `env` dictionary allows you to set environment variables that are set when calling `ansible-playbook`.
-In this example, we set an explicit callback stdout plugin (using `ANSIBLE_STDOUT_CALLBACK`)
-and provide configuration for that plugin (`ANSIBLE_COLLECTIONS_TASKS_ONLY_NUMBER_OF_COLUMNS`).
-
-The playbook is provided as a multi-line YAML string.
-Antsibull-docs looks for the next code block with language `ansible-output`, and replaces its contents with the output of `ansible-playbook playbook.yml`,
+Antsibull-docs looks for the next code block with language `ansible-output`,
+and replaces its contents with the output of `ansible-playbook playbook.yml`,
 where `playbook.yml` is filled with the provided playbook.
 
-Note that the lanuage for the code block can be overridden by providing `language`.
-Also you can prepend lines to the output using `prepend_lines`:
+### The `ansible-output-data` directive in detail
 
+The `ansible-output-data` directive does not generate any visible content in rendered documentation when the `sphinx_antsibull_ext` Sphinx extension is used.
+The directive contains YAML configuration data that is meant for `antsibull-docs` and not for readers.
+In the YAML configuration you can use the following top-level keys.
+Also take a look at the example further below which demonstrates all of them.
+
+* The playbook is provided as a multi-line YAML string `playbook`.
+  At a later point we might allow to reference playbooks (or parts of playbooks) from earlier code blocks.
+
+* The `env` dictionary allows you to set environment variables that are set when calling `ansible-playbook`.
+  In the example further below, we set an explicit callback stdout plugin (using `ANSIBLE_STDOUT_CALLBACK`)
+  and provide configuration for that plugin (`ANSIBLE_COLLECTIONS_TASKS_ONLY_NUMBER_OF_COLUMNS`).
+
+* The `language` key allows to override the language for the code block that will be replaced.
+  By default `antsibull-docs ansible-output` looks for code blocks of language `ansible-output`.
+
+* The `prepend_lines` key allows to prepend a multi-line YAML string to the `ansible-playbook` output.
+
+An example looks like this. The `console` code block contains the generated result:
 ```rst
 .. ansible-output-data::
 
+    ---
+    # Note that the content of the 'ansible-output-data' directive
+    # is hidden from the user
+    # (assuming you are using the sphinx_antsibull_ext Sphinx extension)
+
+    # Use the community.general.tasks_only callback plugin
+    # and configure it to use 90 columns by setting appropriate
+    # environment variables:
     env:
       ANSIBLE_STDOUT_CALLBACK: community.general.tasks_only
       ANSIBLE_COLLECTIONS_TASKS_ONLY_NUMBER_OF_COLUMNS: "90"
+
+    # Look for the next code-block with language 'console':
     language: console
+
+    # Prepend the following lines to the output of 'ansible-playbook'.
+    # In this case, we add a fake console prompt that seems to run the
+    # playbook:
     prepend_lines: |
       $ ansible-playbook playbook.yml
+
+    # The actual playbook to run:
     playbook: |-
       - hosts: localhost
         gather_facts: false
