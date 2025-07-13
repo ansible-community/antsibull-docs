@@ -15,7 +15,10 @@ import typing as t
 from antsibull_docutils.utils import parse_document
 from docutils import nodes
 from docutils.parsers.rst import Directive as _DocutilsDirective
+from docutils.parsers.rst.directives import flag as _directive_param_flag
+from docutils.parsers.rst.directives import unchanged as _directive_param_unchanged
 from docutils.utils import unescape as _docutils_unescape
+from sphinx.util.matching import patfilter as _sphinx_patfilter
 
 from sphinx_antsibull_ext import directives as antsibull_directives
 from sphinx_antsibull_ext import roles as antsibull_roles
@@ -23,6 +26,7 @@ from sphinx_antsibull_ext.sphinx_helper import extract_explicit_title
 
 from .extra_docs import (
     ExtraDocsIndexError,
+    Section,
     find_extra_docs,
     lint_required_conditions,
     load_extra_docs_index,
@@ -146,6 +150,55 @@ def _ignored_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
     return [], []
 
 
+class _ToctreeNode(nodes.Node):
+    def __init__(
+        self, content_offset: int, entries: list[str], has_globs: bool
+    ) -> None:
+        self.content_offset = content_offset
+        self.entries = entries
+        self.has_globs = has_globs
+
+    def pformat(self, indent: str = "    ", level: int = 0) -> str:
+        return ""
+
+    def copy(self) -> t.Self:
+        return self
+
+    def deepcopy(self) -> t.Self:
+        return self
+
+    def astext(self) -> str:
+        return ""
+
+
+class _ToctreeDirective(_DocutilsDirective):
+    has_content = True
+    required_arguments = 0
+    optional_arguments = 0
+    final_argument_whitespace = False
+
+    # Add all options that Sphinx supports, but ignore their values
+    # (except for 'glob')
+    option_spec = {
+        "caption": _directive_param_unchanged,
+        "class": _directive_param_unchanged,
+        "glob": _directive_param_flag,  # we care about this one
+        "hidden": _directive_param_unchanged,
+        "includehidden": _directive_param_unchanged,
+        "maxdepth": _directive_param_unchanged,
+        "name": _directive_param_unchanged,
+        "numbered": _directive_param_unchanged,
+        "reversed": _directive_param_unchanged,
+        "titlesonly": _directive_param_unchanged,
+    }
+
+    def run(self) -> list[nodes.Node]:
+        toctree = _ToctreeNode(
+            self.content_offset, list(self.content), "glob" in self.options
+        )
+        return [toctree]
+
+
 def load_document_and_optionally_check_antsibull_roles(
     *,
     content: str,
@@ -161,9 +214,10 @@ def load_document_and_optionally_check_antsibull_roles(
         for role_name, role in get_names_linter_roles(names_linter, errors).items():
             roles[role_name] = role
 
-    directives = {}
+    directives: dict[str, type[_DocutilsDirective]] = {}
     for directive_name in antsibull_directives.DIRECTIVES:
         directives[directive_name] = _IgnoredDirective
+    directives["toctree"] = _ToctreeDirective
 
     try:
         doc = parse_document(
@@ -200,10 +254,91 @@ def lint_optional_conditions(
     )
 
 
+class _ToctreeVisitor(nodes.SparseNodeVisitor):
+    """
+    Visitor that calls callbacks for all code blocks.
+    """
+
+    def __init__(
+        self,
+        doc: nodes.document,
+        relpath: str,
+        docs: list[tuple[str, str]],
+        errors: list[tuple[int, int, str]],
+    ):
+        super().__init__(doc)
+        self.__errors = errors
+
+        allowed_refs = []
+        self_dir = os.path.dirname(relpath)
+        for _, file in docs:
+            rel = os.path.relpath(file, self_dir)
+            allowed_refs.append(rel)
+            allowed_refs.append(os.path.splitext(rel)[0])
+        self.__allowed_refs = allowed_refs
+
+    def visit_system_message(self, node: nodes.system_message) -> None:
+        """
+        Ignore system messages.
+        """
+        raise nodes.SkipNode
+
+    def visit_error(self, node: nodes.error) -> None:
+        """
+        Ignore errors.
+        """
+        raise nodes.SkipNode
+
+    def unknown_visit(self, node) -> None:
+        """
+        Called when entering unknown `Node` types.
+        """
+        if isinstance(node, _ToctreeNode):
+            self._handle_toctree(node)
+        raise nodes.SkipNode
+
+    def _handle_toctree(self, toctree: _ToctreeNode) -> None:
+        if toctree.has_globs:
+            for idx, entry in enumerate(toctree.entries):
+                if not entry:
+                    continue
+                if not _sphinx_patfilter(self.__allowed_refs, entry):
+                    self.__errors.append(
+                        (
+                            toctree.content_offset + idx + 1,
+                            0,
+                            f"Toctree glob entry {entry!r} does not match an existing file",
+                        )
+                    )
+        else:
+            for idx, entry in enumerate(toctree.entries):
+                if not entry:
+                    continue
+                if entry not in self.__allowed_refs:
+                    self.__errors.append(
+                        (
+                            toctree.content_offset + idx + 1,
+                            0,
+                            f"Toctree entry {entry!r} does not reference an existing file",
+                        )
+                    )
+
+
+def _check_toctrees(
+    doc: nodes.document, relpath: str, docs: list[tuple[str, str]]
+) -> list[tuple[int, int, str]]:
+    result: list[tuple[int, int, str]] = []
+    visitor = _ToctreeVisitor(doc, relpath, docs, result)
+    doc.walk(visitor)
+    return result
+
+
 def _check_file(
     path: str,
+    relpath: str,
     collection_name: str,
     names_linter: CollectionNameLinter | None,
+    docs: list[tuple[str, str]],
     result: list[tuple[str, int, int, str]],
 ) -> list[str]:
     try:
@@ -218,12 +353,18 @@ def _check_file(
         )
         result.extend((path, line, col, msg) for (line, col, msg) in errors)
         # Check Ansible names
-        errors, _ = load_document_and_optionally_check_antsibull_roles(
+        errors, doc = load_document_and_optionally_check_antsibull_roles(
             content=content,
             path=path,
             names_linter=names_linter,
         )
         result.extend((path, line, col, msg) for (line, col, msg) in errors)
+        # Check toctrees
+        if doc:
+            result.extend(
+                (path, line, col, msg)
+                for line, col, msg in _check_toctrees(doc, relpath, docs)
+            )
         # Lint labels
         labels, errors = lint_required_conditions(
             content=content, collection_name=collection_name
@@ -233,6 +374,21 @@ def _check_file(
     except Exception as e:  # pylint:disable=broad-except
         result.append((path, 0, 0, str(e)))
         return []
+
+
+def _lint_toctree(sections: list[Section], docs: list[tuple[str, str]]) -> list[str]:
+    result = []
+    allowed_refs = [file for _, file in docs] + [
+        os.path.splitext(file)[0] for _, file in docs
+    ]
+    for section_idx, section in enumerate(sections):
+        for entry_idx, entry in enumerate(section.toctree):
+            if entry.ref not in allowed_refs:
+                result.append(
+                    f"sections[{section_idx}] -> toctree[{entry_idx}] -> ref ({entry.ref!r})"
+                    " does not reference an existing file",
+                )
+    return result
 
 
 def lint_collection_extra_docs_files(
@@ -256,12 +412,18 @@ def lint_collection_extra_docs_files(
     result: list[tuple[str, int, int, str]] = []
     all_labels: set[str] = set()
     docs = find_extra_docs(path_to_collection)
-    for doc in docs:
-        all_labels.update(_check_file(doc[0], collection_name, names_linter, result))
+    for doc_path, rel_doc_path in docs:
+        all_labels.update(
+            _check_file(
+                doc_path, rel_doc_path, collection_name, names_linter, docs, result
+            )
+        )
     index_path = os.path.join(path_to_collection, "docs", "docsite", "extra-docs.yml")
     try:
-        _, index_errors = load_extra_docs_index(index_path)
+        sections, index_errors = load_extra_docs_index(index_path)
         result.extend((index_path, 0, 0, error) for error in index_errors)
+        toctree_errors = _lint_toctree(sections, docs)
+        result.extend((index_path, 0, 0, error) for error in toctree_errors)
     except ExtraDocsIndexError as exc:
         if len(docs) > 0:
             # Only report the missing index_path as an error if we found documents
