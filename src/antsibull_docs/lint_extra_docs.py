@@ -7,22 +7,14 @@
 
 from __future__ import annotations
 
-import io
 import os
 import os.path
 import re
 import typing as t
 
-from docutils.core import Publisher as _DocutilsPublisher
-from docutils.io import StringInput as _DocutilsStringInput
+from antsibull_docutils.utils import parse_document
+from docutils import nodes
 from docutils.parsers.rst import Directive as _DocutilsDirective
-from docutils.parsers.rst.directives import (
-    register_directive as _docutils_register_directive,
-)
-from docutils.parsers.rst.roles import (
-    register_local_role as _docutils_register_local_role,
-)
-from docutils.utils import Reporter, SystemMessage
 from docutils.utils import unescape as _docutils_unescape
 
 from sphinx_antsibull_ext import directives as antsibull_directives
@@ -154,54 +146,37 @@ def _ignored_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
     return [], []
 
 
-def check_antsibull_roles(
+def load_document_and_optionally_check_antsibull_roles(
     *,
     content: str,
     path: str,
-    names_linter: CollectionNameLinter,
-) -> list[tuple[int, int, str]]:
+    names_linter: CollectionNameLinter | None,
+) -> tuple[list[tuple[int, int, str]], nodes.document | None]:
     errors: list[tuple[int, int, str]] = []
 
-    # Set up docutils
+    roles = {}
     for role_name in antsibull_roles.ROLES:
-        _docutils_register_local_role(role_name, _ignored_role)
+        roles[role_name] = _ignored_role
+    if names_linter:
+        for role_name, role in get_names_linter_roles(names_linter, errors).items():
+            roles[role_name] = role
+
+    directives = {}
     for directive_name in antsibull_directives.DIRECTIVES:
-        _docutils_register_directive(directive_name, _IgnoredDirective)
-    for role_name, role in get_names_linter_roles(names_linter, errors).items():
-        _docutils_register_local_role(role_name, role)
+        directives[directive_name] = _IgnoredDirective
 
-    # We create a _DocutilsPublisher only to have a mechanism which gives us the settings object.
-    # Doing this more explicit is a bad idea since the classes used are deprecated and will
-    # eventually get replaced. _DocutilsPublisher.get_settings() looks like a stable enough API that
-    # we can 'just use'.
-    publisher = _DocutilsPublisher(source_class=_DocutilsStringInput)
-    publisher.set_components("standalone", "restructuredtext", "pseudoxml")
-    override = {
-        "root_prefix": ".",
-        "input_encoding": "utf-8",
-        "file_insertion_enabled": False,
-        "raw_enabled": False,
-        "_disable_config": True,
-        "report_level": Reporter.ERROR_LEVEL,
-        "warning_stream": io.StringIO(),
-    }
-    publisher.process_programmatic_settings(None, override, None)
-    publisher.set_source(content, path)
-
-    # Parse the document
     try:
-        # mypy gives errors for the next line, but this is literally what docutils itself
-        # is also doing. So we're going to ignore this error...
-        publisher.reader.read(
-            publisher.source,
-            publisher.parser,
-            publisher.settings,  # type: ignore
+        doc = parse_document(
+            content,
+            path=path,
+            root_prefix=".",
+            rst_directives=directives,
+            rst_local_roles=roles,
+            parser_name="restructuredtext",
         )
-        return errors
-    except SystemMessage as exc:
-        return [(0, 0, f"Cannot parse document: {exc}")]
-    except Exception as exc:  # pylint: disable=broad-exception-caught
-        return [(0, 0, f"Unexpected error while parsing document: {exc}")]
+        return errors, doc
+    except ValueError as exc:
+        return [(0, 0, f"{exc}")], None
 
 
 def lint_optional_conditions(
@@ -243,13 +218,12 @@ def _check_file(
         )
         result.extend((path, line, col, msg) for (line, col, msg) in errors)
         # Check Ansible names
-        if names_linter is not None:
-            errors = check_antsibull_roles(
-                content=content,
-                path=path,
-                names_linter=names_linter,
-            )
-            result.extend((path, line, col, msg) for (line, col, msg) in errors)
+        errors, _ = load_document_and_optionally_check_antsibull_roles(
+            content=content,
+            path=path,
+            names_linter=names_linter,
+        )
+        result.extend((path, line, col, msg) for (line, col, msg) in errors)
         # Lint labels
         labels, errors = lint_required_conditions(
             content=content, collection_name=collection_name

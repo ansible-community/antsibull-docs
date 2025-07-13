@@ -1,0 +1,2 @@
+minor_changes:
+  - Antsibull-docutils 1.3.0+ is now an explicit dependency (https://github.com/ansible-community/antsibull-docs/pull/395).
