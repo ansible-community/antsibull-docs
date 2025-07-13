@@ -1102,7 +1102,7 @@ ok: [localhost] => {
         3,
         r"""
 Found 1 error:
-failing-test-in-table.rst:5:1: Code block is not replacable
+failing-test-in-table.rst:6:1: Code block is not replacable
 """,
         False,
         """
