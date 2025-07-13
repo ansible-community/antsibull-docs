@@ -158,6 +158,17 @@ Bad section
 -----------
 
 Foo ``bar`.
+
+.. toctree::
+
+  does-not-exist
+  foo
+
+.. toctree::
+  :glob:
+
+  f*o
+  does-*-exist
 """,
     )
 
@@ -169,6 +180,7 @@ Foo ``bar`.
     assert rc == 3
     assert stdout == [
         f'{extra_docs}:0:0: Section #1 has no "title" entry',
+        f"{extra_docs}:0:0: sections[0] -> toctree[1] -> ref ('fooooo') does not reference an existing file",
         f"{links}:0:0: communication -> irc_channel: Extra inputs are not permitted",
         f"{links}:0:0: edit_on_github -> branch: Field required",
         f"{links}:0:0: edit_on_github -> path_prefix: Input should be a valid string",
@@ -176,6 +188,8 @@ Foo ``bar`.
         f"{links}:0:0: foo: Extra inputs are not permitted",
         f'{foo_rst}:9:0: Label "ansible_collections.foo.bar.bad_label" does not start with expected prefix "ansible_collections.foo.bar.docsite."',
         f"{foo_rst}:14:0: (WARNING/2) Inline literal start-string without end-string.",
+        f"{foo_rst}:18:0: Toctree entry 'does-not-exist' does not reference an existing file",
+        f"{foo_rst}:25:0: Toctree glob entry 'does-*-exist' does not match an existing file",
     ]
 
 
