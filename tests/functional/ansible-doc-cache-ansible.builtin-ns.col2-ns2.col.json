@@ -2562,12 +2562,6 @@
         },
         {
          "name": "ansible_ssh_host"
-        },
-        {
-         "name": "delegated_vars['ansible_host']"
-        },
-        {
-         "name": "delegated_vars['ansible_ssh_host']"
         }
        ]
       },
@@ -6621,7 +6615,10 @@
       },
       "allow_nan": {
        "default": true,
-       "description": "When V(False), strict adherence to float value limits of the JSON specifications, so C(nan), C(inf) and C(-inf) values will produce errors. When V(True), JavaScript equivalents will be used (C(NaN), C(Infinity), C(-Infinity)).",
+       "description": [
+        "When V(False), out-of-range float values C(nan), C(inf) and C(-inf) will result in an error.",
+        "When V(True), out-of-range float values will be represented using their JavaScript equivalents, C(NaN), C(Infinity) and C(-Infinity)."
+       ],
        "type": "bool"
       },
       "check_circular": {
@@ -6647,9 +6644,13 @@
        "version_added_collection": "ansible.builtin"
       },
       "separators": {
-       "default": "(', ', ': ')",
+       "default": [
+        ", ",
+        ": "
+       ],
        "description": "The C(item) and C(key) separator to be used in the serialized output, default may change depending on O(indent) and Python version.",
-       "type": "tuple"
+       "elements": "str",
+       "type": "list"
       },
       "skipkeys": {
        "default": false,
@@ -6706,7 +6707,10 @@
       },
       "allow_nan": {
        "default": true,
-       "description": "When V(False), strict adherence to float value limits of the JSON specification, so C(nan), C(inf) and C(-inf) values will produce errors. When V(True), JavaScript equivalents will be used (C(NaN), C(Infinity), C(-Infinity)).",
+       "description": [
+        "When V(False), out-of-range float values C(nan), C(inf) and C(-inf) will result in an error.",
+        "When V(True), out-of-range float values will be represented using their JavaScript equivalents, C(NaN), C(Infinity) and C(-Infinity)."
+       ],
        "type": "bool"
       },
       "check_circular": {
@@ -6773,10 +6777,10 @@
       "Ansible internally auto-converts YAML strings into variable structures so this plugin is used to force it into a YAML string."
      ],
      "filename": "/ansible/plugins/filter/to_nice_yaml.yml",
-     "name": "to_yaml",
+     "name": "to_nice_yaml",
      "notes": [
       "More options may be available, see L(PyYAML documentation, https://pyyaml.org/wiki/PyYAMLDocumentation) for details.",
-      "These parameters to C(yaml.dump) will be ignored, as they are overridden internally: I(default_flow_style)"
+      "These parameters to C(yaml.dump) will be ignored, as they are overridden internally: I(default_flow_style), I(allow_unicode)."
      ],
      "options": {
       "_input": {
@@ -6784,14 +6788,53 @@
        "required": true,
        "type": "raw"
       },
+      "canonical": {
+       "description": [
+        "If set to V(True), export tag type to the output."
+       ],
+       "type": "bool"
+      },
+      "default_style": {
+       "choices": [
+        "",
+        "'",
+        "\"",
+        "|",
+        ">"
+       ],
+       "description": [
+        "Indicates the style of the scalar."
+       ],
+       "type": "string"
+      },
+      "encoding": {
+       "description": "Specify the output encoding.",
+       "type": "string"
+      },
+      "explicit_end": {
+       "description": "If set to V(True), adds an explicit end using \"...\".",
+       "type": "bool"
+      },
+      "explicit_start": {
+       "description": "If set to V(True), adds an explicit start using \"---\".",
+       "type": "bool"
+      },
       "indent": {
        "description": "Number of spaces to indent Python structures, mainly used for display to humans.",
        "type": "integer"
+      },
+      "line_break": {
+       "description": "Specify the line break.",
+       "type": "string"
       },
       "sort_keys": {
        "default": true,
        "description": "Affects sorting of dictionary keys.",
        "type": "bool"
+      },
+      "width": {
+       "description": "Set the preferred line width.",
+       "type": "int"
       }
      },
      "plugin_name": "ansible.builtin.to_nice_yaml",
@@ -6864,14 +6907,53 @@
        "required": true,
        "type": "raw"
       },
+      "canonical": {
+       "description": [
+        "If set to V(True), export tag type to the output."
+       ],
+       "type": "bool"
+      },
+      "default_style": {
+       "choices": [
+        "",
+        "'",
+        "\"",
+        "|",
+        ">"
+       ],
+       "description": [
+        "Indicates the style of the scalar."
+       ],
+       "type": "string"
+      },
+      "encoding": {
+       "description": "Specify the output encoding.",
+       "type": "string"
+      },
+      "explicit_end": {
+       "description": "If set to V(True), adds an explicit end using \"...\".",
+       "type": "bool"
+      },
+      "explicit_start": {
+       "description": "If set to V(True), adds an explicit start using \"---\".",
+       "type": "bool"
+      },
       "indent": {
        "description": "Number of spaces to indent Python structures, mainly used for display to humans.",
        "type": "integer"
+      },
+      "line_break": {
+       "description": "Specify the line break.",
+       "type": "string"
       },
       "sort_keys": {
        "default": true,
        "description": "Affects sorting of dictionary keys.",
        "type": "bool"
+      },
+      "width": {
+       "description": "Set the preferred line width.",
+       "type": "integer"
       }
      },
      "plugin_name": "ansible.builtin.to_yaml",
@@ -13357,16 +13439,6 @@
        "version_added": "2.7",
        "version_added_collection": "ansible.builtin"
       },
-      "install_repoquery": {
-       "default": "yes",
-       "description": [
-        "This is effectively a no-op in DNF as it is not needed with DNF.",
-        "This option is deprecated and will be removed in ansible-core 2.20."
-       ],
-       "type": "bool",
-       "version_added": "2.7",
-       "version_added_collection": "ansible.builtin"
-      },
       "install_weak_deps": {
        "default": "yes",
        "description": [
@@ -13721,14 +13793,6 @@
        ],
        "elements": "str",
        "type": "list"
-      },
-      "install_repoquery": {
-       "default": "yes",
-       "description": [
-        "This is effectively a no-op in DNF as it is not needed with DNF.",
-        "This option is deprecated and will be removed in ansible-core 2.20."
-       ],
-       "type": "bool"
       },
       "install_weak_deps": {
        "default": "yes",
@@ -18098,7 +18162,7 @@
         "Note that neither V(refresh_inventory) nor the M(ansible.builtin.add_host) add hosts to the hosts the current play iterates over. However, if needed, you can explicitly delegate tasks to new hosts with C(delegate_to). Generally, C(delegate_to) can be used against hosts regardless of whether they are in the inventory or not, as long as the value supplied is sufficient for the connection plugin to access the host.",
         "V(noop) (added in Ansible 2.0) This literally does 'nothing'. It is mainly used internally and not recommended for general use.",
         "V(clear_facts) (added in Ansible 2.1) causes the gathered facts for the hosts specified in the play's list of hosts to be cleared, including the fact cache.",
-        "V(clear_host_errors) (added in Ansible 2.1) clears the failed state (if any) from hosts specified in the play's list of hosts.",
+        "V(clear_host_errors) (added in Ansible 2.1) clears the failed state (if any) from hosts specified in the play's list of hosts. This will make them available for targetting in subsequent plays, but not continue execution in the current play.",
         "V(end_play) (added in Ansible 2.2) causes the play to end without failing the host(s). Note that this affects all hosts.",
         "V(reset_connection) (added in Ansible 2.3) interrupts a persistent connection (i.e. ssh + control persist)",
         "V(end_host) (added in Ansible 2.8) is a per-host variation of V(end_play). Causes the play to end for the current host without failing it.",
@@ -18121,7 +18185,7 @@
      "version_added": "1.2",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n# Example showing flushing handlers on demand, not at end of play\n- ansible.builtin.template:\n    src: new.j2\n    dest: /etc/config.txt\n  notify: myhandler\n\n- name: Force all notified handlers to run at this point, not waiting for normal sync points\n  ansible.builtin.meta: flush_handlers\n\n# Example showing how to refresh inventory during play\n- name: Reload inventory, useful with dynamic inventories when play makes changes to the existing hosts\n  cloud_guest:            # this is fake module\n    name: newhost\n    state: present\n\n- name: Refresh inventory to ensure new instances exist in inventory\n  ansible.builtin.meta: refresh_inventory\n\n# Example showing how to clear all existing facts of targeted hosts\n- name: Clear gathered facts from all currently targeted hosts\n  ansible.builtin.meta: clear_facts\n\n# Example showing how to continue using a failed target\n- name: Bring host back to play after failure\n  ansible.builtin.copy:\n    src: file\n    dest: /etc/file\n  remote_user: imightnothavepermission\n\n- ansible.builtin.meta: clear_host_errors\n\n# Example showing how to reset an existing connection\n- ansible.builtin.user:\n    name: '{{ ansible_user }}'\n    groups: input\n\n- name: Reset ssh connection to allow user changes to affect 'current login user'\n  ansible.builtin.meta: reset_connection\n\n# Example showing how to end the play for specific targets\n- name: End the play for hosts that run CentOS 6\n  ansible.builtin.meta: end_host\n  when:\n  - ansible_distribution == 'CentOS'\n  - ansible_distribution_major_version == '6'\n",
+    "examples": "\n# Example showing flushing handlers on demand, not at end of play\n- ansible.builtin.template:\n    src: new.j2\n    dest: /etc/config.txt\n  notify: myhandler\n\n- name: Force all notified handlers to run at this point, not waiting for normal sync points\n  ansible.builtin.meta: flush_handlers\n\n# Example showing how to refresh inventory during play\n- name: Reload inventory, useful with dynamic inventories when play makes changes to the existing hosts\n  cloud_guest:            # this is fake module\n    name: newhost\n    state: present\n\n- name: Refresh inventory to ensure new instances exist in inventory\n  ansible.builtin.meta: refresh_inventory\n\n# Example showing how to clear all existing facts of targeted hosts\n- name: Clear gathered facts from all currently targeted hosts\n  ansible.builtin.meta: clear_facts\n\n# Example showing how to continue using a failed target, for the next play\n- name: Bring host back to play after failure\n  ansible.builtin.copy:\n    src: file\n    dest: /etc/file\n  remote_user: imightnothavepermission\n\n- ansible.builtin.meta: clear_host_errors\n\n# Example showing how to reset an existing connection\n- ansible.builtin.user:\n    name: '{{ ansible_user }}'\n    groups: input\n\n- name: Reset ssh connection to allow user changes to affect 'current login user'\n  ansible.builtin.meta: reset_connection\n\n# Example showing how to end the play for specific targets\n- name: End the play for hosts that run CentOS 6\n  ansible.builtin.meta: end_host\n  when:\n  - ansible_distribution == 'CentOS'\n  - ansible_distribution_major_version == '6'\n",
     "metadata": null,
     "return": null
    },
@@ -20540,6 +20604,15 @@
        "version_added": "2.1",
        "version_added_collection": "ansible.builtin"
       },
+      "get_selinux_context": {
+       "default": false,
+       "description": [
+        "Get file SELinux context in a list V([user, role, type, range]), and will get V([None, None, None, None]) if it is not possible to retrieve the context, either because it does not exist or some other issue."
+       ],
+       "type": "bool",
+       "version_added": "2.20",
+       "version_added_collection": "ansible.builtin"
+      },
       "path": {
        "aliases": [
         "dest",
@@ -20772,6 +20845,19 @@
         "returned": "success, path exists and user can read stats",
         "sample": true,
         "type": "bool"
+       },
+       "selinux_context": {
+        "description": "The SELinux context of a path",
+        "returned": "success, path exists and user can execute the path",
+        "sample": [
+         "user",
+         "role",
+         "type",
+         "range"
+        ],
+        "type": "list",
+        "version_added": "2.20",
+        "version_added_collection": "ansible.builtin"
        },
        "size": {
         "description": "Size in bytes for a plain file, amount of data for some special files",
@@ -21061,7 +21147,7 @@
       },
       "enabled": {
        "description": [
-        "Whether the unit should start on boot. At least one of O(state) and O(enabled) are required.",
+        "Whether the unit should start on boot. At least one of O(state) or O(enabled) are required.",
         "If set, requires O(name)."
        ],
        "type": "bool"
@@ -23939,17 +24025,6 @@
         "This parameter is deprecated as it has no effect with dnf as an underlying package manager and will be removed in ansible-core 2.22."
        ],
        "type": "bool"
-      },
-      "keepcache": {
-       "choices": [
-        "0",
-        "1"
-       ],
-       "description": [
-        "Either V(1) or V(0). Determines whether or not yum keeps the cache of headers and packages after successful installation.",
-        "This parameter is deprecated as it is only valid in the main configuration and will be removed in ansible-core 2.20."
-       ],
-       "type": "str"
       },
       "metadata_expire": {
        "description": [
