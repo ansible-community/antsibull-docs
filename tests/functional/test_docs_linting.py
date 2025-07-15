@@ -6,10 +6,11 @@ from __future__ import annotations
 
 import io
 import os
-from contextlib import contextmanager, redirect_stdout
+from contextlib import redirect_stdout
 
 import pytest
 from ansible_doc_caching import ansible_doc_cache
+from utils import change_cwd, update_environment
 
 from antsibull_docs.cli.antsibull_docs import run
 
@@ -3785,32 +3786,6 @@ TEST_CASES = [
         ],
     ),
 ]
-
-
-@contextmanager
-def change_cwd(directory: str):
-    old_dir = os.getcwd()
-    os.chdir(directory)
-    yield
-    os.chdir(old_dir)
-
-
-@contextmanager
-def update_environment(environment: dict[str, str | None]):
-    backup = {}
-    for k, v in environment.items():
-        if k in os.environ:
-            backup[k] = os.environ[k]
-        if v is not None:
-            os.environ[k] = v
-        elif k in os.environ:
-            del os.environ[k]
-    yield
-    for k in environment:
-        if k in backup:
-            os.environ[k] = backup[k]
-        elif k in os.environ:
-            del os.environ[k]
 
 
 @pytest.mark.parametrize(

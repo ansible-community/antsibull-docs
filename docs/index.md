@@ -29,6 +29,8 @@ The main CLI tool, `antsibull-docs`, has multiple subcommands:
   The former is described in more detail in [Creating a collection docsite](collection-docs.md).
 * The `sphinx-init` subcommmand is used for setting up a Sphinx-based collection docsite.
   This is described in more detail in [Creating a collection docsite](collection-docs.md).
+* The `ansible-output` subcommmand can render ansible-playbook output directly in RST files.
+  This is described in more detail in [Updating ansible-playbook output in RST files](ansible-output.md).
 
 ## Using the Sphinx extension
 

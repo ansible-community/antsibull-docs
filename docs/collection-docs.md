@@ -157,9 +157,17 @@ changelog:
   # antsibull-changelog documentation for more information) and link to it from the
   # collection's index page.
   write_changelog: false
+
+# Configuration for 'antsibull-docs ansible-output'
+# (See documentation for ansible-output for more information.)
+ansible_output:
+  # Insert definitions into 'env' for every ansible-output-data directive
+  global_env:
+    ANSIBLE_STDOUT_CALLBACK: community.general.tasks_only
+    ANSIBLE_COLLECTIONS_TASKS_ONLY_NUMBER_OF_COLUMNS: 80
 ```
 
-Most collections should use `envvar_directives` and `changelog` only. The `flatmap` option applies to older versions of community.general and community.network and should be used for legacy collections only, not for new ones.
+Most collections should use `envvar_directives`, `changelog`, and `ansible_output` only. The `flatmap` option applies to older versions of community.general and community.network and should be used for legacy collections only, not for new ones.
 
 ## Adding extra documentation
 
