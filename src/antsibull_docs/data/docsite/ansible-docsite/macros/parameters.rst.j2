@@ -143,13 +143,13 @@
 {%       endif %}
 @{       deprecates_rst(env['deprecated'], collection, 8, role_entrypoint=role_entrypoint) }@
 {%     endfor %}
-{%     for myvar in value['vars'] %}
-      - Variable: @{ myvar['name'] | rst_escape }@
-{%       if myvar['version_added'] is still_relevant(collection=myvar['version_added_collection'] or collection) %}
+{%     for mycli in value['cli'] %}
+      - CLI argument: @{ mycli['option'] | rst_escape }@
+{%       if mycli['version_added'] is still_relevant(collection=mycli['version_added_collection'] or collection) %}
 
-        :ansible-option-versionadded:`added in @{ version_added_rst(myvar['version_added'], myvar['version_added_collection'] or collection) }@`
+        :ansible-option-versionadded:`added in @{ version_added_rst(mycli['version_added'], mycli['version_added_collection'] or collection) }@`
 {%       endif %}
-@{       deprecates_rst(myvar['deprecated'], collection, 8, role_entrypoint=role_entrypoint) }@
+@{       deprecates_rst(mycli['deprecated'], collection, 8, role_entrypoint=role_entrypoint) }@
 {%     endfor %}
 {%     for kw in value['keyword'] %}
       - Keyword: @{ kw['name'] | rst_escape }@
@@ -159,13 +159,13 @@
 {%       endif %}
 @{       deprecates_rst(kw['deprecated'], collection, 8, role_entrypoint=role_entrypoint) }@
 {%     endfor %}
-{%     for mycli in value['cli'] %}
-      - CLI argument: @{ mycli['option'] | rst_escape }@
-{%       if mycli['version_added'] is still_relevant(collection=mycli['version_added_collection'] or collection) %}
+{%     for myvar in value['vars'] %}
+      - Variable: @{ myvar['name'] | rst_escape }@
+{%       if myvar['version_added'] is still_relevant(collection=myvar['version_added_collection'] or collection) %}
 
-        :ansible-option-versionadded:`added in @{ version_added_rst(mycli['version_added'], mycli['version_added_collection'] or collection) }@`
+        :ansible-option-versionadded:`added in @{ version_added_rst(myvar['version_added'], myvar['version_added_collection'] or collection) }@`
 {%       endif %}
-@{       deprecates_rst(mycli['deprecated'], collection, 8, role_entrypoint=role_entrypoint) }@
+@{       deprecates_rst(myvar['deprecated'], collection, 8, role_entrypoint=role_entrypoint) }@
 {%     endfor %}
 {%   endif %}
 
@@ -268,13 +268,13 @@
 @{       deprecates_html(env['deprecated'], collection, role_entrypoint=role_entrypoint) }@
       </li>
 {%     endfor %}
-{%     for myvar in value['vars'] %}
+{%     for mycli in value['cli'] %}
       <li>
-        <p>Variable: @{ myvar['name'] | escape }@</p>
-{%       if myvar['version_added'] is still_relevant(collection=myvar['version_added_collection'] or collection) %}
-        <p><em class="ansible-option-versionadded">added in @{ version_added_html(myvar['version_added'], myvar['version_added_collection'] or collection) }@</em></p>
+        <p>CLI argument: @{ mycli['option'] | escape }@</p>
+{%       if mycli['version_added'] is still_relevant(collection=mycli['version_added_collection'] or collection) %}
+        <p><em class="ansible-option-versionadded">added in @{ version_added_html(mycli['version_added'], mycli['version_added_collection'] or collection) }@</em></p>
 {%       endif %}
-@{       deprecates_html(myvar['deprecated'], collection, role_entrypoint=role_entrypoint) }@
+@{       deprecates_html(mycli['deprecated'], collection, role_entrypoint=role_entrypoint) }@
       </li>
 {%     endfor %}
 {%     for kw in value['keyword'] %}
@@ -286,13 +286,13 @@
 @{       deprecates_html(kw['deprecated'], collection, role_entrypoint=role_entrypoint) }@
       </li>
 {%     endfor %}
-{%     for mycli in value['cli'] %}
+{%     for myvar in value['vars'] %}
       <li>
-        <p>CLI argument: @{ mycli['option'] | escape }@</p>
-{%       if mycli['version_added'] is still_relevant(collection=mycli['version_added_collection'] or collection) %}
-        <p><em class="ansible-option-versionadded">added in @{ version_added_html(mycli['version_added'], mycli['version_added_collection'] or collection) }@</em></p>
+        <p>Variable: @{ myvar['name'] | escape }@</p>
+{%       if myvar['version_added'] is still_relevant(collection=myvar['version_added_collection'] or collection) %}
+        <p><em class="ansible-option-versionadded">added in @{ version_added_html(myvar['version_added'], myvar['version_added_collection'] or collection) }@</em></p>
 {%       endif %}
-@{       deprecates_html(mycli['deprecated'], collection, role_entrypoint=role_entrypoint) }@
+@{       deprecates_html(myvar['deprecated'], collection, role_entrypoint=role_entrypoint) }@
       </li>
 {%     endfor %}
       </ul>

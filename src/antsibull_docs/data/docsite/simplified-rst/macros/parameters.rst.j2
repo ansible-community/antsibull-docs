@@ -100,13 +100,13 @@
 @{       deprecates_html(env['deprecated'], collection, role_entrypoint=role_entrypoint) }@
       </li>
 {%     endfor %}
-{%     for myvar in value['vars'] %}
+{%     for mycli in value['cli'] %}
       <li>
-        <p>Variable: @{ myvar['name'] | escape }@</p>
-{%       if myvar['version_added'] is still_relevant(collection=myvar['version_added_collection'] or collection) %}
-        <p><i style="font-size: small; color: darkgreen;">added in @{ version_added_html(myvar['version_added'], myvar['version_added_collection'] or collection) }@</i></p>
+        <p>CLI argument: @{ mycli['option'] | escape }@</p>
+{%       if mycli['version_added'] is still_relevant(collection=mycli['version_added_collection'] or collection) %}
+        <p><i style="font-size: small; color: darkgreen;">added in @{ version_added_html(mycli['version_added'], mycli['version_added_collection'] or collection) }@</i></p>
 {%       endif %}
-@{       deprecates_html(myvar['deprecated'], collection, role_entrypoint=role_entrypoint) }@
+@{       deprecates_html(mycli['deprecated'], collection, role_entrypoint=role_entrypoint) }@
       </li>
 {%     endfor %}
 {%     for kw in value['keyword'] %}
@@ -118,13 +118,13 @@
 @{       deprecates_html(kw['deprecated'], collection, role_entrypoint=role_entrypoint) }@
       </li>
 {%     endfor %}
-{%     for mycli in value['cli'] %}
+{%     for myvar in value['vars'] %}
       <li>
-        <p>CLI argument: @{ mycli['option'] | escape }@</p>
-{%       if mycli['version_added'] is still_relevant(collection=mycli['version_added_collection'] or collection) %}
-        <p><i style="font-size: small; color: darkgreen;">added in @{ version_added_html(mycli['version_added'], mycli['version_added_collection'] or collection) }@</i></p>
+        <p>Variable: @{ myvar['name'] | escape }@</p>
+{%       if myvar['version_added'] is still_relevant(collection=myvar['version_added_collection'] or collection) %}
+        <p><i style="font-size: small; color: darkgreen;">added in @{ version_added_html(myvar['version_added'], myvar['version_added_collection'] or collection) }@</i></p>
 {%       endif %}
-@{       deprecates_html(mycli['deprecated'], collection, role_entrypoint=role_entrypoint) }@
+@{       deprecates_html(myvar['deprecated'], collection, role_entrypoint=role_entrypoint) }@
       </li>
 {%     endfor %}
       </ul>
