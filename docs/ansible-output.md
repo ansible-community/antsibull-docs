@@ -83,6 +83,10 @@ Also take a look at the example further below which demonstrates all of them.
 * The `language` key allows to override the language for the code block that will be replaced.
   By default `antsibull-docs ansible-output` looks for code blocks of language `ansible-output`.
 
+* The `skip_first_lines` key allows to remove a fixed number of lines from the beginning of the `ansible-playbook` output.
+
+* The `skip_last_lines` key allows to remove a fixed number of lines from the end of the `ansible-playbook` output.
+
 * The `prepend_lines` key allows to prepend a multi-line YAML string to the `ansible-playbook` output.
 
 An example looks like this. The `console` code block contains the generated result:
@@ -125,6 +129,13 @@ This is an Ansible task we're going to reference in the playbook:
     prepend_lines: |
       $ ansible-playbook playbook.yml
 
+    # Remove the first three lines at the beginning of the playbook.
+    # This is the output for the 'ansible.builtin.set_fact' task:
+    skip_first_lines: 3
+
+    # Do not remove lines at the end of the playbook
+    skip_last_lines: 0
+
     # Define variables for templating the playbook
     variables:
       hosts:
@@ -138,6 +149,9 @@ This is an Ansible task we're going to reference in the playbook:
       - hosts: @{{ hosts }}@
         gather_facts: false
         tasks:
+          - name: Set some value.
+            ansible.builtin.set_fact:
+              some_variable: some_value
       @{# Insert tasks from the previous code block #}@
       @{# (We need to indent all other lines by 4 spaces) #}@
           @{{ tasks | indent(4) }}@

@@ -37,6 +37,8 @@ class AnsibleOutputData(p.BaseModel):
     prepend_lines: str = ""
     language: str = "ansible-output"
     variables: dict[str, VariableSource] = {}
+    skip_first_lines: int = 0
+    skip_last_lines: int = 0
 
     @p.field_validator("env", mode="before")
     @classmethod

@@ -247,6 +247,7 @@ def _compute_code_block_content(
             raise ValueError(f"{exc}\nError output:\n{exc.stderr}") from exc
 
         flog.notice("Post-process result")
+
         # Compute result lines
         lines = [line.rstrip() for line in result.stdout.split("\n")]
         first = 0
@@ -255,11 +256,19 @@ def _compute_code_block_content(
             first += 1
         while first < last and not lines[last - 1]:
             last -= 1
+        lines = lines[first:last]
+
+        # Skip lines
+        if data.data.skip_first_lines > 0:
+            lines = lines[data.data.skip_first_lines :]
+        if data.data.skip_last_lines > 0:
+            lines = lines[: -data.data.skip_last_lines]
+
         # Prepend lines
         prepend_lines = (
             data.data.prepend_lines.split("\n") if data.data.prepend_lines else []
         )
-        return prepend_lines + lines[first:last]
+        return prepend_lines + lines
 
 
 def _replace(
