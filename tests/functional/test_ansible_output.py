@@ -713,6 +713,9 @@ ansible-playbook-failure.rst:4:5: Error while computing code block's expected co
    Some traceback maybe?
    Or just some blabla?
 
+
+   Standard output:
+   Nothing to see here...
 """,
     ),
 ]
