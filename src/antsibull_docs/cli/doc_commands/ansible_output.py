@@ -178,12 +178,14 @@ def _get_variable_value(
         for block in previous_blocks
         if block.language == value.previous_code_block
     ]
-    if not candidates:
-        raise ValueError(
-            "Cannot find previous code block of"
-            f" language {value.previous_code_block!r} for variable {key!r}"
+    try:
+        return candidates[value.previous_code_block_index].content
+    except KeyError:
+        raise ValueError(  # pylint: disable=raise-missing-from
+            "Found {len(candidates)} previous code block(s) of"
+            f" language {value.previous_code_block!r} for variable {key!r},"
+            f" which does not allow index {value.previous_code_block_index}"
         )
-    return candidates[-1].content
 
 
 def _compose_playbook(
@@ -210,6 +212,30 @@ def _compose_playbook(
     )
     template = env.from_string(data.playbook)
     return template.render(**variables)
+
+
+def _strip_empty_lines(lines: list[str]) -> list[str]:
+    first = 0
+    last = len(lines)
+    while first < last and not lines[first]:
+        first += 1
+    while first < last and not lines[last - 1]:
+        last -= 1
+    return lines[first:last]
+
+
+def _strip_common_indent(lines: list[str]) -> list[str]:
+    indent = None
+    for line in lines:
+        line_strip = line.lstrip()
+        if not line_strip:
+            continue
+        li = len(line) - len(line_strip)
+        if indent is None or indent > li:
+            indent = li
+    if indent is None:
+        raise ValueError("Output is empty")
+    return [line[indent:] for line in lines]
 
 
 def _compute_code_block_content(
@@ -244,19 +270,15 @@ def _compute_code_block_content(
                 encoding="utf-8",
             )
         except subprocess.CalledProcessError as exc:
-            raise ValueError(f"{exc}\nError output:\n{exc.stderr}") from exc
+            raise ValueError(
+                f"{exc}\nError output:\n{exc.stderr}\n\nStandard output:\n{exc.stdout}"
+            ) from exc
 
         flog.notice("Post-process result")
 
         # Compute result lines
         lines = [line.rstrip() for line in result.stdout.split("\n")]
-        first = 0
-        last = len(lines)
-        while first < last and not lines[first]:
-            first += 1
-        while first < last and not lines[last - 1]:
-            last -= 1
-        lines = lines[first:last]
+        lines = _strip_empty_lines(lines)
 
         # Skip lines
         if data.data.skip_first_lines > 0:
@@ -268,7 +290,7 @@ def _compute_code_block_content(
         prepend_lines = (
             data.data.prepend_lines.split("\n") if data.data.prepend_lines else []
         )
-        return prepend_lines + lines
+        return _strip_common_indent(_strip_empty_lines(prepend_lines + lines))
 
 
 def _replace(

@@ -75,6 +75,8 @@ Also take a look at the example further below which demonstrates all of them.
 
   * `value`: provide a string that defines the value of the variable.
   * `previous_code_block`: the content of the last code block before the `ansible-output-data` directive of this language will be used as the value.
+    The additional key `previous_code_block_index` (integer, default `-1`) determines which of the previous code blocks of the given language is picked.
+    An index of `0` uses the first one in the file; `1` the second; `-1` the last one; and `-2` the second to last before the `ansible-output-data` directive.
 
 * The `env` dictionary allows you to set environment variables that are set when calling `ansible-playbook`.
   In the example further below, we set an explicit callback stdout plugin (using `ANSIBLE_STDOUT_CALLBACK`)
@@ -142,6 +144,7 @@ This is an Ansible task we're going to reference in the playbook:
         value: localhost
       tasks:
         previous_code_block: yaml+jinja
+        previous_code_block_index: -1
 
     # The actual playbook to run:
     playbook: |-

@@ -15,6 +15,9 @@ import pydantic as p
 class VariableSource(p.BaseModel):
     # Language of previous code block whose content to use
     previous_code_block: t.Optional[str] = None
+    # Given the list of previous code blocks of the specified lanugage,
+    # take the one with this index.
+    previous_code_block_index: int = -1
 
     # Fixed value
     value: t.Optional[str] = None
