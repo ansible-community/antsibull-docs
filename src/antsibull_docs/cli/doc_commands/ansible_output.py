@@ -16,6 +16,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
+import jinja2
 import pydantic
 from antsibull_core.logging import log
 from antsibull_core.pydantic import get_formatted_error_messages
@@ -29,7 +30,10 @@ from docutils import nodes
 from yaml import MarkedYAMLError
 
 from sphinx_antsibull_ext.directive_helper import YAMLDirective
-from sphinx_antsibull_ext.schemas.ansible_output_data import AnsibleOutputData
+from sphinx_antsibull_ext.schemas.ansible_output_data import (
+    AnsibleOutputData,
+    VariableSource,
+)
 
 from ... import app_context
 from ...collection_config import load_collection_config
@@ -110,9 +114,10 @@ def _find_blocks(
     path: Path,
     root: Path | None = None,
     errors: list[tuple[Path, int | None, int | None, str]],
-) -> list[tuple[CodeBlockInfo, _AnsibleOutputDataExt]]:
-    blocks: list[tuple[CodeBlockInfo, _AnsibleOutputDataExt]] = []
+) -> list[tuple[CodeBlockInfo, _AnsibleOutputDataExt, list[CodeBlockInfo]]]:
+    blocks: list[tuple[CodeBlockInfo, _AnsibleOutputDataExt, list[CodeBlockInfo]]] = []
     data: _AnsibleOutputDataExt | None = None
+    previous_blocks: list[CodeBlockInfo] = []
     for block in find_code_blocks(
         content, path=path, root_prefix=root, extra_directives=_DIRECTIVES
     ):
@@ -136,11 +141,12 @@ def _find_blocks(
                 line, col, message = _get_ansible_output_data_error(block)
                 errors.append((path, line, col, message))
             continue
+        previous_blocks.append(block)
         if data is None:
             continue
         if block.language != data.data.language:
             continue
-        blocks.append((block, data))
+        blocks.append((block, data, previous_blocks[:-1]))
         data = None
     if data is not None:
         errors.append(
@@ -159,8 +165,86 @@ class Environment:
     env: dict[str, str]
 
 
+def _get_variable_value(
+    *, key: str, value: VariableSource, previous_blocks: list[CodeBlockInfo]
+) -> str:
+    if value.value is not None:
+        return value.value
+    if value.previous_code_block is None:
+        raise AssertionError(  # pragma: no cover
+            "Implementation error: cannot handle {value!r}"
+        )
+
+    candidates = [
+        block
+        for block in previous_blocks
+        if block.language == value.previous_code_block
+    ]
+    try:
+        return candidates[value.previous_code_block_index].content
+    except IndexError:
+        raise ValueError(  # pylint: disable=raise-missing-from
+            f"Found {len(candidates)} previous code block(s) of"
+            f" language {value.previous_code_block!r} for variable {key!r},"
+            f" which does not allow index {value.previous_code_block_index}"
+        )
+
+
+def _compose_playbook(
+    data: AnsibleOutputData, *, previous_blocks: list[CodeBlockInfo]
+) -> str:
+    if all(s not in data.playbook for s in ("@{%", "@{{", "@{#")):
+        return data.playbook
+
+    variables = {}
+    for key, value in data.variables.items():
+        variables[key] = _get_variable_value(
+            key=key, value=value, previous_blocks=previous_blocks
+        )
+
+    env = jinja2.Environment(
+        block_start_string="@{%",
+        block_end_string="%}@",
+        variable_start_string="@{{",
+        variable_end_string="}}@",
+        comment_start_string="@{#",
+        comment_end_string="#}@",
+        trim_blocks=True,
+        optimized=False,  # we use every template once
+    )
+    template = env.from_string(data.playbook)
+    return template.render(**variables)
+
+
+def _strip_empty_lines(lines: list[str]) -> list[str]:
+    first = 0
+    last = len(lines)
+    while first < last and not lines[first]:
+        first += 1
+    while first < last and not lines[last - 1]:
+        last -= 1
+    return lines[first:last]
+
+
+def _strip_common_indent(lines: list[str]) -> list[str]:
+    indent = None
+    for line in lines:
+        line_strip = line.lstrip()
+        if not line_strip:
+            continue
+        li = len(line) - len(line_strip)
+        if indent is None or indent > li:
+            indent = li
+    if indent is None:
+        raise ValueError("Output is empty")
+    return [line[indent:] for line in lines]
+
+
 def _compute_code_block_content(
-    data: _AnsibleOutputDataExt, *, environment: Environment
+    data: _AnsibleOutputDataExt,
+    *,
+    environment: Environment,
+    previous_blocks: list[CodeBlockInfo],
 ) -> list[str]:
     flog = mlog.fields(func="_compute_code_block_content")
 
@@ -174,7 +258,7 @@ def _compute_code_block_content(
         file = directory / "playbook.yml"
         flog.notice("Directory: {}; playbook: {}", directory, file)
         with open(file, "w", encoding="utf-8") as f:
-            f.write(data.data.playbook)
+            f.write(_compose_playbook(data.data, previous_blocks=previous_blocks))
 
         command = ["ansible-playbook", "playbook.yml"]
         flog.notice("Run ansible-playbook: {}", command)
@@ -188,22 +272,27 @@ def _compute_code_block_content(
                 encoding="utf-8",
             )
         except subprocess.CalledProcessError as exc:
-            raise ValueError(f"{exc}\nError output:\n{exc.stderr}") from exc
+            raise ValueError(
+                f"{exc}\nError output:\n{exc.stderr}\n\nStandard output:\n{exc.stdout}"
+            ) from exc
 
         flog.notice("Post-process result")
+
         # Compute result lines
         lines = [line.rstrip() for line in result.stdout.split("\n")]
-        first = 0
-        last = len(lines)
-        while first < last and not lines[first]:
-            first += 1
-        while first < last and not lines[last - 1]:
-            last -= 1
+        lines = _strip_empty_lines(lines)
+
+        # Skip lines
+        if data.data.skip_first_lines > 0:
+            lines = lines[data.data.skip_first_lines :]
+        if data.data.skip_last_lines > 0:
+            lines = lines[: -data.data.skip_last_lines]
+
         # Prepend lines
         prepend_lines = (
             data.data.prepend_lines.split("\n") if data.data.prepend_lines else []
         )
-        return prepend_lines + lines[first:last]
+        return _strip_common_indent(_strip_empty_lines(prepend_lines + lines))
 
 
 def _replace(
@@ -271,11 +360,11 @@ def _compute_replacements(
     flog.notice("Found {} blocks", len(blocks))
 
     replacements: list[tuple[CodeBlockInfo, list[str]]] = []
-    for block, block_data in blocks:
+    for block, block_data, previous_blocks in blocks:
         flog.notice("Processing block at line {}", block.row_offset + 1)
         try:
             new_content = _compute_code_block_content(
-                block_data, environment=environment
+                block_data, previous_blocks=previous_blocks, environment=environment
             )
         except Exception as exc:  # pylint: disable=broad-exception-caught
             flog.notice("Error while computing code block's expected contents: {}", exc)
