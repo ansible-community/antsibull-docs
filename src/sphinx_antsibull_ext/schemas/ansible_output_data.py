@@ -7,7 +7,28 @@
 
 from __future__ import annotations
 
+import typing as t
+
 import pydantic as p
+
+
+class VariableSource(p.BaseModel):
+    # Language of previous code block whose content to use
+    previous_code_block: t.Optional[str] = None
+
+    # Fixed value
+    value: t.Optional[str] = None
+
+    @p.model_validator(mode="after")
+    def _verify_one_of(self) -> t.Self:
+        keys = ("previous_code_block", "value")
+        values = [getattr(self, key) for key in keys]
+        no = sum(value is not None for value in values)
+        if no == 0:
+            raise ValueError(f"Exactly one of {keys} must be provided")
+        if no > 1:
+            raise ValueError(f"Exactly one of {keys} must be provided")
+        return self
 
 
 class AnsibleOutputData(p.BaseModel):
@@ -15,6 +36,7 @@ class AnsibleOutputData(p.BaseModel):
     env: dict[str, str] = {}
     prepend_lines: str = ""
     language: str = "ansible-output"
+    variables: dict[str, VariableSource] = {}
 
     @p.field_validator("env", mode="before")
     @classmethod

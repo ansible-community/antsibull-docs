@@ -63,7 +63,18 @@ In the YAML configuration you can use the following top-level keys.
 Also take a look at the example further below which demonstrates all of them.
 
 * The playbook is provided as a multi-line YAML string `playbook`.
-  At a later point we might allow to reference playbooks (or parts of playbooks) from earlier code blocks.
+  Note that you can use Jinja expressions; to avoid clashes with Ansible's use of Jinja,
+  you need to prepend and append `@` to template expressions, statements, and comments:
+
+  * Expressions are of the form `@{{ expression }}@`;
+  * Statements are of the form `@{% statement %}@`;
+  * Comments are of the form `@{# Comment #}@`.
+
+* The `variables` directionary allows you to define variables that can be used for templating the playbook.
+  The key in the dictionary is the variable's name, and the value is a dictionary with exactly one of the following keys:
+
+  * `value`: provide a string that defines the value of the variable.
+  * `previous_code_block`: the content of the last code block before the `ansible-output-data` directive of this language will be used as the value.
 
 * The `env` dictionary allows you to set environment variables that are set when calling `ansible-playbook`.
   In the example further below, we set an explicit callback stdout plugin (using `ANSIBLE_STDOUT_CALLBACK`)
@@ -76,6 +87,21 @@ Also take a look at the example further below which demonstrates all of them.
 
 An example looks like this. The `console` code block contains the generated result:
 ```rst
+This is an Ansible task we're going to reference in the playbook:
+
+.. code-block:: yaml+jinja
+
+    - name: Sort list by version number
+      debug:
+        var: ansible_versions | community.general.version_sort
+      vars:
+        ansible_versions:
+          - '2.8.0'
+          - '2.11.0'
+          - '2.7.0'
+          - '2.10.0'
+          - '2.9.0'
+
 .. ansible-output-data::
 
     ---
@@ -99,21 +125,24 @@ An example looks like this. The `console` code block contains the generated resu
     prepend_lines: |
       $ ansible-playbook playbook.yml
 
+    # Define variables for templating the playbook
+    variables:
+      hosts:
+        value: localhost
+      tasks:
+        previous_code_block: yaml+jinja
+
     # The actual playbook to run:
     playbook: |-
-      - hosts: localhost
+      @{# Use the 'hosts' variable defined above #}@
+      - hosts: @{{ hosts }}@
         gather_facts: false
         tasks:
-          - name: Sort list by version number
-            debug:
-              var: ansible_versions | community.general.version_sort
-            vars:
-              ansible_versions:
-                - '2.8.0'
-                - '2.11.0'
-                - '2.7.0'
-                - '2.10.0'
-                - '2.9.0'
+      @{# Insert tasks from the previous code block #}@
+      @{# (We need to indent all other lines by 4 spaces) #}@
+          @{{ tasks | indent(4) }}@
+
+The task produces the following output:
 
 .. code-block:: console
 
