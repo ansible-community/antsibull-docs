@@ -171,7 +171,9 @@ def _get_variable_value(
     if value.value is not None:
         return value.value
     if value.previous_code_block is None:
-        raise AssertionError("Implementation error: cannot handle {value!r}")
+        raise AssertionError(  # pragma: no cover
+            "Implementation error: cannot handle {value!r}"
+        )
 
     candidates = [
         block
@@ -180,9 +182,9 @@ def _get_variable_value(
     ]
     try:
         return candidates[value.previous_code_block_index].content
-    except KeyError:
+    except IndexError:
         raise ValueError(  # pylint: disable=raise-missing-from
-            "Found {len(candidates)} previous code block(s) of"
+            f"Found {len(candidates)} previous code block(s) of"
             f" language {value.previous_code_block!r} for variable {key!r},"
             f" which does not allow index {value.previous_code_block_index}"
         )

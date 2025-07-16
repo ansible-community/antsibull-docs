@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import io
+import os
 import subprocess
 from contextlib import contextmanager, redirect_stdout
 from dataclasses import dataclass
@@ -18,9 +19,16 @@ from antsibull_docs.cli.antsibull_docs import run
 
 
 @dataclass
+class FileContent:
+    filename: str
+    content: str
+
+
+@dataclass
 class AnsiblePlaybookSuccess:
     expected_cmd: list[str]
     expected_env: dict[str, str | None]
+    file_contents: list[FileContent]
     stdout: str
     stderr: str = ""
 
@@ -29,6 +37,7 @@ class AnsiblePlaybookSuccess:
 class AnsiblePlaybookFailure:
     expected_cmd: list[str]
     expected_env: dict[str, str | None]
+    file_contents: list[FileContent]
     rc: int
     stdout: str
     stderr: str
@@ -67,6 +76,13 @@ def patch_ansible_playbook(
             else:
                 assert env[key] == value
         assert command == ansible_playbook_command.expected_cmd
+
+        for file_content in ansible_playbook_command.file_contents:
+            with open(
+                os.path.join(cwd, file_content.filename), "rt", encoding="utf-8"
+            ) as f:
+                read_content = f.read()
+            assert read_content == file_content.content
 
         if isinstance(ansible_playbook_command, AnsiblePlaybookSuccess):
             return Result(
@@ -195,16 +211,20 @@ This produces:
                 "ANSIBLE_STDOUT_CALLBACK": "community.general.tasks_only",
                 "ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH": "90",
             },
-            """TASK [Sort list by version number] ********************************************************
-ok: [localhost] => {
-    "ansible_versions | community.general.version_sort": [
-        "2.7.0",
-        "2.8.0",
-        "2.9.0",
-        "2.10.0",
-        "2.11.0"
-    ]
-}
+            [],
+            """
+
+  TASK [Sort list by version number] ********************************************************
+  ok: [localhost] => {
+      "ansible_versions | community.general.version_sort": [
+          "2.7.0",
+          "2.8.0",
+          "2.9.0",
+          "2.10.0",
+          "2.11.0"
+      ]
+  }
+
 """,
         ),
         0,
@@ -254,6 +274,7 @@ ok: [localhost] => {
                 "ANSIBLE_STDOUT_CALLBACK": "community.general.tasks_only",
                 "ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH": "80",
             },
+            [],
             """TASK [Sort list by version number] **********************************************
 ok: [localhost] => {
     "ansible_versions | community.general.version_sort": [
@@ -290,6 +311,8 @@ modified-test.rst:23:5: Output would differ:
     env:
       ANSIBLE_STDOUT_CALLBACK: community.general.tasks_only
       ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH: "90"
+    skip_first_lines: 1
+    skip_last_lines: 1
     playbook: |-
       - hosts: localhost
         gather_facts: false
@@ -316,7 +339,9 @@ modified-test.rst:23:5: Output would differ:
                 "ANSIBLE_STDOUT_CALLBACK": "community.general.tasks_only",
                 "ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH": "90",
             },
-            """TASK [Sort list by version number] ********************************************************
+            [],
+            """should not be there
+TASK [Sort list by version number] ********************************************************
 ok: [localhost] => {
     "ansible_versions | community.general.version_sort": [
         "2.7.0",
@@ -326,12 +351,13 @@ ok: [localhost] => {
         "2.11.0"
     ]
 }
+this neither
 """,
         ),
         3,
         r"""
 Found 1 error:
-missing-test.rst:24:5: Output would differ:
+missing-test.rst:26:5: Output would differ:
    - ...
    + TASK [Sort list by version number] ********************************************************
    + ok: [localhost] => {
@@ -403,6 +429,7 @@ broken-meta-schema.rst:4:5: Error while validating ansible-output-data directive
         AnsiblePlaybookSuccess(
             ["ansible-playbook", "playbook.yml"],
             {},
+            [],
             "foo\n",
         ),
         3,
@@ -426,6 +453,7 @@ unused-ansible-output-data.rst:16:5: ansible-output-data directive not used
         AnsiblePlaybookSuccess(
             ["ansible-playbook", "playbook.yml"],
             {},
+            [],
             """
 
 
@@ -465,6 +493,7 @@ foo
         AnsiblePlaybookSuccess(
             ["ansible-playbook", "playbook.yml"],
             {},
+            [],
             """
 bar
 """,
@@ -537,6 +566,7 @@ This produces:
                 "ANSIBLE_STDOUT_CALLBACK": "community.general.tasks_only",
                 "ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH": "90",
             },
+            [],
             """TASK [Sort list by version number] ********************************************************
 ok: [localhost] => {
     "ansible_versions | community.general.version_sort": [
@@ -586,6 +616,7 @@ ok: [localhost] => {
         AnsiblePlaybookSuccess(
             ["ansible-playbook", "playbook.yml"],
             {},
+            [],
             """
 2
 4
@@ -664,6 +695,7 @@ complex-diff.rst:8:5: Output would differ:
                 "ANSIBLE_STDOUT_CALLBACK": "community.general.tasks_only",
                 "ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH": "57",
             },
+            [],
             """TASK [Sort list by version number] ***********************
 ok: [localhost] => {
     "ansible_versions | community.general.version_sort": [
@@ -696,6 +728,7 @@ ok: [localhost] => {
             {
                 "NO_COLOR": "true",
             },
+            [],
             1,
             "Nothing to see here...",
             r"""Something bad happened.
@@ -716,6 +749,107 @@ ansible-playbook-failure.rst:4:5: Error while computing code block's expected co
 
    Standard output:
    Nothing to see here...
+""",
+    ),
+    (
+        "ansible-playbook-failure-empty.rst",
+        """
+.. ansible-output-data::
+
+    playbook: |-
+      foo
+
+.. code-block:: ansible-output
+
+    bar
+""",
+        AnsiblePlaybookSuccess(
+            ["ansible-playbook", "playbook.yml"],
+            {
+                "NO_COLOR": "true",
+            },
+            [],
+            "\n\n  \n    \n",
+        ),
+        3,
+        r"""
+Found 1 error:
+ansible-playbook-failure-empty.rst:4:5: Error while computing code block's expected contents:
+   Output is empty
+""",
+    ),
+    (
+        "ansible-playbook-failure-variables-empty.rst",
+        """
+.. ansible-output-data::
+
+    variables:
+      foo: {}
+    playbook: |-
+      foo
+
+.. code-block:: ansible-output
+
+    bar
+""",
+        None,
+        3,
+        r"""
+Found 1 error:
+ansible-playbook-failure-variables-empty.rst:4:5: Error while validating ansible-output-data directive's contents:
+   variables -> foo: Value error, Exactly one of ('previous_code_block', 'value') must be provided
+""",
+    ),
+    (
+        "ansible-playbook-failure-variables-too-many.rst",
+        """
+.. ansible-output-data::
+
+    variables:
+      foo:
+        previous_code_block: foo
+        value: bar
+    playbook: |-
+      foo
+
+.. code-block:: ansible-output
+
+    bar
+""",
+        None,
+        3,
+        r"""
+Found 1 error:
+ansible-playbook-failure-variables-too-many.rst:4:5: Error while validating ansible-output-data directive's contents:
+   variables -> foo: Value error, Exactly one of ('previous_code_block', 'value') must be provided
+""",
+    ),
+    (
+        "ansible-playbook-failure-variables-does-not-exist.rst",
+        """
+.. code-block:: yaml
+
+    foo: bar
+
+.. ansible-output-data::
+
+    variables:
+      foo:
+        previous_code_block: yaml
+        previous_code_block_index: 1
+    playbook: |-
+      foo @{{ foo }}
+
+.. code-block:: ansible-output
+
+    bar
+""",
+        None,
+        3,
+        r"""
+Found 1 error:
+ansible-playbook-failure-variables-does-not-exist.rst:8:5: Error while computing code block's expected contents:
+   Found 1 previous code block(s) of language 'yaml' for variable 'foo', which does not allow index 1
 """,
     ),
 ]
@@ -838,6 +972,7 @@ This produces:
                 "ANSIBLE_STDOUT_CALLBACK": "community.general.tasks_only",
                 "ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH": "90",
             },
+            [],
             """TASK [Sort list by version number] ********************************************************
 ok: [localhost] => {
     "ansible_versions | community.general.version_sort": [
@@ -878,6 +1013,150 @@ This produces:
                 - '2.7.0'
                 - '2.10.0'
                 - '2.9.0'
+
+.. code-block:: ansible-output
+
+    TASK [Sort list by version number] ********************************************************
+    ok: [localhost] => {
+        "ansible_versions | community.general.version_sort": [
+            "2.7.0",
+            "2.8.0",
+            "2.9.0",
+            "2.10.0",
+            "2.11.0"
+        ]
+    }
+
+.. versionadded: 2.2.0
+""",
+    ),
+    (
+        "working-test-variables.rst",
+        """
+Working with versions
+---------------------
+
+.. code-block:: yaml+jinja
+
+    - name: Sort list by version number
+      debug:
+        var: ansible_versions | community.general.version_sort
+      vars:
+        ansible_versions:
+          - '2.8.0'
+          - '2.11.0'
+          - '2.7.0'
+          - '2.10.0'
+          - '2.9.0'
+
+This produces:
+
+.. ansible-output-data::
+
+    env:
+      ANSIBLE_STDOUT_CALLBACK: community.general.tasks_only
+      ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH: "90"
+    variables:
+      host:
+        value: localhost
+      task:
+        previous_code_block: yaml+jinja
+    playbook: |-
+      - hosts: @{{ host }}@
+        gather_facts: false
+        tasks:
+          @{{ task | indent(4) }}@
+
+.. code-block:: ansible-output
+
+    TASK [Sort list by version number] ********************************************************
+    ok: [localhost] => {
+        "ansible_versions | community.general.version_sort": [
+            "2.7.0",
+            "2.8.0",
+            "2.9.0",
+            "2.10.0",
+            "2.11.0"
+        ]
+    }
+
+.. versionadded: 2.2.0
+""",
+        AnsiblePlaybookSuccess(
+            ["ansible-playbook", "playbook.yml"],
+            {
+                "NO_COLOR": "true",
+                "ANSIBLE_STDOUT_CALLBACK": "community.general.tasks_only",
+                "ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH": "90",
+            },
+            [
+                FileContent(
+                    "playbook.yml",
+                    r"""- hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Sort list by version number
+      debug:
+        var: ansible_versions | community.general.version_sort
+      vars:
+        ansible_versions:
+          - '2.8.0'
+          - '2.11.0'
+          - '2.7.0'
+          - '2.10.0'
+          - '2.9.0'
+""",
+                ),
+            ],
+            """TASK [Sort list by version number] ********************************************************
+ok: [localhost] => {
+    "ansible_versions | community.general.version_sort": [
+        "2.7.0",
+        "2.8.0",
+        "2.9.0",
+        "2.10.0",
+        "2.11.0"
+    ]
+}
+""",
+        ),
+        0,
+        "",
+        False,
+        """
+Working with versions
+---------------------
+
+.. code-block:: yaml+jinja
+
+    - name: Sort list by version number
+      debug:
+        var: ansible_versions | community.general.version_sort
+      vars:
+        ansible_versions:
+          - '2.8.0'
+          - '2.11.0'
+          - '2.7.0'
+          - '2.10.0'
+          - '2.9.0'
+
+This produces:
+
+.. ansible-output-data::
+
+    env:
+      ANSIBLE_STDOUT_CALLBACK: community.general.tasks_only
+      ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH: "90"
+    variables:
+      host:
+        value: localhost
+      task:
+        previous_code_block: yaml+jinja
+    playbook: |-
+      - hosts: @{{ host }}@
+        gather_facts: false
+        tasks:
+          @{{ task | indent(4) }}@
 
 .. code-block:: ansible-output
 
@@ -939,6 +1218,7 @@ This produces:
                 "ANSIBLE_STDOUT_CALLBACK": "community.general.tasks_only",
                 "ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH": "80",
             },
+            [],
             """TASK [Sort list by version number] **********************************************
 ok: [localhost] => {
     "ansible_versions | community.general.version_sort": [
@@ -1020,6 +1300,7 @@ ok: [localhost] => {
                 "ANSIBLE_STDOUT_CALLBACK": "community.general.tasks_only",
                 "ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH": "57",
             },
+            [],
             """TASK [Sort list by version number] ***********************
 ok: [localhost] => {
     "ansible_versions | community.general.version_sort": [
@@ -1091,6 +1372,7 @@ ok: [localhost] => {
                 "ANSIBLE_STDOUT_CALLBACK": "community.general.tasks_only",
                 "ANSIBLE_COLLECTIONS_TASKS_ONLY_COLUMN_WIDTH": "57",
             },
+            [],
             """TASK [Sort list by version number] ***********************
 ok: [localhost] => {
     "ansible_versions | community.general.version_sort": [
