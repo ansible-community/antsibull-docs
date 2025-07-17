@@ -242,6 +242,30 @@ def _strip_common_indent(lines: list[str]) -> list[str]:
     return [line[indent:] for line in lines]
 
 
+def _massage_stdout(
+    stdout: str,
+    *,
+    skip_first_lines: int = 0,
+    skip_last_lines: int = 0,
+    prepend_lines: str | None = None,
+) -> list[str]:
+    # Compute result lines
+    lines = [line.rstrip() for line in stdout.split("\n")]
+    lines = _strip_empty_lines(lines)
+
+    # Skip lines
+    if skip_first_lines > 0:
+        lines = lines[skip_first_lines:]
+    if skip_last_lines > 0:
+        lines = lines[:-skip_last_lines]
+
+    # Prepend lines
+    if prepend_lines:
+        lines = prepend_lines.split("\n") + lines
+
+    return _strip_common_indent(_strip_empty_lines(lines))
+
+
 def _compute_code_block_content(
     data: _AnsibleOutputDataExt,
     *,
@@ -279,22 +303,12 @@ def _compute_code_block_content(
             ) from exc
 
         flog.notice("Post-process result")
-
-        # Compute result lines
-        lines = [line.rstrip() for line in result.stdout.split("\n")]
-        lines = _strip_empty_lines(lines)
-
-        # Skip lines
-        if data.data.skip_first_lines > 0:
-            lines = lines[data.data.skip_first_lines :]
-        if data.data.skip_last_lines > 0:
-            lines = lines[: -data.data.skip_last_lines]
-
-        # Prepend lines
-        prepend_lines = (
-            data.data.prepend_lines.split("\n") if data.data.prepend_lines else []
+        return _massage_stdout(
+            result.stdout,
+            skip_first_lines=data.data.skip_first_lines,
+            skip_last_lines=data.data.skip_last_lines,
+            prepend_lines=data.data.prepend_lines,
         )
-        return _strip_common_indent(_strip_empty_lines(prepend_lines + lines))
 
 
 def _replace(
