@@ -24881,6 +24881,11 @@
       },
       "foo": {
        "description": "The foo source.",
+       "env": [
+        {
+         "name": "ANSIBLE_FOO"
+        }
+       ],
        "required": true,
        "type": "str"
       },
@@ -24924,12 +24929,30 @@
           "Whatever.",
           "Also required when O(subfoo) is specified when O(foo=bar) or V(baz)."
          ],
+         "env": [
+          {
+           "name": "ANSIBLE_FOO"
+          },
+          {
+           "name": "ANSIBLE_BAR",
+           "version_added": "2.2.0"
+          },
+          {
+           "deprecated": {
+            "alternatives": "use C(ANSIBLE_BAR)",
+            "removed_from_collection": "ns2.col",
+            "version": "4.0.0",
+            "why": "Will be gone."
+           },
+           "name": "ANSIBLE_BAZ"
+          }
+         ],
          "required": true,
          "type": "str"
         }
        },
        "type": "dict",
-       "version_added": "2.0.0",
+       "version_added": "2.1.0",
        "version_added_collection": "ns2.col"
       }
      },

@@ -214,6 +214,7 @@
                             "The groups to add the hostname to."
                         ],
                         "elements": "str",
+                        "env": [],
                         "required": false,
                         "suboptions": {},
                         "type": "list",
@@ -231,6 +232,7 @@
                             "The hostname/ip of the host to add to the inventory, can include a colon and a port number."
                         ],
                         "elements": "str",
+                        "env": [],
                         "required": true,
                         "suboptions": {},
                         "type": "str",

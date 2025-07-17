@@ -9,10 +9,16 @@
 import pydantic as p
 
 from .base import BaseModel, DocSchema, OptionsSchema
-from .plugin import PluginExamplesSchema, PluginMetadataSchema, PluginReturnSchema
+from .plugin import (
+    OptionEnvSchema,
+    PluginExamplesSchema,
+    PluginMetadataSchema,
+    PluginReturnSchema,
+)
 
 
 class InnerModuleOptionsSchema(OptionsSchema):
+    env: list[OptionEnvSchema] = []
     suboptions: dict[str, "InnerModuleOptionsSchema"] = {}
 
     @p.model_validator(mode="before")
@@ -28,6 +34,7 @@ InnerModuleOptionsSchema.model_rebuild()
 
 
 class ModuleOptionsSchema(OptionsSchema):
+    env: list[OptionEnvSchema] = []
     suboptions: dict[str, "InnerModuleOptionsSchema"] = {}
 
 
