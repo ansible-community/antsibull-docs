@@ -1417,6 +1417,10 @@ failing-test-in-table.rst:6:1: Code block is not replacable
 ]
 
 
+def is_stat_equal(first: os.stat_result, second: os.stat_result) -> bool:
+    return first.st_mtime_ns == second.st_mtime_ns and first.st_size == second.st_size
+
+
 @pytest.mark.parametrize(
     "rst_filename, rst_content, ansible_playbook_command, expected_rc, expected_stdout, rst_updated, rst_new_content",
     EXPECTED_REPLACE_RESULTS,
@@ -1458,7 +1462,7 @@ def test_ansible_output_replace(
 
     new_stat = rst_path.stat()
     if rst_updated:
-        assert old_stat != new_stat
+        assert not is_stat_equal(old_stat, new_stat)
     else:
-        assert old_stat == new_stat
+        assert is_stat_equal(old_stat, new_stat)
     assert rst_path.read_text() == rst_new_content
