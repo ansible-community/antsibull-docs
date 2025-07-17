@@ -33,6 +33,8 @@ from sphinx_antsibull_ext.directive_helper import YAMLDirective
 from sphinx_antsibull_ext.schemas.ansible_output_data import (
     AnsibleOutputData,
     VariableSource,
+    VariableSourceCodeBlock,
+    VariableSourceValue,
 )
 
 from ... import app_context
@@ -168,9 +170,9 @@ class Environment:
 def _get_variable_value(
     *, key: str, value: VariableSource, previous_blocks: list[CodeBlockInfo]
 ) -> str:
-    if value.value is not None:
+    if isinstance(value, VariableSourceValue):
         return value.value
-    if value.previous_code_block is None:
+    if not isinstance(value, VariableSourceCodeBlock):
         raise AssertionError(  # pragma: no cover
             "Implementation error: cannot handle {value!r}"
         )

@@ -12,26 +12,24 @@ import typing as t
 import pydantic as p
 
 
-class VariableSource(p.BaseModel):
+class VariableSourceCodeBlock(p.BaseModel):
+    model_config = p.ConfigDict(frozen=True, extra="forbid", validate_default=True)
+
     # Language of previous code block whose content to use
-    previous_code_block: t.Optional[str] = None
+    previous_code_block: str
     # Given the list of previous code blocks of the specified lanugage,
     # take the one with this index.
     previous_code_block_index: int = -1
 
-    # Fixed value
-    value: t.Optional[str] = None
 
-    @p.model_validator(mode="after")
-    def _verify_one_of(self) -> t.Self:
-        keys = ("previous_code_block", "value")
-        values = [getattr(self, key) for key in keys]
-        no = sum(value is not None for value in values)
-        if no == 0:
-            raise ValueError(f"Exactly one of {keys} must be provided")
-        if no > 1:
-            raise ValueError(f"Exactly one of {keys} must be provided")
-        return self
+class VariableSourceValue(p.BaseModel):
+    model_config = p.ConfigDict(frozen=True, extra="forbid", validate_default=True)
+
+    # Fixed value
+    value: str
+
+
+VariableSource = t.Union[VariableSourceCodeBlock, VariableSourceValue]
 
 
 class AnsibleOutputData(p.BaseModel):
