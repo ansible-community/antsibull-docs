@@ -76,6 +76,11 @@ class _AnsibleOutputDataDirective(YAMLDirective[AnsibleOutputData]):
     wrap_as_data = True
     schema = AnsibleOutputData
 
+    def _handle_error(self, message: str, from_exc: Exception) -> list[nodes.Node]:
+        # Do not report errors when simply building docs.
+        # Errors should be reported when running 'antsibull-docs lint-collection-docs'.
+        return []
+
     def _run(self, content_str: str, content: AnsibleOutputData) -> list[nodes.Node]:
         # This directive should produce no output. It is used in the ansible-output subcommand.
         return []
