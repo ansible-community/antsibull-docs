@@ -1,3 +1,5 @@
 minor_changes:
   - "Add a new subcommand ``ansible-output`` which allows to render Ansible output into RST code blocks
-     (https://github.com/ansible-community/antsibull-docs/pull/397, https://github.com/ansible-community/antsibull-docs/pull/401)."
+     (https://github.com/ansible-community/antsibull-docs/pull/397,
+     https://github.com/ansible-community/antsibull-docs/pull/401,
+     https://github.com/ansible-community/antsibull-docs/pull/402)."
