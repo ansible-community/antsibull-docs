@@ -32,6 +32,23 @@ class VariableSourceValue(p.BaseModel):
 VariableSource = t.Union[VariableSourceCodeBlock, VariableSourceValue]
 
 
+class PostprocessorCLI(p.BaseModel):
+    model_config = p.ConfigDict(frozen=True, extra="forbid", validate_default=True)
+
+    # Pass input as stdin to command, and use stdout
+    command: list[str]
+
+
+class PostprocessorNameRef(p.BaseModel):
+    model_config = p.ConfigDict(frozen=True, extra="forbid", validate_default=True)
+
+    # Name of postprocessor in global config
+    name: str
+
+
+Postprocessor = t.Union[PostprocessorCLI, PostprocessorNameRef]
+
+
 class AnsibleOutputData(p.BaseModel):
     playbook: str
     env: dict[str, str] = {}
@@ -40,6 +57,7 @@ class AnsibleOutputData(p.BaseModel):
     variables: dict[str, VariableSource] = {}
     skip_first_lines: int = 0
     skip_last_lines: int = 0
+    postprocessors: list[Postprocessor] = []
 
     @p.field_validator("env", mode="before")
     @classmethod

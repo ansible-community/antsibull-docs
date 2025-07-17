@@ -91,6 +91,9 @@ Also take a look at the example further below which demonstrates all of them.
 
 * The `prepend_lines` key allows to prepend a multi-line YAML string to the `ansible-playbook` output.
 
+* The `postprocessors` key allows to define a list of post-processors.
+  TODO: explain in more detail.
+
 An example looks like this. The `console` code block contains the generated result:
 ```rst
 This is an Ansible task we're going to reference in the playbook:
@@ -206,6 +209,17 @@ ansible_output:
   global_env:
     ANSIBLE_STDOUT_CALLBACK: community.general.tasks_only
     ANSIBLE_COLLECTIONS_TASKS_ONLY_NUMBER_OF_COLUMNS: 80
+
+  # Global post-processors for Ansible output
+  global_postprocessors:
+    # Keys are the names that can be referenced in ansible-output-data directives
+    reformat-yaml:
+      # For CLI tools, you can specify a command that accepts input on stdin
+      # and outputs the result on stdout:
+      command:
+        - python
+        - "-m"
+        - pyaml
 ```
 
 This is useful to standardize the callback and its settings for most code blocks in a collection's extra docs.
