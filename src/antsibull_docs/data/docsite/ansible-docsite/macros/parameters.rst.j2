@@ -110,7 +110,7 @@
       :ansible-option-default-bold:`Default:` :ansible-option-default:`@{ value['default'] | antsibull_to_json | rst_escape(escape_ending_whitespace=true) | rst_indent(6, blank=true) }@`
 {%   endif %}
 {#   Configuration #}
-{%   if plugin_type != 'module' and plugin_type != 'role' and (value['ini'] or value['env'] or value['vars'] or value['cli']) %}
+{%   if plugin_type != 'module' and plugin_type != 'role' and (value['ini'] or value['env'] or value['vars'] or value['keyword'] or value['cli']) %}
 
       .. rst-class:: ansible-option-line
 
@@ -239,7 +239,7 @@
       <p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-value literal notranslate ansible-option-default">@{ value['default'] | antsibull_to_json | escape | rst_indent(6, blank=true) }@</code></p>
 {%   endif %}
 {#   Configuration #}
-{%   if plugin_type != 'module' and plugin_type != 'role' and (value['ini'] or value['env'] or value['vars'] or value['cli']) %}
+{%   if plugin_type != 'module' and plugin_type != 'role' and (value['ini'] or value['env'] or value['vars'] or value['keyword'] or value['cli']) %}
       <p class="ansible-option-line"><strong class="ansible-option-configuration">Configuration:</strong></p>
       <ul class="simple">
 {%     if value['ini'] %}

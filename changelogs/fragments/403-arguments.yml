@@ -1,0 +1,2 @@
+bugfixes:
+  - "Fix bug that hid keyword config for plugin options for options that are only configurable this way (https://github.com/ansible-community/antsibull-docs/pull/403)."
