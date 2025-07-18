@@ -1110,3 +1110,17 @@ releases:
       - 397-ansible-output.yml
       - 403-arguments.yml
     release_date: '2025-07-18'
+  2.19.1:
+    changes:
+      bugfixes:
+        - Remove ``ansible._protomatter`` from the collection list if no plugins are
+          found for it and it has not been explicitly added to the collection list
+          (https://github.com/ansible-community/antsibull-docs/pull/405).
+        - Remove old hint on configuration settings precedence. The new note makes
+          this one superfluous (https://github.com/ansible-community/antsibull-docs/pull/404).
+      release_summary: Bugfix release for official docsite build.
+    fragments:
+      - 2.19.1.yml
+      - 404-hint.yml
+      - 405-protomatter.yml
+    release_date: '2025-07-18'

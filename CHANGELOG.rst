@@ -4,6 +4,20 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.19.1
+=======
+
+Release Summary
+---------------
+
+Bugfix release for official docsite build.
+
+Bugfixes
+--------
+
+- Remove ``ansible._protomatter`` from the collection list if no plugins are found for it and it has not been explicitly added to the collection list (https://github.com/ansible-community/antsibull-docs/pull/405).
+- Remove old hint on configuration settings precedence. The new note makes this one superfluous (https://github.com/ansible-community/antsibull-docs/pull/404).
+
 v2.19.0
 =======
 
