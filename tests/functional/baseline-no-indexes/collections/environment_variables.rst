@@ -38,3 +38,9 @@ Environment variables used by the ansible-core configuration are documented in :
 
     *Used by:*
     :ansplugin:`ns2.col.foo shell plugin <ns2.col.foo#shell>`
+.. envvar:: FOO_BAR
+
+    Nothing.
+
+    *Used by:*
+    :ansplugin:`ns2.col.foo callback plugin <ns2.col.foo#callback>`

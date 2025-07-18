@@ -1,2 +1,5 @@
 bugfixes:
   - "Fix bug that hid keyword config for plugin options for options that are only configurable this way (https://github.com/ansible-community/antsibull-docs/pull/403)."
+minor_changes:
+  - "For plugin options that can be configured through other means (Ansible variables, INI entries, environment variables, keywords, CLI arguments), show a notice on precedence below the plugin's parameters if more than one such way is present for an option
+     (https://github.com/ansible-community/antsibull-docs/pull/400, https://github.com/ansible-community/antsibull-docs/pull/403)."

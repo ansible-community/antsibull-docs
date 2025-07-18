@@ -120,6 +120,22 @@ def guess_relative_filename(
     return f"{plugin_dir}/{plugin_short_name}.py"
 
 
+def has_option_config_ambiguity(documentation: dict[str, t.Any]) -> bool:
+    if not isinstance(documentation.get("options"), Mapping):
+        return False
+    for option in documentation["options"].values():
+        count = 0
+        for cfg in ("ini", "env", "vars", "keyword", "cli"):
+            if isinstance(option.get(cfg), Sequence):
+                count += len(option[cfg])
+        if count > 1:
+            return True
+        # TODO: We do not recurse into option["suboptions"] (if exists),
+        #       since ansible-core's plugin manager does not handle these.
+        #       If this ever changes, this code should be adjusted.
+    return False
+
+
 def create_plugin_rst(
     collection_name: str,
     collection_meta: AnsibleCollectionMetadata,
@@ -253,6 +269,9 @@ def create_plugin_rst(
                 collection_communication=collection_links.communication,
                 collection_issue_tracker=collection_links.issue_tracker,
                 collection_deprecation_info=collection_meta.deprecation_info,
+                has_option_config_ambiguity=has_option_config_ambiguity(
+                    plugin_record["doc"]
+                ),
                 for_official_docsite=for_official_docsite,
                 add_version=add_version,
             )
