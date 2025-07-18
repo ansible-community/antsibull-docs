@@ -1,0 +1,2 @@
+bugfixes:
+  - "Remove old hint on configuration settings precedence. The new note makes this one superfluous (https://github.com/ansible-community/antsibull-docs/pull/404)."
