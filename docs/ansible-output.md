@@ -281,32 +281,32 @@ Right now there are two kind of post-processor entries in `postprocessors`:
 
 1. Command-based post-processors:
 
-   You can provide a list `command`.
-   This command is executed,
-   the input fed in through standard input,
-   and its standard output is taken as the output.
+    You can provide a list `command`.
+    This command is executed,
+    the input fed in through standard input,
+    and its standard output is taken as the output.
 
-   Example:
-   ```yaml
-   postprocessors:
-     - command:
-         - python
-         - "-m"
-         - pyaml
-   ```
+    Example:
+    ```yaml
+    postprocessors:
+      - command:
+          - python
+          - "-m"
+          - pyaml
+    ```
 
 2. Name-reference post-processors:
 
-   You can use `name` to reference a named globally defined post-processor.
-   This is right now only possible in collections,
-   since you need to define these in the collection's config file
-   (`docs/docsite/config.yml` -- see further below).
+    You can use `name` to reference a named globally defined post-processor.
+    This is right now only possible in collections,
+    since you need to define these in the collection's config file
+    (`docs/docsite/config.yml` - see the [Collection usage section](#collection-usage)).
 
-   Example:
-   ```yaml
-   postprocessors:
-     - name: reformat-yaml
-   ```
+    Example:
+    ```yaml
+    postprocessors:
+      - name: reformat-yaml
+    ```
 
 ## Standalone usage
 
