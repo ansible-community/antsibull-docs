@@ -197,7 +197,7 @@ Parameters
 
 @{   parameters_html(doc['options'] | remove_options_from_list(options_to_skip) | dictsort, suboption_key='suboptions') }@
 {% endif %}
-{% if plugin_type != 'module' %}
+{% if plugin_type != 'module' and has_option_config_ambiguity %}
 
 .. note::
 

@@ -71,7 +71,7 @@
       <p style="margin-top: 8px;"><b style="color: blue;">Default:</b> <code style="color: blue;">@{ value['default'] | antsibull_to_json | escape | rst_indent(6, blank=true) }@</code></p>
 {%   endif %}
 {#   Configuration #}
-{%   if plugin_type != 'module' and plugin_type != 'role' and (value['ini'] or value['env'] or value['vars'] or value['cli']) %}
+{%   if plugin_type != 'module' and plugin_type != 'role' and (value['ini'] or value['env'] or value['vars'] or value['keyword'] or value['cli']) %}
       <p style="margin-top: 8px;"><b>Configuration:</b></p>
       <ul>
 {%     if value['ini'] %}

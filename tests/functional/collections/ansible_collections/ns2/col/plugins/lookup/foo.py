@@ -23,6 +23,8 @@ DOCUMENTATION = """
       bar:
         description: Foo bar.
         type: string
+        vars:
+          - name: foo_bar
 """
 
 EXAMPLES = """

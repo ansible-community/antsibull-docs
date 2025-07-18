@@ -17,6 +17,8 @@ DOCUMENTATION = """
         bar:
             description: Nothing.
             type: string
+            env:
+              - name: FOO_BAR
 """
 
 from ansible.plugins.callback import CallbackBase

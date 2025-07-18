@@ -61,19 +61,19 @@ Parameters
     </td>
     <td valign="top">
       <p>Nothing.</p>
+      <p style="margin-top: 8px;"><b>Configuration:</b></p>
+      <ul>
+      <li>
+        <p>Environment variable: <code>FOO_BAR</code></p>
+
+      </li>
+      </ul>
     </td>
   </tr>
   </tbody>
   </table>
 
 
-
-.. note::
-
-    Configuration entries listed above for each entry type (Ansible variable, environment variable, and so on) have a low to high priority order.
-    For example, a variable that is lower in the list will override a variable that is higher up.
-    The entry types are also ordered by precedence from low to high priority order.
-    For example, an ansible.cfg entry (further up in the list) is overwritten by an Ansible variable (further down in the list).
 
 
 

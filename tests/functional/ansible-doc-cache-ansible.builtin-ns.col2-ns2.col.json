@@ -1405,6 +1405,11 @@
      "options": {
       "bar": {
        "description": "Nothing.",
+       "env": [
+        {
+         "name": "FOO_BAR"
+        }
+       ],
        "type": "string"
       }
      },
@@ -10473,7 +10478,12 @@
       },
       "bar": {
        "description": "Foo bar.",
-       "type": "string"
+       "type": "string",
+       "vars": [
+        {
+         "name": "foo_bar"
+        }
+       ]
       }
      },
      "plugin_name": "ns2.col.foo",
