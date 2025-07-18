@@ -187,7 +187,6 @@ Authors
 - Someone else (@ansible)
 
 
-
 Collection links
 ~~~~~~~~~~~~~~~~
 

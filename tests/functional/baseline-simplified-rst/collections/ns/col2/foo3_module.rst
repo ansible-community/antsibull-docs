@@ -188,7 +188,6 @@ Authors
 
 
 
-
 There were some errors parsing the documentation for this plugin.  Please file a bug with the `ns.col2 collection <https://galaxy.ansible.com/ui/repo/published/ns/col2/>`_.
 
 The errors were:

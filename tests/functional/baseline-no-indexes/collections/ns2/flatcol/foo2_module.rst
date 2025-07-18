@@ -214,7 +214,6 @@ Authors
 - Another one (@ansible-community)
 
 
-
 .. Extra links
 
 Collection links

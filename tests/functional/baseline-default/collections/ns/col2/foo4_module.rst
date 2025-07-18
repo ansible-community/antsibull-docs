@@ -363,7 +363,6 @@ Authors
 - Nobody (@ansible)
 
 
-
 .. Extra links
 
 
