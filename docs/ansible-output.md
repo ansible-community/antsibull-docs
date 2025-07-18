@@ -92,7 +92,7 @@ Also take a look at the example further below which demonstrates all of them.
 * The `prepend_lines` key allows to prepend a multi-line YAML string to the `ansible-playbook` output.
 
 * The `postprocessors` key allows to define a list of post-processors.
-  TODO: explain in more detail.
+  This is explained in more detail in the [Post-processing ansible-playbook output section](#post-processing-ansible-playbook-output).
 
 An example looks like this. The `console` code block contains the generated result:
 ```rst
@@ -149,6 +149,9 @@ This is an Ansible task we're going to reference in the playbook:
         previous_code_block: yaml+jinja
         previous_code_block_index: -1
 
+    # No post-processors
+    postprocessors: []
+
     # The actual playbook to run:
     playbook: |-
       @{# Use the 'hosts' variable defined above #}@
@@ -180,6 +183,131 @@ The task produces the following output:
     }
 ```
 
+## Post-processing ansible-playbook output
+
+Out of the box, you can post-process the `ansible-playbook` output in some ways:
+
+* Skip a fixed number of lines at the top (`skip_first_lines`) or bottom (`skip_last_lines`).
+* Prepend lines to the output (`prepend_lines`).
+
+This, together with chosing an appropriate callback plugin
+(like [community.general.tasks_only](https://docs.ansible.com/ansible/devel/collections/community/general/tasks_only_callback.html))
+gives you a lot of freedom to get the output you want.
+
+In some cases, it is not sufficient though.
+For example, if you want to extract YAML output, and present it in a way that [matches your yamllint configuration](https://ansible.readthedocs.io/projects/antsibull-nox/config-file/#yamllint-part-of-the-yamllint-session).
+The default callback's YAML output suffers from [PyYAML's list indentation issue](https://github.com/yaml/pyyaml/issues/234),
+which causes problems with many yamllint configurations.
+Also, the [ansible.builtin.default callback's YAML output](https://docs.ansible.com/ansible/devel/collections/ansible/builtin/default_callback.html#parameter-result_format) is indented by 4 spaces,
+while most YAML is expected to be indented by 2 spaces.
+
+If you use the above settings (`skip_first_lines` / `skip_last_lines`) to extract only the YAML content of one task of the playbook's output,
+you can for example use [Pretty YAML (pyaml)](https://pypi.org/project/pyaml/) to reformat it.
+For that, you can use the `postprocessors` list to specify a post-processor command:
+```yaml
+postprocessors:
+  - command:
+      - python
+      - "-m"
+      - pyaml
+```
+This tells `antsibull-docs ansible-output` to feed the extracted output
+(with `skip_first_lines`, `skip_last_lines`, and `prepend_lines` already processed)
+through standard input into the `python -m pyaml` process,
+and use its output instead.
+
+A full example looks like this:
+```rst
+.. code-block:: yaml+jinja
+
+   input:
+     - k0_x0: A0
+       k1_x1: B0
+       k2_x2: [C0]
+       k3_x3: foo
+     - k0_x0: A1
+       k1_x1: B1
+       k2_x2: [C1]
+       k3_x3: bar
+
+   target:
+     - {after: a0, before: k0_x0}
+     - {after: a1, before: k1_x1}
+
+   result: "{{ input | community.general.replace_keys(target=target) }}"
+
+.. ansible-output-data::
+
+    env:
+      ANSIBLE_CALLBACK_RESULT_FORMAT: yaml
+    variables:
+      data:
+        previous_code_block: yaml+jinja
+    postprocessors:
+      - command:
+          - python
+          - "-m"
+          - pyaml
+    language: yaml
+    skip_first_lines: 4
+    skip_last_lines: 3
+    playbook: |-
+      - hosts: localhost
+        gather_facts: false
+        tasks:
+          - vars:
+              @{{ data | indent(8) }}@
+            ansible.builtin.debug:
+              var: result
+
+This results in:
+
+.. code-block:: yaml
+
+   result:
+     - a0: A0
+       a1: B0
+       k2_x2:
+         - C0
+       k3_x3: foo
+     - a0: A1
+       a1: B1
+       k2_x2:
+         - C1
+       k3_x3: bar
+```
+
+Right now there are two kind of post-processor entries in `postprocessors`:
+
+1. Command-based post-processors:
+
+   You can provide a list `command`.
+   This command is executed,
+   the input fed in through standard input,
+   and its standard output is taken as the output.
+
+   Example:
+   ```yaml
+   postprocessors:
+     - command:
+         - python
+         - "-m"
+         - pyaml
+   ```
+
+2. Name-reference post-processors:
+
+   You can use `name` to reference a named globally defined post-processor.
+   This is right now only possible in collections,
+   since you need to define these in the collection's config file
+   (`docs/docsite/config.yml` -- see further below).
+
+   Example:
+   ```yaml
+   postprocessors:
+     - name: reformat-yaml
+   ```
+
 ## Standalone usage
 
 If you want to update a RST file, or all RST files in a directory, you can run antsibull-docs as follows:
@@ -199,7 +327,8 @@ If you run `antsibull-docs ansible-output` without a path, it assumes that you a
 It will check all `.rst` files in `docs/docsite/rst/`, if that directory exists,
 and load configuration from `docs/docsite/config.yml`.
 (See [more information on that configuration file](../collection-docs/#configuring-the-docsite).)
-The configuration allows you to specify entries for `env` for all code blocks:
+The configuration allows you to specify entries for `env` for all code blocks,
+and you can define global post-processors that can be referenced in `postprocessors`:
 
 ```yaml
 ---
@@ -222,7 +351,8 @@ ansible_output:
         - pyaml
 ```
 
-This is useful to standardize the callback and its settings for most code blocks in a collection's extra docs.
+This is useful to standardize the callback and its settings for most code blocks in a collection's extra docs,
+and set up a pre-defined set of post-processors that can be used everywhere.
 
 ## Usage in CI
 
