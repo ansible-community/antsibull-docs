@@ -117,6 +117,10 @@ Parameters
 
       </li>
       <li>
+        <p>Keyword: become_exe</p>
+
+      </li>
+      <li>
         <p>Variable: ansible_become_exe</p>
 
       </li>
@@ -125,10 +129,6 @@ Parameters
   <p>Removed in: version 3.0.0</p>
   <p>Why: Just some text.</p>
   <p>Alternative: nothing</p>
-
-      </li>
-      <li>
-        <p>Keyword: become_exe</p>
 
       </li>
       </ul>
@@ -169,16 +169,16 @@ Parameters
 
       </li>
       <li>
+        <p>Keyword: become_user</p>
+        <p><i style="font-size: small; color: darkgreen;">added in ns2.col 0.1.0</i></p>
+
+      </li>
+      <li>
         <p>Variable: ansible_become_user</p>
 
       </li>
       <li>
         <p>Variable: ansible_foo_user</p>
-        <p><i style="font-size: small; color: darkgreen;">added in ns2.col 0.1.0</i></p>
-
-      </li>
-      <li>
-        <p>Keyword: become_user</p>
         <p><i style="font-size: small; color: darkgreen;">added in ns2.col 0.1.0</i></p>
 
       </li>
@@ -189,6 +189,13 @@ Parameters
   </table>
 
 
+
+.. note::
+
+    Configuration entries listed above for each entry type (Ansible variable, environment variable, and so on) have a low to high priority order.
+    For example, a variable that is lower in the list will override a variable that is higher up.
+    The entry types are also ordered by precedence from low to high priority order.
+    For example, an ansible.cfg entry (further up in the list) is overwritten by an Ansible variable (further down in the list).
 
 
 

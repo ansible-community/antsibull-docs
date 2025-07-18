@@ -218,6 +218,8 @@ Parameters
         Alternative: nothing
 
 
+      - Keyword: become\_exe
+
       - Variable: ansible\_become\_exe
 
       - Variable: ansible\_foo\_exe
@@ -228,8 +230,6 @@ Parameters
 
         Alternative: nothing
 
-
-      - Keyword: become\_exe
 
 
       .. raw:: html
@@ -299,13 +299,13 @@ Parameters
 
       - Environment variable: :envvar:`ANSIBLE\_FOO\_USER`
 
-      - Variable: ansible\_become\_user
-
-      - Variable: ansible\_foo\_user
+      - Keyword: become\_user
 
         :ansible-option-versionadded:`added in ns2.col 0.1.0`
 
-      - Keyword: become\_user
+      - Variable: ansible\_become\_user
+
+      - Variable: ansible\_foo\_user
 
         :ansible-option-versionadded:`added in ns2.col 0.1.0`
 
@@ -314,6 +314,13 @@ Parameters
 
         </div>
 
+
+.. note::
+
+    Configuration entries listed above for each entry type (Ansible variable, environment variable, and so on) have a low to high priority order.
+    For example, a variable that is lower in the list will override a variable that is higher up.
+    The entry types are also ordered by precedence from low to high priority order.
+    For example, an ansible.cfg entry (further up in the list) is overwritten by an Ansible variable (further down in the list).
 
 .. Attributes
 
