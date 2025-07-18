@@ -4,6 +4,27 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.19.0
+=======
+
+Release Summary
+---------------
+
+Bugfix and feature release.
+
+Minor Changes
+-------------
+
+- Add a new subcommand ``ansible-output`` which allows to render Ansible output into RST code blocks (https://github.com/ansible-community/antsibull-docs/pull/397, https://github.com/ansible-community/antsibull-docs/pull/401, https://github.com/ansible-community/antsibull-docs/pull/402).
+- Antsibull-docutils 1.3.0+ is now an explicit dependency (https://github.com/ansible-community/antsibull-docs/pull/395).
+- For plugin options that can be configured through other means (Ansible variables, INI entries, environment variables, keywords, CLI arguments), show a notice on precedence below the plugin's parameters if more than one such way is present for an option (https://github.com/ansible-community/antsibull-docs/pull/400, https://github.com/ansible-community/antsibull-docs/pull/403).
+- When linting extra docs, verify that files referenced in toctrees exist (https://github.com/ansible-community/antsibull-docs/issues/398, https://github.com/ansible-community/antsibull-docs/pull/395).
+
+Bugfixes
+--------
+
+- Fix bug that hid keyword config for plugin options for options that are only configurable this way (https://github.com/ansible-community/antsibull-docs/pull/403).
+
 v2.18.0
 =======
 
