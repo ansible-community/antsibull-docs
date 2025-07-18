@@ -797,7 +797,8 @@ ansible-playbook-failure-empty.rst:4:5: Error while computing code block's expec
         r"""
 Found 1 error:
 ansible-playbook-failure-variables-empty.rst:4:5: Error while validating ansible-output-data directive's contents:
-   variables -> foo: Value error, Exactly one of ('previous_code_block', 'value') must be provided
+   variables -> foo -> VariableSourceCodeBlock -> previous_code_block: Field required
+   variables -> foo -> VariableSourceValue -> value: Field required
 """,
     ),
     (
@@ -821,7 +822,8 @@ ansible-playbook-failure-variables-empty.rst:4:5: Error while validating ansible
         r"""
 Found 1 error:
 ansible-playbook-failure-variables-too-many.rst:4:5: Error while validating ansible-output-data directive's contents:
-   variables -> foo: Value error, Exactly one of ('previous_code_block', 'value') must be provided
+   variables -> foo -> VariableSourceCodeBlock -> value: Extra inputs are not permitted
+   variables -> foo -> VariableSourceValue -> previous_code_block: Extra inputs are not permitted
 """,
     ),
     (

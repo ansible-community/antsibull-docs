@@ -32,7 +32,12 @@ from yaml import MarkedYAMLError
 from sphinx_antsibull_ext.directive_helper import YAMLDirective
 from sphinx_antsibull_ext.schemas.ansible_output_data import (
     AnsibleOutputData,
+    Postprocessor,
+    PostprocessorCLI,
+    PostprocessorNameRef,
     VariableSource,
+    VariableSourceCodeBlock,
+    VariableSourceValue,
 )
 
 from ... import app_context
@@ -163,14 +168,15 @@ def _find_blocks(
 @dataclass
 class Environment:
     env: dict[str, str]
+    global_postprocessors: dict[str, Postprocessor]
 
 
 def _get_variable_value(
     *, key: str, value: VariableSource, previous_blocks: list[CodeBlockInfo]
 ) -> str:
-    if value.value is not None:
+    if isinstance(value, VariableSourceValue):
         return value.value
-    if value.previous_code_block is None:
+    if not isinstance(value, VariableSourceCodeBlock):
         raise AssertionError(  # pragma: no cover
             "Implementation error: cannot handle {value!r}"
         )
@@ -240,6 +246,70 @@ def _strip_common_indent(lines: list[str]) -> list[str]:
     return [line[indent:] for line in lines]
 
 
+def _massage_stdout(
+    stdout: str,
+    *,
+    skip_first_lines: int = 0,
+    skip_last_lines: int = 0,
+    prepend_lines: str | None = None,
+) -> list[str]:
+    # Compute result lines
+    lines = [line.rstrip() for line in stdout.split("\n")]
+    lines = _strip_empty_lines(lines)
+
+    # Skip lines
+    if skip_first_lines > 0:
+        lines = lines[skip_first_lines:]
+    if skip_last_lines > 0:
+        lines = lines[:-skip_last_lines]
+
+    # Prepend lines
+    if prepend_lines:
+        lines = prepend_lines.split("\n") + lines
+
+    return _strip_common_indent(_strip_empty_lines(lines))
+
+
+def _apply_postprocessor(
+    lines: list[str],
+    *,
+    cwd: Path,
+    env: dict[str, str],
+    postprocessor: Postprocessor,
+    environment: Environment,
+) -> list[str]:
+    flog = mlog.fields(func="_apply_postprocessor")
+
+    if isinstance(postprocessor, PostprocessorNameRef):
+        ref = postprocessor.name
+        try:
+            postprocessor = environment.global_postprocessors[ref]
+        except KeyError:
+            raise ValueError(  # pylint: disable=raise-missing-from
+                f"No global postprocessor of name {ref!r} defined"
+            )
+
+    if isinstance(postprocessor, PostprocessorCLI):
+        flog.notice("Run postprocessor command: {}", postprocessor.command)
+        try:
+            result = subprocess.run(
+                postprocessor.command,
+                capture_output=True,
+                input="\n".join(lines) + "\n",
+                cwd=cwd,
+                env=env,
+                check=True,
+                encoding="utf-8",
+            )
+        except subprocess.CalledProcessError as exc:
+            raise ValueError(
+                f"{exc}\nError output:\n{exc.stderr}\n\nStandard output:\n{exc.stdout}"
+            ) from exc
+        lines = _massage_stdout(result.stdout)
+
+    return lines
+
+
 def _compute_code_block_content(
     data: _AnsibleOutputDataExt,
     *,
@@ -277,22 +347,27 @@ def _compute_code_block_content(
             ) from exc
 
         flog.notice("Post-process result")
-
-        # Compute result lines
-        lines = [line.rstrip() for line in result.stdout.split("\n")]
-        lines = _strip_empty_lines(lines)
-
-        # Skip lines
-        if data.data.skip_first_lines > 0:
-            lines = lines[data.data.skip_first_lines :]
-        if data.data.skip_last_lines > 0:
-            lines = lines[: -data.data.skip_last_lines]
-
-        # Prepend lines
-        prepend_lines = (
-            data.data.prepend_lines.split("\n") if data.data.prepend_lines else []
+        lines = _massage_stdout(
+            result.stdout,
+            skip_first_lines=data.data.skip_first_lines,
+            skip_last_lines=data.data.skip_last_lines,
+            prepend_lines=data.data.prepend_lines,
         )
-        return _strip_common_indent(_strip_empty_lines(prepend_lines + lines))
+        for postprocessor in data.data.postprocessors:
+            flog.notice("Run post-processor {}", postprocessor)
+            try:
+                lines = _apply_postprocessor(
+                    lines,
+                    cwd=directory,
+                    env=env,
+                    postprocessor=postprocessor,
+                    environment=environment,
+                )
+            except ValueError as exc:
+                raise ValueError(
+                    f"Error while running post-processor {postprocessor}:\n{exc}"
+                ) from exc
+        return lines
 
 
 def _replace(
@@ -581,10 +656,12 @@ def get_environment(
         else:
             collections_path = f"{collection_path}"
         env["ANSIBLE_COLLECTIONS_PATH"] = collections_path
+    postprocessors = {}
     if collection_config is not None:
         env.update(collection_config.ansible_output.global_env)
+        postprocessors.update(collection_config.ansible_output.global_postprocessors)
     flog.notice("Environment template: {}", env)
-    return Environment(env=env)
+    return Environment(env=env, global_postprocessors=postprocessors)
 
 
 def detect_color(*, force: bool | None = None) -> bool:
