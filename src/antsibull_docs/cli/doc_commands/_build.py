@@ -344,7 +344,7 @@ def _add_deprecation_info(
             metadata.removal_ansible_major_version = meta.removal.major_version
 
 
-def generate_docs_for_all_collections(  # noqa: C901
+def generate_docs_for_all_collections(  # noqa: C901  # pylint: disable=too-many-branches
     venv: VenvRunner | FakeVenvRunner,
     collection_dir: str | None,
     dest_dir: str,
@@ -442,6 +442,18 @@ def generate_docs_for_all_collections(  # noqa: C901
     _remove_collections(
         plugin_info, collection_metadata, exclude_collection_names or []
     )
+    if (
+        "ansible._protomatter" in collection_metadata
+        and collection_names is None
+        and not any(
+            any(
+                plugin_name.startswith("ansible._protomatter.")
+                for plugin_name in plugins
+            )
+            for plugins in plugin_info.values()
+        )
+    ):
+        _remove_collections(plugin_info, collection_metadata, ["ansible._protomatter"])
 
     # Load collection routing information
     collection_routing = asyncio.run(load_all_collection_routing(collection_metadata))
