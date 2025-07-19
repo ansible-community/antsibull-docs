@@ -273,7 +273,6 @@ def _massage_stdout(
 def _apply_postprocessor(
     lines: list[str],
     *,
-    cwd: Path,
     env: dict[str, str],
     postprocessor: Postprocessor,
     environment: Environment,
@@ -296,7 +295,6 @@ def _apply_postprocessor(
                 postprocessor.command,
                 capture_output=True,
                 input="\n".join(lines) + "\n",
-                cwd=cwd,
                 env=env,
                 check=True,
                 encoding="utf-8",
@@ -358,7 +356,6 @@ def _compute_code_block_content(
             try:
                 lines = _apply_postprocessor(
                     lines,
-                    cwd=directory,
                     env=env,
                     postprocessor=postprocessor,
                     environment=environment,
