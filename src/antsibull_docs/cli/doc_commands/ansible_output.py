@@ -157,9 +157,12 @@ def _get_parallelism() -> int:
     lib_ctx = app_context.lib_ctx.get()
     if lib_ctx.process_max is not None and lib_ctx.process_max > 0:
         return lib_ctx.process_max
-    process_cpu_count = os.process_cpu_count()
-    if process_cpu_count is not None and process_cpu_count > 0:
-        return process_cpu_count
+    try:
+        process_cpu_count = os.process_cpu_count()
+        if process_cpu_count is not None and process_cpu_count > 0:
+            return process_cpu_count
+    except AttributeError:
+        pass  # os.process_cpu_count() has been added in Python 3.13
     cpu_count = os.cpu_count()
     if cpu_count is not None and cpu_count > 0:
         return cpu_count
