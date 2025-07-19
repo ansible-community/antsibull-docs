@@ -15,6 +15,7 @@ from unittest import mock
 import pytest
 from utils import change_cwd
 
+from antsibull_docs.ansible_output.process import _compose_error
 from antsibull_docs.cli.antsibull_docs import run
 
 
@@ -48,28 +49,19 @@ def patch_ansible_playbook(
     *,
     ansible_playbook_command: AnsiblePlaybookSuccess | AnsiblePlaybookFailure | None,
 ) -> None:
-    class Result:
-        def __init__(self, stdout: str, stderr: str) -> None:
-            self.returncode = 0
-            self.stdout = stdout
-            self.stderr = stderr
-
-    def subprocess_run(
-        command,
+    async def execute(
+        command: list[str],
         *,
-        capture_output: bool,
-        cwd: str | Path,
-        env: dict[str, str],
-        check: bool,
-        encoding: str,
-    ) -> Result:
+        cwd: Path | None = None,
+        env: dict[str, str] | None = None,
+        stdin: str | None = None,
+    ) -> str:
         if ansible_playbook_command is None:
             raise AssertionError("ansible-playbook should never have been called!")
 
-        assert capture_output == True
         assert cwd is not None
-        assert check is True
-        assert encoding == "utf-8"
+        assert stdin is None
+        assert env is not None
         for key, value in ansible_playbook_command.expected_env.items():
             if value is None:
                 assert key not in env
@@ -85,23 +77,23 @@ def patch_ansible_playbook(
             assert read_content == file_content.content
 
         if isinstance(ansible_playbook_command, AnsiblePlaybookSuccess):
-            return Result(
-                ansible_playbook_command.stdout, ansible_playbook_command.stderr
-            )
+            return ansible_playbook_command.stdout
 
         if isinstance(ansible_playbook_command, AnsiblePlaybookFailure):
-            raise subprocess.CalledProcessError(
-                ansible_playbook_command.rc,
-                command,
-                output=ansible_playbook_command.stdout,
-                stderr=ansible_playbook_command.stderr,
+            raise ValueError(
+                _compose_error(
+                    command=command,
+                    returncode=ansible_playbook_command.rc,
+                    stdout=ansible_playbook_command.stdout,
+                    stderr=ansible_playbook_command.stderr,
+                )
             )
 
         raise AssertionError("should not happen")  # pragma: no cover
 
     with mock.patch(
-        "antsibull_docs.ansible_output.process.subprocess.run",
-        subprocess_run,
+        "antsibull_docs.ansible_output.process._execute",
+        execute,
     ):
         yield
 
@@ -740,7 +732,7 @@ Or just some blabla?
         r"""
 Found 1 error:
 ansible-playbook-failure.rst:4:5: Error while computing code block's expected contents:
-   Command '['ansible-playbook', 'playbook.yml']' returned non-zero exit status 1.
+   Command ['ansible-playbook', 'playbook.yml'] returned non-zero exit status 1.
    Error output:
    Something bad happened.
    Some traceback maybe?

@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
@@ -131,7 +132,49 @@ def _massage_stdout(
     return _strip_common_indent(_strip_empty_lines(lines))
 
 
-def _apply_postprocessor(
+def _compose_error(
+    *, command: list[str], returncode: int, stdout: str, stderr: str
+) -> str:
+    return (
+        f"Command {command} returned non-zero exit status {returncode}.\n"
+        f"Error output:\n{stderr}\n\nStandard output:\n{stdout}"
+    )
+
+
+async def _execute(
+    command: list[str],
+    *,
+    cwd: Path | None = None,
+    env: dict[str, str] | None = None,
+    stdin: str | None = None,
+) -> str:
+    try:
+        result = await asyncio.create_subprocess_exec(
+            *command,
+            stdin=subprocess.PIPE if stdin is not None else subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            cwd=cwd,
+            env=env,
+        )
+    except IOError as exc:
+        raise ValueError(f"Cannot execute command {command}:\n{exc}") from exc
+    b_stdout, b_stderr = await result.communicate(
+        input=stdin.encode("utf-8") if stdin is not None else None
+    )
+    assert result.returncode is not None
+    stdout = b_stdout.decode("utf-8")
+    stderr = b_stderr.decode("utf-8")
+    if result.returncode == 0:
+        return stdout
+    raise ValueError(
+        _compose_error(
+            command=command, returncode=result.returncode, stdout=stdout, stderr=stderr
+        )
+    )
+
+
+async def _apply_postprocessor(
     lines: list[str],
     *,
     env: dict[str, str],
@@ -141,25 +184,17 @@ def _apply_postprocessor(
 
     if isinstance(postprocessor, PostprocessorCLI):
         flog.notice("Run postprocessor command: {}", postprocessor.command)
-        try:
-            result = subprocess.run(
-                postprocessor.command,
-                capture_output=True,
-                input="\n".join(lines) + "\n",
-                env=env,
-                check=True,
-                encoding="utf-8",
-            )
-        except subprocess.CalledProcessError as exc:
-            raise ValueError(
-                f"{exc}\nError output:\n{exc.stderr}\n\nStandard output:\n{exc.stdout}"
-            ) from exc
-        lines = _massage_stdout(result.stdout)
+        stdout = await _execute(
+            postprocessor.command, env=env, stdin="\n".join(lines) + "\n"
+        )
+        return _massage_stdout(stdout)
 
-    return lines
+    raise AssertionError(
+        f"Unknown post-processor type {type(postprocessor)}"
+    )  # pragma: no cover
 
 
-def _compute_code_block_content(
+async def _compute_code_block_content(
     block: Block,
 ) -> list[str]:
     flog = mlog.fields(func="_compute_code_block_content")
@@ -178,23 +213,11 @@ def _compute_code_block_content(
 
         command = ["ansible-playbook", "playbook.yml"]
         flog.notice("Run ansible-playbook: {}", command)
-        try:
-            result = subprocess.run(
-                command,
-                capture_output=True,
-                cwd=directory,
-                env=block.merged_env,
-                check=True,
-                encoding="utf-8",
-            )
-        except subprocess.CalledProcessError as exc:
-            raise ValueError(
-                f"{exc}\nError output:\n{exc.stderr}\n\nStandard output:\n{exc.stdout}"
-            ) from exc
+        stdout = await _execute(command, cwd=directory, env=block.merged_env)
 
         flog.notice("Post-process result")
         lines = _massage_stdout(
-            result.stdout,
+            stdout,
             skip_first_lines=block.data.skip_first_lines,
             skip_last_lines=block.data.skip_last_lines,
             prepend_lines=block.data.prepend_lines,
@@ -202,7 +225,7 @@ def _compute_code_block_content(
         for postprocessor in block.merged_postprocessors:
             flog.notice("Run post-processor {}", postprocessor)
             try:
-                lines = _apply_postprocessor(
+                lines = await _apply_postprocessor(
                     lines,
                     env=block.merged_env,
                     postprocessor=postprocessor,
@@ -221,10 +244,8 @@ class Replacement:
     new_content: list[str]
 
 
-def compute_replacement(
+async def compute_replacement(
     block: Block,
-    *,
-    path: Path,
 ) -> Replacement | Error | None:
     """
     Compute replacement for a block.
@@ -236,11 +257,11 @@ def compute_replacement(
     flog = mlog.fields(func="compute_replacement")
 
     try:
-        new_content = _compute_code_block_content(block)
+        new_content = await _compute_code_block_content(block)
     except Exception as exc:  # pylint: disable=broad-exception-caught
         flog.notice("Error while computing replacement: {}", exc)
         return Error(
-            path,
+            block.path,
             block.data_line,
             block.data_col,
             f"Error while computing code block's expected contents:\n{exc}",
@@ -255,7 +276,7 @@ def compute_replacement(
         return None
 
     return Replacement(
-        path=path,
+        path=block.path,
         codeblock=block.codeblock,
         new_content=new_content,
     )
