@@ -44,6 +44,7 @@ class Error:
 
 @dataclass
 class Block:
+    path: Path
     codeblock: CodeBlockInfo
     data: AnsibleOutputData
     data_line: int
@@ -159,6 +160,7 @@ def _compose_block(
                 continue
         postprocessors.append(postprocessor)
     return Block(
+        path=path,
         codeblock=codeblock,
         data=data.data,
         data_line=data.line,

@@ -16,12 +16,13 @@ from antsibull_core.logging import log
 
 from ... import app_context
 from ...ansible_output.load import (
+    Block,
     Environment,
     Error,
     get_environment,
     load_blocks_from_file,
 )
-from ...ansible_output.process import compute_replacement
+from ...ansible_output.process import Replacement, compute_replacement
 from ...ansible_output.replace import (
     apply_replacements,
     colorize,
@@ -35,108 +36,79 @@ from ...utils.collection_copier import CollectionCopier
 mlog = log.fields(mod=__name__)
 
 
-def process_file(
+def find_blocks_in_file(
     path: Path,
     *,
     root: Path | None = None,
     errors: list[Error],
+    blocks: list[Block],
     environment: Environment,
-    check: bool,
-    color: bool,
 ) -> None:
     """
     Process RST file.
 
     Note that this function must not be used in multiple threads at the same time!
     """
-    flog = mlog.fields(func="process_file")
-
     data = load_blocks_from_file(
         path, root=root, errors=errors, environment=environment
     )
-    if not data:
-        return
-
-    flog.notice("Compute replacements")
-    replacements = []
-    for block in data.blocks:
-        replacement = compute_replacement(block, path=path)
-        if replacement is None:
-            continue
-        if isinstance(replacement, Error):
-            errors.append(replacement)
-        else:
-            replacements.append(replacement)
-
-    if check:
-        errors.extend(
-            convert_replacements_to_errors(replacements=replacements, color=color)
-        )
-        return
-
-    apply_replacements(replacements, errors=errors)
+    if data:
+        blocks.extend(data.blocks)
 
 
-def process_directory(
+def find_blocks_in_directory(
     path: Path,
     *,
     errors: list[Error],
+    blocks: list[Block],
     environment: Environment,
-    check: bool,
-    color: bool,
 ) -> None:
-    flog = mlog.fields(func="process_directory")
+    flog = mlog.fields(func="find_blocks_in_directory")
     flog.notice("Walking {}", path)
     try:
         for dirpath, _, filenames in path.walk():
             flog.notice("Processing {}: found {}", dirpath, filenames)
             for filename in filenames:
                 if filename.endswith(".rst"):
-                    process_file(
+                    find_blocks_in_file(
                         dirpath / filename,
                         root=path,
                         errors=errors,
+                        blocks=blocks,
                         environment=environment,
-                        check=check,
-                        color=color,
                     )
     except Exception as exc:  # pylint: disable=broad-exception-caught
         errors.append(Error(path, None, None, f"Error while listing files: {exc}"))
 
 
-def check_rst_files(
+def find_blocks(
     paths: Sequence[str],
     *,
     environment: Environment | None = None,
-    check: bool = False,
-    color: bool | None = None,
-) -> list[Error]:
+) -> tuple[list[Error], list[Block]]:
     if environment is None:
         environment = get_environment()
-    if color is None:
-        color = detect_color()
     errors: list[Error] = []
+    blocks: list[Block] = []
     for path in paths:
         path_obj = Path(path)
         if path_obj.is_dir():
-            process_directory(
+            find_blocks_in_directory(
                 path_obj,
                 errors=errors,
+                blocks=blocks,
                 environment=environment,
-                check=check,
-                color=color,
             )
         elif path_obj.exists():
-            process_file(
+            find_blocks_in_file(
                 path_obj,
                 errors=errors,
+                blocks=blocks,
                 environment=environment,
-                check=check,
-                color=color,
             )
         else:
             errors.append(Error(path_obj, None, None, "Does not exist"))
-    return errors
+    return errors, blocks
 
 
 def print_errors(
@@ -174,6 +146,24 @@ def print_errors(
                     print()
 
 
+def _compute_replacements(
+    blocks: list[Block], *, errors: list[Error]
+) -> list[Replacement]:
+    flog = mlog.fields(func="_compute_replacements")
+    flog.notice("Processing {} blocks", len(blocks))
+
+    result = []
+    for block in blocks:
+        replacement = compute_replacement(block)
+        if replacement is None:
+            continue
+        if isinstance(replacement, Error):
+            errors.append(replacement)
+        else:
+            result.append(replacement)
+    return result
+
+
 def _run_ansible_output(
     *,
     paths: tuple[str, ...],
@@ -182,7 +172,14 @@ def _run_ansible_output(
     force_color: bool | None,
 ) -> int:
     color = detect_color(force=force_color)
-    errors = check_rst_files(paths, environment=environment, check=check, color=color)
+    errors, blocks = find_blocks(paths, environment=environment)
+    replacements = _compute_replacements(blocks, errors=errors)
+    if check:
+        errors.extend(
+            convert_replacements_to_errors(replacements=replacements, color=color)
+        )
+    else:
+        apply_replacements(replacements, errors=errors)
     print_errors(errors, with_header=True, color=color)
     return 3 if len(errors) > 0 else 0
 

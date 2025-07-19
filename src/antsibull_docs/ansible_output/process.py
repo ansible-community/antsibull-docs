@@ -223,8 +223,6 @@ class Replacement:
 
 def compute_replacement(
     block: Block,
-    *,
-    path: Path,
 ) -> Replacement | Error | None:
     """
     Compute replacement for a block.
@@ -240,7 +238,7 @@ def compute_replacement(
     except Exception as exc:  # pylint: disable=broad-exception-caught
         flog.notice("Error while computing replacement: {}", exc)
         return Error(
-            path,
+            block.path,
             block.data_line,
             block.data_col,
             f"Error while computing code block's expected contents:\n{exc}",
@@ -255,7 +253,7 @@ def compute_replacement(
         return None
 
     return Replacement(
-        path=path,
+        path=block.path,
         codeblock=block.codeblock,
         new_content=new_content,
     )
