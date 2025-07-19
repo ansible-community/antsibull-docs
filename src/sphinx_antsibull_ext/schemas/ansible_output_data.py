@@ -47,6 +47,7 @@ class PostprocessorNameRef(p.BaseModel):
 
 
 Postprocessor = t.Union[PostprocessorCLI, PostprocessorNameRef]
+NonRefPostprocessor = t.Union[PostprocessorCLI]
 
 
 class AnsibleOutputData(p.BaseModel):

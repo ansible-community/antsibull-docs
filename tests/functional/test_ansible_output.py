@@ -100,7 +100,7 @@ def patch_ansible_playbook(
         raise AssertionError("should not happen")  # pragma: no cover
 
     with mock.patch(
-        "antsibull_docs.cli.doc_commands.ansible_output.subprocess.run",
+        "antsibull_docs.ansible_output.process.subprocess.run",
         subprocess_run,
     ):
         yield
