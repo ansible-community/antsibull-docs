@@ -146,15 +146,41 @@ def print_errors(
                     print()
 
 
-def _compute_replacements(
+async def _compute_replacement(
+    block: Block, *, semaphore: asyncio.Semaphore
+) -> Replacement | Error | None:
+    async with semaphore:
+        return await compute_replacement(block)
+
+
+def _get_parallelism() -> int:
+    lib_ctx = app_context.lib_ctx.get()
+    if lib_ctx.process_max is not None and lib_ctx.process_max > 0:
+        return lib_ctx.process_max
+    process_cpu_count = os.process_cpu_count()
+    if process_cpu_count is not None and process_cpu_count > 0:
+        return process_cpu_count
+    cpu_count = os.cpu_count()
+    if cpu_count is not None and cpu_count > 0:
+        return cpu_count
+    return 1
+
+
+async def _compute_replacements(
     blocks: list[Block], *, errors: list[Error]
 ) -> list[Replacement]:
     flog = mlog.fields(func="_compute_replacements")
     flog.notice("Processing {} blocks", len(blocks))
 
+    parallelism = _get_parallelism()
+    flog.notice("Limiting to {} parallel subprocesses", parallelism)
+
+    semaphore = asyncio.Semaphore(parallelism)
+    computers = [_compute_replacement(block, semaphore=semaphore) for block in blocks]
+    computed_results = await asyncio.gather(*computers)
+
     result = []
-    for block in blocks:
-        replacement = compute_replacement(block)
+    for replacement in computed_results:
         if replacement is None:
             continue
         if isinstance(replacement, Error):
@@ -173,7 +199,7 @@ def _run_ansible_output(
 ) -> int:
     color = detect_color(force=force_color)
     errors, blocks = find_blocks(paths, environment=environment)
-    replacements = _compute_replacements(blocks, errors=errors)
+    replacements = asyncio.run(_compute_replacements(blocks, errors=errors))
     if check:
         errors.extend(
             convert_replacements_to_errors(replacements=replacements, color=color)
