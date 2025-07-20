@@ -70,18 +70,21 @@ def _compose_playbook(
             key=key, value=value, previous_blocks=previous_blocks
         )
 
-    env = jinja2.Environment(
-        block_start_string="@{%",
-        block_end_string="%}@",
-        variable_start_string="@{{",
-        variable_end_string="}}@",
-        comment_start_string="@{#",
-        comment_end_string="#}@",
-        trim_blocks=True,
-        optimized=False,  # we use every template once
-    )
-    template = env.from_string(data.playbook)
-    return template.render(**variables)
+    try:
+        env = jinja2.Environment(
+            block_start_string="@{%",
+            block_end_string="%}@",
+            variable_start_string="@{{",
+            variable_end_string="}}@",
+            comment_start_string="@{#",
+            comment_end_string="#}@",
+            trim_blocks=True,
+            optimized=False,  # we use every template once
+        )
+        template = env.from_string(data.playbook)
+        return template.render(**variables)
+    except Exception as exc:
+        raise ValueError(f"Error while templating playbook:\n{exc}") from exc
 
 
 def _strip_empty_lines(lines: list[str]) -> list[str]:

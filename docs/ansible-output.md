@@ -183,6 +183,63 @@ The task produces the following output:
     }
 ```
 
+## Controlling code block contexts
+
+Next to the `ansible-output-data` RST directive, antsibull-docs also provides a `ansible-output-meta` RST directive.
+This meta directive allows to apply actions to the context for the next `ansible-output-data` directives.
+
+### Reset previous code blocks
+
+The `reset-previous-blocks` action resets the list of previous code blocks.
+It can be used as follows:
+```rst
+.. ansible-output-meta::
+
+  actions:
+    - name: reset-previous-blocks
+```
+
+This is relevant when using `previous_code_block` variables where you specify `previous_code_block_index`.
+If you want several consecutive `ansible-output-data` directives to reference the same code block,
+you can reset the previous blocks directly before that code block,
+and then reference that code block as the one with index `0`:
+```rst
+(more text with other code blocks)
+
+.. ansible-output-meta::
+
+  actions:
+    - name: reset-previous-blocks
+
+.. code-block:: yaml
+
+  # This code block now has index 0, no matter how many other code blocks
+  # came before the above action.
+  foo: bar
+
+Now you can have multiple ansible-output-data directives referencing the
+above ``yaml`` block as the ``yaml`` block with index 0:
+
+.. ansible-output-data::
+
+    variables:
+      content:
+        previous_code_block: yaml
+        previous_code_block_index: 0
+    playbook: |-
+      - hosts: localhost
+        tasks:
+          - ansible.builtin.debug:
+              msg: "{{ data }}"
+            vars:
+              data:
+                @{{ content | indent(10) }}@
+
+.. code-block:: ansible-output
+
+  ...
+```
+
 ## Post-processing ansible-playbook output
 
 Out of the box, you can post-process the `ansible-playbook` output in some ways:

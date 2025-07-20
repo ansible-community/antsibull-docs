@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import os
+import typing as t
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -20,6 +21,7 @@ from antsibull_docutils.rst_code_finder import (
     mark_antsibull_code_block,
 )
 from docutils import nodes
+from docutils.parsers.rst import Directive
 from yaml import MarkedYAMLError
 
 from sphinx_antsibull_ext.directive_helper import YAMLDirective
@@ -27,6 +29,10 @@ from sphinx_antsibull_ext.schemas.ansible_output_data import (
     AnsibleOutputData,
     NonRefPostprocessor,
     PostprocessorNameRef,
+)
+from sphinx_antsibull_ext.schemas.ansible_output_meta import (
+    ActionResetPreviousBlocks,
+    AnsibleOutputMeta,
 )
 
 from ..schemas.collection_config import CollectionConfig
@@ -67,7 +73,8 @@ class FileData:
     blocks: list[Block]
 
 
-_ANSIBLE_OUTPUT_DATA_IDENTIFIER = "{}[]XXXXXX"
+_ANSIBLE_OUTPUT_DATA_IDENTIFIER = "{}[]XXXXXXdata"
+_ANSIBLE_OUTPUT_META_IDENTIFIER = "{}[]XXXXXXmeta"
 
 
 class AnsibleOutputDataDirective(YAMLDirective[AnsibleOutputData]):
@@ -100,8 +107,46 @@ class AnsibleOutputDataDirective(YAMLDirective[AnsibleOutputData]):
         return [literal]
 
 
-_DIRECTIVES = {
+class AnsibleOutputMetaDirective(YAMLDirective[AnsibleOutputMeta]):
+    wrap_as_data = False
+    schema = AnsibleOutputMeta
+
+    def _handle_error(self, message: str, from_exc: Exception) -> list[nodes.Node]:
+        literal = nodes.literal_block("", "")
+        mark_antsibull_code_block(
+            literal,
+            language=_ANSIBLE_OUTPUT_META_IDENTIFIER,
+            line=self.lineno,
+            other={
+                "error": message,
+                "exception": from_exc,
+            },
+        )
+        return [literal]
+
+    def _run(self, content_str: str, content: AnsibleOutputMeta) -> list[nodes.Node]:
+        literal = nodes.literal_block(content_str, "")
+        mark_antsibull_code_block(
+            literal,
+            language=_ANSIBLE_OUTPUT_META_IDENTIFIER,
+            line=self.lineno,
+            other={
+                "data": content,
+            },
+        )
+        return [literal]
+
+
+_DIRECTIVES: dict[str, type[Directive]] = {
     "ansible-output-data": AnsibleOutputDataDirective,
+    "ansible-output-meta": AnsibleOutputMetaDirective,
+}
+
+_DirectiveName = t.Literal["ansible-output-data", "ansible-output-meta"]
+
+_LANGUAGE_TO_DIRECTIVE: dict[str | None, _DirectiveName] = {
+    _ANSIBLE_OUTPUT_DATA_IDENTIFIER: "ansible-output-data",
+    _ANSIBLE_OUTPUT_META_IDENTIFIER: "ansible-output-meta",
 }
 
 
@@ -112,7 +157,9 @@ class _AnsibleOutputDataExt:
     col: int
 
 
-def _get_ansible_output_data_error(block: CodeBlockInfo) -> tuple[int, int, str]:
+def _get_ansible_output_data_error(
+    block: CodeBlockInfo, *, directive: str
+) -> tuple[int, int, str]:
     message = block.attributes["antsibull-other-error"]
     exc = block.attributes.get("antsibull-other-exception")
     line = block.row_offset + 1
@@ -125,50 +172,139 @@ def _get_ansible_output_data_error(block: CodeBlockInfo) -> tuple[int, int, str]
             col += exc.problem_mark.column
     if isinstance(exc, pydantic.ValidationError):
         message = (
-            "Error while validating ansible-output-data directive's contents:\n"
+            f"Error while validating {directive} directive's contents:\n"
             + "\n".join(get_formatted_error_messages(exc))
         )
     return line, col, message
 
 
-def _compose_block(
-    codeblock: CodeBlockInfo,
-    *,
-    path: Path,
-    data: _AnsibleOutputDataExt,
-    previous_blocks: list[CodeBlockInfo],
-    errors: list[Error],
-    environment: Environment,
-) -> Block:
-    env = environment.env.copy()
-    env.update(data.data.env)
-    postprocessors = []
-    for postprocessor in data.data.postprocessors:
-        if isinstance(postprocessor, PostprocessorNameRef):
-            ref = postprocessor.name
-            try:
-                postprocessor = environment.global_postprocessors[ref]
-            except KeyError:
-                errors.append(
-                    Error(
-                        path,
-                        data.line,
-                        data.col,
-                        f"No global postprocessor of name {ref!r} defined",
-                    )
+class _BlockCollector:
+    def __init__(
+        self, *, path: Path, errors: list[Error], environment: Environment
+    ) -> None:
+        self.path = path
+        self.errors = errors
+        self.environment = environment
+        self.blocks: list[Block] = []
+        self.data: _AnsibleOutputDataExt | None = None
+        self.previous_blocks: list[CodeBlockInfo] = []
+
+    def _process_reset_previous_blocks(
+        self, action: ActionResetPreviousBlocks  # pylint: disable=unused-argument
+    ) -> None:
+        self.previous_blocks.clear()
+
+    def process_meta(
+        self,
+        meta: AnsibleOutputMeta,
+        *,
+        line: int,  # pylint: disable=unused-argument
+        col: int,  # pylint: disable=unused-argument
+    ) -> None:
+        for action in meta.actions:
+            if isinstance(action, ActionResetPreviousBlocks):
+                self._process_reset_previous_blocks(action)
+            else:
+                raise AssertionError("Unknown action")  # pragma: no cover
+
+    def process_special_block(
+        self, block: CodeBlockInfo, *, directive: _DirectiveName
+    ) -> None:
+        if self.data is not None:
+            self.errors.append(
+                Error(
+                    self.path,
+                    self.data.line,
+                    self.data.col,
+                    "ansible-output-data directive not used",
                 )
-                continue
-        postprocessors.append(postprocessor)
-    return Block(
-        path=path,
-        codeblock=codeblock,
-        data=data.data,
-        data_line=data.line,
-        data_col=data.col,
-        previous_blocks=previous_blocks,
-        merged_env=env,
-        merged_postprocessors=postprocessors,
-    )
+            )
+            self.data = None
+        if "antsibull-other-error" in block.attributes:
+            line, col, message = _get_ansible_output_data_error(
+                block, directive=directive
+            )
+            self.errors.append(Error(self.path, line, col, message))
+        if "antsibull-other-data" in block.attributes:
+            if directive == "ansible-output-data":
+                self.data = _AnsibleOutputDataExt(
+                    data=block.attributes["antsibull-other-data"],
+                    line=block.row_offset + 1,
+                    col=block.col_offset + 1,
+                )
+            if directive == "ansible-output-meta":
+                self.process_meta(
+                    block.attributes["antsibull-other-data"],
+                    line=block.row_offset + 1,
+                    col=block.col_offset + 1,
+                )
+
+    def _add_block(
+        self,
+        codeblock: CodeBlockInfo,
+        *,
+        data: _AnsibleOutputDataExt,
+    ) -> None:
+        env = self.environment.env.copy()
+        env.update(data.data.env)
+        postprocessors = []
+        error = False
+        for postprocessor in data.data.postprocessors:
+            if isinstance(postprocessor, PostprocessorNameRef):
+                ref = postprocessor.name
+                try:
+                    postprocessor = self.environment.global_postprocessors[ref]
+                except KeyError:
+                    self.errors.append(
+                        Error(
+                            self.path,
+                            data.line,
+                            data.col,
+                            f"No global postprocessor of name {ref!r} defined",
+                        )
+                    )
+                    error = True
+                    continue
+            postprocessors.append(postprocessor)
+        if error:
+            return
+        self.blocks.append(
+            Block(
+                path=self.path,
+                codeblock=codeblock,
+                data=data.data,
+                data_line=data.line,
+                data_col=data.col,
+                previous_blocks=self.previous_blocks[:-1],
+                merged_env=env,
+                merged_postprocessors=postprocessors,
+            )
+        )
+
+    def found_block(self, block: CodeBlockInfo) -> None:
+        directive = _LANGUAGE_TO_DIRECTIVE.get(block.language)
+        if directive is not None:
+            self.process_special_block(block, directive=directive)
+            return
+        self.previous_blocks.append(block)
+        if self.data is None:
+            return
+        if block.language != self.data.data.language:
+            return
+        self._add_block(block, data=self.data)
+        self.data = None
+
+    def finish(self) -> list[Block]:
+        if self.data is not None:
+            self.errors.append(
+                Error(
+                    self.path,
+                    self.data.line,
+                    self.data.col,
+                    "ansible-output-data directive not used",
+                )
+            )
+        return self.blocks
 
 
 def _find_blocks(
@@ -179,58 +315,12 @@ def _find_blocks(
     errors: list[Error],
     environment: Environment,
 ) -> list[Block]:
-    blocks: list[Block] = []
-    data: _AnsibleOutputDataExt | None = None
-    previous_blocks: list[CodeBlockInfo] = []
+    collector = _BlockCollector(path=path, errors=errors, environment=environment)
     for block in find_code_blocks(
         content, path=path, root_prefix=root, extra_directives=_DIRECTIVES
     ):
-        if block.language == _ANSIBLE_OUTPUT_DATA_IDENTIFIER:
-            if data is not None:
-                errors.append(
-                    Error(
-                        path,
-                        data.line,
-                        data.col,
-                        "ansible-output-data directive not used",
-                    )
-                )
-            if "antsibull-other-data" in block.attributes:
-                data = _AnsibleOutputDataExt(
-                    data=block.attributes["antsibull-other-data"],
-                    line=block.row_offset + 1,
-                    col=block.col_offset + 1,
-                )
-            if "antsibull-other-error" in block.attributes:
-                line, col, message = _get_ansible_output_data_error(block)
-                errors.append(Error(path, line, col, message))
-            continue
-        previous_blocks.append(block)
-        if data is None:
-            continue
-        if block.language != data.data.language:
-            continue
-        blocks.append(
-            _compose_block(
-                block,
-                path=path,
-                data=data,
-                previous_blocks=previous_blocks[:-1],
-                errors=errors,
-                environment=environment,
-            )
-        )
-        data = None
-    if data is not None:
-        errors.append(
-            Error(
-                path,
-                data.line,
-                data.col,
-                "ansible-output-data directive not used",
-            )
-        )
-    return blocks
+        collector.found_block(block)
+    return collector.finish()
 
 
 def load_blocks_from_content(
