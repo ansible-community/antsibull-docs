@@ -61,6 +61,9 @@ def _get_variable_value(
 def _compose_playbook(
     data: AnsibleOutputData, *, previous_blocks: list[CodeBlockInfo]
 ) -> str:
+    if data.playbook is None:
+        raise AssertionError("playbook cannot be None at this point")
+
     if all(s not in data.playbook for s in ("@{%", "@{{", "@{#")):
         return data.playbook
 
@@ -70,18 +73,21 @@ def _compose_playbook(
             key=key, value=value, previous_blocks=previous_blocks
         )
 
-    env = jinja2.Environment(
-        block_start_string="@{%",
-        block_end_string="%}@",
-        variable_start_string="@{{",
-        variable_end_string="}}@",
-        comment_start_string="@{#",
-        comment_end_string="#}@",
-        trim_blocks=True,
-        optimized=False,  # we use every template once
-    )
-    template = env.from_string(data.playbook)
-    return template.render(**variables)
+    try:
+        env = jinja2.Environment(
+            block_start_string="@{%",
+            block_end_string="%}@",
+            variable_start_string="@{{",
+            variable_end_string="}}@",
+            comment_start_string="@{#",
+            comment_end_string="#}@",
+            trim_blocks=True,
+            optimized=False,  # we use every template once
+        )
+        template = env.from_string(data.playbook)
+        return template.render(**variables)
+    except Exception as exc:
+        raise ValueError(f"Error while templating playbook:\n{exc}") from exc
 
 
 def _strip_empty_lines(lines: list[str]) -> list[str]:
@@ -218,8 +224,8 @@ async def _compute_code_block_content(
         flog.notice("Post-process result")
         lines = _massage_stdout(
             stdout,
-            skip_first_lines=block.data.skip_first_lines,
-            skip_last_lines=block.data.skip_last_lines,
+            skip_first_lines=block.data.skip_first_lines or 0,
+            skip_last_lines=block.data.skip_last_lines or 0,
             prepend_lines=block.data.prepend_lines,
         )
         for postprocessor in block.merged_postprocessors:

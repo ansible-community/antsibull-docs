@@ -183,6 +183,116 @@ The task produces the following output:
     }
 ```
 
+## Controlling code block contexts
+
+Next to the `ansible-output-data` RST directive, antsibull-docs also provides a `ansible-output-meta` RST directive.
+This meta directive allows to apply actions to the context for the next `ansible-output-data` directives.
+
+### Reset previous code blocks
+
+The `reset-previous-blocks` action resets the list of previous code blocks.
+It can be used as follows:
+```rst
+.. ansible-output-meta::
+
+  actions:
+    - name: reset-previous-blocks
+```
+
+This is relevant when using `previous_code_block` variables where you specify `previous_code_block_index`.
+If you want several consecutive `ansible-output-data` directives to reference the same code block,
+you can reset the previous blocks directly before that code block,
+and then reference that code block as the one with index `0`:
+```rst
+(more text with other code blocks)
+
+.. ansible-output-meta::
+
+  actions:
+    - name: reset-previous-blocks
+
+.. code-block:: yaml
+
+  # This code block now has index 0, no matter how many other code blocks
+  # came before the above action.
+  foo: bar
+
+Now you can have multiple ansible-output-data directives referencing the
+above ``yaml`` block as the ``yaml`` block with index 0:
+
+.. ansible-output-data::
+
+    variables:
+      content:
+        previous_code_block: yaml
+        previous_code_block_index: 0
+    playbook: |-
+      - hosts: localhost
+        tasks:
+          - ansible.builtin.debug:
+              msg: "{{ data }}"
+            vars:
+              data:
+                @{{ content | indent(10) }}@
+
+.. code-block:: ansible-output
+
+  ...
+```
+
+### Define template for `ansible-output-data`
+
+The `set-template` action defines a template for all following `ansible-output-data` directives.
+You can use all fields that you can also use for `ansible-output-data` in the template:
+```rst
+.. ansible-output-meta::
+
+  actions:
+    - name: set-template
+      template:
+        # The environment variables will be merged. If a variable is provided here,
+        # you do not have to provide it again in the directive - only if you want to
+        # override its value.
+        env:
+          ANSIBLE_STDOUT_CALLBACK: community.general.tasks_only
+          ANSIBLE_COLLECTIONS_TASKS_ONLY_NUMBER_OF_COLUMNS: "90"
+
+        # Will use this value if not specified in the directive.
+        # If no language is provided in both the template and the directive,
+        # 'ansible-output' will be used.
+        language: console
+
+        # Will use this value if not specified in the directive.
+        prepend_lines: |
+          $ ansible-playbook playbook.yml
+
+        # Will use this value if not specified in the directive.
+        skip_first_lines: 3
+
+        # Will use this value if not specified in the directive.
+        skip_last_lines: 0
+
+        # The variables will be merged. If a varibale is provided here,
+        # you can override it in the directive by specifying a variable
+        # of the same name.
+        variables:
+          hosts:
+            value: localhost
+          tasks:
+            previous_code_block: yaml+jinja
+            previous_code_block_index: -1
+
+        # Will use this value if not specified in the directive.
+        postprocessors: []
+
+        # Will use this value if explicitly set to null/~ in the directive.
+        playbook: |-
+          (some Ansible playbook)
+```
+
+This can be useful to avoid repeating some definitions for multiple code blocks.
+If another `ansible-output-meta` action sets a new template, the previous templates will be thrown away.
+
 ## Post-processing ansible-playbook output
 
 Out of the box, you can post-process the `ansible-playbook` output in some ways:

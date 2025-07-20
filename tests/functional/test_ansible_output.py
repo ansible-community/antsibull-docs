@@ -819,8 +819,12 @@ ansible-playbook-failure-variables-too-many.rst:4:5: Error while validating ansi
 """,
     ),
     (
-        "ansible-playbook-failure-variables-does-not-exist.rst",
+        "ansible-playbook-failure-variables-does-exist.rst",
         """
+.. code-block:: yaml
+
+    foo: foo!
+
 .. code-block:: yaml
 
     foo: bar
@@ -832,7 +836,55 @@ ansible-playbook-failure-variables-too-many.rst:4:5: Error while validating ansi
         previous_code_block: yaml
         previous_code_block_index: 1
     playbook: |-
-      foo @{{ foo }}
+      foo @{{ foo }}@
+
+.. code-block:: ansible-output
+
+    bar
+""",
+        AnsiblePlaybookSuccess(
+            ["ansible-playbook", "playbook.yml"],
+            {},
+            [
+                FileContent(
+                    "playbook.yml",
+                    "foo foo: bar\n",
+                ),
+            ],
+            "meh",
+        ),
+        3,
+        r"""
+Found 1 error:
+ansible-playbook-failure-variables-does-exist.rst:21:5: Output would differ:
+   - bar
+   + meh
+""",
+    ),
+    (
+        "ansible-playbook-failure-variables-does-not-exist.rst",
+        """
+.. code-block:: yaml
+
+    foo: foo!
+
+.. ansible-output-meta::
+
+    actions:
+      - name: reset-previous-blocks
+
+.. code-block:: yaml
+
+    foo: bar
+
+.. ansible-output-data::
+
+    variables:
+      foo:
+        previous_code_block: yaml
+        previous_code_block_index: 1
+    playbook: |-
+      foo @{{ foo }}@
 
 .. code-block:: ansible-output
 
@@ -842,8 +894,76 @@ ansible-playbook-failure-variables-too-many.rst:4:5: Error while validating ansi
         3,
         r"""
 Found 1 error:
-ansible-playbook-failure-variables-does-not-exist.rst:8:5: Error while computing code block's expected contents:
+ansible-playbook-failure-variables-does-not-exist.rst:17:5: Error while computing code block's expected contents:
    Found 1 previous code block(s) of language 'yaml' for variable 'foo', which does not allow index 1
+""",
+    ),
+    (
+        "ansible-playbook-failure-variables-reset.rst",
+        """
+.. code-block:: yaml
+
+    foo: foo!
+
+.. ansible-output-meta::
+
+    actions:
+      - name: reset-previous-blocks
+
+.. code-block:: yaml
+
+    foo: bar
+
+.. ansible-output-data::
+
+    variables:
+      foo:
+        previous_code_block: yaml
+    playbook: |-
+      foo @{{ foo }}@
+
+.. code-block:: ansible-output
+
+    bar
+""",
+        AnsiblePlaybookSuccess(
+            ["ansible-playbook", "playbook.yml"],
+            {},
+            [
+                FileContent(
+                    "playbook.yml",
+                    "foo foo: bar\n",
+                ),
+            ],
+            "meh",
+        ),
+        3,
+        r"""
+Found 1 error:
+ansible-playbook-failure-variables-reset.rst:25:5: Output would differ:
+   - bar
+   + meh
+""",
+    ),
+    (
+        "ansible-playbook-bad-template.rst",
+        """
+.. ansible-output-data::
+
+    playbook: |-
+      foo @{{
+
+.. code-block:: ansible-output
+
+    bar
+""",
+        None,
+        3,
+        r"""
+Found 1 error:
+ansible-playbook-bad-template.rst:4:5: Error while computing code block's expected contents:
+   Error while templating playbook:
+   unexpected 'end of template'
 """,
     ),
 ]

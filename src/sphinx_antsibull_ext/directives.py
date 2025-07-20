@@ -17,6 +17,7 @@ from .directive_helper import YAMLDirective
 from .nodes import link_button
 from .schemas.ansible_links import AnsibleLinks
 from .schemas.ansible_output_data import AnsibleOutputData
+from .schemas.ansible_output_meta import AnsibleOutputMeta
 
 
 class _OptionTypeLine(Directive):
@@ -86,10 +87,25 @@ class _AnsibleOutputDataDirective(YAMLDirective[AnsibleOutputData]):
         return []
 
 
+class _AnsibleOutputMetaDirective(YAMLDirective[AnsibleOutputMeta]):
+    wrap_as_data = True
+    schema = AnsibleOutputMeta
+
+    def _handle_error(self, message: str, from_exc: Exception) -> list[nodes.Node]:
+        # Do not report errors when simply building docs.
+        # Errors should be reported when running 'antsibull-docs lint-collection-docs'.
+        return []
+
+    def _run(self, content_str: str, content: AnsibleOutputMeta) -> list[nodes.Node]:
+        # This directive should produce no output. It is used in the ansible-output subcommand.
+        return []
+
+
 DIRECTIVES = {
     "ansible-option-type-line": _OptionTypeLine,
     "ansible-links": _Links,
     "ansible-output-data": _AnsibleOutputDataDirective,
+    "ansible-output-meta": _AnsibleOutputMetaDirective,
 }
 
 
