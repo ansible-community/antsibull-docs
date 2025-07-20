@@ -429,6 +429,31 @@ $ antsibull-docs ansible-output /path/to/directory-with-rst-files
 
 If the provided path is a directory, it will recursively look for `.rst` files in it.
 
+You can pass a path to a config file with `--config /path/to/config.yaml`.
+You can use the keys that are described as part of `ansible_output` in [the following section](#collection-usage).
+
+This can look as follows:
+```yaml
+---
+# Configuration for 'antsibull-docs ansible-output'
+
+# Insert definitions into 'env' for every ansible-output-data directive
+global_env:
+  ANSIBLE_STDOUT_CALLBACK: community.general.tasks_only
+  ANSIBLE_COLLECTIONS_TASKS_ONLY_NUMBER_OF_COLUMNS: 80
+
+# Global post-processors for Ansible output
+global_postprocessors:
+  # Keys are the names that can be referenced in ansible-output-data directives
+  reformat-yaml:
+    # For CLI tools, you can specify a command that accepts input on stdin
+    # and outputs the result on stdout:
+    command:
+      - python
+      - "-m"
+      - pyaml
+```
+
 ## Collection usage
 
 If you run `antsibull-docs ansible-output` without a path, it assumes that you are in a collection's root directory.

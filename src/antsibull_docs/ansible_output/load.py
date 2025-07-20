@@ -38,7 +38,7 @@ from sphinx_antsibull_ext.schemas.ansible_output_meta import (
     AnsibleOutputMeta,
 )
 
-from ..schemas.collection_config import CollectionConfig
+from ..schemas.collection_config import AnsibleOutputConfig, CollectionConfig
 
 mlog = log.fields(mod=__name__)
 
@@ -422,8 +422,10 @@ def load_blocks_from_file(
 
 
 def get_environment(
+    *,
     collection_path: Path | None = None,
     collection_config: CollectionConfig | None = None,
+    ansible_output_config: AnsibleOutputConfig | None = None,
 ) -> Environment:
     """
     Load/create environment.
@@ -441,7 +443,14 @@ def get_environment(
         env["ANSIBLE_COLLECTIONS_PATH"] = collections_path
     postprocessors = {}
     if collection_config is not None:
-        env.update(collection_config.ansible_output.global_env)
-        postprocessors.update(collection_config.ansible_output.global_postprocessors)
+        if ansible_output_config is not None:
+            raise ValueError(
+                "collection_config and ansible_output_config are mutually exclusive"
+            )
+        ansible_output_config = collection_config.ansible_output
+    if ansible_output_config is not None:
+        env.update(ansible_output_config.global_env)
+        postprocessors.update(ansible_output_config.global_postprocessors)
     flog.notice("Environment template: {}", env)
+    flog.notice("Global post-processors: {}", postprocessors)
     return Environment(env=env, global_postprocessors=postprocessors)

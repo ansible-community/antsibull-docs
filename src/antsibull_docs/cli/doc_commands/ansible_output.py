@@ -12,7 +12,10 @@ import os
 from collections.abc import Sequence
 from pathlib import Path
 
+import pydantic
 from antsibull_core.logging import log
+from antsibull_core.pydantic import get_formatted_error_messages
+from antsibull_fileutils.yaml import load_yaml_file
 
 from ... import app_context
 from ...ansible_output.load import (
@@ -31,6 +34,7 @@ from ...ansible_output.replace import (
 )
 from ...collection_config import load_collection_config
 from ...lint_helpers import load_collection_info
+from ...schemas.collection_config import AnsibleOutputConfig
 from ...utils.collection_copier import CollectionCopier
 
 mlog = log.fields(mod=__name__)
@@ -84,10 +88,8 @@ def find_blocks_in_directory(
 def find_blocks(
     paths: Sequence[str],
     *,
-    environment: Environment | None = None,
+    environment: Environment,
 ) -> tuple[list[Error], list[Block]]:
-    if environment is None:
-        environment = get_environment()
     errors: list[Error] = []
     blocks: list[Block] = []
     for path in paths:
@@ -196,7 +198,7 @@ async def _compute_replacements(
 def _run_ansible_output(
     *,
     paths: tuple[str, ...],
-    environment: Environment | None = None,
+    environment: Environment,
     check: bool,
     force_color: bool | None,
 ) -> int:
@@ -211,6 +213,20 @@ def _run_ansible_output(
         apply_replacements(replacements, errors=errors)
     print_errors(errors, with_header=True, color=color)
     return 3 if len(errors) > 0 else 0
+
+
+def _load_config(config_path: str | None) -> AnsibleOutputConfig | None:
+    if config_path is None:
+        return None
+    try:
+        return AnsibleOutputConfig.model_validate(load_yaml_file(config_path))
+    except pydantic.ValidationError as exc:
+        raise ValueError(
+            f"Error while parsing {config_path}:\n"
+            + "\n".join(get_formatted_error_messages(exc))
+        ) from exc
+    except Exception as exc:
+        raise ValueError(f"Error while reading {config_path}: {exc}") from exc
 
 
 def run_ansible_output() -> int:
@@ -228,13 +244,24 @@ def run_ansible_output() -> int:
     paths: tuple[str, ...] = app_ctx.extra["paths"]
     check: bool = app_ctx.extra["check"]
     force_color: bool | None = app_ctx.extra["force_color"]
+    config: str | None = app_ctx.extra["config"]
 
     if paths:
+        try:
+            environment = get_environment(ansible_output_config=_load_config(config))
+        except ValueError as exc:
+            print(str(exc))
+            return 3
         return _run_ansible_output(
             paths=paths,
+            environment=environment,
             check=check,
             force_color=force_color,
         )
+
+    if config is not None:
+        print("Can only provide --config when paths have been provided.")
+        return 2
 
     path_to_collection = "."
     try:
