@@ -18,6 +18,7 @@ from antsibull_docutils.rst_code_finder import (
     CodeBlockInfo,
 )
 from antsibull_fileutils.tempfile import AnsibleTemporaryDirectory
+from antsibull_fileutils.yaml import store_yaml_file
 
 from sphinx_antsibull_ext.schemas.ansible_output_data import (
     AnsibleOutputData,
@@ -218,6 +219,16 @@ async def _compute_code_block_content(
             )
 
         command = ["ansible-playbook", "playbook.yml"]
+        if block.data.inventory is not None:
+            inventory_filename = "inventory.yaml"
+            store_yaml_file(
+                directory / inventory_filename,
+                block.data.inventory.model_dump(mode="json", exclude_unset=True),
+                nice=True,
+                sort_keys=True,
+            )
+            command.extend(["-i", inventory_filename])
+
         flog.notice("Run ansible-playbook: {}", command)
         stdout = await _execute(command, cwd=directory, env=block.merged_env)
 

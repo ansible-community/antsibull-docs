@@ -50,6 +50,20 @@ Postprocessor = t.Union[PostprocessorCLI, PostprocessorNameRef]
 NonRefPostprocessor = t.Union[PostprocessorCLI]
 
 
+InventoryVariables = p.RootModel[dict[str, t.Any]]
+
+
+class InventoryGroup(p.BaseModel):
+    model_config = p.ConfigDict(frozen=True, extra="forbid", validate_default=True)
+
+    hosts: dict[str, t.Optional[InventoryVariables]] = {}
+    children: dict[str, t.Optional[InventoryGroup]] = {}
+    vars: InventoryVariables = InventoryVariables({})
+
+
+YAMLInventory = p.RootModel[dict[str, InventoryGroup]]
+
+
 class AnsibleOutputTemplate(p.BaseModel):
     playbook: t.Optional[str] = None
     env: dict[str, str] = {}
@@ -59,6 +73,7 @@ class AnsibleOutputTemplate(p.BaseModel):
     skip_first_lines: t.Optional[int] = None
     skip_last_lines: t.Optional[int] = None
     postprocessors: t.Optional[list[Postprocessor]] = None
+    inventory: t.Optional[YAMLInventory] = None
 
     @p.field_validator("env", mode="before")
     @classmethod
@@ -108,4 +123,5 @@ def combine(
         skip_first_lines=_coalesce(data.skip_first_lines, template.skip_first_lines),
         skip_last_lines=_coalesce(data.skip_last_lines, template.skip_last_lines),
         postprocessors=_coalesce(data.postprocessors, template.postprocessors),
+        inventory=_coalesce(data.inventory, template.inventory),
     )
