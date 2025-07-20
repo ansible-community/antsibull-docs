@@ -1,2 +1,0 @@
-minor_changes:
-  - "Let ``ansible-output`` subcommand run ``ansible-playbook`` instances in parallel (https://github.com/ansible-community/antsibull-docs/pull/407)."
