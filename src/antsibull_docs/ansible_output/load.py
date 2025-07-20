@@ -27,11 +27,14 @@ from yaml import MarkedYAMLError
 from sphinx_antsibull_ext.directive_helper import YAMLDirective
 from sphinx_antsibull_ext.schemas.ansible_output_data import (
     AnsibleOutputData,
+    AnsibleOutputTemplate,
     NonRefPostprocessor,
     PostprocessorNameRef,
+    combine,
 )
 from sphinx_antsibull_ext.schemas.ansible_output_meta import (
     ActionResetPreviousBlocks,
+    ActionSetTemplate,
     AnsibleOutputMeta,
 )
 
@@ -188,11 +191,15 @@ class _BlockCollector:
         self.blocks: list[Block] = []
         self.data: _AnsibleOutputDataExt | None = None
         self.previous_blocks: list[CodeBlockInfo] = []
+        self.template = AnsibleOutputTemplate()
 
     def _process_reset_previous_blocks(
         self, action: ActionResetPreviousBlocks  # pylint: disable=unused-argument
     ) -> None:
         self.previous_blocks.clear()
+
+    def _process_set_template(self, action: ActionSetTemplate) -> None:
+        self.template = action.template
 
     def process_meta(
         self,
@@ -204,6 +211,8 @@ class _BlockCollector:
         for action in meta.actions:
             if isinstance(action, ActionResetPreviousBlocks):
                 self._process_reset_previous_blocks(action)
+            elif isinstance(action, ActionSetTemplate):
+                self._process_set_template(action)
             else:
                 raise AssertionError("Unknown action")  # pragma: no cover
 
@@ -227,11 +236,25 @@ class _BlockCollector:
             self.errors.append(Error(self.path, line, col, message))
         if "antsibull-other-data" in block.attributes:
             if directive == "ansible-output-data":
-                self.data = _AnsibleOutputDataExt(
-                    data=block.attributes["antsibull-other-data"],
-                    line=block.row_offset + 1,
-                    col=block.col_offset + 1,
-                )
+                try:
+                    data = combine(
+                        data=block.attributes["antsibull-other-data"],
+                        template=self.template,
+                    )
+                    self.data = _AnsibleOutputDataExt(
+                        data=data,
+                        line=block.row_offset + 1,
+                        col=block.col_offset + 1,
+                    )
+                except ValueError as exc:
+                    self.errors.append(
+                        Error(
+                            self.path,
+                            block.row_offset + 1,
+                            block.col_offset + 1,
+                            str(exc),
+                        )
+                    )
             if directive == "ansible-output-meta":
                 self.process_meta(
                     block.attributes["antsibull-other-data"],
@@ -249,23 +272,24 @@ class _BlockCollector:
         env.update(data.data.env)
         postprocessors = []
         error = False
-        for postprocessor in data.data.postprocessors:
-            if isinstance(postprocessor, PostprocessorNameRef):
-                ref = postprocessor.name
-                try:
-                    postprocessor = self.environment.global_postprocessors[ref]
-                except KeyError:
-                    self.errors.append(
-                        Error(
-                            self.path,
-                            data.line,
-                            data.col,
-                            f"No global postprocessor of name {ref!r} defined",
+        if data.data.postprocessors:
+            for postprocessor in data.data.postprocessors:
+                if isinstance(postprocessor, PostprocessorNameRef):
+                    ref = postprocessor.name
+                    try:
+                        postprocessor = self.environment.global_postprocessors[ref]
+                    except KeyError:
+                        self.errors.append(
+                            Error(
+                                self.path,
+                                data.line,
+                                data.col,
+                                f"No global postprocessor of name {ref!r} defined",
+                            )
                         )
-                    )
-                    error = True
-                    continue
-            postprocessors.append(postprocessor)
+                        error = True
+                        continue
+                postprocessors.append(postprocessor)
         if error:
             return
         self.blocks.append(

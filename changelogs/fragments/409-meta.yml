@@ -1,2 +1,2 @@
 minor_changes:
-  - "Add ``ansible-output-meta`` directive that allows to apply meta actions, like resetting previous code blocks for variable references (https://github.com/ansible-community/antsibull-docs/pull/409)."
+  - "Add ``ansible-output-meta`` directive that allows to apply meta actions, like resetting previous code blocks for variable references, or defining templates for ``ansible-output-data`` (https://github.com/ansible-community/antsibull-docs/pull/409)."

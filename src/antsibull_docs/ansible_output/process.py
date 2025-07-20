@@ -61,6 +61,9 @@ def _get_variable_value(
 def _compose_playbook(
     data: AnsibleOutputData, *, previous_blocks: list[CodeBlockInfo]
 ) -> str:
+    if data.playbook is None:
+        raise AssertionError("playbook cannot be None at this point")
+
     if all(s not in data.playbook for s in ("@{%", "@{{", "@{#")):
         return data.playbook
 
@@ -221,8 +224,8 @@ async def _compute_code_block_content(
         flog.notice("Post-process result")
         lines = _massage_stdout(
             stdout,
-            skip_first_lines=block.data.skip_first_lines,
-            skip_last_lines=block.data.skip_last_lines,
+            skip_first_lines=block.data.skip_first_lines or 0,
+            skip_last_lines=block.data.skip_last_lines or 0,
             prepend_lines=block.data.prepend_lines,
         )
         for postprocessor in block.merged_postprocessors:

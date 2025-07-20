@@ -240,6 +240,59 @@ above ``yaml`` block as the ``yaml`` block with index 0:
   ...
 ```
 
+### Define template for `ansible-output-data`
+
+The `set-template` action defines a template for all following `ansible-output-data` directives.
+You can use all fields that you can also use for `ansible-output-data` in the template:
+```rst
+.. ansible-output-meta::
+
+  actions:
+    - name: set-template
+      template:
+        # The environment variables will be merged. If a variable is provided here,
+        # you do not have to provide it again in the directive - only if you want to
+        # override its value.
+        env:
+          ANSIBLE_STDOUT_CALLBACK: community.general.tasks_only
+          ANSIBLE_COLLECTIONS_TASKS_ONLY_NUMBER_OF_COLUMNS: "90"
+
+        # Will use this value if not specified in the directive.
+        # If no language is provided in both the template and the directive,
+        # 'ansible-output' will be used.
+        language: console
+
+        # Will use this value if not specified in the directive.
+        prepend_lines: |
+          $ ansible-playbook playbook.yml
+
+        # Will use this value if not specified in the directive.
+        skip_first_lines: 3
+
+        # Will use this value if not specified in the directive.
+        skip_last_lines: 0
+
+        # The variables will be merged. If a varibale is provided here,
+        # you can override it in the directive by specifying a variable
+        # of the same name.
+        variables:
+          hosts:
+            value: localhost
+          tasks:
+            previous_code_block: yaml+jinja
+            previous_code_block_index: -1
+
+        # Will use this value if not specified in the directive.
+        postprocessors: []
+
+        # Will use this value if explicitly set to null/~ in the directive.
+        playbook: |-
+          (some Ansible playbook)
+```
+
+This can be useful to avoid repeating some definitions for multiple code blocks.
+If another `ansible-output-meta` action sets a new template, the previous templates will be thrown away.
+
 ## Post-processing ansible-playbook output
 
 Out of the box, you can post-process the `ansible-playbook` output in some ways:

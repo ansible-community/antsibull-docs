@@ -11,6 +11,8 @@ import typing as t
 
 import pydantic as p
 
+from .ansible_output_data import AnsibleOutputTemplate
+
 
 class ActionResetPreviousBlocks(p.BaseModel):
     model_config = p.ConfigDict(frozen=True, extra="forbid", validate_default=True)
@@ -18,7 +20,14 @@ class ActionResetPreviousBlocks(p.BaseModel):
     name: t.Literal["reset-previous-blocks"]
 
 
-AnsibleOutputAction = t.Union[ActionResetPreviousBlocks]
+class ActionSetTemplate(p.BaseModel):
+    model_config = p.ConfigDict(frozen=True, extra="forbid", validate_default=True)
+
+    name: t.Literal["set-template"]
+    template: AnsibleOutputTemplate
+
+
+AnsibleOutputAction = t.Union[ActionResetPreviousBlocks, ActionSetTemplate]
 
 
 class AnsibleOutputMeta(p.BaseModel):
