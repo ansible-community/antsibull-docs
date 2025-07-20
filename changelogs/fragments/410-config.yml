@@ -1,0 +1,2 @@
+minor_changes:
+  - "Add ``--config`` parameter to the ``ansible-output`` subcommand to allow specifying a config file when not in collection mode (https://github.com/ansible-community/antsibull-docs/pull/410)."

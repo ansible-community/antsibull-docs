@@ -863,6 +863,11 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         help="Force enable or disable color in diffs when using --check."
         " By default decides on whether stdout is a tty or not.",
     )
+    ansible_output_parser.add_argument(
+        "--config",
+        help="Path to config file. Can only be specified when at least one path"
+        " has been provided to ansible-output.",
+    )
 
     # This must come after all parser setup
     if HAS_ARGCOMPLETE:
