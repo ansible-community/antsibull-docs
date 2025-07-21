@@ -58,7 +58,7 @@ _POSITIONAL_PLUGIN_SCHEMA_RECORD = {
 #: Mapping of plugin_types to the schemas which validate and normalize their documentation.
 #: The structure of this mapping is a two level nested dict.  The outer key is the plugin_type.
 #: The inner keys are the sections of the documentation (doc, example, metadata, return, or top
-#: [which combines all of hte above, such as ansible-doc returns]) to validate.
+#: [which combines all of the above, such as ansible-doc returns]) to validate.
 DOCS_SCHEMAS = {
     "become": _PLUGIN_SCHEMA_RECORD,
     "cache": _PLUGIN_SCHEMA_RECORD,
