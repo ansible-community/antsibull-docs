@@ -53,6 +53,8 @@ class Error:
 
 @dataclass
 class Block:
+    id: str
+
     path: Path
     codeblock: CodeBlockInfo
     data: AnsibleOutputData
@@ -183,15 +185,22 @@ def _get_ansible_output_data_error(
 
 class _BlockCollector:
     def __init__(
-        self, *, path: Path, errors: list[Error], environment: Environment
+        self,
+        *,
+        path: Path,
+        relative_path: Path,
+        errors: list[Error],
+        environment: Environment,
     ) -> None:
         self.path = path
+        self.relative_path = relative_path
         self.errors = errors
         self.environment = environment
         self.blocks: list[Block] = []
         self.data: _AnsibleOutputDataExt | None = None
         self.previous_blocks: list[CodeBlockInfo] = []
         self.template = AnsibleOutputTemplate()
+        self.counter = 0
 
     def _process_reset_previous_blocks(
         self, action: ActionResetPreviousBlocks  # pylint: disable=unused-argument
@@ -292,8 +301,11 @@ class _BlockCollector:
                 postprocessors.append(postprocessor)
         if error:
             return
+        self.counter += 1
+        block_id = f"{self.relative_path}-{self.counter}"
         self.blocks.append(
             Block(
+                id=block_id,
                 path=self.path,
                 codeblock=codeblock,
                 data=data.data,
@@ -339,7 +351,12 @@ def _find_blocks(
     errors: list[Error],
     environment: Environment,
 ) -> list[Block]:
-    collector = _BlockCollector(path=path, errors=errors, environment=environment)
+    relative_path = path
+    if root is not None:
+        relative_path = relative_path.relative_to(root, walk_up=True)
+    collector = _BlockCollector(
+        path=path, relative_path=relative_path, errors=errors, environment=environment
+    )
     for block in find_code_blocks(
         content, path=path, root_prefix=root, extra_directives=_DIRECTIVES
     ):
