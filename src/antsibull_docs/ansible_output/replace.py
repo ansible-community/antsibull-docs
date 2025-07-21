@@ -185,7 +185,7 @@ def _apply_replacements_in_file(
     replacements: list[Replacement],
     errors: list[Error],
 ) -> None:
-    flog = mlog.fields(func="_apply_replacements_in_file")
+    flog = mlog.fields(func="_apply_replacements_in_file", path=path)
 
     flog.notice("Load {}", path)
     try:

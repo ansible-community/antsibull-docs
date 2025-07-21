@@ -184,10 +184,11 @@ async def _execute(
 async def _apply_postprocessor(
     lines: list[str],
     *,
+    block_id: str,
     env: dict[str, str],
     postprocessor: NonRefPostprocessor,
 ) -> list[str]:
-    flog = mlog.fields(func="_apply_postprocessor")
+    flog = mlog.fields(func="_apply_postprocessor", block_id=block_id)
 
     if isinstance(postprocessor, PostprocessorCLI):
         flog.notice("Run postprocessor command: {}", postprocessor.command)
@@ -204,7 +205,7 @@ async def _apply_postprocessor(
 async def _compute_code_block_content(
     block: Block,
 ) -> list[str]:
-    flog = mlog.fields(func="_compute_code_block_content")
+    flog = mlog.fields(func="_compute_code_block_content", block_id=block.id)
 
     flog.notice("Prepare environment")
     flog.notice("Environment: {}", block.merged_env)
@@ -244,6 +245,7 @@ async def _compute_code_block_content(
             try:
                 lines = await _apply_postprocessor(
                     lines,
+                    block_id=block.id,
                     env=block.merged_env,
                     postprocessor=postprocessor,
                 )
@@ -256,6 +258,8 @@ async def _compute_code_block_content(
 
 @dataclass
 class Replacement:
+    id: str
+
     path: Path
     codeblock: CodeBlockInfo
     new_content: list[str]
@@ -271,7 +275,7 @@ async def compute_replacement(
     ``None`` in case the replacement is identical to the current content,
     or an ``Error`` object in case the computation failed.
     """
-    flog = mlog.fields(func="compute_replacement")
+    flog = mlog.fields(func="compute_replacement", block_id=block.id)
 
     try:
         new_content = await _compute_code_block_content(block)
@@ -293,6 +297,7 @@ async def compute_replacement(
         return None
 
     return Replacement(
+        id=block.id,
         path=block.path,
         codeblock=block.codeblock,
         new_content=new_content,
