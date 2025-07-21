@@ -94,6 +94,10 @@ Also take a look at the example further below which demonstrates all of them.
 * The `postprocessors` key allows to define a list of post-processors.
   This is explained in more detail in the [Post-processing ansible-playbook output section](#post-processing-ansible-playbook-output).
 
+* The `inventory` key allows to define a YAML inventory. See the
+  [Ansible documentation on inventories](https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html)
+  for the format of a YAML inventory.
+
 An example looks like this. The `console` code block contains the generated result:
 ```rst
 This is an Ansible task we're going to reference in the playbook:
@@ -151,6 +155,12 @@ This is an Ansible task we're going to reference in the playbook:
 
     # No post-processors
     postprocessors: []
+
+    # Basic inventory with localhost
+    inventory:
+      ungrouped:
+        localhost:
+          ansible_connection: local
 
     # The actual playbook to run:
     playbook: |-
@@ -284,6 +294,9 @@ You can use all fields that you can also use for `ansible-output-data` in the te
 
         # Will use this value if not specified in the directive.
         postprocessors: []
+
+        # Will use this value if not specified in the directive.
+        inventory: {}
 
         # Will use this value if explicitly set to null/~ in the directive.
         playbook: |-
