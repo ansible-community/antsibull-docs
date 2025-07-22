@@ -14,7 +14,7 @@ import textwrap
 import typing as t
 from collections.abc import Mapping, MutableMapping
 
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 from antsibull_core.schemas.collection_meta import (
     CollectionMetadata,
     CollectionsMetadata,
@@ -74,7 +74,7 @@ from ...write_docs.io import TrackingOutput
 from ...write_docs.plugin_stubs import output_all_plugin_stub_rst
 from ...write_docs.plugins import output_all_plugin_rst
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 
 def _remove_collections_from_mapping(
