@@ -7,14 +7,14 @@
 
 from __future__ import annotations
 
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 from antsibull_core.venv import FakeVenvRunner
 
 from ... import app_context
 from ...jinja2.environment import OutputFormat
 from ._build import generate_docs_for_all_collections
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 
 def generate_docs() -> int:
