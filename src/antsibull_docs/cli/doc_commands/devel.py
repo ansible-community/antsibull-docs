@@ -17,7 +17,7 @@ from antsibull_core.ansible_core import get_ansible_core
 from antsibull_core.collections import install_together
 from antsibull_core.dependency_files import parse_pieces_file
 from antsibull_core.galaxy import CollectionDownloader, DownloadResults, GalaxyContext
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 from antsibull_core.schemas.collection_meta import CollectionsMetadata
 from antsibull_core.venv import FakeVenvRunner, VenvRunner
 from antsibull_fileutils.tempfile import AnsibleTemporaryDirectory
@@ -27,7 +27,7 @@ from ... import app_context
 from ...jinja2.environment import OutputFormat
 from ._build import generate_docs_for_all_collections
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 
 async def retrieve(

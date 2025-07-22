@@ -13,7 +13,7 @@ import json
 import sys
 import traceback
 
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 from antsibull_core.subprocess_util import CalledProcessError
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
 from antsibull_core.venv import FakeVenvRunner
@@ -34,7 +34,7 @@ from ...utils.collection_name_transformer import CollectionNameTransformer
 from ...write_docs.io import Output
 from ...write_docs.plugins import write_plugin_rst
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 
 def generate_plugin_docs(

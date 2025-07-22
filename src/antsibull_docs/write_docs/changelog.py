@@ -19,7 +19,7 @@ from antsibull_changelog.rendering.changelog import (
     create_document_renderer,
 )
 from antsibull_core import app_context
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 
 from ..docs_parsing import AnsibleCollectionMetadata
 from ..jinja2 import OutputFormat
@@ -27,7 +27,7 @@ from ..rst_labels import get_collection_ref
 from . import CollectionInfoT, _get_collection_dir
 from .io import Output
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 
 async def write_changelog(

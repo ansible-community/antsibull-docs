@@ -15,14 +15,14 @@ from collections import defaultdict
 from threading import Lock
 
 from antsibull_core import app_context
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 from antsibull_fileutils.io import copy_file as _copy_file
 from antsibull_fileutils.io import write_file as _write_file
 
 if t.TYPE_CHECKING:
     from _typeshed import StrOrBytesPath
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 
 class Output:
