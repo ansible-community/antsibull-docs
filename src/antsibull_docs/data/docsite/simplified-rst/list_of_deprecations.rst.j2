@@ -10,9 +10,6 @@
 .. Created with antsibull-docs
 {% endif %}
 
-{% from 'macros/deprecates.rst.j2' import collection_deprecation_marker with context -%}
-{% from 'macros/deprecates.rst.j2' import deprecation_marker with context -%}
-
 {% if deprecated_collection_infos and deprecated_plugin_info %}
 Index of all deprecated collections and plugins
 ===============================================
@@ -46,7 +43,7 @@ Index of all deprecated @{ plugin_type }@ plugins
 {%   endif %}
 
 {%   for plugin_fqcn, plugin_info in plugins.items() | sort %}
-* `@{ plugin_fqcn }@ <@{ get_plugin_filename(plugin_fqcn, plugin_type) }@>`_ -- @{ plugin_info.short_description | rst_ify(plugin_fqcn=plugin_fqcn, plugin_type=plugin_type) }@ @{ deprecation_marker(plugin_info) }@
+* `@{ plugin_fqcn }@ <@{ get_plugin_filename(plugin_fqcn, plugin_type) }@>`_ -- @{ plugin_info.short_description | rst_ify(plugin_fqcn=plugin_fqcn, plugin_type=plugin_type) }@
 {%   endfor %}
 
 {% endfor %}

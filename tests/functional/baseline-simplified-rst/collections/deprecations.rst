@@ -6,9 +6,9 @@ Index of all deprecated plugins
 Index of all deprecated become plugins
 --------------------------------------
 
-* `ns2.col.foo <foo_become.rst>`_ -- Use foo :literal:`bar` (of become plugin `ns2.col.foo <foo_become.rst>`__) **(DEPRECATED)**
+* `ns2.col.foo <foo_become.rst>`_ -- Use foo :literal:`bar` (of become plugin `ns2.col.foo <foo_become.rst>`__)
 
 Index of all deprecated roles
 -----------------------------
 
-* `ns2.col.foo <foo_role.rst>`_ -- Foo role **(DEPRECATED)**
+* `ns2.col.foo <foo_role.rst>`_ -- Foo role

@@ -11,9 +11,13 @@ Index of all deprecated plugins
 Index of all deprecated become plugins
 --------------------------------------
 
-* :ansplugin:`ns2.col.foo#become` -- Use foo :ansopt:`ns2.col.foo#become:bar` :ansdeprecatedmarker:`{"date": "", "version": "5.0.0"}`
+* :ansplugin:`ns2.col.foo#become` -- Use foo :ansopt:`ns2.col.foo#become:bar`
+  (Will be removed from :anscollection:`ns2.col`
+  5.0.0.)
 
 Index of all deprecated roles
 -----------------------------
 
-* :ansplugin:`ns2.col.foo#role` -- Foo role :ansdeprecatedmarker:`{"date": "2020-01-01", "version": ""}`
+* :ansplugin:`ns2.col.foo#role` -- Foo role
+  (Will be removed from :anscollection:`ns2.col`
+  in a major release after 2020-01-01.)

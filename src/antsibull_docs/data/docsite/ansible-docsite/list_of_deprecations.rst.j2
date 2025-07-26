@@ -32,7 +32,10 @@ Index of all deprecated collections
 -----------------------------------
 
 {%   for collection_name, collection_meta in deprecated_collection_infos.items() | sort %}
-* :anscollection:`@{ collection_name }@ <@{collection_name}@>` @{ collection_deprecation_marker(collection_meta) }@
+* :anscollection:`@{ collection_name }@ <@{collection_name}@>`
+{%     if for_official_docsite and collection_meta.deprecation_info %}
+  will be removed from Ansible @{ collection_meta.removal_ansible_major_version }@
+{%     endif %}
 {%   endfor %}
 
 {% endif %}
@@ -49,7 +52,15 @@ Index of all deprecated @{ plugin_type }@ plugins
 {%   endif %}
 
 {%   for plugin_fqcn, plugin_info in plugins.items() | sort %}
-* :ansplugin:`@{ plugin_fqcn }@#@{ plugin_type }@` -- @{ plugin_info.short_description | rst_ify(plugin_fqcn=plugin_fqcn, plugin_type=plugin_type) }@ @{ deprecation_marker(plugin_info) }@
+* :ansplugin:`@{ plugin_fqcn }@#@{ plugin_type }@` -- @{ plugin_info.short_description | rst_ify(plugin_fqcn=plugin_fqcn, plugin_type=plugin_type) }@
+{%     if plugin_info.deprecation %}
+  (Will be removed from :anscollection:`@{ plugin_fqcn.split(".")[:2] | join(".") }@`
+{%       if plugin_info.deprecation.removed_in %}
+  @{ plugin_info.deprecation.removed_in }@.)
+{%       elif plugin_info.deprecation.removed_at_date %}
+  in a major release after @{ plugin_info.deprecation.removed_at_date }@.)
+{%       endif %}
+{%     endif %}
 {%   endfor %}
 
 {% endfor %}
