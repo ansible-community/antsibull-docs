@@ -296,3 +296,83 @@ async def output_environment_variables(
     await output.write_file(index_file, index_contents)
 
     flog.debug("Leave")
+
+
+async def output_deprecation_index(
+    plugin_info: PluginCollectionInfoT,
+    collection_metadata: Mapping[str, AnsibleCollectionMetadata],
+    output: Output,
+    collection_url: CollectionNameTransformer,
+    collection_install: CollectionNameTransformer,
+    output_format: OutputFormat,
+    filename_generator: FilenameGenerator,
+    for_official_docsite: bool = False,
+    referable_envvars: set[str] | None = None,
+    add_version: bool = True,
+) -> None:
+    """
+    Generate top-level deprecation index page.
+
+    :arg plugin_info: Mapping of plugin_type to Mapping of collection_name to Mapping of
+        plugin_name to short_description.
+    :arg collection_metadata: Dictionary mapping collection names to collection metadata objects.
+    :arg output: Output helper for writing output.
+    :kwarg for_official_docsite: Default False.  Set to True to use wording specific for the
+        official docsite on docs.ansible.com.
+    :kwarg referable_envvars: Optional set of environment variables that can be referenced.
+    :kwarg output_format: The output format to use.
+    :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
+        the generated files.
+    """
+    flog = mlog.fields(func="output_deprecation_index")
+    flog.debug("Enter")
+
+    env = doc_environment(
+        collection_url=collection_url,
+        collection_install=collection_install,
+        referable_envvars=referable_envvars,
+        output_format=output_format,
+        filename_generator=filename_generator,
+    )
+
+    collection_toplevel = "collections"
+    output.ensure_directory(collection_toplevel)
+    filename = os.path.join(
+        collection_toplevel,
+        f"deprecations{output_format.output_extension}",
+    )
+
+    deprecated_plugin_info = {
+        plugin_type: {
+            f"{collection_name}.{plugin_name}": plugin_info
+            for collection_name, plugins in per_collection_plugins.items()
+            for plugin_name, plugin_info in plugins.items()
+            if plugin_info.deprecation
+        }
+        for plugin_type, per_collection_plugins in plugin_info.items()
+    }
+
+    template = env.get_template(
+        get_template_filename("list_of_deprecations", output_format)
+    )
+    index_contents = _render_template(
+        template,
+        filename,
+        deprecated_collection_infos={
+            collection_name: collection_metadata
+            for collection_name, collection_metadata in collection_metadata.items()
+            if for_official_docsite and collection_metadata.deprecation_info
+        },
+        deprecated_plugin_info={
+            plugin_type: plugins
+            for plugin_type, plugins in deprecated_plugin_info.items()
+            if plugins
+        },
+        collection_metadata=collection_metadata,
+        for_official_docsite=for_official_docsite,
+        add_version=add_version,
+    )
+
+    await output.write_file(filename, index_contents)
+
+    flog.debug("Leave")
