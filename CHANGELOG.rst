@@ -4,6 +4,27 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.20.0
+=======
+
+Release Summary
+---------------
+
+Bugfix and feature release.
+
+Minor Changes
+-------------
+
+- Add ``--config`` parameter to the ``ansible-output`` subcommand to allow specifying a config file when not in collection mode (https://github.com/ansible-community/antsibull-docs/pull/410).
+- Add ``ansible-output-meta`` directive that allows to apply meta actions, like resetting previous code blocks for variable references, or defining templates for ``ansible-output-data`` (https://github.com/ansible-community/antsibull-docs/pull/409).
+- Allow to specify YAML inventory for ``ansible-output`` subcommand code blocks (https://github.com/ansible-community/antsibull-docs/pull/411).
+- Let ``ansible-output`` subcommand run ``ansible-playbook`` instances in parallel (https://github.com/ansible-community/antsibull-docs/pull/407, https://github.com/ansible-community/antsibull-docs/pull/408).
+
+Bugfixes
+--------
+
+- Run the post-processors in the ``ansible-output`` subcommand from the current working directory, and not from the temporary playbook directory. This allows post-processors to have relative paths from where ``antsibull-docs ansible-output`` is called (https://github.com/ansible-community/antsibull-docs/pull/406).
+
 v2.19.1
 =======
 

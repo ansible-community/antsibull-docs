@@ -1,4 +1,0 @@
-bugfixes:
-  - "Run the post-processors in the ``ansible-output`` subcommand from the current working directory, and not from the temporary playbook directory.
-     This allows post-processors to have relative paths from where ``antsibull-docs ansible-output`` is called
-     (https://github.com/ansible-community/antsibull-docs/pull/406)."
