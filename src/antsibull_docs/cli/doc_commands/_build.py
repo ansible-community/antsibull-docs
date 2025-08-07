@@ -66,6 +66,7 @@ from ...write_docs.hierarchy import (
 )
 from ...write_docs.indexes import (
     output_callback_indexes,
+    output_deprecation_index,
     output_environment_variables,
     output_plugin_indexes,
 )
@@ -601,6 +602,21 @@ def generate_docs_for_all_collections(  # noqa: C901  # pylint: disable=too-many
             )
         )
         flog.notice("Finished writing callback plugin indexes")
+        asyncio.run(
+            output_deprecation_index(
+                plugin_contents,
+                collection_metadata,
+                output,
+                collection_url=collection_url,
+                collection_install=collection_install,
+                output_format=output_format,
+                filename_generator=filename_generator,
+                for_official_docsite=for_official_docsite,
+                referable_envvars=referable_envvars,
+                add_version=add_antsibull_docs_version,
+            )
+        )
+        flog.notice("Finished writing deprecation index")
 
     if create_collection_indexes:
         asyncio.run(

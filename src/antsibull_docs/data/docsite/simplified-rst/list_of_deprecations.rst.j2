@@ -1,0 +1,52 @@
+{#
+  Copyright (c) Ansible Project
+  GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+  SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+{% if antsibull_docs_version %}
+.. Created with antsibull-docs @{ antsibull_docs_version }@
+{% else %}
+.. Created with antsibull-docs
+{% endif %}
+
+{% if deprecated_collection_infos and deprecated_plugin_info %}
+Index of all deprecated collections and plugins
+===============================================
+{% elif deprecated_collection_infos %}
+Index of all deprecated collections
+===================================
+{% else %}
+Index of all deprecated plugins
+===============================
+{% endif %}
+
+{% if deprecated_collection_infos %}
+Index of all deprecated collections
+-----------------------------------
+
+{%   for collection_name, collection_meta in deprecated_collection_infos.items() | sort %}
+* `@{ collection_name }@ <@{ collection_name | replace('.', '/') }@/index.rst>`_
+{%   endfor %}
+
+{% endif %}
+{% for plugin_type, plugins in deprecated_plugin_info.items() | sort %}
+{%   if plugin_type == 'module' %}
+Index of all deprecated modules
+-------------------------------
+{%   elif plugin_type == 'role' %}
+Index of all deprecated roles
+-----------------------------
+{%   else %}
+Index of all deprecated @{ plugin_type }@ plugins
+------------------------@{ '-' * (plugin_type | column_width) }@--------
+{%   endif %}
+
+{%   for plugin_fqcn, plugin_info in plugins.items() | sort %}
+* `@{ plugin_fqcn }@ <@{ get_plugin_filename(plugin_fqcn, plugin_type) }@>`_ -- @{ plugin_info.short_description | rst_ify(plugin_fqcn=plugin_fqcn, plugin_type=plugin_type) }@
+{%   endfor %}
+
+{% endfor %}
+{% if not deprecated_collection_infos and not deprecated_plugin_info %}
+No plugins have been deprecated.
+{% endif %}
