@@ -1151,3 +1151,13 @@ releases:
       - 410-config.yml
       - 411-inventory.yml
     release_date: '2025-07-26'
+  2.21.0:
+    changes:
+      minor_changes:
+        - Add an index for all deprecated collections (official docsite only) and
+          plugins (https://github.com/ansible-community/antsibull-docs/pull/413).
+      release_summary: Feature release.
+    fragments:
+      - 2.21.0.yml
+      - 413-deprecation-index.yml
+    release_date: '2025-08-10'

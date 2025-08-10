@@ -1,2 +1,0 @@
-minor_changes:
-  - "Add an index for all deprecated collections (official docsite only) and plugins (https://github.com/ansible-community/antsibull-docs/pull/413)."

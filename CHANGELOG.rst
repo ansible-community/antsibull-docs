@@ -4,6 +4,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.21.0
+=======
+
+Release Summary
+---------------
+
+Feature release.
+
+Minor Changes
+-------------
+
+- Add an index for all deprecated collections (official docsite only) and plugins (https://github.com/ansible-community/antsibull-docs/pull/413).
+
 v2.20.0
 =======
 
