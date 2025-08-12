@@ -14,7 +14,7 @@ from collections.abc import Mapping
 
 import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 from jinja2 import Template
 
 from ..docs_parsing import AnsibleCollectionMetadata
@@ -25,7 +25,7 @@ from ..utils.collection_name_transformer import CollectionNameTransformer
 from . import BasicPluginInfo, PluginCollectionInfoT, _render_template
 from .io import Output
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 
 async def write_callback_type_index(
