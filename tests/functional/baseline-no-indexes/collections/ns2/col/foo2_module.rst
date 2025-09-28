@@ -25,7 +25,7 @@ ns2.col.foo2 module -- Another foo
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install ns2.col`.
+    To install it, use: :code:`ansible\-galaxy collection install ns2.col`.
 
     To use it in a playbook, specify: :code:`ns2.col.foo2`.
 
@@ -46,7 +46,7 @@ Synopsis
 
 - Foo bar.
 - See :ansopt:`ns2.col.foo#role:main:foo\_param\_1` for a random role parameter reference. And :ansopt:`ns2.col.foo#role:main:foo\_param\_2=42` for one with a value.
-- Reference using alias - :ansopt:`ns2.col.foo\_redirect#module:bar` and :ansopt:`ns2.col.foo\_redirect#module:baz`.
+- Reference using alias \- :ansopt:`ns2.col.foo\_redirect#module:bar` and :ansopt:`ns2.col.foo\_redirect#module:baz`.
 - .. raw:: html
 
     <hr>

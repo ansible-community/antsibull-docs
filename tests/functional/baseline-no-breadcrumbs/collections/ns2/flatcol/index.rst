@@ -42,8 +42,8 @@ Communication
 - Matrix room :literal:`#users:ansible.im`: `General usage and support questions <https://matrix.to/#/#users:ansible.im>`__.
 - IRC channel :literal:`#ansible` (Libera network):
   `General usage and support questions <https://web.libera.chat/?channel=#ansible>`__.
-- Mailing list: `Ansible Project List <https://groups.google.com/g/ansible-project>`__.
-  (`Subscribe <mailto:ansible-project+subscribe@googlegroups.com?subject=subscribe>`__)
+- Mailing list: `Ansible Project List <https://groups.google.com/g/ansible\-project>`__.
+  (`Subscribe <mailto:ansible\-project+subscribe@googlegroups.com?subject=subscribe>`__)
 
 .. toctree::
     :maxdepth: 1

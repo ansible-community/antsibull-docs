@@ -15,8 +15,8 @@ from antsibull_docs.markup.rstify import (
 
 RST_IFY_DATA = {
     # No substitutions
-    "no-op": "no-op",
-    "no-op Z(test)": "no-op Z(test)",
+    "no-op": "no\\-op",
+    "no-op Z(test)": "no\\-op Z(test)",
     # Simple cases of all substitutions
     "I(italic)": r":emphasis:`italic`",
     "B(bold)": r":strong:`bold`",
@@ -56,7 +56,7 @@ def test_rst_ify(text, expected):
 
 RST_ESCAPE_DATA = {
     "": "",
-    "no-op": "no-op",
+    "no-op": "no\\-op",
     None: "None",
     1: "1",
     "*": "\\*",

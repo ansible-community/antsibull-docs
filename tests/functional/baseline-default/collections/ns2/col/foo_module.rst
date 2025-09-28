@@ -28,7 +28,7 @@ ns2.col.foo module -- Do some foo :ansopt:`ns2.col.foo#module:bar`
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install ns2.col`.
+    To install it, use: :code:`ansible\-galaxy collection install ns2.col`.
     You need further requirements to be able to use this module,
     see :ref:`Requirements <ansible_collections.ns2.col.foo_module_requirements>` for details.
 
@@ -214,7 +214,7 @@ Parameters
         Alpine Linux package manager
 
       - :ansible-option-choices-entry:`"apt"`\ :
-        For DEB based distros, :literal:`python-apt` package must be installed on targeted hosts
+        For DEB based distros, :literal:`python\-apt` package must be installed on targeted hosts
 
       - :ansible-option-choices-entry-default:`"auto"` :ansible-option-choices-default-mark:`(default)`\ :
         Depending on :ansopt:`ns2.col.foo#module:strategy`\ , will match the first or all package managers provided, in order
@@ -244,10 +244,10 @@ Parameters
         Alias to pkg
 
       - :ansible-option-choices-entry:`"portage"`\ :
-        Handles ebuild packages, it requires the :literal:`qlist` utility, which is part of 'app-portage/portage-utils'
+        Handles ebuild packages, it requires the :literal:`qlist` utility, which is part of 'app\-portage/portage\-utils'
 
       - :ansible-option-choices-entry:`"rpm"`\ :
-        For RPM based distros, requires RPM Python bindings, not installed by default on Suse (python3-rpm)
+        For RPM based distros, requires RPM Python bindings, not installed by default on Suse (python3\-rpm)
 
       - :ansible-option-choices-entry:`"yum"`\ :
         Alias to rpm

@@ -27,7 +27,7 @@ ns.col2.foo2 module -- Foo two
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install ns.col2`.
+    To install it, use: :code:`ansible\-galaxy collection install ns.col2`.
     You need further requirements to be able to use this module,
     see :ref:`Requirements <ansible_collections.ns.col2.foo2_module_requirements>` for details.
 
@@ -55,9 +55,9 @@ Synopsis
 - Again existing: :ansopt:`ns.col2.foo#module:foo=1`\ , :ansretval:`ns.col2.foo#module:bar=2`
 - Again not existing: :ansopt:`ns.col2.foo#module:foobar=1`\ , :ansretval:`ns.col2.foo#module:barbaz=2`
 - :literal:`\ ` :emphasis:`\ ` :strong:`\ ` :literal:`\ `   :ref:`\  <>` :ansval:`\ ` :ansopt:`ns.col2.foo2#module:`\  :ansretval:`ns.col2.foo2#module:`\  :ansenvvar:`\ `
-- Foo bar baz. Bamm - Bar baz
+- Foo bar baz. Bamm \- Bar baz
   bam bum.
-  Bumm - Foo bar
+  Bumm \- Foo bar
   baz bam!
 
 
@@ -126,9 +126,9 @@ Parameters
 
       Some :ansopt:`ns.col2.foo2#module:broken markup`.
 
-      Foo bar baz. Bamm - Bar baz
+      Foo bar baz. Bamm \- Bar baz
       bam bum.
-      Bumm - Foo bar
+      Bumm \- Foo bar
       baz bam!
 
 
@@ -392,9 +392,9 @@ Attributes
 
       Will return details on what has changed (or possibly needs changing in check\_mode), when in diff mode
 
-      Foo bar baz. Bamm - Bar baz
+      Foo bar baz. Bamm \- Bar baz
       bam bum.
-      Bumm - Foo bar
+      Bumm \- Foo bar
       baz bam!
 
 
@@ -432,9 +432,9 @@ Attributes
 
       Sometimes our markup is :strong:`ERROR while parsing`\ : While parsing "B(broken." at index 25: Cannot find closing ")" after last parameter
 
-      Foo bar baz. Bamm - Bar baz
+      Foo bar baz. Bamm \- Bar baz
       bam bum.
-      Bumm - Foo bar
+      Bumm \- Foo bar
       baz bam!
 
 
@@ -461,9 +461,9 @@ Notes
 -----
 
 .. note::
-   - Foo bar baz. Bamm - Bar baz
+   - Foo bar baz. Bamm \- Bar baz
      bam bum.
-     Bumm - Foo bar
+     Bumm \- Foo bar
      baz bam!
 
 .. Seealso
@@ -484,13 +484,13 @@ See Also
    :ref:`ansible.builtin.service <ansible_collections.ansible.builtin.service_module>`
        The service module.
    :ref:`ansible.builtin.foobarbaz <ansible_collections.ansible.builtin.foobarbaz_module>`
-       A non-existing module.
+       A non\-existing module.
    :ref:`ansible.builtin.linear <ansible_collections.ansible.builtin.linear_strategy>` strategy plugin
        The linear strategy plugin.
    :ref:`ansible.builtin.foobarbaz <ansible_collections.ansible.builtin.foobarbaz_strategy>` strategy plugin
-       Foo bar baz. Bamm - Bar baz
+       Foo bar baz. Bamm \- Bar baz
        bam bum.
-       Bumm - Foo bar
+       Bumm \- Foo bar
        baz bam!
 
 .. Examples

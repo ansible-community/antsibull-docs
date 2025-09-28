@@ -8,7 +8,7 @@ This module is part of the `ns.col2 collection <https://galaxy.ansible.com/ui/re
 It is not included in ``ansible-core``.
 To check whether it is installed, run ``ansible-galaxy collection list``.
 
-To install it, use: :code:`ansible-galaxy collection install ns.col2`.
+To install it, use: :code:`ansible\-galaxy collection install ns.col2`.
 You need further requirements to be able to use this module,
 see `Requirements <ansible_collections.ns.col2.foo2_module_requirements_>`_ for details.
 
@@ -30,9 +30,9 @@ Synopsis
 - Again existing: :literal:`foo=1` (of module `ns.col2.foo <foo_module.rst>`__)\ , :literal:`bar=2` (of module `ns.col2.foo <foo_module.rst>`__)
 - Again not existing: :literal:`foobar=1` (of module `ns.col2.foo <foo_module.rst>`__)\ , :literal:`barbaz=2` (of module `ns.col2.foo <foo_module.rst>`__)
 - :literal:`\ ` :emphasis:`\ ` :strong:`\ ` :literal:`\ `   :ref:`\  <>` :literal:`\ ` :literal:`` (`link <#parameter->`_) :literal:`` (`link <#return->`_) :literal:``
-- Foo bar baz. Bamm - Bar baz
+- Foo bar baz. Bamm \- Bar baz
   bam bum.
-  Bumm - Foo bar
+  Bumm \- Foo bar
   baz bam!
 
 
@@ -182,9 +182,9 @@ Attributes
     -
       Will return details on what has changed (or possibly needs changing in check\_mode), when in diff mode
 
-      Foo bar baz. Bamm - Bar baz
+      Foo bar baz. Bamm \- Bar baz
       bam bum.
-      Bumm - Foo bar
+      Bumm \- Foo bar
       baz bam!
 
 
@@ -199,9 +199,9 @@ Attributes
 
       Sometimes our markup is :strong:`ERROR while parsing`\ : While parsing "B(broken." at index 25: Cannot find closing ")" after last parameter
 
-      Foo bar baz. Bamm - Bar baz
+      Foo bar baz. Bamm \- Bar baz
       bam bum.
-      Bumm - Foo bar
+      Bumm \- Foo bar
       baz bam!
 
 
@@ -214,9 +214,9 @@ Attributes
 Notes
 -----
 
-- Foo bar baz. Bamm - Bar baz
+- Foo bar baz. Bamm \- Bar baz
   bam bum.
-  Bumm - Foo bar
+  Bumm \- Foo bar
   baz bam!
 
 See Also
@@ -239,15 +239,15 @@ See Also
   The service module.
 * `ansible.builtin.foobarbaz <foobarbaz_module.rst>`__
 
-  A non-existing module.
+  A non\-existing module.
 * `ansible.builtin.linear <linear_strategy.rst>`__ strategy plugin
 
   The linear strategy plugin.
 * `ansible.builtin.foobarbaz <foobarbaz_strategy.rst>`__ strategy plugin
 
-  Foo bar baz. Bamm - Bar baz
+  Foo bar baz. Bamm \- Bar baz
   bam bum.
-  Bumm - Foo bar
+  Bumm \- Foo bar
   baz bam!
 
 Examples

@@ -27,7 +27,7 @@ ns.col2.foo4 module -- Markup reference linting test
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install ns.col2`.
+    To install it, use: :code:`ansible\-galaxy collection install ns.col2`.
 
     To use it in a playbook, specify: :code:`ns.col2.foo4`.
 
@@ -167,7 +167,7 @@ Parameters
 
       :ref:`ns2.col.foo <ansible_collections.ns2.col.foo_lookup>`
 
-      :ansopt:`ns2.col.bar#filter:foo[-1]`
+      :ansopt:`ns2.col.bar#filter:foo[\-1]`
 
       :ansretval:`ns2.col.bar#test:\_value`
 
@@ -297,7 +297,7 @@ Parameters
 
       :ansretval:`ns2.col.bar#test:booo`
 
-      :ansopt:`ns2.col.joo#filter:foo[-1]`
+      :ansopt:`ns2.col.joo#filter:foo[\-1]`
 
       :ansretval:`ns2.col.joo#test:\_value`
 

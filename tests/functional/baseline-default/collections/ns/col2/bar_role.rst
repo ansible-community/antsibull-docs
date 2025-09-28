@@ -25,7 +25,7 @@ ns.col2.bar role -- Bar role
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it use: :code:`ansible-galaxy collection install ns.col2`.
+    To install it use: :code:`ansible\-galaxy collection install ns.col2`.
 
     To use it in a playbook, specify: :code:`ns.col2.bar`.
 

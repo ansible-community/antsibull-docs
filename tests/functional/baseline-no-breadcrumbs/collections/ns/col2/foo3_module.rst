@@ -27,7 +27,7 @@ ns.col2.foo3 module -- Foo III
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it, use: :code:`ansible-galaxy collection install ns.col2`.
+    To install it, use: :code:`ansible\-galaxy collection install ns.col2`.
     You need further requirements to be able to use this module,
     see :ref:`Requirements <ansible_collections.ns.col2.foo3_module_requirements>` for details.
 
