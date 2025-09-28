@@ -26,7 +26,7 @@ ns2.col.foo role -- Foo role
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
-    To install it use: :code:`ansible-galaxy collection install ns2.col`.
+    To install it use: :code:`ansible\-galaxy collection install ns2.col`.
 
     To use it in a playbook, specify: :code:`ns2.col.foo`.
 
@@ -51,7 +51,7 @@ New in ns2.col 0.2.0
 
 DEPRECATED
 ^^^^^^^^^^
-:Removed in: major release after 2020-01-01
+:Removed in: major release after 2020\-01\-01
 :Why: Just some text.
       This one has more than one line.
       And one more.

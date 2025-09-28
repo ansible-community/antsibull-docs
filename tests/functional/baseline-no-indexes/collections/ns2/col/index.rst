@@ -53,8 +53,8 @@ Communication
 - Matrix room :literal:`#users:ansible.im`: `General usage and support questions <https://matrix.to/#/#users:ansible.im>`__.
 - IRC channel :literal:`#ansible` (Libera network):
   `General usage and support questions <https://web.libera.chat/?channel=#ansible>`__.
-- Mailing list: `Ansible Project List <https://groups.google.com/g/ansible-project>`__.
-  (`Subscribe <mailto:ansible-project+subscribe@googlegroups.com?subject=subscribe>`__)
+- Mailing list: `Ansible Project List <https://groups.google.com/g/ansible\-project>`__.
+  (`Subscribe <mailto:ansible\-project+subscribe@googlegroups.com?subject=subscribe>`__)
 
 .. toctree::
     :maxdepth: 1
@@ -91,7 +91,7 @@ Modules
 
 * :ansplugin:`foo module <ns2.col.foo#module>` -- Do some foo :ansopt:`ns2.col.foo#module:bar`
 * :ansplugin:`foo2 module <ns2.col.foo2#module>` -- Another foo
-* :ansplugin:`sub.foo3 module <ns2.col.sub.foo3#module>` -- A sub-foo
+* :ansplugin:`sub.foo3 module <ns2.col.sub.foo3#module>` -- A sub\-foo
 
 .. toctree::
     :maxdepth: 1
@@ -269,7 +269,7 @@ Role Index
 
 These are the roles in the ns2.col collection:
 
-* :ansplugin:`foo role <ns2.col.foo#role>` -- Foo role :ansdeprecatedmarker:`{"date": "2020-01-01", "version": ""}`
+* :ansplugin:`foo role <ns2.col.foo#role>` -- Foo role :ansdeprecatedmarker:`{"date": "2020\-01\-01", "version": ""}`
 
 .. toctree::
     :maxdepth: 1

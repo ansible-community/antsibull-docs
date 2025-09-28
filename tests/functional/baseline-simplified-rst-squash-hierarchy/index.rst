@@ -29,10 +29,10 @@ With multiple paragraphs.
 Collection links
 ~~~~~~~~~~~~~~~~
 
-* `Issue Tracker <https://github.com/ansible-collections/community.general/issues>`__
-* `Homepage <https://github.com/ansible-collections/community.crypto>`__
-* `Repository (Sources) <https://github.com/ansible-collections/community.internal\_test\_tools>`__
-* `Submit a bug report <https://github.com/ansible-community/antsibull-docs/issues/new?assignees=&labels=&template=bug\_report.md>`__
+* `Issue Tracker <https://github.com/ansible\-collections/community.general/issues>`__
+* `Homepage <https://github.com/ansible\-collections/community.crypto>`__
+* `Repository (Sources) <https://github.com/ansible\-collections/community.internal\_test\_tools>`__
+* `Submit a bug report <https://github.com/ansible\-community/antsibull\-docs/issues/new?assignees=&labels=&template=bug\_report.md>`__
 
 Communication
 -------------
@@ -41,8 +41,8 @@ Communication
 - Matrix room :literal:`#users:ansible.im`: `General usage and support questions <https://matrix.to/#/#users:ansible.im>`__.
 - IRC channel :literal:`#ansible` (Libera network):
   `General usage and support questions <https://web.libera.chat/?channel=#ansible>`__.
-- Mailing list: `Ansible Project List <https://groups.google.com/g/ansible-project>`__.
-  (`Subscribe <mailto:ansible-project+subscribe@googlegroups.com?subject=subscribe>`__)
+- Mailing list: `Ansible Project List <https://groups.google.com/g/ansible\-project>`__.
+  (`Subscribe <mailto:ansible\-project+subscribe@googlegroups.com?subject=subscribe>`__)
 
 Changelog
 ---------
@@ -65,7 +65,7 @@ Modules
 
 * `foo module <foo_module.rst>`_ -- Do some foo :literal:`bar` (of module `ns2.col.foo <foo_module.rst>`__)
 * `foo2 module <foo2_module.rst>`_ -- Another foo
-* `sub.foo3 module <sub.foo3_module.rst>`_ -- A sub-foo
+* `sub.foo3 module <sub.foo3_module.rst>`_ -- A sub\-foo
 
 
 Become Plugins

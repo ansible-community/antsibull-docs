@@ -8,7 +8,7 @@ This module is part of the `ns.col2 collection <https://galaxy.ansible.com/ui/re
 It is not included in ``ansible-core``.
 To check whether it is installed, run ``ansible-galaxy collection list``.
 
-To install it, use: :code:`ansible-galaxy collection install ns.col2`.
+To install it, use: :code:`ansible\-galaxy collection install ns.col2`.
 You need further requirements to be able to use this module,
 see `Requirements <ansible_collections.ns.col2.foo3_module_requirements_>`_ for details.
 

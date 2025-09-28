@@ -8,7 +8,7 @@ This module is part of the `ns2.col collection <https://galaxy.ansible.com/ui/re
 It is not included in ``ansible-core``.
 To check whether it is installed, run ``ansible-galaxy collection list``.
 
-To install it, use: :code:`ansible-galaxy collection install ns2.col`.
+To install it, use: :code:`ansible\-galaxy collection install ns2.col`.
 
 To use it in a playbook, specify: ``ns2.col.foo2``.
 
@@ -23,7 +23,7 @@ Synopsis
 
 - Foo bar.
 - See :literal:`foo\_param\_1` (of role `ns2.col.foo <foo_role.rst>`__, entrypoint main) for a random role parameter reference. And :literal:`foo\_param\_2=42` (of role `ns2.col.foo <foo_role.rst>`__, entrypoint main) for one with a value.
-- Reference using alias - :literal:`bar` (of module `ns2.col.foo\_redirect <foo_redirect_module.rst>`__) and :literal:`baz` (of module `ns2.col.foo\_redirect <foo_redirect_module.rst>`__).
+- Reference using alias \- :literal:`bar` (of module `ns2.col.foo\_redirect <foo_redirect_module.rst>`__) and :literal:`baz` (of module `ns2.col.foo\_redirect <foo_redirect_module.rst>`__).
 - ------------
 - Another line.
 
@@ -191,7 +191,7 @@ Authors
 Collection links
 ~~~~~~~~~~~~~~~~
 
-* `Issue Tracker <https://github.com/ansible-collections/community.general/issues>`__
-* `Homepage <https://github.com/ansible-collections/community.crypto>`__
-* `Repository (Sources) <https://github.com/ansible-collections/community.internal\_test\_tools>`__
-* `Submit a bug report <https://github.com/ansible-community/antsibull-docs/issues/new?assignees=&labels=&template=bug\_report.md>`__
+* `Issue Tracker <https://github.com/ansible\-collections/community.general/issues>`__
+* `Homepage <https://github.com/ansible\-collections/community.crypto>`__
+* `Repository (Sources) <https://github.com/ansible\-collections/community.internal\_test\_tools>`__
+* `Submit a bug report <https://github.com/ansible\-community/antsibull\-docs/issues/new?assignees=&labels=&template=bug\_report.md>`__

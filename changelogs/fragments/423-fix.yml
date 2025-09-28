@@ -1,0 +1,2 @@
+bugfixes:
+  - "Remove unnecessary part from template (https://github.com/ansible-community/antsibull-docs/pull/423)."

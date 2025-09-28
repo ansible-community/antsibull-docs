@@ -892,6 +892,28 @@
        "version_added": "2.13",
        "version_added_collection": "ansible.builtin"
       },
+      "result_indentation": {
+       "default": 4,
+       "description": [
+        "Allows to configure indentation for YAML and verbose/pretty JSON.",
+        "Please note that for O(result_format=yaml), only values between 2 and 9 will be handled as expected by PyYAML. If indentation is set to 1, or to 10 or larger, the first level of indentation will be used, but all further indentations will be by 2 spaces."
+       ],
+       "env": [
+        {
+         "name": "ANSIBLE_CALLBACK_RESULT_INDENTATION"
+        }
+       ],
+       "ini": [
+        {
+         "key": "callback_result_indentation",
+         "section": "defaults"
+        }
+       ],
+       "name": "Indentation of the result",
+       "type": "int",
+       "version_added": "2.20",
+       "version_added_collection": "ansible.builtin"
+      },
       "show_custom_stats": {
        "default": false,
        "description": "This adds the custom stats set via the set_stats plugin to the play recap.",
@@ -1143,6 +1165,28 @@
        "name": "Format of the task result",
        "type": "str",
        "version_added": "2.13",
+       "version_added_collection": "ansible.builtin"
+      },
+      "result_indentation": {
+       "default": 4,
+       "description": [
+        "Allows to configure indentation for YAML and verbose/pretty JSON.",
+        "Please note that for O(result_format=yaml), only values between 2 and 9 will be handled as expected by PyYAML. If indentation is set to 1, or to 10 or larger, the first level of indentation will be used, but all further indentations will be by 2 spaces."
+       ],
+       "env": [
+        {
+         "name": "ANSIBLE_CALLBACK_RESULT_INDENTATION"
+        }
+       ],
+       "ini": [
+        {
+         "key": "callback_result_indentation",
+         "section": "defaults"
+        }
+       ],
+       "name": "Indentation of the result",
+       "type": "int",
+       "version_added": "2.20",
        "version_added_collection": "ansible.builtin"
       }
      },
@@ -7919,18 +7963,6 @@
    }
   },
   "keyword": {
-   "accelerate": {
-    "applies_to": [],
-    "description": "*DEPRECATED*, set to True to use accelerate connection plugin."
-   },
-   "accelerate_ipv6": {
-    "applies_to": [],
-    "description": "*DEPRECATED*, set to True to force accelerate plugin to use ipv6 for its connection."
-   },
-   "accelerate_port": {
-    "applies_to": [],
-    "description": "*DEPRECATED*, set to override default port use for accelerate connection."
-   },
    "action": {
     "applies_to": [
      "Task",
@@ -9744,7 +9776,7 @@
        "description": [
         "SSL/TLS Ciphers to use for the request",
         "When a list is provided, all ciphers are joined in order with C(:)",
-        "See the L(OpenSSL Cipher List Format,https://www.openssl.org/docs/manmaster/man1/openssl-ciphers.html#CIPHER-LIST-FORMAT) for more details.",
+        "See the L(OpenSSL Cipher List Format,https://docs.openssl.org/master/man1/openssl-ciphers/#cipher-list-format) for more details.",
         "The available ciphers is dependent on the Python and OpenSSL/LibreSSL versions"
        ],
        "elements": "string",
@@ -11525,6 +11557,16 @@
        ],
        "type": "bool"
       },
+      "encoding": {
+       "default": "utf-8",
+       "description": [
+        "The character set in which the target file is encoded.",
+        "For a list of available built-in encodings, see U(https://docs.python.org/3/library/codecs.html#standard-encodings)"
+       ],
+       "type": "str",
+       "version_added": "2.20",
+       "version_added_collection": "ansible.builtin"
+      },
       "group": {
        "description": [
         "Name of the group that should own the filesystem object, as would be fed to C(chown).",
@@ -12582,6 +12624,15 @@
        ],
        "type": "str"
       },
+      "install_python_debian": {
+       "default": false,
+       "description": [
+        "Whether to automatically try to install the Python C(debian) library or not, if it is not already installed. Without this library, the module does not work. - Runs C(apt install python3-debian). - Only works with the system Python. If you are using a Python on the remote that is not the system Python, set O(install_python_debian=false) and ensure that the Python C(debian) library for your Python version is installed some other way."
+       ],
+       "type": "bool",
+       "version_added": "2.20",
+       "version_added_collection": "ansible.builtin"
+      },
       "languages": {
        "description": [
         "Defines which languages information such as translated package descriptions should be downloaded."
@@ -12968,7 +13019,8 @@
       "allow_downgrade": {
        "default": "no",
        "description": [
-        "Specify if the named package and version is allowed to downgrade a maybe already installed higher version of that package. Note that setting O(allow_downgrade=true) can make this module behave in a non-idempotent way. The task could end up with a set of packages that does not match the complete list of specified packages to install (because dependencies between the downgraded package and others can cause changes to the packages which were in the earlier transaction)."
+        "Specify if the named package and version is allowed to downgrade a maybe already installed higher version of that package. Note that setting O(allow_downgrade=true) can make this module behave in a non-idempotent way. The task could end up with a set of packages that does not match the complete list of specified packages to install (because dependencies between the downgraded package and others can cause changes to the packages which were in the earlier transaction).",
+        "Since this feature is not provided by C(dnf) itself but by M(ansible.builtin.dnf) module, using this in combination with wildcard characters in O(name) may result in an unexpected results."
        ],
        "type": "bool",
        "version_added": "2.7",
@@ -13332,7 +13384,8 @@
       "allow_downgrade": {
        "default": "no",
        "description": [
-        "Specify if the named package and version is allowed to downgrade a maybe already installed higher version of that package. Note that setting O(allow_downgrade=true) can make this module behave in a non-idempotent way. The task could end up with a set of packages that does not match the complete list of specified packages to install (because dependencies between the downgraded package and others can cause changes to the packages which were in the earlier transaction)."
+        "Specify if the named package and version is allowed to downgrade a maybe already installed higher version of that package. Note that setting O(allow_downgrade=true) can make this module behave in a non-idempotent way. The task could end up with a set of packages that does not match the complete list of specified packages to install (because dependencies between the downgraded package and others can cause changes to the packages which were in the earlier transaction).",
+        "Since this feature is not provided by C(dnf5) itself but by M(ansible.builtin.dnf5) module, using this in combination with wildcard characters in O(name) may result in an unexpected results."
        ],
        "type": "bool"
       },
@@ -16766,7 +16819,7 @@
        "default": false,
        "description": [
         "Ignore unknown file extensions within the directory.",
-        "This allows users to specify a directory containing vars files that are intermingled with non-vars files extension types (e.g. a directory with a README in it and vars files)."
+        "This allows users to specify a directory containing vars files that are intermingled with non-vars files extension types (for example, a directory with a README in it and vars files)."
        ],
        "type": "bool",
        "version_added": "2.7",
@@ -17520,6 +17573,16 @@
        ],
        "type": "bool"
       },
+      "encoding": {
+       "default": "utf-8",
+       "description": [
+        "The character set in which the target file is encoded.",
+        "For a list of available built-in encodings, see U(https://docs.python.org/3/library/codecs.html#standard-encodings)"
+       ],
+       "type": "str",
+       "version_added": "2.20",
+       "version_added_collection": "ansible.builtin"
+      },
       "firstmatch": {
        "default": false,
        "description": [
@@ -18195,7 +18258,7 @@
         "The package manager(s) used by the system so we can query the package information. This is a list and can support multiple package managers per system, since version 2.8.",
         "The V(portage) and V(pkg) options were added in version 2.8.",
         "The V(apk) option was added in version 2.11.",
-        "The V(pkg_info)' option was added in version 2.13.",
+        "The V(pkg_info) option was added in version 2.13.",
         "Aliases were added in 2.18, to support using C(manager={{ansible_facts['pkg_mgr']}})"
        ],
        "elements": "str",
@@ -23344,7 +23407,7 @@
       "type": "int"
      },
      "match_groupdict": {
-      "description": "Dictionary containing all the named subgroups of the match, keyed by the subgroup name, as returned by U(https://docs.python.org/3/library/re.html#re.MatchObject.groupdict)",
+      "description": "Dictionary containing all the named subgroups of the match, keyed by the subgroup name, as returned by U(https://docs.python.org/3/library/re.html#re.Match.groupdict)",
       "returned": "always",
       "sample": {
        "group": "match"
@@ -23352,7 +23415,7 @@
       "type": "dict"
      },
      "match_groups": {
-      "description": "Tuple containing all the subgroups of the match as returned by U(https://docs.python.org/3/library/re.html#re.MatchObject.groups)",
+      "description": "Tuple containing all the subgroups of the match as returned by U(https://docs.python.org/3/library/re.html#re.Match.groups)",
       "returned": "always",
       "sample": [
        "match 1",
@@ -23456,7 +23519,7 @@
      "version_added": "2.3",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Wait 600 seconds for target connection to become reachable/usable\n  ansible.builtin.wait_for_connection:\n\n- name: Wait 300 seconds, but only start checking after 60 seconds\n  ansible.builtin.wait_for_connection:\n    delay: 60\n    timeout: 300\n\n# Wake desktops, wait for them to become ready and continue playbook\n- hosts: all\n  gather_facts: no\n  tasks:\n  - name: Send magic Wake-On-Lan packet to turn on individual systems\n    community.general.wakeonlan:\n      mac: '{{ mac }}'\n      broadcast: 192.168.0.255\n    delegate_to: localhost\n\n  - name: Wait for system to become reachable\n    ansible.builtin.wait_for_connection:\n\n  - name: Gather facts for first time\n    ansible.builtin.setup:\n\n# Build a new VM, wait for it to become ready and continue playbook\n- hosts: all\n  gather_facts: no\n  tasks:\n  - name: Clone new VM, if missing\n    community.vmware.vmware_guest:\n      hostname: '{{ vcenter_ipaddress }}'\n      name: '{{ inventory_hostname_short }}'\n      template: Windows 2012R2\n      customization:\n        hostname: '{{ vm_shortname }}'\n        runonce:\n        - cmd.exe /c winrm.cmd quickconfig -quiet -force\n    delegate_to: localhost\n\n  - name: Wait for system to become reachable over WinRM\n    ansible.builtin.wait_for_connection:\n      timeout: 900\n\n  - name: Gather facts for first time\n    ansible.builtin.setup:\n",
+    "examples": "\n- name: Wait 600 seconds for target connection to become reachable/usable\n  ansible.builtin.wait_for_connection:\n\n- name: Wait 300 seconds, but only start checking after 60 seconds\n  ansible.builtin.wait_for_connection:\n    delay: 60\n    timeout: 300\n\n# Wake desktops, wait for them to become ready and continue playbook\n- hosts: all\n  gather_facts: no\n  tasks:\n  - name: Send magic Wake-On-Lan packet to turn on individual systems\n    community.general.wakeonlan:\n      mac: '{{ mac }}'\n      broadcast: 192.168.0.255\n    delegate_to: localhost\n\n  - name: Wait for system to become reachable\n    ansible.builtin.wait_for_connection:\n\n  - name: Gather facts for first time\n    ansible.builtin.setup:\n\n# Build a new VM, wait for it to become ready and continue playbook\n- hosts: all\n  gather_facts: no\n  tasks:\n  - name: Clone new VM, if missing\n    community.vmware.vmware_guest:\n      hostname: '{{ vcenter_ipaddress }}'\n      name: '{{ inventory_hostname_short }}'\n      template: Windows 2012R2\n      customization:\n        hostname: '{{ vm_shortname }}'\n        runonce:\n        - cmd.exe /c winrm.cmd quickconfig -quiet -force\n    delegate_to: localhost\n\n  - name: Wait for system to become reachable over WinRM, polling every 10 seconds\n    ansible.builtin.wait_for_connection:\n      timeout: 900\n      sleep: 10\n\n  - name: Gather facts for first time\n    ansible.builtin.setup:\n",
     "metadata": null,
     "return": {
      "elapsed": {
@@ -26176,7 +26239,7 @@
      "author": "Ansible Core",
      "collection": "ansible.builtin",
      "description": [
-      "Compare string against regular expression using Python's match or search functions."
+      "Compare string against regular expression using Python's match, fullmatch or search functions."
      ],
      "filename": "/ansible/plugins/test/regex.yml",
      "name": "regex",
@@ -26194,10 +26257,13 @@
       "match_type": {
        "choices": [
         "match",
-        "search"
+        "search",
+        "fullmatch"
        ],
        "default": "search",
-       "description": "Decide which function to be used to do the matching.",
+       "description": [
+        "Decide which function to be used to do the matching."
+       ],
        "type": "string"
       },
       "multiline": {
@@ -26214,7 +26280,30 @@
      "plugin_name": "ansible.builtin.regex",
      "short_description": "Does string match regular expression from the start"
     },
-    "examples": "url: \"https://example.com/users/foo/resources/bar\"\nfoundmatch: url is regex(\"example\\.com/\\w+/foo\")\n",
+    "examples": [
+     {
+      "assert": {
+       "that": [
+        "url is regex(\"example\\.com/\\w+/foo\")"
+       ]
+      },
+      "name": "check if string matches regex",
+      "vars": {
+       "url": "https://example.com/users/foo/resources/bar"
+      }
+     },
+     {
+      "assert": {
+       "that": [
+        "url is regex(\"EXAMPLE\\.COM/\\w+/foo\", ignorecase=True)"
+       ]
+      },
+      "name": "check if string matches regex ignoring case",
+      "vars": {
+       "url": "https://Example.com/users/foo/resources/bar"
+      }
+     }
+    ],
     "metadata": null,
     "return": {
      "_value": {

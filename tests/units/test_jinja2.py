@@ -17,8 +17,8 @@ from antsibull_docs.jinja2.filters import (
 
 RST_IFY_DATA = {
     # No substitutions
-    "no-op": "no-op",
-    "no-op Z(test)": "no-op Z(test)",
+    "no-op": "no\\-op",
+    "no-op Z(test)": "no\\-op Z(test)",
     # Simple cases of all substitutions
     "I(italic)": r":emphasis:`italic`",
     "B(bold)": r":strong:`bold`",
