@@ -86,7 +86,7 @@
         {% for i in range(1, loop.depth) %}<div class="ansible-option-indent-desc"></div>{% endfor %}<div class="ansible-option-cell">
 
 {%   for desc in value['description'] %}
-      @{ desc | replace('\n', '\n    ') | rst_ify(role_entrypoint=role_entrypoint) | rst_indent(6) }@
+      @{ desc | rst_ify(role_entrypoint=role_entrypoint) | rst_indent(6) }@
 
 {%   endfor %}
 {#   default / choices #}
