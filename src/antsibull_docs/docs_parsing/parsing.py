@@ -10,7 +10,7 @@ from __future__ import annotations
 import typing as t
 from collections.abc import Mapping, MutableMapping
 
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 from packaging.version import Version as PypiVer
 
 from .. import app_context
@@ -24,7 +24,7 @@ if t.TYPE_CHECKING:
     from antsibull_core.venv import FakeVenvRunner, VenvRunner
 
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 
 async def get_ansible_plugin_info(
