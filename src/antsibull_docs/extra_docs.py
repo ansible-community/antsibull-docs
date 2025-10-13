@@ -16,11 +16,11 @@ from collections.abc import Mapping
 
 import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 from antsibull_fileutils.io import read_file
 from antsibull_fileutils.yaml import load_yaml_file
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 _RST_LABEL_DEFINITION = re.compile(r"""^\.\. _([^:]+):""")
 

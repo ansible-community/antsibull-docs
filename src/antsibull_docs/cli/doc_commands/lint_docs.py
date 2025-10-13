@@ -10,7 +10,7 @@ from __future__ import annotations
 import os
 import textwrap
 
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 
 from ... import app_context
 from ...collection_config import lint_collection_config
@@ -33,7 +33,7 @@ from ...utils.collection_names import (
     collect_names,
 )
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 
 def lint_collection_docs() -> int:

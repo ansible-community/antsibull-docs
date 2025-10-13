@@ -13,7 +13,7 @@ import re
 import typing as t
 from collections.abc import Mapping, Sequence
 
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 from docutils.utils import column_width as _column_width
 from jinja2.runtime import Context, Undefined
 from jinja2.utils import pass_context
@@ -24,7 +24,7 @@ from ..markup.rstify import rst_ify as rst_ify_impl
 from ..utils.text import sanitize_whitespace as _sanitize_whitespace
 from . import OutputFormat
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 _EMAIL_ADDRESS = re.compile(
     r"(?:<{mail}>|\({mail}\)|{mail})".format(mail=r"[\w.+-]+@[\w.-]+\.\w+")

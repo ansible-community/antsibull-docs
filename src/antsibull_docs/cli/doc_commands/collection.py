@@ -16,7 +16,7 @@ import aiohttp
 import asyncio_pool  # type: ignore[import]
 from antsibull_core.collections import install_together
 from antsibull_core.galaxy import CollectionDownloader, GalaxyContext
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 from antsibull_core.venv import FakeVenvRunner
 from antsibull_fileutils.tempfile import AnsibleTemporaryDirectory
 
@@ -24,7 +24,7 @@ from ... import app_context
 from ...jinja2.environment import OutputFormat
 from ._build import generate_docs_for_all_collections
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 
 def generate_collection_docs(
