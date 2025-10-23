@@ -15,7 +15,7 @@ from collections.abc import Mapping
 import asyncio_pool  # type: ignore[import]
 import pydantic as p
 from antsibull_core import app_context
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 from antsibull_core.pydantic import forbid_extras, get_formatted_error_messages
 from antsibull_fileutils.yaml import load_yaml_file
 
@@ -29,7 +29,7 @@ from .schemas.collection_links import (
     MatrixRoom,
 )
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 
 _ANSIBLE_CORE_METADATA = {

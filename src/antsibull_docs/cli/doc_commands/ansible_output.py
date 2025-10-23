@@ -13,7 +13,7 @@ from collections.abc import Sequence
 from pathlib import Path
 
 import pydantic
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 from antsibull_core.pydantic import get_formatted_error_messages
 from antsibull_fileutils.yaml import load_yaml_file
 
@@ -37,7 +37,7 @@ from ...lint_helpers import load_collection_info
 from ...schemas.collection_config import AnsibleOutputConfig
 from ...utils.collection_copier import CollectionCopier
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 
 def find_blocks_in_file(
