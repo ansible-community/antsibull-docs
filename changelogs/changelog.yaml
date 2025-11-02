@@ -1161,3 +1161,20 @@ releases:
       - 2.21.0.yml
       - 413-deprecation-index.yml
     release_date: '2025-08-10'
+  2.22.0:
+    changes:
+      bugfixes:
+        - Remove unnecessary part from template (https://github.com/ansible-community/antsibull-docs/pull/423).
+      minor_changes:
+        - Declare support for Python 3.14 (https://github.com/ansible-community/antsibull-docs/pull/425).
+        - Uses new logging framework provided by antsibull-core. This currently has
+          no user-observable impact, but that will change with later versions of antsibull-core
+          (https://github.com/ansible-community/antsibull-docs/pull/414).
+        - antsibull-docs now depends on antsibull-core 3.5.0+ (https://github.com/ansible-community/antsibull-docs/pull/414).
+      release_summary: Bugfix and maintenance release.
+    fragments:
+      - 2.22.0.yml
+      - 414-logging.yml
+      - 423-fix.yml
+      - 425-python.yml
+    release_date: '2025-11-02'

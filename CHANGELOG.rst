@@ -4,6 +4,26 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.22.0
+=======
+
+Release Summary
+---------------
+
+Bugfix and maintenance release.
+
+Minor Changes
+-------------
+
+- Declare support for Python 3.14 (https://github.com/ansible-community/antsibull-docs/pull/425).
+- Uses new logging framework provided by antsibull-core. This currently has no user-observable impact, but that will change with later versions of antsibull-core (https://github.com/ansible-community/antsibull-docs/pull/414).
+- antsibull-docs now depends on antsibull-core 3.5.0+ (https://github.com/ansible-community/antsibull-docs/pull/414).
+
+Bugfixes
+--------
+
+- Remove unnecessary part from template (https://github.com/ansible-community/antsibull-docs/pull/423).
+
 v2.21.0
 =======
 
