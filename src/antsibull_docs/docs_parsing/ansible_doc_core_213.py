@@ -14,7 +14,7 @@ import typing as t
 from collections.abc import Mapping, MutableMapping
 
 import semantic_version as semver
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 from antsibull_core.subprocess_util import CalledProcessError
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
 from packaging.version import Version as PypiVer
@@ -28,7 +28,7 @@ if t.TYPE_CHECKING:
     from antsibull_core.venv import FakeVenvRunner, VenvRunner
 
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 
 async def _call_ansible_doc(

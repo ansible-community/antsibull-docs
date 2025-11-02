@@ -13,7 +13,7 @@ from collections.abc import Mapping
 
 import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 from antsibull_core.schemas.collection_meta import (
     CollectionsMetadata,
     RemovedCollectionMetadata,
@@ -30,7 +30,7 @@ from ..utils.collection_name_transformer import CollectionNameTransformer
 from . import BasicPluginInfo, CollectionInfoT, _get_collection_dir, _render_template
 from .io import Output
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 
 def _parse_required_ansible(requires_ansible: str) -> list[str]:

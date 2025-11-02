@@ -16,7 +16,7 @@ from string import ascii_uppercase as _CAPITAL_LETTERS_STRING
 
 import pydantic as p
 import pydantic_core
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 from antsibull_core.schemas.collection_meta import CollectionsMetadata
 
 from . import app_context
@@ -25,7 +25,7 @@ from .schemas.docs import DOCS_SCHEMAS
 from .schemas.docs.base import BaseModel
 from .write_docs import BasicPluginInfo
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 #: Mapping of plugins to nonfatal errors.  This is the type to use when returning the mapping.
 PluginErrorsRT = defaultdict[str, defaultdict[str, list[str]]]

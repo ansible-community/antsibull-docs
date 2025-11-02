@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import jinja2
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 from antsibull_docutils.rst_code_finder import (
     CodeBlockInfo,
 )
@@ -31,7 +31,7 @@ from sphinx_antsibull_ext.schemas.ansible_output_data import (
 
 from .load import Block, Error
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 
 def _get_variable_value(

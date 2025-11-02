@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import pydantic
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 from antsibull_core.pydantic import get_formatted_error_messages
 from antsibull_docutils.rst_code_finder import (
     CodeBlockInfo,
@@ -40,7 +40,7 @@ from sphinx_antsibull_ext.schemas.ansible_output_meta import (
 
 from ..schemas.collection_config import AnsibleOutputConfig, CollectionConfig
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 
 @dataclass

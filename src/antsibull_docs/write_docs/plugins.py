@@ -15,7 +15,7 @@ from collections.abc import Mapping, Sequence
 
 import asyncio_pool  # type: ignore[import]
 from antsibull_core import app_context
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 from jinja2 import Template
 
 from ..collection_links import CollectionLinks
@@ -26,7 +26,7 @@ from ..utils.collection_name_transformer import CollectionNameTransformer
 from . import CollectionInfoT, PluginErrorsT, _get_collection_dir, _render_template
 from .io import Output
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 
 def follow_relative_links(path: str) -> str:

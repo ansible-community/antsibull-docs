@@ -12,7 +12,7 @@ import os.path
 import sys
 import typing as t
 
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 
 import antsibull_docs
 
@@ -20,7 +20,7 @@ from ... import app_context
 from ...jinja2.environment import doc_environment
 from ...utils.text import sanitize_whitespace
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 
 RST_INDEX_RST = "rst/index.rst"

@@ -11,7 +11,7 @@ import os
 from collections.abc import Mapping, Sequence
 from typing import Any
 
-from antsibull_core.logging import log
+from antsibull_core.logging import get_module_logger
 from jinja2 import Template
 
 import antsibull_docs
@@ -20,7 +20,7 @@ from ..schemas.docs.base import DeprecationSchema, DocSchema
 from ..utils.text import sanitize_whitespace as _sanitize_whitespace
 from .io import Output
 
-mlog = log.fields(mod=__name__)
+mlog = get_module_logger(__name__)
 
 
 class BasicPluginInfo:
