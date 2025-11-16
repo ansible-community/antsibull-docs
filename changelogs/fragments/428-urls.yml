@@ -1,0 +1,2 @@
+bugfixes:
+  - "Adjust docs.ansible.com URLs to the new ``projects/`` structure (https://github.com/ansible-community/antsibull-docs/pull/428)."
