@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 site_name: antsibull-docs – Ansible Documentation Build Scripts
-site_url: https://ansible.readthedocs.io/projects/antsibull-docs
+site_url: https://docs.ansible.com/projects/antsibull-docs/
 repo_url: https://github.com/ansible-community/antsibull-docs
 theme:
   name: ansible
