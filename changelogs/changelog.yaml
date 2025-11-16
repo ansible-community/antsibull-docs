@@ -1178,3 +1178,12 @@ releases:
       - 423-fix.yml
       - 425-python.yml
     release_date: '2025-11-02'
+  2.22.1:
+    changes:
+      bugfixes:
+        - Adjust docs.ansible.com URLs to the new ``projects/`` structure (https://github.com/ansible-community/antsibull-docs/pull/428).
+      release_summary: Maintenance release.
+    fragments:
+      - 2.22.1.yml
+      - 428-urls.yml
+    release_date: '2025-11-16'

@@ -4,6 +4,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.22.1
+=======
+
+Release Summary
+---------------
+
+Maintenance release.
+
+Bugfixes
+--------
+
+- Adjust docs.ansible.com URLs to the new ``projects/`` structure (https://github.com/ansible-community/antsibull-docs/pull/428).
+
 v2.22.0
 =======
 
