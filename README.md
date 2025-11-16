@@ -5,7 +5,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
 # antsibull-docs -- Ansible Documentation Build Scripts
-[![Documentation](https://img.shields.io/badge/docs-brightgreen.svg)](https://ansible.readthedocs.io/projects/antsibull-docs/)
+[![Documentation](https://img.shields.io/badge/docs-brightgreen.svg)](https://docs.ansible.com/projects/antsibull-docs/)
 [![Discuss on Matrix at #antsibull:ansible.com](https://img.shields.io/matrix/antsibull:ansible.com.svg?server_fqdn=ansible-accounts.ems.host&label=Discuss%20on%20Matrix%20at%20%23antsibull:ansible.com&logo=matrix)](https://matrix.to/#/#antsibull:ansible.com)
 [![Discuss on Matrix at #docs:ansible.com](https://img.shields.io/matrix/docs:ansible.com.svg?server_fqdn=ansible-accounts.ems.host&label=Discuss%20on%20Matrix%20at%20%23docs:ansible.com&logo=matrix)](https://matrix.to/#/#docs:ansible.com)
 [![Nox badge](https://github.com/ansible-community/antsibull-docs/actions/workflows/nox.yml/badge.svg)](https://github.com/ansible-community/antsibull-docs/actions/workflows/nox.yml)
@@ -14,15 +14,15 @@ SPDX-License-Identifier: GPL-3.0-or-later
 [![Codecov badge](https://img.shields.io/codecov/c/github/ansible-community/antsibull-docs)](https://codecov.io/gh/ansible-community/antsibull-docs)
 [![REUSE status](https://api.reuse.software/badge/github.com/ansible-community/antsibull-docs)](https://api.reuse.software/info/github.com/ansible-community/antsibull-docs)
 
-Tooling for building Ansible documentation. This is mainly the `antsibull-docs` command and the [Sphinx extension](https://www.sphinx-doc.org/en/master/), ``sphinx_antsibull_ext``. Please check out the [documentation](https://ansible.readthedocs.io/projects/antsibull-docs/) for more information.
+Tooling for building Ansible documentation. This is mainly the `antsibull-docs` command and the [Sphinx extension](https://www.sphinx-doc.org/en/master/), ``sphinx_antsibull_ext``. Please check out the [documentation](https://docs.ansible.com/projects/antsibull-docs/) for more information.
 
-You can find a list of changes in [the antsibull-docs changelog](https://ansible.readthedocs.io/projects/antsibull-docs/changelog/).
+You can find a list of changes in [the antsibull-docs changelog](https://docs.ansible.com/projects/antsibull-docs/changelog/).
 
-antsibull-docs is covered by the [Ansible Code of Conduct](https://docs.ansible.com/ansible/latest/community/code_of_conduct.html).
+antsibull-docs is covered by the [Ansible Code of Conduct](https://docs.ansible.com/projects/ansible/latest/community/code_of_conduct.html).
 
 ## Community
 
-Need help or want to discuss the project? See our [Community guide](https://ansible.readthedocs.io/projects/antsibull-docs/community/) to learn how to join the conversation!
+Need help or want to discuss the project? See our [Community guide](https://docs.ansible.com/projects/antsibull-docs/community/) to learn how to join the conversation!
 
 ## Versioning and compatibility
 

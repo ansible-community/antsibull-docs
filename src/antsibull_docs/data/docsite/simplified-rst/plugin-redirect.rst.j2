@@ -19,9 +19,9 @@
 - This redirect is part of ``ansible-core`` and included in all Ansible
   installations. In most cases, you can use the short module name
   ``@{ plugin_name.rsplit('.', 1)[-1] }@``{% if plugin_type == 'module' %} even without specifying the `collections keyword
-  <https://docs.ansible.com/ansible/latest/collections_guide/collections_using_playbooks.html#using-collections-in-playbooks>`__{% endif %}.
+  <https://docs.ansible.com/projects/ansible/latest/collections_guide/collections_using_playbooks.html#using-collections-in-playbooks>`__{% endif %}.
   Despite that, we recommend you use the `Fully Qualified Collection Name (FQCN)
-  <https://docs.ansible.com/ansible/latest/reference_appendices/glossary.html#term-Fully-Qualified-Collection-Name-FQCN>`__
+  <https://docs.ansible.com/projects/ansible/latest/reference_appendices/glossary.html#term-Fully-Qualified-Collection-Name-FQCN>`__
   ``@{ plugin_name }@`` for easy linking to the {% if plugin_type == 'module' %}module{% else %}plugin{% endif %}
   documentation and to avoid conflicting with other collections that may have
   the same module name.

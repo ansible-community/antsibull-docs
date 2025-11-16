@@ -19,7 +19,7 @@ $ . ~/antsibull-demo-venv/bin/activate
 $ python -m pip install ansible-core antsibull-docs
 ```
 
-To install collections, you can either use [`ansible-galaxy collection install`](https://docs.ansible.com/ansible/latest/collections_guide/collections_installing.html), or you can provide the collection repositories in a path structure that allows ansible-core to access them. If you work on collections, the second approach is usually preferred. One way of doing this is create a directory structure `ansible_collections/<namespace>/<name>` for a collection `<namespace>.<name>` and point Ansible's [`ANSIBLE_COLLECTIONS_PATH`](https://docs.ansible.com/ansible/latest/reference_appendices/config.html#collections-paths) to the directory containing `ansible_collections`. Then you can directly use the collection in Ansible.
+To install collections, you can either use [`ansible-galaxy collection install`](https://docs.ansible.com/projects/ansible/latest/collections_guide/collections_installing.html), or you can provide the collection repositories in a path structure that allows ansible-core to access them. If you work on collections, the second approach is usually preferred. One way of doing this is create a directory structure `ansible_collections/<namespace>/<name>` for a collection `<namespace>.<name>` and point Ansible's [`ANSIBLE_COLLECTIONS_PATH`](https://docs.ansible.com/projects/ansible/latest/reference_appendices/config.html#collections-paths) to the directory containing `ansible_collections`. Then you can directly use the collection in Ansible.
 
 For example, if you want to store the collection tree in `~/collections/`, and you want to work on say `community.crypto`, which is stored in the [ansible-collections/community.crypto GitHub repository](https://github.com/ansible-collections/community.crypto/), you can clone it as follows:
 ```console
@@ -60,7 +60,7 @@ antsibull-docs internally uses `ansible-doc` and its JSON output to extract coll
 
 ## Linting collection docs
 
-While the [`validate-modules` sanity test](https://docs.ansible.com/ansible/latest/dev_guide/testing/sanity/validate-modules.html) provided by `ansible-test` already does some validation of module and plugin documentation, it does not check filter and test plugins, for example, and does not check cross-references to other plugins, modules, and roles. antsibull-docs provides the `lint-collection-docs` subcommand that allows you to extensively validate collection documentation, including extra documentation and collection-level links (see the corresponding sections below). The basic usage is as follows:
+While the [`validate-modules` sanity test](https://docs.ansible.com/projects/ansible/latest/dev_guide/testing/sanity/validate-modules.html) provided by `ansible-test` already does some validation of module and plugin documentation, it does not check filter and test plugins, for example, and does not check cross-references to other plugins, modules, and roles. antsibull-docs provides the `lint-collection-docs` subcommand that allows you to extensively validate collection documentation, including extra documentation and collection-level links (see the corresponding sections below). The basic usage is as follows:
 ```console
 $ cd ~/collections/ansible_collections/community/crypto
 $ antsibull-docs lint-collection-docs --plugin-docs .

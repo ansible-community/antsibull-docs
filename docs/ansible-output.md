@@ -95,7 +95,7 @@ Also take a look at the example further below which demonstrates all of them.
   This is explained in more detail in the [Post-processing ansible-playbook output section](#post-processing-ansible-playbook-output).
 
 * The `inventory` key allows to define a YAML inventory. See the
-  [Ansible documentation on inventories](https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html)
+  [Ansible documentation on inventories](https://docs.ansible.com/projects/ansible/latest/inventory_guide/intro_inventory.html)
   for the format of a YAML inventory.
 
 An example looks like this. The `console` code block contains the generated result:
@@ -314,14 +314,14 @@ Out of the box, you can post-process the `ansible-playbook` output in some ways:
 * Prepend lines to the output (`prepend_lines`).
 
 This, together with chosing an appropriate callback plugin
-(like [community.general.tasks_only](https://docs.ansible.com/ansible/devel/collections/community/general/tasks_only_callback.html))
+(like [community.general.tasks_only](https://docs.ansible.com/projects/ansible/devel/collections/community/general/tasks_only_callback.html))
 gives you a lot of freedom to get the output you want.
 
 In some cases, it is not sufficient though.
-For example, if you want to extract YAML output, and present it in a way that [matches your yamllint configuration](https://ansible.readthedocs.io/projects/antsibull-nox/config-file/#yamllint-part-of-the-yamllint-session).
+For example, if you want to extract YAML output, and present it in a way that [matches your yamllint configuration](https://docs.ansible.com/projects/antsibull-nox/config-file/#yamllint-part-of-the-yamllint-session).
 The default callback's YAML output suffers from [PyYAML's list indentation issue](https://github.com/yaml/pyyaml/issues/234),
 which causes problems with many yamllint configurations.
-Also, the [ansible.builtin.default callback's YAML output](https://docs.ansible.com/ansible/devel/collections/ansible/builtin/default_callback.html#parameter-result_format) is indented by 4 spaces,
+Also, the [ansible.builtin.default callback's YAML output](https://docs.ansible.com/projects/ansible/devel/collections/ansible/builtin/default_callback.html#parameter-result_format) is indented by 4 spaces,
 while most YAML is expected to be indented by 2 spaces.
 
 If you use the above settings (`skip_first_lines` / `skip_last_lines`) to extract only the YAML content of one task of the playbook's output,
