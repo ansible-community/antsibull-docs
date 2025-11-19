@@ -69,7 +69,7 @@ $ antsibull-docs lint-collection-docs --plugin-docs .
 This subcommand has multiple options which allow to control validation. The most important options are:
 
 * `--plugin-docs`: whether to validate schemas and markup of modules, plugins, and roles included in the collection. By default, this is not run (for backwards compatibility). We recommend to always specify this.
-* `--check-extra-docs-refs`: whether references in `:anscollection:`, `:ansplugin`, `:ansopt:`, `:ansretval:` roles used in extra documentation should be checked.
+* `--check-extra-docs-refs`: whether references in `:anscollection:`, `:ansplugin`, `:ansopt:`, `:ansoptref:`, `:ansretval:`, `:ansretvalref:` roles used in extra documentation should be checked.
 * `--validate-collection-refs {self,dependent,all}`: Specify how to validate inter-plugin/module/role and inter-collection references in plugin/module/role documentation (if `--plugin-docs` is specified) and extra docs (if `--check-extra-docs-refs` is specified`). This covers Ansible markup, like `M(foo.bar.baz)` or `O(foo.bar.baz#module:parameter=value)`, and other links such as `seealso` sections. If set to `self`, only references to the same collection are validated. If set to `dependent`, only references to the collection itself and collections it (transitively) depends on are validated, including references to ansible-core (as `ansible.builtin`). If set to `all`, all references to other collections are validated.
 
     If collections are referenced that are not installed and that are in scope, references to them will not be reported. Reporting these can be enabled by specifying `--disallow-unknown-collection-refs`.
@@ -259,6 +259,30 @@ Antsibull-docs provides several roles to reference Ansible content without havin
 * `:ansretval:`: format return values; reference return values of a module or plugin.
 
     Basically the syntax is identical to the one of `:ansopt:`, except that this references return values instead of options.
+
+* `:ansoptref:`: reference options of a module, plugin, or role.
+
+    The syntax is as follows:
+    ```rst
+    An option with an option value, referencing an option of a plugin
+    (specified by its FQCN) and plugin type (module, lookup, filter, ...):
+    :ansoptref:`Title <namespace.name.plugin_name#plugin_type:option_name>`
+
+    For roles (plugin type "role"), you also have to specify the entrypoint
+    (usually "main"):
+    :ansoptref:`Title <namespace.name.role_name#role:entrypoint:option_name>`
+
+    Suboptions must be referenced by separating the different levels by dot:
+    :ansoptref:`Title <namespace.name.plugin#type:option.suboption.subsuboption=foo>`
+
+    You can use "[]" (with possible content) to indicate lists
+    (these are ignored and not shown anywhere):
+    :ansoptref:`Title <namespace.name.plugin#type:option[].suboption[n-1].subsuboption["key"]>`
+    ```
+
+* `:ansretvalref:`: format return values; reference return values of a module or plugin.
+
+    Basically the syntax is identical to the one of `:ansoptref:`, except that this references return values instead of options.
 
 * `:ansenvvar:`: format environment variables with possible assignment.
 

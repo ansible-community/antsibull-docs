@@ -10,6 +10,7 @@ Helpers for parsing semantic markup.
 from __future__ import annotations
 
 import re
+import typing as t
 
 _ARRAY_STUB_RE = re.compile(r"\[([^\]]*)\]")
 _ARRAY_STUB_SEP_START_RE = re.compile(r"[\[.]")
@@ -23,19 +24,57 @@ def _remove_array_stubs(text: str) -> str:
     return _ARRAY_STUB_RE.sub("", text)
 
 
+@t.overload
 def _parse(
     text: str,
     plugin_fqcn: str | None,
     plugin_type: str | None,
     what: str,
-    require_plugin=False,
+    require_plugin: t.Literal[True],
+    *,
+    extract_value: t.Literal[False],
+) -> tuple[str, str, str | None, str, str, None]: ...
+
+
+@t.overload
+def _parse(
+    text: str,
+    plugin_fqcn: str | None,
+    plugin_type: str | None,
+    what: str,
+    require_plugin: t.Literal[True],
+    *,
+    extract_value: bool = True,
+) -> tuple[str, str, str | None, str, str, str | None]: ...
+
+
+@t.overload
+def _parse(
+    text: str,
+    plugin_fqcn: str | None,
+    plugin_type: str | None,
+    what: str,
+    require_plugin: bool = False,
+    *,
+    extract_value: bool = True,
+) -> tuple[str | None, str | None, str | None, str, str, str | None]: ...
+
+
+def _parse(
+    text: str,
+    plugin_fqcn: str | None,
+    plugin_type: str | None,
+    what: str,
+    require_plugin: bool = False,
+    *,
+    extract_value: bool = True,
 ) -> tuple[str | None, str | None, str | None, str, str, str | None]:
     """
     Given the contents of O(...) / :ansopt:`...` with potential escaping removed,
     split it into plugin FQCN, plugin type, option link name, option name, and option value.
     """
-    value = None
-    if "=" in text:
+    value: str | None = None
+    if extract_value and "=" in text:
         text, value = text.split("=", 1)
     m = _FQCN_TYPE_PREFIX_RE.match(text)
     if m:
@@ -73,6 +112,21 @@ def parse_option(
     )
 
 
+def parse_option_ref(target: str) -> tuple[str, str, str | None, str, str]:
+    """
+    Given the target of :ansoptref:`... <...>`, split it into plugin FQCN, plugin type,
+    entrypoint, option link name, and option name.
+    """
+    return _parse(
+        target,
+        None,
+        None,
+        "option name",
+        require_plugin=True,
+        extract_value=False,
+    )[:5]
+
+
 def parse_return_value(
     text: str, plugin_fqcn: str | None, plugin_type: str | None, require_plugin=False
 ) -> tuple[str | None, str | None, str | None, str, str, str | None]:
@@ -88,6 +142,21 @@ def parse_return_value(
         "return value name",
         require_plugin=require_plugin,
     )
+
+
+def parse_return_value_ref(target: str) -> tuple[str, str, str | None, str, str]:
+    """
+    Given the target of :ansretvalref:`... <...>`, split it into plugin FQCN, plugin type,
+    entrypoint, return value link name, and return value name.
+    """
+    return _parse(
+        target,
+        None,
+        None,
+        "return value name",
+        require_plugin=True,
+        extract_value=False,
+    )[:5]
 
 
 def split_option_like_name(name: str) -> list[tuple[str, str | None]]:

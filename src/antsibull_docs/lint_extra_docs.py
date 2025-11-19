@@ -36,8 +36,10 @@ from .lint_helpers import load_collection_name
 from .markup.semantic_helper import (
     parse_collection_name,
     parse_option,
+    parse_option_ref,
     parse_plugin_name,
     parse_return_value,
+    parse_return_value_ref,
 )
 from .rstcheck import check_rst_content
 
@@ -61,6 +63,20 @@ def _validate_option(value: str, names_linter: CollectionNameLinter) -> None:
         raise ValueError(error)
 
 
+def _validate_option_ref(value: str, names_linter: CollectionNameLinter) -> None:
+    target, _title = extract_explicit_title(value, require_title=True)
+    plugin_fqcn, plugin_type, entrypoint, option_link, option = parse_option_ref(target)
+    plugin = Plugin(
+        plugin_fqcn=plugin_fqcn,
+        plugin_type=plugin_type,
+        role_entrypoint=entrypoint,
+    )
+    for error in names_linter.validate_option_name(
+        plugin, option, option_link.split(".")
+    ):
+        raise ValueError(error)
+
+
 def _validate_return_value(value: str, names_linter: CollectionNameLinter) -> None:
     plugin_fqcn, plugin_type, entrypoint, rv_link, rv, _ = parse_return_value(
         value, "", "", require_plugin=False
@@ -72,6 +88,18 @@ def _validate_return_value(value: str, names_linter: CollectionNameLinter) -> No
             plugin_type=plugin_type,
             role_entrypoint=entrypoint,
         )
+    for error in names_linter.validate_return_value(plugin, rv, rv_link.split(".")):
+        raise ValueError(error)
+
+
+def _validate_return_value_ref(value: str, names_linter: CollectionNameLinter) -> None:
+    target, _title = extract_explicit_title(value, require_title=True)
+    plugin_fqcn, plugin_type, entrypoint, rv_link, rv = parse_return_value_ref(target)
+    plugin = Plugin(
+        plugin_fqcn=plugin_fqcn,
+        plugin_type=plugin_type,
+        role_entrypoint=entrypoint,
+    )
     for error in names_linter.validate_return_value(plugin, rv, rv_link.split(".")):
         raise ValueError(error)
 
@@ -117,8 +145,23 @@ def get_names_linter_roles(
         return wrap(_docutils_unescape(text), rawtext, lineno, _validate_option)
 
     # pylint:disable-next=unused-argument,dangerous-default-value
+    def option_ref_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+        return wrap(text, rawtext, lineno, _validate_option_ref)
+
+    # pylint:disable-next=unused-argument,dangerous-default-value
     def return_value_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
         return wrap(_docutils_unescape(text), rawtext, lineno, _validate_return_value)
+
+    def return_value_ref_role(  # pylint:disable=dangerous-default-value
+        name,  # pylint:disable=unused-argument
+        rawtext,
+        text,
+        lineno,
+        inliner,  # pylint:disable=unused-argument
+        options={},  # pylint:disable=unused-argument
+        content=[],  # pylint:disable=unused-argument
+    ):
+        return wrap(text, rawtext, lineno, _validate_return_value_ref)
 
     # pylint:disable-next=unused-argument,dangerous-default-value
     def plugin_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
@@ -132,7 +175,9 @@ def get_names_linter_roles(
 
     return {
         "ansopt": option_role,
+        "ansoptref": option_ref_role,
         "ansretval": return_value_role,
+        "ansretvalref": return_value_ref_role,
         "ansplugin": plugin_role,
         "anscollection": collection_role,
     }
