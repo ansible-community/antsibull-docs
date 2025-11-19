@@ -134,6 +134,14 @@ source = [
 
 [tool.mypy]
 mypy_path = "stubs/"
+# check_untyped_defs = true
+# disallow_untyped_defs = true
+# strict = true -- only try to enable once everything (including dependencies!) is typed
+strict_equality = true
+strict_bytes = true
+warn_redundant_casts = true
+# warn_return_any = true
+# warn_unreachable = true
 
 [[tool.mypy.overrides]]
 module = "semantic_version"

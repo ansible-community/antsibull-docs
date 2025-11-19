@@ -13,6 +13,7 @@ Helpers vendored from Sphinx.
 from __future__ import annotations
 
 import re
+import typing as t
 
 from docutils.utils import unescape
 
@@ -20,12 +21,28 @@ from docutils.utils import unescape
 _EXPLICIT_TITLE_RE = re.compile(r"^(.+?)\s*(?<!\x00)<(.*?)>$", re.DOTALL)
 
 
-def extract_explicit_title(text: str) -> tuple[str, str | None]:
+@t.overload
+def extract_explicit_title(
+    text: str, *, require_title: t.Literal[True]
+) -> tuple[str, str]: ...
+
+
+@t.overload
+def extract_explicit_title(
+    text: str, *, require_title: bool = False
+) -> tuple[str, str | None]: ...
+
+
+def extract_explicit_title(
+    text: str, *, require_title: bool = False
+) -> tuple[str, str | None]:
     """
     Given the parameter to a reference role, extract the unescaped target and
     the optional unescaped title.
     """
     m = _EXPLICIT_TITLE_RE.match(text)
     if not m:
+        if require_title:
+            raise ValueError("An explicit reference title must be provided!")
         return unescape(text), None
     return unescape(m.group(2)), unescape(m.group(1))
