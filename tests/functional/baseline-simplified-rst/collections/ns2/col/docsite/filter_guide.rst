@@ -57,6 +57,12 @@ Errors
 
 :ansopt:`ns2.col.foo#role:does_not_exist`
 
+:ansretval:`ns2.col.foo#filter:does_not_exist`
+
+:ansretval:`ns2.col.foo#role:does_not_exist:neither`
+
+:ansretval:`ns2.col.foo#role:does_not_exist`
+
 :ansoptref:`no explicit title`
 
 :ansoptref:`title <no plugin>`
