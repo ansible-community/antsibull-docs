@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ns.col2.foo3 module – Foo III</title>
+  </head>
+  <body>
+    <span class="target" id="ansible-collections-ns-col2-foo3-module"></span><section id="ns-col2-foo3-module-foo-iii">
+<h1>ns.col2.foo3 module – Foo III<a class="headerlink" href="#ns-col2-foo3-module-foo-iii" title="Link to this heading">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/ui/repo/published/ns/col2/">ns.col2 collection</a> (version 0.0.1).</p>
+<p>It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
+To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
+<p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">ns.col2</span></code>.
+You need further requirements to be able to use this module,
+see <a class="reference internal" href="#ansible-collections-ns-col2-foo3-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
+<p>To use it in a playbook, specify: <code class="code docutils literal notranslate"><span class="pre">ns.col2.foo3</span></code>.</p>
+</div>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#synopsis" id="id2">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id3">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id4">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#attributes" id="id5">Attributes</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id6">Examples</a></p></li>
+</ul>
+</nav>
+<section id="synopsis">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Does some foo on the remote host.</p></li>
+</ul>
+</section>
+<section id="requirements">
+<span id="ansible-collections-ns-col2-foo3-module-requirements"></span><h2><a class="toc-backref" href="#id3" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Link to this heading">¶</a></h2>
+<p>The below requirements are needed on the host that executes this module.</p>
+<ul class="simple">
+<li><p>Foo.</p></li>
+</ul>
+</section>
+<section id="parameters">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h2>
+<table class="longtable ansible-option-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Comments</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-bar"></div><p class="ansible-option-title" id="ansible-collections-ns-col2-foo3-module-parameter-bar"><strong>bar</strong></p>
+<a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=integer</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Bar.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-foo"></div><p class="ansible-option-title" id="ansible-collections-ns-col2-foo3-module-parameter-foo"><strong>foo</strong></p>
+<a class="ansibleOptionLink" href="#parameter-foo" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The foo source.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-subfoo"></div><p class="ansible-option-title" id="ansible-collections-ns-col2-foo3-module-parameter-subfoo"><strong>subfoo</strong></p>
+<a class="ansibleOptionLink" href="#parameter-subfoo" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Some recursive foo.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-subfoo/foo"></div><p class="ansible-option-title" id="ansible-collections-ns-col2-foo3-module-parameter-subfoo-foo"><strong>foo</strong></p>
+<a class="ansibleOptionLink" href="#parameter-subfoo/foo" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A sub foo.</p>
+<p>Whatever.</p>
+<p>Also required when <em>subfoo</em> is specified when <em>foo=bar</em> or <code class="docutils literal notranslate"><span class="pre">baz</span></code>.</p>
+</div></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="attributes">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Attributes</a><a class="headerlink" href="#attributes" title="Link to this heading">¶</a></h2>
+<table class="longtable ansible-option-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute</p></th>
+<th class="head"><p>Support</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="attribute-check_mode"></div><p class="ansible-option-title" id="ansible-collections-ns-col2-foo3-module-attribute-check-mode"><strong>check_mode</strong></p>
+<a class="ansibleOptionLink" href="#attribute-check_mode" title="Permalink to this attribute"></a></div></td>
+<td><div class="ansible-option-cell"><p><strong class="ansible-attribute-support-label">Support: </strong><strong class="ansible-attribute-support-full">full</strong></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Can run in check_mode and return changed status prediction without modifying target</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="attribute-diff_mode"></div><p class="ansible-option-title" id="ansible-collections-ns-col2-foo3-module-attribute-diff-mode"><strong>diff_mode</strong></p>
+<a class="ansibleOptionLink" href="#attribute-diff_mode" title="Permalink to this attribute"></a></div></td>
+<td><div class="ansible-option-cell"><p><strong class="ansible-attribute-support-label">Support: </strong><strong class="ansible-attribute-support-full">full</strong></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Will return details on what has changed (or possibly needs changing in check_mode), when in diff mode</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="attribute-platform"></div><p class="ansible-option-title" id="ansible-collections-ns-col2-foo3-module-attribute-platform"><strong>platform</strong></p>
+<a class="ansibleOptionLink" href="#attribute-platform" title="Permalink to this attribute"></a></div></td>
+<td><div class="ansible-option-cell"><p><strong class="ansible-attribute-support-property">Platform:</strong> <strong class="ansible-attribute-support-full">posix</strong></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Target OS/families that can be operated against</p>
+</div></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="examples">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">This is not YAML.</span>
+</pre></div>
+</div>
+<section id="authors">
+<h3>Authors<a class="headerlink" href="#authors" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Someone else (&#64;ansible)</p></li>
+</ul>
+<p>There were some errors parsing the documentation for this plugin.  Please file a bug with the <a class="reference external" href="https://galaxy.ansible.com/ui/repo/published/ns/col2/">ns.col2 collection</a>.</p>
+<p>The errors were:</p>
+<ul>
+<li><div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Unable to normalize foo3: return due to: 2 validation errors for PluginReturnSchema
+return -&gt; bar -&gt; type
+  Input should be &#39;any&#39;, &#39;bits&#39;, &#39;bool&#39;, &#39;bytes&#39;, &#39;complex&#39;, &#39;dict&#39;, &#39;float&#39;, &#39;int&#39;, &#39;json&#39;, &#39;jsonarg&#39;, &#39;list&#39;, &#39;path&#39;, &#39;sid&#39;, &#39;str&#39;, &#39;pathspec&#39; or &#39;pathlist&#39; (type=literal_error; expected=&#39;any&#39;, &#39;bits&#39;, &#39;bool&#39;, &#39;bytes&#39;, &#39;complex&#39;, &#39;dict&#39;, &#39;float&#39;, &#39;int&#39;, &#39;json&#39;, &#39;jsonarg&#39;, &#39;list&#39;, &#39;path&#39;, &#39;sid&#39;, &#39;str&#39;, &#39;pathspec&#39; or &#39;pathlist&#39;)
+return -&gt; baz
+  Input should be a valid dictionary or instance of OuterReturnSchema (type=model_type; class_name=OuterReturnSchema)
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+</section>
+
+  </body>
+</html>

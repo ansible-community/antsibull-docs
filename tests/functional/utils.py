@@ -57,13 +57,15 @@ def scan_directories(root: os.PathLike) -> dict[str, tuple[str, list[str]]]:
 
 
 def compare_files(source: os.PathLike, dest: os.PathLike, path: str) -> int:
-    with open(source) as f:
+    with open(source, "rb") as f:
         src = f.read()
-    with open(dest) as f:
+    with open(dest, "rb") as f:
         dst = f.read()
     if src == dst:
         return 0
-    for line in difflib.unified_diff(src.splitlines(), dst.splitlines(), path, path):
+    src_lines = src.decode("utf-8", errors="surrogateescape").splitlines()
+    dst_lines = dst.decode("utf-8", errors="surrogateescape").splitlines()
+    for line in difflib.unified_diff(src_lines, dst_lines, path, path):
         if line[0] == "@":
             print(line)
         elif line[0] == "-":
