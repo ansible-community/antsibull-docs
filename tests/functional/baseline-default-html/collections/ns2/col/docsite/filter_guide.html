@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Filter Guide</title>
+  </head>
+  <body>
+    <section id="filter-guide">
+<span id="ansible-collections-ns2-col-docsite-filter-guide"></span><h1>Filter Guide<a class="headerlink" href="#filter-guide" title="Link to this heading">¶</a></h1>
+<nav class="contents local" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#errors" id="id1">Errors</a></p></li>
+</ul>
+</nav>
+<p>The <a class="reference internal" href="../index.html#plugins-in-ns2-col"><span class="std std-ref">ns2.col collection</span></a> offers <a class="reference internal" href="../index.html#filter-plugins-in-ns2-col"><span class="std std-ref">two filters</span></a>.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../foo_filter.html#ansible-collections-ns2-col-foo-filter"><span class="std std-ref">ns2.col.foo</span></a>: foo! (Note its <code class="ansible-option docutils literal notranslate"><strong><a class="reference internal" href="../foo_filter.html#ansible-collections-ns2-col-foo-filter-parameter-foo"><span class="std std-ref"><span class="pre">foo[]</span></span></a></strong></code> <a class="reference internal" href="../foo_filter.html#ansible-collections-ns2-col-foo-filter-parameter-foo"><span class="std std-ref">option</span></a>, and try <code class="ansible-option-value docutils literal notranslate"><a class="reference internal" href="../foo_filter.html#ansible-collections-ns2-col-foo-filter-parameter-bar"><span class="std std-ref"><span class="pre">bar=baz</span></span></a></code>.)</p></li>
+<li><p><a class="reference internal" href="../bar_filter.html#ansible-collections-ns2-col-bar-filter"><span class="std std-ref">ns2.col.bar</span></a>: bar! (Its <a class="reference internal" href="../bar_filter.html#ansible-collections-ns2-col-bar-filter-return-value"><span class="std std-ref">return value</span></a> is <code class="ansible-return-value docutils literal notranslate"><a class="reference internal" href="../bar_filter.html#ansible-collections-ns2-col-bar-filter-return-value"><span class="std std-ref"><span class="pre">_value</span></span></a></code>.)</p></li>
+</ul>
+<dl class="std envvar">
+<dt class="sig sig-object std" id="envvar-FOOBAR1">
+<span class="sig-name descname"><span class="pre">FOOBAR1</span></span><a class="headerlink" href="#envvar-FOOBAR1" title="Link to this definition">¶</a></dt>
+<dd><p>This is one environment variable.</p>
+</dd></dl>
+
+<dl class="std envvar">
+<dt class="sig sig-object std" id="envvar-FOOBAR2">
+<span class="sig-name descname"><span class="pre">FOOBAR2</span></span><a class="headerlink" href="#envvar-FOOBAR2" title="Link to this definition">¶</a></dt>
+<dd><p>This is another environment variable.</p>
+</dd></dl>
+
+<dl class="std envvar">
+<dt class="sig sig-object std" id="envvar-FOOBAR3">
+<span class="sig-name descname"><span class="pre">FOOBAR3</span></span><a class="headerlink" href="#envvar-FOOBAR3" title="Link to this definition">¶</a></dt>
+<dd><p>This is a third environment variable.</p>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Also check out the <a class="reference internal" href="../foo_role.html#ansible-collections-ns2-col-foo-role"><span class="std std-ref">ns2.col.foo role</span></a> with its <a class="reference internal" href="../foo_role.html#ansible-collections-ns2-col-foo-role-entrypoint-main"><span class="std std-ref">main</span></a> entrypoint.</p>
+</div>
+<section id="errors">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Errors</a><a class="headerlink" href="#errors" title="Link to this heading">¶</a></h2>
+<p><a class="reference internal" href="../../../../broken-refs.html#plugins-in-does-not-exist"><span class="std std-ref">does.not_exist</span></a></p>
+<p><strong class="error">Invalid destination</strong></p>
+<p><a class="reference internal" href="../../../../broken-refs.html#filter-plugins-in-ns-col1"><span class="std std-ref">ns.col1</span></a></p>
+<p><a class="reference internal" href="../../../../broken-refs.html#foo-plugins-in-ns2-col"><span class="std std-ref">ns2.col</span></a></p>
+<p><a class="reference internal" href="../../../../broken-refs.html#ansible-collections-ns2-col-does-not-exist-filter"><span class="std std-ref">ns2.col.does_not_exist</span></a></p>
+<p><a class="reference internal" href="../../../../broken-refs.html#ansible-collections-ns2-col-foo-asdf"><span class="std std-ref">ns2.col.foo</span></a></p>
+<p><strong class="error">Only roles can have entrypoints</strong></p>
+<p><a class="reference internal" href="../../../../broken-refs.html#ansible-collections-ns2-col-foo-role-entrypoint-boo"><span class="std std-ref">ns2.col.foo</span></a></p>
+<p><code class="ansible-option docutils literal notranslate"><strong><a class="reference internal" href="../../../../broken-refs.html#ansible-collections-ns2-col-foo-role-parameter-main-does-not-exist"><span class="std std-ref"><span class="pre">does_not_exist</span></span></a></strong></code></p>
+<p><code class="ansible-option docutils literal notranslate"><strong><a class="reference internal" href="../../../../broken-refs.html#ansible-collections-ns2-col-foo-role-parameter-does-not-exist-neither"><span class="std std-ref"><span class="pre">neither</span></span></a></strong></code></p>
+<p><strong class="error">Role reference is missing entrypoint</strong></p>
+<p><code class="ansible-return-value docutils literal notranslate"><a class="reference internal" href="../../../../broken-refs.html#ansible-collections-ns2-col-foo-filter-return-does-not-exist"><span class="std std-ref"><span class="pre">does_not_exist</span></span></a></code></p>
+<p><code class="ansible-return-value docutils literal notranslate"><a class="reference internal" href="../../../../broken-refs.html#ansible-collections-ns2-col-foo-role-return-does-not-exist-neither"><span class="std std-ref"><span class="pre">neither</span></span></a></code></p>
+<p><strong class="error">Role reference is missing entrypoint</strong></p>
+<p><strong class="error">An explicit reference title must be provided!</strong></p>
+<p><strong class="error">Cannot extract plugin name and type</strong></p>
+<p><a class="reference internal" href="../../../../broken-refs.html#ansible-collections-ns2-col-boo-filter-parameter-boo"><span class="std std-ref">plugin does not exist</span></a></p>
+<p><strong class="error">Invalid option name “foo:boo”</strong></p>
+<p><strong class="error">Role reference is missing entrypoint</strong></p>
+<p><a class="reference internal" href="../../../../broken-refs.html#ansible-collections-ns2-col-foo-role-parameter-boo-boo"><span class="std std-ref">invalid entrypoint for role</span></a></p>
+<p><a class="reference internal" href="../../../../broken-refs.html#ansible-collections-ns2-col-foo-filter-parameter-boo"><span class="std std-ref">option does not exist</span></a></p>
+<p><strong class="error">An explicit reference title must be provided!</strong></p>
+<p><strong class="error">Cannot extract plugin name and type</strong></p>
+<p><a class="reference internal" href="../../../../broken-refs.html#ansible-collections-ns2-col-boo-filter-return-boo"><span class="std std-ref">plugin does not exist</span></a></p>
+<p><strong class="error">Invalid return value name “foo:boo”</strong></p>
+<p><strong class="error">Role reference is missing entrypoint</strong></p>
+<p><a class="reference internal" href="../../../../broken-refs.html#ansible-collections-ns2-col-foo-role-return-boo-boo"><span class="std std-ref">invalid entrypoint for role</span></a></p>
+<p><a class="reference internal" href="../../../../broken-refs.html#ansible-collections-ns2-col-foo-filter-return-boo"><span class="std std-ref">return value does not exist</span></a></p>
+</section>
+</section>
+
+  </body>
+</html>

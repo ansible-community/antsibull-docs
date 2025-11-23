@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ns2.col.foo module – Do some foo bar</title>
+  </head>
+  <body>
+    <span class="target" id="ansible-collections-ns2-col-foo-module"></span><section id="ns2-col-foo-module-do-some-foo-bar">
+<h1>ns2.col.foo module – Do some foo <code class="ansible-option docutils literal notranslate"><strong><a class="reference internal" href="#ansible-collections-ns2-col-foo-module-parameter-bar"><span class="std std-ref"><span class="pre">bar</span></span></a></strong></code><a class="headerlink" href="#ns2-col-foo-module-do-some-foo-bar" title="Link to this heading">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/ui/repo/published/ns2/col/">ns2.col collection</a> (version 2.1.0).</p>
+<p>It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
+To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
+<p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">ns2.col</span></code>.
+You need further requirements to be able to use this module,
+see <a class="reference internal" href="#ansible-collections-ns2-col-foo-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
+<p>To use it in a playbook, specify: <code class="code docutils literal notranslate"><span class="pre">ns2.col.foo</span></code>.</p>
+</div>
+<p class="ansible-version-added">New in ns2.col 2.0.0</p>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#synopsis" id="id1">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id2">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id3">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#attributes" id="id4">Attributes</a></p></li>
+<li><p><a class="reference internal" href="#see-also" id="id5">See Also</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id6">Examples</a></p></li>
+<li><p><a class="reference internal" href="#return-values" id="id7">Return Values</a></p></li>
+</ul>
+</nav>
+<section id="synopsis">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Does some foo on the remote host.</p></li>
+<li><p>Whether foo is magic or not has not yet been determined.</p></li>
+<li><p><a class="reference internal" href="docsite/filter_guide.html#envvar-FOOBAR1"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">FOOBAR1</span></code></a>, <a class="reference internal" href="docsite/filter_guide.html#envvar-FOOBAR2"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">FOOBAR2</span></code></a>, <code class="xref std std-envvar docutils literal notranslate"><span class="pre">FOOBAR3</span></code>, <code class="xref std std-envvar docutils literal notranslate"><span class="pre">FOOBAR4</span></code>.</p></li>
+</ul>
+<p>Aliases: foo_1_redirect, foo_2_redirect, foo_redirect</p>
+</section>
+<section id="requirements">
+<span id="ansible-collections-ns2-col-foo-module-requirements"></span><h2><a class="toc-backref" href="#id2" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Link to this heading">¶</a></h2>
+<p>The below requirements are needed on the host that executes this module.</p>
+<ul class="simple">
+<li><p>Foo on remote.</p></li>
+</ul>
+</section>
+<section id="parameters">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h2>
+<table class="longtable ansible-option-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Comments</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-bar"></div>
+<div class="ansibleOptionAnchor" id="parameter-baz"></div><p class="ansible-option-title" id="ansible-collections-ns2-col-foo-module-parameter-baz"><span id="ansible-collections-ns2-col-foo-module-parameter-bar"></span><strong>bar</strong></p>
+<a class="ansibleOptionLink" href="#parameter-bar" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: baz</span></p>
+<p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=integer</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>A bar.</p>
+<p>Independent from <code class="ansible-option docutils literal notranslate"><strong><a class="reference internal" href="#ansible-collections-ns2-col-foo-module-parameter-foo"><span class="std std-ref"><span class="pre">foo</span></span></a></strong></code>.</p>
+<p>Do not confuse with <code class="ansible-return-value docutils literal notranslate"><a class="reference internal" href="#ansible-collections-ns2-col-foo-module-return-bar"><span class="std std-ref"><span class="pre">bar</span></span></a></code>.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-foo"></div><p class="ansible-option-title" id="ansible-collections-ns2-col-foo-module-parameter-foo"><strong>foo</strong></p>
+<a class="ansibleOptionLink" href="#parameter-foo" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The foo source.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-manager"></div><p class="ansible-option-title" id="ansible-collections-ns2-col-foo-module-parameter-manager"><strong>manager</strong></p>
+<a class="ansibleOptionLink" href="#parameter-manager" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The package manager(s) used by the system so we can query the package information. This is a list and can support multiple package managers per system, since version 2.8.</p>
+<p>The ‘portage’ and ‘pkg’ options were added in version 2.8.</p>
+<p>The ‘apk’ option was added in version 2.11.</p>
+<p>The ‘pkg_info’ option was added in version 2.13.</p>
+<p>Aliases were added in 2.18, to support using <code class="docutils literal notranslate"><span class="pre">auto={{ansible_facts['pkg_mgr']}}</span></code></p>
+<p class="ansible-option-line"><strong class="ansible-option-choices">Choices:</strong></p>
+<ul class="simple">
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;apk&quot;</span></code>:
+Alpine Linux package manager</p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;apt&quot;</span></code>:
+For DEB based distros, <code class="docutils literal notranslate"><span class="pre">python-apt</span></code> package must be installed on targeted hosts</p></li>
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><strong><span class="pre">&quot;auto&quot;</span></strong></code> <span class="ansible-option-choices-default-mark">(default)</span>:
+Depending on <code class="ansible-option docutils literal notranslate"><strong><a class="reference internal" href="../../../broken-refs.html#ansible-collections-ns2-col-foo-module-parameter-strategy"><span class="std std-ref"><span class="pre">strategy</span></span></a></strong></code>, will match the first or all package managers provided, in order</p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;dnf&quot;</span></code>:
+Alias to rpm</p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;dnf5&quot;</span></code>:
+Alias to rpm</p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;openbsd_pkg&quot;</span></code>:
+Alias to pkg_info</p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;pacman&quot;</span></code>:
+Archlinux package manager/builder</p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;pkg&quot;</span></code>:
+libpkg front end (FreeBSD)</p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;pkg5&quot;</span></code>:
+Alias to pkg</p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;pkg_info&quot;</span></code>:
+OpenBSD package manager</p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;pkgng&quot;</span></code>:
+Alias to pkg</p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;portage&quot;</span></code>:
+Handles ebuild packages, it requires the <code class="docutils literal notranslate"><span class="pre">qlist</span></code> utility, which is part of ‘app-portage/portage-utils’</p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;rpm&quot;</span></code>:
+For RPM based distros, requires RPM Python bindings, not installed by default on Suse (python3-rpm)</p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;yum&quot;</span></code>:
+Alias to rpm</p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;zypper&quot;</span></code>:
+Alias to rpm</p></li>
+</ul>
+<p class="ansible-option-line"><strong class="ansible-option-default-bold">Default:</strong> <code class="ansible-option-default docutils literal notranslate"><span class="pre">[&quot;auto&quot;]</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-subfoo"></div><p class="ansible-option-title" id="ansible-collections-ns2-col-foo-module-parameter-subfoo"><strong>subfoo</strong></p>
+<a class="ansibleOptionLink" href="#parameter-subfoo" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<p><em class="ansible-option-versionadded">added in ns2.col 2.0.0</em></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Some recursive foo.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-subfoo/foo"></div><p class="ansible-option-title" id="ansible-collections-ns2-col-foo-module-parameter-subfoo-foo"><strong>foo</strong></p>
+<a class="ansibleOptionLink" href="#parameter-subfoo/foo" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A sub foo.</p>
+<p>Whatever.</p>
+<p>Also required when <code class="ansible-option docutils literal notranslate"><strong><a class="reference internal" href="#ansible-collections-ns2-col-foo-module-parameter-subfoo"><span class="std std-ref"><span class="pre">subfoo</span></span></a></strong></code> is specified when <code class="ansible-option-value docutils literal notranslate"><a class="reference internal" href="#ansible-collections-ns2-col-foo-module-parameter-foo"><span class="std std-ref"><span class="pre">foo=bar</span></span></a></code> or <code class="ansible-value docutils literal notranslate"><span class="pre">baz</span></code>.</p>
+</div></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="attributes">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Attributes</a><a class="headerlink" href="#attributes" title="Link to this heading">¶</a></h2>
+<table class="longtable ansible-option-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute</p></th>
+<th class="head"><p>Support</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="attribute-action_group"></div><p class="ansible-option-title" id="ansible-collections-ns2-col-foo-module-attribute-action-group"><strong>action_group</strong></p>
+<a class="ansibleOptionLink" href="#attribute-action_group" title="Permalink to this attribute"></a></div></td>
+<td><div class="ansible-option-cell"><p><strong class="ansible-attribute-support-property">Action group:</strong> <strong class="ansible-attribute-support-full">ns2.col.foo_group</strong></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Use <code class="docutils literal notranslate"><span class="pre">group/ns2.col.foo_group</span></code> in <code class="docutils literal notranslate"><span class="pre">module_defaults</span></code> to set defaults for this module.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="attribute-check_mode"></div><p class="ansible-option-title" id="ansible-collections-ns2-col-foo-module-attribute-check-mode"><strong>check_mode</strong></p>
+<a class="ansibleOptionLink" href="#attribute-check_mode" title="Permalink to this attribute"></a></div></td>
+<td><div class="ansible-option-cell"><p><strong class="ansible-attribute-support-label">Support: </strong><strong class="ansible-attribute-support-full">full</strong></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Can run in check_mode and return changed status prediction without modifying target</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="attribute-diff_mode"></div><p class="ansible-option-title" id="ansible-collections-ns2-col-foo-module-attribute-diff-mode"><strong>diff_mode</strong></p>
+<a class="ansibleOptionLink" href="#attribute-diff_mode" title="Permalink to this attribute"></a></div></td>
+<td><div class="ansible-option-cell"><p><strong class="ansible-attribute-support-label">Support: </strong><strong class="ansible-attribute-support-full">full</strong></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Will return details on what has changed (or possibly needs changing in check_mode), when in diff mode</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="attribute-platform"></div><p class="ansible-option-title" id="ansible-collections-ns2-col-foo-module-attribute-platform"><strong>platform</strong></p>
+<a class="ansibleOptionLink" href="#attribute-platform" title="Permalink to this attribute"></a></div></td>
+<td><div class="ansible-option-cell"><p><strong class="ansible-attribute-support-property">Platform:</strong> <strong class="ansible-attribute-support-full">posix</strong></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Target OS/families that can be operated against</p>
+</div></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="see-also">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">See Also</a><a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="foo2_module.html#ansible-collections-ns2-col-foo2-module"><span class="std std-ref">ns2.col.foo2</span></a></dt><dd><p>Another foo.</p>
+</dd>
+<dt><a class="reference internal" href="foo_lookup.html#ansible-collections-ns2-col-foo-lookup"><span class="std std-ref">ns2.col.foo</span></a> lookup plugin</dt><dd><p>Look up some foo <code class="ansible-option docutils literal notranslate"><strong><a class="reference internal" href="#ansible-collections-ns2-col-foo-module-parameter-bar"><span class="std std-ref"><span class="pre">bar</span></span></a></strong></code>.</p>
+</dd>
+<dt><a class="reference internal" href="../../../broken-refs.html#ansible-collections-ansible-builtin-service-module"><span class="std std-ref">ansible.builtin.service</span></a></dt><dd><p>The service module.</p>
+</dd>
+<dt><a class="reference internal" href="../../../broken-refs.html#ansible-collections-ansible-builtin-ssh-connection"><span class="std std-ref">ansible.builtin.ssh</span></a> connection plugin</dt><dd><p>The ssh connection plugin.</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="examples">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Do some foo</span>
+<span class="w">  </span><span class="nt">ns2.col.foo</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">foo</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">foo</span> <span class="cp">}}</span><span class="s">&#39;</span>
+<span class="w">    </span><span class="nt">bar</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">    </span><span class="nt">subfoo</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">foo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hoo!</span>
+</pre></div>
+</div>
+</section>
+<section id="return-values">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Link to this heading">¶</a></h2>
+<p>Common return values are documented <a class="reference internal" href="../../../broken-refs.html#common-return-values"><span class="std std-ref">here</span></a>, the following are the fields unique to this module:</p>
+<table class="longtable ansible-option-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="return-bar"></div><p class="ansible-option-title" id="ansible-collections-ns2-col-foo-module-return-bar"><strong>bar</strong></p>
+<a class="ansibleOptionLink" href="#return-bar" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Some bar.</p>
+<p>Referencing myself as <code class="ansible-return-value docutils literal notranslate"><a class="reference internal" href="#ansible-collections-ns2-col-foo-module-return-bar"><span class="std std-ref"><span class="pre">bar</span></span></a></code>.</p>
+<p>Do not confuse with <code class="ansible-option docutils literal notranslate"><strong><a class="reference internal" href="#ansible-collections-ns2-col-foo-module-parameter-bar"><span class="std std-ref"><span class="pre">bar</span></span></a></strong></code>.</p>
+<p class="ansible-option-line"><strong class="ansible-option-returned-bold">Returned:</strong> success</p>
+<p class="ansible-option-line ansible-option-sample"><strong class="ansible-option-sample-bold">Sample:</strong> <code class="ansible-option-sample docutils literal notranslate"><span class="pre">&quot;baz&quot;</span></code></p>
+</div></td>
+</tr>
+</tbody>
+</table>
+<section id="authors">
+<h3>Authors<a class="headerlink" href="#authors" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Ansible Core Team</p></li>
+<li><p>Someone else (&#64;ansible)</p></li>
+</ul>
+</section>
+<section id="collection-links">
+<h3>Collection links<a class="headerlink" href="#collection-links" title="Link to this heading">¶</a></h3>
+<ul class="ansible-links">
+<li><span><a aria-role="button" class="ansible-link reference external" href="https://github.com/ansible-collections/community.general/issues" rel="noopener external" target="_blank">Issue Tracker</a></span></li>
+<li><span><a aria-role="button" class="ansible-link reference external" href="https://github.com/ansible-collections/community.crypto" rel="noopener external" target="_blank">Homepage</a></span></li>
+<li><span><a aria-role="button" class="ansible-link reference external" href="https://github.com/ansible-collections/community.internal_test_tools" rel="noopener external" target="_blank">Repository (Sources)</a></span></li>
+<li><span><a aria-role="button" class="ansible-link reference external" href="https://github.com/ansible-community/antsibull-docs/issues/new?assignees=&amp;labels=&amp;template=bug_report.md" rel="noopener external" target="_blank">Submit a bug report</a></span></li>
+<li><span><a class="reference internal" href="index.html#communication-for-ns2-col"><span class="std std-ref">Communication</span></a></span></li>
+</ul>
+</section>
+</section>
+</section>
+
+  </body>
+</html>

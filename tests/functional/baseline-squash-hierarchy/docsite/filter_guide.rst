@@ -14,8 +14,8 @@ Filter Guide
 
 The :anscollection:`ns2.col collection <ns2.col>` offers :anscollection:`two filters <ns2.col#plugins-filter>`.
 
-- :ansplugin:`ns2.col.foo#filter`: foo! (Note its :ansopt:`ns2.col.foo#filter:foo[]` option, and try :ansopt:`ns2.col.foo#filter:bar=baz`.)
-- :ansplugin:`ns2.col.bar#filter`: bar! (Its return value is :ansretval:`ns2.col.bar#filter:_value`.)
+- :ansplugin:`ns2.col.foo#filter`: foo! (Note its :ansopt:`ns2.col.foo#filter:foo[]` :ansoptref:`option <ns2.col.foo#filter:foo[]>`, and try :ansopt:`ns2.col.foo#filter:bar=baz`.)
+- :ansplugin:`ns2.col.bar#filter`: bar! (Its :ansretvalref:`return value <ns2.col.bar#filter:_value>` is :ansretval:`ns2.col.bar#filter:_value`.)
 
 .. envvar:: FOOBAR1
 
@@ -56,3 +56,37 @@ Errors
 :ansopt:`ns2.col.foo#role:does_not_exist:neither`
 
 :ansopt:`ns2.col.foo#role:does_not_exist`
+
+:ansretval:`ns2.col.foo#filter:does_not_exist`
+
+:ansretval:`ns2.col.foo#role:does_not_exist:neither`
+
+:ansretval:`ns2.col.foo#role:does_not_exist`
+
+:ansoptref:`no explicit title`
+
+:ansoptref:`title <no plugin>`
+
+:ansoptref:`plugin does not exist <ns2.col.boo#filter:boo>`
+
+:ansoptref:`entrypoint for non-role <ns2.col.foo#filter:foo:boo>`
+
+:ansoptref:`no entrypoint for role <ns2.col.foo#role:boo>`
+
+:ansoptref:`invalid entrypoint for role <ns2.col.foo#role:boo:boo>`
+
+:ansoptref:`option does not exist <ns2.col.foo#filter:boo>`
+
+:ansretvalref:`no explicit title`
+
+:ansretvalref:`title <no plugin>`
+
+:ansretvalref:`plugin does not exist <ns2.col.boo#filter:boo>`
+
+:ansretvalref:`entrypoint for non-role <ns2.col.foo#filter:foo:boo>`
+
+:ansretvalref:`no entrypoint for role <ns2.col.foo#role:boo>`
+
+:ansretvalref:`invalid entrypoint for role <ns2.col.foo#role:boo:boo>`
+
+:ansretvalref:`return value does not exist <ns2.col.foo#filter:boo>`

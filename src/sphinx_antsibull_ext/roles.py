@@ -20,8 +20,10 @@ from sphinx.util import logging
 from antsibull_docs.markup.semantic_helper import (
     parse_collection_name,
     parse_option,
+    parse_option_ref,
     parse_plugin_name,
     parse_return_value,
+    parse_return_value_ref,
 )
 from antsibull_docs.rst_labels import (
     get_collection_ref,
@@ -59,6 +61,24 @@ def _create_return_value_reference(
     )
 
 
+def _create_ref(ref: str, title: str) -> addnodes.pending_xref:
+    # When successfully resolving *internal* references, Sphinx does **NOT**
+    # use the node we provide, but simply extracts the text and creates a new
+    # node. Thus we use nodes.inline so that the result is the same no matter
+    # whether the reference was internal, not resolved, or external
+    # (intersphinx).
+    content = nodes.inline(title, title)
+    options = {
+        "reftype": "ref",
+        "refdomain": "std",
+        "refexplicit": True,
+        "refwarn": True,
+    }
+    refnode = addnodes.pending_xref(title, content, **options)
+    refnode["reftarget"] = ref
+    return refnode
+
+
 def _create_ref_or_not(
     create_ref: t.Callable[[str | None, str | None, str | None, str], str | None],
     plugin_fqcn: str | None,
@@ -66,26 +86,16 @@ def _create_ref_or_not(
     entrypoint: str | None,
     ref_parameter: str,
     text: str,
-) -> t.Any:
+) -> nodes.inline | addnodes.pending_xref:
     # When successfully resolving *internal* references, Sphinx does **NOT**
     # use the node we provide, but simply extracts the text and creates a new
     # node. Thus we use nodes.inline so that the result is the same no matter
     # whether the reference was internal, not resolved, or external
     # (intersphinx).
-    content = nodes.inline(text, text)
     ref = create_ref(plugin_fqcn, plugin_type, entrypoint, ref_parameter)
     if ref is None:
-        return content
-
-    options = {
-        "reftype": "ref",
-        "refdomain": "std",
-        "refexplicit": True,
-        "refwarn": True,
-    }
-    refnode = addnodes.pending_xref(text, content, **options)
-    refnode["reftarget"] = ref
-    return refnode
+        return nodes.inline(text, text)
+    return _create_ref(ref, text)
 
 
 def _create_error(rawtext: str, text: str, error: str) -> tuple[list[t.Any], list[str]]:
@@ -139,6 +149,33 @@ def option_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
 
 
 # pylint:disable-next=unused-argument,dangerous-default-value
+def option_ref_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    """Ansible option name reference.
+
+    Returns 2 part tuple containing list of nodes to insert into the
+    document and a list of system messages.  Both are allowed to be
+    empty.
+
+    :param name: The role name used in the document.
+    :param rawtext: The entire markup snippet, with role.
+    :param text: The text marked with the role.
+    :param lineno: The line number where rawtext appears in the input.
+    :param inliner: The inliner instance that called us.
+    :param options: Directive options for customization.
+    :param content: The directive content for customization.
+    """
+    try:
+        target, title = extract_explicit_title(text, require_title=True)
+        plugin_fqcn, plugin_type, entrypoint, option_link, _option = parse_option_ref(
+            target
+        )
+    except ValueError as exc:
+        return _create_error(rawtext, text, str(exc))
+    ref = _create_option_reference(plugin_fqcn, plugin_type, entrypoint, option_link)
+    return [_create_ref(ref, title)], []
+
+
+# pylint:disable-next=unused-argument,dangerous-default-value
 def value_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
     """Format Ansible option value.
 
@@ -159,7 +196,7 @@ def value_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
 
 # pylint:disable-next=unused-argument,dangerous-default-value
 def return_value_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
-    """Format Ansible option value.
+    """Format Ansible return value.
 
     Returns 2 part tuple containing list of nodes to insert into the
     document and a list of system messages.  Both are allowed to be
@@ -193,6 +230,33 @@ def return_value_role(name, rawtext, text, lineno, inliner, options={}, content=
         text,
     )
     return [nodes.literal(rawtext, "", content, classes=classes)], []
+
+
+# pylint:disable-next=unused-argument,dangerous-default-value
+def return_value_ref_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    """Ansible return value reference.
+
+    Returns 2 part tuple containing list of nodes to insert into the
+    document and a list of system messages.  Both are allowed to be
+    empty.
+
+    :param name: The role name used in the document.
+    :param rawtext: The entire markup snippet, with role.
+    :param text: The text marked with the role.
+    :param lineno: The line number where rawtext appears in the input.
+    :param inliner: The inliner instance that called us.
+    :param options: Directive options for customization.
+    :param content: The directive content for customization.
+    """
+    try:
+        target, title = extract_explicit_title(text, require_title=True)
+        plugin_fqcn, plugin_type, entrypoint, rv_link, _rv = parse_return_value_ref(
+            target
+        )
+    except ValueError as exc:
+        return _create_error(rawtext, text, str(exc))
+    ref = _create_return_value_reference(plugin_fqcn, plugin_type, entrypoint, rv_link)
+    return [_create_ref(ref, title)], []
 
 
 # pylint:disable-next=unused-argument,dangerous-default-value
@@ -400,8 +464,10 @@ def _create_extra_role(
 
 ROLES = {
     "ansopt": option_role,
+    "ansoptref": option_ref_role,
     "ansval": value_role,
     "ansretval": return_value_role,
+    "ansretvalref": return_value_ref_role,
     "ansenvvar": environment_variable,
     "ansenvvarref": environment_variable_reference,
     "ansplugin": plugin_role,
