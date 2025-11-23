@@ -1187,3 +1187,13 @@ releases:
       - 2.22.1.yml
       - 428-urls.yml
     release_date: '2025-11-16'
+  2.23.0:
+    changes:
+      minor_changes:
+        - Add new RST roles ``:ansoptref:`` and ``:ansretvalref:`` which allow to
+          reference options and return values with explicit titles (https://github.com/ansible-community/antsibull-docs/pull/430).
+      release_summary: Feature release.
+    fragments:
+      - 2.23.0.yml
+      - 430-refs.yml
+    release_date: '2025-11-23'

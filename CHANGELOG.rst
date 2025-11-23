@@ -4,6 +4,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.23.0
+=======
+
+Release Summary
+---------------
+
+Feature release.
+
+Minor Changes
+-------------
+
+- Add new RST roles ``:ansoptref:`` and ``:ansretvalref:`` which allow to reference options and return values with explicit titles (https://github.com/ansible-community/antsibull-docs/pull/430).
+
 v2.22.1
 =======
 

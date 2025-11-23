@@ -1,3 +1,0 @@
-minor_changes:
-  - "Add new RST roles ``:ansoptref:`` and ``:ansretvalref:`` which allow to reference options and return values with explicit titles
-     (https://github.com/ansible-community/antsibull-docs/pull/430)."
