@@ -4,7 +4,7 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """The main antsibull-docs module. Contains versioning information."""
 
-__version__ = "2.23.0"
+__version__ = "2.23.0.post0"
 
 
 __all__ = ("__version__",)
