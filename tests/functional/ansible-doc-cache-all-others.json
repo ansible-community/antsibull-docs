@@ -991,7 +991,14 @@
         }
        ],
        "name": "Show skipped hosts",
-       "type": "bool"
+       "type": "bool",
+       "vars": [
+        {
+         "name": "ansible_display_skipped_hosts",
+         "version_added": "2.21",
+         "version_added_collection": "ansible.builtin"
+        }
+       ]
       },
       "pretty_results": {
        "default": null,
@@ -3532,7 +3539,8 @@
       },
       "remote_user": {
        "description": [
-        "The user to log in as to the Windows machine"
+        "The user to log in as to the Windows machine",
+        "If O(transport) is not defined, the authentication used will be V(kerberos) if the user is in the UPN format V(user@domain), otherwise it will be V(basic)"
        ],
        "keyword": [
         {
@@ -3568,7 +3576,7 @@
       "transport": {
        "description": [
         "List of winrm transports to attempt to use (ssl, plaintext, kerberos, etc)",
-        "If None (the default) the plugin will try to automatically guess the correct list",
+        "If None (the default) the plugin will try to automatically guess the correct list. It will use V(kerberos) if the username looks like a UPN V(user@domain), otherwise it will use V(basic).",
         "The choices available depend on your version of pywinrm"
        ],
        "elements": "string",
@@ -6346,29 +6354,38 @@
     "doc": {
      "collection": "ansible.builtin",
      "description": [
-      "Using Python's C(strftime) function, take a data formatting string and a date/time to create a formatted date."
+      "Using Python's L(strftime, https://docs.python.org/3/library/datetime.html#datetime.datetime.strftime) function, take a data formatting string and a date/time to create a formatted date."
      ],
      "filename": "/ansible/plugins/filter/strftime.yml",
      "name": "strftime",
      "notes": [
-      "This is a passthrough to Python's C(stftime), for a complete set of formatting options go to https://strftime.org/."
+      "This is a passthrough to Python's C(datetime.datetime.strftime), for a complete set of formatting options go to L(the Python documentation, https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes).",
+      "Before Ansible Core 2.21, this was based upon C(time.strftime) Python API."
      ],
      "options": {
       "_input": {
        "description": [
-        "A formatting string following C(stftime) conventions.",
+        "A formatting string following C(strftime) conventions.",
+        "Some additional directives are not supported by all platforms. See Python documentation for more details.",
         "See L(the Python documentation, https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior) for a reference."
        ],
        "required": true,
        "type": "str"
       },
       "second": {
-       "description": "Datetime in seconds from C(epoch) to format, if not supplied C(gmttime/localtime) will be used.",
+       "description": [
+        "A datetime in seconds from C(epoch) to format.",
+        "If not supplied, the current time based on C(time.time()) will be used."
+       ],
        "type": "int"
       },
       "utc": {
        "default": false,
-       "description": "Whether time supplied is in UTC.",
+       "description": [
+        "Whether time supplied is in UTC.",
+        "If C(utc) is true, the time will be in UTC, otherwise it will be in the local timezone.",
+        "Before Ansible Core 2.21, this was based upon C(time.strftime) Python API."
+       ],
        "type": "bool",
        "version_added": "2.14",
        "version_added_collection": "ansible.builtin"
@@ -6376,11 +6393,11 @@
      },
      "plugin_name": "ansible.builtin.strftime",
      "positional": "_input, second, utc",
-     "short_description": "date formatting",
+     "short_description": "Returns date and/or time",
      "version_added": "2.4",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "# for a complete set of features go to  https://strftime.org/\n\n# Display year-month-day\n{{ '%Y-%m-%d' | strftime }}\n# => \"2021-03-19\"\n\n# Display hour:min:sec\n{{ '%H:%M:%S' | strftime }}\n# => \"21:51:04\"\n\n# Use ansible_date_time.epoch fact\n{{ '%Y-%m-%d %H:%M:%S' | strftime(ansible_date_time.epoch) }}\n# => \"2021-03-19 21:54:09\"\n\n# Use arbitrary epoch value\n{{ '%Y-%m-%d' | strftime(0) }}          # => 1970-01-01\n{{ '%Y-%m-%d' | strftime(seconds=1441357287, utc=true) }} # => 2015-09-04\n",
+    "examples": "# for a complete set of features go to https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes\n\n# Display year-month-day\n{{ '%Y-%m-%d' | strftime }}\n# => \"2021-03-19\"\n\n# Display hour:min:sec\n{{ '%H:%M:%S' | strftime }}\n# => \"21:51:04\"\n\n# Use ansible_date_time.epoch fact\n{{ '%Y-%m-%d %H:%M:%S' | strftime(ansible_date_time.epoch) }}\n# => \"2021-03-19 21:54:09\"\n\n# Use arbitrary epoch value\n{{ '%Y-%m-%d' | strftime(0) }}          # => 1970-01-01\n{{ '%Y-%m-%d' | strftime(seconds=1441357287, utc=true) }} # => 2015-09-04\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -8034,6 +8051,33 @@
        ],
        "description": "token that ensures this is a source file for the 'generator' plugin.",
        "required": true
+      },
+      "use_extra_vars": {
+       "default": false,
+       "description": [
+        "Merge extra vars into the available variables for composition (highest precedence)."
+       ],
+       "env": [
+        {
+         "name": "ANSIBLE_INVENTORY_USE_EXTRA_VARS"
+        },
+        {
+         "name": "ANSIBLE_GENERATOR_USE_EXTRA_VARS"
+        }
+       ],
+       "ini": [
+        {
+         "key": "use_extra_vars",
+         "section": "inventory_plugins"
+        },
+        {
+         "key": "use_extra_vars",
+         "section": "inventory_plugin_generator"
+        }
+       ],
+       "type": "bool",
+       "version_added": "2.21",
+       "version_added_collection": "ansible.builtin"
       }
      },
      "plugin_name": "ansible.builtin.generator",
@@ -9297,7 +9341,7 @@
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Set _found_file to the first existing file, raising an error if a file is not found\n  ansible.builtin.set_fact:\n    _found_file: \"{{ lookup('ansible.builtin.first_found', findme) }}\"\n  vars:\n    findme:\n      - /path/to/foo.txt\n      - bar.txt  # will be looked in files/ dir relative to role and/or play\n      - /path/to/biz.txt\n\n- name: Set _found_file to the first existing file, or an empty list if no files found\n  ansible.builtin.set_fact:\n    _found_file: \"{{ lookup('ansible.builtin.first_found', files, paths=['/extra/path'], skip=True) }}\"\n  vars:\n    files:\n      - /path/to/foo.txt\n      - /path/to/bar.txt\n\n- name: Include tasks only if one of the files exist, otherwise skip the task\n  ansible.builtin.include_tasks:\n    file: \"{{ item }}\"\n  with_first_found:\n    - files:\n      - path/tasks.yaml\n      - path/other_tasks.yaml\n      skip: True\n\n- name: Include tasks only if one of the files exists, otherwise skip\n  ansible.builtin.include_tasks: '{{ tasks_file }}'\n  when: tasks_file != \"\"\n  vars:\n    tasks_file: \"{{ lookup('ansible.builtin.first_found', files=['tasks.yaml', 'other_tasks.yaml'], errors='ignore') }}\"\n\n- name: |\n        copy first existing file found to /some/file,\n        looking in relative directories from where the task is defined and\n        including any play objects that contain it\n  ansible.builtin.copy:\n    src: \"{{ lookup('ansible.builtin.first_found', findme) }}\"\n    dest: /some/file\n  vars:\n    findme:\n      - foo\n      - \"{{ inventory_hostname }}\"\n      - bar\n\n- name: same copy but specific paths\n  ansible.builtin.copy:\n    src: \"{{ lookup('ansible.builtin.first_found', params) }}\"\n    dest: /some/file\n  vars:\n    params:\n      files:\n        - foo\n        - \"{{ inventory_hostname }}\"\n        - bar\n      paths:\n        - /tmp/production\n        - /tmp/staging\n\n- name: INTERFACES | Create Ansible header for /etc/network/interfaces\n  ansible.builtin.template:\n    src: \"{{ lookup('ansible.builtin.first_found', findme)}}\"\n    dest: \"/etc/foo.conf\"\n  vars:\n    findme:\n      - \"{{ ansible_virtualization_type }}_foo.conf\"\n      - \"default_foo.conf\"\n\n- name: read vars from first file found, use 'vars/' relative subdir\n  ansible.builtin.include_vars: \"{{lookup('ansible.builtin.first_found', params)}}\"\n  vars:\n    params:\n      files:\n        - '{{ ansible_distribution }}.yml'\n        - '{{ ansible_os_family }}.yml'\n        - default.yml\n      paths:\n        - 'vars'\n",
+    "examples": "\n- name: Set _found_file to the first existing file, raising an error if a file is not found\n  ansible.builtin.set_fact:\n    _found_file: \"{{ lookup('ansible.builtin.first_found', findme) }}\"\n  vars:\n    findme:\n      - /path/to/foo.txt\n      - bar.txt  # will be looked in files/ dir relative to role and/or play\n      - /path/to/biz.txt\n\n- name: Set _found_file to the first existing file, or an empty list if no files found\n  ansible.builtin.set_fact:\n    _found_file: \"{{ lookup('ansible.builtin.first_found', files, paths=['/extra/path'], skip=True) }}\"\n  vars:\n    files:\n      - /path/to/foo.txt\n      - /path/to/bar.txt\n\n- name: Include tasks only if one of the files exist, otherwise skip the task\n  ansible.builtin.include_tasks:\n    file: \"{{ item }}\"\n  with_first_found:\n    - files:\n      - path/tasks.yaml\n      - path/other_tasks.yaml\n      skip: True\n\n- name: Include tasks only if one of the files exists, otherwise skip\n  ansible.builtin.include_tasks: '{{ tasks_file }}'\n  when: tasks_file is not none\n  vars:\n    tasks_file: \"{{ lookup('ansible.builtin.first_found', files=['tasks.yaml', 'other_tasks.yaml'], errors='ignore') }}\"\n\n- name: |\n        copy first existing file found to /some/file,\n        looking in relative directories from where the task is defined and\n        including any play objects that contain it\n  ansible.builtin.copy:\n    src: \"{{ lookup('ansible.builtin.first_found', findme) }}\"\n    dest: /some/file\n  vars:\n    findme:\n      - foo\n      - \"{{ inventory_hostname }}\"\n      - bar\n\n- name: same copy but specific paths\n  ansible.builtin.copy:\n    src: \"{{ lookup('ansible.builtin.first_found', params) }}\"\n    dest: /some/file\n  vars:\n    params:\n      files:\n        - foo\n        - \"{{ inventory_hostname }}\"\n        - bar\n      paths:\n        - /tmp/production\n        - /tmp/staging\n\n- name: INTERFACES | Create Ansible header for /etc/network/interfaces\n  ansible.builtin.template:\n    src: \"{{ lookup('ansible.builtin.first_found', findme)}}\"\n    dest: \"/etc/foo.conf\"\n  vars:\n    findme:\n      - \"{{ ansible_virtualization_type }}_foo.conf\"\n      - \"default_foo.conf\"\n\n- name: read vars from first file found, use 'vars/' relative subdir\n  ansible.builtin.include_vars: \"{{lookup('ansible.builtin.first_found', params)}}\"\n  vars:\n    params:\n      files:\n        - '{{ ansible_distribution }}.yml'\n        - '{{ ansible_os_family }}.yml'\n        - default.yml\n      paths:\n        - 'vars'\n",
     "metadata": null,
     "return": {
      "_raw": {
@@ -9671,7 +9715,7 @@
        "description": [
         "A seed to initialize the random number generator.",
         "Identical seeds will yield identical passwords.",
-        "Use this for random-but-idempotent password generation."
+        "B(Note) that a weak seed, one without enough entropy, will not create a sufficiently secure encryption for the password."
        ],
        "type": "str",
        "version_added": "2.12",
@@ -9683,7 +9727,7 @@
      "version_added": "1.1",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: create a mysql user with a random password\n  community.mysql.mysql_user:\n    name: \"{{ client }}\"\n    password: \"{{ lookup('ansible.builtin.password', 'credentials/' + client + '/' + tier + '/' + role + '/mysqlpassword', length=15) }}\"\n    priv: \"{{ client }}_{{ tier }}_{{ role }}.*:ALL\"\n\n- name: create a mysql user with a random password using only ascii letters\n  community.mysql.mysql_user:\n    name: \"{{ client }}\"\n    password: \"{{ lookup('ansible.builtin.password', '/tmp/passwordfile', chars=['ascii_letters']) }}\"\n    priv: '{{ client }}_{{ tier }}_{{ role }}.*:ALL'\n\n- name: create a mysql user with an 8 character random password using only digits\n  community.mysql.mysql_user:\n    name: \"{{ client }}\"\n    password: \"{{ lookup('ansible.builtin.password', '/tmp/passwordfile', length=8, chars=['digits']) }}\"\n    priv: \"{{ client }}_{{ tier }}_{{ role }}.*:ALL\"\n\n- name: create a mysql user with a random password using many different char sets\n  community.mysql.mysql_user:\n    name: \"{{ client }}\"\n    password: \"{{ lookup('ansible.builtin.password', '/tmp/passwordfile', chars=['ascii_letters', 'digits', 'punctuation']) }}\"\n    priv: \"{{ client }}_{{ tier }}_{{ role }}.*:ALL\"\n\n- name: create lowercase 8 character name for Kubernetes pod name\n  ansible.builtin.set_fact:\n    random_pod_name: \"web-{{ lookup('ansible.builtin.password', '/dev/null', chars=['ascii_lowercase', 'digits'], length=8) }}\"\n\n- name: create random but idempotent password\n  ansible.builtin.set_fact:\n    password: \"{{ lookup('ansible.builtin.password', '/dev/null', seed=inventory_hostname) }}\"\n",
+    "examples": "\n- name: create a mysql user with a random password\n  community.mysql.mysql_user:\n    name: \"{{ client }}\"\n    password: \"{{ lookup('ansible.builtin.password', 'credentials/' + client + '/' + tier + '/' + role + '/mysqlpassword', length=15) }}\"\n    priv: \"{{ client }}_{{ tier }}_{{ role }}.*:ALL\"\n\n- name: create a mysql user with a random password using only ascii letters\n  community.mysql.mysql_user:\n    name: \"{{ client }}\"\n    password: \"{{ lookup('ansible.builtin.password', '/tmp/passwordfile', chars=['ascii_letters']) }}\"\n    priv: '{{ client }}_{{ tier }}_{{ role }}.*:ALL'\n\n- name: create a mysql user with an 8 character random password using only digits\n  community.mysql.mysql_user:\n    name: \"{{ client }}\"\n    password: \"{{ lookup('ansible.builtin.password', '/tmp/passwordfile', length=8, chars=['digits']) }}\"\n    priv: \"{{ client }}_{{ tier }}_{{ role }}.*:ALL\"\n\n- name: create a mysql user with a random password using many different char sets\n  community.mysql.mysql_user:\n    name: \"{{ client }}\"\n    password: \"{{ lookup('ansible.builtin.password', '/tmp/passwordfile', chars=['ascii_letters', 'digits', 'punctuation']) }}\"\n    priv: \"{{ client }}_{{ tier }}_{{ role }}.*:ALL\"\n\n- name: create lowercase 8 character name for Kubernetes pod name\n  ansible.builtin.set_fact:\n    random_pod_name: \"web-{{ lookup('ansible.builtin.password', '/dev/null', chars=['ascii_lowercase', 'digits'], length=8) }}\"\n\n- name: create idempotent password for use in testing/CI, not recommended for production\n  ansible.builtin.set_fact:\n    password: \"{{ lookup('ansible.builtin.password', '/dev/null', seed=inventory_hostname) }}\"\n",
     "metadata": null,
     "return": {
      "_raw": {
@@ -11162,7 +11206,7 @@
       "type": "list"
      },
      "before": {
-      "description": "List of apt key ids or fingprints before any modifications",
+      "description": "List of apt key ids or fingerprints before any modifications",
       "returned": "always",
       "sample": [
        "3B4FE6ACC0B21F32",
@@ -12989,6 +13033,28 @@
         "Tells APT whether the source is enabled or not."
        ],
        "type": "bool"
+      },
+      "exclude": {
+       "description": [
+        "Controls which packages C(APT) should exclude from the repository.",
+        "Mutually exclusive with O(include).",
+        "This option is supported by apt>=3.1.0."
+       ],
+       "elements": "str",
+       "type": "list",
+       "version_added": "2.21",
+       "version_added_collection": "ansible.builtin"
+      },
+      "include": {
+       "description": [
+        "Controls which packages C(APT) should use from the repository.",
+        "Mutually exclusive with O(exclude).",
+        "This option is supported by apt>=3.1.0."
+       ],
+       "elements": "str",
+       "type": "list",
+       "version_added": "2.21",
+       "version_added_collection": "ansible.builtin"
       },
       "inrelease_path": {
        "description": [
@@ -15593,7 +15659,8 @@
       },
       "split": {
        "description": [
-        "Character used to split the database values into lists/arrays such as V(:) or V(\\\\t), otherwise it will try to pick one depending on the database."
+        "Character used to split the database values into lists/arrays such as V(:) or V(\\\\t), otherwise it will try to pick one depending on the database.",
+        "The value must be a non-empty string."
        ],
        "type": "str"
       }
@@ -15744,16 +15811,12 @@
        "version_added_collection": "ansible.builtin"
       },
       "gpg_allowlist": {
-       "aliases": [
-        "gpg_whitelist"
-       ],
        "default": [],
        "description": [
         "A list of trusted GPG fingerprints to compare to the fingerprint of the GPG-signed commit.",
         "Only used when O(verify_commit=yes).",
         "Use of this feature requires Git 2.6+ due to its reliance on git's C(--raw) flag to C(verify-commit) and C(verify-tag).",
-        "Alias O(gpg_allowlist) is added in version 2.17.",
-        "Alias O(gpg_whitelist) is deprecated and will be removed in version 2.21."
+        "Alias O(gpg_allowlist) is added in version 2.17."
        ],
        "elements": "str",
        "type": "list",
@@ -16794,6 +16857,7 @@
      "has_action": false,
      "module": "include_role",
      "notes": [
+      "Beginning in ansible 2.21 we have normalized how error types from the include itself are emitted. Using the O(rescuable) option, you can control if it is a task failure or a syntax error.",
       "Handlers and are made available to the whole play.",
       "After Ansible 2.4, you can use M(ansible.builtin.import_role) for B(static) behaviour and this action for B(dynamic) one."
      ],
@@ -16842,6 +16906,15 @@
        ],
        "type": "bool",
        "version_added": "2.7",
+       "version_added_collection": "ansible.builtin"
+      },
+      "rescuable": {
+       "default": true,
+       "description": [
+        "This toggle allows for errors from the include itself to either be a task failure, which is 'rescuable', or fatal syntax errors."
+       ],
+       "type": "bool",
+       "version_added": "2.21",
        "version_added_collection": "ansible.builtin"
       },
       "rolespec_validate": {
@@ -17494,7 +17567,8 @@
        "description": [
         "Specifies a match to use, that is, an extension module that tests for a specific property.",
         "The set of matches makes up the condition under which a target is invoked.",
-        "Matches are evaluated first to last if specified as an array and work in short-circuit fashion, in other words if one extension yields false, the evaluation will stop."
+        "Matches are evaluated first to last if specified as an array and work in short-circuit fashion, in other words if one extension yields false, the evaluation will stop.",
+        "The module automatically adds necessary extensions (for example, O(uid_owner=1) corresponds to the command flags C(-m owner --uid-owner 1)), so it is often unnecessary to use the O(match) argument."
        ],
        "elements": "str",
        "type": "list"
@@ -18270,7 +18344,7 @@
         "Note that neither V(refresh_inventory) nor the M(ansible.builtin.add_host) add hosts to the hosts the current play iterates over. However, if needed, you can explicitly delegate tasks to new hosts with C(delegate_to). Generally, C(delegate_to) can be used against hosts regardless of whether they are in the inventory or not, as long as the value supplied is sufficient for the connection plugin to access the host.",
         "V(noop) (added in Ansible 2.0) This literally does 'nothing'. It is mainly used internally and not recommended for general use.",
         "V(clear_facts) (added in Ansible 2.1) causes the gathered facts for the hosts specified in the play's list of hosts to be cleared, including the fact cache.",
-        "V(clear_host_errors) (added in Ansible 2.1) clears the failed state (if any) from hosts specified in the play's list of hosts. This will make them available for targetting in subsequent plays, but not continue execution in the current play.",
+        "V(clear_host_errors) (added in Ansible 2.1) clears the failed state (if any) from hosts specified in the play's list of hosts. This will make them available for targeting in subsequent plays, but not continue execution in the current play.",
         "V(end_play) (added in Ansible 2.2) causes the play to end without failing the host(s). Note that this affects all hosts.",
         "V(reset_connection) (added in Ansible 2.3) interrupts a persistent connection (i.e. ssh + control persist)",
         "V(end_host) (added in Ansible 2.8) is a per-host variation of V(end_play). Causes the play to end for the current host without failing it.",
@@ -19690,7 +19764,8 @@
       "The P(ansible.builtin.ssh#connection) connection plugin will force pseudo-tty allocation via C(-tt) when scripts are executed. Pseudo-ttys do not have a stderr channel and all stderr is sent to stdout. If you depend on separated stdout and stderr result keys, please switch to a set of tasks that comprises M(ansible.builtin.copy) with M(ansible.builtin.command) instead of using M(ansible.builtin.script).",
       "If the path to the local script contains spaces, it needs to be quoted.",
       "This module is also supported for Windows targets.",
-      "If the script returns non-UTF-8 data, it must be encoded to avoid issues. One option is to pipe the output through C(base64)."
+      "If the script returns non-UTF-8 data, it must be encoded to avoid issues. One option is to pipe the output through C(base64).",
+      "This module will automatically unvault the script."
      ],
      "options": {
       "chdir": {
@@ -19713,15 +19788,6 @@
        ],
        "type": "str",
        "version_added": "1.5",
-       "version_added_collection": "ansible.builtin"
-      },
-      "decrypt": {
-       "default": true,
-       "description": [
-        "This option controls the auto-decryption of source files using vault."
-       ],
-       "type": "bool",
-       "version_added": "2.4",
        "version_added_collection": "ansible.builtin"
       },
       "executable": {
@@ -20572,6 +20638,17 @@
       "This module returns an 'in memory' base64 encoded version of the file, take into account that this will require at least twice the RAM as the original file size."
      ],
      "options": {
+      "armor": {
+       "default": true,
+       "description": [
+        "To safely deliver the data requested, armor it by base64 encoding it.",
+        "This is mainly done to avoid issues with binary data or to preserve non-UTF-8 encodings, as the content will be converted to UTF-8 due to the JSON transport used.",
+        "For windows support, check the ansible.windows collection."
+       ],
+       "type": "bool",
+       "version_added": "2.21",
+       "version_added_collection": "ansible.builtin"
+      },
       "src": {
        "aliases": [
         "path"
@@ -20593,7 +20670,7 @@
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Find out what the remote machine's mounts are\n  ansible.builtin.slurp:\n    src: /proc/mounts\n  register: mounts\n\n- name: Print returned information\n  ansible.builtin.debug:\n    msg: \"{{ mounts['content'] | b64decode }}\"\n\n# From the commandline, find the pid of the remote machine's sshd\n# $ ansible host -m ansible.builtin.slurp -a 'src=/var/run/sshd.pid'\n# host | SUCCESS => {\n#     \"changed\": false,\n#     \"content\": \"MjE3OQo=\",\n#     \"encoding\": \"base64\",\n#     \"source\": \"/var/run/sshd.pid\"\n# }\n# $ echo MjE3OQo= | base64 -d\n# 2179\n",
+    "examples": "\n- name: Find out what the remote machine's mounts are\n  ansible.builtin.slurp:\n    src: /proc/mounts\n  register: mounts\n\n- name: Print returned information\n  ansible.builtin.debug:\n    msg: \"{{ mounts['content'] | b64decode }}\"\n\n- name: Find out what the remote machine's mounts are, no armor\n  ansible.builtin.slurp:\n    src: /proc/mounts\n    armor: false\n  register: mounts\n\n- name: Print returned information\n  ansible.builtin.debug:\n    msg: \"{{ mounts['content'] }}\"\n\n# From the commandline, find the pid of the remote machine's sshd\n# $ ansible host -m ansible.builtin.slurp -a 'src=/var/run/sshd.pid'\n# host | SUCCESS => {\n#     \"changed\": false,\n#     \"content\": \"MjE3OQo=\",\n#     \"encoding\": \"base64\",\n#     \"source\": \"/var/run/sshd.pid\"\n# }\n# $ echo MjE3OQo= | base64 -d\n# 2179\n",
     "metadata": null,
     "return": {
      "content": {
@@ -20603,7 +20680,7 @@
       "type": "str"
      },
      "encoding": {
-      "description": "Type of encoding used for file",
+      "description": "Current encoding of the file content, it can be C(base64) or C(UTF-8) depending on the value of the O(armor) option.",
       "returned": "success",
       "sample": "base64",
       "type": "str"
@@ -20791,6 +20868,14 @@
         "returned": "success, path exists and user can read stats",
         "sample": 33,
         "type": "int"
+       },
+       "disk_usage_bytes": {
+        "description": "The disk usage of a path in bytes",
+        "returned": "success, path exists, user can execute the path, filesystem supports st_blocks",
+        "sample": 1024,
+        "type": "int",
+        "version_added": "2.21",
+        "version_added_collection": "ansible.builtin"
        },
        "executable": {
         "description": "Tells you if the invoking user has execute permission on the path",
@@ -26554,7 +26639,7 @@
      "collection": "ansible.builtin",
      "description": [
       "This check is a more Python version of what is 'false'.",
-      "It is the opposite of 'truthy'."
+      "It is the opposite of P(ansible.builtin.truthy#test)."
      ],
      "filename": "/ansible/plugins/test/falsy.yml",
      "name": "falsy",
@@ -27491,30 +27576,7 @@
      "plugin_name": "ansible.builtin.regex",
      "short_description": "Does string match regular expression from the start"
     },
-    "examples": [
-     {
-      "assert": {
-       "that": [
-        "url is regex(\"example\\.com/\\w+/foo\")"
-       ]
-      },
-      "name": "check if string matches regex",
-      "vars": {
-       "url": "https://example.com/users/foo/resources/bar"
-      }
-     },
-     {
-      "assert": {
-       "that": [
-        "url is regex(\"EXAMPLE\\.COM/\\w+/foo\", ignorecase=True)"
-       ]
-      },
-      "name": "check if string matches regex ignoring case",
-      "vars": {
-       "url": "https://Example.com/users/foo/resources/bar"
-      }
-     }
-    ],
+    "examples": "- name: check if string matches regex\n  assert:\n    that:\n      - 'url is regex(\"example\\.com/\\w+/foo\")'\n  vars:\n    url: \"https://example.com/users/foo/resources/bar\"\n\n- name: check if string matches regex ignoring case\n  assert:\n    that:\n      - 'url is regex(\"EXAMPLE\\.COM/\\w+/foo\", ignorecase=True)'\n  vars:\n    url: \"https://Example.com/users/foo/resources/bar\"\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -28032,7 +28094,7 @@
     "metadata": null,
     "return": {
      "_value": {
-      "description": "Returns V(True) if the condition is not \"Python truthy\", V(False) otherwise.",
+      "description": "Returns V(True) if the condition is \"Python truthy\", V(False) otherwise.",
       "type": "boolean"
      }
     }

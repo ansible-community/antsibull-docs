@@ -1,9 +1,9 @@
-ansible [core 2.20.0.dev0] (devel 5125ec797c) last updated 2025/09/23 20:47:09 (GMT +200)
+ansible [core 2.21.0.dev0] (devel 85d20838ce) last updated 2025/12/16 06:51:54 (GMT +200)
   config file = None
   configured module search path = ['<<<<<HOME>>>>>/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
   ansible python module location = <<<<<ANSIBLE>>>>>
   ansible collection location = <<<<<COLLECTIONS>>>>>
   executable location = <<<<<HOME>>>>>/.local/bin/ansible
-  python version = 3.13.7 (main, Aug 15 2025, 12:34:02) [GCC 15.2.1 20250813] (/usr/bin/python)
+  python version = 3.13.11 (main, Dec  7 2025, 13:01:45) [GCC 15.2.1 20251112] (/usr/bin/python)
   jinja version = 3.1.6
   pyyaml version = 6.0.3 (with libyaml v0.2.5)
