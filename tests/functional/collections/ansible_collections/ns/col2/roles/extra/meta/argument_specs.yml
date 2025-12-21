@@ -28,6 +28,39 @@ argument_specs:
       bar:
         type: dict
         description: Text.
+        mutually_exclusive:
+          - - subfoo
+            - subbar
+          - foo
+        required_one_of:
+          - - subfoo
+            - subbar
+          - True
+        required_by:
+          something:
+            - subbar
+          else: foo
+        required_if:
+          - - subbar
+            - []
+            - [subbaz]
+          - bar
+          - []
+          - - a
+            - b
+          - - 3.14
+            - b
+            - c
+            - 1234
+            - nothing
+          - - 3.14
+            - b
+            - c
+            - 1234
+        required_together:
+          - - subbar
+            - subbaz
+          - {}
         options:
           subfoo:
             type: int
@@ -39,6 +72,14 @@ argument_specs:
             elements: string
             description: Sub bar.
             extra: more
+          subbaz:
+            type: list
+            elements: dict
+            description: Something else.
+            options:
+              something:
+                type: str
+                description: Something.
   baz:
     short_description: Bar role, baz entrypoint テストロール
     description:

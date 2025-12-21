@@ -25321,11 +25321,29 @@
       "options": {
        "bar": {
         "description": "Text.",
+        "mutually_exclusive": [
+         [
+          "subfoo",
+          "subbar"
+         ],
+         "foo"
+        ],
         "options": {
          "subbar": {
           "description": "Sub bar.",
           "elements": "string",
           "extra": "more",
+          "type": "list"
+         },
+         "subbaz": {
+          "description": "Something else.",
+          "elements": "dict",
+          "options": {
+           "something": {
+            "description": "Something.",
+            "type": "str"
+           }
+          },
           "type": "list"
          },
          "subfoo": {
@@ -25336,6 +25354,54 @@
           "type": "int"
          }
         },
+        "required_by": {
+         "else": "foo",
+         "something": [
+          "subbar"
+         ]
+        },
+        "required_if": [
+         [
+          "subbar",
+          [],
+          [
+           "subbaz"
+          ]
+         ],
+         "bar",
+         [],
+         [
+          "a",
+          "b"
+         ],
+         [
+          3.14,
+          "b",
+          "c",
+          1234,
+          "nothing"
+         ],
+         [
+          3.14,
+          "b",
+          "c",
+          1234
+         ]
+        ],
+        "required_one_of": [
+         [
+          "subfoo",
+          "subbar"
+         ],
+         true
+        ],
+        "required_together": [
+         [
+          "subbar",
+          "subbaz"
+         ],
+         {}
+        ],
         "type": "dict"
        },
        "foo": {

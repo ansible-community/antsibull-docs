@@ -10,7 +10,7 @@
 <p>The documentation for the role plugin, ns.col2.extra,  was malformed.</p>
 <p>The errors were:</p>
 <ul>
-<li><div class="highlight-text notranslate"><div class="highlight"><pre><span></span>49 validation errors for RoleSchema
+<li><div class="highlight-text notranslate"><div class="highlight"><pre><span></span>63 validation errors for RoleSchema
 entry_points -&gt; baz -&gt; extra
   Extra inputs are not permitted (type=extra_forbidden)
 entry_points -&gt; main -&gt; seealso -&gt; 0 -&gt; description
@@ -105,6 +105,34 @@ entry_points -&gt; main -&gt; options -&gt; bar -&gt; options -&gt; subbar -&gt;
   Extra inputs are not permitted (type=extra_forbidden)
 entry_points -&gt; main -&gt; options -&gt; bar -&gt; options -&gt; subfoo -&gt; extra
   Extra inputs are not permitted (type=extra_forbidden)
+entry_points -&gt; main -&gt; options -&gt; bar -&gt; mutually_exclusive -&gt; 1
+  Input should be a valid list (type=list_type)
+entry_points -&gt; main -&gt; options -&gt; bar -&gt; required_together -&gt; 1
+  Input should be a valid list (type=list_type)
+entry_points -&gt; main -&gt; options -&gt; bar -&gt; required_one_of -&gt; 1
+  Input should be a valid list (type=list_type)
+entry_points -&gt; main -&gt; options -&gt; bar -&gt; required_if -&gt; 1
+  Input should be a valid tuple (type=tuple_type)
+entry_points -&gt; main -&gt; options -&gt; bar -&gt; required_if -&gt; 2 -&gt; 0
+  Field required (type=missing)
+entry_points -&gt; main -&gt; options -&gt; bar -&gt; required_if -&gt; 2 -&gt; 1
+  Field required (type=missing)
+entry_points -&gt; main -&gt; options -&gt; bar -&gt; required_if -&gt; 2 -&gt; 2
+  Field required (type=missing)
+entry_points -&gt; main -&gt; options -&gt; bar -&gt; required_if -&gt; 2 -&gt; 3
+  Field required (type=missing)
+entry_points -&gt; main -&gt; options -&gt; bar -&gt; required_if -&gt; 3 -&gt; 2
+  Field required (type=missing)
+entry_points -&gt; main -&gt; options -&gt; bar -&gt; required_if -&gt; 3 -&gt; 3
+  Field required (type=missing)
+entry_points -&gt; main -&gt; options -&gt; bar -&gt; required_if -&gt; 4
+  Tuple should have at most 4 items after validation, not 5 (type=too_long; field_type=Tuple; max_length=4; actual_length=5)
+entry_points -&gt; main -&gt; options -&gt; bar -&gt; required_if -&gt; 5 -&gt; 2
+  Input should be a valid list (type=list_type)
+entry_points -&gt; main -&gt; options -&gt; bar -&gt; required_if -&gt; 5 -&gt; 3
+  Input should be a valid boolean, unable to interpret input (type=bool_parsing)
+entry_points -&gt; main -&gt; options -&gt; bar -&gt; required_by -&gt; else
+  Input should be a valid list (type=list_type)
 entry_points -&gt; main -&gt; options -&gt; foo -&gt; extra
   Extra inputs are not permitted (type=extra_forbidden)
 entry_points -&gt; main -&gt; extra

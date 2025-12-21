@@ -7,7 +7,7 @@
 """Schemas for the role documentation data."""
 
 import typing as t
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 
 import pydantic as p
 
@@ -27,7 +27,38 @@ from .plugin import PluginExamplesSchema
 _SENTINEL = object()
 
 
-class InnerRoleOptionsSchema(OptionsSchema):
+class _RoleOptionsSchema(OptionsSchema):
+    options: dict[str, t.Any] = {}
+    mutually_exclusive: list[list[str]] = []
+    required_together: list[list[str]] = []
+    required_one_of: list[list[str]] = []
+    required_if: list[tuple[str, t.Any, list[str], bool]] = []
+    required_by: dict[str, list[str]] = {}
+
+    @p.field_validator("mutually_exclusive", mode="before")
+    @classmethod
+    def _massage_mutually_exclusive(cls, obj):
+        # mutually_exclusive can also be a single list of strings
+        if obj and isinstance(obj, Sequence) and not isinstance(obj, str):
+            if all(isinstance(elt, str) for elt in obj):
+                return [obj]
+        return obj
+
+    @p.field_validator("required_if", mode="before")
+    @classmethod
+    def _massage_required_if(cls, obj):
+        if not isinstance(obj, Sequence) or isinstance(obj, str):
+            return obj
+        result = []
+        for elt in obj:
+            if not isinstance(elt, Sequence) or isinstance(elt, str) or len(elt) != 3:
+                result.append(elt)
+                continue
+            result.append((elt[0], elt[1], elt[2], False))
+        return result
+
+
+class InnerRoleOptionsSchema(_RoleOptionsSchema):
     options: dict[str, "InnerRoleOptionsSchema"] = {}
 
     @p.model_validator(mode="before")
@@ -42,7 +73,7 @@ class InnerRoleOptionsSchema(OptionsSchema):
 InnerRoleOptionsSchema.model_rebuild()
 
 
-class RoleOptionsSchema(OptionsSchema):
+class RoleOptionsSchema(_RoleOptionsSchema):
     options: dict[str, "InnerRoleOptionsSchema"] = {}
 
 
