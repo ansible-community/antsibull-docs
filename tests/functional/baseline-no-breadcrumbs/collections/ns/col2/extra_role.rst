@@ -23,7 +23,7 @@ The errors were:
 
 * .. code-block:: text
 
-        49 validation errors for RoleSchema
+        63 validation errors for RoleSchema
         entry_points -> baz -> extra
           Extra inputs are not permitted (type=extra_forbidden)
         entry_points -> main -> seealso -> 0 -> description
@@ -118,6 +118,34 @@ The errors were:
           Extra inputs are not permitted (type=extra_forbidden)
         entry_points -> main -> options -> bar -> options -> subfoo -> extra
           Extra inputs are not permitted (type=extra_forbidden)
+        entry_points -> main -> options -> bar -> mutually_exclusive -> 1
+          Input should be a valid list (type=list_type)
+        entry_points -> main -> options -> bar -> required_together -> 1
+          Input should be a valid list (type=list_type)
+        entry_points -> main -> options -> bar -> required_one_of -> 1
+          Input should be a valid list (type=list_type)
+        entry_points -> main -> options -> bar -> required_if -> 1
+          Input should be a valid tuple (type=tuple_type)
+        entry_points -> main -> options -> bar -> required_if -> 2 -> 0
+          Field required (type=missing)
+        entry_points -> main -> options -> bar -> required_if -> 2 -> 1
+          Field required (type=missing)
+        entry_points -> main -> options -> bar -> required_if -> 2 -> 2
+          Field required (type=missing)
+        entry_points -> main -> options -> bar -> required_if -> 2 -> 3
+          Field required (type=missing)
+        entry_points -> main -> options -> bar -> required_if -> 3 -> 2
+          Field required (type=missing)
+        entry_points -> main -> options -> bar -> required_if -> 3 -> 3
+          Field required (type=missing)
+        entry_points -> main -> options -> bar -> required_if -> 4
+          Tuple should have at most 4 items after validation, not 5 (type=too_long; field_type=Tuple; max_length=4; actual_length=5)
+        entry_points -> main -> options -> bar -> required_if -> 5 -> 2
+          Input should be a valid list (type=list_type)
+        entry_points -> main -> options -> bar -> required_if -> 5 -> 3
+          Input should be a valid boolean, unable to interpret input (type=bool_parsing)
+        entry_points -> main -> options -> bar -> required_by -> else
+          Input should be a valid list (type=list_type)
         entry_points -> main -> options -> foo -> extra
           Extra inputs are not permitted (type=extra_forbidden)
         entry_points -> main -> extra

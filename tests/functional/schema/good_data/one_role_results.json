@@ -44,7 +44,12 @@
                             "type": "str",
                             "version_added": "historical",
                             "version_added_collection": "",
-                            "options": {}
+                            "options": {},
+                            "mutually_exclusive": [],
+                            "required_together": [],
+                            "required_one_of": [],
+                            "required_if": [],
+                            "required_by": {}
                         },
                         "acme_certificate_account_key_backup": {
                             "description": [
@@ -58,7 +63,12 @@
                             "type": "bool",
                             "version_added": "historical",
                             "version_added_collection": "",
-                            "options": {}
+                            "options": {},
+                            "mutually_exclusive": [],
+                            "required_together": [],
+                            "required_one_of": [],
+                            "required_if": [],
+                            "required_by": {}
                         },
                         "acme_certificate_account_key_length": {
                             "description": [
@@ -73,7 +83,12 @@
                             "type": "int",
                             "version_added": "historical",
                             "version_added_collection": "",
-                            "options": {}
+                            "options": {},
+                            "mutually_exclusive": [],
+                            "required_together": [],
+                            "required_one_of": [],
+                            "required_if": [],
+                            "required_by": {}
                         },
                         "acme_certificate_account_key_sops_encrypted": {
                             "description": [
@@ -87,7 +102,12 @@
                             "type": "bool",
                             "version_added": "historical",
                             "version_added_collection": "",
-                            "options": {}
+                            "options": {},
+                            "mutually_exclusive": [],
+                            "required_together": [],
+                            "required_one_of": [],
+                            "required_if": [],
+                            "required_by": {}
                         },
                         "acme_certificate_acme_account": {
                             "description": [
@@ -101,7 +121,12 @@
                             "type": "str",
                             "version_added": "historical",
                             "version_added_collection": "",
-                            "options": {}
+                            "options": {},
+                            "mutually_exclusive": [],
+                            "required_together": [],
+                            "required_one_of": [],
+                            "required_if": [],
+                            "required_by": {}
                         },
                         "acme_certificate_acme_account_uri": {
                             "description": [
@@ -115,7 +140,12 @@
                             "type": "str",
                             "version_added": "historical",
                             "version_added_collection": "",
-                            "options": {}
+                            "options": {},
+                            "mutually_exclusive": [],
+                            "required_together": [],
+                            "required_one_of": [],
+                            "required_if": [],
+                            "required_by": {}
                         },
                         "acme_certificate_acme_directory": {
                             "description": [
@@ -130,7 +160,12 @@
                             "type": "str",
                             "version_added": "historical",
                             "version_added_collection": "",
-                            "options": {}
+                            "options": {},
+                            "mutually_exclusive": [],
+                            "required_together": [],
+                            "required_one_of": [],
+                            "required_if": [],
+                            "required_by": {}
                         },
                         "acme_certificate_acme_version": {
                             "description": [
@@ -144,7 +179,12 @@
                             "type": "int",
                             "version_added": "historical",
                             "version_added_collection": "",
-                            "options": {}
+                            "options": {},
+                            "mutually_exclusive": [],
+                            "required_together": [],
+                            "required_one_of": [],
+                            "required_if": [],
+                            "required_by": {}
                         }
                     }
                 },
