@@ -42,6 +42,7 @@ SINGLE_TESTS = {
     "one_lookup.json": ad.LookupPluginSchema,
     "one_module.json": ad.ModulePluginSchema,
     "one_netconf.json": ad.NetConfPluginSchema,
+    "one_role.json": ad.RolePluginSchema,
     "one_shell.json": ad.ShellPluginSchema,
     "one_strategy.json": ad.StrategyPluginSchema,
     "one_test.json": ad.TestPluginSchema,
@@ -69,6 +70,8 @@ def test_one_plugin_of_each_type(test_file, test_schema):
     model = test_schema.model_validate_json(ansible_doc_output)
 
     model_dict = {"__root__": model.model_dump()}
+    if model_dict != results:
+        print(json.dumps(model_dict, indent=4))
     assert model_dict == results
 
 
@@ -95,4 +98,6 @@ def test_ssh_connection():
     model = test_schema.model_validate_json(ansible_doc_output)
 
     model_dict = {"__root__": model.model_dump()}
+    if model_dict != results:
+        print(json.dumps(model_dict, indent=4))
     assert model_dict == results
