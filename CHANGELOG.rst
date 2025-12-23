@@ -4,6 +4,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.23.1
+=======
+
+Release Summary
+---------------
+
+Bugfix release.
+
+Bugfixes
+--------
+
+- Do not reject role argument specs that use ``mutually_exclusive``, ``required_one_of``, ``required_by``, ``required_if``, or ``required_together`` (https://github.com/ansible-community/antsibull-docs/issues/434, https://github.com/ansible-community/antsibull-docs/pull/435).
+
 v2.23.0
 =======
 

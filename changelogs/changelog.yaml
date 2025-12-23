@@ -1197,3 +1197,14 @@ releases:
       - 2.23.0.yml
       - 430-refs.yml
     release_date: '2025-11-23'
+  2.23.1:
+    changes:
+      bugfixes:
+        - Do not reject role argument specs that use ``mutually_exclusive``, ``required_one_of``,
+          ``required_by``, ``required_if``, or ``required_together`` (https://github.com/ansible-community/antsibull-docs/issues/434,
+          https://github.com/ansible-community/antsibull-docs/pull/435).
+      release_summary: Bugfix release.
+    fragments:
+      - 2.23.1.yml
+      - 435-roles-validation.yml
+    release_date: '2025-12-23'
