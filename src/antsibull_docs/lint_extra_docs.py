@@ -125,7 +125,7 @@ def _validate_collection(value: str, names_linter: CollectionNameLinter) -> None
 
 
 def get_names_linter_roles(
-    names_linter: CollectionNameLinter, errors: list[tuple[int, int, str]]
+    names_linter: CollectionNameLinter, errors: list[tuple[int | None, int | None, str]]
 ) -> dict[str, t.Any]:
     def wrap(
         value: str,
@@ -137,7 +137,7 @@ def get_names_linter_roles(
             validator(value, names_linter)
             return [], []
         except ValueError as exc:
-            errors.append((lineno, 0, f"{rawtext}: {exc}"))
+            errors.append((lineno, None, f"{rawtext}: {exc}"))
             return [], []
 
     # pylint:disable-next=unused-argument,dangerous-default-value
@@ -249,8 +249,8 @@ def load_document_and_optionally_check_antsibull_roles(
     content: str,
     path: str,
     names_linter: CollectionNameLinter | None,
-) -> tuple[list[tuple[int, int, str]], nodes.document | None]:
-    errors: list[tuple[int, int, str]] = []
+) -> tuple[list[tuple[int | None, int | None, str]], nodes.document | None]:
+    errors: list[tuple[int | None, int | None, str]] = []
 
     roles = {}
     for role_name in antsibull_roles.ROLES:
@@ -275,7 +275,7 @@ def load_document_and_optionally_check_antsibull_roles(
         )
         return errors, doc
     except ValueError as exc:
-        return [(0, 0, f"{exc}")], None
+        return [(None, None, f"{exc}")], None
 
 
 def lint_optional_conditions(
@@ -284,7 +284,7 @@ def lint_optional_conditions(
     path: str,
     # pylint:disable-next=unused-argument
     collection_name: str,
-) -> list[tuple[int, int, str]]:
+) -> list[tuple[int | None, int | None, str]]:
     """Check a extra docs RST file's content for whether it satisfied the required conditions.
 
     Return a list of errors.
@@ -309,7 +309,7 @@ class _ToctreeVisitor(nodes.SparseNodeVisitor):
         doc: nodes.document,
         relpath: str,
         docs: list[tuple[str, str]],
-        errors: list[tuple[int, int, str]],
+        errors: list[tuple[int | None, int | None, str]],
     ):
         super().__init__(doc)
         self.__errors = errors
@@ -351,7 +351,7 @@ class _ToctreeVisitor(nodes.SparseNodeVisitor):
                     self.__errors.append(
                         (
                             toctree.content_offset + idx + 1,
-                            0,
+                            None,
                             f"Toctree glob entry {entry!r} does not match an existing file",
                         )
                     )
@@ -363,7 +363,7 @@ class _ToctreeVisitor(nodes.SparseNodeVisitor):
                     self.__errors.append(
                         (
                             toctree.content_offset + idx + 1,
-                            0,
+                            None,
                             f"Toctree entry {entry!r} does not reference an existing file",
                         )
                     )
@@ -371,8 +371,8 @@ class _ToctreeVisitor(nodes.SparseNodeVisitor):
 
 def _check_toctrees(
     doc: nodes.document, relpath: str, docs: list[tuple[str, str]]
-) -> list[tuple[int, int, str]]:
-    result: list[tuple[int, int, str]] = []
+) -> list[tuple[int | None, int | None, str]]:
+    result: list[tuple[int | None, int | None, str]] = []
     visitor = _ToctreeVisitor(doc, relpath, docs, result)
     doc.walk(visitor)
     return result
@@ -384,7 +384,7 @@ def _check_file(
     collection_name: str,
     names_linter: CollectionNameLinter | None,
     docs: list[tuple[str, str]],
-    result: list[tuple[str, int, int, str]],
+    result: list[tuple[str, int | None, int | None, str]],
 ) -> list[str]:
     try:
         # Load content
@@ -417,7 +417,7 @@ def _check_file(
         result.extend((path, line, col, msg) for (line, col, msg) in errors)
         return labels
     except Exception as e:  # pylint:disable=broad-except
-        result.append((path, 0, 0, str(e)))
+        result.append((path, None, None, str(e)))
         return []
 
 
@@ -441,7 +441,7 @@ def lint_collection_extra_docs_files(
     *,
     collection_name: str | None = None,
     names_linter: CollectionNameLinter | None = None,
-) -> list[tuple[str, int, int, str]]:
+) -> list[tuple[str, int | None, int | None, str]]:
     if collection_name is None:
         try:
             collection_name = load_collection_name(path_to_collection)
@@ -454,7 +454,7 @@ def lint_collection_extra_docs_files(
                     "Cannot identify collection with galaxy.yml or MANIFEST.json at this path",
                 )
             ]
-    result: list[tuple[str, int, int, str]] = []
+    result: list[tuple[str, int | None, int | None, str]] = []
     all_labels: set[str] = set()
     docs = find_extra_docs(path_to_collection)
     for doc_path, rel_doc_path in docs:
@@ -466,11 +466,11 @@ def lint_collection_extra_docs_files(
     index_path = os.path.join(path_to_collection, "docs", "docsite", "extra-docs.yml")
     try:
         sections, index_errors = load_extra_docs_index(index_path)
-        result.extend((index_path, 0, 0, error) for error in index_errors)
+        result.extend((index_path, None, None, error) for error in index_errors)
         toctree_errors = _lint_toctree(sections, docs)
-        result.extend((index_path, 0, 0, error) for error in toctree_errors)
+        result.extend((index_path, None, None, error) for error in toctree_errors)
     except ExtraDocsIndexError as exc:
         if len(docs) > 0:
             # Only report the missing index_path as an error if we found documents
-            result.append((index_path, 0, 0, str(exc)))
+            result.append((index_path, None, None, str(exc)))
     return result

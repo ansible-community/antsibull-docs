@@ -88,7 +88,9 @@ async def load_collections_configs(
     return result
 
 
-def lint_collection_config(collection_path: str) -> list[tuple[str, int, int, str]]:
+def lint_collection_config(
+    collection_path: str,
+) -> list[tuple[str, int | None, int | None, str]]:
     """Given a path, lint config.
 
     :arg collection_path: Path to the collection.
@@ -97,7 +99,7 @@ def lint_collection_config(collection_path: str) -> list[tuple[str, int, int, st
     flog = mlog.fields(func="lint_collection_config")
     flog.debug("Enter")
 
-    result: list[tuple[str, int, int, str]] = []
+    result: list[tuple[str, int | None, int | None, str]] = []
 
     forbid_extras(CollectionConfig)
 
@@ -111,7 +113,7 @@ def lint_collection_config(collection_path: str) -> list[tuple[str, int, int, st
             CollectionConfig.model_validate(config_data)
         except p.ValidationError as exc:
             for message in get_formatted_error_messages(exc):
-                result.append((config_path, 0, 0, message))
+                result.append((config_path, None, None, message))
 
         return result
     finally:

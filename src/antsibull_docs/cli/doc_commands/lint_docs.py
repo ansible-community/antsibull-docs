@@ -7,8 +7,10 @@
 
 from __future__ import annotations
 
+import json
 import os
 import textwrap
+import typing as t
 
 from antsibull_core.logging import get_module_logger
 
@@ -36,6 +38,40 @@ from ...utils.collection_names import (
 mlog = get_module_logger(__name__)
 
 
+MessageFormat = t.Literal["default", "json"]
+
+
+def print_messages(
+    messages: list[tuple[str, int | None, int | None, str]],
+    message_format: MessageFormat,
+) -> None:
+    if message_format == "default":
+        for file, row, col, message in messages:
+            prefix = f"{file}:{row or 0}:{col or 0}: "
+            print(
+                prefix
+                + textwrap.indent(
+                    message, " " * len(prefix), lambda line: True
+                ).lstrip()
+            )
+    if message_format == "json":
+        json_msgs: list[dict[str, t.Any]] = []
+        data = {
+            "messages": json_msgs,
+            "success": len(messages) == 0,
+        }
+        for file, row, col, message in messages:
+            json_msgs.append(
+                {
+                    "path": file,
+                    "row": row,
+                    "column": col,
+                    "message": message,
+                }
+            )
+        print(json.dumps(data, indent=2))
+
+
 def lint_collection_docs() -> int:
     """
     Lint collection documentation for inclusion into the collection's docsite.
@@ -47,6 +83,8 @@ def lint_collection_docs() -> int:
     flog.notice("Begin collection docs linting")
 
     app_ctx = app_context.app_ctx.get()
+
+    message_format: MessageFormat = app_ctx.extra["message_format"]
 
     collection_root: str = app_ctx.extra["collection_root_path"]
     plugin_docs: bool = app_ctx.extra["plugin_docs"]
@@ -87,7 +125,7 @@ def lint_collection_docs() -> int:
                 load_errors,
             ):
                 for error in load_errors:
-                    errors.append((error.path, 0, 0, error.error))
+                    errors.append((error.path, None, None, error.error))
 
                 flog.notice("Collecting names of collection objects")
                 (
@@ -141,7 +179,7 @@ def lint_collection_docs() -> int:
                 )
 
         except CollectionLoadError as exc:
-            errors.append((exc.path, 0, 0, exc.error))
+            errors.append((exc.path, None, None, exc.error))
     else:
         flog.notice("Linting extra docs files")
         errors.extend(lint_collection_extra_docs_files(collection_root))
@@ -150,14 +188,7 @@ def lint_collection_docs() -> int:
         (os.path.normpath(error[0]), error[1], error[2], error[3].lstrip())
         for error in errors
     )
-
-    for file, row, col, message in messages:
-        prefix = f"{file}:{row}:{col}: "
-        print(
-            prefix
-            + textwrap.indent(message, " " * len(prefix), lambda line: True).lstrip()
-        )
-
+    print_messages(messages, message_format)
     return 3 if messages else 0
 
 
@@ -172,6 +203,8 @@ def lint_core_docs() -> int:
     flog.notice("Begin ansible-core docs linting")
 
     app_ctx = app_context.app_ctx.get()
+
+    message_format: MessageFormat = app_ctx.extra["message_format"]
 
     validate_collections_refs: ValidCollectionRefs = app_ctx.extra[
         "validate_collections_refs"
@@ -222,12 +255,5 @@ def lint_core_docs() -> int:
         (os.path.normpath(error[0]), error[1], error[2], error[3].lstrip())
         for error in errors
     )
-
-    for file, row, col, message in messages:
-        prefix = f"{file}:{row}:{col}: "
-        print(
-            prefix
-            + textwrap.indent(message, " " * len(prefix), lambda line: True).lstrip()
-        )
-
+    print_messages(messages, message_format)
     return 3 if messages else 0

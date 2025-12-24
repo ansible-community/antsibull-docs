@@ -232,7 +232,7 @@ async def load_collections_links(
 def _check_default_values(
     parsed_data: CollectionLinks,
     index_path: str,
-    result: list[tuple[str, int, int, str]],
+    result: list[tuple[str, int | None, int | None, str]],
 ) -> None:
     # Check for default values from https://github.com/ansible-collections/collection_template/
     default_repo_url = "ansible-collections/community.REPO_NAME"
@@ -246,8 +246,8 @@ def _check_default_values(
         result.append(
             (
                 index_path,
-                0,
-                0,
+                None,
+                None,
                 f"edit_on_github.repository is {default_repo_url!r}, this must be adjusted!",
             )
         )
@@ -256,14 +256,16 @@ def _check_default_values(
             result.append(
                 (
                     index_path,
-                    0,
-                    0,
+                    None,
+                    None,
                     f"extra_links[{idx}].url is {default_issue_url!r}, this must be adjusted!",
                 )
             )
 
 
-def lint_collection_links(collection_path: str) -> list[tuple[str, int, int, str]]:
+def lint_collection_links(
+    collection_path: str,
+) -> list[tuple[str, int | None, int | None, str]]:
     """Given a path, lint links data.
 
     :arg collection_path: Path to the collection.
@@ -272,7 +274,7 @@ def lint_collection_links(collection_path: str) -> list[tuple[str, int, int, str
     flog = mlog.fields(func="lint_collection_links")
     flog.debug("Enter")
 
-    result: list[tuple[str, int, int, str]] = []
+    result: list[tuple[str, int | None, int | None, str]] = []
 
     forbid_extras(
         [
@@ -295,14 +297,19 @@ def lint_collection_links(collection_path: str) -> list[tuple[str, int, int, str
         for forbidden_key in ("authors", "description", "links"):
             if forbidden_key in links_data:
                 result.append(
-                    (index_path, 0, 0, f"The key '{forbidden_key}' must not be used")
+                    (
+                        index_path,
+                        None,
+                        None,
+                        f"The key '{forbidden_key}' must not be used",
+                    )
                 )
         try:
             parsed_data = CollectionLinks.model_validate(links_data)
             _check_default_values(parsed_data, index_path, result)
         except p.ValidationError as exc:
             for message in get_formatted_error_messages(exc):
-                result.append((index_path, 0, 0, message))
+                result.append((index_path, None, None, message))
 
         return result
     finally:

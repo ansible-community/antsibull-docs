@@ -28,7 +28,7 @@ def check_rst_content(
     filename: str | None = None,
     ignore_directives: list[str] | None = None,
     ignore_roles: list[str] | None = None,
-) -> list[tuple[int, int, str]]:
+) -> list[tuple[int | None, int | None, str]]:
     """
     Check the content with rstcheck. Return list of errors and warnings.
 
@@ -50,7 +50,8 @@ def check_rst_content(
                 pathlib.Path(rst_path), config
             )
             return [
-                (result["line_number"], 0, result["message"]) for result in core_results
+                (result["line_number"], None, result["message"])
+                for result in core_results
             ]
     else:
         if ignore_directives or ignore_roles:
@@ -65,4 +66,4 @@ def check_rst_content(
             # pylint: disable-next=used-before-assignment
             report_level=docutils.utils.Reporter.WARNING_LEVEL,
         )
-        return [(result[0], 0, result[1]) for result in results]
+        return [(result[0], None, result[1]) for result in results]
