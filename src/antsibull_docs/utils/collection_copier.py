@@ -13,12 +13,15 @@ import os
 import shutil
 import typing as t
 
+from antsibull_core.logging import get_module_logger
 from antsibull_core.subprocess_util import log_run
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
 from antsibull_fileutils.tempfile import ansible_mkdtemp
 
 from ..docs_parsing.ansible_doc import parse_ansible_galaxy_collection_list
 from ..lint_helpers import load_collection_info
+
+mlog = get_module_logger(__name__)
 
 
 class CollectionCopier:
@@ -85,6 +88,9 @@ def load_collection_infos(
     path_to_collection: str,
     copy_dependencies: bool = True,
 ) -> t.Generator[tuple[str, str, list[str], list[CollectionLoadError]]]:
+    flog = mlog.fields(func="load_collection_infos")
+    flog.notice("Begin loading collection infos")
+
     try:
         info = load_collection_info(path_to_collection)
         namespace = info["namespace"]
@@ -99,8 +105,10 @@ def load_collection_infos(
     done_dependencies = {collection_name}
     dependencies = sorted(dependencies)
     errors = []
+    flog.notice("Start copying collections")
     with CollectionCopier() as copier:
         # Copy collection
+        flog.notice("Copying {}.{}", namespace, name)
         copier.add_collection(path_to_collection, namespace, name)
         # Copy all dependencies
         if dependencies and copy_dependencies:
@@ -113,6 +121,7 @@ def load_collection_infos(
                 dep_namespace, dep_name = dependency.split(".", 2)
                 dep_collection_path = collection_finder.find(dep_namespace, dep_name)
                 if dep_collection_path:
+                    flog.notice("Copying {}.{}", dep_namespace, dep_name)
                     copier.add_collection(dep_collection_path, dep_namespace, dep_name)
                     try:
                         info = load_collection_info(dep_collection_path)
@@ -128,7 +137,13 @@ def load_collection_infos(
                             )
                         )
 
-        yield collection_name, copier.dir, sorted(done_dependencies), errors
+        flog.notice("Done copying collections")
+        try:
+            yield collection_name, copier.dir, sorted(done_dependencies), errors
+        finally:
+            flog.notice("Cleaning up copied collections")
+
+    flog.notice("Leaving")
 
 
 __all__ = (
