@@ -72,6 +72,18 @@ def print_messages(
         print(json.dumps(data, indent=2))
 
 
+def normalize_and_sort_messages(
+    messages: list[tuple[str, int | None, int | None, str]],
+) -> list[tuple[str, int | None, int | None, str]]:
+    return sorted(
+        [
+            (os.path.normpath(message[0]), message[1], message[2], message[3].lstrip())
+            for message in messages
+        ],
+        key=lambda msg: (msg[0], msg[1] or 0, msg[2] or 0, msg[3]),
+    )
+
+
 def lint_collection_docs() -> int:
     """
     Lint collection documentation for inclusion into the collection's docsite.
@@ -184,10 +196,7 @@ def lint_collection_docs() -> int:
         flog.notice("Linting extra docs files")
         errors.extend(lint_collection_extra_docs_files(collection_root))
 
-    messages = sorted(
-        (os.path.normpath(error[0]), error[1], error[2], error[3].lstrip())
-        for error in errors
-    )
+    messages = normalize_and_sort_messages(errors)
     print_messages(messages, message_format)
     return 3 if messages else 0
 
@@ -251,9 +260,6 @@ def lint_core_docs() -> int:
         output_format=OutputFormat.ANSIBLE_DOCSITE,
     )
 
-    messages = sorted(
-        (os.path.normpath(error[0]), error[1], error[2], error[3].lstrip())
-        for error in errors
-    )
+    messages = normalize_and_sort_messages(errors)
     print_messages(messages, message_format)
     return 3 if messages else 0
