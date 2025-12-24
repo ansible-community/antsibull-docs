@@ -1,0 +1,2 @@
+minor_changes:
+  - "Allow to output linting results as JSON (https://github.com/ansible-community/antsibull-docs/pull/437)."

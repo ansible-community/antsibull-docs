@@ -737,12 +737,20 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
         ' to add an entry `"key": "value",`.',
     )
 
+    message_format_parser = argparse.ArgumentParser(add_help=False)
+    message_format_parser.add_argument(
+        "--message-format",
+        default="default",
+        choices=["default", "json"],
+        help="Output format for the linting messages.",
+    )
+
     #
     # Lint collection docs
     #
     lint_collection_docs_parser = subparsers.add_parser(
         "lint-collection-docs",
-        parents=[output_format_parser],
+        parents=[output_format_parser, message_format_parser],
         description="Collection extra docs linter for inclusion in docsite",
     )
 
@@ -814,6 +822,7 @@ def parse_args(program_name: str, args: list[str]) -> argparse.Namespace:
     #
     lint_core_docs_parser = subparsers.add_parser(
         "lint-core-docs",
+        parents=[message_format_parser],
         description="Collection extra docs linter for inclusion in docsite",
     )
 

@@ -5,7 +5,9 @@
 from __future__ import annotations
 
 import io
+import json
 import os
+import typing as t
 from contextlib import redirect_stdout
 
 import pytest
@@ -194,7 +196,17 @@ Foo ``bar`.
     ]
 
 
-TEST_CASES = [
+TEST_CASES: list[
+    tuple[
+        str,
+        str,
+        str,
+        tuple[str, ...],
+        dict[str, str | None],
+        int,
+        list[str] | dict[str, t.Any],
+    ]
+] = [
     (
         "ns.col2-self",
         "ns",
@@ -3978,6 +3990,196 @@ TEST_CASES = [
         ],
     ),
     (
+        "ns2.col-extra-docs-refs-json",
+        "ns2",
+        "col",
+        (
+            "--plugin-docs",
+            "--validate-collection-refs",
+            "all",
+            "--disallow-unknown-collection-refs",
+            "--check-extra-docs-refs",
+            "--skip-rstcheck",
+            "--message-format",
+            "json",
+        ),
+        {},
+        3,
+        {
+            "messages": [
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 38,
+                    "column": None,
+                    "message": ":anscollection:`does.not_exist`: a reference to the collection does.not_exist is not allowed",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 40,
+                    "column": None,
+                    "message": ":anscollection:`ns2.col#foobar`: Invalid destination",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 42,
+                    "column": None,
+                    "message": ":anscollection:`ns.col1#plugins-filter`: a reference to the collection ns.col1 is not allowed",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 44,
+                    "column": None,
+                    "message": ":anscollection:`ns2.col#plugins-foo`: ns2.col has no foo plugins",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 46,
+                    "column": None,
+                    "message": ":ansplugin:`ns2.col.does_not_exist#filter`: there is no filter plugin ns2.col.does_not_exist",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 48,
+                    "column": None,
+                    "message": ":ansplugin:`ns2.col.foo#asdf`: there is no asdf plugin ns2.col.foo",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 50,
+                    "column": None,
+                    "message": ":ansplugin:`ns2.col.foo#filter:boo`: Only roles can have entrypoints",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 52,
+                    "column": None,
+                    "message": ":ansplugin:`ns2.col.foo#role:boo`: the role ns2.col.foo has no entrypoint boo",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 54,
+                    "column": None,
+                    "message": ":ansopt:`ns2.col.foo#role:main:does_not_exist`: option name does not reference to an existing option of the role ns2.col.foo's entrypoint main",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 56,
+                    "column": None,
+                    "message": ":ansopt:`ns2.col.foo#role:does_not_exist:neither`: the role ns2.col.foo has no entrypoint does_not_exist",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 58,
+                    "column": None,
+                    "message": ":ansopt:`ns2.col.foo#role:does_not_exist`: Role reference is missing entrypoint",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 60,
+                    "column": None,
+                    "message": ":ansretval:`ns2.col.foo#filter:does_not_exist`: return value name does not reference to an existing return value of the filter plugin ns2.col.foo",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 62,
+                    "column": None,
+                    "message": ":ansretval:`ns2.col.foo#role:does_not_exist:neither`: the role ns2.col.foo has no entrypoint does_not_exist",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 64,
+                    "column": None,
+                    "message": ":ansretval:`ns2.col.foo#role:does_not_exist`: Role reference is missing entrypoint",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 66,
+                    "column": None,
+                    "message": ":ansoptref:`no explicit title`: An explicit reference title must be provided!",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 68,
+                    "column": None,
+                    "message": ":ansoptref:`title <no plugin>`: Cannot extract plugin name and type",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 70,
+                    "column": None,
+                    "message": ":ansoptref:`plugin does not exist <ns2.col.boo#filter:boo>`: there is no filter plugin ns2.col.boo",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 72,
+                    "column": None,
+                    "message": ':ansoptref:`entrypoint for non-role <ns2.col.foo#filter:foo:boo>`: Invalid option name "foo:boo"',
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 74,
+                    "column": None,
+                    "message": ":ansoptref:`no entrypoint for role <ns2.col.foo#role:boo>`: Role reference is missing entrypoint",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 76,
+                    "column": None,
+                    "message": ":ansoptref:`invalid entrypoint for role <ns2.col.foo#role:boo:boo>`: the role ns2.col.foo has no entrypoint boo",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 78,
+                    "column": None,
+                    "message": ":ansoptref:`option does not exist <ns2.col.foo#filter:boo>`: option name does not reference to an existing option of the filter plugin ns2.col.foo",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 80,
+                    "column": None,
+                    "message": ":ansretvalref:`no explicit title`: An explicit reference title must be provided!",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 82,
+                    "column": None,
+                    "message": ":ansretvalref:`title <no plugin>`: Cannot extract plugin name and type",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 84,
+                    "column": None,
+                    "message": ":ansretvalref:`plugin does not exist <ns2.col.boo#filter:boo>`: there is no filter plugin ns2.col.boo",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 86,
+                    "column": None,
+                    "message": ':ansretvalref:`entrypoint for non-role <ns2.col.foo#filter:foo:boo>`: Invalid return value name "foo:boo"',
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 88,
+                    "column": None,
+                    "message": ":ansretvalref:`no entrypoint for role <ns2.col.foo#role:boo>`: Role reference is missing entrypoint",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 90,
+                    "column": None,
+                    "message": ":ansretvalref:`invalid entrypoint for role <ns2.col.foo#role:boo:boo>`: the role ns2.col.foo has no entrypoint boo",
+                },
+                {
+                    "path": "docs/docsite/rst/filter_guide.rst",
+                    "row": 92,
+                    "column": None,
+                    "message": ":ansretvalref:`return value does not exist <ns2.col.foo#filter:boo>`: return value name does not reference to an existing return value of the filter plugin ns2.col.foo",
+                },
+            ],
+            "success": False,
+        },
+    ),
+    (
         "ns.flatcol",
         "ns2",
         "flatcol",
@@ -3998,6 +4200,62 @@ TEST_CASES = [
             "plugins/modules/sub/foo2.py:0:0: DOCUMENTATION -> options -> bar -> description[2]: O(ns2.flatcol.foo#role:main:foo_param_2=42): there is no role ns2.flatcol.foo",
         ],
     ),
+    (
+        "ns.flatcol-json",
+        "ns2",
+        "flatcol",
+        (
+            "--plugin-docs",
+            "--no-disallow-unknown-collection-refs",
+            "--no-check-extra-docs-refs",
+            "--skip-rstcheck",
+            "--message-format",
+            "json",
+        ),
+        {},
+        3,
+        {
+            "messages": [
+                {
+                    "path": "docs/docsite/links.yml",
+                    "row": None,
+                    "column": None,
+                    "message": "edit_on_github.repository is 'ansible-collections/community.REPO_NAME', this must be adjusted!",
+                },
+                {
+                    "path": "docs/docsite/links.yml",
+                    "row": None,
+                    "column": None,
+                    "message": "extra_links[0].url is 'https://github.com/ansible-collections/community.REPO_NAME/issues/new/choose', this must be adjusted!",
+                },
+                {
+                    "path": "plugins/modules/sub/foo2.py",
+                    "row": None,
+                    "column": None,
+                    "message": "DOCUMENTATION -> description[2]: O(ns2.flatcol.foo#role:main:foo_param_1): there is no role ns2.flatcol.foo",
+                },
+                {
+                    "path": "plugins/modules/sub/foo2.py",
+                    "row": None,
+                    "column": None,
+                    "message": "DOCUMENTATION -> description[2]: O(ns2.flatcol.foo#role:main:foo_param_2=42): there is no role ns2.flatcol.foo",
+                },
+                {
+                    "path": "plugins/modules/sub/foo2.py",
+                    "row": None,
+                    "column": None,
+                    "message": "DOCUMENTATION -> options -> bar -> description[2]: O(ns2.flatcol.foo#role:main:foo_param_1): there is no role ns2.flatcol.foo",
+                },
+                {
+                    "path": "plugins/modules/sub/foo2.py",
+                    "row": None,
+                    "column": None,
+                    "message": "DOCUMENTATION -> options -> bar -> description[2]: O(ns2.flatcol.foo#role:main:foo_param_2=42): there is no role ns2.flatcol.foo",
+                },
+            ],
+            "success": False,
+        },
+    ),
 ]
 
 
@@ -4010,12 +4268,12 @@ def test_lint_collection_plugin_docs(
     id: int,
     namespace: str,
     name: str,
-    parameters: tuple[str],
+    parameters: tuple[str, ...],
     environment: dict[str, str | None],
     rc: int,
-    errors: list[str],
+    errors: list[str] | dict[str, t.Any],
     tmp_path,
-):
+) -> None:
     tests_root = os.path.dirname(__file__)
     collection_root = os.path.join(
         tests_root, "collections", "ansible_collections", namespace, name
@@ -4040,10 +4298,22 @@ def test_lint_collection_plugin_docs(
             with ansible_doc_cache():
                 with update_environment(environment):
                     actual_rc = run(command)
-    actual_errors = stdout.getvalue().splitlines()
-    print("\n".join(actual_errors))
-    assert actual_rc == rc
-    if actual_errors != errors:
-        with open(f"lint-{id}-errors.txt", "w", encoding="utf-8") as f:
-            f.write(repr(actual_errors))
-    assert actual_errors == errors
+
+    stdout_value = stdout.getvalue()
+    if isinstance(errors, list):
+        actual_errors = stdout_value.splitlines()
+        print("\n".join(actual_errors))
+        assert actual_rc == rc
+        if actual_errors != errors:
+            with open(f"lint-{id}-errors.txt", "w", encoding="utf-8") as f:
+                f.write(repr(actual_errors))
+        assert actual_errors == errors
+
+    else:
+        print(stdout_value)
+        actual_errors = json.loads(stdout_value)
+        assert actual_rc == rc
+        if actual_errors != errors:
+            with open(f"lint-{id}-errors.json", "w", encoding="utf-8") as f:
+                f.write(stdout_value)
+        assert actual_errors == errors

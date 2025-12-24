@@ -317,7 +317,7 @@ def _validate_markup(
     validate_collections_refs: ValidCollectionRefs,
     disallow_unknown_collection_refs: bool,
     disallow_semantic_markup: bool,
-) -> list[tuple[str, int, int, str]]:
+) -> list[tuple[str, int | None, int | None, str]]:
     validator = _MarkupValidator(
         name_collection,
         plugin_record,
@@ -327,12 +327,12 @@ def _validate_markup(
         disallow_unknown_collection_refs=disallow_unknown_collection_refs,
         disallow_semantic_markup=disallow_semantic_markup,
     )
-    return [(path, 0, 0, msg) for msg in validator.errors]
+    return [(path, None, None, msg) for msg in validator.errors]
 
 
 def _lint_plugin_docs(
     *,
-    result: list[tuple[str, int, int, str]],
+    result: list[tuple[str, int | None, int | None, str]],
     original_path_to_collection: str,
     name_collection: NameCollection,
     collection_name: str,
@@ -367,7 +367,7 @@ def _lint_plugin_docs(
             )
         )
     for error in nonfatal_errors[plugin_type][plugin_name]:
-        result.append((filename, 0, 0, error))
+        result.append((filename, None, None, error))
     rst_content = create_plugin_rst(
         collection_name,
         collection_metadata[collection_name],
@@ -415,7 +415,7 @@ def lint_plugin_docs(
     skip_rstcheck: bool,
     disallow_semantic_markup: bool,
     output_format: OutputFormat,
-) -> list[tuple[str, int, int, str]]:
+) -> list[tuple[str, int | None, int | None, str]]:
     if original_path_to_collection is None:
         original_path_to_collection = collection_metadata[collection_name].path
     # Setup the jinja environment
@@ -436,7 +436,7 @@ def lint_plugin_docs(
         )
     )
 
-    result: list[tuple[str, int, int, str]] = []
+    result: list[tuple[str, int | None, int | None, str]] = []
     for collection_name_, plugins_by_type in collection_to_plugin_info.items():
         if collection_name_ != collection_name:
             continue

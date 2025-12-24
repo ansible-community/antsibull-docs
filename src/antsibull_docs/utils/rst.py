@@ -6,6 +6,8 @@
 ReStructured Text utils.
 """
 
+from __future__ import annotations
+
 
 def massage_rst_label(label: str) -> str:
     return " ".join(label.lower().split())

@@ -34,7 +34,7 @@ SPLIT_OPTION_LIKE_FAILURE_DATA = {
 
 
 @pytest.mark.parametrize("value, expected", SPLIT_OPTION_LIKE_FAILURE_DATA.items())
-def test_split_option_like_name(value: str, expected: str):
+def test_split_option_like_name_fail(value: str, expected: str):
     with pytest.raises(ValueError) as exc:
         split_option_like_name(value)
     assert str(exc.value) == expected

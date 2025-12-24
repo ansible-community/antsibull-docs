@@ -5,6 +5,8 @@
 # SPDX-FileCopyrightText: 2021, Ansible Project
 """Schemas for collection links files."""
 
+from __future__ import annotations
+
 import typing as t
 
 import pydantic as p
