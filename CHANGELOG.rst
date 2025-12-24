@@ -4,6 +4,20 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.24.0
+=======
+
+Release Summary
+---------------
+
+Feature release to improve linting.
+
+Minor Changes
+-------------
+
+- Allow to output linting results as JSON (https://github.com/ansible-community/antsibull-docs/pull/437).
+- When copying collections to a temporary directory for reading their documentation with ansible-doc, detect whether they are part of Git repositories, and if yes, do not copy ignored files (https://github.com/ansible-community/antsibull-docs/pull/438).
+
 v2.23.1
 =======
 

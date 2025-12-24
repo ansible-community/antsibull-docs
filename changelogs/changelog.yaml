@@ -1208,3 +1208,16 @@ releases:
       - 2.23.1.yml
       - 435-roles-validation.yml
     release_date: '2025-12-23'
+  2.24.0:
+    changes:
+      minor_changes:
+        - Allow to output linting results as JSON (https://github.com/ansible-community/antsibull-docs/pull/437).
+        - When copying collections to a temporary directory for reading their documentation
+          with ansible-doc, detect whether they are part of Git repositories, and
+          if yes, do not copy ignored files (https://github.com/ansible-community/antsibull-docs/pull/438).
+      release_summary: Feature release to improve linting.
+    fragments:
+      - 2.24.0.yml
+      - 437-lint-json.yml
+      - 438-lint-copying.yml
+    release_date: '2025-12-24'
