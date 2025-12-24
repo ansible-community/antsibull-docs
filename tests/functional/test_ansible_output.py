@@ -7,6 +7,7 @@ from __future__ import annotations
 import io
 import os
 import subprocess
+import typing as t
 from contextlib import contextmanager, redirect_stdout
 from dataclasses import dataclass
 from pathlib import Path
@@ -48,7 +49,7 @@ class AnsiblePlaybookFailure:
 def patch_ansible_playbook(
     *,
     ansible_playbook_command: AnsiblePlaybookSuccess | AnsiblePlaybookFailure | None,
-) -> None:
+) -> t.Generator[None]:
     async def execute(
         command: list[str],
         *,

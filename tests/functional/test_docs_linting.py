@@ -194,7 +194,9 @@ Foo ``bar`.
     ]
 
 
-TEST_CASES = [
+TEST_CASES: list[
+    tuple[str, str, str, tuple[str, ...], dict[str, str | None], int, list[str]]
+] = [
     (
         "ns.col2-self",
         "ns",
@@ -4010,7 +4012,7 @@ def test_lint_collection_plugin_docs(
     id: int,
     namespace: str,
     name: str,
-    parameters: tuple[str],
+    parameters: tuple[str, ...],
     environment: dict[str, str | None],
     rc: int,
     errors: list[str],

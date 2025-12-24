@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import difflib
 import os
+import typing as t
 from contextlib import contextmanager
 from unittest import mock
 
@@ -15,7 +16,9 @@ ANTSIBULL_DOCS_CI_VERSION = "<ANTSIBULL_DOCS_VERSION>"
 
 
 @contextmanager
-def replace_antsibull_version(new_version=ANTSIBULL_DOCS_CI_VERSION):
+def replace_antsibull_version(
+    new_version: str = ANTSIBULL_DOCS_CI_VERSION,
+) -> t.Iterator[None]:
     with mock.patch(
         "antsibull_docs.__version__",
         new_version,
@@ -24,7 +27,7 @@ def replace_antsibull_version(new_version=ANTSIBULL_DOCS_CI_VERSION):
 
 
 @contextmanager
-def change_cwd(directory: str) -> None:
+def change_cwd(directory: str | os.PathLike[str]) -> t.Iterator[None]:
     old_dir = os.getcwd()
     os.chdir(directory)
     yield
@@ -32,7 +35,7 @@ def change_cwd(directory: str) -> None:
 
 
 @contextmanager
-def update_environment(environment: dict[str, str | None]) -> None:
+def update_environment(environment: dict[str, str | None]) -> t.Iterator[None]:
     backup = {}
     for k, v in environment.items():
         if k in os.environ:
@@ -49,14 +52,16 @@ def update_environment(environment: dict[str, str | None]) -> None:
             del os.environ[k]
 
 
-def scan_directories(root: os.PathLike) -> dict[str, tuple[str, list[str]]]:
-    result = {}
+def scan_directories(root: os.PathLike[str] | str) -> dict[str, tuple[str, list[str]]]:
+    result: dict[str, tuple[str, list[str]]] = {}
     for path, dirs, files in os.walk(root):
         result[os.path.relpath(path, root)] = (path, files)
     return result
 
 
-def compare_files(source: os.PathLike, dest: os.PathLike, path: str) -> int:
+def compare_files(
+    source: os.PathLike[str] | str, dest: os.PathLike[str] | str, path: str
+) -> int:
     with open(source, "rb") as f:
         src = f.read()
     with open(dest, "rb") as f:
@@ -79,7 +84,7 @@ def compare_files(source: os.PathLike, dest: os.PathLike, path: str) -> int:
 
 def compare_directories(
     source: dict[str, tuple[str, list[str]]], dest: dict[str, tuple[str, list[str]]]
-) -> bool:
+) -> None:
     differences = 0
     for path in source:
         if path not in dest:

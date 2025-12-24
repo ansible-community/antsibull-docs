@@ -98,8 +98,10 @@ test = [
 ]
 typing = [
     "mypy",
+    "pytest",
     "types-aiofiles",
     "types-docutils",
+    "types-html5lib",
     "types-PyYAML",
 ]
 dev = [
@@ -142,6 +144,7 @@ strict_bytes = true
 warn_redundant_casts = true
 # warn_return_any = true
 # warn_unreachable = true
+exclude = "^tests/functional/(baseline-|collections/|other-collections/).*"
 
 [[tool.mypy.overrides]]
 module = "semantic_version"

@@ -150,7 +150,7 @@ def codeqa(session: nox.Session):
 def typing(session: nox.Session):
     others = other_antsibull()
     install(session, ".[typing]", *others)
-    session.run("mypy", "src/antsibull_docs", "src/sphinx_antsibull_ext")
+    session.run("mypy", "src/antsibull_docs", "src/sphinx_antsibull_ext", "tests")
 
 
 def check_no_modifications(session: nox.Session) -> None:

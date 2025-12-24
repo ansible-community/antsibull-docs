@@ -143,7 +143,7 @@ def test_baseline(arguments: list[str], directory: str, tmp_path) -> None:
         with ansible_doc_cache():
             with replace_antsibull_version():
                 rc = run(command)
-    stdout = stdout.getvalue().splitlines()
+    print(stdout.getvalue())
     assert rc == 0
 
     # Compare baseline to expected result
