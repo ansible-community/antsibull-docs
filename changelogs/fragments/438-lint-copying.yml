@@ -1,0 +1,4 @@
+minor_changes:
+  - "When copying collections to a temporary directory for reading their documentation with ansible-doc,
+     detect whether they are part of Git repositories, and if yes, do not copy ignored files
+     (https://github.com/ansible-community/antsibull-docs/pull/438)."

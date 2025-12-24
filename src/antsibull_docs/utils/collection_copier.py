@@ -16,7 +16,9 @@ import typing as t
 from antsibull_core.logging import get_module_logger
 from antsibull_core.subprocess_util import log_run
 from antsibull_core.vendored.json_utils import _filter_non_json_lines
+from antsibull_fileutils.copier import Copier, GitCopier
 from antsibull_fileutils.tempfile import ansible_mkdtemp
+from antsibull_fileutils.vcs import detect_vcs
 
 from ..docs_parsing.ansible_doc import parse_ansible_galaxy_collection_list
 from ..lint_helpers import load_collection_info
@@ -37,18 +39,35 @@ class CollectionCopier:
         return self
 
     def add_collection(
-        self, collecion_source_path: str, namespace: str, name: str
+        self, collection_source_path: str, namespace: str, name: str
     ) -> None:
+        flog = mlog.fields(
+            func="CollectionCopier.add_collection",
+            collection_source_path=collection_source_path,
+            namespace=namespace,
+            name=name,
+        )
         self_dir = self.dir
         if self_dir is None:
             raise AssertionError("Collection copier not initialized")
+
+        vcs = detect_vcs(
+            collection_source_path, log_debug=flog.debug, log_info=flog.notice
+        )
+        copier = {
+            "none": Copier,
+            "git": GitCopier,
+        }[
+            vcs
+        ](log_debug=flog.debug)
+
         collection_container_dir = os.path.join(
             self_dir, "ansible_collections", namespace
         )
         os.makedirs(collection_container_dir, exist_ok=True)
 
         collection_dir = os.path.join(collection_container_dir, name)
-        shutil.copytree(collecion_source_path, collection_dir, symlinks=True)
+        copier.copy(collection_source_path, collection_dir)
 
     def __exit__(self, type_, value, traceback_):
         self_dir = self.dir
