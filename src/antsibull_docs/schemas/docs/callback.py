@@ -5,6 +5,8 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Schemas for the plugin DOCUMENTATION data."""
 
+from __future__ import annotations
+
 import typing as t
 
 from .base import BaseModel

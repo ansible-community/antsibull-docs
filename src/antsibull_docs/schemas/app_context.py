@@ -5,6 +5,8 @@
 # SPDX-FileCopyrightText: 2022, Ansible Project
 """Extended configuration file format."""
 
+from __future__ import annotations
+
 import typing as t
 
 import pydantic as p

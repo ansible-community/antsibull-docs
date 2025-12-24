@@ -5,6 +5,8 @@
 # SPDX-FileCopyrightText: 2023, Ansible Project
 """Schemas for collection config files."""
 
+from __future__ import annotations
+
 import pydantic as p
 
 from sphinx_antsibull_ext.schemas.ansible_output_data import (

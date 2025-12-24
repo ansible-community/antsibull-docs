@@ -8,6 +8,8 @@
 # https://opensource.org/licenses/BSD-2-Clause)
 # SPDX-License-Identifier: BSD-2-Clause
 
+from __future__ import annotations
+
 import codecs
 import datetime
 import json

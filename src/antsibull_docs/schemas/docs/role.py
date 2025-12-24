@@ -6,6 +6,8 @@
 # SPDX-FileCopyrightText: 2021, Ansible Project
 """Schemas for the role documentation data."""
 
+from __future__ import annotations
+
 import typing as t
 from collections.abc import Mapping, Sequence
 

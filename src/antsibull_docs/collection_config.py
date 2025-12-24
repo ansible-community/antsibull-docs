@@ -5,6 +5,8 @@
 # SPDX-FileCopyrightText: 2021, Ansible Project
 """Handle collection-specific config from docs/docsite/config.yml."""
 
+from __future__ import annotations
+
 import asyncio
 import os
 import os.path

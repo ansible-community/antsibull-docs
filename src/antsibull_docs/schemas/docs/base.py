@@ -118,6 +118,9 @@ An example of both of the above:
               return values
 
 """
+
+from __future__ import annotations
+
 import abc
 import typing as t
 from collections.abc import Mapping

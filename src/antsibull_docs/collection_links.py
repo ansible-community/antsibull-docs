@@ -5,6 +5,8 @@
 # SPDX-FileCopyrightText: 2021, Ansible Project
 """Handle collection-specific links from galaxy.yml and docs/docsite/links.yml."""
 
+from __future__ import annotations
+
 import asyncio
 import json
 import os
