@@ -82,7 +82,7 @@ def get_label_prefix(collection_name: str) -> str:
 
 def lint_required_conditions(
     content: str, collection_name: str
-) -> tuple[list[str], list[tuple[int | None, int | None, str]]]:
+) -> tuple[list[str], list[tuple[int | None, int | tuple[int, int] | None, str]]]:
     """Check a extra docs RST file's content for whether it satisfied the required conditions.
 
     :arg content: Content of a RST document.
@@ -91,7 +91,7 @@ def lint_required_conditions(
               (with line and column numbers).
     """
     labels: set[str] = set()
-    errors: list[tuple[int | None, int | None, str]] = []
+    errors: list[tuple[int | None, int | tuple[int, int] | None, str]] = []
     label_prefix = get_label_prefix(collection_name)
     # Check label definitions
     for row, line in enumerate(content.splitlines()):
@@ -102,7 +102,7 @@ def lint_required_conditions(
                 errors.append(
                     (
                         row + 1,
-                        None,
+                        (m.start(1) + 1, m.end(1) + 1),
                         f'Label "{label}" does not start with expected prefix "{label_prefix}"',
                     )
                 )

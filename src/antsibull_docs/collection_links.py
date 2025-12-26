@@ -234,7 +234,7 @@ async def load_collections_links(
 def _check_default_values(
     parsed_data: CollectionLinks,
     index_path: str,
-    result: list[tuple[str, int | None, int | None, str]],
+    result: list[tuple[str, int | None, int | tuple[int, int] | None, str]],
 ) -> None:
     # Check for default values from https://github.com/ansible-collections/collection_template/
     default_repo_url = "ansible-collections/community.REPO_NAME"
@@ -267,7 +267,7 @@ def _check_default_values(
 
 def lint_collection_links(
     collection_path: str,
-) -> list[tuple[str, int | None, int | None, str]]:
+) -> list[tuple[str, int | None, int | tuple[int, int] | None, str]]:
     """Given a path, lint links data.
 
     :arg collection_path: Path to the collection.
@@ -276,7 +276,7 @@ def lint_collection_links(
     flog = mlog.fields(func="lint_collection_links")
     flog.debug("Enter")
 
-    result: list[tuple[str, int | None, int | None, str]] = []
+    result: list[tuple[str, int | None, int | tuple[int, int] | None, str]] = []
 
     forbid_extras(
         [

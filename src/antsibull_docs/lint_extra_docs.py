@@ -125,7 +125,8 @@ def _validate_collection(value: str, names_linter: CollectionNameLinter) -> None
 
 
 def get_names_linter_roles(
-    names_linter: CollectionNameLinter, errors: list[tuple[int | None, int | None, str]]
+    names_linter: CollectionNameLinter,
+    errors: list[tuple[int | None, int | tuple[int, int] | None, str]],
 ) -> dict[str, t.Any]:
     def wrap(
         value: str,
@@ -249,8 +250,10 @@ def load_document_and_optionally_check_antsibull_roles(
     content: str,
     path: str,
     names_linter: CollectionNameLinter | None,
-) -> tuple[list[tuple[int | None, int | None, str]], nodes.document | None]:
-    errors: list[tuple[int | None, int | None, str]] = []
+) -> tuple[
+    list[tuple[int | None, int | tuple[int, int] | None, str]], nodes.document | None
+]:
+    errors: list[tuple[int | None, int | tuple[int, int] | None, str]] = []
 
     roles = {}
     for role_name in antsibull_roles.ROLES:
@@ -284,18 +287,20 @@ def lint_optional_conditions(
     path: str,
     # pylint:disable-next=unused-argument
     collection_name: str,
-) -> list[tuple[int | None, int | None, str]]:
+) -> list[tuple[int | None, int | tuple[int, int] | None, str]]:
     """Check a extra docs RST file's content for whether it satisfied the required conditions.
 
     Return a list of errors.
     """
     ignore_roles = list(antsibull_roles.ROLES)
     ignore_directives = list(antsibull_directives.DIRECTIVES)
-    return check_rst_content(
-        content,
-        filename=path,
-        ignore_directives=ignore_directives,
-        ignore_roles=ignore_roles,
+    return list(
+        check_rst_content(
+            content,
+            filename=path,
+            ignore_directives=ignore_directives,
+            ignore_roles=ignore_roles,
+        )
     )
 
 
@@ -384,7 +389,7 @@ def _check_file(
     collection_name: str,
     names_linter: CollectionNameLinter | None,
     docs: list[tuple[str, str]],
-    result: list[tuple[str, int | None, int | None, str]],
+    result: list[tuple[str, int | None, int | tuple[int, int] | None, str]],
 ) -> list[str]:
     try:
         # Load content
@@ -441,7 +446,7 @@ def lint_collection_extra_docs_files(
     *,
     collection_name: str | None = None,
     names_linter: CollectionNameLinter | None = None,
-) -> list[tuple[str, int | None, int | None, str]]:
+) -> list[tuple[str, int | None, int | tuple[int, int] | None, str]]:
     if collection_name is None:
         try:
             collection_name = load_collection_name(path_to_collection)
@@ -454,7 +459,7 @@ def lint_collection_extra_docs_files(
                     "Cannot identify collection with galaxy.yml or MANIFEST.json at this path",
                 )
             ]
-    result: list[tuple[str, int | None, int | None, str]] = []
+    result: list[tuple[str, int | None, int | tuple[int, int] | None, str]] = []
     all_labels: set[str] = set()
     docs = find_extra_docs(path_to_collection)
     for doc_path, rel_doc_path in docs:
