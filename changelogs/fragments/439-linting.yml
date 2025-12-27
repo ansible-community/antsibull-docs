@@ -1,0 +1,2 @@
+minor_changes:
+  - "When linting collection docs, report matches more precisely if possible (https://github.com/ansible-community/antsibull-docs/pull/439)."

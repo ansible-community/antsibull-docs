@@ -92,7 +92,7 @@ async def load_collections_configs(
 
 def lint_collection_config(
     collection_path: str,
-) -> list[tuple[str, int | None, int | None, str]]:
+) -> list[tuple[str, int | None, int | tuple[int, int] | None, str]]:
     """Given a path, lint config.
 
     :arg collection_path: Path to the collection.
@@ -101,7 +101,7 @@ def lint_collection_config(
     flog = mlog.fields(func="lint_collection_config")
     flog.debug("Enter")
 
-    result: list[tuple[str, int | None, int | None, str]] = []
+    result: list[tuple[str, int | None, int | tuple[int, int] | None, str]] = []
 
     forbid_extras(CollectionConfig)
 

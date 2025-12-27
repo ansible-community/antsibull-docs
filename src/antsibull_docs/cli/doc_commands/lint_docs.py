@@ -42,12 +42,13 @@ MessageFormat = t.Literal["default", "json"]
 
 
 def print_messages(
-    messages: list[tuple[str, int | None, int | None, str]],
+    messages: list[tuple[str, int | None, int | tuple[int, int] | None, str]],
     message_format: MessageFormat,
 ) -> None:
     if message_format == "default":
         for file, row, col, message in messages:
-            prefix = f"{file}:{row or 0}:{col or 0}: "
+            column = col[0] if isinstance(col, tuple) else (col or 0)
+            prefix = f"{file}:{row or 0}:{column}: "
             print(
                 prefix
                 + textwrap.indent(
@@ -61,11 +62,18 @@ def print_messages(
             "success": len(messages) == 0,
         }
         for file, row, col, message in messages:
+            start_column: int | None
+            end_column: int | None
+            if isinstance(col, tuple):
+                start_column, end_column = col
+            else:
+                start_column, end_column = col, None
             json_msgs.append(
                 {
                     "path": file,
                     "row": row,
-                    "column": col,
+                    "column": start_column,
+                    "end_column": end_column,
                     "message": message,
                 }
             )
@@ -73,14 +81,19 @@ def print_messages(
 
 
 def normalize_and_sort_messages(
-    messages: list[tuple[str, int | None, int | None, str]],
-) -> list[tuple[str, int | None, int | None, str]]:
+    messages: list[tuple[str, int | None, int | tuple[int, int] | None, str]],
+) -> list[tuple[str, int | None, int | tuple[int, int] | None, str]]:
     return sorted(
         [
             (os.path.normpath(message[0]), message[1], message[2], message[3].lstrip())
             for message in messages
         ],
-        key=lambda msg: (msg[0], msg[1] or 0, msg[2] or 0, msg[3]),
+        key=lambda msg: (
+            msg[0],
+            msg[1] or 0,
+            msg[2][0] if isinstance(msg[2], tuple) else (msg[2] or 0),
+            msg[3],
+        ),
     )
 
 
