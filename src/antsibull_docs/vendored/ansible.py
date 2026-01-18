@@ -388,7 +388,7 @@ def check_type_dict(value):
             try:
                 return json.loads(value)
             except Exception:
-                (result, exc) = safe_eval(value, dict())
+                result, exc = safe_eval(value, dict())
                 if exc is not None:
                     raise TypeError("unable to evaluate string as dictionary")
                 return result

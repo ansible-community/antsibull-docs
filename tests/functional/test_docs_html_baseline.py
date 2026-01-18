@@ -123,8 +123,7 @@ def test_baseline(
 
     input_dir = tmp_path / "input"
     shutil.copytree(os.path.join(tests_root, source_dir), input_dir)
-    (input_dir / "conf.py").write_text(
-        """
+    (input_dir / "conf.py").write_text("""
 project = 'Ansible collections'
 copyright = 'Ansible contributors'
 title = 'Ansible Collections Documentation'
@@ -141,13 +140,9 @@ html_use_modindex = False
 html_use_index = False
 html_copy_source = False
 nitpicky = True
-""".replace(
-            "<THEME_PATH>", repr(str(theme_path))
-        )
-    )
+""".replace("<THEME_PATH>", repr(str(theme_path))))
 
-    (input_dir / "index.rst").write_text(
-        """
+    (input_dir / "index.rst").write_text("""
 ====================
 Some Ansible Docsite
 ====================
@@ -156,11 +151,9 @@ Some Ansible Docsite
    :glob:
 
    collections/*
-"""
-    )
+""")
 
-    (input_dir / "broken-refs.rst").write_text(
-        """:orphan:
+    (input_dir / "broken-refs.rst").write_text(""":orphan:
 
 <LABELS>
 
@@ -168,10 +161,7 @@ Dead reference
 ==============
 
 All dead references should link to this section.
-""".replace(
-            "<LABELS>", "\n".join(f".. _{ref}:" for ref in broken_refs)
-        )
-    )
+""".replace("<LABELS>", "\n".join(f".. _{ref}:" for ref in broken_refs)))
 
     output_dir = tmp_path / "output"
 

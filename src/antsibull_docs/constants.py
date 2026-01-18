@@ -5,7 +5,6 @@
 # SPDX-FileCopyrightText: 2020, Ansible Project
 """Constant values for use throughout the antsibull codebase."""
 
-
 from __future__ import annotations
 
 #: All the types of ansible plugins

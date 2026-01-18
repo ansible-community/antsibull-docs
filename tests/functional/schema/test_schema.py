@@ -5,6 +5,7 @@
 """
 Test the set of Schemas altogether to see that they will parse information correctly.
 """
+
 from __future__ import annotations
 
 import json
