@@ -22,6 +22,10 @@ argument_specs:
         type: int
         description: An integer parameter with a default.
         default: 13
+      foo_param_3:
+        type: str
+        description: A sensitive string parameter.
+        no_log: true
     attributes:
       check_mode:
         description: Can run in check_mode and return changed status prediction without modifying target

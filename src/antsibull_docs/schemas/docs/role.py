@@ -30,6 +30,7 @@ _SENTINEL = object()
 
 
 class _RoleOptionsSchema(OptionsSchema):
+    no_log: bool = False
     options: dict[str, t.Any] = {}
     mutually_exclusive: list[list[str]] = []
     required_together: list[list[str]] = []
