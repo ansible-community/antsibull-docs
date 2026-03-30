@@ -174,7 +174,7 @@ jobs:
         working-directory: antsibull-docs
 
       - name: Upload coverage
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           working-directory: antsibull-docs
         env:
@@ -259,7 +259,7 @@ jobs:
         working-directory: antsibull-docs
 
       - name: Upload coverage
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           working-directory: antsibull-docs
         env:
@@ -344,7 +344,7 @@ jobs:
         working-directory: antsibull-docs
 
       - name: Upload coverage
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           working-directory: antsibull-docs
         env:
