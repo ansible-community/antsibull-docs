@@ -1,8 +1,8 @@
 {
   "dependencies": {
     "autoprefixer": "^10.5.0",
-    "cssnano": "^7.1.5",
-    "postcss": "^8.5.10",
+    "cssnano": "^7.1.7",
+    "postcss": "^8.5.12",
     "postcss-cli": "^11.0.1",
     "sass": "^1.99.0"
   }
