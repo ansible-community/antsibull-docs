@@ -35,6 +35,7 @@ from ...docs_parsing.routing import (
     remove_redirect_duplicates,
 )
 from ...env_variables import (
+    collect_docs_defined_envvars,
     collect_referable_envvars,
     collect_referenced_environment_variables,
     load_ansible_config,
@@ -725,6 +726,7 @@ def generate_docs_for_all_collections(  # noqa: C901  # pylint: disable=too-many
         _register_extra_docs(output, extra_docs_data, squash_hierarchy=squash_hierarchy)
 
     if output_format == OutputFormat.ANSIBLE_DOCSITE:
+        docs_defined_envvars = collect_docs_defined_envvars(collection_metadata)
         asyncio.run(
             output_environment_variables(
                 output,
@@ -733,6 +735,7 @@ def generate_docs_for_all_collections(  # noqa: C901  # pylint: disable=too-many
                 filename_generator=filename_generator,
                 squash_hierarchy=squash_hierarchy,
                 referable_envvars=referable_envvars,
+                docs_defined_envvars=docs_defined_envvars,
                 add_version=add_antsibull_docs_version,
             )
         )

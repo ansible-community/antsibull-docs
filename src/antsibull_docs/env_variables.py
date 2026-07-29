@@ -159,3 +159,18 @@ def collect_referable_envvars(
     for collection_meta in collection_metadata.values():
         referable_envvars.update(collection_meta.docs_config.envvar_directives)
     return referable_envvars
+
+
+def collect_docs_defined_envvars(
+    collection_metadata: Mapping[str, AnsibleCollectionMetadata],
+) -> set[str]:
+    """
+    :arg collection_metadata: A Mapping of collection names to collection metadata
+        objects.
+    :returns: A set of environment variables that are defined in collection extra
+        docs.
+    """
+    collection_envvars = set()
+    for collection_meta in collection_metadata.values():
+        collection_envvars.update(collection_meta.docs_config.envvar_directives)
+    return collection_envvars
