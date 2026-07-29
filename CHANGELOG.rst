@@ -4,6 +4,24 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.25.0
+=======
+
+Release Summary
+---------------
+
+Feature and bugfix release.
+
+Minor Changes
+-------------
+
+- When linting collection docs, report matches more precisely if possible (https://github.com/ansible-community/antsibull-docs/pull/439).
+
+Bugfixes
+--------
+
+- Do not re-define environment variables mentioned in a collection's config file's ``envvar_directives`` in the environment variable index (https://github.com/ansible-community/antsibull-docs/pull/471).
+
 v2.24.0
 =======
 

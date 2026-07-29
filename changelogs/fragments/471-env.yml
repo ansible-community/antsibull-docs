@@ -1,3 +1,0 @@
-bugfixes:
-  - "Do not re-define environment variables mentioned in a collection's config file's ``envvar_directives`` in the environment variable index
-     (https://github.com/ansible-community/antsibull-docs/pull/471)."
