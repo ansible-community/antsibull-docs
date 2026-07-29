@@ -248,6 +248,7 @@ async def output_environment_variables(
     filename_generator: FilenameGenerator,
     squash_hierarchy: bool = False,
     referable_envvars: set[str] | None = None,
+    docs_defined_envvars: set[str] | None = None,
     add_version: bool = True,
 ) -> None:
     """
@@ -259,6 +260,8 @@ async def output_environment_variables(
                            Undefined behavior if documentation for multiple collections are
                            created.
     :kwarg referable_envvars: Optional set of environment variables that can be referenced.
+    :kwarg docs_defined_envvars: Optional set of environment variables that are already defined
+        in collection extra docs.
     :kwarg output_format: The output format to use.
     :kwarg add_version: If set to ``False``, will not insert antsibull-docs' version into
         the generated files.
@@ -290,6 +293,7 @@ async def output_environment_variables(
         env_var_list_tmpl,
         index_file,
         env_variables=env_variables,
+        docs_defined_envvars=docs_defined_envvars or set(),
         add_version=add_version,
     )
 
