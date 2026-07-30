@@ -50,13 +50,13 @@ jobs:
 
     steps:
       - name: Check out antsibull-docs
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           path: antsibull-docs
           persist-credentials: false
 
       - name: Check out dependent project antsibull-core
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           repository: ansible-community/antsibull-core
           path: antsibull-core
@@ -64,7 +64,7 @@ jobs:
           persist-credentials: false
 
       - name: Check out dependent project antsibull-docs-parser
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           repository: ansible-community/antsibull-docs-parser
           path: antsibull-docs-parser
@@ -72,7 +72,7 @@ jobs:
           persist-credentials: false
 
       - name: Check out dependent project antsibull-changelog
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           repository: ansible-community/antsibull-changelog
           path: antsibull-changelog
@@ -80,7 +80,7 @@ jobs:
           persist-credentials: false
 
       - name: Check out dependent project antsibull-docutils
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           repository: ansible-community/antsibull-docutils
           path: antsibull-docutils
@@ -88,7 +88,7 @@ jobs:
           persist-credentials: false
 
       - name: Check out dependent project antsibull-fileutils
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           repository: ansible-community/antsibull-fileutils
           path: antsibull-fileutils
@@ -96,7 +96,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up Python ${{ matrix.python }}
-        uses: actions/setup-python@v7
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # v7.0.0
         with:
           python-version: ${{ matrix.python }}
 
@@ -174,7 +174,7 @@ jobs:
         working-directory: antsibull-docs
 
       - name: Upload coverage
-        uses: codecov/codecov-action@v7
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f  # v7.0.0
         with:
           working-directory: antsibull-docs
         env:
@@ -188,48 +188,48 @@ jobs:
 
     steps:
       - name: Check out antsibull-docs
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           path: antsibull-docs
           persist-credentials: false
 
       - name: Check out dependent project antsibull-core
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           repository: ansible-community/antsibull-core
           path: antsibull-core
           persist-credentials: false
 
       - name: Check out dependent project antsibull-docs-parser
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           repository: ansible-community/antsibull-docs-parser
           path: antsibull-docs-parser
           persist-credentials: false
 
       - name: Check out dependent project antsibull-changelog
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           repository: ansible-community/antsibull-changelog
           path: antsibull-changelog
           persist-credentials: false
 
       - name: Check out dependent project antsibull-docutils
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           repository: ansible-community/antsibull-docutils
           path: antsibull-docutils
           persist-credentials: false
 
       - name: Check out dependent project antsibull-fileutils
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           repository: ansible-community/antsibull-fileutils
           path: antsibull-fileutils
           persist-credentials: false
 
       - name: Set up Python 3.14
-        uses: actions/setup-python@v7
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # v7.0.0
         with:
           python-version: '3.14'
 
@@ -259,7 +259,7 @@ jobs:
         working-directory: antsibull-docs
 
       - name: Upload coverage
-        uses: codecov/codecov-action@v7
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f  # v7.0.0
         with:
           working-directory: antsibull-docs
         env:
@@ -273,48 +273,48 @@ jobs:
 
     steps:
       - name: Check out antsibull-docs
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           path: antsibull-docs
           persist-credentials: false
 
       - name: Check out dependent project antsibull-core
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           repository: ansible-community/antsibull-core
           path: antsibull-core
           persist-credentials: false
 
       - name: Check out dependent project antsibull-docs-parser
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           repository: ansible-community/antsibull-docs-parser
           path: antsibull-docs-parser
           persist-credentials: false
 
       - name: Check out dependent project antsibull-changelog
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           repository: ansible-community/antsibull-changelog
           path: antsibull-changelog
           persist-credentials: false
 
       - name: Check out dependent project antsibull-docutils
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           repository: ansible-community/antsibull-docutils
           path: antsibull-docutils
           persist-credentials: false
 
       - name: Check out dependent project antsibull-fileutils
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           repository: ansible-community/antsibull-fileutils
           path: antsibull-fileutils
           persist-credentials: false
 
       - name: Set up Python 3.14
-        uses: actions/setup-python@v7
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # v7.0.0
         with:
           python-version: '3.14'
 
@@ -344,7 +344,7 @@ jobs:
         working-directory: antsibull-docs
 
       - name: Upload coverage
-        uses: codecov/codecov-action@v7
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f  # v7.0.0
         with:
           working-directory: antsibull-docs
         env:
