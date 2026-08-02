@@ -18,17 +18,12 @@ import asyncio_pool  # type: ignore[import]
 import pydantic as p
 from antsibull_core import app_context
 from antsibull_core.logging import get_module_logger
-from antsibull_core.pydantic import forbid_extras, get_formatted_error_messages
+from antsibull_core.pydantic import get_formatted_error_messages
 from antsibull_fileutils.yaml import load_yaml_file
 
 from .schemas.collection_links import (
-    CollectionEditOnGitHub,
     CollectionLinks,
-    Communication,
-    IRCChannel,
     Link,
-    MailingList,
-    MatrixRoom,
 )
 
 mlog = get_module_logger(__name__)
@@ -278,18 +273,6 @@ def lint_collection_links(
 
     result: list[tuple[str, int | None, int | tuple[int, int] | None, str]] = []
 
-    forbid_extras(
-        [
-            CollectionEditOnGitHub,
-            Link,
-            IRCChannel,
-            MatrixRoom,
-            MailingList,
-            Communication,
-            CollectionLinks,
-        ]
-    )
-
     try:
         index_path = os.path.join(collection_path, "docs", "docsite", "links.yml")
         if not os.path.isfile(index_path):
@@ -307,7 +290,7 @@ def lint_collection_links(
                     )
                 )
         try:
-            parsed_data = CollectionLinks.model_validate(links_data)
+            parsed_data = CollectionLinks.model_validate(links_data, extra="forbid")
             _check_default_values(parsed_data, index_path, result)
         except p.ValidationError as exc:
             for message in get_formatted_error_messages(exc):
