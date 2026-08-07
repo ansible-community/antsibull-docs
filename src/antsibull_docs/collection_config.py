@@ -17,7 +17,7 @@ import asyncio_pool  # type: ignore[import]
 import pydantic as p
 from antsibull_core import app_context
 from antsibull_core.logging import get_module_logger
-from antsibull_core.pydantic import forbid_extras, get_formatted_error_messages
+from antsibull_core.pydantic import get_formatted_error_messages
 from antsibull_fileutils.yaml import load_yaml_file
 
 from .schemas.collection_config import CollectionConfig
@@ -103,8 +103,6 @@ def lint_collection_config(
 
     result: list[tuple[str, int | None, int | tuple[int, int] | None, str]] = []
 
-    forbid_extras(CollectionConfig)
-
     try:
         config_path = os.path.join(collection_path, "docs", "docsite", "config.yml")
         if not os.path.isfile(config_path):
@@ -112,7 +110,7 @@ def lint_collection_config(
 
         config_data = load_yaml_file(config_path)
         try:
-            CollectionConfig.model_validate(config_data)
+            CollectionConfig.model_validate(config_data, extra="forbid")
         except p.ValidationError as exc:
             for message in get_formatted_error_messages(exc):
                 result.append((config_path, None, None, message))
