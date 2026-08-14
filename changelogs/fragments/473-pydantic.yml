@@ -1,2 +1,0 @@
-minor_changes:
-  - "antsibull-docs now requires pydantic 2.12+ (https://github.com/ansible-community/antsibull-docs/pull/473)."

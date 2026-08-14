@@ -1235,3 +1235,12 @@ releases:
       - 439-linting.yml
       - 471-env.yml
     release_date: '2026-07-29'
+  2.26.0:
+    changes:
+      minor_changes:
+        - antsibull-docs now requires pydantic 2.12+ (https://github.com/ansible-community/antsibull-docs/pull/473).
+      release_summary: Maintenance release.
+    fragments:
+      - 2.26.0.yml
+      - 473-pydantic.yml
+    release_date: '2026-08-14'

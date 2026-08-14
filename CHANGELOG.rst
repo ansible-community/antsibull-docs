@@ -4,6 +4,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.26.0
+=======
+
+Release Summary
+---------------
+
+Maintenance release.
+
+Minor Changes
+-------------
+
+- antsibull-docs now requires pydantic 2.12+ (https://github.com/ansible-community/antsibull-docs/pull/473).
+
 v2.25.0
 =======
 
