@@ -805,6 +805,25 @@
        "version_added": "2.7",
        "version_added_collection": "ansible.builtin"
       },
+      "display_included_hosts": {
+       "default": true,
+       "description": "Toggle to control displaying included task/host results in a task.",
+       "env": [
+        {
+         "name": "ANSIBLE_DISPLAY_INCLUDED_HOSTS"
+        }
+       ],
+       "ini": [
+        {
+         "key": "display_included_hosts",
+         "section": "defaults"
+        }
+       ],
+       "name": "Show included hosts",
+       "type": "bool",
+       "version_added": "2.21",
+       "version_added_collection": "ansible.builtin"
+      },
       "display_ok_hosts": {
        "default": true,
        "description": "Toggle to control displaying 'ok' task/host results in a task.",
@@ -919,6 +938,32 @@
        "name": "Indentation of the result",
        "type": "int",
        "version_added": "2.20",
+       "version_added_collection": "ansible.builtin"
+      },
+      "result_yaml_line_width": {
+       "choices": {
+        "default": "Use PyYAML's default value, which is around 80 characters.",
+        "no-break": "Disable line breaks.",
+        "terminal-width": "Use the detected terminal width that is also used for other output of this callback."
+       },
+       "default": "default",
+       "description": [
+        "Configure the line width used for YAML. The YAML serializer will try to break longer lines."
+       ],
+       "env": [
+        {
+         "name": "ANSIBLE_CALLBACK_YAML_LINE_WIDTH"
+        }
+       ],
+       "ini": [
+        {
+         "key": "callback_result_yaml_line_width",
+         "section": "defaults"
+        }
+       ],
+       "name": "Line width of YAML output",
+       "type": "str",
+       "version_added": "2.21",
        "version_added_collection": "ansible.builtin"
       },
       "show_custom_stats": {
@@ -1195,6 +1240,32 @@
        "type": "int",
        "version_added": "2.20",
        "version_added_collection": "ansible.builtin"
+      },
+      "result_yaml_line_width": {
+       "choices": {
+        "default": "Use PyYAML's default value, which is around 80 characters.",
+        "no-break": "Disable line breaks.",
+        "terminal-width": "Use the detected terminal width that is also used for other output of this callback."
+       },
+       "default": "default",
+       "description": [
+        "Configure the line width used for YAML. The YAML serializer will try to break longer lines."
+       ],
+       "env": [
+        {
+         "name": "ANSIBLE_CALLBACK_YAML_LINE_WIDTH"
+        }
+       ],
+       "ini": [
+        {
+         "key": "callback_result_yaml_line_width",
+         "section": "defaults"
+        }
+       ],
+       "name": "Line width of YAML output",
+       "type": "str",
+       "version_added": "2.21",
+       "version_added_collection": "ansible.builtin"
       }
      },
      "plugin_name": "ansible.builtin.minimal",
@@ -1210,6 +1281,12 @@
    "ansible.builtin.oneline": {
     "doc": {
      "collection": "ansible.builtin",
+     "deprecated": {
+      "alternatives": "Use a stable callback with test coverage, or consider vendoring and/or adding this plugin to a collection.",
+      "removed_from_collection": "ansible.builtin",
+      "removed_in": "2.23",
+      "why": "The P(ansible.builtin.oneline#callback) callback is no longer recommended due to long term instability."
+     },
      "description": [
       "This is the output callback used by the C(-o)/C(--one-line) command line option."
      ],
@@ -1228,6 +1305,12 @@
    "ansible.builtin.tree": {
     "doc": {
      "collection": "ansible.builtin",
+     "deprecated": {
+      "alternatives": "Use a stable callback with test coverage, or consider vendoring and/or moving this plugin to a collection.",
+      "removed_from_collection": "ansible.builtin",
+      "removed_in": "2.23",
+      "why": "The P(ansible.builtin.tree#callback) callback is no longer recommended due to long term instability."
+     },
      "description": [
       "This callback is used by the Ansible (adhoc) command line option C(-t|--tree).",
       "This produces a JSON dump of events in a directory, a file for each host, the directory used MUST be passed as a command line option."
@@ -1397,468 +1480,6 @@
     "metadata": null,
     "return": null
    },
-   "ansible.builtin.paramiko_ssh": {
-    "doc": {
-     "author": "Ansible Core Team",
-     "collection": "ansible.builtin",
-     "description": [
-      "Use the Python SSH implementation (Paramiko) to connect to targets",
-      "The paramiko transport is provided because many distributions, in particular EL6 and before do not support ControlPersist in their SSH implementations.",
-      "This is needed on the Ansible control machine to be reasonably efficient with connections. Thus paramiko is faster for most users on these platforms. Users with ControlPersist capability can consider using -c ssh or configuring the transport in the configuration file.",
-      "This plugin also borrows a lot of settings from the ssh plugin as they both cover the same protocol."
-     ],
-     "filename": "/ansible/plugins/connection/paramiko_ssh.py",
-     "name": "paramiko",
-     "options": {
-      "banner_timeout": {
-       "default": 30,
-       "description": [
-        "Configures, in seconds, the amount of time to wait for the SSH banner to be presented. This option is supported by paramiko version 1.15.0 or newer."
-       ],
-       "env": [
-        {
-         "name": "ANSIBLE_PARAMIKO_BANNER_TIMEOUT"
-        }
-       ],
-       "ini": [
-        {
-         "key": "banner_timeout",
-         "section": "paramiko_connection"
-        }
-       ],
-       "type": "float",
-       "version_added": "2.14",
-       "version_added_collection": "ansible.builtin"
-      },
-      "host_key_auto_add": {
-       "description": "Automatically add host keys",
-       "env": [
-        {
-         "name": "ANSIBLE_PARAMIKO_HOST_KEY_AUTO_ADD"
-        }
-       ],
-       "ini": [
-        {
-         "key": "host_key_auto_add",
-         "section": "paramiko_connection"
-        }
-       ],
-       "type": "boolean"
-      },
-      "host_key_checking": {
-       "default": true,
-       "description": "Set this to \"False\" if you want to avoid host key checking by the underlying tools Ansible uses to connect to the host",
-       "env": [
-        {
-         "name": "ANSIBLE_HOST_KEY_CHECKING"
-        },
-        {
-         "name": "ANSIBLE_SSH_HOST_KEY_CHECKING",
-         "version_added": "2.5",
-         "version_added_collection": "ansible.builtin"
-        },
-        {
-         "name": "ANSIBLE_PARAMIKO_HOST_KEY_CHECKING",
-         "version_added": "2.5",
-         "version_added_collection": "ansible.builtin"
-        }
-       ],
-       "ini": [
-        {
-         "key": "host_key_checking",
-         "section": "defaults"
-        },
-        {
-         "key": "host_key_checking",
-         "section": "paramiko_connection",
-         "version_added": "2.5",
-         "version_added_collection": "ansible.builtin"
-        }
-       ],
-       "type": "boolean",
-       "vars": [
-        {
-         "name": "ansible_host_key_checking",
-         "version_added": "2.5",
-         "version_added_collection": "ansible.builtin"
-        },
-        {
-         "name": "ansible_ssh_host_key_checking",
-         "version_added": "2.5",
-         "version_added_collection": "ansible.builtin"
-        },
-        {
-         "name": "ansible_paramiko_host_key_checking",
-         "version_added": "2.5",
-         "version_added_collection": "ansible.builtin"
-        }
-       ]
-      },
-      "look_for_keys": {
-       "default": true,
-       "description": "False to disable searching for private key files in ~/.ssh/",
-       "env": [
-        {
-         "name": "ANSIBLE_PARAMIKO_LOOK_FOR_KEYS"
-        }
-       ],
-       "ini": [
-        {
-         "key": "look_for_keys",
-         "section": "paramiko_connection"
-        }
-       ],
-       "type": "boolean"
-      },
-      "password": {
-       "description": [
-        "Secret used to either login the ssh server or as a passphrase for ssh keys that require it",
-        "Can be set from the CLI via the C(--ask-pass) option."
-       ],
-       "type": "string",
-       "vars": [
-        {
-         "name": "ansible_password"
-        },
-        {
-         "name": "ansible_ssh_pass"
-        },
-        {
-         "name": "ansible_ssh_password"
-        },
-        {
-         "name": "ansible_paramiko_pass"
-        },
-        {
-         "name": "ansible_paramiko_password",
-         "version_added": "2.5",
-         "version_added_collection": "ansible.builtin"
-        }
-       ]
-      },
-      "port": {
-       "default": 22,
-       "description": "Remote port to connect to.",
-       "env": [
-        {
-         "name": "ANSIBLE_REMOTE_PORT"
-        },
-        {
-         "name": "ANSIBLE_REMOTE_PARAMIKO_PORT",
-         "version_added": "2.15",
-         "version_added_collection": "ansible.builtin"
-        }
-       ],
-       "ini": [
-        {
-         "key": "remote_port",
-         "section": "defaults"
-        },
-        {
-         "key": "remote_port",
-         "section": "paramiko_connection",
-         "version_added": "2.15",
-         "version_added_collection": "ansible.builtin"
-        }
-       ],
-       "keyword": [
-        {
-         "name": "port"
-        }
-       ],
-       "type": "int",
-       "vars": [
-        {
-         "name": "ansible_port"
-        },
-        {
-         "name": "ansible_ssh_port"
-        },
-        {
-         "name": "ansible_paramiko_port",
-         "version_added": "2.15",
-         "version_added_collection": "ansible.builtin"
-        }
-       ]
-      },
-      "private_key_file": {
-       "cli": [
-        {
-         "name": "private_key_file",
-         "option": "--private-key"
-        }
-       ],
-       "description": [
-        "Path to private key file to use for authentication."
-       ],
-       "env": [
-        {
-         "name": "ANSIBLE_PRIVATE_KEY_FILE"
-        },
-        {
-         "name": "ANSIBLE_PARAMIKO_PRIVATE_KEY_FILE",
-         "version_added": "2.15",
-         "version_added_collection": "ansible.builtin"
-        }
-       ],
-       "ini": [
-        {
-         "key": "private_key_file",
-         "section": "defaults"
-        },
-        {
-         "key": "private_key_file",
-         "section": "paramiko_connection",
-         "version_added": "2.15",
-         "version_added_collection": "ansible.builtin"
-        }
-       ],
-       "type": "string",
-       "vars": [
-        {
-         "name": "ansible_private_key_file"
-        },
-        {
-         "name": "ansible_ssh_private_key_file"
-        },
-        {
-         "name": "ansible_paramiko_private_key_file",
-         "version_added": "2.15",
-         "version_added_collection": "ansible.builtin"
-        }
-       ]
-      },
-      "proxy_command": {
-       "default": "",
-       "description": [
-        "Proxy information for running the connection via a jumphost."
-       ],
-       "env": [
-        {
-         "name": "ANSIBLE_PARAMIKO_PROXY_COMMAND"
-        }
-       ],
-       "ini": [
-        {
-         "key": "proxy_command",
-         "section": "paramiko_connection"
-        }
-       ],
-       "type": "string",
-       "vars": [
-        {
-         "name": "ansible_paramiko_proxy_command",
-         "version_added": "2.15",
-         "version_added_collection": "ansible.builtin"
-        }
-       ]
-      },
-      "pty": {
-       "default": true,
-       "description": "SUDO usually requires a PTY, True to give a PTY and False to not give a PTY.",
-       "env": [
-        {
-         "name": "ANSIBLE_PARAMIKO_PTY"
-        }
-       ],
-       "ini": [
-        {
-         "key": "pty",
-         "section": "paramiko_connection"
-        }
-       ],
-       "type": "boolean"
-      },
-      "record_host_keys": {
-       "default": true,
-       "description": "Save the host keys to a file",
-       "env": [
-        {
-         "name": "ANSIBLE_PARAMIKO_RECORD_HOST_KEYS"
-        }
-       ],
-       "ini": [
-        {
-         "key": "record_host_keys",
-         "section": "paramiko_connection"
-        }
-       ],
-       "type": "boolean"
-      },
-      "remote_addr": {
-       "default": "inventory_hostname",
-       "description": [
-        "Address of the remote target"
-       ],
-       "type": "string",
-       "vars": [
-        {
-         "name": "inventory_hostname"
-        },
-        {
-         "name": "ansible_host"
-        },
-        {
-         "name": "ansible_ssh_host"
-        },
-        {
-         "name": "ansible_paramiko_host"
-        }
-       ]
-      },
-      "remote_user": {
-       "description": [
-        "User to login/authenticate as",
-        "Can be set from the CLI via the C(--user) or C(-u) options."
-       ],
-       "env": [
-        {
-         "name": "ANSIBLE_REMOTE_USER"
-        },
-        {
-         "name": "ANSIBLE_PARAMIKO_REMOTE_USER",
-         "version_added": "2.5",
-         "version_added_collection": "ansible.builtin"
-        }
-       ],
-       "ini": [
-        {
-         "key": "remote_user",
-         "section": "defaults"
-        },
-        {
-         "key": "remote_user",
-         "section": "paramiko_connection",
-         "version_added": "2.5",
-         "version_added_collection": "ansible.builtin"
-        }
-       ],
-       "keyword": [
-        {
-         "name": "remote_user"
-        }
-       ],
-       "type": "string",
-       "vars": [
-        {
-         "name": "ansible_user"
-        },
-        {
-         "name": "ansible_ssh_user"
-        },
-        {
-         "name": "ansible_paramiko_user"
-        }
-       ]
-      },
-      "timeout": {
-       "cli": [
-        {
-         "name": "timeout"
-        }
-       ],
-       "default": 10,
-       "description": "Number of seconds until the plugin gives up on failing to establish a TCP connection.",
-       "env": [
-        {
-         "name": "ANSIBLE_TIMEOUT"
-        },
-        {
-         "name": "ANSIBLE_SSH_TIMEOUT",
-         "version_added": "2.11",
-         "version_added_collection": "ansible.builtin"
-        },
-        {
-         "name": "ANSIBLE_PARAMIKO_TIMEOUT",
-         "version_added": "2.15",
-         "version_added_collection": "ansible.builtin"
-        }
-       ],
-       "ini": [
-        {
-         "key": "timeout",
-         "section": "defaults"
-        },
-        {
-         "key": "timeout",
-         "section": "ssh_connection",
-         "version_added": "2.11",
-         "version_added_collection": "ansible.builtin"
-        },
-        {
-         "key": "timeout",
-         "section": "paramiko_connection",
-         "version_added": "2.15",
-         "version_added_collection": "ansible.builtin"
-        }
-       ],
-       "type": "int",
-       "vars": [
-        {
-         "name": "ansible_ssh_timeout",
-         "version_added": "2.11",
-         "version_added_collection": "ansible.builtin"
-        },
-        {
-         "name": "ansible_paramiko_timeout",
-         "version_added": "2.15",
-         "version_added_collection": "ansible.builtin"
-        }
-       ]
-      },
-      "use_persistent_connections": {
-       "default": false,
-       "description": "Toggles the use of persistence for connections",
-       "env": [
-        {
-         "name": "ANSIBLE_USE_PERSISTENT_CONNECTIONS"
-        }
-       ],
-       "ini": [
-        {
-         "key": "use_persistent_connections",
-         "section": "defaults"
-        }
-       ],
-       "type": "boolean"
-      },
-      "use_rsa_sha2_algorithms": {
-       "default": true,
-       "description": [
-        "Whether or not to enable RSA SHA2 algorithms for pubkeys and hostkeys",
-        "On paramiko versions older than 2.9, this only affects hostkeys",
-        "For behavior matching paramiko<2.9 set this to V(False)"
-       ],
-       "env": [
-        {
-         "name": "ANSIBLE_PARAMIKO_USE_RSA_SHA2_ALGORITHMS"
-        }
-       ],
-       "ini": [
-        {
-         "key": "use_rsa_sha2_algorithms",
-         "section": "paramiko_connection"
-        }
-       ],
-       "type": "boolean",
-       "vars": [
-        {
-         "name": "ansible_paramiko_use_rsa_sha2_algorithms"
-        }
-       ],
-       "version_added": "2.14",
-       "version_added_collection": "ansible.builtin"
-      }
-     },
-     "plugin_name": "ansible.builtin.paramiko_ssh",
-     "short_description": "Run tasks via Python SSH (paramiko)",
-     "version_added": "0.1",
-     "version_added_collection": "ansible.builtin"
-    },
-    "examples": null,
-    "metadata": null,
-    "return": null
-   },
    "ansible.builtin.psrp": {
     "doc": {
      "author": "Ansible Core Team",
@@ -1927,9 +1548,24 @@
         }
        ]
       },
+      "certificate_key_password": {
+       "description": [
+        "The password for the O(certificate_key_pem) key file if it is encrypted.",
+        "This option requires pypsrp >= 0.9.0 to be installed."
+       ],
+       "type": "str",
+       "vars": [
+        {
+         "name": "ansible_psrp_certificate_key_password"
+        }
+       ],
+       "version_added": "2.21",
+       "version_added_collection": "ansible.builtin"
+      },
       "certificate_key_pem": {
        "description": [
-        "The local path to an X509 certificate key to use with certificate auth."
+        "The local path to an X509 certificate key to use with certificate auth.",
+        "If the certificate key is encrypted then O(certificate_key_password) must also be set."
        ],
        "type": "path",
        "vars": [
@@ -2108,11 +1744,12 @@
        ]
       },
       "negotiate_service": {
-       "default": "WSMAN",
+       "default": "host",
        "description": [
         "Override the service part of the SPN used during Kerberos authentication.",
         "Only valid when Kerberos was the negotiated auth or was explicitly set as the authentication.",
-        "Ignored when NTLM was the negotiated auth."
+        "Ignored when NTLM was the negotiated auth.",
+        "Before ansible-core 2.21, this had a default value of V(WSMAN) which failed to work on some hosts. Since ansible-core 2.21 the default value is V(host)."
        ],
        "type": "str",
        "vars": [
@@ -2120,6 +1757,21 @@
          "name": "ansible_psrp_negotiate_service"
         }
        ]
+      },
+      "no_profile": {
+       "default": false,
+       "description": [
+        "Do not load the user's PowerShell profile when connecting.",
+        "This option requires pypsrp >= 0.9.0 to be installed."
+       ],
+       "type": "bool",
+       "vars": [
+        {
+         "name": "ansible_psrp_no_profile"
+        }
+       ],
+       "version_added": "2.21",
+       "version_added_collection": "ansible.builtin"
       },
       "operation_timeout": {
        "default": 20,
@@ -2352,7 +2004,9 @@
      "filename": "/ansible/plugins/connection/ssh.py",
      "name": "ssh",
      "notes": [
-      "This plugin is mostly a wrapper to the ``ssh`` CLI utility and the exact behavior of the options depends on this tool. This means that the documentation provided here is subject to be overridden by the CLI tool itself.",
+      "This plugin is mostly a wrapper to the C(ssh) CLI utility and the exact behavior of the options depends on this tool.",
+      "The documentation provided here is subject to be overridden by configurations of C(ssh) itself.",
+      "External configurations of the C(ssh) client CLI can lead to insecure configurations.",
       "Many options default to V(None) here but that only means we do not override the SSH tool's defaults and/or configuration. For example, if you specify the port in this plugin it will override any C(Port) entry in your C(.ssh/config).",
       "The ssh CLI tool uses return code 255 as a 'connection error', this can conflict with commands/tools that also return 255 as an error code and will look like an 'unreachable' condition or 'connection error' to this plugin."
      ],
@@ -2883,7 +2537,7 @@
       },
       "ssh_args": {
        "default": "-C -o ControlMaster=auto -o ControlPersist=60s",
-       "description": "Arguments to pass to all SSH CLI tools.",
+       "description": "Arguments to pass to all SSH CLI tools. The use of C(LocalForward)/C(-L) along with the default C(-C) can lead to an insecure configuration. Ensure these options are not used in combination.",
        "env": [
         {
          "name": "ANSIBLE_SSH_ARGS"
@@ -3461,7 +3115,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return the absolute value of the argument.",
-      "",
       "This is the Jinja builtin filter plugin 'abs'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.abs)"
      ],
@@ -3478,7 +3131,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Get an attribute of an object.",
-      "",
       "This is the Jinja builtin filter plugin 'attr'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.attr)"
      ],
@@ -3634,7 +3286,6 @@
      "collection": "ansible.builtin",
      "description": [
       "A filter that batches items.",
-      "",
       "This is the Jinja builtin filter plugin 'batch'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.batch)"
      ],
@@ -3686,7 +3337,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Capitalize a value.",
-      "",
       "This is the Jinja builtin filter plugin 'capitalize'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.capitalize)"
      ],
@@ -3703,7 +3353,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Centers the value in a field of a given width.",
-      "",
       "This is the Jinja builtin filter plugin 'center'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.center)"
      ],
@@ -3954,7 +3603,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return the number of items in a container.",
-      "",
       "This is the Jinja builtin filter plugin 'count'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.count)"
      ],
@@ -3971,7 +3619,6 @@
      "collection": "ansible.builtin",
      "description": [
       "If the value is undefined it will return the passed default value, otherwise the value of the variable.",
-      "",
       "This is the Jinja builtin filter plugin 'd'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.d)"
      ],
@@ -3988,7 +3635,6 @@
      "collection": "ansible.builtin",
      "description": [
       "If the value is undefined it will return the passed default value, otherwise the value of the variable.",
-      "",
       "This is the Jinja builtin filter plugin 'default'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.default)"
      ],
@@ -4059,7 +3705,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Sort a dict and yield.",
-      "",
       "This is the Jinja builtin filter plugin 'dictsort'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.dictsort)"
      ],
@@ -4169,7 +3814,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Replace the characters ``&``, ``<``, ``>``, ``'``, and ``\"`` in the string with HTML-safe sequences.",
-      "",
       "This is the Jinja builtin filter plugin 'e'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.e)"
      ],
@@ -4186,7 +3830,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Replace the characters ``&``, ``<``, ``>``, ``'``, and ``\"`` in the string with HTML-safe sequences.",
-      "",
       "This is the Jinja builtin filter plugin 'escape'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.escape)"
      ],
@@ -4336,7 +3979,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Format the value like a 'human-readable' file size.",
-      "",
       "This is the Jinja builtin filter plugin 'filesizeformat'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.filesizeformat)"
      ],
@@ -4353,7 +3995,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return the first item of a sequence.",
-      "",
       "This is the Jinja builtin filter plugin 'first'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.first)"
      ],
@@ -4410,7 +4051,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Convert the value into a floating point number.",
-      "",
       "This is the Jinja builtin filter plugin 'float'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.float)"
      ],
@@ -4427,7 +4067,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Enforce HTML escaping.",
-      "",
       "This is the Jinja builtin filter plugin 'forceescape'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.forceescape)"
      ],
@@ -4444,7 +4083,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Apply the given values to a `printf-style`_ format string, like ``string % values``.",
-      "",
       "This is the Jinja builtin filter plugin 'format'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.format)"
      ],
@@ -4562,7 +4200,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Group a sequence of objects by an attribute using Python's :func:`itertools.",
-      "",
       "This is the Jinja builtin filter plugin 'groupby'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.groupby)"
      ],
@@ -4716,7 +4353,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return a copy of the string with each line indented by 4 spaces.",
-      "",
       "This is the Jinja builtin filter plugin 'indent'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.indent)"
      ],
@@ -4733,7 +4369,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Convert the value into an integer.",
-      "",
       "This is the Jinja builtin filter plugin 'int'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.int)"
      ],
@@ -4804,7 +4439,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return an iterator over the ``(key, value)`` items of a mapping.",
-      "",
       "This is the Jinja builtin filter plugin 'items'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.items)"
      ],
@@ -4872,7 +4506,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return a string which is the concatenation of the strings in the sequence.",
-      "",
       "This is the Jinja builtin filter plugin 'join'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.join)"
      ],
@@ -4889,7 +4522,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return the last item of a sequence.",
-      "",
       "This is the Jinja builtin filter plugin 'last'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.last)"
      ],
@@ -4906,7 +4538,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return the number of items in a container.",
-      "",
       "This is the Jinja builtin filter plugin 'length'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.length)"
      ],
@@ -4923,7 +4554,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Convert the value into a list.",
-      "",
       "This is the Jinja builtin filter plugin 'list'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.list)"
      ],
@@ -4979,7 +4609,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Convert a value to lowercase.",
-      "",
       "This is the Jinja builtin filter plugin 'lower'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.lower)"
      ],
@@ -5031,7 +4660,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Applies a filter on a sequence of objects or looks up an attribute.",
-      "",
       "This is the Jinja builtin filter plugin 'map'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.map)"
      ],
@@ -5048,7 +4676,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return the largest item from the sequence.",
-      "",
       "This is the Jinja builtin filter plugin 'max'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.max)"
      ],
@@ -5099,7 +4726,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return the smallest item from the sequence.",
-      "",
       "This is the Jinja builtin filter plugin 'min'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.min)"
      ],
@@ -5317,7 +4943,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Pretty print a variable.",
-      "",
       "This is the Jinja builtin filter plugin 'pprint'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.pprint)"
      ],
@@ -5489,9 +5114,6 @@
      ],
      "filename": "/ansible/plugins/filter/regex_escape.yml",
      "name": "regex_escape",
-     "notes": [
-      "posix_extended is not implemented yet"
-     ],
      "options": {
       "_input": {
        "description": "String to escape.",
@@ -5499,12 +5121,16 @@
        "type": "str"
       },
       "re_type": {
-       "choices": [
-        "python",
-        "posix_basic"
-       ],
+       "choices": {
+        "posix_basic": "Preserves all POSIX Basic Regular Expressions special characters in string.",
+        "posix_extended": "Preserves all POSIX Extended Regular Expressions special characters in string.",
+        "python": "Preserves all regular expressions special characters in string."
+       },
        "default": "python",
-       "description": "Which type of escaping to use.",
+       "description": [
+        "Which type of escaping to use.",
+        "V(posix_extended) is added in Ansible Core 2.22."
+       ],
        "type": "str"
       }
      },
@@ -5514,7 +5140,7 @@
      "version_added": "2.8",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n# safe_for_regex => '\\^f\\.\\*o\\(\\.\\*\\)\\$'\nsafe_for_regex: \"{{ '^f.*o(.*)$' | regex_escape() }}\"\n",
+    "examples": "\n# safe_for_regex => '\\^f\\.\\*o\\(\\.\\*\\)\\$'\nsafe_for_regex: \"{{ '^f.*o(.*)$' | regex_escape() }}\"\n\n# safe_for_posix_basic => '\\\\]\\\\]\\\\^'\nsafe_for_posix_basic: \"{{ ']]^' | regex_escape(re_type='posix_basic') }}\"\n\n# safe_for_posix_extended => '\\\\^f\\\\.\\\\*o\\\\(\\\\.\\\\*\\\\)\\\\$'\nsafe_for_posix_extended: \"{{ '^f.*o(.*)$' | regex_escape(re_type='posix_extended') }}\"\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -5689,7 +5315,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Filters a sequence of objects by applying a test to each object, and rejecting the objects with the test succeeding.",
-      "",
       "This is the Jinja builtin filter plugin 'reject'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.reject)"
      ],
@@ -5706,7 +5331,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Filters a sequence of objects by applying a test to the specified attribute of each object, and rejecting the objects with the test succeeding.",
-      "",
       "This is the Jinja builtin filter plugin 'rejectattr'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.rejectattr)"
      ],
@@ -5800,7 +5424,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return a copy of the value with all occurrences of a substring replaced with a new one.",
-      "",
       "This is the Jinja builtin filter plugin 'replace'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.replace)"
      ],
@@ -5817,7 +5440,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Reverse the object or return an iterator that iterates over it the other way round.",
-      "",
       "This is the Jinja builtin filter plugin 'reverse'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.reverse)"
      ],
@@ -5869,7 +5491,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Round the number to a given precision.",
-      "",
       "This is the Jinja builtin filter plugin 'round'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.round)"
      ],
@@ -5886,7 +5507,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Mark the value as safe which means that in an environment with automatic escaping enabled this variable will not be escaped.",
-      "",
       "This is the Jinja builtin filter plugin 'safe'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.safe)"
      ],
@@ -5903,7 +5523,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Filters a sequence of objects by applying a test to each object, and only selecting the objects with the test succeeding.",
-      "",
       "This is the Jinja builtin filter plugin 'select'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.select)"
      ],
@@ -5920,7 +5539,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Filters a sequence of objects by applying a test to the specified attribute of each object, and only selecting the objects with the test succeeding.",
-      "",
       "This is the Jinja builtin filter plugin 'selectattr'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.selectattr)"
      ],
@@ -6007,7 +5625,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Slice an iterator and return a list of lists containing those items.",
-      "",
       "This is the Jinja builtin filter plugin 'slice'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.slice)"
      ],
@@ -6024,7 +5641,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Sort an iterable using Python's :func:`sorted`.",
-      "",
       "This is the Jinja builtin filter plugin 'sort'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.sort)"
      ],
@@ -6168,7 +5784,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Convert an object to a string if it isn't already.",
-      "",
       "This is the Jinja builtin filter plugin 'string'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.string)"
      ],
@@ -6185,7 +5800,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Strip SGML/XML tags and replace adjacent whitespace by one space.",
-      "",
       "This is the Jinja builtin filter plugin 'striptags'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.striptags)"
      ],
@@ -6244,7 +5858,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Returns the sum of a sequence of numbers plus the value of parameter 'start'.",
-      "",
       "This is the Jinja builtin filter plugin 'sum'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.sum)"
      ],
@@ -6364,7 +5977,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return a titlecased version of the value.",
-      "",
       "This is the Jinja builtin filter plugin 'title'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.title)"
      ],
@@ -6679,7 +6291,7 @@
     "doc": {
      "collection": "ansible.builtin",
      "description": [
-      "Use to generate namespaced Universal Unique ID."
+      "Use to generate namespaced Universal Unique ID (UUIDv5)."
      ],
      "filename": "/ansible/plugins/filter/to_uuid.yml",
      "name": "to_uuid",
@@ -6701,7 +6313,7 @@
      "version_added": "2.9",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n# To create a namespaced UUIDv5\nuuid: \"{{ string | to_uuid(namespace='11111111-2222-3333-4444-555555555555') }}\"\n\n\n# To create a namespaced UUIDv5 using the default Ansible namespace '361E6D51-FAEC-444A-9079-341386DA8E2E'\nuuid: \"{{ string | to_uuid }}\"\n",
+    "examples": "\n# To create a namespaced UUIDv5 using the namespace '11111111-2222-3333-4444-555555555555'\nuuid: \"{{ string | to_uuid(namespace='11111111-2222-3333-4444-555555555555') }}\"\n\n\n# To create a namespaced UUIDv5 using the default Ansible namespace '361E6D51-FAEC-444A-9079-341386DA8E2E'\nuuid: \"{{ string | to_uuid }}\"\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -6774,6 +6386,19 @@
        "description": "Affects sorting of dictionary keys.",
        "type": "bool"
       },
+      "vault_behavior": {
+       "choices": [
+        "decrypt",
+        "redact",
+        "keep_encrypted",
+        "fail"
+       ],
+       "default": "decrypt",
+       "description": "Specify preferred treatment of vaulted values",
+       "type": "string",
+       "version_added": 2.21,
+       "version_added_collection": "ansible.builtin"
+      },
       "width": {
        "description": "Set the preferred line width.",
        "type": "integer"
@@ -6799,7 +6424,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Serialize an object to a string of JSON, and mark it safe to render in HTML.",
-      "",
       "This is the Jinja builtin filter plugin 'tojson'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.tojson)"
      ],
@@ -6816,7 +6440,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Strip leading and trailing characters, by default whitespace.",
-      "",
       "This is the Jinja builtin filter plugin 'trim'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.trim)"
      ],
@@ -6833,7 +6456,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return a truncated copy of the string.",
-      "",
       "This is the Jinja builtin filter plugin 'truncate'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.truncate)"
      ],
@@ -7032,7 +6654,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Convert a value to uppercase.",
-      "",
       "This is the Jinja builtin filter plugin 'upper'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.upper)"
      ],
@@ -7082,7 +6703,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Quote data for use in a URL path or query using UTF-8.",
-      "",
       "This is the Jinja builtin filter plugin 'urlencode'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.urlencode)"
      ],
@@ -7099,7 +6719,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Convert URLs in text into clickable links.",
-      "",
       "This is the Jinja builtin filter plugin 'urlize'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.urlize)"
      ],
@@ -7330,7 +6949,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Count the words in that string.",
-      "",
       "This is the Jinja builtin filter plugin 'wordcount'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.wordcount)"
      ],
@@ -7347,7 +6965,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Wrap a string to the given width.",
-      "",
       "This is the Jinja builtin filter plugin 'wordwrap'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.wordwrap)"
      ],
@@ -7364,7 +6981,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Create an SGML/XML attribute string based on the items in a dict.",
-      "",
       "This is the Jinja builtin filter plugin 'xmlattr'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.xmlattr)"
      ],
@@ -8491,8 +8107,7 @@
     ],
     "description": "Name of variable that will contain task status and module return data.",
     "priority": 0,
-    "template": "static",
-    "type": "string"
+    "template": "static"
    },
    "remote_user": {
     "applies_to": [
@@ -8731,6 +8346,7 @@
       }
      },
      "plugin_name": "ansible.builtin.config",
+     "positional": "_terms",
      "short_description": "Display the 'resolved' Ansible option values.",
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
@@ -8833,6 +8449,7 @@
       }
      },
      "plugin_name": "ansible.builtin.dict",
+     "positional": "_terms",
      "short_description": "returns key/value pair items from dictionaries",
      "version_added": "1.5",
      "version_added_collection": "ansible.builtin"
@@ -8876,6 +8493,7 @@
       }
      },
      "plugin_name": "ansible.builtin.env",
+     "positional": "_terms",
      "short_description": "Read the value of environment variables",
      "version_added": "0.9",
      "version_added_collection": "ansible.builtin"
@@ -8922,6 +8540,7 @@
       }
      },
      "plugin_name": "ansible.builtin.file",
+     "positional": "_terms",
      "seealso": [
       {
        "description": "Search paths used for relative files.",
@@ -8966,6 +8585,7 @@
       }
      },
      "plugin_name": "ansible.builtin.fileglob",
+     "positional": "_terms",
      "seealso": [
       {
        "description": "Search paths used for relative files.",
@@ -9032,6 +8652,7 @@
       }
      },
      "plugin_name": "ansible.builtin.first_found",
+     "positional": "_terms",
      "seealso": [
       {
        "description": "Search paths used for relative paths/files.",
@@ -9071,6 +8692,7 @@
       }
      },
      "plugin_name": "ansible.builtin.indexed_items",
+     "positional": "_terms",
      "short_description": "rewrites lists to return 'indexed items'",
      "version_added": "1.3",
      "version_added_collection": "ansible.builtin"
@@ -9158,10 +8780,22 @@
       }
      },
      "plugin_name": "ansible.builtin.ini",
+     "positional": "_terms",
      "seealso": [
       {
        "description": "Search paths used for relative files.",
        "ref": "playbook_task_paths"
+      },
+      {
+       "module": "community.general.ini_file"
+      },
+      {
+       "plugin": "community.general.from_ini",
+       "plugin_type": "filter"
+      },
+      {
+       "plugin": "community.general.to_ini",
+       "plugin_type": "filter"
       }
      ],
      "short_description": "read data from an ini file",
@@ -9230,6 +8864,7 @@
       }
      },
      "plugin_name": "ansible.builtin.items",
+     "positional": "_terms",
      "short_description": "list of items",
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
@@ -9267,6 +8902,7 @@
       }
      },
      "plugin_name": "ansible.builtin.lines",
+     "positional": "_terms",
      "short_description": "read lines from command",
      "version_added": "0.9",
      "version_added_collection": "ansible.builtin"
@@ -9324,6 +8960,7 @@
       }
      },
      "plugin_name": "ansible.builtin.nested",
+     "positional": "_raw",
      "short_description": "composes a list with nested elements of other lists",
      "version_added": "1.1",
      "version_added_collection": "ansible.builtin"
@@ -9424,6 +9061,7 @@
       }
      },
      "plugin_name": "ansible.builtin.password",
+     "positional": "_terms",
      "short_description": "retrieve or generate a random password, stored in a file",
      "version_added": "1.1",
      "version_added_collection": "ansible.builtin"
@@ -9462,6 +9100,7 @@
       }
      },
      "plugin_name": "ansible.builtin.pipe",
+     "positional": "_terms",
      "short_description": "read output from a command",
      "version_added": "0.9",
      "version_added_collection": "ansible.builtin"
@@ -9583,6 +9222,7 @@
       }
      },
      "plugin_name": "ansible.builtin.subelements",
+     "positional": "_terms",
      "short_description": "traverse nested key from a list of dictionaries",
      "version_added": "1.4",
      "version_added_collection": "ansible.builtin"
@@ -9687,6 +9327,7 @@
       }
      },
      "plugin_name": "ansible.builtin.template",
+     "positional": "_terms",
      "seealso": [
       {
        "description": "Search paths used for relative templates.",
@@ -9726,6 +9367,7 @@
       }
      },
      "plugin_name": "ansible.builtin.together",
+     "positional": "_terms",
      "short_description": "merges lists into synchronized list",
      "version_added": "1.3",
      "version_added_collection": "ansible.builtin"
@@ -9759,6 +9401,7 @@
       }
      },
      "plugin_name": "ansible.builtin.unvault",
+     "positional": "_terms",
      "seealso": [
       {
        "description": "Search paths used for relative files.",
@@ -9847,11 +9490,9 @@
       "follow_redirects": {
        "choices": {
         "all": "Will follow all redirects.",
-        "no": "(DEPRECATED, removed in 2.22) alias of V(none).",
         "none": "Will not follow any redirects.",
         "safe": "Only redirects doing GET or HEAD requests will be followed.",
-        "urllib2": "Defer to urllib2 behavior (As of writing this follows HTTP redirects).",
-        "yes": "(DEPRECATED, removed in 2.22) alias of V(all)."
+        "urllib2": "Defer to urllib2 behavior (As of writing this follows HTTP redirects)."
        },
        "default": "urllib2",
        "description": [
@@ -10103,6 +9744,7 @@
       }
      },
      "plugin_name": "ansible.builtin.url",
+     "positional": "_terms",
      "short_description": "return contents from URL",
      "version_added": "1.9",
      "version_added_collection": "ansible.builtin"
@@ -10133,6 +9775,7 @@
       }
      },
      "plugin_name": "ansible.builtin.varnames",
+     "positional": "_terms",
      "seealso": [
       {
        "plugin": "ansible.builtin.vars",
@@ -10176,6 +9819,7 @@
       }
      },
      "plugin_name": "ansible.builtin.vars",
+     "positional": "_terms",
      "seealso": [
       {
        "plugin": "ansible.builtin.varnames",
@@ -10186,7 +9830,7 @@
      "version_added": "2.5",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Show value of 'variablename'\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.vars', 'variabl' + myvar) }}\"\n  vars:\n    variablename: hello\n    myvar: ename\n\n- name: Show default empty since i dont have 'variablnotename'\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.vars', 'variabl' + myvar, default='') }}\"\n  vars:\n    variablename: hello\n    myvar: notename\n\n- name: Produce an error since i dont have 'variablnotename'\n  ansible.builtin.debug: msg=\"{{ q('vars', 'variabl' + myvar) }}\"\n  ignore_errors: True\n  vars:\n    variablename: hello\n    myvar: notename\n\n- name: find several related variables\n  ansible.builtin.debug: msg=\"{{ query('ansible.builtin.vars', 'ansible_play_hosts', 'ansible_play_batch', 'ansible_play_hosts_all') }}\"\n\n- name: show values from variables found via varnames (note \"*\" is used to dereference the list to a 'list of arguments')\n  debug: msg=\"{{ q('vars', *q('varnames', 'ansible_play_.+')) }}\"\n\n- name: Access nested variables\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.vars', 'variabl' + myvar).sub_var }}\"\n  ignore_errors: True\n  vars:\n    variablename:\n        sub_var: 12\n    myvar: ename\n\n- name: alternate way to find some 'prefixed vars' in loop\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.vars', 'ansible_play_' + item) }}\"\n  loop:\n    - hosts\n    - batch\n    - hosts_all\n",
+    "examples": "\n- name: Show value of 'variablename'\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.vars', 'variabl' + myvar) }}\"\n  vars:\n    variablename: hello\n    myvar: ename\n\n- name: Show default empty since I don't have 'variablnotename'\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.vars', 'variabl' + myvar, default='') }}\"\n  vars:\n    variablename: hello\n    myvar: notename\n\n- name: Produce an error since I don't have 'variablnotename'\n  ansible.builtin.debug: msg=\"{{ q('vars', 'variabl' + myvar) }}\"\n  ignore_errors: True\n  vars:\n    variablename: hello\n    myvar: notename\n\n- name: Find several related variables\n  ansible.builtin.debug: msg=\"{{ query('ansible.builtin.vars', 'ansible_play_hosts', 'ansible_play_batch', 'ansible_play_hosts_all') }}\"\n\n- name: Show values from variables found via varnames (note \"*\" is used to dereference the list to a 'list of arguments')\n  debug: msg=\"{{ q('vars', *q('varnames', 'ansible_play_.+')) }}\"\n\n- name: Access nested variables\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.vars', 'variabl' + myvar).sub_var }}\"\n  ignore_errors: True\n  vars:\n    variablename:\n        sub_var: 12\n    myvar: ename\n\n- name: Alternate way to find some 'prefixed vars' in loop\n  ansible.builtin.debug: msg=\"{{ lookup('ansible.builtin.vars', 'ansible_play_' + item) }}\"\n  loop:\n    - hosts\n    - batch\n    - hosts_all\n",
     "metadata": null,
     "return": {
      "_value": {
@@ -10400,7 +10044,8 @@
       "When used with a C(loop:) each package will be processed individually, it is much more efficient to pass the list directly to the O(name) option.",
       "When O(default_release) is used, an implicit priority of 990 is used. This is the same behavior as C(apt-get -t).",
       "When an exact version is specified, an implicit priority of 1001 is used.",
-      "If the interpreter can't import C(python3-apt) the module will check for it in system-owned interpreters as well. If the dependency can't be found, depending on the value of O(auto_install_module_deps) the module will attempt to install it. If the dependency is found or installed, the module will be respawned under the correct interpreter."
+      "If the interpreter can't import C(python3-apt) the module will check for it in system-owned interpreters as well. If the dependency can't be found, depending on the value of O(auto_install_module_deps) the module will attempt to install it. If the dependency is found or installed, the module will be respawned under the correct interpreter.",
+      "From ansible-core 2.21, if the apt lists directory is absent, the module will recreate it by running C(apt-get update)."
      ],
      "options": {
       "allow_change_held_packages": {
@@ -10675,6 +10320,11 @@
       "python3-apt",
       "aptitude (before 2.4)"
      ],
+     "seealso": [
+      {
+       "module": "ansible.builtin.deb822_repository"
+      }
+     ],
      "short_description": "Manages apt-packages",
      "version_added": "0.0.2",
      "version_added_collection": "ansible.builtin"
@@ -10729,6 +10379,12 @@
       "Jayson Vantuyl (@jvantuyl)"
      ],
      "collection": "ansible.builtin",
+     "deprecated": {
+      "alternative": "ansible.builtin.deb822_repository",
+      "removed_from_collection": "ansible.builtin",
+      "removed_in": "2.25",
+      "why": "The M(ansible.builtin.apt_key) module is deprecated in favor of the M(ansible.builtin.deb822_repository) module."
+     },
      "description": [
       "Add or remove an I(apt) key, optionally downloading it."
      ],
@@ -10890,6 +10546,12 @@
       "Alexander Saltanov (@sashka)"
      ],
      "collection": "ansible.builtin",
+     "deprecated": {
+      "alternative": "ansible.builtin.deb822_repository",
+      "removed_from_collection": "ansible.builtin",
+      "removed_in": "2.25",
+      "why": "The M(ansible.builtin.apt_repository) module is deprecated in favor of the M(ansible.builtin.deb822_repository) module."
+     },
      "description": [
       "Add or remove an APT repositories in Ubuntu and Debian."
      ],
@@ -11140,7 +10802,8 @@
       "group": {
        "description": [
         "Name of the group that should own the filesystem object, as would be fed to C(chown).",
-        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
+        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.",
+        "Specifying a numeric group name (for example, \"1000\") will be assumed to be a group ID (GID) and not a group name. To prevent confusion, avoid using purely numeric group names."
        ],
        "type": "str"
       },
@@ -11169,7 +10832,7 @@
        "description": [
         "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
-        "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
+        "Specifying a numeric username (for example, \"1000\") will be assumed to be a user ID (UID) and not a username. To prevent confusion, avoid using purely numeric usernames."
        ],
        "type": "str"
       },
@@ -11614,7 +11277,8 @@
       "group": {
        "description": [
         "Name of the group that should own the filesystem object, as would be fed to C(chown).",
-        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
+        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.",
+        "Specifying a numeric group name (for example, \"1000\") will be assumed to be a group ID (GID) and not a group name. To prevent confusion, avoid using purely numeric group names."
        ],
        "type": "str"
       },
@@ -11682,7 +11346,7 @@
        "description": [
         "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
-        "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
+        "Specifying a numeric username (for example, \"1000\") will be assumed to be a user ID (UID) and not a username. To prevent confusion, avoid using purely numeric usernames."
        ],
        "type": "str"
       },
@@ -12168,7 +11832,8 @@
       "group": {
        "description": [
         "Name of the group that should own the filesystem object, as would be fed to C(chown).",
-        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
+        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.",
+        "Specifying a numeric group name (for example, \"1000\") will be assumed to be a group ID (GID) and not a group name. To prevent confusion, avoid using purely numeric group names."
        ],
        "type": "str"
       },
@@ -12198,7 +11863,7 @@
        "description": [
         "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
-        "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
+        "Specifying a numeric username (for example, \"1000\") will be assumed to be a user ID (UID) and not a username. To prevent confusion, avoid using purely numeric usernames."
        ],
        "type": "str"
       },
@@ -13223,7 +12888,8 @@
       "exclude": {
        "default": [],
        "description": [
-        "Package name(s) to exclude when O(state=present), or latest. This can be a list or a comma separated string."
+        "Package name(s) to exclude from the operation. This can be a list or a comma separated string.",
+        "Works with all O(state) values, including V(absent), V(present), and V(latest)."
        ],
        "elements": "str",
        "type": "list",
@@ -13581,7 +13247,8 @@
       "exclude": {
        "default": [],
        "description": [
-        "Package name(s) to exclude when O(state=present) or O(state=latest). This can be a list or a comma separated string."
+        "Package name(s) to exclude from the operation. This can be a list or a comma separated string.",
+        "Works with all O(state) values, including V(absent), V(present), and V(latest)."
        ],
        "elements": "str",
        "type": "list"
@@ -14057,7 +13724,7 @@
      "notes": [
       "When running fetch with C(become), the M(ansible.builtin.slurp) module will also be used to fetch the contents of the file for determining the remote checksum. This effectively doubles the transfer size, and depending on the file size can consume all available memory on the remote or local hosts causing a C(MemoryError). Due to this it is advisable to run this module without C(become) whenever possible.",
       "Prior to Ansible 2.5 this module would not fail if reading the remote file was impossible unless O(fail_on_missing) was set.",
-      "In Ansible 2.5 or later, playbook authors are encouraged to use C(fail_when) or C(ignore_errors) to get this ability. They may also explicitly set O(fail_on_missing) to V(false) to get the non-failing behaviour."
+      "In Ansible 2.5 or later, playbook authors are encouraged to use C(failed_when) or C(ignore_errors) to get this ability. They may also explicitly set O(fail_on_missing) to V(false) to get the non-failing behaviour."
      ],
      "options": {
       "dest": {
@@ -14214,7 +13881,8 @@
       "group": {
        "description": [
         "Name of the group that should own the filesystem object, as would be fed to C(chown).",
-        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
+        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.",
+        "Specifying a numeric group name (for example, \"1000\") will be assumed to be a group ID (GID) and not a group name. To prevent confusion, avoid using purely numeric group names."
        ],
        "type": "str"
       },
@@ -14254,7 +13922,7 @@
        "description": [
         "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
-        "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
+        "Specifying a numeric username (for example, \"1000\") will be assumed to be a user ID (UID) and not a username. To prevent confusion, avoid using purely numeric usernames."
        ],
        "type": "str"
       },
@@ -14374,7 +14042,7 @@
      "version_added": "historical",
      "version_added_collection": "ansible.builtin"
     },
-    "examples": "\n- name: Change file ownership, group and permissions\n  ansible.builtin.file:\n    path: /etc/foo.conf\n    owner: foo\n    group: foo\n    mode: '0644'\n\n- name: Give insecure permissions to an existing file\n  ansible.builtin.file:\n    path: /work\n    owner: root\n    group: root\n    mode: '1777'\n\n- name: Create a symbolic link\n  ansible.builtin.file:\n    src: /file/to/link/to\n    dest: /path/to/symlink\n    owner: foo\n    group: foo\n    state: link\n\n- name: Create two hard links\n  ansible.builtin.file:\n    src: '/tmp/{{ item.src }}'\n    dest: '{{ item.dest }}'\n    state: hard\n  loop:\n    - { src: x, dest: y }\n    - { src: z, dest: k }\n\n- name: Touch a file, using symbolic modes to set the permissions (equivalent to 0644)\n  ansible.builtin.file:\n    path: /etc/foo.conf\n    state: touch\n    mode: u=rw,g=r,o=r\n\n- name: Touch the same file, but add/remove some permissions\n  ansible.builtin.file:\n    path: /etc/foo.conf\n    state: touch\n    mode: u+rw,g-wx,o-rwx\n\n- name: Touch again the same file, but do not change times this makes the task idempotent\n  ansible.builtin.file:\n    path: /etc/foo.conf\n    state: touch\n    mode: u+rw,g-wx,o-rwx\n    modification_time: preserve\n    access_time: preserve\n\n- name: Create a directory if it does not exist\n  ansible.builtin.file:\n    path: /etc/some_directory\n    state: directory\n    mode: '0755'\n\n- name: Update modification and access time of given file\n  ansible.builtin.file:\n    path: /etc/some_file\n    state: file\n    modification_time: now\n    access_time: now\n\n- name: Set access time based on seconds from epoch value\n  ansible.builtin.file:\n    path: /etc/another_file\n    state: file\n    access_time: '{{ \"%Y%m%d%H%M.%S\" | strftime(stat_var.stat.atime) }}'\n\n- name: Recursively change ownership of a directory\n  ansible.builtin.file:\n    path: /etc/foo\n    state: directory\n    recurse: yes\n    owner: foo\n    group: foo\n\n- name: Remove file (delete file)\n  ansible.builtin.file:\n    path: /etc/foo.txt\n    state: absent\n\n- name: Recursively remove directory\n  ansible.builtin.file:\n    path: /etc/foo\n    state: absent\n\n",
+    "examples": "\n- name: Change file ownership, group and permissions\n  ansible.builtin.file:\n    path: /etc/foo.conf\n    owner: foo\n    group: foo\n    mode: '0644'\n\n- name: Change file group using gid\n  ansible.builtin.file:\n    path: /etc/bar.conf\n    group: \"1000\"\n\n- name: Give insecure permissions to an existing file\n  ansible.builtin.file:\n    path: /work\n    owner: root\n    group: root\n    mode: '1777'\n\n- name: Create a symbolic link\n  ansible.builtin.file:\n    src: /file/to/link/to\n    dest: /path/to/symlink\n    owner: foo\n    group: foo\n    state: link\n\n- name: Create two hard links\n  ansible.builtin.file:\n    src: '/tmp/{{ item.src }}'\n    dest: '{{ item.dest }}'\n    state: hard\n  loop:\n    - { src: x, dest: y }\n    - { src: z, dest: k }\n\n- name: Touch a file, using symbolic modes to set the permissions (equivalent to 0644)\n  ansible.builtin.file:\n    path: /etc/foo.conf\n    state: touch\n    mode: u=rw,g=r,o=r\n\n- name: Touch the same file, but add/remove some permissions\n  ansible.builtin.file:\n    path: /etc/foo.conf\n    state: touch\n    mode: u+rw,g-wx,o-rwx\n\n- name: Touch again the same file, but do not change times this makes the task idempotent\n  ansible.builtin.file:\n    path: /etc/foo.conf\n    state: touch\n    mode: u+rw,g-wx,o-rwx\n    modification_time: preserve\n    access_time: preserve\n\n- name: Create a directory if it does not exist\n  ansible.builtin.file:\n    path: /etc/some_directory\n    state: directory\n    mode: '0755'\n\n- name: Update modification and access time of given file\n  ansible.builtin.file:\n    path: /etc/some_file\n    state: file\n    modification_time: now\n    access_time: now\n\n- name: Set access time based on seconds from epoch value\n  ansible.builtin.file:\n    path: /etc/another_file\n    state: file\n    access_time: '{{ \"%Y%m%d%H%M.%S\" | strftime(stat_var.stat.atime) }}'\n\n- name: Recursively change ownership of a directory\n  ansible.builtin.file:\n    path: /etc/foo\n    state: directory\n    recurse: yes\n    owner: foo\n    group: foo\n\n- name: Remove file (delete file)\n  ansible.builtin.file:\n    path: /etc/foo.txt\n    state: absent\n\n- name: Recursively remove directory\n  ansible.builtin.file:\n    path: /etc/foo\n    state: absent\n\n",
     "metadata": null,
     "return": {
      "dest": {
@@ -14424,7 +14092,7 @@
        "description": [
         "Select files whose age is equal to or greater than the specified time.",
         "Use a negative age to find files equal to or less than the specified time.",
-        "You can choose seconds, minutes, hours, days, or weeks by specifying the first letter of any of those words (e.g., \"1w\")."
+        "You can choose seconds, minutes, hours, days, or weeks by specifying the first letter of any of those words (for example V(1w))."
        ],
        "type": "str"
       },
@@ -14467,7 +14135,7 @@
       "contains": {
        "description": [
         "A regular expression or pattern which should be matched against the file content.",
-        "If O(read_whole_file=false) it matches against the beginning of the line (uses V(re.match(\\))). If O(read_whole_file=true), it searches anywhere for that pattern (uses V(re.search(\\))).",
+        "If O(read_whole_file=false) it matches against the beginning of the line (uses C(re.match(\\))). If O(read_whole_file=true), it searches anywhere for that pattern (uses C(re.search(\\))).",
         "Works only when O(file_type) is V(file)."
        ],
        "type": "str"
@@ -14475,7 +14143,7 @@
       "depth": {
        "description": [
         "Set the maximum number of levels to descend into.",
-        "Setting O(recurse=false) will override this value, which is effectively depth 1.",
+        "Setting O(recurse=false) is effectively O(depth=1) and overrides this value.",
         "Default is unlimited depth."
        ],
        "type": "int",
@@ -14484,7 +14152,8 @@
       },
       "encoding": {
        "description": [
-        "When doing a O(contains) search, determine the encoding of the files to be searched."
+        "When doing a O(contains) search, determine the encoding of the files to be searched.",
+        "When no value is provided, the Python default encoding is used."
        ],
        "type": "str",
        "version_added": "2.17",
@@ -14505,7 +14174,7 @@
        ],
        "description": [
         "One or more (shell or regex) patterns, which type is controlled by O(use_regex) option.",
-        "Items whose basenames match an O(excludes) pattern are culled from O(patterns) matches. Multiple patterns can be specified using a list."
+        "Items whose base names match an O(excludes) pattern are culled from O(patterns) matches. Multiple patterns can be specified using a list."
        ],
        "elements": "str",
        "type": "list",
@@ -14543,15 +14212,15 @@
       "hidden": {
        "default": false,
        "description": [
-        "Set this to V(true) to include hidden files, otherwise they will be ignored."
+        "Set this to V(true) to include hidden files, otherwise they are ignored."
        ],
        "type": "bool"
       },
       "limit": {
        "description": [
-        "Limit the maximum number of matching paths returned. After finding this many, the find action will stop looking.",
-        "Matches are made from the top, down (i.e. shallowest directory first).",
-        "If not set, or set to v(null), it will do unlimited matches.",
+        "Limit the maximum number of matching paths returned. After finding this many, the find action stops looking.",
+        "Matches are made from the top, down (meaning the shallowest directory first).",
+        "If not set, or set to V(null), it performs unlimited matches.",
         "Default is unlimited matches."
        ],
        "type": "int",
@@ -14560,7 +14229,7 @@
       },
       "mode": {
        "description": [
-        "Choose objects matching a specified permission. This value is restricted to modes that can be applied using the python C(os.chmod) function.",
+        "Choose objects matching a specified permission. This value is restricted to modes that can be applied using the python C(os.chmod(\\)) function.",
         "The mode can be provided as an octal such as V(\"0644\") or as symbolic such as V(u=rw,g=r,o=r)."
        ],
        "type": "raw",
@@ -14587,11 +14256,11 @@
        "default": [],
        "description": [
         "One or more (shell or regex) patterns, which type is controlled by O(use_regex) option.",
-        "The patterns restrict the list of files to be returned to those whose basenames match at least one of the patterns specified. Multiple patterns can be specified using a list.",
+        "The patterns restrict the list of files to be returned to those whose base names match at least one of the patterns specified. Multiple patterns can be specified using a list.",
         "The pattern is matched against the file base name, excluding the directory.",
-        "When using regexen, the pattern MUST match the ENTIRE file name, not just parts of it. So if you are looking to match all files ending in .default, you'd need to use C(.*\\.default) as a regexp and not just C(\\.default).",
+        "If O(use_regex=true), the pattern matches against the beginning of the file name using Python's C(re.match(\\)). To match the entire file name rather than just a prefix, anchor the end of the pattern with V($). For example, to match all C(.md) files, use V(.*\\\\.md$) instead of V(\\\\.md).",
         "This parameter expects a list, which can be either comma separated or YAML. If any of the patterns contain a comma, make sure to put them in a list to avoid splitting the patterns in undesirable ways.",
-        "Defaults to V(*) when O(use_regex=False), or V(.*) when O(use_regex=True)."
+        "Defaults to V(*) when O(use_regex=false), or V(.*) when O(use_regex=true)."
        ],
        "elements": "str",
        "type": "list"
@@ -14599,9 +14268,9 @@
       "read_whole_file": {
        "default": false,
        "description": [
-        "When doing a C(contains) search, determines whether the whole file should be read into memory or if the regex should be applied to the file line-by-line.",
-        "Setting this to C(true) can have performance and memory implications for large files.",
-        "This uses V(re.search(\\)) instead of V(re.match(\\))."
+        "When doing a O(contains) search, determines whether the whole file should be read into memory or if the regex should be applied to the file line-by-line.",
+        "Setting this to V(true) can have performance and memory implications for large files.",
+        "This uses C(re.search(\\)) instead of C(re.match(\\))."
        ],
        "type": "bool",
        "version_added": "2.11",
@@ -14618,7 +14287,7 @@
        "description": [
         "Select files whose size is equal to or greater than the specified size.",
         "Use a negative size to find files equal to or less than the specified size.",
-        "Unqualified values are in bytes but b, k, m, g, and t can be appended to specify bytes, kilobytes, megabytes, gigabytes, and terabytes, respectively.",
+        "Unqualified values are in bytes but V(b), V(k), V(m), V(g), and V(t) can be appended to specify bytes, kilobytes, megabytes, gigabytes, and terabytes, respectively.",
         "Size is not evaluated for directories."
        ],
        "type": "str"
@@ -14627,7 +14296,7 @@
        "default": false,
        "description": [
         "If V(false), the patterns are file globs (shell).",
-        "If V(true), they are python regexes."
+        "If V(true), they are Python regular expressions."
        ],
        "type": "bool"
       }
@@ -14831,7 +14500,7 @@
         "If you worry about portability, only the sha1 algorithm is available on all platforms and python versions.",
         "The Python C(hashlib) module is responsible for providing the available algorithms. The choices vary based on Python version and OpenSSL version.",
         "On systems running in FIPS compliant mode, the C(md5) algorithm may be unavailable.",
-        "Additionally, if a checksum is passed to this parameter, and the file exist under the O(dest) location, the C(destination_checksum) would be calculated, and if checksum equals C(destination_checksum), the file download would be skipped (unless O(force=true)). If the checksum does not equal C(destination_checksum), the destination file is deleted.",
+        "Additionally, if a checksum is supplied to this parameter, and the file exists under the O(dest) location, the C(destination_checksum) would be calculated; and if checksum equals C(destination_checksum), the file download would be skipped (unless O(force=true)). If the checksum does not equal C(destination_checksum), the destination file is replaced with the newly downloaded file.",
         "If the checksum URL requires username and password, O(url_username) and O(url_password) are used to download the checksum file."
        ],
        "type": "str",
@@ -14909,7 +14578,8 @@
       "group": {
        "description": [
         "Name of the group that should own the filesystem object, as would be fed to C(chown).",
-        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
+        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.",
+        "Specifying a numeric group name (for example, \"1000\") will be assumed to be a group ID (GID) and not a group name. To prevent confusion, avoid using purely numeric group names."
        ],
        "type": "str"
       },
@@ -14947,7 +14617,7 @@
        "description": [
         "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
-        "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
+        "Specifying a numeric username (for example, \"1000\") will be assumed to be a user ID (UID) and not a username. To prevent confusion, avoid using purely numeric usernames."
        ],
        "type": "str"
       },
@@ -15432,7 +15102,7 @@
       "force": {
        "default": "no",
        "description": [
-        "If V(true), any modified files in the working repository will be discarded.  Prior to 0.7, this was always V(true) and could not be disabled.  Prior to 1.9, the default was V(true)."
+        "If V(true), any modified files in the working repository and local commits will be discarded.  Prior to 0.7, this was always V(true) and could not be disabled.  Prior to 1.9, the default was V(true)."
        ],
        "type": "bool",
        "version_added": "0.7",
@@ -15535,7 +15205,9 @@
       "track_submodules": {
        "default": "no",
        "description": [
-        "If V(true), submodules will track the latest commit on their master branch (or other branch specified in C(.gitmodules)).  If V(false), submodules will be kept at the revision specified by the main project. This is equivalent to specifying the C(--remote) flag to git submodule update."
+        "If V(true), submodules will track the latest commit on the branch specified in C(.gitmodules). If no branch is specified in C(.gitmodules), it will use the remote HEAD.",
+        "Currently, the value of remote is defaulted to C(origin). Specifying the remote for the submodules is not supported.",
+        "If V(false), submodules will be kept at the revision specified by the main project. This is equivalent to specifying the C(--remote) flag to git submodule update."
        ],
        "type": "bool",
        "version_added": "1.8",
@@ -15652,7 +15324,8 @@
        "default": false,
        "description": [
         "Whether to delete a group even if it is the primary group of a user.",
-        "Only applicable on platforms which implement a C(--force) flag on the group deletion command."
+        "Only applicable on platforms which implement a C(--force) flag on the group deletion command.",
+        "Not applicable on macOS, *BSD and BusyBox based distros."
        ],
        "type": "bool",
        "version_added": "2.15",
@@ -16730,7 +16403,7 @@
      "attributes": {
       "action": {
        "description": "Indicates this has a corresponding action plugin so some parts of the options can be executed on the controller",
-       "details": "While the action plugin does do some of the work it relies on the core engine to actually create the variables, that part cannot be overridden",
+       "details": "While the action plugin does do some of the work it relies on the core engine to actually create the variables; that part cannot be overridden",
        "support": "partial"
       },
       "async": {
@@ -17670,7 +17343,8 @@
       "group": {
        "description": [
         "Name of the group that should own the filesystem object, as would be fed to C(chown).",
-        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
+        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.",
+        "Specifying a numeric group name (for example, \"1000\") will be assumed to be a group ID (GID) and not a group name. To prevent confusion, avoid using purely numeric group names."
        ],
        "type": "str"
       },
@@ -17728,7 +17402,7 @@
        "description": [
         "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
-        "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
+        "Specifying a numeric username (for example, \"1000\") will be assumed to be a user ID (UID) and not a username. To prevent confusion, avoid using purely numeric usernames."
        ],
        "type": "str"
       },
@@ -17949,6 +17623,8 @@
      "module": "meta",
      "notes": [
       "V(clear_facts) will remove the persistent facts from M(ansible.builtin.set_fact) using O(ansible.builtin.set_fact#module:cacheable=True), but not the current host variable it creates for the current run.",
+      "Variable plugins are not part of inventory and handle execution and caching independently of V(refresh_inventory). V(refresh_inventory) does not invalidate variable plugin caches. Whether later variable resolution sees updated variable plugin data depends on the plugin's stage and caching behavior.",
+      "The default variable plugin P(ansible.builtin.host_group_vars#vars) caches applicable paths and file content, so creating, modifying, or removing C(host_vars) and C(group_vars) files mid-play for hosts or groups that have already been targeted has no effect on the current or any subsequent plays. Use M(ansible.builtin.include_vars) to load variable files modified during playbook execution.",
       "Skipping M(ansible.builtin.meta) tasks with tags is not supported before Ansible 2.11."
      ],
      "options": {
@@ -17968,7 +17644,7 @@
        "description": [
         "This module takes a free form command, as a string. There is not an actual option named \"free form\".  See the examples!",
         "V(flush_handlers) makes Ansible run any handler tasks which have thus far been notified. Ansible inserts these tasks internally at certain points to implicitly trigger handler runs (after pre/post tasks, the final role execution, and the main tasks section of your plays).",
-        "V(refresh_inventory) (added in Ansible 2.0) forces the reload of the inventory, which in the case of dynamic inventory scripts means they will be re-executed. If the dynamic inventory script is using a cache, Ansible cannot know this and has no way of refreshing it (you can disable the cache or, if available for your specific inventory datasource (for example P(amazon.aws.aws_ec2#inventory)), you can use the an inventory plugin instead of an inventory script). This is mainly useful when additional hosts are created and users wish to use them instead of using the M(ansible.builtin.add_host) module.",
+        "V(refresh_inventory) (added in Ansible 2.0) reloads inventory sources and the host and group structure based on those sources. It also preserves dynamic hosts created by M(ansible.builtin.add_host) and dynamic groups created by M(ansible.builtin.group_by). In the case of dynamic inventory scripts this means they will be re-executed. If the dynamic inventory script is using a cache, Ansible cannot know this and has no way of refreshing it (you can disable the cache or, if available for your specific inventory datasource (for example P(amazon.aws.aws_ec2#inventory)), you can use an inventory plugin instead of an inventory script). This is mainly useful when additional hosts are created and users wish to use them instead of using the M(ansible.builtin.add_host) module.",
         "Note that neither V(refresh_inventory) nor the M(ansible.builtin.add_host) add hosts to the hosts the current play iterates over. However, if needed, you can explicitly delegate tasks to new hosts with C(delegate_to). Generally, C(delegate_to) can be used against hosts regardless of whether they are in the inventory or not, as long as the value supplied is sufficient for the connection plugin to access the host.",
         "V(noop) (added in Ansible 2.0) This literally does 'nothing'. It is mainly used internally and not recommended for general use.",
         "V(clear_facts) (added in Ansible 2.1) causes the gathered facts for the hosts specified in the play's list of hosts to be cleared, including the fact cache.",
@@ -18655,7 +18331,7 @@
       "editable": {
        "default": "no",
        "description": [
-        "Pass the editable flag."
+        "Pass the editable flag to all packages."
        ],
        "type": "bool",
        "version_added": "2.0",
@@ -19146,7 +18822,8 @@
       "group": {
        "description": [
         "Name of the group that should own the filesystem object, as would be fed to C(chown).",
-        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
+        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.",
+        "Specifying a numeric group name (for example, \"1000\") will be assumed to be a group ID (GID) and not a group name. To prevent confusion, avoid using purely numeric group names."
        ],
        "type": "str"
       },
@@ -19166,7 +18843,7 @@
        "description": [
         "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
-        "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
+        "Specifying a numeric username (for example, \"1000\") will be assumed to be a user ID (UID) and not a username. To prevent confusion, avoid using purely numeric usernames."
        ],
        "type": "str"
       },
@@ -19306,7 +18983,8 @@
       },
       "key": {
        "description": [
-        "Key that will be modified. Can be a url, a file on the managed node, or a keyid if the key already exists in the database."
+        "Key that will be modified. Can be a url, a file on the managed node, or a keyid if the key already exists in the database.",
+        "This can also be the fingerprint when attempting to delete an already installed key."
        ],
        "required": true,
        "type": "str"
@@ -20009,7 +19687,7 @@
       "gather_subset": {
        "default": "all",
        "description": [
-        "If supplied, restrict the additional facts collected to the given subset. Possible values: V(all), V(all_ipv4_addresses), V(all_ipv6_addresses), V(apparmor), V(architecture), V(caps), V(chroot),V(cmdline), V(date_time), V(default_ipv4), V(default_ipv6), V(devices), V(distribution), V(distribution_major_version), V(distribution_release), V(distribution_version), V(dns), V(effective_group_ids), V(effective_user_id), V(env), V(facter), V(fips), V(hardware), V(interfaces), V(is_chroot), V(iscsi), V(kernel), V(local), V(lsb), V(machine), V(machine_id), V(mounts), V(network), V(ohai), V(os_family), V(pkg_mgr), V(platform), V(processor), V(processor_cores), V(processor_count), V(python), V(python_version), V(real_user_id), V(selinux), V(service_mgr), V(ssh_host_key_dsa_public), V(ssh_host_key_ecdsa_public), V(ssh_host_key_ed25519_public), V(ssh_host_key_rsa_public), V(ssh_host_pub_keys), V(ssh_pub_keys), V(system), V(system_capabilities), V(system_capabilities_enforced), V(systemd), V(user), V(user_dir), V(user_gecos), V(user_gid), V(user_id), V(user_shell), V(user_uid), V(virtual), V(virtualization_role), V(virtualization_type). Can specify a list of values to specify a larger subset. Values can also be used with an initial C(!) to specify that that specific subset should not be collected.  For instance: V(!hardware,!network,!virtual,!ohai,!facter). If V(!all) is specified then only the min subset is collected. To avoid collecting even the min subset, specify V(!all,!min). To collect only specific facts, use V(!all,!min), and specify the particular fact subsets. Use the filter parameter if you do not want to display some collected facts."
+        "If supplied, restrict the additional facts collected to the given subset. Possible values: V(all), V(all_ipv4_addresses), V(all_ipv6_addresses), V(apparmor), V(architecture), V(caps), V(chroot),V(cmdline), V(date_time), V(default_ipv4), V(default_ipv6), V(devices), V(distribution), V(distribution_cpe_name), V(distribution_major_version), V(distribution_release), V(distribution_version), V(dns), V(effective_group_ids), V(effective_user_id), V(env), V(facter), V(fips), V(hardware), V(interfaces), V(is_chroot), V(iscsi), V(kernel), V(local), V(lsb), V(machine), V(machine_id), V(mounts), V(network), V(ohai), V(os_family), V(pkg_mgr), V(platform), V(processor), V(processor_cores), V(processor_count), V(python), V(python_version), V(real_user_id), V(selinux), V(service_mgr), V(ssh_host_key_dsa_public), V(ssh_host_key_ecdsa_public), V(ssh_host_key_ed25519_public), V(ssh_host_key_rsa_public), V(ssh_host_pub_keys), V(ssh_pub_keys), V(system), V(system_capabilities), V(system_capabilities_enforced), V(systemd), V(user), V(user_dir), V(user_gecos), V(user_gid), V(user_id), V(user_shell), V(user_uid), V(virtual), V(virtualization_role), V(virtualization_type). Can specify a list of values to specify a larger subset. Values can also be used with an initial C(!) to specify that that specific subset should not be collected.  For instance: V(!hardware,!network,!virtual,!ohai,!facter). If V(!all) is specified then only the min subset is collected. To avoid collecting even the min subset, specify V(!all,!min). To collect only specific facts, use V(!all,!min), and specify the particular fact subsets. Use the filter parameter if you do not want to display some collected facts."
        ],
        "elements": "str",
        "type": "list",
@@ -21569,7 +21247,8 @@
       "group": {
        "description": [
         "Name of the group that should own the filesystem object, as would be fed to C(chown).",
-        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
+        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.",
+        "Specifying a numeric group name (for example, \"1000\") will be assumed to be a group ID (GID) and not a group name. To prevent confusion, avoid using purely numeric group names."
        ],
        "type": "str"
       },
@@ -21624,7 +21303,7 @@
        "description": [
         "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
-        "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
+        "Specifying a numeric username (for example, \"1000\") will be assumed to be a user ID (UID) and not a username. To prevent confusion, avoid using purely numeric usernames."
        ],
        "type": "str"
       },
@@ -21937,7 +21616,8 @@
       "group": {
        "description": [
         "Name of the group that should own the filesystem object, as would be fed to C(chown).",
-        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
+        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.",
+        "Specifying a numeric group name (for example, \"1000\") will be assumed to be a group ID (GID) and not a group name. To prevent confusion, avoid using purely numeric group names."
        ],
        "type": "str"
       },
@@ -21995,7 +21675,7 @@
        "description": [
         "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
-        "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
+        "Specifying a numeric username (for example, \"1000\") will be assumed to be a user ID (UID) and not a username. To prevent confusion, avoid using purely numeric usernames."
        ],
        "type": "str"
       },
@@ -22303,11 +21983,9 @@
       "follow_redirects": {
        "choices": {
         "all": "Will follow all redirects.",
-        "no": "(DEPRECATED, removed in 2.22) alias of V(none).",
         "none": "Will not follow any redirects.",
         "safe": "Only redirects doing GET or HEAD requests will be followed.",
-        "urllib2": "Defer to urllib2 behavior (As of writing this follows HTTP redirects).",
-        "yes": "(DEPRECATED, removed in 2.22) alias of V(all)."
+        "urllib2": "Defer to urllib2 behavior (As of writing this follows HTTP redirects)."
        },
        "default": "safe",
        "description": [
@@ -22338,7 +22016,8 @@
       "group": {
        "description": [
         "Name of the group that should own the filesystem object, as would be fed to C(chown).",
-        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
+        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.",
+        "Specifying a numeric group name (for example, \"1000\") will be assumed to be a group ID (GID) and not a group name. To prevent confusion, avoid using purely numeric group names."
        ],
        "type": "str"
       },
@@ -22382,7 +22061,7 @@
        "description": [
         "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
-        "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
+        "Specifying a numeric username (for example, \"1000\") will be assumed to be a user ID (UID) and not a username. To prevent confusion, avoid using purely numeric usernames."
        ],
        "type": "str"
       },
@@ -22675,6 +22354,8 @@
       "On SunOS platforms, the shadow file is backed up automatically since this module edits it directly. On other platforms, the shadow file is backed up by the underlying tools used by this module.",
       "On macOS, this module uses C(dscl) to create, modify, and delete accounts. C(dseditgroup) is used to modify group membership. Accounts are hidden from the login window by modifying C(/Library/Preferences/com.apple.loginwindow.plist).",
       "On FreeBSD, this module uses C(pw useradd) and C(chpass) to create, C(pw usermod) and C(chpass) to modify, C(pw userdel) remove, C(pw lock) to lock, and C(pw unlock) to unlock accounts.",
+      "On distributions using BusyBox, this module uses C(adduser), C(chpasswd), C(deluser), and C(delgroup). The C(/etc/passwd) file is modified directly by this module and is backed up before modification.",
+      "On distributions using BusyBox, O(move_home) is supported only if C(shadow) package is installed.",
       "On all other platforms, this module uses C(useradd) to create, C(usermod) to modify, and C(userdel) to remove accounts."
      ],
      "options": {
@@ -22682,7 +22363,8 @@
        "default": false,
        "description": [
         "If V(true), add the user to the groups specified in O(groups).",
-        "If V(false), user will only be added to the groups specified in O(groups), removing them from all other groups."
+        "If V(false), user will only be added to the groups specified in O(groups), removing them from all other groups.",
+        "From Ansible 2.21, this option is required when O(groups) is specified."
        ],
        "type": "bool"
       },
@@ -22738,7 +22420,8 @@
        "default": false,
        "description": [
         "Whether to generate a SSH key for the user in question.",
-        "This will B(not) overwrite an existing SSH key unless used with O(force=yes)."
+        "This will B(not) overwrite an existing SSH key unless used with O(force=yes).",
+        "Requires C(ssh-keygen) from OpenSSH."
        ],
        "type": "bool",
        "version_added": "0.9",
@@ -22782,7 +22465,8 @@
         "Forces the use of \"local\" command alternatives on platforms that implement it.",
         "This is useful in environments that use centralized authentication when you want to manipulate the local users (in other words, it uses C(luseradd) instead of C(useradd)).",
         "This will check C(/etc/passwd) for an existing account before invoking commands. If the local account database exists somewhere other than C(/etc/passwd), this setting will not work properly.",
-        "This requires that the above commands as well as C(/etc/passwd) must exist on the target host, otherwise it will be a fatal error."
+        "This requires that the above commands as well as C(/etc/passwd) must exist on the target host, otherwise it will be a fatal error.",
+        "Not supported on distributions using BusyBox."
        ],
        "type": "bool",
        "version_added": "2.4",
@@ -22797,7 +22481,8 @@
       "move_home": {
        "default": false,
        "description": [
-        "If set to V(true) when used with O(home), attempt to move the user's old home directory to the specified directory if it isn't there already and the old home exists."
+        "If set to V(true) when used with O(home), attempt to move the user's old home directory to the specified directory if it isn't there already and the old home exists.",
+        "If O(local) is set to V(true), this option will be ignored if the current home directory does not exist."
        ],
        "type": "bool"
       },
@@ -22814,7 +22499,8 @@
       "non_unique": {
        "default": false,
        "description": [
-        "Optionally when used with the C(-u) option, this option allows to change the user ID to a non-unique value."
+        "Optionally when used with the C(-u) option, this option allows to change the user ID to a non-unique value.",
+        "Not supported on distributions using BusyBox."
        ],
        "type": "bool",
        "version_added": "1.1",
@@ -22825,6 +22511,7 @@
         "If provided, set the user's password to the provided encrypted hash (Linux) or plain text password (macOS).",
         "B(Linux/Unix/POSIX:) Enter the hashed password as the value.",
         "See L(FAQ entry,https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-encrypted-passwords-for-the-user-module) for details on various ways to generate the hash of a password.",
+        "The module writes the value directly to C(/etc/shadow) without any validation. Because the module cannot verify the user input, providing an invalid value will likely result in authentication failure. However, this behaviour can be utilized intentionally to lock a user account.",
         "To create an account with a locked/disabled password on Linux systems, set this to V('!') or V('*').",
         "To create an account with a locked/disabled password on OpenBSD, set this to V('*************').",
         "B(OS X/macOS:) Enter the cleartext password as the value. Be sure to take relevant security precautions.",
@@ -22913,7 +22600,8 @@
       },
       "seuser": {
        "description": [
-        "Optionally sets the C(seuser) type C(user_u) on SELinux enabled systems."
+        "Optionally sets the C(seuser) type C(user_u) on SELinux enabled systems.",
+        "This parameter is silently ignored on systems where SELinux is not enabled. A warning will be emitted in this case."
        ],
        "type": "str",
        "version_added": "2.1",
@@ -23107,8 +22795,8 @@
       "type": "int"
      },
      "groups": {
-      "description": "List of groups of which the user is a member.",
-      "returned": "When O(groups) is not empty and O(state) is V(present)",
+      "description": "Comma-separated list of groups of which the user is a member.",
+      "returned": "When user exists and O(state) is V(present)",
       "sample": "chrony,apache",
       "type": "str"
      },
@@ -23650,15 +23338,6 @@
       "The O(ignore:params) parameter was removed in Ansible 2.5 due to circumventing Ansible's parameter handling"
      ],
      "options": {
-      "async": {
-       "description": [
-        "If set to V(true) Yum will download packages and metadata from this repo in parallel, if possible.",
-        "In ansible-core 2.11, 2.12, and 2.13 the default value is V(true).",
-        "This option has been removed in RHEL 8. If you're using one of the versions listed above, you can set this option to V(null) to avoid passing an unknown configuration option.",
-        "This parameter is deprecated as it has been removed on systems supported by ansible-core and will be removed in ansible-core 2.22."
-       ],
-       "type": "bool"
-      },
       "attributes": {
        "aliases": [
         "attr"
@@ -23703,13 +23382,6 @@
        "type": "bool",
        "version_added": "2.18",
        "version_added_collection": "ansible.builtin"
-      },
-      "deltarpm_metadata_percentage": {
-       "description": [
-        "When the relative size of deltarpm metadata vs pkgs is larger than this, deltarpm metadata is not downloaded from the repo. Note that you can give values over V(100), so V(200) means that the metadata is required to be half the size of the packages. Use V(0) to turn off this check, and always download metadata.",
-        "This parameter is deprecated as it has no effect with dnf as an underlying package manager and will be removed in ansible-core 2.22."
-       ],
-       "type": "str"
       },
       "deltarpm_percentage": {
        "description": [
@@ -23767,13 +23439,6 @@
        ],
        "type": "str"
       },
-      "gpgcakey": {
-       "description": [
-        "A URL pointing to the ASCII-armored CA key file for the repository.",
-        "This parameter is deprecated as it has no effect with dnf as an underlying package manager and will be removed in ansible-core 2.22."
-       ],
-       "type": "str"
-      },
       "gpgcheck": {
        "description": [
         "Tells yum whether or not it should perform a GPG signature check on packages.",
@@ -23792,22 +23457,8 @@
       "group": {
        "description": [
         "Name of the group that should own the filesystem object, as would be fed to C(chown).",
-        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership."
-       ],
-       "type": "str"
-      },
-      "http_caching": {
-       "choices": [
-        "all",
-        "packages",
-        "none"
-       ],
-       "description": [
-        "Determines how upstream HTTP caches are instructed to handle any HTTP downloads that Yum does.",
-        "V(all) means that all HTTP downloads should be cached.",
-        "V(packages) means that only RPM package downloads should be cached (but not repository metadata downloads).",
-        "V(none) means that no HTTP downloads should be cached.",
-        "This parameter is deprecated as it has no effect with dnf as an underlying package manager and will be removed in ansible-core 2.22."
+        "When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.",
+        "Specifying a numeric group name (for example, \"1000\") will be assumed to be a group ID (GID) and not a group name. To prevent confusion, avoid using purely numeric group names."
        ],
        "type": "str"
       },
@@ -23840,35 +23491,10 @@
        ],
        "type": "str"
       },
-      "keepalive": {
-       "description": [
-        "This tells yum whether or not HTTP/1.1 keepalive should be used with this repository. This can improve transfer speeds by using one connection when downloading multiple files from a repository.",
-        "This parameter is deprecated as it has no effect with dnf as an underlying package manager and will be removed in ansible-core 2.22."
-       ],
-       "type": "bool"
-      },
       "metadata_expire": {
        "description": [
         "Time (in seconds) after which the metadata will expire.",
         "Default value is 6 hours."
-       ],
-       "type": "str"
-      },
-      "metadata_expire_filter": {
-       "choices": [
-        "never",
-        "read-only:past",
-        "read-only:present",
-        "read-only:future"
-       ],
-       "description": [
-        "Filter the O(metadata_expire) time, allowing a trade of speed for accuracy if a command doesn't require it. Each yum command can specify that it requires a certain level of timeliness quality from the remote repos. from \"I'm about to install/upgrade, so this better be current\" to \"Anything that's available is good enough\".",
-        "V(never) - Nothing is filtered, always obey O(metadata_expire).",
-        "V(read-only:past) - Commands that only care about past information are filtered from metadata expiring. Eg. C(yum history) info (if history needs to lookup anything about a previous transaction, then by definition the remote package was available in the past).",
-        "V(read-only:present) - Commands that are balanced between past and future. Eg. C(yum list yum).",
-        "V(read-only:future) - Commands that are likely to result in running other commands which will require the latest metadata. Eg. C(yum check-update).",
-        "Note that this option does not override C(yum clean expire-cache).",
-        "This parameter is deprecated as it has no effect with dnf as an underlying package manager and will be removed in ansible-core 2.22."
        ],
        "type": "str"
       },
@@ -23883,14 +23509,6 @@
        "description": [
         "Specifies a URL to a file containing a list of baseurls.",
         "This, the O(baseurl) or O(metalink) parameters are required if O(state) is set to V(present)."
-       ],
-       "type": "str"
-      },
-      "mirrorlist_expire": {
-       "description": [
-        "Time (in seconds) after which the mirrorlist locally cached will expire.",
-        "Default value is 6 hours.",
-        "This parameter is deprecated as it has no effect with dnf as an underlying package manager and will be removed in ansible-core 2.22."
        ],
        "type": "str"
       },
@@ -23926,7 +23544,7 @@
        "description": [
         "Name of the user that should own the filesystem object, as would be fed to C(chown).",
         "When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.",
-        "Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion."
+        "Specifying a numeric username (for example, \"1000\") will be assumed to be a user ID (UID) and not a username. To prevent confusion, avoid using purely numeric usernames."
        ],
        "type": "str"
       },
@@ -23942,13 +23560,6 @@
         "This option only works if the YUM Priorities plugin is installed."
        ],
        "type": "str"
-      },
-      "protect": {
-       "description": [
-        "Protect packages from updates from other repositories.",
-        "This parameter is deprecated as it has no effect with dnf as an underlying package manager and will be removed in ansible-core 2.22."
-       ],
-       "type": "bool"
       },
       "proxy": {
        "description": [
@@ -24030,14 +23641,6 @@
        ],
        "type": "bool"
       },
-      "ssl_check_cert_permissions": {
-       "description": [
-        "Whether yum should check the permissions on the paths for the certificates on the repository (both remote and local).",
-        "If we can't read any of the files then yum will force O(skip_if_unavailable) to be V(true). This is most useful for non-root processes which use yum on repos that have client cert files which are readable only by root.",
-        "This parameter is deprecated as it has no effect with dnf as an underlying package manager and will be removed in ansible-core 2.22."
-       ],
-       "type": "bool"
-      },
       "sslcacert": {
        "aliases": [
         "ca_cert"
@@ -24095,13 +23698,6 @@
       "timeout": {
        "description": [
         "Number of seconds to wait for a connection before timing out."
-       ],
-       "type": "str"
-      },
-      "ui_repoid_vars": {
-       "description": [
-        "When a repository id is displayed, append these yum variables to the string if they are used in the O(baseurl)/etc. Variables are appended in the order listed (and found).",
-        "This parameter is deprecated as it has no effect with dnf as an underlying package manager and will be removed in ansible-core 2.22."
        ],
        "type": "str"
       },
@@ -24483,7 +24079,7 @@
     "doc": {
      "collection": "ansible.builtin",
      "description": [
-      "Used with the 'ssh' connection plugin and no C(DefaultShell) has been set on the Windows host."
+      "Used with the 'winrm' connection or 'ssh' with no C(DefaultShell) set on the Windows host."
      ],
      "filename": "/ansible/plugins/shell/cmd.py",
      "name": "cmd",
@@ -25041,7 +24637,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return true if the object is a boolean value.",
-      "",
       "This is the Jinja builtin test plugin 'boolean'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.boolean)"
      ],
@@ -25058,7 +24653,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return whether the object is callable.",
-      "",
       "This is the Jinja builtin test plugin 'callable'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.callable)"
      ],
@@ -25179,7 +24773,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return true if the variable is defined.",
-      "",
       "This is the Jinja builtin test plugin 'defined'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.defined)"
      ],
@@ -25225,7 +24818,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Check if a variable is divisible by a number.",
-      "",
       "This is the Jinja builtin test plugin 'divisibleby'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.divisibleby)"
      ],
@@ -25242,7 +24834,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Same as a == b.",
-      "",
       "This is the Jinja builtin test plugin 'eq'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.eq)"
      ],
@@ -25259,7 +24850,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Same as a == b.",
-      "",
       "This is the Jinja builtin test plugin 'equalto'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.equalto)"
      ],
@@ -25276,7 +24866,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Check if the value is escaped.",
-      "",
       "This is the Jinja builtin test plugin 'escaped'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.escaped)"
      ],
@@ -25293,7 +24882,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return true if the variable is even.",
-      "",
       "This is the Jinja builtin test plugin 'even'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.even)"
      ],
@@ -25410,7 +24998,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return true if the object is False.",
-      "",
       "This is the Jinja builtin test plugin 'false'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.false)"
      ],
@@ -25495,7 +25082,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Check if a filter exists by name.",
-      "",
       "This is the Jinja builtin test plugin 'filter'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.filter)"
      ],
@@ -25543,7 +25129,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return true if the object is a float.",
-      "",
       "This is the Jinja builtin test plugin 'float'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.float)"
      ],
@@ -25560,7 +25145,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Same as a >= b.",
-      "",
       "This is the Jinja builtin test plugin 'ge'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.ge)"
      ],
@@ -25577,7 +25161,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Same as a > b.",
-      "",
       "This is the Jinja builtin test plugin 'greaterthan'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.greaterthan)"
      ],
@@ -25594,7 +25177,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Same as a > b.",
-      "",
       "This is the Jinja builtin test plugin 'gt'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.gt)"
      ],
@@ -25611,7 +25193,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Check if value is in seq.",
-      "",
       "This is the Jinja builtin test plugin 'in'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.in)"
      ],
@@ -25628,7 +25209,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return true if the object is an integer.",
-      "",
       "This is the Jinja builtin test plugin 'integer'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.integer)"
      ],
@@ -25953,7 +25533,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Check if it's possible to iterate over an object.",
-      "",
       "This is the Jinja builtin test plugin 'iterable'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.iterable)"
      ],
@@ -25970,7 +25549,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Same as a <= b.",
-      "",
       "This is the Jinja builtin test plugin 'le'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.le)"
      ],
@@ -25987,7 +25565,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Same as a < b.",
-      "",
       "This is the Jinja builtin test plugin 'lessthan'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.lessthan)"
      ],
@@ -26066,7 +25643,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return true if the variable is lowercased.",
-      "",
       "This is the Jinja builtin test plugin 'lower'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.lower)"
      ],
@@ -26083,7 +25659,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Same as a < b.",
-      "",
       "This is the Jinja builtin test plugin 'lt'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.lt)"
      ],
@@ -26100,7 +25675,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return true if the object is a mapping.",
-      "",
       "This is the Jinja builtin test plugin 'mapping'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.mapping)"
      ],
@@ -26225,7 +25799,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Same as a .",
-      "",
       "This is the Jinja builtin test plugin 'ne'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.ne)"
      ],
@@ -26242,7 +25815,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return true if the variable is none.",
-      "",
       "This is the Jinja builtin test plugin 'none'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.none)"
      ],
@@ -26259,7 +25831,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return true if the variable is a number.",
-      "",
       "This is the Jinja builtin test plugin 'number'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.number)"
      ],
@@ -26276,7 +25847,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return true if the variable is odd.",
-      "",
       "This is the Jinja builtin test plugin 'odd'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.odd)"
      ],
@@ -26415,7 +25985,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Check if an object points to the same memory address than another object.",
-      "",
       "This is the Jinja builtin test plugin 'sameas'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.sameas)"
      ],
@@ -26475,7 +26044,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return true if the variable is a sequence.",
-      "",
       "This is the Jinja builtin test plugin 'sequence'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.sequence)"
      ],
@@ -26591,7 +26159,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return true if the object is a string.",
-      "",
       "This is the Jinja builtin test plugin 'string'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.string)"
      ],
@@ -26793,7 +26360,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Check if a test exists by name.",
-      "",
       "This is the Jinja builtin test plugin 'test'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.test)"
      ],
@@ -26840,7 +26406,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return true if the object is True.",
-      "",
       "This is the Jinja builtin test plugin 'true'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.true)"
      ],
@@ -26893,7 +26458,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Like :func:`defined` but the other way round.",
-      "",
       "This is the Jinja builtin test plugin 'undefined'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.undefined)"
      ],
@@ -26941,7 +26505,6 @@
      "collection": "ansible.builtin",
      "description": [
       "Return true if the variable is uppercased.",
-      "",
       "This is the Jinja builtin test plugin 'upper'.",
       "See: U(https://jinja.palletsprojects.com/en/stable/templates/#jinja-tests.upper)"
      ],
@@ -27390,6 +26953,9 @@
      ],
      "filename": "/ansible/plugins/vars/host_group_vars.py",
      "name": "host_group_vars",
+     "notes": [
+      "This plugin caches applicable paths and file content, so creating, modifying, or removing C(host_vars) and C(group_vars) files mid-play for hosts or groups that have already been targeted has no effect on the current or any subsequent plays."
+     ],
      "options": {
       "_valid_extensions": {
        "default": [

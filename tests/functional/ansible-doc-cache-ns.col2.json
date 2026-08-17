@@ -799,8 +799,7 @@
     ],
     "description": "Name of variable that will contain task status and module return data.",
     "priority": 0,
-    "template": "static",
-    "type": "string"
+    "template": "static"
    },
    "remote_user": {
     "applies_to": [
