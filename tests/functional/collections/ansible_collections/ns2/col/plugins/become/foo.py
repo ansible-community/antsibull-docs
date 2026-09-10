@@ -74,6 +74,16 @@ DOCUMENTATION = """
                     alternatives: nothing
             keyword:
               - name: become_exe
+        become_pass:
+            description: Password to use with foo.
+            secret: true
+            version_added: 1.3.0
+            vars:
+              - name: ansible_become_password
+              - name: ansible_foo_pass
+            env:
+              - name: ANSIBLE_BECOME_PASS
+              - name: ANSIBLE_FOO_PASS
         bar:
             description:
                 - Bar. B(BAR!)

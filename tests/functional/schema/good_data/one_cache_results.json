@@ -50,7 +50,8 @@
                         "type": "str",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "_timeout": {
                         "aliases": [],
@@ -85,7 +86,8 @@
                         "type": "int",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "_uri": {
                         "aliases": [],
@@ -120,7 +122,8 @@
                         "type": "str",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     }
                 },
                 "plugin_name": "",

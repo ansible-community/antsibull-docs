@@ -78,7 +78,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": true
                     }
                 },
                 "plugin_name": "",

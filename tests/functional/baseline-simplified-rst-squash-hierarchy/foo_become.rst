@@ -136,6 +136,40 @@ Parameters
   </tr>
   <tr>
     <td valign="top">
+      <div class="ansibleOptionAnchor" id="parameter-become_pass"></div>
+      <p style="display: inline;"><strong>become_pass</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-become_pass" title="Permalink to this option"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">string</span>
+      </p>
+      <p><i style="font-size: small; color: darkgreen;">added in ns2.col 1.3.0</i></p>
+
+    </td>
+    <td valign="top">
+      <p>Password to use with foo.</p>
+      <p style="margin-top: 8px;"><b>Configuration:</b></p>
+      <ul>
+      <li>
+        <p>Environment variable: <code>ANSIBLE_BECOME_PASS</code></p>
+
+      </li>
+      <li>
+        <p>Environment variable: <code>ANSIBLE_FOO_PASS</code></p>
+
+      </li>
+      <li>
+        <p>Variable: ansible_become_password</p>
+
+      </li>
+      <li>
+        <p>Variable: ansible_foo_pass</p>
+
+      </li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
       <div class="ansibleOptionAnchor" id="parameter-become_user"></div>
       <p style="display: inline;"><strong>become_user</strong></p>
       <a class="ansibleOptionLink" href="#parameter-become_user" title="Permalink to this option"></a>

@@ -63,7 +63,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "control_path_dir": {
                         "aliases": [],
@@ -106,7 +107,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "host": {
                         "aliases": [],
@@ -157,7 +159,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "host_key_checking": {
                         "aliases": [],
@@ -218,7 +221,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "password": {
                         "aliases": [],
@@ -257,7 +261,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "pipelining": {
                         "aliases": [],
@@ -320,7 +325,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "port": {
                         "aliases": [],
@@ -375,7 +381,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "private_key_file": {
                         "aliases": [],
@@ -431,7 +438,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "remote_user": {
                         "aliases": [],
@@ -495,7 +503,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "retries": {
                         "aliases": [],
@@ -544,7 +553,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "scp_executable": {
                         "aliases": [],
@@ -586,7 +596,8 @@
                             }
                         ],
                         "version_added": "2.6",
-                        "version_added_collection": "ansible.builtin"
+                        "version_added_collection": "ansible.builtin",
+                        "secret": false
                     },
                     "scp_extra_args": {
                         "aliases": [],
@@ -636,7 +647,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "scp_if_ssh": {
                         "aliases": [],
@@ -680,7 +692,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "sftp_batch_mode": {
                         "aliases": [],
@@ -722,7 +735,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "sftp_executable": {
                         "aliases": [],
@@ -764,7 +778,8 @@
                             }
                         ],
                         "version_added": "2.6",
-                        "version_added_collection": "ansible.builtin"
+                        "version_added_collection": "ansible.builtin",
+                        "secret": false
                     },
                     "sftp_extra_args": {
                         "aliases": [],
@@ -814,7 +829,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "ssh_args": {
                         "aliases": [],
@@ -864,7 +880,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "ssh_common_args": {
                         "aliases": [],
@@ -914,7 +931,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "ssh_executable": {
                         "aliases": [],
@@ -957,7 +975,8 @@
                             }
                         ],
                         "version_added": "2.2",
-                        "version_added_collection": "ansible.builtin"
+                        "version_added_collection": "ansible.builtin",
+                        "secret": false
                     },
                     "ssh_extra_args": {
                         "aliases": [],
@@ -1007,7 +1026,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "ssh_transfer_method": {
                         "aliases": [],
@@ -1049,7 +1069,8 @@
                         "type": "str",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "sshpass_prompt": {
                         "aliases": [],
@@ -1091,7 +1112,8 @@
                             }
                         ],
                         "version_added": "2.10",
-                        "version_added_collection": "ansible.builtin"
+                        "version_added_collection": "ansible.builtin",
+                        "secret": false
                     },
                     "timeout": {
                         "aliases": [],
@@ -1155,7 +1177,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "use_tty": {
                         "aliases": [],
@@ -1197,7 +1220,8 @@
                             }
                         ],
                         "version_added": "2.5",
-                        "version_added_collection": "ansible.builtin"
+                        "version_added_collection": "ansible.builtin",
+                        "secret": false
                     }
                 },
                 "plugin_name": "",

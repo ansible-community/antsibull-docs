@@ -58,7 +58,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "async_dir": {
                         "aliases": [],
@@ -100,7 +101,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "environment": {
                         "aliases": [],
@@ -120,7 +122,8 @@
                         "type": "dict",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "remote_tmp": {
                         "aliases": [],
@@ -168,7 +171,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "system_tmpdirs": {
                         "aliases": [],
@@ -213,7 +217,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     }
                 },
                 "plugin_name": "",

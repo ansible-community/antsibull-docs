@@ -34,7 +34,8 @@
                         "type": "list",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "client_cert": {
                         "aliases": [],
@@ -69,7 +70,8 @@
                         "type": "str",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "datacenter": {
                         "aliases": [],
@@ -89,7 +91,8 @@
                         "type": "str",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "host": {
                         "aliases": [],
@@ -125,7 +128,8 @@
                         "type": "str",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "index": {
                         "aliases": [],
@@ -145,7 +149,8 @@
                         "type": "str",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "port": {
                         "aliases": [],
@@ -166,7 +171,8 @@
                         "type": "str",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "recurse": {
                         "aliases": [],
@@ -186,7 +192,8 @@
                         "type": "bool",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "scheme": {
                         "aliases": [],
@@ -207,7 +214,8 @@
                         "type": "str",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "token": {
                         "aliases": [],
@@ -227,7 +235,8 @@
                         "type": "str",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "validate_certs": {
                         "aliases": [],
@@ -262,7 +271,8 @@
                         "type": "str",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     }
                 },
                 "positional": [],

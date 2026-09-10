@@ -191,6 +191,7 @@ class PluginOptionsSchema(OptionsSchema):
     vars: list[OptionVarsSchema] = []
     keyword: list[OptionKeywordSchema] = []
     deprecated: t.Optional[DeprecationSchema] = None
+    secret: bool = False
 
 
 PluginOptionsSchema.model_rebuild()

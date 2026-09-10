@@ -8,6 +8,12 @@ Index of all Collection Environment Variables
 The following index documents all environment variables declared by plugins in collections.
 Environment variables used by the ansible-core configuration are documented in :ref:`ansible_configuration_settings`.
 
+.. envvar:: ANSIBLE_BECOME_PASS
+
+    Password to use with foo.
+
+    *Used by:*
+    :ansplugin:`ns2.col.foo become plugin <ns2.col.foo#become>`
 .. envvar:: ANSIBLE_FOO_EXE
 
     Foo executable.
@@ -20,6 +26,12 @@ Environment variables used by the ansible-core configuration are documented in :
 
     *Used by:*
     :ansplugin:`ns2.col.foo vars plugin <ns2.col.foo#vars>`
+.. envvar:: ANSIBLE_FOO_PASS
+
+    Password to use with foo.
+
+    *Used by:*
+    :ansplugin:`ns2.col.foo become plugin <ns2.col.foo#become>`
 .. envvar:: ANSIBLE_FOO_USER
 
     User you 'become' to execute the task.

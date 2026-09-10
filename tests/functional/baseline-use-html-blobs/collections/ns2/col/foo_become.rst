@@ -168,6 +168,40 @@ Parameters
   </tr>
   <tr class="row-even">
     <td><div class="ansible-option-cell">
+      <div class="ansibleOptionAnchor" id="parameter-become_pass"></div>
+      <p class="ansible-option-title"><strong>become_pass</strong></p>
+      <a class="ansibleOptionLink" href="#parameter-become_pass" title="Permalink to this option"></a>
+      <p class="ansible-option-type-line">
+        <span class="ansible-option-type">string</span>
+      </p>
+      <p><em class="ansible-option-versionadded">added in ns2.col 1.3.0</em></p>
+
+    </div></td>
+    <td><div class="ansible-option-cell">
+      <p>Password to use with foo.</p>
+      <p class="ansible-option-line"><strong class="ansible-option-configuration">Configuration:</strong></p>
+      <ul class="simple">
+      <li>
+        <p>Environment variable: <code class="xref std std-envvar literal notranslate">ANSIBLE_BECOME_PASS</code></p>
+
+      </li>
+      <li>
+        <p>Environment variable: <code class="xref std std-envvar literal notranslate">ANSIBLE_FOO_PASS</code></p>
+
+      </li>
+      <li>
+        <p>Variable: ansible_become_password</p>
+
+      </li>
+      <li>
+        <p>Variable: ansible_foo_pass</p>
+
+      </li>
+      </ul>
+    </div></td>
+  </tr>
+  <tr class="row-odd">
+    <td><div class="ansible-option-cell">
       <div class="ansibleOptionAnchor" id="parameter-become_user"></div>
       <p class="ansible-option-title"><strong>become_user</strong></p>
       <a class="ansibleOptionLink" href="#parameter-become_user" title="Permalink to this option"></a>

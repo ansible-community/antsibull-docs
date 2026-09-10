@@ -37,7 +37,8 @@
                         "type": "bool",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "false_val": {
                         "aliases": [],
@@ -57,7 +58,8 @@
                         "type": "any",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "none_val": {
                         "aliases": [],
@@ -77,7 +79,8 @@
                         "type": "any",
                         "vars": [],
                         "version_added": "2.8",
-                        "version_added_collection": "ansible.builtin"
+                        "version_added_collection": "ansible.builtin",
+                        "secret": false
                     },
                     "true_val": {
                         "aliases": [],
@@ -97,7 +100,8 @@
                         "type": "any",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     }
                 },
                 "positional": [

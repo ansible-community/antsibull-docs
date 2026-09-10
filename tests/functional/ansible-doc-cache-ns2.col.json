@@ -89,6 +89,28 @@
        "version_added": "0.2.0",
        "version_added_collection": "ns2.col"
       },
+      "become_pass": {
+       "description": "Password to use with foo.",
+       "env": [
+        {
+         "name": "ANSIBLE_BECOME_PASS"
+        },
+        {
+         "name": "ANSIBLE_FOO_PASS"
+        }
+       ],
+       "secret": true,
+       "vars": [
+        {
+         "name": "ansible_become_password"
+        },
+        {
+         "name": "ansible_foo_pass"
+        }
+       ],
+       "version_added": "1.3.0",
+       "version_added_collection": "ns2.col"
+      },
       "become_user": {
        "default": "root",
        "description": "User you 'become' to execute the task.",

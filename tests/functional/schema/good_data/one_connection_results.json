@@ -58,7 +58,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "become_method": {
                         "aliases": [],
@@ -100,7 +101,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "host": {
                         "aliases": [],
@@ -127,7 +129,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "network_os": {
                         "aliases": [],
@@ -154,7 +157,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "password": {
                         "aliases": [],
@@ -193,7 +197,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "persistent_command_timeout": {
                         "aliases": [],
@@ -235,7 +240,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "persistent_connect_timeout": {
                         "aliases": [],
@@ -277,7 +283,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "persistent_log_messages": {
                         "aliases": [],
@@ -320,7 +327,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "port": {
                         "aliases": [],
@@ -363,7 +371,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "remote_user": {
                         "aliases": [],
@@ -406,7 +415,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "use_proxy": {
                         "aliases": [],
@@ -433,7 +443,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "use_ssl": {
                         "aliases": [],
@@ -460,7 +471,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "validate_certs": {
                         "aliases": [],
@@ -487,7 +499,8 @@
                             }
                         ],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     }
                 },
                 "plugin_name": "",

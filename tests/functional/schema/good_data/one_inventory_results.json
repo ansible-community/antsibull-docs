@@ -59,7 +59,8 @@
                         "type": "str",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "aws_profile": {
                         "aliases": [
@@ -94,7 +95,8 @@
                         "type": "str",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "aws_secret_key": {
                         "aliases": [
@@ -135,7 +137,8 @@
                         "type": "str",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "aws_security_token": {
                         "aliases": [],
@@ -174,7 +177,8 @@
                         "type": "str",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "cache": {
                         "aliases": [],
@@ -209,7 +213,8 @@
                         "type": "bool",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "cache_connection": {
                         "aliases": [],
@@ -257,7 +262,8 @@
                         "type": "str",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "cache_plugin": {
                         "aliases": [],
@@ -305,7 +311,8 @@
                         "type": "str",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "cache_prefix": {
                         "aliases": [],
@@ -353,7 +360,8 @@
                         "type": "str",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "cache_timeout": {
                         "aliases": [],
@@ -401,7 +409,8 @@
                         "type": "int",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "compose": {
                         "aliases": [],
@@ -421,7 +430,8 @@
                         "type": "dict",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "filters": {
                         "aliases": [],
@@ -442,7 +452,8 @@
                         "type": "dict",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "groups": {
                         "aliases": [],
@@ -462,7 +473,8 @@
                         "type": "dict",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "hostnames": {
                         "aliases": [],
@@ -484,7 +496,8 @@
                         "type": "list",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "iam_role_arn": {
                         "aliases": [],
@@ -504,7 +517,8 @@
                         "type": "str",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "include_extra_api_calls": {
                         "aliases": [],
@@ -525,7 +539,8 @@
                         "type": "bool",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "keyed_groups": {
                         "aliases": [],
@@ -545,7 +560,8 @@
                         "type": "list",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "plugin": {
                         "aliases": [],
@@ -567,7 +583,8 @@
                         "type": "str",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "regions": {
                         "aliases": [],
@@ -588,7 +605,8 @@
                         "type": "list",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "strict": {
                         "aliases": [],
@@ -609,7 +627,8 @@
                         "type": "bool",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "strict_permissions": {
                         "aliases": [],
@@ -630,7 +649,8 @@
                         "type": "bool",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     },
                     "use_contrib_script_compatible_sanitization": {
                         "aliases": [],
@@ -652,7 +672,8 @@
                         "type": "bool",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     }
                 },
                 "plugin_name": "",

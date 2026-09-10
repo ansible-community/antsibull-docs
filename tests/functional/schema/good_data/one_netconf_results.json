@@ -35,7 +35,8 @@
                         "type": "str",
                         "vars": [],
                         "version_added": "historical",
-                        "version_added_collection": ""
+                        "version_added_collection": "",
+                        "secret": false
                     }
                 },
                 "plugin_name": "",

@@ -236,6 +236,59 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-become_pass"></div>
+
+      .. _ansible_collections.ns2.col.foo_become__parameter-become_pass:
+
+      .. rst-class:: ansible-option-title
+
+      **become_pass**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-become_pass" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in ns2.col 1.3.0`
+
+
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Password to use with foo.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-configuration:`Configuration:`
+
+      - Environment variable: :envvar:`ANSIBLE\_BECOME\_PASS`
+
+      - Environment variable: :envvar:`ANSIBLE\_FOO\_PASS`
+
+      - Variable: ansible\_become\_password
+
+      - Variable: ansible\_foo\_pass
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-become_user"></div>
 
       .. _ansible_collections.ns2.col.foo_become__parameter-become_user:
