@@ -1,0 +1,4 @@
+---
+minor_changes:
+  - Add pre-commit.com hook for ``antsibull-docs lint-collection-docs``
+    (https://github.com/ansible-community/antsibull-docs/pull/231).
