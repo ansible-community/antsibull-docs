@@ -116,6 +116,27 @@ def _add_aliases(
                 plugin_record["aliases"].append(alias)
 
 
+def _augment_plugin_record(
+    plugin_name: str,
+    plugin_record: MutableMapping[str, t.Any],
+    routing_source: list[str],
+    plugin_info: MutableMapping[str, MutableMapping[str, t.Any]],
+) -> None:
+    """Augment a single plugin/role record in place."""
+    if plugin_record.get("return"):
+        add_full_key(plugin_record["return"], "contains")
+    if plugin_record.get("doc"):
+        add_full_key(plugin_record["doc"]["options"], "suboptions")
+        if plugin_record["doc"].get("seealso"):
+            _add_seealso(plugin_record["doc"]["seealso"], plugin_info)
+        _add_aliases(plugin_name, plugin_record["doc"], routing_source)
+    if plugin_record.get("entry_points"):
+        for entry_point in plugin_record["entry_points"].values():
+            add_full_key(entry_point["options"], "options")
+            if entry_point.get("return"):
+                add_full_key(entry_point["return"], "contains")
+
+
 def augment_docs(
     plugin_info: MutableMapping[str, MutableMapping[str, t.Any]],
     collection_routing: CollectionRoutingT,
@@ -144,15 +165,6 @@ def augment_docs(
                 routing_sources[redirect].append(plugin_name)
         # Now augment all plugin records
         for plugin_name, plugin_record in plugin_map.items():
-            if plugin_record.get("return"):
-                add_full_key(plugin_record["return"], "contains")
-            if plugin_record.get("doc"):
-                add_full_key(plugin_record["doc"]["options"], "suboptions")
-                if plugin_record["doc"].get("seealso"):
-                    _add_seealso(plugin_record["doc"]["seealso"], plugin_info)
-                _add_aliases(
-                    plugin_name, plugin_record["doc"], routing_sources[plugin_name]
-                )
-            if plugin_record.get("entry_points"):
-                for entry_point in plugin_record["entry_points"].values():
-                    add_full_key(entry_point["options"], "options")
+            _augment_plugin_record(
+                plugin_name, plugin_record, routing_sources[plugin_name], plugin_info
+            )

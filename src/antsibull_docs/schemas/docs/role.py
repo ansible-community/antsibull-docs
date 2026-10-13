@@ -24,7 +24,7 @@ from .base import (
     SeeAlsoSchemaT,
     list_from_scalars,
 )
-from .plugin import PluginExamplesSchema
+from .plugin import PluginExamplesSchema, PluginReturnSchema
 
 _SENTINEL = object()
 
@@ -79,7 +79,7 @@ class RoleOptionsSchema(_RoleOptionsSchema):
     options: dict[str, "InnerRoleOptionsSchema"] = {}
 
 
-class RoleEntrypointSchema(PluginExamplesSchema, BaseModel):
+class RoleEntrypointSchema(PluginExamplesSchema, PluginReturnSchema, BaseModel):
     """Documentation for role entrypoints."""
 
     description: list[str]

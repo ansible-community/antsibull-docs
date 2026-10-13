@@ -25,7 +25,8 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <li><p><a class="reference internal" href="#attributes" id="id5">Attributes</a></p></li>
 <li><p><a class="reference internal" href="#see-also" id="id6">See Also</a></p></li>
 <li><p><a class="reference internal" href="#examples" id="id7">Examples</a></p></li>
-<li><p><a class="reference internal" href="#authors" id="id8">Authors</a></p></li>
+<li><p><a class="reference internal" href="#return-variables" id="id8">Return Variables</a></p></li>
+<li><p><a class="reference internal" href="#authors" id="id9">Authors</a></p></li>
 </ul>
 </li>
 </ul>
@@ -135,8 +136,65 @@ alternative.</p>
 </pre></div>
 </div>
 </section>
+<section id="return-variables">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Return Variables</a><a class="headerlink" href="#return-variables" title="Link to this heading">¶</a></h3>
+<p>The following variables are set by this role:</p>
+<table class="longtable ansible-option-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="return-foo_facts"></div><p class="ansible-option-title" id="ansible-collections-ns2-col-foo-role-return-main-foo-facts"><strong>foo_facts</strong></p>
+<a class="ansibleOptionLink" href="#return-foo_facts" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Information gathered by the role about the foo configuration.</p>
+<p>The role uses this to decide whether to set <code class="ansible-return-value docutils literal notranslate"><a class="reference internal" href="#ansible-collections-ns2-col-foo-role-return-main-foo-reboot-required"><span class="std std-ref"><span class="pre">foo_reboot_required</span></span></a></code>.</p>
+<p class="ansible-option-line"><strong class="ansible-option-returned-bold">Returned:</strong> When <code class="ansible-option docutils literal notranslate"><strong><a class="reference internal" href="#ansible-collections-ns2-col-foo-role-parameter-main-foo-param-1"><span class="std std-ref"><span class="pre">foo_param_1</span></span></a></strong></code> is set.</p>
+<p class="ansible-option-line ansible-option-sample"><strong class="ansible-option-sample-bold">Sample:</strong> <code class="ansible-option-sample docutils literal notranslate"><span class="pre">[{&quot;default&quot;:</span> <span class="pre">true,</span> <span class="pre">&quot;name&quot;:</span> <span class="pre">&quot;example&quot;,</span> <span class="pre">&quot;value&quot;:</span> <span class="pre">&quot;foobar&quot;}]</span></code></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="return-foo_facts/default"></div><p class="ansible-option-title" id="ansible-collections-ns2-col-foo-role-return-main-foo-facts-default"><strong>default</strong></p>
+<a class="ansibleOptionLink" href="#return-foo_facts/default" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Whether this is the default entry.</p>
+<p class="ansible-option-line"><strong class="ansible-option-returned-bold">Returned:</strong> success</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="return-foo_facts/name"></div><p class="ansible-option-title" id="ansible-collections-ns2-col-foo-role-return-main-foo-facts-name"><strong>name</strong></p>
+<a class="ansibleOptionLink" href="#return-foo_facts/name" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the entry.</p>
+<p class="ansible-option-line"><strong class="ansible-option-returned-bold">Returned:</strong> success</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="return-foo_facts/value"></div><p class="ansible-option-title" id="ansible-collections-ns2-col-foo-role-return-main-foo-facts-value"><strong>value</strong></p>
+<a class="ansibleOptionLink" href="#return-foo_facts/value" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The value of the entry.</p>
+<p class="ansible-option-line"><strong class="ansible-option-returned-bold">Returned:</strong> success</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="return-foo_reboot_required"></div><p class="ansible-option-title" id="ansible-collections-ns2-col-foo-role-return-main-foo-reboot-required"><strong>foo_reboot_required</strong></p>
+<a class="ansibleOptionLink" href="#return-foo_reboot_required" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p><code class="ansible-value docutils literal notranslate"><span class="pre">true</span></code> means the host must reboot to apply the role’s changes.</p>
+<p>The role sets this when <code class="ansible-option docutils literal notranslate"><strong><a class="reference internal" href="#ansible-collections-ns2-col-foo-role-parameter-main-foo-param-2"><span class="std std-ref"><span class="pre">foo_param_2</span></span></a></strong></code> is at least 2 and it made changes.</p>
+<p class="ansible-option-line"><strong class="ansible-option-returned-bold">Returned:</strong> always</p>
+<p class="ansible-option-line ansible-option-sample"><strong class="ansible-option-sample-bold">Sample:</strong> <code class="ansible-option-sample docutils literal notranslate"><span class="pre">true</span></code></p>
+</div></td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="authors">
-<h3><a class="toc-backref" href="#id8" role="doc-backlink">Authors</a><a class="headerlink" href="#authors" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">Authors</a><a class="headerlink" href="#authors" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Felix Fontein (&#64;felixfontein)</p></li>
 </ul>
