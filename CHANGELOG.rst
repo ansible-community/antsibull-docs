@@ -4,6 +4,24 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.28.0
+=======
+
+Release Summary
+---------------
+
+Feature and maintenance release.
+
+Minor Changes
+-------------
+
+- Updated the schema for role argument spec to allow ``no_log``, which is supported since ansible-core 2.22 (https://github.com/ansible-community/antsibull-docs/issues/447, https://github.com/ansible-community/antsibull-docs/pull/495).
+
+Bugfixes
+--------
+
+- Declare support for Python 3.15 (https://github.com/ansible-community/antsibull-docs/pull/496).
+
 v2.27.0
 =======
 

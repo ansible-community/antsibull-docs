@@ -1254,3 +1254,17 @@ releases:
       - 2.27.0.yml
       - 481-plugin-secrets-keyword.yml
     release_date: '2026-09-10'
+  2.28.0:
+    changes:
+      bugfixes:
+        - Declare support for Python 3.15 (https://github.com/ansible-community/antsibull-docs/pull/496).
+      minor_changes:
+        - Updated the schema for role argument spec to allow ``no_log``, which is
+          supported since ansible-core 2.22 (https://github.com/ansible-community/antsibull-docs/issues/447,
+          https://github.com/ansible-community/antsibull-docs/pull/495).
+      release_summary: Feature and maintenance release.
+    fragments:
+      - 2.28.0.yml
+      - 495-role-no_log.yml
+      - python315.yml
+    release_date: '2026-10-16'
