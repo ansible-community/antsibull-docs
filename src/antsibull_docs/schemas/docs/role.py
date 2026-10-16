@@ -36,6 +36,7 @@ class _RoleOptionsSchema(OptionsSchema):
     required_one_of: list[list[str]] = []
     required_if: list[tuple[str, t.Any, list[str], bool]] = []
     required_by: dict[str, list[str]] = {}
+    no_log: bool = False
 
     @p.field_validator("mutually_exclusive", mode="before")
     @classmethod

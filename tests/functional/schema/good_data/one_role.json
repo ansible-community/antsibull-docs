@@ -50,9 +50,18 @@
                     },
                     "acme_certificate_acme_account": {
                         "description": [
-                            "Path to the private ACME account key."
+                            "Path to the private ACME account key.",
+                            "One of O(acme_certificate_acme_account) and O(acme_certificate_acme_account_content) is required."
                         ],
                         "type": "str"
+                    },
+                    "acme_certificate_acme_account_content": {
+                        "description": [
+                            "Content of the private ACME account key.",
+                            "One of O(acme_certificate_acme_account) and O(acme_certificate_acme_account_content) is required."
+                        ],
+                        "type": "str",
+                        "no_log": true
                     },
                     "acme_certificate_acme_account_uri": {
                         "description": [
