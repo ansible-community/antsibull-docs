@@ -1,0 +1,2 @@
+minor_changes:
+  - "Updated the schema for role argument spec to allow ``no_log``, which is supported since ansible-core 2.22 (https://github.com/ansible-community/antsibull-docs/issues/447, https://github.com/ansible-community/antsibull-docs/pull/495)."
