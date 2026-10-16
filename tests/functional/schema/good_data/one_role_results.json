@@ -49,7 +49,8 @@
                             "required_together": [],
                             "required_one_of": [],
                             "required_if": [],
-                            "required_by": {}
+                            "required_by": {},
+                            "no_log": false
                         },
                         "acme_certificate_account_key_backup": {
                             "description": [
@@ -68,7 +69,8 @@
                             "required_together": [],
                             "required_one_of": [],
                             "required_if": [],
-                            "required_by": {}
+                            "required_by": {},
+                            "no_log": false
                         },
                         "acme_certificate_account_key_length": {
                             "description": [
@@ -88,7 +90,8 @@
                             "required_together": [],
                             "required_one_of": [],
                             "required_if": [],
-                            "required_by": {}
+                            "required_by": {},
+                            "no_log": false
                         },
                         "acme_certificate_account_key_sops_encrypted": {
                             "description": [
@@ -107,11 +110,13 @@
                             "required_together": [],
                             "required_one_of": [],
                             "required_if": [],
-                            "required_by": {}
+                            "required_by": {},
+                            "no_log": false
                         },
                         "acme_certificate_acme_account": {
                             "description": [
-                                "Path to the private ACME account key."
+                                "Path to the private ACME account key.",
+                                "One of O(acme_certificate_acme_account) and O(acme_certificate_acme_account_content) is required."
                             ],
                             "aliases": [],
                             "choices": [],
@@ -126,7 +131,29 @@
                             "required_together": [],
                             "required_one_of": [],
                             "required_if": [],
-                            "required_by": {}
+                            "required_by": {},
+                            "no_log": false
+                        },
+                        "acme_certificate_acme_account_content": {
+                            "description": [
+                                "Content of the private ACME account key.",
+                                "One of O(acme_certificate_acme_account) and O(acme_certificate_acme_account_content) is required."
+                            ],
+                            "aliases": [],
+                            "choices": [],
+                            "default": null,
+                            "elements": "str",
+                            "required": false,
+                            "type": "str",
+                            "version_added": "historical",
+                            "version_added_collection": "",
+                            "options": {},
+                            "mutually_exclusive": [],
+                            "required_together": [],
+                            "required_one_of": [],
+                            "required_if": [],
+                            "required_by": {},
+                            "no_log": true
                         },
                         "acme_certificate_acme_account_uri": {
                             "description": [
@@ -145,7 +172,8 @@
                             "required_together": [],
                             "required_one_of": [],
                             "required_if": [],
-                            "required_by": {}
+                            "required_by": {},
+                            "no_log": false
                         },
                         "acme_certificate_acme_directory": {
                             "description": [
@@ -165,7 +193,8 @@
                             "required_together": [],
                             "required_one_of": [],
                             "required_if": [],
-                            "required_by": {}
+                            "required_by": {},
+                            "no_log": false
                         },
                         "acme_certificate_acme_version": {
                             "description": [
@@ -184,7 +213,8 @@
                             "required_together": [],
                             "required_one_of": [],
                             "required_if": [],
-                            "required_by": {}
+                            "required_by": {},
+                            "no_log": false
                         }
                     }
                 },

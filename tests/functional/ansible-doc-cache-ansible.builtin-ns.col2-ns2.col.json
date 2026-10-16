@@ -25063,6 +25063,7 @@
           "description": "Sub bar.",
           "elements": "string",
           "extra": "more",
+          "no_log": true,
           "type": "list"
          },
          "subbaz": {
@@ -25071,6 +25072,7 @@
           "options": {
            "something": {
             "description": "Something.",
+            "no_log": false,
             "type": "str"
            }
           },
@@ -25137,6 +25139,7 @@
        "foo": {
         "description": "Text.",
         "extra": "bar",
+        "no_log": true,
         "type": "string"
        }
       },

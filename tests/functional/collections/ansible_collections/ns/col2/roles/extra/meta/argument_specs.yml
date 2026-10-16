@@ -25,6 +25,7 @@ argument_specs:
         type: string
         description: Text.
         extra: bar
+        no_log: true
       bar:
         type: dict
         description: Text.
@@ -72,6 +73,7 @@ argument_specs:
             elements: string
             description: Sub bar.
             extra: more
+            no_log: true
           subbaz:
             type: list
             elements: dict
@@ -80,6 +82,7 @@ argument_specs:
               something:
                 type: str
                 description: Something.
+                no_log: false
   baz:
     short_description: Bar role, baz entrypoint テストロール
     description:
