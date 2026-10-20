@@ -76,6 +76,9 @@ Examples
     An example.
 
 
+.. Return variables
+
+
 
 .. _ansible_collections.ns.col2.bar_role__entrypoint-main:
 
@@ -122,6 +125,9 @@ See Also
        The official documentation on the **ns2.col.foobarbaz** module.
    :ref:`ns2.col.foo <ansible_collections.ns2.col.foo_lookup>` lookup plugin
        The official documentation on the **ns2.col.foo** lookup plugin.
+
+
+.. Return variables
 
 
 Authors

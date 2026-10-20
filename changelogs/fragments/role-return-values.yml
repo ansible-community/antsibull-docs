@@ -1,0 +1,7 @@
+minor_changes:
+  - >-
+    Roles can now document the variables they set in their ``meta/argument_specs.yml``
+    using a ``return:`` key per entry point, the same way modules document return values.
+    These are rendered as a "Return Variables" table on the role's documentation page, and
+    can be referenced with the ``RV()`` markup
+    (https://github.com/ansible-community/antsibull-docs/issues/491).

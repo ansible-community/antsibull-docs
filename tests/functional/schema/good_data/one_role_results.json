@@ -4,6 +4,21 @@
             "collection": "felixfontein.acme",
             "entry_points": {
                 "main": {
+                    "return_": {
+                        "account_key_content": {
+                            "description": [
+                                "The content of the generated or rolled-over account key."
+                            ],
+                            "choices": [],
+                            "elements": "str",
+                            "returned": "when O(state=present)",
+                            "sample": "-----BEGIN PRIVATE KEY-----\n...",
+                            "type": "str",
+                            "version_added": "historical",
+                            "version_added_collection": "",
+                            "contains": {}
+                        }
+                    },
                     "examples": "",
                     "examples_format": "yaml",
                     "description": [
@@ -219,6 +234,7 @@
                     }
                 },
                 "other": {
+                    "return_": {},
                     "examples": "",
                     "examples_format": "yaml",
                     "description": [

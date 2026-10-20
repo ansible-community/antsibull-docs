@@ -24196,6 +24196,53 @@
         "type": "int"
        }
       },
+      "return": {
+       "foo_facts": {
+        "contains": {
+         "default": {
+          "description": [
+           "Whether this is the default entry."
+          ],
+          "type": "bool"
+         },
+         "name": {
+          "description": [
+           "The name of the entry."
+          ],
+          "type": "str"
+         },
+         "value": {
+          "description": [
+           "The value of the entry."
+          ],
+          "type": "str"
+         }
+        },
+        "description": [
+         "Information gathered by the role about the foo configuration.",
+         "The role uses this to decide whether to set RV(foo_reboot_required)."
+        ],
+        "elements": "dict",
+        "returned": "When O(foo_param_1) is set.",
+        "sample": [
+         {
+          "default": true,
+          "name": "example",
+          "value": "foobar"
+         }
+        ],
+        "type": "list"
+       },
+       "foo_reboot_required": {
+        "description": [
+         "V(true) means the host must reboot to apply the role's changes.",
+         "The role sets this when O(foo_param_2) is at least 2 and it made changes."
+        ],
+        "returned": "always",
+        "sample": true,
+        "type": "bool"
+       }
+      },
       "seealso": [
        {
         "module": "ns2.col.foo"
