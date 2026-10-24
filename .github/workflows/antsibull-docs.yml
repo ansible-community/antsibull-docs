@@ -23,7 +23,7 @@ on:
 jobs:
   build-simple-docsite:
     name: 'Build simple docsite (extra options: ${{ matrix.options }})'
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.image || 'ubuntu-latest' }}
     strategy:
       matrix:
         options:
@@ -42,9 +42,12 @@ jobs:
           - main
         antsibull_fileutils_ref:
           - main
+        image:
+          - ubuntu-latest
         include:
           - options: '--use-current --use-html-blobs --no-breadcrumbs community.crypto community.docker --extra-conf antsibull_ext_color_scheme=none'
             python: '3.9'
+            image: ubuntu-24.04
           - options: '--use-current --output-format simplified-rst community.crypto community.docker'
             python: '3.11'
 
