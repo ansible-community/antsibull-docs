@@ -427,6 +427,8 @@ def remove_redirect_duplicates(
     other plugin routing redirects).
     """
     for plugin_type, plugin_map in plugin_info.items():
+        if plugin_type not in collection_routing:
+            continue
         plugin_routing = collection_routing[plugin_type]
         _add_meta_redirect_for_aliases(plugin_map, plugin_routing)
         _remove_redirect_duplicates(plugin_map, plugin_routing)

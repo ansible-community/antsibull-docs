@@ -23,6 +23,7 @@
                         "something else"
                     ],
                     "version_added": "0.1.0",
+                    "version_added_collection": "",
                     "attributes": {},
                     "options": {
                         "acme_certificate_account_algorithm": {
@@ -236,6 +237,7 @@
                         "something"
                     ],
                     "version_added": "historical",
+                    "version_added_collection": "",
                     "attributes": {},
                     "options": {}
                 }

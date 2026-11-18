@@ -59,6 +59,7 @@ def _get_existing_collections_path() -> str | None:
 
 def _get_environment(
     collection_dir: str | None,
+    *,
     venv: VenvRunner | FakeVenvRunner,
     keep_current_collections_path: bool = False,
 ) -> dict[str, str]:

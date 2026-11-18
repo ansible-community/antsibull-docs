@@ -22,9 +22,9 @@ if t.TYPE_CHECKING:
 @contextmanager
 def ansible_doc_cache():
     async def call_ansible_doc(
+        *parameters: str,
         venv: VenvRunner | FakeVenvRunner,
         env: dict[str, str],
-        *parameters: str,
     ) -> Mapping[str, t.Any]:
         root, *others = env["ANSIBLE_COLLECTIONS_PATH"].split(":")
         arg = (
@@ -119,7 +119,7 @@ def ansible_doc_cache():
         return result
 
     with mock.patch(
-        "antsibull_docs.docs_parsing.ansible_doc_core_213._call_ansible_doc",
+        "antsibull_docs.docs_parsing._utils.call_ansible_doc",
         call_ansible_doc,
     ):
         with mock.patch(
