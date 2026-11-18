@@ -92,6 +92,7 @@ class RoleEntrypointSchema(PluginExamplesSchema, BaseModel):
     seealso: list[SeeAlsoSchemaT] = []
     todo: list[str] = []
     version_added: str = "historical"
+    version_added_collection: str = COLLECTION_NAME_F  # ansible-doc does not send this
     attributes: dict[
         str,
         t.Union[AttributeSchema, AttributeSchemaActionGroup, AttributeSchemaPlatform],
