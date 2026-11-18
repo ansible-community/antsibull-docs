@@ -271,7 +271,7 @@ def boolean(value, strict=True):
 
     raise TypeError(
         "The value '%s' is not a valid boolean.  Valid booleans include: %s"
-        % (to_text(value), ", ".join(repr(i) for i in BOOLEANS))
+        % (to_text(value), ", ".join(sorted(repr(i) for i in BOOLEANS)))
     )
 
 
