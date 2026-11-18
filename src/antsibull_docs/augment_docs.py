@@ -22,7 +22,7 @@ def add_full_key(
     _full_keys: list[list[str]] | None = None,
 ) -> None:
     """
-    Add information on the strucfture of a dict value in options or returns.
+    Add information on the structure of a dict value in options or returns.
 
     suboptions and contains are used for nested information (an option taking a dict which has
     a deeply nested structure, for instance.)  They describe each entry into the dict.  When
