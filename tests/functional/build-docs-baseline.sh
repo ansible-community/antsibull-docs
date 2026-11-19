@@ -8,12 +8,14 @@ set -e
 
 make_docsite_baseline() {
     DEST="$1"
+    BACKEND="ansible-core-2.13"
     shift
 
     echo "Building baseline ${DEST}..."
+    echo "doc_parsing_backend = ${BACKEND}" > antsibull-docs.cfg
     rm -rf "${DEST}"
     mkdir -p "${DEST}"
-    ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ python antsibull-docs-stub.py ${COMMAND:-collection --use-current} --dest-dir "${DEST}" "$@" 2>&1 | (
+    ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ python antsibull-docs-stub.py --config-file antsibull-docs.cfg ${COMMAND:-collection --use-current} --dest-dir "${DEST}" "$@" 2>&1 | (
         set +e
         grep -v "ERROR:antsibull:func=create_plugin_rst:mod=antsibull_docs.write_docs.plugins:nonfatal_errors="
         set -e
@@ -69,3 +71,6 @@ ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/:other-collectio
 
 echo "Build extended ansible-doc --metadata-dump --no-fail-on-errors output cache"
 ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/:other-collections/ ansible-doc --metadata-dump --no-fail-on-errors | python sanitize-ansible-doc-dump.py > "ansible-doc-cache-all-others.json"
+
+# Cleanup
+rm -f antsibull-docs.cfg

@@ -84,13 +84,7 @@ async def get_ansible_plugin_info(
     doc_parsing_backend = app_ctx.doc_parsing_backend
     ansible_core_version: PypiVer | None = None
     if doc_parsing_backend == "auto":
-        ansible_core_version = await get_ansible_core_version(venv)
-        flog.debug(f"Ansible-core version: {ansible_core_version}")
-        if ansible_core_version < PypiVer("2.13.0.dev0"):
-            raise RuntimeError(
-                f"Unsupported ansible-core version {ansible_core_version}. Need 2.13.0 or later."
-            )
-        doc_parsing_backend = "ansible-core-2.13"
+        doc_parsing_backend = "antsibull-docs-loader"
         flog.debug(f"Auto-detected docs parsing backend: {doc_parsing_backend}")
     if doc_parsing_backend == "antsibull-docs-loader":
         plugin_info, collection_metadata = (
