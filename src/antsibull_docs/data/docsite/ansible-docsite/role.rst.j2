@@ -9,6 +9,8 @@
 {% from 'macros/deprecates.rst.j2' import collection_deprecation_note with context -%}
 {% from 'macros/parameters.rst.j2' import in_rst as parameters_rst with context -%}
 {% from 'macros/parameters.rst.j2' import in_html as parameters_html with context -%}
+{% from 'macros/returnvalues.rst.j2' import in_rst as return_docs_rst with context -%}
+{% from 'macros/returnvalues.rst.j2' import in_html as return_docs_html with context -%}
 {% from 'macros/version_added.rst.j2' import version_added_rst -%}
 
 .. Document meta
@@ -200,6 +202,23 @@ Examples
 .. code-block:: @{ ep_doc['examples_format'] | rst_format(for_sphinx=true) }@
 
 @{     ep_doc['examples'] | sanitize_whitespace | indent(4, True) }@
+
+{%   endif %}
+
+.. Return variables
+
+{%   if ep_doc['return'] -%}
+
+Return Variables
+^^^^^^^^^^^^^^^^
+
+The following variables are set by this role:
+
+{%     if use_html_blobs %}
+@{       return_docs_html(ep_doc['return'] | dictsort, role_entrypoint=entry_point) }@
+{%     else %}
+@{       return_docs_rst(ep_doc['return'] | dictsort, role_entrypoint=entry_point) }@
+{%     endif %}
 
 {%   endif %}
 

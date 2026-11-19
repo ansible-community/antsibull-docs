@@ -90,7 +90,17 @@
                     "something",
                     "something else"
                 ],
-                "version_added": "0.1.0"
+                "version_added": "0.1.0",
+                "return": {
+                    "account_key_content": {
+                        "description": [
+                            "The content of the generated or rolled-over account key."
+                        ],
+                        "type": "str",
+                        "returned": "when O(state=present)",
+                        "sample": "-----BEGIN PRIVATE KEY-----\n..."
+                    }
+                }
             },
             "other": {
                 "author": "Felix Fontein (@felixfontein)",
