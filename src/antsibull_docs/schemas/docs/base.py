@@ -122,6 +122,7 @@ An example of both of the above:
 from __future__ import annotations
 
 import abc
+import datetime
 import typing as t
 from collections.abc import Mapping
 
@@ -401,6 +402,15 @@ class DeprecationSchema(BaseModel):
     removed_from_collection: str = REQUIRED_COLLECTION_NAME_F
     why: str
     alternative: str = ""
+
+    @p.field_validator("removed_at_date", mode="before")
+    @classmethod
+    def list_from_scalars(cls, obj):
+        if isinstance(obj, datetime.date):
+            return obj.isoformat()
+        if isinstance(obj, datetime.datetime):
+            return obj.date().isoformat()
+        return obj
 
     @p.model_validator(mode="before")
     @classmethod
