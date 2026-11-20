@@ -24,6 +24,7 @@ from ..rst_labels import (
 from ..utils.collection_name_transformer import CollectionNameTransformer
 from . import FilenameGenerator, OutputFormat
 from .filters import (
+    antsibull_title_case,
     collection_name,
     column_width,
     documented_type,
@@ -33,6 +34,7 @@ from .filters import (
     massage_author_name,
     move_first,
     plugin_shortname,
+    plugin_type_name,
     remove_options_from_list,
     rst_fmt,
     rst_format,
@@ -183,6 +185,8 @@ def doc_environment(
     env.filters["rst_format"] = rst_format
     env.filters["rst_indent"] = rst_indent
     env.filters["sanitize_whitespace"] = sanitize_whitespace
+    env.filters["plugin_type_name"] = plugin_type_name
+    env.filters["antsibull_title_case"] = antsibull_title_case
     if collection_url is not None:
         env.filters["collection_url"] = collection_url
     if collection_install is not None:

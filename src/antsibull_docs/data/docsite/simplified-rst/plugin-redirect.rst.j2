@@ -10,7 +10,7 @@
 .. Created with antsibull-docs
 {% endif %}
 
-{% set title = plugin_name ~ ' ' ~ plugin_type -%}
+{% set title = plugin_name ~ ' ' ~ (plugin_type | plugin_type_name(short=true)) -%}
 
 @{ title }@
 @{ '+' * title|column_width }@
@@ -43,7 +43,7 @@
   It will eventually be removed from @{ collection_name }@.
 {%   endif %}
 {% endif %}
-- This is a redirect to the @{ redirect }@ {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %}.
+- This is a redirect to the @{ redirect }@ @{ plugin_type | plugin_type_name }@.
 {% if collection != 'ansible.builtin' -%}
 {%   if redirect_is_symlink %}
 - This redirect also works with Ansible 2.9.

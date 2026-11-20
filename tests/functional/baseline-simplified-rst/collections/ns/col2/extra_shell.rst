@@ -1,7 +1,7 @@
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
-ns.col2.extra shell
-+++++++++++++++++++
+ns.col2.extra shell plugin
+++++++++++++++++++++++++++
 
 The documentation for the shell plugin, ns.col2.extra, was malformed.
 

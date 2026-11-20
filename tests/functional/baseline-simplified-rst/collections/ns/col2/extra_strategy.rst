@@ -1,7 +1,7 @@
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
-ns.col2.extra strategy
-++++++++++++++++++++++
+ns.col2.extra strategy plugin
++++++++++++++++++++++++++++++
 
 The documentation for the strategy plugin, ns.col2.extra, was malformed.
 

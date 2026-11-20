@@ -33,7 +33,7 @@ Synopsis
 
 Requirements
 ------------
-The below requirements are needed on the local controller node that executes this vars.
+The below requirements are needed on the local controller node that executes this vars plugin.
 
 - Enabled in Ansible's configuration.
 

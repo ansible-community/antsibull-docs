@@ -19,7 +19,7 @@
 {% endif %}
 {% macro list_plugins(plugin_type) %}
 {%   for name, info in plugin_maps[plugin_type].items() | sort %}
-* :ansplugin:`@{ name }@ @{ plugin_type }@ <@{ collection_name }@.@{ name }@#@{ plugin_type }@>` -- @{ info.short_description | rst_ify(plugin_fqcn=collection_name ~ '.' ~ name, plugin_type=plugin_type) | rst_indent(width=2) }@ @{ deprecation_marker(info) }@
+* :ansplugin:`@{ name }@ @{ plugin_type | plugin_type_name(short=true) }@ <@{ collection_name }@.@{ name }@#@{ plugin_type }@>` -- @{ info.short_description | rst_ify(plugin_fqcn=collection_name ~ '.' ~ name, plugin_type=plugin_type) | rst_indent(width=2) }@ @{ deprecation_marker(info) }@
 {%   endfor %}
 {%   if breadcrumbs %}
 
@@ -157,8 +157,8 @@ There are no plugins in the @{collection_name}@ collection with automatically ge
 Modules
 ~~~~~~~
 {%   else %}
-@{ category | capitalize }@ Plugins
-@{ '~' * ((category | column_width) + 8) }@
+@{ category | plugin_type_name(plural=true) | antsibull_title_case }@
+@{ '~' * (category | plugin_type_name(plural=true) | antsibull_title_case | column_width) }@
 {%   endif %}
 
 @{   list_plugins(category) }@

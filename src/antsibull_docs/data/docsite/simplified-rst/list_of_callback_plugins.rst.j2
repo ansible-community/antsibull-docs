@@ -13,7 +13,7 @@
 {% from 'macros/deprecates.rst.j2' import deprecation_marker with context -%}
 
 Index of all @{ callback_type | capitalize }@ Callback Plugins
-=============@{ '=' * (callback_type | column_width) }@=================
+=============@{ '=' * (callback_type | capitalize | column_width) }@=================
 
 See `List of all Callback Plugins <index_callback.rst>`_ for the list of *all* callback plugins.
 

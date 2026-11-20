@@ -306,3 +306,25 @@ def sanitize_whitespace(text: str) -> str:
     if not isinstance(text, str):
         raise ValueError("sanitize_whitespace can only be applied to strings")
     return _sanitize_whitespace(text, trailing_newline=False)
+
+
+def plugin_type_name(
+    plugin_type: str, *, short: bool = False, plural: bool = False
+) -> str:
+    name = plugin_type
+    if not short and plugin_type not in ("role", "module"):
+        name = f"{name} plugin"
+    if plural:
+        name = f"{name}s"
+    return name
+
+
+def _title(text: str) -> str:
+    if not text:
+        return text
+    return text[0].upper() + text[1:]
+
+
+def antsibull_title_case(text: str) -> str:
+    parts = text.split()
+    return " ".join(_title(part) for part in parts)

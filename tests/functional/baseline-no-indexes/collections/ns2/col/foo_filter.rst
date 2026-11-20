@@ -122,7 +122,7 @@ This describes the input of the filter, the value before ``| ns2.col.foo``.
 Keyword parameters
 ------------------
 
-This describes keyword parameters of the filter. These are the values ``key1=value1``, ``key2=value2`` and so on in the following
+This describes keyword parameters of the filter plugin. These are the values ``key1=value1``, ``key2=value2`` and so on in the following
 example: ``input | ns2.col.foo(key1=value1, key2=value2, ...)``
 
 .. tabularcolumns:: \X{1}{3}\X{2}{3}

@@ -1,7 +1,7 @@
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
-ns.col2.extra callback
-++++++++++++++++++++++
+ns.col2.extra callback plugin
++++++++++++++++++++++++++++++
 
 The documentation for the callback plugin, ns.col2.extra, was malformed.
 

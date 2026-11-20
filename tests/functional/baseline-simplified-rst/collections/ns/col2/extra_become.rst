@@ -1,7 +1,7 @@
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
-ns.col2.extra become
-++++++++++++++++++++
+ns.col2.extra become plugin
++++++++++++++++++++++++++++
 
 The documentation for the become plugin, ns.col2.extra, was malformed.
 

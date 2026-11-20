@@ -17,7 +17,7 @@ ns.col2.extra module
 ++++++++++++++++++++
 
 
-The documentation for the module plugin, ns.col2.extra,  was malformed.
+The documentation for the module, ns.col2.extra,  was malformed.
 
 The errors were:
 

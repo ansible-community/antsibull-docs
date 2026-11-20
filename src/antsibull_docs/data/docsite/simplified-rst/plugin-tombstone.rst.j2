@@ -19,7 +19,7 @@ This module was part of ``ansible-core`` and was included in all Ansible install
 This plugin was part of the `@{collection}@ collection <@{ collection | collection_url }@>`_{% if collection_version %} (version @{ collection_version }@){% endif %}.
 {% endif %}
 
-This {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %} has been removed
+This @{ plugin_type | plugin_type_name }@ has been removed
 {% if tombstone.removal_version is defined %}
 in version @{ tombstone.removal_version | rst_ify }@ of @{ collection }@.
 {% elif tombstone.removal_date is defined %}

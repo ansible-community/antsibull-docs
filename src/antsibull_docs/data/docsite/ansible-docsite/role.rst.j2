@@ -33,9 +33,9 @@
 .. Title
 
 {% if entry_points.main and entry_points.main.short_description -%}
-{%   set title = plugin_name ~ ' ' ~ plugin_type ~ ' -- ' ~ entry_points.main.short_description | rst_ify(role_entrypoint='main') -%}
+{%   set title = plugin_name ~ ' ' ~ (plugin_type | plugin_type_name(short=true)) ~ ' -- ' ~ entry_points.main.short_description | rst_ify(role_entrypoint='main') -%}
 {% else -%}
-{%   set title = plugin_name ~ ' ' ~ plugin_type -%}
+{%   set title = plugin_name ~ ' ' ~ (plugin_type | plugin_type_name(short=true)) -%}
 {% endif -%}
 
 @{ title }@
@@ -178,11 +178,11 @@ See Also
    @{ reference_plugin_rst(item['module'], 'module') }@
        The official documentation on the **@{ item['module'] }@** module.
 {%       elif item.plugin is defined and item.plugin_type is defined and item.description %}
-   @{ reference_plugin_rst(item['plugin'], item['plugin_type']) }@ @{ item['plugin_type'] }@ plugin
+   @{ reference_plugin_rst(item['plugin'], item['plugin_type']) }@ @{ item['plugin_type'] | plugin_type_name }@
        @{ item['description'] | rst_ify(role_entrypoint=entry_point) | rst_indent(7) }@
 {%       elif item.plugin is defined and item.plugin_type is defined %}
-   @{ reference_plugin_rst(item['plugin'], item['plugin_type']) }@ @{ item['plugin_type'] }@ plugin
-       The official documentation on the **@{ item['plugin'] }@** @{ item['plugin_type'] }@ plugin.
+   @{ reference_plugin_rst(item['plugin'], item['plugin_type']) }@ @{ item['plugin_type'] | plugin_type_name }@
+       The official documentation on the **@{ item['plugin'] }@** @{ item['plugin_type'] | plugin_type_name }@.
 {%       elif item.name is defined and item.link is defined and item.description %}
    `@{ item['name'] }@ <@{ item['link'] }@>`_
        @{ item['description'] | rst_ify(role_entrypoint=entry_point) | rst_indent(7) }@

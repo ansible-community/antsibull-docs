@@ -1,7 +1,7 @@
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
-ns.col2.extra filter
-++++++++++++++++++++
+ns.col2.extra filter plugin
++++++++++++++++++++++++++++
 
 The documentation for the filter plugin, ns.col2.extra, was malformed.
 

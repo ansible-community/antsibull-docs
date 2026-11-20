@@ -477,7 +477,7 @@ See Also
        Foo III.
    :ref:`ns.col2.foobarbaz <ansible_collections.ns.col2.foobarbaz_module>`
        The official documentation on the **ns.col2.foobarbaz** module.
-   :ref:`ns.col2.foo4 <ansible_collections.ns.col2.foo4_module>` module plugin
+   :ref:`ns.col2.foo4 <ansible_collections.ns.col2.foo4_module>` module
        Markup reference linting test.
    :ref:`ns.col2.foobarbaz <ansible_collections.ns.col2.foobarbaz_inventory>` inventory plugin
        The official documentation on the **ns.col2.foobarbaz** inventory plugin.

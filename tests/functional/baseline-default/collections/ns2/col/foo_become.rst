@@ -401,7 +401,7 @@ Status
 
 .. Deprecated note
 
-- This become will be removed in version 5.0.0.
+- This become plugin will be removed in version 5.0.0.
   *[deprecated]*
 - For more information see `DEPRECATED`_.
 

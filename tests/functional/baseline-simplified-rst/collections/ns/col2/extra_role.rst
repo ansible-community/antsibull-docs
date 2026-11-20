@@ -3,7 +3,7 @@
 ns.col2.extra role
 ++++++++++++++++++
 
-The documentation for the role plugin, ns.col2.extra, was malformed.
+The documentation for the role, ns.col2.extra, was malformed.
 
 The errors were:
 

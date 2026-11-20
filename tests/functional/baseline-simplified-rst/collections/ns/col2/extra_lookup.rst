@@ -1,7 +1,7 @@
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
-ns.col2.extra lookup
-++++++++++++++++++++
+ns.col2.extra lookup plugin
++++++++++++++++++++++++++++
 
 The documentation for the lookup plugin, ns.col2.extra, was malformed.
 

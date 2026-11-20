@@ -24,13 +24,13 @@
 
 .. Title
 
-{% set title = plugin_name ~ ' ' ~ plugin_type -%}
+{% set title = plugin_name ~ ' ' ~ (plugin_type | plugin_type_name(short=true)) -%}
 
 @{ title }@
 @{ '+' * title|column_width }@
 
 
-The documentation for the @{ plugin_type }@ plugin, @{ plugin_name }@,  was malformed.
+The documentation for the @{ plugin_type | plugin_type_name }@, @{ plugin_name }@,  was malformed.
 
 The errors were:
 

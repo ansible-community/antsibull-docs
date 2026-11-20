@@ -228,7 +228,7 @@ See Also
 * `ns.col2.foobarbaz <foobarbaz_module.rst>`__
 
   The official documentation on the **ns.col2.foobarbaz** module.
-* `ns.col2.foo4 <foo4_module.rst>`__ module plugin
+* `ns.col2.foo4 <foo4_module.rst>`__ module
 
   Markup reference linting test.
 * `ns.col2.foobarbaz <foobarbaz_inventory.rst>`__ inventory plugin

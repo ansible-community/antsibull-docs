@@ -20,17 +20,16 @@
 {% set has_keyword_parameters = false -%}
 
 {% if doc['short_description'] -%}
-{%   set title = plugin_name ~ ' ' ~ plugin_type ~ ' -- ' ~ doc['short_description'] | rst_ify -%}
+{%   set title = plugin_name ~ ' ' ~ (plugin_type | plugin_type_name(short=true)) ~ ' -- ' ~ doc['short_description'] | rst_ify -%}
 {% else -%}
-{%   set title = plugin_name ~ ' ' ~ plugin_type -%}
+{%   set title = plugin_name ~ ' ' ~ (plugin_type | plugin_type_name(short=true)) -%}
 {% endif -%}
 
 @{ title }@
 @{ '+' * title|column_width }@
 
 {% if collection == 'ansible.builtin' -%}
-This {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %}
-is part of ``ansible-core`` and included in all Ansible
+This @{ plugin_type | plugin_type_name }@ plugin is part of ``ansible-core`` and included in all Ansible
 installations. In most cases, you can use the short
 {% if plugin_type == 'module' %}module{% else %}plugin{% endif %} name
 ``@{ plugin_name.rsplit('.', 1)[-1] }@``{% if plugin_type == 'module' %} even without specifying the `collections keyword
@@ -39,9 +38,9 @@ However, we recommend you use the `Fully Qualified Collection Name (FQCN)
 <https://docs.ansible.com/projects/ansible/latest/reference_appendices/glossary.html#term-Fully-Qualified-Collection-Name-FQCN>`__
 ``@{ plugin_name }@`` for easy linking to the {% if plugin_type == 'module' %}module{% else %}plugin{% endif %}
 documentation and to avoid conflicting with other collections that may have
-the same {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %} name.
+the same @{ plugin_type | plugin_type_name }@ name.
 {% else %}
-This {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %} is part of the `@{collection}@ collection <@{ collection | collection_url }@>`_{% if collection_version %} (version @{ collection_version }@){% endif %}.
+This @{ plugin_type | plugin_type_name }@ is part of the `@{collection}@ collection <@{ collection | collection_url }@>`_{% if collection_version %} (version @{ collection_version }@){% endif %}.
 
 {%   if for_official_docsite %}
 You might already have this collection installed if you are using the ``ansible`` package.
@@ -51,7 +50,7 @@ To check whether it is installed, run ``ansible-galaxy collection list``.
 
 To install it, use: @{ collection | collection_install | rst_code }@.
 {%   if doc['requirements'] %}
-You need further requirements to be able to use this {% if plugin_type == 'module' %}module{% else %}@{ plugin_type }@ plugin{% endif %},
+You need further requirements to be able to use this @{ plugin_type | plugin_type_name }@,
 see `Requirements <@{ rst_requirements_ref(plugin_name, plugin_type) }@_>`_ for details.
 {%   endif %}
 
@@ -117,9 +116,9 @@ Aliases: @{ ', '.join(doc['aliases'] | sort) }@
 Requirements
 ------------
 {%   if plugin_type in ('module', 'module_util') %}
-The below requirements are needed on the host that executes this @{ plugin_type }@.
+The below requirements are needed on the host that executes this @{ plugin_type | plugin_type_name }@.
 {%   else %}
-The below requirements are needed on the local controller node that executes this @{ plugin_type }@.
+The below requirements are needed on the local controller node that executes this @{ plugin_type | plugin_type_name }@.
 {%   endif %}
 
 {%   for req in doc['requirements'] %}
@@ -164,7 +163,7 @@ This describes the input of the test, the value before ``is @{plugin_name}@`` or
 Positional parameters
 ---------------------
 
-This describes positional parameters of the @{plugin_type}@. These are the values ``positional1``, ``positional2`` and so on in the following
+This describes positional parameters of the @{plugin_type | plugin_type_name}@. These are the values ``positional1``, ``positional2`` and so on in the following
 {%   if plugin_type == 'filter' %}
 example: ``input | @{plugin_name}@(positional1, positional2, ...)``
 {%   elif plugin_type == 'test' %}
@@ -182,7 +181,7 @@ examples: ``input is @{plugin_name}@(positional1, positional2, ...)`` and ``inpu
 Keyword parameters
 ------------------
 
-This describes keyword parameters of the @{plugin_type}@. These are the values ``key1=value1``, ``key2=value2`` and so on in the following
+This describes keyword parameters of the @{plugin_type | plugin_type_name}@. These are the values ``key1=value1``, ``key2=value2`` and so on in the following
 {%     if plugin_type == 'filter' %}
 example: ``input | @{plugin_name}@(key1=value1, key2=value2, ...)``
 {%     elif plugin_type == 'test' %}
@@ -250,13 +249,13 @@ See Also
 
   The official documentation on the **@{ item['module'] }@** module.
 {%   elif item.plugin is defined and item.plugin_type is defined and item.description %}
-* @{ reference_plugin_rst(item['plugin'], item['plugin_type']) }@ @{ item['plugin_type'] }@ plugin
+* @{ reference_plugin_rst(item['plugin'], item['plugin_type']) }@ @{ item['plugin_type'] | plugin_type_name }@
 
   @{ item['description'] | rst_ify | rst_indent(2) }@
 {%   elif item.plugin is defined and item.plugin_type is defined %}
-* @{ reference_plugin_rst(item['plugin'], item['plugin_type']) }@ @{ item['plugin_type'] }@ plugin
+* @{ reference_plugin_rst(item['plugin'], item['plugin_type']) }@ @{ item['plugin_type'] | plugin_type_name }@
 
-  The official documentation on the **@{ item['plugin'] }@** @{ item['plugin_type'] }@ plugin.
+  The official documentation on the **@{ item['plugin'] }@** @{ item['plugin_type'] | plugin_type_name }@.
 {%   elif item.name is defined and item.link is defined and item.description %}
 * `@{ item['name'] }@ <@{ item['link'] }@>`_
 
@@ -297,7 +296,7 @@ Facts returned by this module are added/updated in the ``hostvars`` host facts a
 {#     This only makes sense for plugins which can return more than one value. #}
 Return Values
 -------------
-The following are the fields unique to this @{ plugin_type }@:
+The following are the fields unique to this @{ plugin_type | plugin_type_name }@:
 {%   else %}
 Return Value
 ------------
@@ -316,21 +315,21 @@ Status
 
 {% if doc['deprecated']['removed_from_collection'] and doc['deprecated']['removed_from_collection'] != collection %}
 {%   if doc['deprecated']['removed_at_date'] %}
-- This @{ plugin_type }@ will be removed in a major release after @{ doc['deprecated']['removed_at_date'] | rst_ify }@
+- This @{ plugin_type | plugin_type_name }@ will be removed in a major release after @{ doc['deprecated']['removed_at_date'] | rst_ify }@
   of @{ doc['deprecated']['removed_from_collection'] | rst_ify }@.
 {%   elif doc['deprecated']['removed_in'] %}
-- This @{ plugin_type }@ will be removed in version @{ doc['deprecated']['removed_in'] | string | rst_ify }@
+- This @{ plugin_type | plugin_type_name }@ will be removed in version @{ doc['deprecated']['removed_in'] | string | rst_ify }@
   of @{ doc['deprecated']['removed_from_collection'] | rst_ify }@.
 {%   else %}
-- This @{ plugin_type }@ will be removed in a future release of @{ doc['deprecated']['removed_from_collection'] | rst_ify }@.
+- This @{ plugin_type | plugin_type_name }@ will be removed in a future release of @{ doc['deprecated']['removed_from_collection'] | rst_ify }@.
 {%   endif %}
 {% else %}
 {%   if doc['deprecated']['removed_at_date'] %}
-- This @{ plugin_type }@ will be removed in a major release after @{ doc['deprecated']['removed_at_date'] | rst_ify }@.
+- This @{ plugin_type | plugin_type_name }@ will be removed in a major release after @{ doc['deprecated']['removed_at_date'] | rst_ify }@.
 {%   elif doc['deprecated']['removed_in'] %}
-- This @{ plugin_type }@ will be removed in version @{ doc['deprecated']['removed_in'] | string | rst_ify }@.
+- This @{ plugin_type | plugin_type_name }@ will be removed in version @{ doc['deprecated']['removed_in'] | string | rst_ify }@.
 {%   else %}
-- This @{ plugin_type }@ will be removed in a future release.
+- This @{ plugin_type | plugin_type_name }@ will be removed in a future release.
 {%   endif %}
 {% endif %}
   *[deprecated]*
