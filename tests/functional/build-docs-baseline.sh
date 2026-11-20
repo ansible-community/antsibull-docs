@@ -7,8 +7,9 @@ set -e
 
 
 make_docsite_baseline() {
+    BACKEND="$1"
+    shift
     DEST="$1"
-    BACKEND="ansible-core-2.13"
     shift
 
     echo "Building baseline ${DEST}..."
@@ -44,14 +45,14 @@ make_ansible_doc_extract() {
 
 
 # baseline-default must include all collections in collections/
-make_docsite_baseline baseline-default ns.col1 ns.col2 ns2.col ns2.flatcol
-make_docsite_baseline baseline-no-breadcrumbs ns.col1 ns.col2 ns2.col ns2.flatcol --no-breadcrumbs
-make_docsite_baseline baseline-no-indexes ns.col1 ns2.col ns2.flatcol --fail-on-error --no-indexes --no-add-antsibull-docs-version
-make_docsite_baseline baseline-use-html-blobs ns2.col --fail-on-error --use-html-blobs
-make_docsite_baseline baseline-squash-hierarchy ns2.col --fail-on-error --squash-hierarchy
-COMMAND="plugin" make_docsite_baseline baseline-plugin --plugin-type lookup ns2.col.foo --fail-on-error
-make_docsite_baseline baseline-simplified-rst ns.col1 ns.col2 ns2.col ns2.flatcol --output-format simplified-rst
-make_docsite_baseline baseline-simplified-rst-squash-hierarchy ns2.col --fail-on-error --squash-hierarchy --no-add-antsibull-docs-version --output-format simplified-rst
+make_docsite_baseline ansible-core-2.13 baseline-default ns.col1 ns.col2 ns2.col ns2.flatcol
+make_docsite_baseline ansible-core-2.13 baseline-no-breadcrumbs ns.col1 ns.col2 ns2.col ns2.flatcol --no-breadcrumbs
+make_docsite_baseline ansible-core-2.13 baseline-no-indexes ns.col1 ns2.col ns2.flatcol --fail-on-error --no-indexes --no-add-antsibull-docs-version
+make_docsite_baseline ansible-core-2.13 baseline-use-html-blobs ns2.col --fail-on-error --use-html-blobs
+make_docsite_baseline ansible-core-2.13 baseline-squash-hierarchy ns2.col --fail-on-error --squash-hierarchy
+COMMAND="plugin" make_docsite_baseline ansible-core-2.13 baseline-plugin --plugin-type lookup ns2.col.foo --fail-on-error
+make_docsite_baseline ansible-core-2.13 baseline-simplified-rst ns.col1 ns.col2 ns2.col ns2.flatcol --output-format simplified-rst
+make_docsite_baseline ansible-core-2.13 baseline-simplified-rst-squash-hierarchy ns2.col --fail-on-error --squash-hierarchy --no-add-antsibull-docs-version --output-format simplified-rst
 
 echo "Build ansible --version output cache"
 ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ ansible --version | sed -e "s|${PWD}/collections|<<<<<COLLECTIONS>>>>>|g" | sed -e "s|${HOME}|<<<<<HOME>>>>>|g" | sed -E "s|(ansible python module location = ).*|\\1<<<<<ANSIBLE>>>>>|g" > ansible-version.output
