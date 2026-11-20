@@ -31,6 +31,8 @@ from antsibull_docs_loader.routing import (
     complete_redirects,
 )
 
+from ._utils import _should_flatmap
+
 if t.TYPE_CHECKING:  # pragma: no cover
     from collections.abc import Mapping, MutableMapping
 
@@ -233,10 +235,12 @@ def _has_action(
 
 
 def _collect_docs(
+    *,
     plugin_map: MutableMapping[str, MutableMapping[str, t.Any]],
     collection_name: str,
     collection_routing: Mapping[str, CollectionRouting],
     doc_fragments: DocFragmentCollector,
+    flatmap: bool,
 ) -> None:
     routing = collection_routing.get(collection_name)
     if routing is None:
@@ -254,19 +258,20 @@ def _collect_docs(
         for parts, file in plugin_files.items():
             name = ".".join(parts)
             fqcn = f"{collection_name}.{name}"
+            dest_fqcn = f"{collection_name}.{parts[-1]}" if flatmap else fqcn
             r = plugin_routing.get(name)
             if r is not None and (r.redirect is not None or r.tombstone is not None):
                 continue
             try:
                 if plugin_type == "role":
-                    plugin_type_map[fqcn] = _collect_role_doc(
+                    plugin_type_map[dest_fqcn] = _collect_role_doc(
                         fqcn=fqcn, collection_name=collection_name, file=file
                     )
                 else:
                     has_action = _has_action(
                         collection_routing=collection_routing, fqcn=fqcn
                     )
-                    plugin_type_map[fqcn] = _collect_doc(
+                    plugin_type_map[dest_fqcn] = _collect_doc(
                         fqcn=fqcn,
                         collection_name=collection_name,
                         plugin_type=plugin_type,
@@ -275,11 +280,11 @@ def _collect_docs(
                         has_action=has_action,
                     )
             except Exception as exc:  # pylint: disable=broad-exception-caught
-                plugin_type_map[fqcn] = {"error": str(exc)}
+                plugin_type_map[dest_fqcn] = {"error": str(exc)}
 
 
 def _get_collection_info(
-    name: str, meta: AnsibleCollectionMetadata, *, is_core: bool = False
+    name: str, *, meta: AnsibleCollectionMetadata, is_core: bool = False
 ) -> CollectionInfo:
     namespace, name = name.split(".", 1)
     return CollectionInfo(
@@ -302,10 +307,10 @@ def _get_collection_infos(
         )
     return CollectionInfos(
         ansible_core=_get_collection_info(
-            "ansible.builtin", ansible_core, is_core=True
+            "ansible.builtin", meta=ansible_core, is_core=True
         ),
         collections={
-            name: _get_collection_info(name, meta)
+            name: _get_collection_info(name, meta=meta)
             for name, meta in collection_metadata.items()
         },
     )
@@ -339,6 +344,14 @@ def collect_docs(
 
     doc_fragments = DocFragmentCollector(collection_routing=collection_routing)
     for collection_name in _iterate_collections(collection_metadata, collection_names):
-        _collect_docs(plugin_map, collection_name, collection_routing, doc_fragments)
+        _collect_docs(
+            plugin_map=plugin_map,
+            collection_name=collection_name,
+            collection_routing=collection_routing,
+            doc_fragments=doc_fragments,
+            flatmap=_should_flatmap(
+                collection_name, collection_metadata=collection_metadata
+            ),
+        )
 
     flog.debug("Leave")
