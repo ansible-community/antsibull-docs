@@ -48,8 +48,8 @@ jobs:
             image: ubuntu-24.04
 
           - session: lint
-            python-versions: "3.14"
-            force-python: "3.14"
+            python-versions: "3.15"
+            force-python: "3.15"
             codecov: false
             packages: ""
             image: ""
