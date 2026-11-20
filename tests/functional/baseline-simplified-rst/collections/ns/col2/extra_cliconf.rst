@@ -1,7 +1,7 @@
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
-ns.col2.extra cliconf
-+++++++++++++++++++++
+ns.col2.extra cliconf plugin
+++++++++++++++++++++++++++++
 
 The documentation for the cliconf plugin, ns.col2.extra, was malformed.
 

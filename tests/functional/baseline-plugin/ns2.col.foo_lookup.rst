@@ -123,7 +123,7 @@ Terms
 Keyword parameters
 ------------------
 
-This describes keyword parameters of the lookup. These are the values ``key1=value1``, ``key2=value2`` and so on in the following
+This describes keyword parameters of the lookup plugin. These are the values ``key1=value1``, ``key2=value2`` and so on in the following
 examples: ``lookup('ns2.col.foo', key1=value1, key2=value2, ...)`` and ``query('ns2.col.foo', key1=value1, key2=value2, ...)``
 
 .. tabularcolumns:: \X{1}{3}\X{2}{3}

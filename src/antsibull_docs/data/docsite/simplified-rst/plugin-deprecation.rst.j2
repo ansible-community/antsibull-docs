@@ -11,13 +11,13 @@
 {% endif %}
 
 {% if short_description %}
-{%   set title = alias ~ ' ' ~ plugin_type ~ ' -- ' ~ short_description | rst_ify %}
+{%   set title = alias ~ ' ' ~ (plugin_type | plugin_type_name(short=true)) ~ ' -- ' ~ short_description | rst_ify %}
 {% else %}
-{%   set title = alias ~ ' ' ~ plugin_type %}
+{%   set title = alias ~ ' ' ~ (plugin_type | plugin_type_name(short=true)) %}
 {% endif %}
 
 @{ title }@
 @{ '+' * title|column_width }@
 
-This is an alias for the @{ module }@ @{ plugin_type }@.
+This is an alias for the @{ module }@ @{ plugin_type | plugin_type_name }@.
 This name has been **deprecated**. Please update your tasks to use the new name ``@{ module }@`` instead.

@@ -31,16 +31,8 @@ Index of all deprecated collections
 
 {% endif %}
 {% for plugin_type, plugins in deprecated_plugin_info.items() | sort %}
-{%   if plugin_type == 'module' %}
-Index of all deprecated modules
--------------------------------
-{%   elif plugin_type == 'role' %}
-Index of all deprecated roles
------------------------------
-{%   else %}
-Index of all deprecated @{ plugin_type }@ plugins
-------------------------@{ '-' * (plugin_type | column_width) }@--------
-{%   endif %}
+Index of all deprecated @{ plugin_type | plugin_type_name(plural=true) }@
+------------------------@{ '-' * (plugin_type | plugin_type_name(plural=true) | column_width) }@
 
 {%   for plugin_fqcn, plugin_info in plugins.items() | sort %}
 * `@{ plugin_fqcn }@ <@{ get_plugin_filename(plugin_fqcn, plugin_type) }@>`_ -- @{ plugin_info.short_description | rst_ify(plugin_fqcn=plugin_fqcn, plugin_type=plugin_type) }@

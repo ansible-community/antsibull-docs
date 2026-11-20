@@ -1,7 +1,7 @@
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
-ns.col2.extra test
-++++++++++++++++++
+ns.col2.extra test plugin
++++++++++++++++++++++++++
 
 The documentation for the test plugin, ns.col2.extra, was malformed.
 

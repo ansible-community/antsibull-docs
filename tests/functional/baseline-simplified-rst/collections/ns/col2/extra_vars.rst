@@ -1,7 +1,7 @@
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
-ns.col2.extra vars
-++++++++++++++++++
+ns.col2.extra vars plugin
++++++++++++++++++++++++++
 
 The documentation for the vars plugin, ns.col2.extra, was malformed.
 

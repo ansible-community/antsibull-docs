@@ -106,7 +106,7 @@ This describes the input of the filter, the value before ``| ns2.col.bar``.
 Positional parameters
 ---------------------
 
-This describes positional parameters of the filter. These are the values ``positional1``, ``positional2`` and so on in the following
+This describes positional parameters of the filter plugin. These are the values ``positional1``, ``positional2`` and so on in the following
 example: ``input | ns2.col.bar(positional1, positional2, ...)``
 
 .. raw:: html
@@ -166,7 +166,7 @@ example: ``input | ns2.col.bar(positional1, positional2, ...)``
 Keyword parameters
 ------------------
 
-This describes keyword parameters of the filter. These are the values ``key1=value1``, ``key2=value2`` and so on in the following
+This describes keyword parameters of the filter plugin. These are the values ``key1=value1``, ``key2=value2`` and so on in the following
 example: ``input | ns2.col.bar(key1=value1, key2=value2, ...)``
 
 .. raw:: html

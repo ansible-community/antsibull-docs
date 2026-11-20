@@ -1,7 +1,7 @@
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
-ns.col2.extra inventory
-+++++++++++++++++++++++
+ns.col2.extra inventory plugin
+++++++++++++++++++++++++++++++
 
 The documentation for the inventory plugin, ns.col2.extra, was malformed.
 

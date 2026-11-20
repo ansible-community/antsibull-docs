@@ -1,0 +1,2 @@
+minor_changes:
+  - "Improve use of plugin type name in generated documentation, and simplify markup (https://github.com/ansible-community/antsibull-docs/pull/509)."

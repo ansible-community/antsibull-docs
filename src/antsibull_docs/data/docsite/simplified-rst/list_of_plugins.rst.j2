@@ -12,16 +12,8 @@
 
 {% from 'macros/deprecates.rst.j2' import deprecation_marker with context -%}
 
-{% if plugin_type == 'module' %}
-Index of all Modules
-====================
-{% elif plugin_type == 'role' %}
-Index of all Roles
-==================
-{% else %}
-Index of all @{ plugin_type | capitalize }@ Plugins
-=============@{ '=' * (plugin_type | column_width) }@========
-{% endif %}
+Index of all @{ plugin_type | plugin_type_name(plural=true) | antsibull_title_case }@
+=============@{ '=' * (plugin_type | plugin_type_name(plural=true) | antsibull_title_case | column_width) }@
 
 {% for collection_name, plugins in per_collection_plugins.items() | sort %}
 @{ collection_name }@
@@ -32,5 +24,5 @@ Index of all @{ plugin_type | capitalize }@ Plugins
 {%   endfor %}
 
 {% else %}
-No {% if plugin_type == 'module' %}module{% elif plugin_type == 'role' %}role{% else %}@{ plugin_type }@ plugin{% endif %} found.
+No @{ plugin_type | plugin_type_name }@ found.
 {% endfor %}

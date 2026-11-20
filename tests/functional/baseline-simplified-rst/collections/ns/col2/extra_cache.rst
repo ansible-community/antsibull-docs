@@ -1,7 +1,7 @@
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
-ns.col2.extra cache
-+++++++++++++++++++
+ns.col2.extra cache plugin
+++++++++++++++++++++++++++
 
 The documentation for the cache plugin, ns.col2.extra, was malformed.
 

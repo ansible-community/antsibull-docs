@@ -3,7 +3,7 @@
 ns.col2.foo module
 ++++++++++++++++++
 
-The documentation for the module plugin, ns.col2.foo, was malformed.
+The documentation for the module, ns.col2.foo, was malformed.
 
 The errors were:
 

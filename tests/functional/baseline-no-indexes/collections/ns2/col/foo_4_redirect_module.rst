@@ -8,8 +8,8 @@
 
 .. Title
 
-ns2.col.foo_4_redirect
-++++++++++++++++++++++
+ns2.col.foo_4_redirect module
++++++++++++++++++++++++++++++
 
 .. Collection note
 

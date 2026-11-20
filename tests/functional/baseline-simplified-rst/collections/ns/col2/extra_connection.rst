@@ -1,7 +1,7 @@
 .. Created with antsibull-docs <ANTSIBULL_DOCS_VERSION>
 
-ns.col2.extra connection
-++++++++++++++++++++++++
+ns.col2.extra connection plugin
++++++++++++++++++++++++++++++++
 
 The documentation for the connection plugin, ns.col2.extra, was malformed.
 
