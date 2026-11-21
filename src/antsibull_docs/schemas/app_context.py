@@ -21,7 +21,9 @@ DEFAULT_COLLECTION_INSTALL_CMD = "ansible-galaxy collection install {namespace}.
 
 class DocsAppContext(CoreAppContext):
     # These are antsibull-docs specific
-    doc_parsing_backend: t.Literal["auto", "ansible-core-2.13"] = "auto"
+    doc_parsing_backend: t.Literal[
+        "auto", "ansible-core-2.13", "antsibull-docs-loader"
+    ] = "auto"
     breadcrumbs: p.StrictBool = True
     indexes: p.StrictBool = True
     use_html_blobs: p.StrictBool = False

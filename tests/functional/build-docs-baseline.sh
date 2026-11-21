@@ -7,13 +7,16 @@ set -e
 
 
 make_docsite_baseline() {
+    BACKEND="$1"
+    shift
     DEST="$1"
     shift
 
     echo "Building baseline ${DEST}..."
+    echo "doc_parsing_backend = ${BACKEND}" > antsibull-docs.cfg
     rm -rf "${DEST}"
     mkdir -p "${DEST}"
-    ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ python antsibull-docs-stub.py ${COMMAND:-collection --use-current} --dest-dir "${DEST}" "$@" 2>&1 | (
+    ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ python antsibull-docs-stub.py --config-file antsibull-docs.cfg ${COMMAND:-collection --use-current} --dest-dir "${DEST}" "$@" 2>&1 | (
         set +e
         grep -v "ERROR:antsibull:func=create_plugin_rst:mod=antsibull_docs.write_docs.plugins:nonfatal_errors="
         set -e
@@ -42,14 +45,23 @@ make_ansible_doc_extract() {
 
 
 # baseline-default must include all collections in collections/
-make_docsite_baseline baseline-default ns.col1 ns.col2 ns2.col ns2.flatcol
-make_docsite_baseline baseline-no-breadcrumbs ns.col1 ns.col2 ns2.col ns2.flatcol --no-breadcrumbs
-make_docsite_baseline baseline-no-indexes ns.col1 ns2.col ns2.flatcol --fail-on-error --no-indexes --no-add-antsibull-docs-version
-make_docsite_baseline baseline-use-html-blobs ns2.col --fail-on-error --use-html-blobs
-make_docsite_baseline baseline-squash-hierarchy ns2.col --fail-on-error --squash-hierarchy
-COMMAND="plugin" make_docsite_baseline baseline-plugin --plugin-type lookup ns2.col.foo --fail-on-error
-make_docsite_baseline baseline-simplified-rst ns.col1 ns.col2 ns2.col ns2.flatcol --output-format simplified-rst
-make_docsite_baseline baseline-simplified-rst-squash-hierarchy ns2.col --fail-on-error --squash-hierarchy --no-add-antsibull-docs-version --output-format simplified-rst
+make_docsite_baseline ansible-core-2.13 baseline-default ns.col1 ns.col2 ns2.col ns2.flatcol
+make_docsite_baseline ansible-core-2.13 baseline-no-breadcrumbs ns.col1 ns.col2 ns2.col ns2.flatcol --no-breadcrumbs
+make_docsite_baseline ansible-core-2.13 baseline-no-indexes ns.col1 ns2.col ns2.flatcol --fail-on-error --no-indexes --no-add-antsibull-docs-version
+make_docsite_baseline ansible-core-2.13 baseline-use-html-blobs ns2.col --fail-on-error --use-html-blobs
+make_docsite_baseline ansible-core-2.13 baseline-squash-hierarchy ns2.col --fail-on-error --squash-hierarchy
+COMMAND="plugin" make_docsite_baseline ansible-core-2.13 baseline-plugin --plugin-type lookup ns2.col.foo --fail-on-error
+make_docsite_baseline ansible-core-2.13 baseline-simplified-rst ns.col1 ns.col2 ns2.col ns2.flatcol --output-format simplified-rst
+make_docsite_baseline ansible-core-2.13 baseline-simplified-rst-squash-hierarchy ns2.col --fail-on-error --squash-hierarchy --no-add-antsibull-docs-version --output-format simplified-rst
+
+make_docsite_baseline antsibull-docs-loader baseline-default-adl ns.col1 ns.col2 ns2.col ns2.flatcol
+make_docsite_baseline antsibull-docs-loader baseline-no-breadcrumbs-adl ns.col1 ns.col2 ns2.col ns2.flatcol --no-breadcrumbs
+make_docsite_baseline antsibull-docs-loader baseline-no-indexes-adl ns.col1 ns2.col ns2.flatcol --fail-on-error --no-indexes --no-add-antsibull-docs-version
+make_docsite_baseline antsibull-docs-loader baseline-use-html-blobs-adl ns2.col --fail-on-error --use-html-blobs
+make_docsite_baseline antsibull-docs-loader baseline-squash-hierarchy-adl ns2.col --fail-on-error --squash-hierarchy
+COMMAND="plugin" make_docsite_baseline antsibull-docs-loader baseline-plugin-adl --plugin-type lookup ns2.col.foo --fail-on-error
+make_docsite_baseline antsibull-docs-loader baseline-simplified-rst-adl ns.col1 ns.col2 ns2.col ns2.flatcol --output-format simplified-rst
+make_docsite_baseline antsibull-docs-loader baseline-simplified-rst-squash-hierarchy-adl ns2.col --fail-on-error --squash-hierarchy --no-add-antsibull-docs-version --output-format simplified-rst
 
 echo "Build ansible --version output cache"
 ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/ ansible --version | sed -e "s|${PWD}/collections|<<<<<COLLECTIONS>>>>>|g" | sed -e "s|${HOME}|<<<<<HOME>>>>>|g" | sed -E "s|(ansible python module location = ).*|\\1<<<<<ANSIBLE>>>>>|g" > ansible-version.output
@@ -69,3 +81,6 @@ ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/:other-collectio
 
 echo "Build extended ansible-doc --metadata-dump --no-fail-on-errors output cache"
 ANSIBLE_COLLECTIONS_PATHS= ANSIBLE_COLLECTIONS_PATH=collections/:other-collections/ ansible-doc --metadata-dump --no-fail-on-errors | python sanitize-ansible-doc-dump.py > "ansible-doc-cache-all-others.json"
+
+# Cleanup
+rm -f antsibull-docs.cfg

@@ -17,7 +17,7 @@ from antsibull_docs.cli.antsibull_docs import run
 pytest.importorskip("ansible")
 
 
-TEST_CASES = [
+TEST_CASES: list[tuple[list[str], str, str]] = [
     (
         [
             "current",
@@ -25,11 +25,13 @@ TEST_CASES = [
             "--collection-dir",
             "tests/functional/collections/",
         ],
+        "ansible-core-2.13",
         # assumes that baseline-default contains all collections in tests/functional/collections/!
         "baseline-default",
     ),
     (
         ["collection", "--use-current", "ns.col1", "ns.col2", "ns2.col", "ns2.flatcol"],
+        "ansible-core-2.13",
         "baseline-default",
     ),
     (
@@ -42,6 +44,7 @@ TEST_CASES = [
             "ns2.flatcol",
             "--no-breadcrumbs",
         ],
+        "ansible-core-2.13",
         "baseline-no-breadcrumbs",
     ),
     (
@@ -55,6 +58,7 @@ TEST_CASES = [
             "--no-indexes",
             "--no-add-antsibull-docs-version",
         ],
+        "ansible-core-2.13",
         "baseline-no-indexes",
     ),
     (
@@ -65,6 +69,7 @@ TEST_CASES = [
             "--fail-on-error",
             "--use-html-blobs",
         ],
+        "ansible-core-2.13",
         "baseline-use-html-blobs",
     ),
     (
@@ -75,6 +80,7 @@ TEST_CASES = [
             "--fail-on-error",
             "--squash-hierarchy",
         ],
+        "ansible-core-2.13",
         "baseline-squash-hierarchy",
     ),
     (
@@ -85,6 +91,7 @@ TEST_CASES = [
             "ns2.col.foo",
             "--fail-on-error",
         ],
+        "ansible-core-2.13",
         "baseline-plugin",
     ),
     (
@@ -98,6 +105,7 @@ TEST_CASES = [
             "--output-format",
             "simplified-rst",
         ],
+        "ansible-core-2.13",
         "baseline-simplified-rst",
     ),
     (
@@ -111,18 +119,123 @@ TEST_CASES = [
             "--output-format",
             "simplified-rst",
         ],
+        "ansible-core-2.13",
         "baseline-simplified-rst-squash-hierarchy",
+    ),
+    (
+        [
+            "current",
+            "--skip-ansible-builtin",
+            "--collection-dir",
+            "tests/functional/collections/",
+        ],
+        "antsibull-docs-loader",
+        # assumes that baseline-default contains all collections in tests/functional/collections/!
+        "baseline-default-adl",
+    ),
+    (
+        ["collection", "--use-current", "ns.col1", "ns.col2", "ns2.col", "ns2.flatcol"],
+        "antsibull-docs-loader",
+        "baseline-default-adl",
+    ),
+    (
+        [
+            "collection",
+            "--use-current",
+            "ns.col1",
+            "ns.col2",
+            "ns2.col",
+            "ns2.flatcol",
+            "--no-breadcrumbs",
+        ],
+        "antsibull-docs-loader",
+        "baseline-no-breadcrumbs-adl",
+    ),
+    (
+        [
+            "collection",
+            "--use-current",
+            "ns.col1",
+            "ns2.col",
+            "ns2.flatcol",
+            "--fail-on-error",
+            "--no-indexes",
+            "--no-add-antsibull-docs-version",
+        ],
+        "antsibull-docs-loader",
+        "baseline-no-indexes-adl",
+    ),
+    (
+        [
+            "collection",
+            "--use-current",
+            "ns2.col",
+            "--fail-on-error",
+            "--use-html-blobs",
+        ],
+        "antsibull-docs-loader",
+        "baseline-use-html-blobs-adl",
+    ),
+    (
+        [
+            "collection",
+            "--use-current",
+            "ns2.col",
+            "--fail-on-error",
+            "--squash-hierarchy",
+        ],
+        "antsibull-docs-loader",
+        "baseline-squash-hierarchy-adl",
+    ),
+    (
+        [
+            "plugin",
+            "--plugin-type",
+            "lookup",
+            "ns2.col.foo",
+            "--fail-on-error",
+        ],
+        "antsibull-docs-loader",
+        "baseline-plugin-adl",
+    ),
+    (
+        [
+            "collection",
+            "--use-current",
+            "ns.col1",
+            "ns.col2",
+            "ns2.col",
+            "ns2.flatcol",
+            "--output-format",
+            "simplified-rst",
+        ],
+        "antsibull-docs-loader",
+        "baseline-simplified-rst-adl",
+    ),
+    (
+        [
+            "collection",
+            "--use-current",
+            "ns2.col",
+            "--fail-on-error",
+            "--squash-hierarchy",
+            "--no-add-antsibull-docs-version",
+            "--output-format",
+            "simplified-rst",
+        ],
+        "antsibull-docs-loader",
+        "baseline-simplified-rst-squash-hierarchy-adl",
     ),
 ]
 
 
-@pytest.mark.parametrize("arguments, directory", TEST_CASES)
-def test_baseline(arguments: list[str], directory: str, tmp_path) -> None:
+@pytest.mark.parametrize("arguments, backend, directory", TEST_CASES)
+def test_baseline(arguments: list[str], backend: str, directory: str, tmp_path) -> None:
     tests_root = os.path.join("tests", "functional")
 
     config_file = tmp_path / "antsibull.cfg"
     with open(config_file, "w", encoding="utf-8") as f:
-        f.write("doc_parsing_backend = ansible-core-2.13\n")
+        f.write(f"doc_parsing_backend = {backend}\n")
 
     output_dir = tmp_path / "output"
     os.mkdir(output_dir, mode=0o700)

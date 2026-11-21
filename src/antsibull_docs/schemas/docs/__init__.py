@@ -13,6 +13,7 @@ antsibull.schemas.docs.ansible_doc to handle all of their validation needs.
 from __future__ import annotations
 
 from .callback import CallbackDocSchema, CallbackSchema
+from .eda import EDADocSchema, EDAReturnSchema, EDASchema
 from .module import ModuleDocSchema, ModuleSchema
 from .plugin import (
     PluginDocSchema,
@@ -54,6 +55,13 @@ _POSITIONAL_PLUGIN_SCHEMA_RECORD = {
     "return": PluginReturnSchema,
 }
 
+_EDA_PLUGIN_SCHEMA_RECORD = {
+    "top": EDASchema,
+    "doc": EDADocSchema,
+    "examples": PluginExamplesSchema,
+    "return": EDAReturnSchema,
+}
+
 
 #: Mapping of plugin_types to the schemas which validate and normalize their documentation.
 #: The structure of this mapping is a two level nested dict.  The outer key is the plugin_type.
@@ -88,4 +96,6 @@ DOCS_SCHEMAS = {
     "test": _POSITIONAL_PLUGIN_SCHEMA_RECORD,
     "vars": _PLUGIN_SCHEMA_RECORD,
     "role": RoleSchema,
+    "eda_event_filter": _EDA_PLUGIN_SCHEMA_RECORD,
+    "eda_event_source": _EDA_PLUGIN_SCHEMA_RECORD,
 }

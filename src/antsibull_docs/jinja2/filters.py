@@ -308,10 +308,25 @@ def sanitize_whitespace(text: str) -> str:
     return _sanitize_whitespace(text, trailing_newline=False)
 
 
+_PLUGIN_NAMES = {
+    "eda_event_filter": "EDA event filter",
+    "eda_event_source": "EDA event source",
+}
+
+
+_PLUGIN_NAMES_SHORT = {
+    "eda_event_filter": "event filter",
+    "eda_event_source": "event source",
+}
+
+
 def plugin_type_name(
     plugin_type: str, *, short: bool = False, plural: bool = False
 ) -> str:
-    name = plugin_type
+    if short:
+        name = _PLUGIN_NAMES_SHORT.get(plugin_type, plugin_type)
+    else:
+        name = _PLUGIN_NAMES.get(plugin_type, plugin_type)
     if not short and plugin_type not in ("role", "module"):
         name = f"{name} plugin"
     if plural:
