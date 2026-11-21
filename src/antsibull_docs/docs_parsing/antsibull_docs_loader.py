@@ -13,15 +13,14 @@ from antsibull_core.logging import get_module_logger as _get_module_logger
 
 from . import _get_environment
 from ._antsibull_docs_loader import collect_docs as _collect_docs
+from ._antsibull_docs_loader import load_collection_routing as _load_collection_routing
 from ._utils import call_ansible_doc as _call_ansible_doc
 from ._utils import limit_by_wildcards as _limit_by_wildcards
 from ._utils import process_ansible_doc_output as _process_ansible_doc_output
 from .ansible_doc import get_collection_metadata as _get_collection_metadata
 from .fqcn import is_collection_name as _is_collection_name
 from .fqcn import is_wildcard_collection_name as _is_wildcard_collection_name
-from .routing import MutableCollectionRoutingT
-from .routing import load_all_collection_routing as _load_all_collection_routing
-from .routing import remove_redirect_duplicates as _remove_redirect_duplicates
+from .routing import MutableCollectionRoutingT, _remove_other_duplicates
 
 if t.TYPE_CHECKING:  # pragma: no cover
     from collections.abc import Mapping, MutableMapping
@@ -101,6 +100,11 @@ async def get_ansible_plugin_info(
             collection_names=collection_names or [],
         )
 
+    flog.debug("Loading collection routing")
+    adl_collection_routing, collection_routing = _load_collection_routing(
+        collection_metadata
+    )
+
     plugin_map: MutableMapping[str, MutableMapping[str, t.Any]]
 
     if collection_names is None or "ansible.builtin" in collection_names:
@@ -121,16 +125,22 @@ async def get_ansible_plugin_info(
             collection_names=collection_names,
             collection_metadata=collection_metadata,
         )
+        for plugin_type, plugin_type_map in plugin_map.items():
+            if plugin_type not in collection_routing:
+                continue
+            plugin_routing = collection_routing[plugin_type]
+            _remove_other_duplicates(plugin_type, plugin_type_map, plugin_routing)
     else:
         plugin_map = {}
 
     if collection_names is None or collection_names != ["ansible.builtin"]:
         flog.debug("Load documentation of other collections")
-        _collect_docs(plugin_map, collection_metadata, collection_names)
-
-    # TODO: avoid using functionality from routing for below
-    collection_routing = await _load_all_collection_routing(collection_metadata)
-    _remove_redirect_duplicates(plugin_map, collection_routing)
+        _collect_docs(
+            plugin_map=plugin_map,
+            collection_metadata=collection_metadata,
+            collection_routing=adl_collection_routing,
+            collection_names=collection_names,
+        )
 
     flog.debug("Leave")
     return plugin_map, collection_metadata, collection_routing

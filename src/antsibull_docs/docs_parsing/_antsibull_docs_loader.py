@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 
+import dataclasses
 import typing as t
 from pathlib import Path
 
@@ -27,11 +28,14 @@ from antsibull_docs_loader.resolver import Resolved, resolve
 from antsibull_docs_loader.routing import (
     CollectionRouting,
     File,
+    PluginRouting,
+    RemovalData,
     collect_routing_information,
     complete_redirects,
 )
 
 from ._utils import _should_flatmap
+from .routing import MutableCollectionRoutingT
 
 if t.TYPE_CHECKING:  # pragma: no cover
     from collections.abc import Mapping, MutableMapping
@@ -133,6 +137,125 @@ class DocFragmentCollector:
             if f_name.lower() == name:
                 return f_data
         return f"Cannot find {name!r} in doc fragment {fqcn}"
+
+
+def _convert_plugin_routing(data: PluginRouting) -> dict[str, t.Any]:
+    def convert_removal_data(removal: RemovalData) -> dict[str, t.Any]:
+        return {
+            "warning_text": removal.warning_text,
+            "removal_version": removal.removal_version,
+            "removal_date": removal.removal_date,
+        }
+
+    result: dict[str, t.Any] = {}
+    if data.redirect is not None and data.redirect is not ...:
+        result["redirect"] = data.redirect
+        result["redirect_is_symlink"] = data.redirect_by_symlink
+    if data.tombstone is not None:
+        result["tombstone"] = convert_removal_data(data.tombstone)
+    if data.deprecation is not None:
+        result["deprecation"] = convert_removal_data(data.deprecation)
+    return result
+
+
+def _extract_collection_routing(
+    adl_collection_routing: Mapping[str, CollectionRouting],
+) -> MutableCollectionRoutingT:
+    result: dict[str, MutableMapping[str, MutableMapping[str, t.Any]]] = {}
+    for collection_name, collection_routing in adl_collection_routing.items():
+        for plugin_type, plugin_type_data in collection_routing.plugin_data.items():
+            plugin_type_result = result.get(plugin_type)
+            if plugin_type_result is None:
+                plugin_type_result = {}
+                result[plugin_type] = plugin_type_result
+            for plugin_name, plugin_data in plugin_type_data.items():
+                fqcn = f"{collection_name}.{plugin_name}"
+                plugin_type_result[fqcn] = _convert_plugin_routing(plugin_data)
+    return result
+
+
+def _get_collection_info(
+    name: str, *, meta: AnsibleCollectionMetadata, is_core: bool = False
+) -> CollectionInfo:
+    namespace, name = name.split(".", 1)
+    return CollectionInfo(
+        path=Path(meta.path),
+        namespace=namespace,
+        name=name,
+        full_name=f"{namespace}.{name}",
+        version=meta.version,
+        is_ansible_core=is_core,
+    )
+
+
+def _get_collection_infos(
+    collection_metadata: Mapping[str, AnsibleCollectionMetadata],
+) -> CollectionInfos:
+    ansible_core = collection_metadata.get("ansible.builtin")
+    if ansible_core is None:
+        raise RuntimeError(
+            f"Expected ansible.builtin to be present, but only got {sorted(collection_metadata)}"
+        )
+    return CollectionInfos(
+        ansible_core=_get_collection_info(
+            "ansible.builtin", meta=ansible_core, is_core=True
+        ),
+        collections={
+            name: _get_collection_info(name, meta=meta)
+            for name, meta in collection_metadata.items()
+        },
+    )
+
+
+def _merge(action: PluginRouting, module: PluginRouting) -> PluginRouting:
+    replace: dict[str, t.Any] = {}
+    if action.redirect is not None:
+        replace["redirect"] = action.redirect
+        replace["redirect_by_symlink"] = action.redirect_by_symlink
+    if action.deprecation is not None:
+        replace["deprecation"] = action.deprecation
+    if action.tombstone is not None:
+        replace["tombstone"] = action.tombstone
+    return dataclasses.replace(module, **replace)
+
+
+def load_collection_routing(
+    collection_metadata: Mapping[str, AnsibleCollectionMetadata],
+) -> tuple[Mapping[str, CollectionRouting], MutableCollectionRoutingT]:
+    """
+    Loads collection routing information in two formats,
+    and populates collection metadata with ``requires_ansible``.
+    """
+    collection_infos = _get_collection_infos(collection_metadata)
+    collection_routing = collect_routing_information(collection_infos)
+
+    for a_collection_name, a_collection_routing in collection_routing.items():
+        # Merge action into module routing
+        action_routing = a_collection_routing.plugin_data.pop("action", None)
+        if action_routing:
+            module_routing = a_collection_routing.plugin_data.get("module")
+            if module_routing is None:
+                module_routing = {}
+                a_collection_routing.plugin_data["module"] = module_routing
+            for plugin_name, plugin_data in action_routing.items():
+                if plugin_name not in module_routing:
+                    module_routing[plugin_name] = plugin_data
+                else:
+                    module_routing[plugin_name] = _merge(
+                        plugin_data, module_routing[plugin_name]
+                    )
+
+        # Populate requires_ansible
+        a_meta = collection_metadata.get(a_collection_name)
+        if (
+            a_meta is not None
+            and a_collection_name != "ansible.builtin"
+            and a_collection_routing.requires_ansible is not None
+        ):
+            a_meta.requires_ansible = a_collection_routing.requires_ansible
+
+    complete_redirects(collection_routing)
+    return collection_routing, _extract_collection_routing(collection_routing)
 
 
 def _collect_role_doc(*, fqcn: str, collection_name: str, file: File) -> t.Any:
@@ -283,39 +406,6 @@ def _collect_docs(
                 plugin_type_map[dest_fqcn] = {"error": str(exc)}
 
 
-def _get_collection_info(
-    name: str, *, meta: AnsibleCollectionMetadata, is_core: bool = False
-) -> CollectionInfo:
-    namespace, name = name.split(".", 1)
-    return CollectionInfo(
-        path=Path(meta.path),
-        namespace=namespace,
-        name=name,
-        full_name=f"{namespace}.{name}",
-        version=meta.version,
-        is_ansible_core=is_core,
-    )
-
-
-def _get_collection_infos(
-    collection_metadata: Mapping[str, AnsibleCollectionMetadata],
-) -> CollectionInfos:
-    ansible_core = collection_metadata.get("ansible.builtin")
-    if ansible_core is None:
-        raise RuntimeError(
-            f"Expected ansible.builtin to be present, but only got {sorted(collection_metadata)}"
-        )
-    return CollectionInfos(
-        ansible_core=_get_collection_info(
-            "ansible.builtin", meta=ansible_core, is_core=True
-        ),
-        collections={
-            name: _get_collection_info(name, meta=meta)
-            for name, meta in collection_metadata.items()
-        },
-    )
-
-
 def _iterate_collections(
     collection_metadata: Mapping[str, AnsibleCollectionMetadata],
     collection_names: list[str] | None,
@@ -331,16 +421,14 @@ def _iterate_collections(
 
 
 def collect_docs(
+    *,
     plugin_map: MutableMapping[str, MutableMapping[str, t.Any]],
     collection_metadata: Mapping[str, AnsibleCollectionMetadata],
+    collection_routing: Mapping[str, CollectionRouting],
     collection_names: list[str] | None,
 ) -> None:
     flog = mlog.fields(func="collect_docs")
     flog.debug("Enter")
-
-    collection_infos = _get_collection_infos(collection_metadata)
-    collection_routing = collect_routing_information(collection_infos)
-    complete_redirects(collection_routing)
 
     doc_fragments = DocFragmentCollector(collection_routing=collection_routing)
     for collection_name in _iterate_collections(collection_metadata, collection_names):
