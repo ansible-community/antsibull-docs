@@ -174,6 +174,8 @@ def _extract_collection_routing(
     result: dict[str, MutableMapping[str, MutableMapping[str, t.Any]]] = {}
     for collection_name, collection_routing in adl_collection_routing.items():
         for plugin_type, plugin_type_data in collection_routing.plugin_data.items():
+            if plugin_type not in ALL_DOCUMENTABLE_PLUGIN_TYPES:
+                continue
             plugin_type_result = result.get(plugin_type)
             if plugin_type_result is None:
                 plugin_type_result = {}
