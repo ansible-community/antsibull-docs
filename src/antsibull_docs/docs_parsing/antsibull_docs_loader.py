@@ -19,6 +19,9 @@ from ._utils import process_ansible_doc_output as _process_ansible_doc_output
 from .ansible_doc import get_collection_metadata as _get_collection_metadata
 from .fqcn import is_collection_name as _is_collection_name
 from .fqcn import is_wildcard_collection_name as _is_wildcard_collection_name
+from .routing import MutableCollectionRoutingT
+from .routing import load_all_collection_routing as _load_all_collection_routing
+from .routing import remove_redirect_duplicates as _remove_redirect_duplicates
 
 if t.TYPE_CHECKING:  # pragma: no cover
     from collections.abc import Mapping, MutableMapping
@@ -39,6 +42,7 @@ async def get_ansible_plugin_info(
 ) -> tuple[
     MutableMapping[str, MutableMapping[str, t.Any]],
     Mapping[str, AnsibleCollectionMetadata],
+    MutableCollectionRoutingT,
 ]:
     """
     Retrieve information about all of the Ansible Plugins. Requires ansible-core 2.13+
@@ -55,11 +59,23 @@ async def get_ansible_plugin_info(
     :returns: An tuple. The first component is a nested directory structure that looks like:
 
             plugin_type:
-                plugin_name:  # Includes namespace and collection.
+                plugin_name:  # FQCN
                     {information from ansible-doc --json.  See the ansible-doc documentation
                      for more info.}
 
-        The second component is a Mapping of collection names to metadata.
+        The second component is a Mapping of collection names to metadata. The second mapping
+        always includes the metadata for ansible.builtin, even if it was not explicitly
+        mentioned in ``collection_names``.
+
+        The third component contains routing information for the collections.
+        It is a nested directory structure that looks like:
+
+            plugin_type:
+                plugin_name:  # FQCN
+                    tombstone: t.Optional[{tombstone record}]
+                    deprecation: t.Optional[{deprecation record}]
+                    redirect: t.Optional[str]
+                    redirect_is_symlink: t.Optional[bool]
     """
     flog = mlog.fields(func="get_ansible_plugin_info")
     flog.debug("Enter")
@@ -112,5 +128,9 @@ async def get_ansible_plugin_info(
         flog.debug("Load documentation of other collections")
         _collect_docs(plugin_map, collection_metadata, collection_names)
 
+    # TODO: avoid using functionality from routing for below
+    collection_routing = await _load_all_collection_routing(collection_metadata)
+    _remove_redirect_duplicates(plugin_map, collection_routing)
+
     flog.debug("Leave")
-    return (plugin_map, collection_metadata)
+    return plugin_map, collection_metadata, collection_routing
