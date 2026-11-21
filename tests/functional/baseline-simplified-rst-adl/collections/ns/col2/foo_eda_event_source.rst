@@ -24,6 +24,7 @@ Synopsis
 - A dummy even source for documentation testing purposes.
 
 
+Aliases: bam
 
 
 

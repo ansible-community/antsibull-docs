@@ -14,3 +14,9 @@ plugin_routing:
       deprecation:
         removal_version: "3.0.0"
         warning_text: Come up with something else.
+    bam:
+      redirect: ns.col2.foo
+    baz:
+      tombstone:
+        removal_version: "1.0.0"
+        warning_text: Never was really there anyway.
