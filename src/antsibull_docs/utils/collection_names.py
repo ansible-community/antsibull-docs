@@ -17,11 +17,7 @@ from antsibull_core.venv import FakeVenvRunner
 from ..augment_docs import augment_docs
 from ..docs_parsing import AnsibleCollectionMetadata
 from ..docs_parsing.parsing import get_ansible_plugin_info
-from ..docs_parsing.routing import (
-    CollectionRoutingT,
-    load_all_collection_routing,
-    remove_redirect_duplicates,
-)
+from ..docs_parsing.routing import CollectionRoutingT
 from ..process_docs import (
     PluginErrorsRT,
     get_collection_contents,
@@ -277,7 +273,7 @@ def collect_names(
 
     # Load collection docs
     venv = FakeVenvRunner()
-    plugin_info, collection_metadata = asyncio.run(
+    plugin_info, collection_metadata, collection_routing = asyncio.run(
         get_ansible_plugin_info(
             venv,
             collections_dir,
@@ -290,10 +286,7 @@ def collect_names(
         )
     )
 
-    # Load routing information
-    collection_routing = asyncio.run(load_all_collection_routing(collection_metadata))
     # Process data
-    remove_redirect_duplicates(plugin_info, collection_routing)
     new_plugin_info, nonfatal_errors = asyncio.run(
         normalize_all_plugin_info(plugin_info)
     )

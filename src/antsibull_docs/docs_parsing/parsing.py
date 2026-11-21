@@ -19,6 +19,11 @@ from .ansible_doc import get_ansible_core_version
 from .ansible_doc_core_213 import (
     get_ansible_plugin_info as ansible_doc_core_213_get_ansible_plugin_info,
 )
+from .routing import (
+    MutableCollectionRoutingT,
+)
+from .routing import load_all_collection_routing as _load_all_collection_routing
+from .routing import remove_redirect_duplicates as _remove_redirect_duplicates
 
 if t.TYPE_CHECKING:
     from antsibull_core.venv import FakeVenvRunner, VenvRunner
@@ -35,6 +40,7 @@ async def get_ansible_plugin_info(
 ) -> tuple[
     MutableMapping[str, MutableMapping[str, t.Any]],
     Mapping[str, AnsibleCollectionMetadata],
+    MutableCollectionRoutingT,
 ]:
     """
     Retrieve information about all of the Ansible Plugins.
@@ -50,13 +56,23 @@ async def get_ansible_plugin_info(
     :returns: An tuple. The first component is a nested directory structure that looks like:
 
             plugin_type:
-                plugin_name:  # Includes namespace and collection.
+                plugin_name:  # FQCN
                     {information from ansible-doc --json.  See the ansible-doc documentation
                      for more info.}
 
         The second component is a Mapping of collection names to metadata. The second mapping
         always includes the metadata for ansible.builtin, even if it was not explicitly
         mentioned in ``collection_names``.
+
+        The third component contains routing information for the collections.
+        It is a nested directory structure that looks like:
+
+            plugin_type:
+                plugin_name:  # FQCN
+                    tombstone: t.Optional[{tombstone record}]
+                    deprecation: t.Optional[{deprecation record}]
+                    redirect: t.Optional[str]
+                    redirect_is_symlink: t.Optional[bool]
     """
     flog = mlog.fields(func="get_ansible_plugin_info")
 
@@ -76,12 +92,17 @@ async def get_ansible_plugin_info(
     if doc_parsing_backend == "ansible-core-2.13":
         if ansible_core_version is None:
             ansible_core_version = await get_ansible_core_version(venv)
-        return await ansible_doc_core_213_get_ansible_plugin_info(
-            venv,
-            ansible_core_version=ansible_core_version,
-            collection_dir=collection_dir,
-            collection_names=collection_names,
-            fetch_all_installed=fetch_all_installed,
+        plugin_info, collection_metadata = (
+            await ansible_doc_core_213_get_ansible_plugin_info(
+                venv,
+                ansible_core_version=ansible_core_version,
+                collection_dir=collection_dir,
+                collection_names=collection_names,
+                fetch_all_installed=fetch_all_installed,
+            )
         )
+        collection_routing = await _load_all_collection_routing(collection_metadata)
+        _remove_redirect_duplicates(plugin_info, collection_routing)
+        return plugin_info, collection_metadata, collection_routing
 
     raise RuntimeError(f"Invalid value for doc_parsing_backend: {doc_parsing_backend}")

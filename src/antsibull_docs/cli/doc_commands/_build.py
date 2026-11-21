@@ -29,11 +29,7 @@ from ...collection_links import load_collections_links
 from ...constants import DOCUMENTABLE_PLUGINS
 from ...docs_parsing import AnsibleCollectionMetadata
 from ...docs_parsing.parsing import get_ansible_plugin_info
-from ...docs_parsing.routing import (
-    find_stubs,
-    load_all_collection_routing,
-    remove_redirect_duplicates,
-)
+from ...docs_parsing.routing import find_stubs
 from ...env_variables import (
     collect_docs_defined_envvars,
     collect_referable_envvars,
@@ -430,7 +426,7 @@ def generate_docs_for_all_collections(  # noqa: C901  # pylint: disable=too-many
     app_ctx = app_context.app_ctx.get()
 
     # Get the info from the plugins
-    plugin_info, full_collection_metadata = asyncio.run(
+    plugin_info, full_collection_metadata, collection_routing = asyncio.run(
         get_ansible_plugin_info(venv, collection_dir, collection_names=collection_names)
     )
     flog.notice("Finished parsing info from plugins and collections")
@@ -457,12 +453,8 @@ def generate_docs_for_all_collections(  # noqa: C901  # pylint: disable=too-many
     ):
         _remove_collections(plugin_info, collection_metadata, ["ansible._protomatter"])
 
-    # Load collection routing information
-    collection_routing = asyncio.run(load_all_collection_routing(collection_metadata))
-    flog.notice("Finished loading collection routing information")
-    # flog.fields(collection_routing=collection_routing).debug('Collection routing infos')
+    _remove_collections_from_mapping(collection_routing, exclude_collection_names or [])
 
-    remove_redirect_duplicates(plugin_info, collection_routing)
     stubs_info = find_stubs(plugin_info, collection_routing)
     _remove_collections_from_mapping(stubs_info, exclude_collection_names or [])
     # flog.fields(stubs_info=stubs_info).debug('Stubs info')
