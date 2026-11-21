@@ -211,7 +211,9 @@ def _get_collection_infos(
             "ansible.builtin", meta=ansible_core, is_core=True
         ),
         collections={
-            name: _get_collection_info(name, meta=meta)
+            name: _get_collection_info(
+                name, meta=meta, is_core=name == "ansible.builtin"
+            )
             for name, meta in collection_metadata.items()
         },
     )
