@@ -56,13 +56,23 @@ async def get_ansible_plugin_info(
     :returns: An tuple. The first component is a nested directory structure that looks like:
 
             plugin_type:
-                plugin_name:  # Includes namespace and collection.
+                plugin_name:  # FQCN
                     {information from ansible-doc --json.  See the ansible-doc documentation
                      for more info.}
 
         The second component is a Mapping of collection names to metadata. The second mapping
         always includes the metadata for ansible.builtin, even if it was not explicitly
         mentioned in ``collection_names``.
+
+        The third component contains routing information for the collections.
+        It is a nested directory structure that looks like:
+
+            plugin_type:
+                plugin_name:  # FQCN
+                    tombstone: t.Optional[{tombstone record}]
+                    deprecation: t.Optional[{deprecation record}]
+                    redirect: t.Optional[str]
+                    redirect_is_symlink: t.Optional[bool]
     """
     flog = mlog.fields(func="get_ansible_plugin_info")
 
