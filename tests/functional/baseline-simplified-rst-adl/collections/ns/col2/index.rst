@@ -70,6 +70,20 @@ Connection Plugins
 * `extra connection <extra_connection.rst>`_ --
 
 
+EDA Event Filter Plugins
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+* `bar event filter <bar_eda_event_filter.rst>`_ -- Something else **(DEPRECATED)**
+* `foo event filter <foo_eda_event_filter.rst>`_ -- Do fancy stuff
+
+
+EDA Event Source Plugins
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+* `bar event source <bar_eda_event_source.rst>`_ -- Receive events from bar **(DEPRECATED)**
+* `foo event source <foo_eda_event_source.rst>`_ -- Receive events from foo
+
+
 Filter Plugins
 ~~~~~~~~~~~~~~
 

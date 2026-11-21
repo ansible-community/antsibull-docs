@@ -314,10 +314,19 @@ _PLUGIN_NAMES = {
 }
 
 
+_PLUGIN_NAMES_SHORT = {
+    "eda_event_filter": "event filter",
+    "eda_event_source": "event source",
+}
+
+
 def plugin_type_name(
     plugin_type: str, *, short: bool = False, plural: bool = False
 ) -> str:
-    name = _PLUGIN_NAMES.get(plugin_type, plugin_type)
+    if short:
+        name = _PLUGIN_NAMES_SHORT.get(plugin_type, plugin_type)
+    else:
+        name = _PLUGIN_NAMES.get(plugin_type, plugin_type)
     if not short and plugin_type not in ("role", "module"):
         name = f"{name} plugin"
     if plural:

@@ -86,6 +86,22 @@ Connection Plugins
 
 * :ansplugin:`extra connection <ns.col2.extra#connection>` --
 
+.. _eda_event_filter_plugins_in_ns.col2:
+
+EDA Event Filter Plugins
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+* :ansplugin:`bar event filter <ns.col2.bar#eda_event_filter>` -- Something else :ansdeprecatedmarker:`{"date": "", "version": "2.0.0"}`
+* :ansplugin:`foo event filter <ns.col2.foo#eda_event_filter>` -- Do fancy stuff
+
+.. _eda_event_source_plugins_in_ns.col2:
+
+EDA Event Source Plugins
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+* :ansplugin:`bar event source <ns.col2.bar#eda_event_source>` -- Receive events from bar :ansdeprecatedmarker:`{"date": "", "version": "3.0.0"}`
+* :ansplugin:`foo event source <ns.col2.foo#eda_event_source>` -- Receive events from foo
+
 .. _filter_plugins_in_ns.col2:
 
 Filter Plugins

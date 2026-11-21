@@ -10,12 +10,15 @@ This is a highlevel interface.  The hope is that developers can use either this 
 antsibull.schemas.docs to handle all of their validation needs.
 """
 
+# TODO: Is this file actually needed? Potentially remove in 3.0.0.
+
 from __future__ import annotations
 
 import pydantic as p
 
 from .base import BaseModel
 from .callback import CallbackSchema
+from .eda import EDASchema
 from .module import ModuleSchema
 from .plugin import PluginSchema
 from .positional import PositionalSchema
@@ -39,6 +42,8 @@ __all__ = (
     "VarsPluginSchema",
     "TestPluginSchema",
     "FilterPluginSchema",
+    "EdaEventFilterPluginSchema",
+    "EdaEventSourcePluginSchema",
 )
 
 
@@ -79,6 +84,8 @@ class AnsibleDocSchema(BaseModel):
     test: dict[str, PositionalSchema]
     vars: dict[str, PluginSchema]
     role: dict[str, RoleSchema]
+    eda_event_filter: dict[str, EDASchema]
+    eda_event_source: dict[str, EDASchema]
 
 
 GenericPluginSchema = p.RootModel[dict[str, PluginSchema]]
@@ -111,6 +118,9 @@ Document the output of ``ansible-doc -t role ROLE_NAME``.
 """
 
 
+EDAPluginSchema = p.RootModel[dict[str, EDASchema]]
+
+
 #: Make sure users can access plugins using the plugin type rather than having to guess that
 #: these types use the GenericPluginSchema
 BecomePluginSchema = GenericPluginSchema
@@ -126,6 +136,8 @@ StrategyPluginSchema = GenericPluginSchema
 VarsPluginSchema = GenericPluginSchema
 TestPluginSchema = PositionalPluginSchema
 FilterPluginSchema = PositionalPluginSchema
+EdaEventSourcePluginSchema = EDAPluginSchema
+EdaEventFilterPluginSchema = EDAPluginSchema
 
 
 #: A mapping from plugin type to the Schema to use for them.  Use this to more easily get
@@ -147,4 +159,6 @@ ANSIBLE_DOC_SCHEMAS = {
     "strategy": StrategyPluginSchema,
     "test": TestPluginSchema,
     "vars": VarsPluginSchema,
+    "eda_event_source": EdaEventSourcePluginSchema,
+    "eda_event_filter": EdaEventFilterPluginSchema,
 }

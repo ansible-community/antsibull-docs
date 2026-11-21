@@ -8,6 +8,16 @@ Index of all deprecated become plugins
 
 * `ns2.col.foo <foo_become.rst>`_ -- Use foo :literal:`bar` (of become plugin `ns2.col.foo <foo_become.rst>`__)
 
+Index of all deprecated EDA event filter plugins
+------------------------------------------------
+
+* `ns.col2.bar <bar_eda_event_filter.rst>`_ -- Something else
+
+Index of all deprecated EDA event source plugins
+------------------------------------------------
+
+* `ns.col2.bar <bar_eda_event_source.rst>`_ -- Receive events from bar
+
 Index of all deprecated roles
 -----------------------------
 

@@ -15,6 +15,20 @@ Index of all deprecated become plugins
   (Will be removed from :anscollection:`ns2.col`
   5.0.0.)
 
+Index of all deprecated EDA event filter plugins
+------------------------------------------------
+
+* :ansplugin:`ns.col2.bar#eda_event_filter` -- Something else
+  (Will be removed from :anscollection:`ns.col2`
+  2.0.0.)
+
+Index of all deprecated EDA event source plugins
+------------------------------------------------
+
+* :ansplugin:`ns.col2.bar#eda_event_source` -- Receive events from bar
+  (Will be removed from :anscollection:`ns.col2`
+  3.0.0.)
+
 Index of all deprecated roles
 -----------------------------
 
