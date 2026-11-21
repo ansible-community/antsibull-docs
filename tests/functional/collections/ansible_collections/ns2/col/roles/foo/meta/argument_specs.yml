@@ -22,6 +22,36 @@ argument_specs:
         type: int
         description: An integer parameter with a default.
         default: 13
+    return:
+      foo_reboot_required:
+        description:
+          - V(true) means the host must reboot to apply the role's changes.
+          - The role sets this when O(foo_param_2) is at least 2 and it made
+            changes.
+        type: bool
+        returned: always
+        sample: true
+      foo_facts:
+        description:
+          - Information gathered by the role about the foo configuration.
+          - The role uses this to decide whether to set RV(foo_reboot_required).
+        type: list
+        elements: dict
+        returned: When O(foo_param_1) is set.
+        contains:
+          name:
+            description: The name of the entry.
+            type: str
+          value:
+            description: The value of the entry.
+            type: str
+          default:
+            description: Whether this is the default entry.
+            type: bool
+        sample:
+          - name: example
+            value: foobar
+            default: true
     attributes:
       check_mode:
         description: Can run in check_mode and return changed status prediction without modifying target

@@ -146,6 +146,105 @@ Examples
         foo_param_2: 23
 
 
+Return Variables
+^^^^^^^^^^^^^^^^
+
+The following variables are set by this role:
+
+.. raw:: html
+
+  <table style="width: 100%;">
+  <thead>
+    <tr>
+    <th colspan="2"><p>Key</p></th>
+    <th><p>Description</p></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td colspan="2" valign="top">
+      <div class="ansibleOptionAnchor" id="return-foo_facts"></div>
+      <p style="display: inline;"><strong>foo_facts</strong></p>
+      <a class="ansibleOptionLink" href="#return-foo_facts" title="Permalink to this return value"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">list</span>
+        / <span style="color: purple;">elements=dictionary</span>
+      </p>
+    </td>
+    <td valign="top">
+      <p>Information gathered by the role about the foo configuration.</p>
+      <p>The role uses this to decide whether to set <code class="ansible-return-value literal notranslate"><a class="reference internal" href="#return-main--foo_reboot_required"><span class="std std-ref"><span class="pre">foo_reboot_required</span></span></a></code>.</p>
+      <p style="margin-top: 8px;"><b>Returned:</b> When <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="#parameter-main--foo_param_1"><span class="std std-ref"><span class="pre">foo_param_1</span></span></a></strong></code> is set.</p>
+      <p style="margin-top: 8px; color: blue; word-wrap: break-word; word-break: break-all;"><b style="color: black;">Sample:</b> <code>[{&#34;default&#34;: true, &#34;name&#34;: &#34;example&#34;, &#34;value&#34;: &#34;foobar&#34;}]</code></p>
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td valign="top">
+      <div class="ansibleOptionAnchor" id="return-foo_facts/default"></div>
+      <p style="display: inline;"><strong>default</strong></p>
+      <a class="ansibleOptionLink" href="#return-foo_facts/default" title="Permalink to this return value"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">boolean</span>
+      </p>
+    </td>
+    <td valign="top">
+      <p>Whether this is the default entry.</p>
+      <p style="margin-top: 8px;"><b>Returned:</b> success</p>
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td valign="top">
+      <div class="ansibleOptionAnchor" id="return-foo_facts/name"></div>
+      <p style="display: inline;"><strong>name</strong></p>
+      <a class="ansibleOptionLink" href="#return-foo_facts/name" title="Permalink to this return value"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">string</span>
+      </p>
+    </td>
+    <td valign="top">
+      <p>The name of the entry.</p>
+      <p style="margin-top: 8px;"><b>Returned:</b> success</p>
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td valign="top">
+      <div class="ansibleOptionAnchor" id="return-foo_facts/value"></div>
+      <p style="display: inline;"><strong>value</strong></p>
+      <a class="ansibleOptionLink" href="#return-foo_facts/value" title="Permalink to this return value"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">string</span>
+      </p>
+    </td>
+    <td valign="top">
+      <p>The value of the entry.</p>
+      <p style="margin-top: 8px;"><b>Returned:</b> success</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2" valign="top">
+      <div class="ansibleOptionAnchor" id="return-foo_reboot_required"></div>
+      <p style="display: inline;"><strong>foo_reboot_required</strong></p>
+      <a class="ansibleOptionLink" href="#return-foo_reboot_required" title="Permalink to this return value"></a>
+      <p style="font-size: small; margin-bottom: 0;">
+        <span style="color: purple;">boolean</span>
+      </p>
+    </td>
+    <td valign="top">
+      <p><code class="ansible-value literal notranslate">true</code> means the host must reboot to apply the role&#x27;s changes.</p>
+      <p>The role sets this when <code class="ansible-option literal notranslate"><strong><a class="reference internal" href="#parameter-main--foo_param_2"><span class="std std-ref"><span class="pre">foo_param_2</span></span></a></strong></code> is at least 2 and it made changes.</p>
+      <p style="margin-top: 8px;"><b>Returned:</b> always</p>
+      <p style="margin-top: 8px; color: blue; word-wrap: break-word; word-break: break-all;"><b style="color: black;">Sample:</b> <code>true</code></p>
+    </td>
+  </tr>
+  </tbody>
+  </table>
+
+
+
 Authors
 ^^^^^^^
 

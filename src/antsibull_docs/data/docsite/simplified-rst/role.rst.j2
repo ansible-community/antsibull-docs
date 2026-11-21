@@ -13,6 +13,7 @@
 {% from 'macros/attributes.rst.j2' import in_rst as attributes_rst with context -%}
 {% from 'macros/collection_links.rst.j2' import add as add_collection_links with context -%}
 {% from 'macros/parameters.rst.j2' import in_html as parameters_html with context -%}
+{% from 'macros/returnvalues.rst.j2' import in_html as return_docs_html with context -%}
 {% from 'macros/version_added.rst.j2' import version_added_rst -%}
 
 {% if entry_points.main and entry_points.main.short_description -%}
@@ -159,6 +160,16 @@ Examples
 
 @{     ep_doc['examples'] | sanitize_whitespace | indent(4, True) }@
 
+{%   endif %}
+
+{%   if ep_doc['return'] -%}
+
+Return Variables
+^^^^^^^^^^^^^^^^
+
+The following variables are set by this role:
+
+@{     return_docs_html(ep_doc['return'] | dictsort, role_entrypoint=entry_point) }@
 {%   endif %}
 
 {%   if ep_doc['author'] -%}
