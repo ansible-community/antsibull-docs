@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import dataclasses
+import datetime
 import typing as t
 from pathlib import Path
 
@@ -139,22 +140,31 @@ class DocFragmentCollector:
         return f"Cannot find {name!r} in doc fragment {fqcn}"
 
 
-def _convert_plugin_routing(data: PluginRouting) -> dict[str, t.Any]:
-    def convert_removal_data(removal: RemovalData) -> dict[str, t.Any]:
-        return {
-            "warning_text": removal.warning_text,
-            "removal_version": removal.removal_version,
-            "removal_date": removal.removal_date,
-        }
+def _convert_removal_data(removal: RemovalData) -> dict[str, t.Any]:
+    res: dict[str, t.Any] = {}
+    if removal.warning_text is not None:
+        res["warning_text"] = removal.warning_text
+    if removal.removal_version is not None:
+        res["removal_version"] = removal.removal_version
+    if removal.removal_date is not None:
+        if isinstance(removal.removal_date, datetime.datetime):
+            res["removal_date"] = removal.removal_date.date()
+        elif isinstance(removal.removal_date, datetime.date):
+            res["removal_date"] = removal.removal_date.isoformat()
+        elif isinstance(removal.removal_date, str):
+            res["removal_date"] = removal.removal_date
+    return res
 
+
+def _convert_plugin_routing(data: PluginRouting) -> dict[str, t.Any]:
     result: dict[str, t.Any] = {}
     if data.redirect is not None and data.redirect is not ...:
         result["redirect"] = data.redirect
         result["redirect_is_symlink"] = data.redirect_by_symlink
     if data.tombstone is not None:
-        result["tombstone"] = convert_removal_data(data.tombstone)
+        result["tombstone"] = _convert_removal_data(data.tombstone)
     if data.deprecation is not None:
-        result["deprecation"] = convert_removal_data(data.deprecation)
+        result["deprecation"] = _convert_removal_data(data.deprecation)
     return result
 
 
