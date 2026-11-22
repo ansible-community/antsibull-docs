@@ -19,9 +19,10 @@ from .ansible_doc import get_ansible_core_version
 from .ansible_doc_core_213 import (
     get_ansible_plugin_info as ansible_doc_core_213_get_ansible_plugin_info,
 )
-from .routing import (
-    MutableCollectionRoutingT,
+from .antsibull_docs_loader import (
+    get_ansible_plugin_info as antsibull_docs_loader_get_ansible_plugin_info,
 )
+from .routing import MutableCollectionRoutingT
 from .routing import load_all_collection_routing as _load_all_collection_routing
 from .routing import remove_redirect_duplicates as _remove_redirect_duplicates
 
@@ -81,14 +82,15 @@ async def get_ansible_plugin_info(
     doc_parsing_backend = app_ctx.doc_parsing_backend
     ansible_core_version: PypiVer | None = None
     if doc_parsing_backend == "auto":
-        ansible_core_version = await get_ansible_core_version(venv)
-        flog.debug(f"Ansible-core version: {ansible_core_version}")
-        if ansible_core_version < PypiVer("2.13.0.dev0"):
-            raise RuntimeError(
-                f"Unsupported ansible-core version {ansible_core_version}. Need 2.13.0 or later."
-            )
-        doc_parsing_backend = "ansible-core-2.13"
+        doc_parsing_backend = "antsibull-docs-loader"
         flog.debug(f"Auto-detected docs parsing backend: {doc_parsing_backend}")
+    if doc_parsing_backend == "antsibull-docs-loader":
+        return await antsibull_docs_loader_get_ansible_plugin_info(
+            venv,
+            collection_dir=collection_dir,
+            collection_names=collection_names,
+            fetch_all_installed=fetch_all_installed,
+        )
     if doc_parsing_backend == "ansible-core-2.13":
         if ansible_core_version is None:
             ansible_core_version = await get_ansible_core_version(venv)

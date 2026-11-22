@@ -1,0 +1,46 @@
+{
+    "__root__": {
+        "ns.col2.foo": {
+            "doc": {
+                "aliases": [],
+                "attributes": {},
+                "author": [],
+                "collection": "",
+                "deprecated": null,
+                "description": [
+                    "This is some fancy filter."
+                ],
+                "extends_documentation_fragment": [],
+                "filename": "/home/felix/projects/code/github-cloned/antsibull-docs/tests/functional/collections/ansible_collections/ns/col2/extensions/eda/plugins/event_filter/foo.py",
+                "name": "",
+                "notes": [],
+                "options": {
+                    "foobar": {
+                        "aliases": [],
+                        "choices": [],
+                        "default": true,
+                        "description": [
+                            "Something."
+                        ],
+                        "elements": "str",
+                        "required": false,
+                        "suboptions": {},
+                        "type": "bool",
+                        "version_added": "historical",
+                        "version_added_collection": ""
+                    }
+                },
+                "plugin_name": "",
+                "requirements": [],
+                "seealso": [],
+                "short_description": "Do fancy stuff",
+                "todo": [],
+                "version_added": "historical",
+                "version_added_collection": ""
+            },
+            "examples": "\n- ns.col2.bar:\n  filters:\n    - ns.col2.foo:\n        overwrite: false\n",
+            "examples_format": "yaml",
+            "return_": {}
+        }
+    }
+}

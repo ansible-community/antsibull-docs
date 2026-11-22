@@ -1,0 +1,22 @@
+{
+    "ns.col2.foo": {
+        "doc": {
+            "description": [
+                "This is some fancy filter."
+            ],
+            "filename": "/home/felix/projects/code/github-cloned/antsibull-docs/tests/functional/collections/ansible_collections/ns/col2/extensions/eda/plugins/event_filter/foo.py",
+            "options": {
+                "foobar": {
+                    "default": true,
+                    "description": [
+                        "Something."
+                    ],
+                    "type": "bool"
+                }
+            },
+            "short_description": "Do fancy stuff"
+        },
+        "examples": "\n- ns.col2.bar:\n  filters:\n    - ns.col2.foo:\n        overwrite: false\n",
+        "return": null
+    }
+}

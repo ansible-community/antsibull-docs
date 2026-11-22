@@ -31,6 +31,7 @@ dependencies = [
     "ansible-pygments",
     "antsibull-changelog >= 0.24.0",
     "antsibull-core >= 3.5.0, < 4.0.0",
+    "antsibull-docs-loader >= 1.0.0, < 2.0.0",
     "antsibull-docs-parser >= 1.1.0, < 2.0.0",
     "antsibull-docutils >= 1.3.0, < 2.0.0",
     "antsibull-fileutils >= 1.3.0, < 2.0.0",
