@@ -20,7 +20,11 @@ from ._utils import process_ansible_doc_output as _process_ansible_doc_output
 from .ansible_doc import get_collection_metadata as _get_collection_metadata
 from .fqcn import is_collection_name as _is_collection_name
 from .fqcn import is_wildcard_collection_name as _is_wildcard_collection_name
-from .routing import MutableCollectionRoutingT, _remove_other_duplicates
+from .routing import (
+    MutableCollectionRoutingT,
+    _add_meta_redirect_for_aliases,
+    _remove_other_duplicates,
+)
 
 if t.TYPE_CHECKING:  # pragma: no cover
     from collections.abc import Mapping, MutableMapping
@@ -129,6 +133,7 @@ async def get_ansible_plugin_info(
             if plugin_type not in collection_routing:
                 continue
             plugin_routing = collection_routing[plugin_type]
+            _add_meta_redirect_for_aliases(plugin_type_map, plugin_routing)
             _remove_other_duplicates(plugin_type, plugin_type_map, plugin_routing)
     else:
         plugin_map = {}
