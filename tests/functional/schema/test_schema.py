@@ -31,12 +31,17 @@ from antsibull_docs.schemas.docs import ansible_doc as ad
 #   normalized = ConnectionPluginSchema.model_validate_json(raw)
 #   out = json.dumps(normalized.model_dump(), indent=4, sort_keys=True)
 #   open('one_connection_results.json', 'w').write(out)
+
 SINGLE_TESTS = {
     "one_become.json": ad.BecomePluginSchema,
     "one_cache.json": ad.CachePluginSchema,
     "one_callback.json": ad.CallbackPluginSchema,
     "one_cliconf.json": ad.CliConfPluginSchema,
     "one_connection.json": ad.ConnectionPluginSchema,
+    # The ssh connection plugin is the only one which can take values directly from
+    # dedicated command line arguments in ansible and ansible-playbook.  Make sure that
+    # we can deal with its documentation to test that the cli field they use for that works.
+    "ssh_connection.json": ad.ConnectionPluginSchema,
     "one_filter.json": ad.FilterPluginSchema,
     "one_httpapi.json": ad.HttpApiPluginSchema,
     "one_inventory.json": ad.InventoryPluginSchema,
@@ -52,42 +57,11 @@ SINGLE_TESTS = {
 
 
 @pytest.mark.parametrize("test_file, test_schema", SINGLE_TESTS.items())
-def test_one_plugin_of_each_type(test_file, test_schema):
-    plugin_type = os.path.splitext(os.path.basename(test_file))[0]
-    plugin_type = plugin_type[len("one_") :]
+def test_plugin_schemas(test_file, test_schema):
+    base_name, extension = os.path.splitext(os.path.basename(test_file))
 
     test_dir = os.path.dirname(__file__)
-    result_file = os.path.join(
-        test_dir, "good_data", "one_%s_results.json" % plugin_type
-    )
-    full_path = os.path.join(test_dir, "good_data", test_file)
-
-    with open(result_file) as f:
-        results = json.load(f)
-
-    with open(full_path) as f:
-        ansible_doc_output = f.read()
-
-    model = test_schema.model_validate_json(ansible_doc_output)
-
-    model_dict = {"__root__": model.model_dump()}
-    if model_dict != results:
-        print(json.dumps(model_dict, indent=4))
-    assert model_dict == results
-
-
-def test_ssh_connection():
-    """Test using the cli field with the ssh connection."""
-
-    # The ssh connection plugin is the only one which can take values directly from
-    # dedicated command line arguments in ansible and ansible-playbook.  Make sure that
-    # we can deal with its documentation to test that the cli field they use for that works.
-
-    test_file = "ssh_connection.json"
-    test_schema = ad.ConnectionPluginSchema
-
-    test_dir = os.path.dirname(__file__)
-    result_file = os.path.join(test_dir, "good_data", "ssh_connection_results.json")
+    result_file = os.path.join(test_dir, "good_data", f"{base_name}_results{extension}")
     full_path = os.path.join(test_dir, "good_data", test_file)
 
     with open(result_file) as f:
