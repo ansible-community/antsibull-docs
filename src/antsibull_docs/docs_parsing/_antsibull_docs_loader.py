@@ -159,7 +159,11 @@ def _convert_removal_data(removal: RemovalData) -> dict[str, t.Any]:
 def _convert_plugin_routing(data: PluginRouting) -> dict[str, t.Any]:
     result: dict[str, t.Any] = {}
     if data.redirect is not None and data.redirect is not ...:
-        result["redirect"] = data.redirect
+        if data.redirect_chain is not None and len(data.redirect_chain) >= 2:
+            result["redirect"] = data.redirect_chain[1]
+        else:
+            # This happens if the first redirect cannot be resolved.
+            result["redirect"] = data.redirect
         result["redirect_is_symlink"] = data.redirect_by_symlink
     if data.tombstone is not None:
         result["tombstone"] = _convert_removal_data(data.tombstone)
@@ -221,11 +225,24 @@ def _get_collection_infos(
     )
 
 
-def _merge(action: PluginRouting, module: PluginRouting) -> PluginRouting:
+def _merge(action: PluginRouting, module: PluginRouting | None) -> PluginRouting:
+    if module is None:
+        return action
     replace: dict[str, t.Any] = {}
     if action.redirect is not None:
         replace["redirect"] = action.redirect
         replace["redirect_by_symlink"] = action.redirect_by_symlink
+    if action.deprecation is not None:
+        replace["deprecation"] = action.deprecation
+    if action.tombstone is not None:
+        replace["tombstone"] = action.tombstone
+    return dataclasses.replace(module, **replace)
+
+
+def _merge_depr(action: PluginRouting, module: PluginRouting | None) -> PluginRouting:
+    if module is None:
+        return dataclasses.replace(action, redirect=None, redirect_by_symlink=False)
+    replace: dict[str, t.Any] = {}
     if action.deprecation is not None:
         replace["deprecation"] = action.deprecation
     if action.tombstone is not None:
@@ -244,19 +261,31 @@ def load_collection_routing(
     collection_routing = collect_routing_information(collection_infos)
 
     for a_collection_name, a_collection_routing in collection_routing.items():
-        # Merge action into module routing
-        action_routing = a_collection_routing.plugin_data.pop("action", None)
+        # Merge part of action routing into module routing
+        action_routing = a_collection_routing.plugin_data.get("action")
         if action_routing:
             module_routing = a_collection_routing.plugin_data.get("module")
             if module_routing is None:
                 module_routing = {}
                 a_collection_routing.plugin_data["module"] = module_routing
-            for plugin_name, plugin_data in action_routing.items():
-                if plugin_name not in module_routing:
-                    module_routing[plugin_name] = plugin_data
-                else:
+            module_file_data = a_collection_routing.files.get("module", {})
+            for plugin_name, plugin_data in list(action_routing.items()):
+                module_plugin_data = module_routing.get(plugin_name)
+                file_data = module_file_data.get(tuple(plugin_name.split(".")))
+                if file_data is None or (
+                    module_plugin_data is not None
+                    and module_plugin_data.redirect is not None
+                    and module_plugin_data.redirect is not ...
+                ):
+                    action_routing.pop(plugin_name)
                     module_routing[plugin_name] = _merge(
-                        plugin_data, module_routing[plugin_name]
+                        plugin_data,
+                        module_plugin_data,
+                    )
+                else:
+                    module_routing[plugin_name] = _merge_depr(
+                        plugin_data,
+                        module_plugin_data,
                     )
 
         # Populate requires_ansible
