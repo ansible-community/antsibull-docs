@@ -1,0 +1,28 @@
+{
+    "ns.col2.foo": {
+        "doc": {
+            "description": [
+                "A dummy even source for documentation testing purposes."
+            ],
+            "filename": "/home/felix/projects/code/github-cloned/antsibull-docs/tests/functional/collections/ansible_collections/ns/col2/extensions/eda/plugins/event_source/foo.py",
+            "options": {
+                "bar": {
+                    "description": [
+                        "Something optional."
+                    ],
+                    "type": "int"
+                },
+                "foo": {
+                    "description": [
+                        "The foo."
+                    ],
+                    "required": true,
+                    "type": "str"
+                }
+            },
+            "short_description": "Receive events from foo"
+        },
+        "examples": "\n- ns.col2.foo:\n    foo: Some foo.\n    bar: 3\n",
+        "return": null
+    }
+}

@@ -1,0 +1,60 @@
+{
+    "__root__": {
+        "ns.col2.foo": {
+            "doc": {
+                "aliases": [],
+                "attributes": {},
+                "author": [],
+                "collection": "",
+                "deprecated": null,
+                "description": [
+                    "A dummy even source for documentation testing purposes."
+                ],
+                "extends_documentation_fragment": [],
+                "filename": "/home/felix/projects/code/github-cloned/antsibull-docs/tests/functional/collections/ansible_collections/ns/col2/extensions/eda/plugins/event_source/foo.py",
+                "name": "",
+                "notes": [],
+                "options": {
+                    "bar": {
+                        "aliases": [],
+                        "choices": [],
+                        "default": null,
+                        "description": [
+                            "Something optional."
+                        ],
+                        "elements": "str",
+                        "required": false,
+                        "suboptions": {},
+                        "type": "int",
+                        "version_added": "historical",
+                        "version_added_collection": ""
+                    },
+                    "foo": {
+                        "aliases": [],
+                        "choices": [],
+                        "default": null,
+                        "description": [
+                            "The foo."
+                        ],
+                        "elements": "str",
+                        "required": true,
+                        "suboptions": {},
+                        "type": "str",
+                        "version_added": "historical",
+                        "version_added_collection": ""
+                    }
+                },
+                "plugin_name": "",
+                "requirements": [],
+                "seealso": [],
+                "short_description": "Receive events from foo",
+                "todo": [],
+                "version_added": "historical",
+                "version_added_collection": ""
+            },
+            "examples": "\n- ns.col2.foo:\n    foo: Some foo.\n    bar: 3\n",
+            "examples_format": "yaml",
+            "return_": {}
+        }
+    }
+}

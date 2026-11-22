@@ -31,6 +31,10 @@ from antsibull_docs.schemas.docs import ansible_doc as ad
 #   normalized = ConnectionPluginSchema.model_validate_json(raw)
 #   out = json.dumps(normalized.model_dump(), indent=4, sort_keys=True)
 #   open('one_connection_results.json', 'w').write(out)
+#
+# To re-generate the EDA schemas, run::
+#
+#   python3 tests/functional/schema/test_schema.py
 
 SINGLE_TESTS = {
     "one_become.json": ad.BecomePluginSchema,
@@ -42,6 +46,8 @@ SINGLE_TESTS = {
     # dedicated command line arguments in ansible and ansible-playbook.  Make sure that
     # we can deal with its documentation to test that the cli field they use for that works.
     "ssh_connection.json": ad.ConnectionPluginSchema,
+    "one_eda_event_filter.json": ad.EdaEventFilterPluginSchema,
+    "one_eda_event_source.json": ad.EdaEventSourcePluginSchema,
     "one_filter.json": ad.FilterPluginSchema,
     "one_httpapi.json": ad.HttpApiPluginSchema,
     "one_inventory.json": ad.InventoryPluginSchema,
@@ -76,3 +82,51 @@ def test_plugin_schemas(test_file, test_schema):
     if model_dict != results:
         print(json.dumps(model_dict, indent=4))
     assert model_dict == results
+
+
+def create_eda_schemas() -> None:
+    import asyncio
+
+    from antsibull_core.venv import FakeVenvRunner
+
+    from antsibull_docs.docs_parsing.antsibull_docs_loader import (
+        get_ansible_plugin_info,
+    )
+
+    test_dir = os.path.dirname(__file__)
+    plugin_map = asyncio.run(
+        get_ansible_plugin_info(
+            FakeVenvRunner(), os.path.join(test_dir, "..", "collections"), ["ns.col2"]
+        )
+    )[0]
+
+    schema_dir = os.path.join(test_dir, "good_data")
+    for basename, schema, docs, fqcn in [
+        (
+            "one_eda_event_filter",
+            ad.EdaEventFilterPluginSchema,
+            plugin_map["eda_event_filter"],
+            "ns.col2.foo",
+        ),
+        (
+            "one_eda_event_source",
+            ad.EdaEventSourcePluginSchema,
+            plugin_map["eda_event_source"],
+            "ns.col2.foo",
+        ),
+    ]:
+        ansible_doc_output = {fqcn: docs[fqcn]}
+        with open(
+            os.path.join(schema_dir, f"{basename}.json"), "wt", encoding="utf-8"
+        ) as f:
+            f.write(json.dumps(ansible_doc_output, sort_keys=True, indent=4))
+        model = schema.model_validate(ansible_doc_output)
+        model_dict = {"__root__": model.model_dump()}
+        with open(
+            os.path.join(schema_dir, f"{basename}_results.json"), "wt", encoding="utf-8"
+        ) as f:
+            f.write(json.dumps(model_dict, sort_keys=True, indent=4))
+
+
+if __name__ == "__main__":
+    create_eda_schemas()
