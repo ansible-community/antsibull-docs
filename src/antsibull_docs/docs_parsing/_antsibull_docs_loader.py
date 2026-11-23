@@ -174,9 +174,16 @@ def _convert_plugin_routing(data: PluginRouting) -> dict[str, t.Any]:
 
 def _extract_collection_routing(
     adl_collection_routing: Mapping[str, CollectionRouting],
+    *,
+    collection_names: list[str] | None = None,
 ) -> MutableCollectionRoutingT:
     result: dict[str, MutableMapping[str, MutableMapping[str, t.Any]]] = {}
     for collection_name, collection_routing in adl_collection_routing.items():
+        if collection_names is not None and (
+            collection_name not in collection_names
+            and collection_name != "ansible.builtin"
+        ):
+            continue
         for plugin_type, plugin_type_data in collection_routing.plugin_data.items():
             if plugin_type not in ALL_DOCUMENTABLE_PLUGIN_TYPES:
                 continue
@@ -252,6 +259,8 @@ def _merge_depr(action: PluginRouting, module: PluginRouting | None) -> PluginRo
 
 def load_collection_routing(
     collection_metadata: Mapping[str, AnsibleCollectionMetadata],
+    *,
+    collection_names: list[str] | None = None,
 ) -> tuple[Mapping[str, CollectionRouting], MutableCollectionRoutingT]:
     """
     Loads collection routing information in two formats,
@@ -298,7 +307,9 @@ def load_collection_routing(
             a_meta.requires_ansible = a_collection_routing.requires_ansible
 
     complete_redirects(collection_routing)
-    return collection_routing, _extract_collection_routing(collection_routing)
+    return collection_routing, _extract_collection_routing(
+        collection_routing, collection_names=collection_names
+    )
 
 
 def _collect_role_doc(*, fqcn: str, collection_name: str, file: File) -> t.Any:
