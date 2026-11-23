@@ -4,6 +4,29 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.29.0
+=======
+
+Release Summary
+---------------
+
+Feature release.
+
+Major Changes
+-------------
+
+- Adds a new docs loading backend based on the new antsibull-docs-loader project. This backend is now selected by default, unless the old ``ansible-core-2.13`` backend is explicitly configured. The new backend is considerably faster and allows to support new plugin types that ansible-doc does not support. One big difference to ansible-doc is that it will not run collection code when loading documentation fragments or Jinja2 filter and test documentation.
+
+  This means that some documentation for collections that rely on executing code will no longer render, and produce errors instead. While some basic code in Jinja2 filters and tests is statically analyzed to find plugin names, no code in doc fragments is supported and no Python code from a collection will be executed by antsibull-docs (https://github.com/ansible-community/antsibull-docs/pull/508).
+- Experimental support for EDA event filter and event source plugin types. What exactly is supported and accepted can change in the next few releases (https://github.com/ansible-community/antsibull-docs/pull/508).
+
+Minor Changes
+-------------
+
+- Adds new dependency on `antsibull-docs-loader <https://pypi.org/project/antsibull-docs-loader>`__ (https://github.com/ansible-community/antsibull-docs/pull/508).
+- Improve use of plugin type name in generated documentation, and simplify markup (https://github.com/ansible-community/antsibull-docs/pull/509).
+- Internal code refactors (https://github.com/ansible-community/antsibull-docs/pull/507).
+
 v2.28.0
 =======
 
