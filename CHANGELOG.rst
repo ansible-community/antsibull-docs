@@ -4,6 +4,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.29.1
+=======
+
+Release Summary
+---------------
+
+Bugfix release.
+
+Bugfixes
+--------
+
+- In the new antsibull-docs-loader backend, fix a bug where doc fragments in dependent collections were not found if collection generation was limited to a list of collections (https://github.com/ansible-community/antsibull-docs/pull/513).
+
 v2.29.0
 =======
 

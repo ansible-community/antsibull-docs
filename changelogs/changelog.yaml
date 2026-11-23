@@ -1300,3 +1300,14 @@ releases:
       - 508-antsibull-docs-loader.yml
       - 509-plugin-types.yml
     release_date: '2026-11-23'
+  2.29.1:
+    changes:
+      bugfixes:
+        - In the new antsibull-docs-loader backend, fix a bug where doc fragments
+          in dependent collections were not found if collection generation was limited
+          to a list of collections (https://github.com/ansible-community/antsibull-docs/pull/513).
+      release_summary: Bugfix release.
+    fragments:
+      - 2.29.1.yml
+      - 513-fix.yml
+    release_date: '2026-11-23'
