@@ -93,9 +93,7 @@ async def get_ansible_plugin_info(
     )
 
     flog.debug("Retrieving collection metadata")
-    collection_metadata = await _get_collection_metadata(
-        venv, env, None if has_wildcards else collection_names
-    )
+    collection_metadata = await _get_collection_metadata(venv, env, None)
 
     if has_wildcards:
         flog.debug("Restricting collection list by wildcards")
@@ -106,7 +104,7 @@ async def get_ansible_plugin_info(
 
     flog.debug("Loading collection routing")
     adl_collection_routing, collection_routing = _load_collection_routing(
-        collection_metadata
+        collection_metadata, collection_names=collection_names
     )
 
     plugin_map: MutableMapping[str, MutableMapping[str, t.Any]]
@@ -146,6 +144,14 @@ async def get_ansible_plugin_info(
             collection_routing=adl_collection_routing,
             collection_names=collection_names,
         )
+
+    if collection_names is not None:
+        for collection_name in list(collection_metadata):
+            if (
+                collection_name not in collection_names
+                and collection_name != "ansible.builtin"
+            ):
+                collection_metadata.pop(collection_name)
 
     flog.debug("Leave")
     return plugin_map, collection_metadata, collection_routing
