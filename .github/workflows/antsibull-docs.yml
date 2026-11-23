@@ -20,6 +20,9 @@ on:
   schedule:
     - cron: '0 4 * * 1'
 
+permissions:
+  contents: read
+
 jobs:
   build-simple-docsite:
     name: 'Build simple docsite (extra options: ${{ matrix.options }})'
@@ -214,7 +217,7 @@ jobs:
           persist-credentials: false
 
       - name: Check out dependent project antsibull-docs-loader
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           repository: ansible-community/antsibull-docs-loader
           path: antsibull-docs-loader
@@ -306,7 +309,7 @@ jobs:
           persist-credentials: false
 
       - name: Check out dependent project antsibull-docs-loader
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           repository: ansible-community/antsibull-docs-loader
           path: antsibull-docs-loader
