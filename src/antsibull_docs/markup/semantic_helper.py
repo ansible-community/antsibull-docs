@@ -14,8 +14,8 @@ import typing as t
 
 _ARRAY_STUB_RE = re.compile(r"\[([^\]]*)\]")
 _ARRAY_STUB_SEP_START_RE = re.compile(r"[\[.]")
-_FQCN_TYPE_RE = re.compile(r"^([^.]+\.[^.]+\.[^#]+)#([a-z]+)$")
-_FQCN_TYPE_PREFIX_RE = re.compile(r"^([^.]+\.[^.]+\.[^#]+)#([a-z]+):(.*)$")
+_FQCN_TYPE_RE = re.compile(r"^([^.]+\.[^.]+\.[^#]+)#([a-z_]+)$")
+_FQCN_TYPE_PREFIX_RE = re.compile(r"^([^.]+\.[^.]+\.[^#]+)#([a-z_]+):(.*)$")
 _COLLECTION_NAME = re.compile(r"^([^.]+)\.([^.]+)$")
 _IGNORE_MARKER = "ignore:"
 
