@@ -1311,3 +1311,13 @@ releases:
       - 2.29.1.yml
       - 513-fix.yml
     release_date: '2026-11-23'
+  2.29.2:
+    changes:
+      bugfixes:
+        - Allow underscores (``_``) in plugin types in RST references (https://github.com/ansible-community/antsibull-docs/issues/515,
+          https://github.com/ansible-community/antsibull-docs/pull/516).
+      release_summary: Bugfix release.
+    fragments:
+      - 2.29.2.yml
+      - 516-eda-refs.yml
+    release_date: '2026-11-25'

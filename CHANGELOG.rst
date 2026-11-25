@@ -4,6 +4,19 @@ antsibull-docs -- Ansible Documentation Build Scripts Release Notes
 
 .. contents:: Topics
 
+v2.29.2
+=======
+
+Release Summary
+---------------
+
+Bugfix release.
+
+Bugfixes
+--------
+
+- Allow underscores (``_``) in plugin types in RST references (https://github.com/ansible-community/antsibull-docs/issues/515, https://github.com/ansible-community/antsibull-docs/pull/516).
+
 v2.29.1
 =======
 
