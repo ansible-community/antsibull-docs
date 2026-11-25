@@ -1,0 +1,2 @@
+bugfixes:
+  - "Allow underscores (``_``) in plugin types in RST references (https://github.com/ansible-community/antsibull-docs/issues/515, https://github.com/ansible-community/antsibull-docs/pull/516)."
