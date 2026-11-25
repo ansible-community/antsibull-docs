@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ns.Col1 Release Notes</title>
+  </head>
+  <body>
+    <section id="ns-col1-release-notes">
+<span id="changelog-for-ns-col1"></span><h1><a class="toc-backref" href="#id8" role="doc-backlink">Ns.Col1 Release Notes</a><a class="headerlink" href="#ns-col1-release-notes" title="Link to this heading">¶</a></h1>
+<nav class="contents" id="topics">
+<p class="topic-title">Topics</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#ns-col1-release-notes" id="id8">Ns.Col1 Release Notes</a></p>
+<ul>
+<li><p><a class="reference internal" href="#v2-3-0-pre" id="id9">v2.3.0-pre</a></p>
+<ul>
+<li><p><a class="reference internal" href="#release-summary" id="id10">Release Summary</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#v2-2-0" id="id11">v2.2.0</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id1" id="id12">Release Summary</a></p></li>
+<li><p><a class="reference internal" href="#minor-changes" id="id13">Minor Changes</a></p></li>
+<li><p><a class="reference internal" href="#bugfixes" id="id14">Bugfixes</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#v2-1-0" id="id15">v2.1.0</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id2" id="id16">Release Summary</a></p></li>
+<li><p><a class="reference internal" href="#id3" id="id17">Bugfixes</a></p></li>
+<li><p><a class="reference internal" href="#new-plugins" id="id18">New Plugins</a></p>
+<ul>
+<li><p><a class="reference internal" href="#lookup" id="id19">Lookup</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#v2-0-0" id="id20">v2.0.0</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id4" id="id21">Release Summary</a></p></li>
+<li><p><a class="reference internal" href="#id5" id="id22">Bugfixes</a></p></li>
+<li><p><a class="reference internal" href="#id6" id="id23">New Plugins</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id7" id="id24">Lookup</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+<p>This changelog describes changes after version 1.0.2.</p>
+<section id="v2-3-0-pre">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">v2.3.0-pre</a><a class="headerlink" href="#v2-3-0-pre" title="Link to this heading">¶</a></h2>
+<section id="release-summary">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Release Summary</a><a class="headerlink" href="#release-summary" title="Link to this heading">¶</a></h3>
+<p>Just testing with pre-releases.</p>
+</section>
+</section>
+<section id="v2-2-0">
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">v2.2.0</a><a class="headerlink" href="#v2-2-0" title="Link to this heading">¶</a></h2>
+<section id="id1">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Release Summary</a><a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+<p>Testing long changelog fragments. Nothing else in this release. Ignore the fragment contents!</p>
+</section>
+<section id="minor-changes">
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">Minor Changes</a><a class="headerlink" href="#minor-changes" title="Link to this heading">¶</a></h3>
+<ul>
+<li><p>And a final complex reStructuredText fragment.</p>
+<p>The way to import a PowerShell or C# module util from a collection has changed in the Ansible 2.9 release. In Ansible
+2.8 a util was imported with the following syntax:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c">#AnsibleRequires -CSharpUtil AnsibleCollections.namespace_name.collection_name.util_filename</span>
+<span class="c">#AnsibleRequires -PowerShell AnsibleCollections.namespace_name.collection_name.util_filename</span>
+</pre></div>
+</div>
+<p>In Ansible 2.9 this was changed to:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c">#AnsibleRequires -CSharpUtil ansible_collections.namespace_name.collection_name.plugins.module_utils.util_filename</span>
+<span class="c">#AnsibleRequires -PowerShell ansible_collections.namespace_name.collection_name.plugins.module_utils.util_filename</span>
+</pre></div>
+</div>
+<p>The change in the collection import name also requires any C# util namespaces to be updated with the newer name
+format. This is more verbose but is designed to make sure we avoid plugin name conflicts across separate plugin types
+and to standardise how imports work in PowerShell with how Python modules work.</p>
+</li>
+<li><p>This is an example of a longer reStructuredText fragment.</p>
+<p>Ansible 2.9 handles “unsafe” data more robustly, ensuring that data marked “unsafe” is not templated. In previous versions, Ansible recursively marked all data returned by the direct use of <code class="docutils literal notranslate"><span class="pre">lookup()</span></code> as “unsafe”, but only marked structured data returned by indirect lookups using <code class="docutils literal notranslate"><span class="pre">with_X</span></code> style loops as “unsafe” if the returned elements were strings. Ansible 2.9 treats these two approaches consistently.</p>
+<p>As a result, if you use <code class="docutils literal notranslate"><span class="pre">with_dict</span></code> to return keys with templatable values, your templates may no longer work as expected in Ansible 2.9.</p>
+<p>To allow the old behavior, switch from using <code class="docutils literal notranslate"><span class="pre">with_X</span></code> to using <code class="docutils literal notranslate"><span class="pre">loop</span></code> with a filter as described at <a class="reference internal" href="../../../broken-refs.html#migrating-to-loop"><span class="std std-ref">Dead reference</span></a>.</p>
+</li>
+<li><p>This is an example of a more complex reStructuredText fragment.</p>
+<p>Module and module_utils files can now use relative imports to include other module_utils files.
+This is useful for shortening long import lines, especially in collections.</p>
+<p>Example of using a relative import in collections:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># File: ansible_collections/my_namespace/my_collection/plugins/modules/my_module.py</span>
+<span class="c1"># Old way to use an absolute import to import module_utils from the collection:</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansible_collections.my_namespace.my_collection.plugins.module_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">my_util</span>
+<span class="c1"># New way using a relative import:</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..module_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">my_util</span>
+</pre></div>
+</div>
+<p>Modules and module_utils shipped with Ansible can use relative imports as well but the savings
+are smaller:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># File: ansible/modules/system/ping.py</span>
+<span class="c1"># Old way to use an absolute import to import module_utils from core:</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansible.module_utils.basic</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnsibleModule</span>
+<span class="c1"># New way using a relative import:</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">...module_utils.basic</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnsibleModule</span>
+</pre></div>
+</div>
+<p>Each single dot (<code class="docutils literal notranslate"><span class="pre">.</span></code>) represents one level of the tree (equivalent to <code class="docutils literal notranslate"><span class="pre">../</span></code> in filesystem relative links).</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://www.python.org/dev/peps/pep-0328/#guido-s-decision">The Python Relative Import Docs</a> go into more detail of how to write relative imports.</p>
+</div>
+</li>
+</ul>
+</section>
+<section id="bugfixes">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Bugfixes</a><a class="headerlink" href="#bugfixes" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Renamed <code class="docutils literal notranslate"><span class="pre">master</span></code> git branch to <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p></li>
+</ul>
+</section>
+</section>
+<section id="v2-1-0">
+<h2><a class="toc-backref" href="#id15" role="doc-backlink">v2.1.0</a><a class="headerlink" href="#v2-1-0" title="Link to this heading">¶</a></h2>
+<section id="id2">
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">Release Summary</a><a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
+<p>Bob was there, too!</p>
+</section>
+<section id="id3">
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">Bugfixes</a><a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>bob lookup - forgot to check whether <code class="docutils literal notranslate"><span class="pre">Bob</span></code> was already there.</p></li>
+</ul>
+</section>
+<section id="new-plugins">
+<h3><a class="toc-backref" href="#id18" role="doc-backlink">New Plugins</a><a class="headerlink" href="#new-plugins" title="Link to this heading">¶</a></h3>
+<section id="lookup">
+<h4><a class="toc-backref" href="#id19" role="doc-backlink">Lookup</a><a class="headerlink" href="#lookup" title="Link to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>ns.col1.bob - Bob was there, too</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="v2-0-0">
+<h2><a class="toc-backref" href="#id20" role="doc-backlink">v2.0.0</a><a class="headerlink" href="#v2-0-0" title="Link to this heading">¶</a></h2>
+<section id="id4">
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">Release Summary</a><a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<p>We’re happy to release 2.0.0 with a new plugin!</p>
+</section>
+<section id="id5">
+<h3><a class="toc-backref" href="#id22" role="doc-backlink">Bugfixes</a><a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>reverse lookup - fix bug in error message.</p></li>
+</ul>
+</section>
+<section id="id6">
+<h3><a class="toc-backref" href="#id23" role="doc-backlink">New Plugins</a><a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
+<section id="id7">
+<h4><a class="toc-backref" href="#id24" role="doc-backlink">Lookup</a><a class="headerlink" href="#id7" title="Link to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>ns.col1.reverse - reverse magic</p></li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+
+  </body>
+</html>
