@@ -76,7 +76,7 @@ email = "maxwell@gtmx.me"
 [project.scripts]
 antsibull-docs = "antsibull_docs.cli.antsibull_docs:main"
 
-[project.optional-dependencies]
+[dependency-groups]
 codeqa = [
     "flake8 >= 3.8.0",
     "pylint >= 2.17.2",
@@ -108,10 +108,11 @@ typing = [
 ]
 dev = [
     # Used by nox sessions
-    "antsibull-docs[codeqa]",
-    "antsibull-docs[formatters]",
-    "antsibull-docs[test]",
-    "antsibull-docs[typing]",
+    {include-group = "codeqa"},
+    {include-group = "coverage"},
+    {include-group = "formatters"},
+    {include-group = "test"},
+    {include-group = "typing"},
     # misc
     "nox",
 ]

@@ -82,7 +82,11 @@ def other_antsibull(
 def test(session: nox.Session):
     install(
         session,
-        ".[test, coverage]",
+        ".",
+        "--group",
+        "test",
+        "--group",
+        "coverage",
         *other_antsibull(),
         editable=True,
     )
@@ -122,7 +126,7 @@ def lint(session: nox.Session):
 
 @nox.session(allow_parallel=IN_CI)
 def formatters(session: nox.Session):
-    install(session, ".[formatters]", *other_antsibull())
+    install(session, ".", "--group", "formatters", *other_antsibull())
     posargs = list(session.posargs)
     if IN_CI:
         posargs.append("--check")
@@ -132,7 +136,7 @@ def formatters(session: nox.Session):
 
 @nox.session(allow_parallel=True)
 def codeqa(session: nox.Session):
-    install(session, ".[codeqa]", *other_antsibull(), editable=True)
+    install(session, ".", "--group", "codeqa", *other_antsibull(), editable=True)
     session.run(
         "flake8", "src/antsibull_docs", "src/sphinx_antsibull_ext", *session.posargs
     )
@@ -150,7 +154,7 @@ def codeqa(session: nox.Session):
 @nox.session(allow_parallel=True)
 def typing(session: nox.Session):
     others = other_antsibull()
-    install(session, ".[typing]", *others)
+    install(session, ".", "--group", "typing", *others)
     session.run("mypy", "src/antsibull_docs", "src/sphinx_antsibull_ext", "tests")
 
 
