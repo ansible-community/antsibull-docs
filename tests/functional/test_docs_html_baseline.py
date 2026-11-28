@@ -325,12 +325,39 @@ All dead references should link to this section.
             for line in warning_file.read_text(encoding="utf-8").splitlines()
         ]
     )
+
+    if any(w.find(" [") < 0 for w in warnings):
+        # Some older Sphinx versions do not add the warning ID at the end.
+        # If we don't find ' [' in a warning, this is likely the case, and
+        # we also strip away this from the expected warnings and errors.
+        for index, w in enumerate(expected_warnings_and_errors):
+            i = w.rfind(" [")
+            if i >= 0:
+                expected_warnings_and_errors[index] = w[:i]
+
+    # These warnings only show up when similar tests have already run in the same process
+    for w in (
+        # Python 3.9:
+        "WARNING: while setting up extension sphinx_antsibull_ext: directive 'ansible-output-data' is already registered, it will be overridden",
+        "WARNING: while setting up extension sphinx_antsibull_ext: directive 'ansible-output-meta' is already registered, it will be overridden",
+        # Python 3.10:
+        "WARNING: while setting up extension sphinx_antsibull_ext: directive 'ansible-output-data' is already registered, it will be overridden [app.add_directive]",
+        "WARNING: while setting up extension sphinx_antsibull_ext: directive 'ansible-output-meta' is already registered, it will be overridden [app.add_directive]",
+        # Newer:
+        "WARNING: while setting up extension sphinx_antsibull_ext: directive 'ansible-output-data' is already registered and will not be overridden [app.add_directive]",
+        "WARNING: while setting up extension sphinx_antsibull_ext: directive 'ansible-output-meta' is already registered and will not be overridden [app.add_directive]",
+    ):
+        try:
+            warnings.remove(w)
+        except ValueError:
+            pass
+
     print("Warnings and errors:")
     for warning in warnings:
         print(warning)
 
     assert rc == 0
-    assert expected_warnings_and_errors == warnings
+    assert warnings == expected_warnings_and_errors
 
     html_dir = output_dir
     for filename in ["objects.inv", "searchindex.js", "search.html", ".buildinfo"]:
