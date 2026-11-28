@@ -18,7 +18,7 @@ from utils import compare_directories, scan_directories
 
 UPDATE_BASELINES = os.getenv("ANTSIBULL_DOCS_UPDATE_HTML_BASELINE") == "true"
 
-TEST_CASES: list[tuple[str, str, list[str]]] = [
+TEST_CASES: list[tuple[str, str, list[str], list[str]]] = [
     (
         "baseline-default",
         "baseline-default-html",
@@ -109,6 +109,26 @@ TEST_CASES: list[tuple[str, str, list[str]]] = [
             "foo_plugins_in_ns2.col",
             "migrating_to_loop",
             "plugins_in_does.not_exist",
+        ],
+        [
+            "/input/collections/ns/col2/foo2_module.rst:57: WARNING: undefined label: '' [ref.ref]",
+            "/input/collections/ns2/col/bar_filter.rst:323: WARNING: Lexing literal_block \"{'a': 1} | ns2.col.bar({'b': 2}, baz='cde')\" as \"yaml+jinja\" resulted in an error at token: ' '. Retrying in relaxed mode. [misc.highlighting_failure]",
+            "/input/collections/ns2/col/docsite/filter_guide.rst:40: ERROR: while processing :anscollection:`ns2.col#foobar`: Invalid destination [semantic-markup]",
+            "/input/collections/ns2/col/docsite/filter_guide.rst:50: ERROR: while processing :ansplugin:`ns2.col.foo#filter:boo`: Only roles can have entrypoints [semantic-markup]",
+            "/input/collections/ns2/col/docsite/filter_guide.rst:58: ERROR: while processing :ansopt:`ns2.col.foo#role:does_not_exist`: Role reference is missing entrypoint [semantic-markup]",
+            "/input/collections/ns2/col/docsite/filter_guide.rst:64: ERROR: while processing :ansretval:`ns2.col.foo#role:does_not_exist`: Role reference is missing entrypoint [semantic-markup]",
+            "/input/collections/ns2/col/docsite/filter_guide.rst:66: ERROR: while processing :ansoptref:`no explicit title`: An explicit reference title must be provided! [semantic-markup]",
+            "/input/collections/ns2/col/docsite/filter_guide.rst:68: ERROR: while processing :ansoptref:`title <no plugin>`: Cannot extract plugin name and type [semantic-markup]",
+            '/input/collections/ns2/col/docsite/filter_guide.rst:72: ERROR: while processing :ansoptref:`entrypoint for non-role <ns2.col.foo#filter:foo:boo>`: Invalid option name "foo:boo" [semantic-markup]',
+            "/input/collections/ns2/col/docsite/filter_guide.rst:74: ERROR: while processing :ansoptref:`no entrypoint for role <ns2.col.foo#role:boo>`: Role reference is missing entrypoint [semantic-markup]",
+            "/input/collections/ns2/col/docsite/filter_guide.rst:80: ERROR: while processing :ansretvalref:`no explicit title`: An explicit reference title must be provided! [semantic-markup]",
+            "/input/collections/ns2/col/docsite/filter_guide.rst:82: ERROR: while processing :ansretvalref:`title <no plugin>`: Cannot extract plugin name and type [semantic-markup]",
+            '/input/collections/ns2/col/docsite/filter_guide.rst:86: ERROR: while processing :ansretvalref:`entrypoint for non-role <ns2.col.foo#filter:foo:boo>`: Invalid return value name "foo:boo" [semantic-markup]',
+            "/input/collections/ns2/col/docsite/filter_guide.rst:88: ERROR: while processing :ansretvalref:`no entrypoint for role <ns2.col.foo#role:boo>`: Role reference is missing entrypoint [semantic-markup]",
+            "/input/collections/ns2/col/foo_become.rst:210: WARNING: 'envvar' reference target not found: ANSIBLE_BECOME_EXE [ref.envvar]",
+            "/input/collections/ns2/col/foo_become.rst:349: WARNING: 'envvar' reference target not found: ANSIBLE_BECOME_USER [ref.envvar]",
+            "/input/collections/ns2/col/foo_cache.rst:127: WARNING: 'envvar' reference target not found: ANSIBLE_CACHE_PLUGIN_CONNECTION [ref.envvar]",
+            "/input/collections/ns2/col/index.rst:71: WARNING: toctree contains reference to document 'collections/ns2/col/changelog' that doesn't have a title: no link will be generated [toc.no_title]",
         ],
     ),
     (
@@ -202,13 +222,39 @@ TEST_CASES: list[tuple[str, str, list[str]]] = [
             "migrating_to_loop",
             "plugins_in_does.not_exist",
         ],
+        [
+            "/input/collections/ns/col2/foo2_module.rst:57: WARNING: undefined label: '' [ref.ref]",
+            "/input/collections/ns2/col/bar_filter.rst:323: WARNING: Lexing literal_block \"{'a': 1} | ns2.col.bar({'b': 2}, baz='cde')\" as \"yaml+jinja\" resulted in an error at token: ' '. Retrying in relaxed mode. [misc.highlighting_failure]",
+            "/input/collections/ns2/col/docsite/filter_guide.rst:40: ERROR: while processing :anscollection:`ns2.col#foobar`: Invalid destination [semantic-markup]",
+            "/input/collections/ns2/col/docsite/filter_guide.rst:50: ERROR: while processing :ansplugin:`ns2.col.foo#filter:boo`: Only roles can have entrypoints [semantic-markup]",
+            "/input/collections/ns2/col/docsite/filter_guide.rst:58: ERROR: while processing :ansopt:`ns2.col.foo#role:does_not_exist`: Role reference is missing entrypoint [semantic-markup]",
+            "/input/collections/ns2/col/docsite/filter_guide.rst:64: ERROR: while processing :ansretval:`ns2.col.foo#role:does_not_exist`: Role reference is missing entrypoint [semantic-markup]",
+            "/input/collections/ns2/col/docsite/filter_guide.rst:66: ERROR: while processing :ansoptref:`no explicit title`: An explicit reference title must be provided! [semantic-markup]",
+            "/input/collections/ns2/col/docsite/filter_guide.rst:68: ERROR: while processing :ansoptref:`title <no plugin>`: Cannot extract plugin name and type [semantic-markup]",
+            '/input/collections/ns2/col/docsite/filter_guide.rst:72: ERROR: while processing :ansoptref:`entrypoint for non-role <ns2.col.foo#filter:foo:boo>`: Invalid option name "foo:boo" [semantic-markup]',
+            "/input/collections/ns2/col/docsite/filter_guide.rst:74: ERROR: while processing :ansoptref:`no entrypoint for role <ns2.col.foo#role:boo>`: Role reference is missing entrypoint [semantic-markup]",
+            "/input/collections/ns2/col/docsite/filter_guide.rst:80: ERROR: while processing :ansretvalref:`no explicit title`: An explicit reference title must be provided! [semantic-markup]",
+            "/input/collections/ns2/col/docsite/filter_guide.rst:82: ERROR: while processing :ansretvalref:`title <no plugin>`: Cannot extract plugin name and type [semantic-markup]",
+            '/input/collections/ns2/col/docsite/filter_guide.rst:86: ERROR: while processing :ansretvalref:`entrypoint for non-role <ns2.col.foo#filter:foo:boo>`: Invalid return value name "foo:boo" [semantic-markup]',
+            "/input/collections/ns2/col/docsite/filter_guide.rst:88: ERROR: while processing :ansretvalref:`no entrypoint for role <ns2.col.foo#role:boo>`: Role reference is missing entrypoint [semantic-markup]",
+            "/input/collections/ns2/col/foo_become.rst:210: WARNING: 'envvar' reference target not found: ANSIBLE_BECOME_EXE [ref.envvar]",
+            "/input/collections/ns2/col/foo_become.rst:349: WARNING: 'envvar' reference target not found: ANSIBLE_BECOME_USER [ref.envvar]",
+            "/input/collections/ns2/col/foo_cache.rst:127: WARNING: 'envvar' reference target not found: ANSIBLE_CACHE_PLUGIN_CONNECTION [ref.envvar]",
+            "/input/collections/ns2/col/index.rst:71: WARNING: toctree contains reference to document 'collections/ns2/col/changelog' that doesn't have a title: no link will be generated [toc.no_title]",
+        ],
     ),
 ]
 
 
-@pytest.mark.parametrize("source_dir, dest_dir, broken_refs", TEST_CASES)
+@pytest.mark.parametrize(
+    "source_dir, dest_dir, broken_refs, expected_warnings_and_errors", TEST_CASES
+)
 def test_baseline(
-    source_dir: str, dest_dir: str, broken_refs: list[str], tmp_path
+    source_dir: str,
+    dest_dir: str,
+    broken_refs: list[str],
+    expected_warnings_and_errors: list[str],
+    tmp_path,
 ) -> None:
     tests_root = os.path.join("tests", "functional")
     theme_path = os.path.abspath(os.path.join(tests_root, "sphinx-themes"))
@@ -257,17 +303,34 @@ All dead references should link to this section.
 
     output_dir = tmp_path / "output"
 
+    warning_file = tmp_path / "warnings.txt"
+
     command = [
         "--builder",
         "html",
         str(input_dir),
         str(output_dir),
         "--keep-going",
+        "--warning-file",
+        str(warning_file),
         # "--fail-on-warning",
     ]
     with ansible_doc_cache():
         rc = sphinx_main(command)
+
+    tmp_path_str = str(tmp_path)
+    warnings = sorted(
+        [
+            line.replace(tmp_path_str, "")
+            for line in warning_file.read_text(encoding="utf-8").splitlines()
+        ]
+    )
+    print("Warnings and errors:")
+    for warning in warnings:
+        print(warning)
+
     assert rc == 0
+    assert expected_warnings_and_errors == warnings
 
     html_dir = output_dir
     for filename in ["objects.inv", "searchindex.js", "search.html", ".buildinfo"]:
